@@ -36,7 +36,7 @@ class Setup
 			$esc_post = Db::escapeStr($_POST);
 			$target_level = intval($_POST['target_level']);
 			$selected_method = intval($_POST['selected_method']);
-			$checklist_behaviour = intval($_POST['checklist_behaviour']);
+			$checklist_behaviour = intval(@$_POST['checklist_behaviour']);
 			$standard = intval($_POST['standard']);
 
 			$setup = static::fetch_setup();
