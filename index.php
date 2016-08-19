@@ -20,6 +20,10 @@ else
 	die ('config.php is not found');
 }
 
+// kontiki
+define('KONTIKI_CONFIG_PATH', __DIR__.'/config/kontiki.php');
+require (A11YC_PATH.'/libs/kontiki/main.php');
+
 // require
 require (A11YC_PATH.'/main.php');
 
@@ -83,6 +87,6 @@ else
 }
 
 // render
-require (A11YC_PATH.'/templates/header.php');
-echo $body;
-require (A11YC_PATH.'/templates/footer.php');
+$display = new \A11yc\View();
+$display->assign('mode', $mode);
+$display->display($title, $body);

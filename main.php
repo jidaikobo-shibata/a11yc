@@ -1,8 +1,8 @@
 <?php
 /**
- * A11yc
+ * Kontiki3
  *
- * @package    part of A11yc
+ * @package    part of Kontiki
  * @version    1.0
  * @author     Jidaikobo Inc.
  * @license    WTFPL2.0
@@ -10,21 +10,19 @@
  * @link       http:/www.jidaikobo.com
  */
 
-// languages
-require_once A11YC_PATH.'/languages/'.A11YC_LANG.'.php';
+// config
+if (
+  ! defined('KONTIKI_CONFIG_PATH') ||
+  strpos(KONTIKI_CONFIG_PATH, 'kontiki.php') === false
+)
+{
+	die('Define KONTIKI_CONFIG_PATH for this project.  e.g. "/path/to/kontiki.php"');
+}
+require_once KONTIKI_CONFIG_PATH;
 
-// include
-require_once A11YC_PATH.'/libs/spyc/spyc.php';
-require_once A11YC_PATH.'/classes/util.php';
-require_once A11YC_PATH.'/classes/db.php';
-require_once A11YC_PATH.'/classes/evaluate.php';
-require_once A11YC_PATH.'/classes/validate.php';
-require_once A11YC_PATH.'/classes/yaml.php';
-require_once A11YC_PATH.'/classes/checklist.php';
-require_once A11YC_PATH.'/classes/bulk.php';
-require_once A11YC_PATH.'/classes/setup.php';
-require_once A11YC_PATH.'/classes/center.php';
-require_once A11YC_PATH.'/classes/auth.php';
-require_once A11YC_PATH.'/classes/users.php';
-require_once A11YC_PATH.'/classes/pages.php';
-require_once A11YC_PATH.'/classes/docs.php';
+// require
+require_once __DIR__.'/classes/db.php';
+require_once __DIR__.'/classes/auth.php';
+require_once __DIR__.'/classes/users.php';
+require_once __DIR__.'/classes/util.php';
+require_once __DIR__.'/classes/view.php';

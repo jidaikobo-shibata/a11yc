@@ -10,35 +10,6 @@
  * @link       http:/www.jidaikobo.com
  */
 namespace A11yc;
-class Users
+class Users extends \Kontiki\Users
 {
-	/**
-	 * fetch_users
-	 *
-	 * @return  array()
-	 */
-	public static function fetch_users()
-	{
-		static $users = array();
-		if ($users) return $users;
-		require_once(A11YC_PATH.'/config/users.php');
-		return $users;
-	}
-
-	/**
-	 * fetch_current_user
-	 *
-	 * @return  array()
-	 */
-	public static function fetch_current_user()
-	{
-		if ( ! isset($_SESSION['uid'])) return array();
-		$uid = $_SESSION['uid'];
-		$users = static::fetch_users();
-		foreach ($users as $k => $v)
-		{
-			$users[$k]['id'] = $k;
-		}
-		return isset($users[$uid]) ? $users[$uid] : array();
-	}
 }
