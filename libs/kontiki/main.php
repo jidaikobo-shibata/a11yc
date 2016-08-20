@@ -10,6 +10,7 @@
  * @link       http:/www.jidaikobo.com
  */
 
+
 // config
 if (
   ! defined('KONTIKI_CONFIG_PATH') ||
