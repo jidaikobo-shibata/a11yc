@@ -1,6 +1,6 @@
 <?php
 /**
- * Kontiki
+ * Kontiki*
  *
  * @package    part of Kontiki
  * @version    1.0
