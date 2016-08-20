@@ -20,9 +20,13 @@ if (
 }
 require_once KONTIKI_CONFIG_PATH;
 
-// require
+// load function
+require_once __DIR__.'/functions.php';
+
+// load classes
 require_once __DIR__.'/classes/db.php';
 require_once __DIR__.'/classes/auth.php';
 require_once __DIR__.'/classes/users.php';
 require_once __DIR__.'/classes/util.php';
 require_once __DIR__.'/classes/view.php';
+

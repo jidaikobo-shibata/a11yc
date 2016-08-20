@@ -12,17 +12,17 @@
 namespace Kontiki;
 class View
 {
-	public $vals = array();
+	public static $vals = array();
 
 	/**
-	 * fetch_tpl
-	 * fetch specified / fallback template path
+	 * tpl_path
+	 * specified / fallback template path
 	 *
 	 * @return  string
 	 */
-	public static function fetch_tpl($tpl)
+	public static function tpl_path($tpl)
 	{
-		$path = KONTIKI_VIEW_PATH.'/'.$tpl;
+		$path = KONTIKI_VIEWS_PATH.'/'.$tpl;
 		$fallback = dirname(__DIR__).'/templates/'.$tpl;
 
 		if (file_exists($path))
@@ -37,13 +37,46 @@ class View
 	}
 
 	/**
+	 * fetch
+	 * fetch vals
+	 *
+	 * @return  string
+	 */
+	public static function fetch($k)
+	{
+		return isset(static::$vals[$k]) ? static::$vals[$k] : FALSE;
+	}
+
+	/**
+	 * fetch_tpl
+	 * fetch specified / fallback template
+	 *
+	 * @return  string
+	 */
+	public static function fetch_tpl($tpl)
+	{
+		$tpl_path = static::tpl_path($tpl);
+		if ( ! $tpl_path) die('template not found');
+
+		// extract
+		extract (static::$vals);
+
+		// out buffer
+		ob_start();
+		require($tpl_path);
+		$buffer = ob_get_contents();
+		ob_end_clean();
+		return $buffer;
+	}
+
+	/**
 	 * assign
 	 *
 	 * @return  void
 	 */
-	public function assign($key, $val, $raw = false)
+	public static function assign($key, $val, $escape = TRUE)
 	{
-		$this->vals[$key] = $val;
+		static::$vals[$key] = $escape ? Util::s($val) : $val;
 	}
 
 	/**
@@ -51,14 +84,14 @@ class View
 	 *
 	 * @return  void
 	 */
-	public function display($title, $body)
+	public static function display()
 	{
 		// extract
-		extract ($this->vals);
+		extract (static::$vals);
 
 		// render
-		include(static::fetch_tpl('header.php'));
-		echo $body;
-		include(static::fetch_tpl('footer.php'));
+		echo static::fetch_tpl('header.php');
+		echo static::fetch_tpl('body.php');
+		echo static::fetch_tpl('footer.php');
 	}
 }
