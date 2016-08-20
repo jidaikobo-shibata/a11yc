@@ -90,7 +90,7 @@ checks:
       name: 画像（img、area、input要素の画像ボタン等）には適切なalt属性値があてがわれている
       tech: |
         画像化された文字であれば、原則、画像と一致するaltを付与してある。あわせて、できれば、本当にその文字を画像化すべきか、よく吟味してください。
-        装飾目的の画像なので、空のaltを入れている。この場合でも<code>alt=\"\"</code>とするようにして、alt属性値を省略しないようにしてください。
+        装飾目的の画像なので、空のaltを入れている。この場合でも<code>alt=""</code>とするようにして、alt属性値を省略しないようにしてください。
         他サーバの画像にリクエストを飛ばして、ログ解析をするための画像なので、空altを入れている。
         画像が存在するが、付近に画像と重複する文字列があり、altを省略している（Aさんの画像があり、その付近に「Aさん」と書いてあるような場合、「Aさん」あるいは「Aさんの画像」といったaltは省略したほうが、スクリーンリーダには読みやすい場合がある）。
         グラフやチャートの画像があるが、それが何のグラフやチャートであるかを説明したaltがある（例：「6月、7月、8月の売上のグラフ」）。レベルAでは、グラフの値の詳述は求めないが、むろん可能な範囲で値の説明もあると良いでしょう。付近にtableでマークアップした表があるのも良いです。
@@ -166,7 +166,7 @@ checks:
           - 1-1-1g
           - 1-1-1h
       level: *lv1
-      name: <abbr title=\"Completely Automated Public Turing test to tell Computers and Humans Apart (コンピュータと人間を区別する完全に自動化された公開チューリングテスト)\">CAPTCHA</abbr>が存在しない
+      name: <abbr title="Completely Automated Public Turing test to tell Computers and Humans Apart (コンピュータと人間を区別する完全に自動化された公開チューリングテスト)">CAPTCHA</abbr>が存在しない
 
     1-1-1h:
       criterion: *c1-1-1
@@ -175,7 +175,7 @@ checks:
           - 1-1-1a
           - 1-1-1h
       level: *lv1
-      name: <abbr title=\"Completely Automated Public Turing test to tell Computers and Humans Apart (コンピュータと人間を区別する完全に自動化された公開チューリングテスト)\">CAPTCHA</abbr>が存在するが、CAPTCHAであることを説明し、かつさまざまな知覚に対応したCAPTCHAを用意している
+      name: <abbr title="Completely Automated Public Turing test to tell Computers and Humans Apart (コンピュータと人間を区別する完全に自動化された公開チューリングテスト)">CAPTCHA</abbr>が存在するが、CAPTCHAであることを説明し、かつさまざまな知覚に対応したCAPTCHAを用意している
       tech: |
         画像CAPTCHAだけでなく、音声CAPTCHAなど、すくなくとも3つ以上の手段を設置している。
         メールなどで、担当者に問い合わせることでCAPTCHAをスキップできる。
@@ -1367,7 +1367,7 @@ checks:
           - 3-1-2a
       name: そのウェブページの基本的な言語をhtml要素やContent-Languageで明示している。
       tech: |
-        HTMLのlangの指定で<html lang=\"ja\">のように、ウェブページのデフォルトの言語を指定しておくことで、ユーザエージェントや支援技術がコンテンツを正しく解釈することができるようになる（といいつつ、日本語スクリーンリーダ環境での、アクセシビリティ・サポーテッド状況はあまり芳しくない。iPhone+VoiceOverはきちんと反応するよう）。
+        HTMLのlangの指定で<html lang="ja">のように、ウェブページのデフォルトの言語を指定しておくことで、ユーザエージェントや支援技術がコンテンツを正しく解釈することができるようになる（といいつつ、日本語スクリーンリーダ環境での、アクセシビリティ・サポーテッド状況はあまり芳しくない。iPhone+VoiceOverはきちんと反応するよう）。
         多言語サイトで、ついこれをわすれて英語ページでもjaとしてしまうことがあるので要注意。
         また単一のページ内で多言語が混在する場合は、達成基準3.1.2にも配慮することが強く推奨されている。
         Googleの自動翻訳は要注意。現状では、翻訳しても変わっているのはテキストのみで、langを書き換えているわけではない様子。

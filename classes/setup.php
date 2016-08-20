@@ -90,12 +90,9 @@ class Setup
 	 */
 	public static function index()
 	{
-		$html = '';
-		$html.= '<form action="" method="POST">';
-		$html.= static::form();
-		$html.= '<input type="submit" value="submit" />';
-		$html.= '</form>';
-		return array('', $html);
+		static::form();
+		View::assign('form', View::fetch('form'), false);
+		View::assign('body', View::fetch_tpl('setup/index.php'), false);
 	}
 
 	/**
@@ -107,70 +104,10 @@ class Setup
 	{
 		static::dbio();
 
-		$setup = static::fetch_setup();
-		$setup = Util::s($setup);
-		$standards = Yaml::each('standards');
-
-		$html = '';
-		$html.= '<h2>'.A11YC_LANG_SETUP_TITLE.'</h2>';
-		$html.= '<h3><label for="a11yc_declare_date">'.A11YC_LANG_DECLARE_DATE.'</label></h3>';
-		$html.= '<div><input type="text" name="declare_date" id="a11yc_declare_date" size="10" value="'.@$setup['declare_date'].'"></div>';
-
-		$html.= '<h2><label for="a11yc_standard">'.A11YC_LANG_STANDARD.'</label></h2>';
-		$html.= '<div><select name="standard" id="a11yc_standard">';
-		foreach ($standards['standards'] as $k => $v)
-		{
-			$selected = $k == $setup['standard'] ? ' selected="selected"' : '';
-			$html.= '<option'.$selected.' value="'.$k.'">'.$v.'</option>';
-		}
-		$html.= '</select></div>';
-
-		$html.= '<h3><label for="a11yc_target_level">'.A11YC_LANG_TARGET_LEVEL.'</label></h3>';
-		$html.= '<div><select name="target_level" id="a11yc_target_level">';
-		foreach (array('', 'A', 'AA', 'AAA') as $k => $v)
-		{
-			$selected = @$setup['target_level'] == $k ? ' selected="selected"' : '';
-			$html.= '<option'.$selected.' value="'.$k.'">'.$v.'</option>';
-		}
-		$html.= '</select></div>';
-
-		$html.= '<h3><label for="a11yc_selected_method">'.A11YC_LANG_CANDIDATES0.'</label></h3>';
-		$html.= '<div><select name="selected_method" id="a11yc_selected_method">';
-		$selected_methods = array(
-			A11YC_LANG_CANDIDATES1,
-			A11YC_LANG_CANDIDATES2,
-			A11YC_LANG_CANDIDATES3,
-			A11YC_LANG_CANDIDATES4,
-		);
-		foreach ($selected_methods as $k => $v)
-		{
-			$selected = @$setup['selected_method'] == $k ? ' selected="selected"' : '';
-			$html.= '<option'.$selected.' value="'.$k.'">'.$v.'</option>';
-		}
-		$html.= '</select></div>';
-
-		$html.= '<h3><label for="a11yc_test_period">'.A11YC_LANG_TEST_PERIOD.'</label></h3>';
-		$html.= '<div><input type="text" name="test_period" id="a11yc_test_period" size="20" value="'.htmlspecialchars(@$setup['test_period'], ENT_QUOTES).'"></div>';
-
-		$html.= '<h3><label for="a11yc_dependencies">'.A11YC_LANG_DEPENDENCIES.'</label></h3>';
-		$html.= '<div><textarea name="dependencies" id="a11yc_dependencies" style="width:100%;" rows="7">'.@$setup['dependencies'].'</textarea></div>';
-
-		$html.= '<h3><label for="a11yc_policy">'.A11YC_LANG_POLICY.'</label></h3>';
-		$html.= '<p>'.A11YC_LANG_POLICY_DESC.'</p>';
-		$html.= '<div><textarea name="policy" id="a11yc_policy" style="width:100%;" rows="7">'.@$setup['policy'].'</textarea></div>';
-
-		$html.= '<h3><label for="a11yc_report">'.A11YC_LANG_REPORT.'</label></h3>';
-		$html.= '<p>'.A11YC_LANG_REPORT_DESC.'</p>';
-		$html.= '<div><textarea name="report" id="a11yc_report" style="width:100%;" rows="7">'.@$setup['report'].'</textarea></div>';
-
-		$html.= '<h3><label for="a11yc_contact">'.A11YC_LANG_CONTACT.'</label></h3>';
-		$html.= '<p>'.A11YC_LANG_CONTACT_DESC.'</p>';
-		$html.= '<div><textarea name="contact" id="a11yc_contact" style="width:100%;" rows="7">'.@$setup['contact'].'</textarea></div>';
-
-		$html.= '<h2>'.A11YC_LANG_SETUP_TITLE_ETC.'</h2>';
-		$checked = @$setup['checklist_behaviour'] ? ' checked="checked"' : '';
-		$html.= '<div><label for="a11yc_checklist_behaviour"><input type="checkbox" name="checklist_behaviour" id="a11yc_checklist_behaviour" value="1"'.$checked.' />'.A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR_DISAPPEAR.'</label></div>';
-
-		return $html;
+		// assign
+		View::assign('title', A11YC_LANG_SETUP_TITLE);
+		View::assign('setup', static::fetch_setup());
+		View::assign('standards', Yaml::each('standards'));
+		View::assign('form', View::fetch_tpl('setup/form.php'), FALSE);
 	}
 }

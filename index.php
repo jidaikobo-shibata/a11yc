@@ -50,10 +50,10 @@ if ($is_logged_in && $mode == 'logout')
 // urls for checklist
 $url = isset($_GET['url']) ? \A11yc\Util::s($_GET['url']) : '';
 
-// render - body
+// assign
 if ( ! $is_logged_in)
 {
-	list($title, $body) = \A11yc\Auth::login_form();
+	\A11yc\Auth::login_form();
 	$mode = 'login';
 }
 else
@@ -61,13 +61,13 @@ else
 	switch ($mode)
 	{
 		case 'center':
-			list($title, $body) = \A11yc\Center::index();
+			\A11yc\Center::index();
 			break;
 		case 'setup':
-			list($title, $body) = \A11yc\Setup::index();
+			\A11yc\Setup::index();
 			break;
 		case 'pages':
-			list($title, $body) = \A11yc\Pages::index();
+			\A11yc\Pages::index();
 			break;
 		case 'checklist':
 			list($title, $body) = \A11yc\Checklist::checklist($url);
@@ -87,6 +87,5 @@ else
 }
 
 // render
-$display = new \A11yc\View();
-$display->assign('mode', $mode);
-$display->display($title, $body);
+\A11yc\View::assign('mode', $mode);
+\A11yc\View::display();

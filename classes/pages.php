@@ -63,22 +63,7 @@ class Pages
 		// dbio
 		static::dbio();
 
-		// form
-		$html = '';
-		$html.= '<form action="" method="POST">';
-		$html.= '<h2><label for="a11yc_pages">'.A11YC_LANG_PAGES_URLS.'</label></h2>';
-		$html.= '<textarea id="a11yc_pages" name="pages" rows="7" style="width: 100%;">';
-		$html.= '</textarea>';
-		$html.= '<input type="submit" value="'.A11YC_LANG_PAGES_URLS_ADD.'" />';
-		$html.= '</form>';
-
-		// list
-		$html.= '<h2>'.A11YC_LANG_PAGES_TITLE.'</h2>';
-		$html.= '<p><a href="'.A11YC_PAGES_URL.'">pages</a> | ';
-		$html.= '<a href="'.A11YC_PAGES_URL.'&amp;list=yet">yet</a> | ';
-		$html.= '<a href="'.A11YC_PAGES_URL.'&amp;list=done">done</a> | ';
-		$html.= '<a href="'.A11YC_PAGES_URL.'&amp;list=trash">trash</a></p>';
-
+		// pages
 		$list = isset($_GET['list']) ? $_GET['list'] : false;
 		switch ($list)
 		{
@@ -96,42 +81,10 @@ class Pages
 				break;
 		}
 
-		if ($pages)
-		{
-			$html.= '<table class="a11yc_tbl">';
-			$html.= '<thead>';
-			$html.= '<th>URL</th>';
-			$html.= '<th>Level</th>';
-			$html.= '<th>Done</th>';
-			$html.= '<th>Check</th>';
-			$html.= '<th>Delete</th>';
-			$html.= '</thead>';
-			foreach ($pages as $page)
-			{
-				$url = Util::s($page['url']);
-				$html.= '<tr>';
-				$html.= '<th>'.$url.'</th>';
-				$html.= '<td>'.Util::num2str($page['level']).'</td>';
-				$done = @$page['done'] == 1 ? 'Done' : '' ;
-				$html.= '<td>'.$done.'</td>';
-				$html.= '<td><a href="'.A11YC_CHECKLIST_URL.urlencode($url).'">Check</a></td>';
-				if ($list == 'trash')
-				{
-					$html.= '<td><a href="'.A11YC_PAGES_URL.'&amp;undel=1&amp;url='.urlencode($url).'">Undelete</a></td>';
-				}
-				else
-				{
-					$html.= '<td><a href="'.A11YC_PAGES_URL.'&amp;del=1&amp;url='.urlencode($url).'">Delete</a></td>';
-				}
-				$html.= '</tr>';
-			}
-			$html.= '</table>';
-		}
-		else
-		{
-			$html.= '<p>'.A11YC_LANG_PAGES_NOT_FOUND.'</p>';
-		}
-
-		return array('', $html);
+		// assign
+		\A11yc\View::assign('pages', $pages);
+		\A11yc\View::assign('list', $list);
+		\A11yc\View::assign('title', A11YC_LANG_PAGES_TITLE);
+		\A11yc\View::assign('body', \A11yc\View::fetch_tpl('pages/index.php'), FALSE);
 	}
 }
