@@ -18,4 +18,4 @@ define('KONTIKI_MYSQL_HOST', '');
 define('KONTIKI_MYSQL_PASSWORD', '');
 
 // view
-define('KONTIKI_VIEW_PATH', '/path/to/templates');
+define('KONTIKI_VIEW_PATH', dirname(__DIR__).'/templates');
