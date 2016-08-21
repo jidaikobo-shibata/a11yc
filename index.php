@@ -19,9 +19,9 @@ $startTime = microtime(true) ;
 $startMemory = memory_get_usage(false) ;
 
 // config
-if (file_exists(__DIR__.'/libs/a11yc/config/config.php'))
+if (file_exists(__DIR__.'/config/config.php'))
 {
-	require (__DIR__.'/libs/a11yc/config/config.php');
+	require (__DIR__.'/config/config.php');
 }
 else
 {
@@ -29,7 +29,6 @@ else
 }
 
 // kontiki
-define('KONTIKI_CONFIG_PATH', __DIR__.'/libs/a11yc/config/kontiki.php');
 require (__DIR__.'/libs/kontiki/main.php');
 
 // require

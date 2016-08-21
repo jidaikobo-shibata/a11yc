@@ -7,13 +7,15 @@
 
 // base url
 define('A11YC_URL', 'http://example.com/a11yc/index.php');
-define('A11YC_URL_DIR', dirname(A11YC_URL));
+
+// for css and js
+define('A11YC_URL_DIR', dirname(A11YC_URL).'/libs/a11yc');
 
 // language
 define('A11YC_LANG', 'ja');
 
 // path
-define('A11YC_PATH', dirname(__DIR__));
+define('A11YC_PATH', dirname(__DIR__).'/libs/a11yc');
 define('A11YC_CLASSES_PATH',  A11YC_PATH.'/classes');
 define('A11YC_RESOURCE_PATH', A11YC_PATH.'/resources/'.A11YC_LANG);
 

@@ -1,5 +1,4 @@
 config/users.php
 config/config.php
 db/db.sqlite
-classes/jwp_*
-languages/jwp_*
+jwp_*
