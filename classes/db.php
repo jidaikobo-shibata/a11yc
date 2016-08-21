@@ -15,6 +15,31 @@ class Db
 	public static $dbh;
 
 	/**
+	 * Create Fieldset object
+	 *
+	 * @param   string    Identifier for this fieldset
+	 * @param   array     Configuration array
+	 * @return  Fieldset
+	 */
+	public static function forge($name = 'default', array $config = array())
+	{
+		if ($exists = static::instance($name))
+		{
+			\Error::notice('Fieldset with this name exists already, cannot be overwritten.');
+			return $exists;
+		}
+
+		static::$_instances[$name] = new static($name, $config);
+
+		if ($name == 'default')
+		{
+			static::$_instance = static::$_instances[$name];
+		}
+
+		return static::$_instances[$name];
+	}
+
+	/**
 	 * __construct
 	 *
 	 * @return  void

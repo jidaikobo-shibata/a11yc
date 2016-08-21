@@ -45,4 +45,18 @@ class Util
 		if (is_array($str)) return array_map(array('\Kontiki\Util', 's'), $str);
 		return htmlspecialchars($str, ENT_QUOTES);
 	}
+
+	/**
+	 * performance
+	 *
+	 * @return  void
+	 */
+	public static function performance($startTime, $startMemory)
+	{
+		$endTime = microtime(true);
+		View::assign('convert_time', number_format($endTime - $startTime, 2 ).' sec.');
+		$endMemory = memory_get_usage(false);
+		$ussage = ($endMemory - $startMemory) / 1048576;
+		View::assign('memory_get_usage', round($ussage, 2 ).' MB.');
+	}
 }

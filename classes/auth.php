@@ -65,28 +65,7 @@ class Auth
 	 */
 	public static function login_form ()
 	{
-		// title
-		$title = A11YC_LANG_LOGIN_TITLE;
-
-		// html
-		$html = '';
-		$html.= '<h1>'.$title.'</h1>';
-
-		// error
-		if (isset($_POST['username']))
-		{
-			$html.= '<p><strong>'.A11YC_LANG_LOGIN_ERROR0.'</strong></p>';
-		}
-
-		// form
-		$html.= '<form action="" method="POST">';
-		$html.= '<label for="a11yc_username">'.A11YC_LANG_LOGIN_USERNAME.'</label>';
-		$html.= '<input type="text" name="username" id="a11yc_username" size="20" value="" />';
-
-		$html.= '<label for="a11yc_password">'.A11YC_LANG_LOGIN_PASWWORD.'</label>';
-		$html.= '<input type="password" name="password" id="a11yc_password" size="20" value="" />';
-		$html.= '<input type="submit" value="'.A11YC_LANG_LOGIN_BTN.'" />';
-		$html.= '</form>';
-		return array($title, $html);
+		\A11yc\View::assign('title', A11YC_LANG_LOGIN_TITLE);
+		\A11yc\View::assign('body', \A11yc\View::fetch_tpl('auth/login.php'), false);
 	}
 }
