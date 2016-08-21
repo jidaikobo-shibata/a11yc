@@ -11,22 +11,18 @@
  */
 
 // config
-if (
-  ! defined('KONTIKI_CONFIG_PATH') ||
-  strpos(KONTIKI_CONFIG_PATH, 'kontiki.php') === false
-)
+if ( ! defined('KONTIKI_CONFIG_PATH'))
 {
-	die('Define KONTIKI_CONFIG_PATH for this project.  e.g. "/path/to/kontiki.php"');
+  define('KONTIKI_CONFIG_PATH', dirname(dirname(__DIR__)).'/config/kontiki.php');
 }
-require_once KONTIKI_CONFIG_PATH;
+include KONTIKI_CONFIG_PATH;
 
 // load function
-require_once __DIR__.'/functions.php';
+include __DIR__.'/functions.php';
 
 // load classes
-require_once __DIR__.'/classes/db.php';
-require_once __DIR__.'/classes/auth.php';
-require_once __DIR__.'/classes/users.php';
-require_once __DIR__.'/classes/util.php';
-require_once __DIR__.'/classes/view.php';
-
+include __DIR__.'/classes/db.php';
+include __DIR__.'/classes/auth.php';
+include __DIR__.'/classes/users.php';
+include __DIR__.'/classes/util.php';
+include __DIR__.'/classes/view.php';
