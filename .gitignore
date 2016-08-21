@@ -1,1 +1,7 @@
+<<<<<<< HEAD
 *
+=======
+config/users.php
+config/config.php
+db/*
+>>>>>>> 4b266d521ea83b4c1c926957aa628422206f4499
