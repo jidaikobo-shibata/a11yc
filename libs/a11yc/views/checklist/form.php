@@ -21,16 +21,19 @@ endforeach;
 <!-- header -->
 <div id="a11yc_header">
 
+<!-- rest of num -->
 <p id="a11yc_info"><?php echo A11YC_LANG_CHECKLIST_RESTOFNUM ?>:<span></span></p>
-<p><a href="<?php echo s(urldecode($url)) ?>">back to target page</a></p>
-
-<!-- level -->
-<p><?php echo A11YC_LANG_TARGET_LEVEL ?>: <?php echo \A11yc\Util::num2str($target_level) ?></p>
-<?php $current_level = $target_level ? \A11yc\Evaluate::result_str($page['level'], $target_level) : '-';  ?>
-<p><?php echo A11YC_LANG_CURRENT_LEVEL ?>: <?php echo $current_level ?></p>
 
 <!-- not for bulk -->
 <?php if ($url != 'bulk'):  ?>
+	<!-- back to target page -->
+	<p><a href="<?php echo s(urldecode($url)) ?>">back to target page</a></p>
+
+	<!-- level -->
+	<p><?php echo A11YC_LANG_TARGET_LEVEL ?>: <?php echo \A11yc\Util::num2str($target_level) ?></p>
+	<?php $current_level = $target_level ? \A11yc\Evaluate::result_str($page['level'], $target_level) : '-';  ?>
+	<p><?php echo A11YC_LANG_CURRENT_LEVEL ?>: <?php echo $current_level ?></p>
+
 	<!-- standard -->
 	<p><label for="a11yc_standard"><?php echo A11YC_LANG_STANDARD ?></label>
 	<select name="standard" id="a11yc_standard">

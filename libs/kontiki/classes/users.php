@@ -21,7 +21,7 @@ class Users
 	{
 		static $users = array();
 		if ($users) return $users;
-		require_once(A11YC_PATH.'/config/users.php');
+		require_once(KONTIKI_CONFIG_PATH.'/users.php');
 		return $users;
 	}
 
