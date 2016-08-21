@@ -1,0 +1,9 @@
+criterions:
+  1: &c1-1-1
+    code: 1-1-1
+    name: Non-text Content
+    guideline: *g1-1
+    level: *lv1
+    url: http://www.w3.org/TR/UNDERSTANDING-WCAG20/text-equiv-all.html
+    summary: |
+      All non-text content that is presented to the user has a text alternative that serves the equivalent purpose.
