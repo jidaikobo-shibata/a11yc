@@ -15,6 +15,7 @@ class Db
 	public static $dbh;
 
 	/**
+<<<<<<< HEAD
 	 * Create Fieldset object
 	 *
 	 * @param   string    Identifier for this fieldset
@@ -40,6 +41,8 @@ class Db
 	}
 
 	/**
+=======
+>>>>>>> 4b266d521ea83b4c1c926957aa628422206f4499
 	 * __construct
 	 *
 	 * @return  void
