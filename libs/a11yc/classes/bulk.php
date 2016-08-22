@@ -21,7 +21,7 @@ class Bulk extends Checklist
 	{
 		$sql = 'SELECT * FROM '.A11YC_TABLE_BULK.';';
 		$cs = array();
-		foreach (Db::fetchAll($sql) as $v)
+		foreach (Db::fetch_all($sql) as $v)
 		{
 			$cs[$v['code']]['memo'] = $v['memo'];
 			$cs[$v['code']]['uid'] = $v['uid'];
@@ -58,7 +58,7 @@ class Bulk extends Checklist
 
 			// update all
 			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.';';
-			foreach (Db::fetchAll($sql) as $v)
+			foreach (Db::fetch_all($sql) as $v)
 			{
 				$esc_url = Db::escapeStr($v['url']);
 				foreach ($cs as $code => $vv)

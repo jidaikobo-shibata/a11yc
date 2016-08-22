@@ -17,7 +17,7 @@ class Db extends \Kontiki\Db
 	 *
 	 * @return  void
 	 */
-	public static function init_table()
+	public static function init_table($name = 'default')
 	{
 		// create table
 		if (defined('A11YC_TABLE_PAGES'))

@@ -20,7 +20,7 @@ class Setup
 	public static function fetch_setup()
 	{
 		$sql = 'SELECT * FROM '.A11YC_TABLE_SETUP.';';
-		$ret = \A11yc\Db::fetchAll($sql);
+		$ret = \A11yc\Db::fetch_all($sql);
 		return isset($ret[0]) ? $ret[0] : array();
 	}
 
