@@ -16,7 +16,7 @@
 
 	<!--css-->
 	<link rel="stylesheet" type="text/css" media="all" href="<?php echo A11YC_URL_DIR ?>/css/a11yc.css" />
-	<link href="<?php echo A11YC_URL ?>/css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+	<link href="<?php echo A11YC_URL_DIR ?>/css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 
 </head>
 <body>
