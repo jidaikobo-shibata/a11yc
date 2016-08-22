@@ -29,7 +29,7 @@ tr.a11yc_flash {
 	outline-offset: -3px !important;
 }
 /* === menu === */
-#a11yc_menu {
+#a11yc_menu ul {
 	background-color: #333;
 	position: fixed;
 	z-index: 100;
@@ -44,7 +44,7 @@ tr.a11yc_flash {
 	top: 0;
 	font-size: .9em;
 }
-#a11yc_menu:before {
+#a11yc_menu ul:before {
 	content: 'A11y';
 	color: #68baef;
 	color: #aaa;
@@ -54,8 +54,8 @@ tr.a11yc_flash {
 	font-size: 1.25em;
 	top: -1px;
 	left: 8px;
-} 
-#a11yc_menu:after {
+}
+#a11yc_menu ul:after {
 	content: 'C';
 	color: #ff6;
 	color: #ddd;
@@ -69,14 +69,15 @@ tr.a11yc_flash {
 #a11yc_menu li {
 	display: inline-block;
 	margin-left: 1.5em;
+	color: #fff;
 }
 #a11yc_menu a {
 	position: relative;
-	color: #fff;
 	text-decoration: none;
 	padding-left: 1.5em;
+	color: #fff;
 }
-#a11yc_menu a:hover, 
+#a11yc_menu a:hover,
 #a11yc_menu a:focus {
 	color: #68baef;
 }
