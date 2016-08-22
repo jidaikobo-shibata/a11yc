@@ -1,7 +1,7 @@
 <div id="a11yc_checks" data-a11yc-current-user="<?php echo $current_user_id ?>">
 
-<p id="a11yc_narrow_level" class="a11yc_hide_if_no_js">Level: 
-<?php 
+<p id="a11yc_narrow_level" class="a11yc_hide_if_no_js">Level:
+<?php
 	for ($i=1; $i<=3; $i++)
 	{
 		$class_str = $i == $target_level ? ' class="current"' : '';

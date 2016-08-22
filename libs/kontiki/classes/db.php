@@ -199,7 +199,14 @@ class Db
 	public static function execute($sql, $placeholders = array(), $name = 'default')
 	{
 		$dbh = static::instance($name)->dbh->prepare($sql);
-		$dbh->execute($placeholders);
+		if ($placeholders)
+		{
+			$dbh->execute($placeholders);
+		}
+		else
+		{
+			$dbh->execute();
+		}
 		$dbh->closeCursor();
 	}
 }
