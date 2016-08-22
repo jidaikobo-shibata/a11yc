@@ -22,7 +22,7 @@ class Evaluate
 	{
 		$sql = 'SELECT * FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = '.Db::escapeStr($url).';';
 		$cs = array();
-		foreach (Db::fetchAll($sql) as $v)
+		foreach (Db::fetch_all($sql) as $v)
 		{
 			$cs[$v['code']]['memo'] = $v['memo'];
 			$cs[$v['code']]['uid'] = $v['uid'];
@@ -218,12 +218,12 @@ class Evaluate
 	 */
 	public static function evaluate_total()
 	{
-		$ps = Db::fetchAll('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `done` = 1;');
+		$ps = Db::fetch_all('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `done` = 1;');
 		$css = array();
 		foreach ($ps as $k => $p)
 		{
 			$url = Db::escapeStr($p['url']);
-			$cs = Db::fetchAll('SELECT * FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = '.$url.';');
+			$cs = Db::fetch_all('SELECT * FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = '.$url.';');
 			foreach ($cs as $v)
 			{
 				$css[$k][] = $v['code'];
@@ -261,6 +261,6 @@ class Evaluate
 	 */
 	public static function unpassed_pages($target_level)
 	{
-		return Db::fetchAll('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `level` < '.$target_level.' and `done` = 1 and `trash` = 0;');
+		return Db::fetch_all('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `level` < '.$target_level.' and `done` = 1 and `trash` = 0;');
 	}
 }

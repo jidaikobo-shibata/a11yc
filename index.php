@@ -18,26 +18,17 @@
 $startTime = microtime(true) ;
 $startMemory = memory_get_usage(false) ;
 
-// config
-if (file_exists(__DIR__.'/config/config.php'))
-{
-	require (__DIR__.'/config/config.php');
-}
-else
-{
-	die ('config.php is not found');
-}
-
 // kontiki
-define('KONTIKI_CONFIG_PATH', __DIR__.'/config');
+define('KONTIKI_CONFIG_PATH', __DIR__.'/config/kontiki.php');
 require (__DIR__.'/libs/kontiki/main.php');
 
-// require
+// a11yc
+require (__DIR__.'/config/config.php');
 require (A11YC_PATH.'/main.php');
 
 // database
-$a11yc_db = \A11yc\Db::forge();
-$a11yc_db::init_table();
+\A11yc\Db::forge();
+\A11yc\Db::init_table();
 
 // routing
 $mode = isset($_GET['mode']) ? \A11yc\Util::s($_GET['mode']) : 'center' ;
