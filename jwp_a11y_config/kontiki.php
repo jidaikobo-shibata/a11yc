@@ -8,18 +8,12 @@
 return array(
   'db' => array(
     'default' => array(
-      'dbtype' => 'sqlite',
-      'path' => dirname(__DIR__).'/db/db.sqlite',
-    ),
-    /*
-      'default' => array(
       'dbtype' => 'mysql',
-      'db' => '',
-      'user' => '',
-      'host' => '',
-      'password' => '',
+      'db' => DB_NAME,
+      'user' => DB_USER,
+      'host' => DB_HOST,
+      'password' => DB_PASSWORD,
       ),
-    */
   ),
   'template_path' => dirname(__DIR__).'/libs/a11yc/views',
 );

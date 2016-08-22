@@ -12,24 +12,51 @@
 namespace Kontiki;
 class Db
 {
-	public static $dbh;
+	protected static $dbh;
+	protected static $configs = array();
+	protected static $_instance = array();
+	protected static $_instances = array();
 
 	/**
-<<<<<<< HEAD
 	 * Create Fieldset object
 	 *
-	 * @param   string    Identifier for this fieldset
+	 * @param   string    $name
+	 * @return  instance
+	 */
+	public static function instance($name = 'default')
+	{
+		return isset(static::$_instances[$name]) ? static::$_instances[$name] : FALSE;
+	}
+
+	/**
+	 * Create Db object
+	 *
+	 * @param   string    Identifier for this db
 	 * @param   array     Configuration array
 	 * @return  Fieldset
 	 */
-	public static function forge($name = 'default', array $config = array())
+	public static function forge($name = 'default')
 	{
-		if ($exists = static::instance($name))
-		{
-			\Error::notice('Fieldset with this name exists already, cannot be overwritten.');
-			return $exists;
-		}
+		// exists
+		if (static::instance($name)) die('already exists');
 
+		// config
+		if (is_array($name))
+		{
+			static::$configs['default'] = $name;
+		}
+		else
+		{
+			$tmp = include KONTIKI_CONFIG_PATH.'/kontiki.php';
+			static::$configs = $tmp['db'];
+			if ( ! isset(static::$configs[$name]))
+			{
+				die('databse setting is not found');
+			}
+		}
+		$config = static::$configs[$name];
+
+		// instance
 		static::$_instances[$name] = new static($name, $config);
 
 		if ($name == 'default')
@@ -41,20 +68,18 @@ class Db
 	}
 
 	/**
-=======
->>>>>>> 4b266d521ea83b4c1c926957aa628422206f4499
 	 * __construct
 	 *
 	 * @return  void
 	 */
-	public function __construct()
+	public function __construct($name, $config)
 	{
 		// sqlite
-		if (strtolower(KONTIKI_DBTYPE) == 'sqlite')
+		if (strtolower($config['dbtype']) == 'sqlite')
 		{
 			try
 			{
-				$dbh = new \PDO("sqlite:".KONTIKI_SQLITE_PATH);
+				$dbh = new \PDO("sqlite:".$config['path']);
 				$dbh->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 			}
 			catch (\PDOException $e)
@@ -65,10 +90,10 @@ class Db
 		// mysql
 		else
 		{
-			$dtbs = 'mysql:dbname='.KONTIKI_MYSQL_NAME.';host='.KONTIKI_MYSQL_HOST;
+			$dtbs = 'mysql:dbname='.$config['db'].';host='.$config['host'];
 			try
 			{
-				$dbh = new \PDO($dtbs, KONTIKI_MYSQL_USER, KONTIKI_MYSQL_PASSWORD);
+				$dbh = new \PDO($dtbs, $config['user'], $config['password']);
 			}
 			catch (\PDOException $e)
 			{
@@ -93,14 +118,14 @@ class Db
 	 *
 	 * @return  bool
 	 */
-	public static function is_table_exist($table)
+	public static function is_table_exist($table, $name = 'default')
 	{
-		$table = static::escapeStr($table);
-		if(strtolower(KONTIKI_DBTYPE) == 'sqlite')
+		$table = static::escapeStr($table, $name);
+		if(strtolower(static::$configs[$name]['dbtype']) == 'sqlite')
 		{
 			$sql = 'PRAGMA table_info('.$table.');';
 		}
-		elseif(strtolower(KONTIKI_DBTYPE) == 'mysql')
+		elseif(strtolower(static::$configs[$name]['dbtype']) == 'mysql')
 		{
 			$sql = 'SHOW COLUMNS FROM '.$table.';';
 		}
@@ -131,7 +156,7 @@ class Db
 	 * @param   string|array $str
 	 * @return  string|array
 	 */
-	public static function escapeStr($str)
+	public static function escapeStr($str, $name = 'default')
 	{
 		if (is_array($str))
 		{
@@ -148,7 +173,7 @@ class Db
 	 * @param   string     $fetch_style
 	 * @return  array
 	 */
-	public static function fetch($sql, $placeholders = array(), $fetch_style = 'PDO::FETCH_ASSOC')
+	public static function fetch($sql, $placeholders = array(), $fetch_style = 'PDO::FETCH_ASSOC', $name = 'default')
 	{
 		$retval = FALSE;
 		$fetch_style = substr($fetch_style,0,5) == 'PDO::' ? $fetch_style : 'PDO::'.$fetch_style;
@@ -160,6 +185,28 @@ class Db
 	}
 
 	/**
+	 * fetch_all
+	 *
+	 * @param   string     $sql
+	 * @param   array      $placeholders
+	 * @param   string     $fetch_style
+	 * @return  array
+	 */
+	public function fetch_all($sql, $name = 'default')
+	{
+		$instance = static::instance($name);
+
+
+		$retvals = array();
+		$fetch_style = substr($fetch_style,0,5) == 'PDO::' ? $fetch_style : 'PDO::'.$fetch_style;
+		$dbh = static::prepare($sql);
+		$dbh->execute($placeholders);
+		$retvals = $dbh->fetchAll(constant($fetch_style));
+		$dbh->closeCursor();
+		return $retvals;
+	}
+
+	/**
 	 * fetch_all.
 	 *
 	 * @param   string     $sql
@@ -167,11 +214,11 @@ class Db
 	 * @param   string     $fetch_style
 	 * @return  array
 	 */
-	public static function fetchAll($sql, $placeholders = array(), $fetch_style='PDO::FETCH_ASSOC')
+	public static function fetchAll($sql, $placeholders = array(), $fetch_style='PDO::FETCH_ASSOC', $name = 'default')
 	{
-		$retvals = array();
+		$instance = static::instance($name);
 		$fetch_style = substr($fetch_style,0,5) == 'PDO::' ? $fetch_style : 'PDO::'.$fetch_style;
-		$dbh = static::prepare($sql);
+		$dbh = $instance->prepare($sql, $name);
 		$dbh->execute($placeholders);
 		$retvals = $dbh->fetchAll(constant($fetch_style));
 		$dbh->closeCursor();
