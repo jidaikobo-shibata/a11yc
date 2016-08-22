@@ -26,13 +26,13 @@
 
 <?php if ($mode != 'login'): ?>
 <nav>
-<ul>
-	<li><a href="?mode=center"><?php echo A11YC_LANG_CENTER_TITLE ?></a></li>
-	<li><a href="?mode=setup"><?php echo A11YC_LANG_SETUP_TITLE ?></a></li>
-	<li><a href="?mode=pages"><?php echo A11YC_LANG_PAGES_TITLE ?></a></li>
-	<li><a href="?mode=bulk"><?php echo A11YC_LANG_BULK_TITLE ?></a></li>
-	<li><a href="?mode=docs"><?php echo A11YC_LANG_DOCS_TITLE ?></a></li>
-	<li><a href="?mode=logout"><?php echo A11YC_LANG_LOGOUT ?></a></li>
+<ul id="a11yc_menu">
+	<li class="a11yc_menu_item a11yc_center"><a href="?mode=center"><?php echo A11YC_LANG_CENTER_TITLE ?></a></li>
+	<li class="a11yc_menu_item a11yc_setup"><a href="?mode=setup"><?php echo A11YC_LANG_SETUP_TITLE ?></a></li>
+	<li class="a11yc_menu_item a11yc_pages"><a href="?mode=pages"><?php echo A11YC_LANG_PAGES_TITLE ?></a></li>
+	<li class="a11yc_menu_item a11yc_bulk"><a href="?mode=bulk"><?php echo A11YC_LANG_BULK_TITLE ?></a></li>
+	<li class="a11yc_menu_item a11yc_docs"><a href="?mode=docs"><?php echo A11YC_LANG_DOCS_TITLE ?></a></li>
+	<li class="a11yc_menu_item a11yc_logout"><a href="?mode=logout"><?php echo A11YC_LANG_LOGOUT ?></a></li>
 </ul>
 </nav>
 <?php endif; ?>
