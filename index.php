@@ -29,13 +29,14 @@ else
 }
 
 // kontiki
+define('KONTIKI_CONFIG_PATH', __DIR__.'/config');
 require (__DIR__.'/libs/kontiki/main.php');
 
 // require
 require (A11YC_PATH.'/main.php');
 
 // database
-$a11yc_db = new \A11yc\Db();
+$a11yc_db = \A11yc\Db::forge();
 $a11yc_db::init_table();
 
 // routing

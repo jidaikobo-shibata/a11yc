@@ -10,12 +10,14 @@
  * @link       http:/www.jidaikobo.com
  */
 
+/*
 // config
 if ( ! defined('KONTIKI_CONFIG_PATH'))
 {
   define('KONTIKI_CONFIG_PATH', dirname(dirname(__DIR__)).'/config');
 }
 include KONTIKI_CONFIG_PATH.'/kontiki.php';
+*/
 
 // load function
 include __DIR__.'/functions.php';

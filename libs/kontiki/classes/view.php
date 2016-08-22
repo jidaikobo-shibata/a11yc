@@ -22,7 +22,10 @@ class View
 	 */
 	public static function tpl_path($tpl)
 	{
-		$path = KONTIKI_VIEWS_PATH.'/'.$tpl;
+		$configs = include KONTIKI_CONFIG_PATH.'/kontiki.php';
+		$template_path = $configs['template_path'];
+
+		$path = $template_path.'/'.$tpl;
 		$fallback = dirname(__DIR__).'/templates/'.$tpl;
 
 		if (file_exists($path))
