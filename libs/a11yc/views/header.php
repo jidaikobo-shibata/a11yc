@@ -23,7 +23,6 @@
 
 <!-- #a11yc -->
 <div id="<?php echo 'a11yc_'.$mode ?>" class="a11yc">
-
 <nav id="a11yc_menu">
 <?php if ($mode != 'login'): ?>
 <ul>
@@ -32,8 +31,8 @@
 	<li class="a11yc_menu_item a11yc_pages"><a href="?mode=pages"><?php echo A11YC_LANG_PAGES_TITLE ?></a></li>
 	<li class="a11yc_menu_item a11yc_bulk"><a href="?mode=bulk"><?php echo A11YC_LANG_BULK_TITLE ?></a></li>
 	<li class="a11yc_menu_item a11yc_docs"><a href="?mode=docs"><?php echo A11YC_LANG_DOCS_TITLE ?></a></li>
-	<li class="a11yc_menu_item a11yc_logout"><a href="?mode=logout"><?php echo A11YC_LANG_LOGOUT ?></a></li>
-	 <li><?php echo $convert_time.' '.$memory_get_usage ?></li>
+	<li class="a11yc_menu_item a11yc_logout a11yc_fr"><a href="?mode=logout"><?php echo $current_user[0].'&nbsp;:&nbsp;'.A11YC_LANG_LOGOUT ?></a></li>
+	<li class="a11yc_menu_item a11yc_dev_info a11yc_fr"><a href=""><?php echo $convert_time.' '.$memory_get_usage ?></a></li>
 </ul>
 <?php endif; ?>
 </nav>
