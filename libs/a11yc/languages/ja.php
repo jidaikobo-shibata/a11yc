@@ -46,7 +46,7 @@ define('A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR', 'チェックリストの振る�
 define('A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR_DISAPPEAR', 'チェック時にパスした項目は消える');
 
 define('A11YC_LANG_DECLARE_DATE', '表明日');
-define('A11YC_LANG_STANDARD', '規格の規格番号及び改正年');
+define('A11YC_LANG_STANDARD', '規格の種類');
 define('A11YC_LANG_DEPENDENCIES', '依存したウェブコンテンツ技術のリスト');
 define('A11YC_LANG_TEST_PERIOD', '試験実施期間');
 define('A11YC_LANG_TARGET_LEVEL', '目標とする達成等級');
@@ -67,6 +67,7 @@ define('A11YC_LANG_CANDIDATES4', 'ウェブページ一式を代表するウェ�
 define('A11YC_LANG_CHECKLIST_NOT_FOUND_ERR', '自動チェックではエラーが見つかりませんでした');
 define('A11YC_LANG_CHECKLIST_TITLE', 'チェックリスト');
 define('A11YC_LANG_CHECKLIST_DONE', 'チェック終了');
+define('A11YC_LANG_CHECKLIST_TARGETPAGE', '対象ページ');
 define('A11YC_LANG_CHECKLIST_RESTOFNUM', '残りのチェック項目数');
 define('A11YC_LANG_CHECKLIST_ACHIEVEMENT', '達成等級');
 define('A11YC_LANG_CHECKLIST_CONFORMANCE', '%s 準拠');
@@ -79,7 +80,7 @@ define('A11YC_LANG_BULK_UPDATE', '一括処理タイプ');
 define('A11YC_LANG_BULK_UPDATE1', '新規チェック時の初期値として保存する（既存のページの試験結果を一切変更しません）');
 define('A11YC_LANG_BULK_UPDATE2', 'チェックしたものだけを既存の試験結果に反映する（チェックを外す更新は行いません）');
 define('A11YC_LANG_BULK_UPDATE3', 'チェックを外したものも既存の試験結果に反映する（注意：サイト内で全ページの試験結果が同じになります）');
-define('A11YC_LANG_BULK_DONE', 'チェック終了（一括処理タイプが初期値として保存でない場合のみ）');
+define('A11YC_LANG_BULK_DONE', 'チェック終了');
 define('A11YC_LANG_BULK_DONE1', '既存のページのチェックフラグを変更しない');
 define('A11YC_LANG_BULK_DONE2', '既存のページをすべてチェック終了にする');
 define('A11YC_LANG_BULK_DONE3', '既存のページをすべて未チェックにする');

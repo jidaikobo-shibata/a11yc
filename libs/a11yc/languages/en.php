@@ -64,6 +64,7 @@ define('A11YC_LANG_CANDIDATES4', 'Selected in accordance with a web page that yo
 define('A11YC_LANG_CHECKLIST_NOT_FOUND_ERR', 'Could not find an error in the automatic check');
 define('A11YC_LANG_CHECKLIST_TITLE', 'Checklist');
 define('A11YC_LANG_CHECKLIST_DONE', 'Done');
+define('A11YC_LANG_CHECKLIST_TARGETPAGE', 'Target Page');
 define('A11YC_LANG_CHECKLIST_RESTOFNUM', 'Rest Of Numbers');
 define('A11YC_LANG_CHECKLIST_ACHIEVEMENT', 'Achieve Grade');
 define('A11YC_LANG_CHECKLIST_CONFORMANCE', 'Conformance with %s');
@@ -76,7 +77,7 @@ define('A11YC_LANG_BULK_UPDATE', 'Batch Type');
 define('A11YC_LANG_BULK_UPDATE1', 'Save as the initial value at the new check (does not change any of the test results of an existing page)');
 define('A11YC_LANG_BULK_UPDATE2', 'Only those that checked reflected in the existing test results (but does not update to remove the check)');
 define('A11YC_LANG_BULK_UPDATE3', 'Remove the check is also reflected in the existing test results (Note: The test results of all the pages will be the same in the site)');
-define('A11YC_LANG_BULK_DONE', 'Check the end (if batch processing type is not stored as an initial value only)');
+define('A11YC_LANG_BULK_DONE', 'Check the end ');
 define('A11YC_LANG_BULK_DONE1', 'Do not change the check flag of an existing page');
 define('A11YC_LANG_BULK_DONE2', 'To check the end all existing page');
 define('A11YC_LANG_BULK_DONE3', 'To un-check all of the existing page');

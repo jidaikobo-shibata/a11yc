@@ -1,5 +1,4 @@
 <div id="a11yc_checks" data-a11yc-current-user="<?php echo $current_user_id ?>">
-
 <!-- header -->
 <div id="a11yc_header">
 
@@ -32,11 +31,11 @@
 	</select></p>
 
 	<!-- back to target page -->
-	<p id="a11yc_back_to_target_page" class="a11yc_hide_if_fixedheader"><a href="<?php echo s(urldecode($url)) ?>">back to target page</a></p>
+	<p id="a11yc_back_to_target_page">target page&nbsp:&nbsp;<a href="<?php echo s(urldecode($url)) ?>"><?php echo s(urldecode($url)) ?></a></p>
 
 <?php else:  ?>
-	<div class="a11yc_hide_if_fixedheader"><label for="a11yc_update_all"><?php echo A11YC_LANG_BULK_UPDATE ?></label>
-	<select name="update_all" id="a11yc_update_all">
+	<div><label for="a11yc_update_all"><?php echo A11YC_LANG_BULK_UPDATE ?></label>
+	<select name="update_all" id="a11yc_update_all" >
 		<option value="1"><?php echo A11YC_LANG_BULK_UPDATE1 ?></option>
 		<option value="2"><?php echo A11YC_LANG_BULK_UPDATE2 ?></option>
 		<option value="3"><?php echo A11YC_LANG_BULK_UPDATE3 ?></option>
@@ -92,9 +91,9 @@
 	<?php if ($errs):
 		// error
 	?>
-		<ul id="a11yc_errors" class="a11yc_hide_if_fixedheader" style="height: 200px; overflow: auto; border: 1px #aaa solid;">
+		<ul id="a11yc_errors" class="a11yc_hide_if_fixedheader">
 		<?php foreach ($errs as $err):  ?>
-			<li><?php echo $err ?></li>
+			<li><?php echo htmlspecialchars_decode($err) ?></li>
 		<?php endforeach;  ?>
 		</ul>
 	<?php else:

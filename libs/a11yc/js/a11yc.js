@@ -206,15 +206,15 @@ if ($('#a11yc_header')[0])
 
 /* === bulk === */
 // a11yc_update_done
-$('#a11yc_update_done').parent().hide();
+$('#a11yc_update_done').parent().addClass('a11yc_dn');
 $('#a11yc_update_all').on('change', function(){
 	if($(this).val() > 1)
 	{
-		$('#a11yc_update_done').parent().show();
+		$('#a11yc_update_done').parent().removeClass('a11yc_dn');
 	}
 	else
 	{
-		$('#a11yc_update_done').parent().hide();
+		$('#a11yc_update_done').parent().addClass('a11yc_dn');
 	}
 });
 
