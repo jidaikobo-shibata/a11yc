@@ -1,4 +1,5 @@
 <div id="a11yc_checks" data-a11yc-current-user="<?php echo $current_user_id ?>">
+
 <!-- header -->
 <div id="a11yc_header">
 	<div id="a11yc_header_left" class="a11yc_fl">
