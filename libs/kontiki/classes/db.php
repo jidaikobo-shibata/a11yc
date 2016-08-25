@@ -189,6 +189,25 @@ class Db
 	}
 
 	/**
+	 * fetch_all.
+	 *
+	 * @param   string     $sql
+	 * @param   array      $placeholders
+	 * @param   string     $fetch_style
+	 * @return  array
+	 */
+	public static function fetchAll($sql, $placeholders = array(), $fetch_style='PDO::FETCH_ASSOC', $name = 'default')
+	{
+		$instance = static::instance($name);
+		$fetch_style = substr($fetch_style,0,5) == 'PDO::' ? $fetch_style : 'PDO::'.$fetch_style;
+		$dbh = $instance->prepare($sql, $name);
+		$dbh->execute($placeholders);
+		$retvals = $dbh->fetchAll(constant($fetch_style));
+		$dbh->closeCursor();
+		return $retvals;
+	}
+
+	/**
 	 * execute sql.
 	 *
 	 * @param   string     $sql
