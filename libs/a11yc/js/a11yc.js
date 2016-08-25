@@ -13,7 +13,7 @@ jQuery(function($){
 	$a11yc_content = $('.a11yc').eq(0);
 	
 // checklists, bulk
-if($('.a11yc form')[0])
+if($('.a11yc_table_check')[0])
 {
 	$info = $('#a11yc_rest');
 
@@ -218,20 +218,27 @@ $('#a11yc_update_all').on('change', function(){
 	}
 });
 
-/* === docs === */
-var $a11yc_docs_c = $('#a11yc_docs .section_criterions');
-if($a11yc_docs_c[0])
-{
-	$a11yc_docs_c.addClass('a11yc_disclosure_target').hide();
-	$a11yc_docs_c.find('ul').addClass('a11yc_disclosure_target');
-	$('#a11yc_docs').find('h3, h4').addClass('a11yc_disclosure').attr('tabindex', 0);
-}
-
 /* disclosure */
-$(document).on('click', '.a11yc_disclosure', function(){
+var $disclosure = $('.a11yc_disclosure');
+var $disclosure_target = $('.a11yc_disclosure_target');
+$disclosure.attr('tabindex', 0).each(function(index){
+	$(this).addClass('active');
+	if ($disclosure_target.eq(index).hasClass('show'))
+	{
+		$(this).addClass('show');
+	}
+	else
+	{
+		$(this).addClass('hide')
+	}
+});
+$disclosure_target.each(function(){
+	if (!$(this).hasClass('show')) $(this).addClass('hide').hide();
+});
+$disclosure.on('click', function(){
 	var index = $(this).index('.a11yc_disclosure');
-	$(this).toggleClass('on');
-	$(document).find('.a11yc_disclosure_target').eq(index).slideToggle(250);
+	$(this).toggleClass('show hide');
+	$disclosure_target.eq(index).slideToggle(250).toggleClass('show hide');
 });
 
 /* === 動作補助 === */

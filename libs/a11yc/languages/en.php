@@ -12,6 +12,7 @@ define('A11YC_LANG_EXIST_NON', 'Not Exist');
 define('A11YC_LANG_PASS', 'Passed');
 define('A11YC_LANG_CRITERION', 'Criterion');
 define('A11YC_LANG_HERE', 'here');
+define('A11YC_LANG_TEST_RESUST', 'Test result');
 define('A11YC_LANG_CURRENT_LEVEL', 'Current Level');
 define('A11YC_LANG_CURRENT_LEVEL_WEBPAGES', 'Level that has been achieved at the site');
 define('A11YC_LANG_NUM_OF_CHECKED', 'Number of checked pages');
@@ -40,7 +41,8 @@ define('A11YC_LANG_PAGES_NOT_FOUND', 'No pages to check found');
 define('A11YC_LANG_SETUP_TITLE', 'Setup');
 define('A11YC_LANG_SETUP_TITLE_ETC', 'etc.');
 define('A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR', 'Checklist Behaviour');
-define('A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR_DISAPPEAR', 'disappear when check');
+define('A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR_DISAPPEAR', 'Disappear when check');
+define('A11YC_LANG_SETUP_SUBMIT', 'Submit');
 
 define('A11YC_LANG_DECLARE_DATE', 'Declare Date');
 define('A11YC_LANG_STANDARD', 'Standard');
@@ -64,7 +66,6 @@ define('A11YC_LANG_CANDIDATES4', 'Selected in accordance with a web page that yo
 define('A11YC_LANG_CHECKLIST_NOT_FOUND_ERR', 'Could not find an error in the automatic check');
 define('A11YC_LANG_CHECKLIST_TITLE', 'Checklist');
 define('A11YC_LANG_CHECKLIST_DONE', 'Done');
-define('A11YC_LANG_CHECKLIST_TARGETPAGE', 'Target Page');
 define('A11YC_LANG_CHECKLIST_RESTOFNUM', 'Rest Of Numbers');
 define('A11YC_LANG_CHECKLIST_ACHIEVEMENT', 'Achieve Grade');
 define('A11YC_LANG_CHECKLIST_CONFORMANCE', 'Conformance with %s');

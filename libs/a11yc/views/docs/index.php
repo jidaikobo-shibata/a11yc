@@ -1,3 +1,4 @@
+<h1><?php echo A11YC_LANG_DOCS_TITLE ?></h1>
 <h2><?php echo A11YC_LANG_DOCS_TEST ?></h2>
 <ul>
 <?php foreach ($test['tests'] as $code => $v): ?>
@@ -25,14 +26,14 @@
 	<?php
 	 foreach ($yml['guidelines'] as $kk => $vv):
 		if ($kk{0} != $k) continue; ?>
-		<div id="a11yc_g_<?php echo $vv['code'] ?>" class="a11yc_section_guideline"><h3 class="a11yc_header_guideline"><?php echo \A11yc\Util::key2code($vv['code']).' '.$vv['name'] ?></h3>
+		<div id="a11yc_g_<?php echo $vv['code'] ?>" class="a11yc_section_guideline"><h3 class="a11yc_header_guideline a11yc_disclosure"><?php echo \A11yc\Util::key2code($vv['code']).' '.$vv['name'] ?></h3>
 
 		<!-- criterions -->
-		<div class="a11yc_section_criterions">
+		<div class="a11yc_section_criterions a11yc_disclosure_target">
 		<?php foreach ($yml['criterions'] as $kkk => $vvv):
 			if (substr($kkk, 0, 3) != $kk) continue; ?>
 			<div id="a11yc_c_<?php echo $kkk ?>" class="a11yc_section_criterion" data-a11yc-lebel="l_<?php echo strtolower($vvv['level']['name']) ?>">
-			<h4 class="a11yc_header_criterion"><?php echo \A11yc\Util::key2code($vvv['code']).' '.$vvv['name'].' ('.$vvv['level']['name'].')' ?></h4>
+			<h4 class="a11yc_header_criterion a11yc_disclosure"><?php echo \A11yc\Util::key2code($vvv['code']).' '.$vvv['name'].' ('.$vvv['level']['name'].')' ?></h4>
 			<ul class="a11yc_outlink">
 			<?php if (isset($vvv['url_as'])):  ?>
 				<li class="a11yc_outlink_as"><a<?php echo A11YC_TARGET ?> href="<?php echo $vvv['url_as'] ?>" title="Accessibility Supported"><span class="a11yc_skip">Accessibility Supported</span></a></li>
@@ -42,7 +43,7 @@
 			<p class="summary_criterion"><?php echo $vvv['summary'] ?></p>
 			
 			<!-- checks -->
-			<ul>
+			<ul class="a11yc_ul_check a11yc_disclosure_target show">
 			<?php foreach ($yml['checks'][$kkk] as $code => $val):
 				$non_interference = isset($vvvv['non-interference']) ? ' class="non_interference" title="non interference"' : ''; ?>
 				<li<?php echo $non_interference ?>>
@@ -51,7 +52,7 @@
 			</ul>
 			</div><!--/#c_<?php echo $kkk ?>.l_<?php echo strtolower($vvv['level']['name']) ?>-->
 		<?php endforeach; ?>
-		</div><!--/.a11yc_section_criterions-->
+		</div><!-- /.a11yc_section_criterions.a11yc_disclosure_target -->
 		</div><!--/#g_<?php echo $vv['code'] ?>-->
 	<?php endforeach; ?>
 	</div><!--/#section_p_<?php echo $v['code'] ?> a11yc_section_principle-->

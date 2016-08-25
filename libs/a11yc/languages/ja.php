@@ -12,6 +12,7 @@ define('A11YC_LANG_EXIST_NON', '適用なし');
 define('A11YC_LANG_PASS', '適合');
 define('A11YC_LANG_CRITERION', '達成基準');
 define('A11YC_LANG_HERE', 'こちら');
+define('A11YC_LANG_TEST_RESUST', '試験結果');
 define('A11YC_LANG_CURRENT_LEVEL', '達成しているレベル');
 define('A11YC_LANG_CURRENT_LEVEL_WEBPAGES', 'サイトで達成しているレベル');
 define('A11YC_LANG_NUM_OF_CHECKED', 'チェック済みのページ数');
@@ -44,6 +45,7 @@ define('A11YC_LANG_SETUP_TITLE', '設定');
 define('A11YC_LANG_SETUP_TITLE_ETC', 'その他の設定');
 define('A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR', 'チェックリストの振る舞い');
 define('A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR_DISAPPEAR', 'チェック時にパスした項目は消える');
+define('A11YC_LANG_SETUP_SUBMIT', '送信');
 
 define('A11YC_LANG_DECLARE_DATE', '表明日');
 define('A11YC_LANG_STANDARD', '規格の種類');
@@ -67,7 +69,6 @@ define('A11YC_LANG_CANDIDATES4', 'ウェブページ一式を代表するウェ�
 define('A11YC_LANG_CHECKLIST_NOT_FOUND_ERR', '自動チェックではエラーが見つかりませんでした');
 define('A11YC_LANG_CHECKLIST_TITLE', 'チェックリスト');
 define('A11YC_LANG_CHECKLIST_DONE', 'チェック終了');
-define('A11YC_LANG_CHECKLIST_TARGETPAGE', '対象ページ');
 define('A11YC_LANG_CHECKLIST_RESTOFNUM', '残りのチェック項目数');
 define('A11YC_LANG_CHECKLIST_ACHIEVEMENT', '達成等級');
 define('A11YC_LANG_CHECKLIST_CONFORMANCE', '%s 準拠');
