@@ -9,12 +9,14 @@
 	</thead>
 	<tbody>
 <?php
+	$i = 0;
 	foreach ($yml['criterions'] as $k => $v):
 	if (
 		($include && strlen($v['level']['name']) <= $target_level) ||
 		( ! $include && strlen($v['level']['name']) > $target_level)):
+		$class_str = ++$i%2==0 ? ' class="even"' : ' class="odd"';
 ?>
-		<tr>
+		<tr<?php echo $class_str ?>>
 			<th><?php echo \A11yc\Util::key2code($k) ?></th>
 			<td><?php echo $v['name'] ?></td>
 			<td class="a11yc_result"><?php echo $v['level']['name'] ?></td>
