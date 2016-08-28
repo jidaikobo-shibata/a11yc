@@ -1,0 +1,8 @@
+#levels
+levels:
+  - &lv1
+    name: A
+  - &lv2
+    name: AA
+  - &lv3
+    name: AAA

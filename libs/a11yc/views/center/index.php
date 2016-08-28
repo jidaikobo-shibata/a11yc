@@ -33,11 +33,11 @@ $arr = array(
 	<tr>
 		<th><!-- unpassed pages --><?php echo A11YC_LANG_UNPASSED_PAGES ?></th>
 		<td>
+			<ul>
 <?php
 $unpassed_pages = \A11yc\Evaluate::unpassed_pages($target_level);
 if ($unpassed_pages):
 ?>
-			<ul>
 <?php
 foreach ($unpassed_pages as $v):
 $url = s($v['url']);

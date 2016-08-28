@@ -1,0 +1,26 @@
+#===basic auth===
+#AuthUserFile /home/USERNAME/www/DIRNAME/.htpasswd
+#AuthGroupFile /dev/null
+#AuthName MembersOnly
+#AuthType Basic
+#<Limit GET POST>
+#require valid-user
+#</Limit>
+
+#===DirectoryIndex - .ht means Options -Index at SAKURA Internet===
+#DirectoryIndex index.html index.php .ht
+#Options -Indexes
+DirectoryIndex index.html index.php .ht
+
+#===rewrite for KONTIKI CMS===
+RewriteEngine on
+RewriteBase /
+
+#===hostname integration===
+#RewriteCond %{HTTP_HOST} ^example\.com
+#RewriteRule (.*) http://www.example.com/$1 [R=301,L]
+
+#===RewriteCond===
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [QSA,L]

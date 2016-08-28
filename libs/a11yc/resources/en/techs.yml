@@ -1,0 +1,19 @@
+techs:
+  1:
+    1:
+      1:
+        a:
+          criterion: *c1-1-1
+          name: alt attribute of img element
+          error: missing alt attribute of img element
+          techs: |
+            All non-text content that is presented to the user has a text alternative that serves the equivalent purpose.
+  2:
+    4:
+      4:
+        a:
+          criterion: *c2-4-4
+          name: A link contains text that gives a description of the information at that URI
+          error: A link contains text that gives a description of the information at that URI
+          techs: |
+            A link contains text that gives a description of the information at that URI.

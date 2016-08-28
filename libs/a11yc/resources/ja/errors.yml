@@ -1,0 +1,25 @@
+errors:
+  is_exist_alt_attr_of_img:
+    message: img要素のalt属性がありません
+    criterion: 1-1-1
+    code: 1-1-1b
+  is_not_empty_alt_attr_of_img_inside_a:
+    message: a要素の中にあるimg要素のalt属性値は空文字でなくリンクの目的を表す文字を入れてください
+    criterion: 1-1-1
+    code: 1-1-1c
+  is_are_has_alt:
+    message: area要素のalt属性が存在しないか、alt属性値は空文字です。area要素の目的を表す文字を入れてください
+    criterion: 1-1-1
+    code: 1-1-1c
+  is_img_input_has_alt:
+    message: input要素のalt属性が存在しないか、alt属性値が空文字です。input要素のtypeがimageの時には目的を表す文字を入れてください
+    criterion: 1-1-1
+    code: 1-1-1c
+  is_not_here_link:
+    message: 「こちら」をリンクにしないでください
+    criterion: 2-4-4
+    code: 2-4-4a
+  suspicious_elements:
+    message: 疑わしい要素があります
+    criterion: 4-1-1
+    code: 4-1-1a
