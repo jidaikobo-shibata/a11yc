@@ -36,6 +36,7 @@ define('A11YC_LANG_PAGES_TITLE', 'Target Pages');
 define('A11YC_LANG_PAGES_URLS', 'Target Pages\' URL');
 define('A11YC_LANG_PAGES_URLS_ADD', 'Add URL');
 define('A11YC_LANG_PAGES_NOT_FOUND', 'No pages to check found');
+define('A11YC_LANG_PAGES_CHECK', 'Check');
 
 // setup
 define('A11YC_LANG_SETUP_TITLE', 'Setup');

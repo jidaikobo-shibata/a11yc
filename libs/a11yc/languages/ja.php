@@ -39,6 +39,7 @@ define('A11YC_LANG_PAGES_TITLE', '対象ページ一覧');
 define('A11YC_LANG_PAGES_URLS', '対象ページのURL');
 define('A11YC_LANG_PAGES_URLS_ADD', 'URLを追加する');
 define('A11YC_LANG_PAGES_NOT_FOUND', '対象となるページが存在しません');
+define('A11YC_LANG_PAGES_CHECK', 'チェック');
 
 // setup
 define('A11YC_LANG_SETUP_TITLE', '設定');

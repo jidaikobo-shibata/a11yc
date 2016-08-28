@@ -1,9 +1,12 @@
 jQuery(function($){
 	var $a11yc_content = $(),
+			menu_height = 0,
+			header_height = 0,
+			current_position = 0,
+			current_distance = 0,
 			$info = $(),
 			$current_level = '',
 			num = 0,
-			interval = 0,
 			$checked = $(),
 			data_pass_arr = [],
 			$pass_items = $(),
@@ -11,6 +14,44 @@ jQuery(function($){
 			$show_items2 = $();
 
 	$a11yc_content = $('.a11yc').eq(0);
+	menu_height = $('#a11yc_menu ul').outerHeight();
+	header_height = $('#a11yc_header').outerHeight();
+// resize
+$(window).on('resize', function(){
+	menu_height = $('#a11yc_menu ul').outerHeight();
+	header_height = $('#a11yc_header').outerHeight();
+	a11yc_fixed_header();
+});
+
+
+// fixed header
+if ($('#a11yc_header')[0])
+{
+	$(window).on('scroll', a11yc_fixed_header);
+}
+
+function a11yc_fixed_header(){
+	if ($(window).scrollTop() > menu_height)
+	{
+		$a11yc_content.addClass('a11yc_fixed_header');
+	}
+	else
+	{
+		$a11yc_content.removeClass('a11yc_fixed_header');
+	}
+	if ($a11yc_content.hasClass('a11yc_fixed_header'))
+	{
+		$a11yc_content.css('paddingTop', menu_height+header_height+30);//あとでヘッダの高さ等調整が利くようにする
+		$('#a11yc_header').css('paddingTop', menu_height);
+	}
+	else
+	{
+		$a11yc_content.css('paddingTop', menu_height);
+		$('#a11yc_header').css('paddingTop', 0);
+	}
+
+}
+
 	
 // checklists, bulk
 if($('.a11yc_table_check')[0])
@@ -62,17 +103,21 @@ if($('.a11yc_table_check')[0])
 					$pass_items = $pass_items.add('#'+data_pass_arr[k]); 
 				}
 			});
-			$pass_items.closest('tr').addClass('off');
+			$pass_items.closest('tr').addClass('off').find(':input').prop("disabled", true);
 		}
 		else if(input.prop('checked')) // チェックされたとき
 		{
+			//チェックボックスの位置を取得
+			current_position = $(this).offset().top;
+			current_distance = current_distance-$(window).scrollTop();
+
 			data_pass_arr = $(this).data('pass') ? $(this).data('pass').split(',') : [];
 			for(var k in data_pass_arr)
 			{
 				if(data_pass_arr[k]==this.id) continue; //自分自身は相手にしない？
 				$pass_items = $pass_items.add('#'+data_pass_arr[k]); 
 			}
-			$pass_items.closest('tr').addClass('off');
+			$pass_items.closest('tr').addClass('off').find(':input').prop("disabled", true);
 		}
 		else //チェックが外されたとき
 		{
@@ -99,7 +144,7 @@ if($('.a11yc_table_check')[0])
 				$show_items2 = $show_items2.add($(this));
 			});
 			$show_items2 = $pass_items[0] ? $show_items2 : $show_items;
-			$show_items2.closest('tr').removeClass('off');
+			$show_items2.closest('tr').removeClass('off').find(':input').prop("disabled", false);
 		}
 
 		//テーブルの表示調整
@@ -110,11 +155,10 @@ if($('.a11yc_table_check')[0])
 	
 	//table display
 	function a11yc_table_display(){
-	
 		//不要な項目を隠す
 		$('.a11yc form').find('.a11yc_section_guideline, .a11yc_table_check').each(function(){
 			var $t = !$(this).is('table') ? $(this) : $(this).closest('.a11yc_section_criterion');
-			if(!$(this).find('tr:not(.off)')[0]) //見えているものがない場合
+			if (!$(this).find('tr:not(.off)')[0]) //見えているものがない場合
 			{
 				$t.addClass('a11yc_dn');
 			}
@@ -125,19 +169,22 @@ if($('.a11yc_table_check')[0])
 		});
 
 		//表示されているtrのeven/odd
-		$('.a11yc_table_check').each(function(){
-			if(!$(this).find('tr:not(.off)')[0]) return;
-			$(this).find('tr:not(.off)').each(function(index){
-				$(this).removeClass('even odd');
-				if(index%2==0){
-					$(this).addClass('odd');
-				}
-				else
-				{
-					$(this).addClass('even');
-				}
+		if ($('.a11yc_hide_passed_item')[0])
+		{
+			$('.a11yc_table_check').each(function(){
+				if (!$(this).find('tr:not(.off)')[0]) return;
+				$(this).find('tr:not(.off)').each(function(index){
+					$(this).removeClass('even odd');
+					if (index%2==0){
+						$(this).addClass('odd');
+					}
+					else
+					{
+						$(this).addClass('even');
+					}
+				});
 			});
-		});
+		}
 	}
 
 	//count checkbox
@@ -161,7 +208,7 @@ if($('.a11yc_table_check')[0])
 					{
 						n = num_arr['l_'+$(this).data('a11ycRestLebel')];
 						subtotal = subtotal+n;
-						n_str = n == 0 ? '' : n;
+						n_str = n;
 						n_str = $(this).data('a11ycRestLebel').length > $current_level.length ? ' - ' : n_str;
 						$(this).text(n_str);
 					}
@@ -175,32 +222,20 @@ if($('.a11yc_table_check')[0])
 		});
 		$('#a11yc_rest_total').text(total);
 	}
-
-	// チェックした人の反映
 	var c_id = $('#a11yc_checks').data('a11ycCurrentUser');
 	$('#a11yc_checks :checkbox').on('click', function(){
 		var select = $(this).closest('tr').find('select');
 		if(c_id!=select.val()) select.val(c_id).a11yc_flash();
 	});
+	// チェックボックスクリック時の強調
 	$('#a11yc_checks :checkbox').on('click', function(){
 		$(this).closest('tr').a11yc_flash();
+		if (!$('.a11yc_hide_passed_item')[0] || $(window).scrollTop()==0) return;
+		var movement_distance = current_position - $(this).offset().top;
+		current_position = $(this).offset().top;
+		$('body').scrollTop($(window).scrollTop()-movement_distance);
+		console.log(movement_distance);
 	});
-}
-/* === fixed header === */
-if ($('#a11yc_header')[0])
-{
-	var a11yc_menu_h = $('#a11yc_menu ul').outerHeight();
-	$(window).on('scroll', function() {
-		if ($(this).scrollTop() > a11yc_menu_h) {
-			$a11yc_content.addClass('a11yc_fixed_header');
-			console.log();
-			$a11yc_content.css('paddingTop', $('#a11yc_header').outerHeight()+a11yc_menu_h+30+'px');//あとでヘッダの高さ等調整が利くようにする
-		} else {
-			$a11yc_content.removeClass('a11yc_fixed_header');
-			$a11yc_content.css('paddingTop', a11yc_menu_h+2);
-		}
-	});
-
 }
 
 
@@ -286,15 +321,12 @@ function a11yc_smooth_scroll($t) {
 	$(is_html_scrollable ? 'html' : 'body').animate({scrollTop: $t.offset().top-a11yc_headerheight-margin},500);
 }
 
-
-
 //一時的なハイライト
 $.fn.a11yc_flash = function(){
 	$(this).addClass('a11yc_flash');
 	setTimeout(function($obj){ $obj.removeClass('a11yc_flash') }, 150, $(this));
 	//消えるのもふわっとしたい
 }
-
 
 //thのクリックをチェックボックスに伝播
 $('#a11yc_checks th').on('click', function(e){

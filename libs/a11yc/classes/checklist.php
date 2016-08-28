@@ -162,6 +162,7 @@ class Checklist
 		View::assign('standards', Yaml::each('standards'));
 		$setup = Setup::fetch_setup();
 		View::assign('setup', $setup);
+		View::assign('checklist_behaviour', intval(@$setup['checklist_behaviour']));
 		View::assign('target_level', intval(@$setup['target_level']));
 		View::assign('page', static::fetch_page($url));
 		View::assign('errs', static::validate_page($url));

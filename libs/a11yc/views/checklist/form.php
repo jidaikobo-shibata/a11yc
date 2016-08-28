@@ -1,5 +1,4 @@
-<div id="a11yc_checks" data-a11yc-current-user="<?php echo $current_user_id ?>">
-
+<div id="a11yc_checks" data-a11yc-current-user="<?php echo $current_user_id ?>"<?php if($checklist_behaviour) echo ' class="a11yc_hide_passed_item"' ?>>
 <!-- header -->
 <div id="a11yc_header">
 	<div id="a11yc_header_left" class="a11yc_fl">
@@ -125,8 +124,9 @@
 		<?php
 		foreach ($yml['criterions'] as $kkk => $vvv):
 			if (substr($kkk, 0, 3) != $kk) continue;
+			$class_str = isset($vvvv['non-interference']) ? ' non_interference' : '';
 		?>
-			<div id="a11yc_c_<?php echo $kkk ?>" class="a11yc_section_criterion" data-a11yc-lebel="l_<?php echo strtolower($vvv['level']['name']) ?>">
+			<div id="a11yc_c_<?php echo $kkk ?>" class="a11yc_section_criterion<?php echo $class_str ?>" data-a11yc-lebel="l_<?php echo strtolower($vvv['level']['name']) ?>">
 			<h4 class="a11yc_header_criterion"><?php echo \A11yc\Util::key2code($vvv['code']).' '.$vvv['name'].' ('.$vvv['level']['name'].')' ?></h4>
 			<ul class="a11yc_outlink">
 			<?php if (isset($vvv['url_as'])):  ?>
@@ -139,8 +139,9 @@
 			<!-- checks -->
 			<table class="a11yc_table_check"><tbody>
 			<?php
+			$i = 0;
 			foreach ($yml['checks'][$kkk] as $code => $val):
-				$non_interference = isset($vvvv['non-interference']) ? ' class="non_interference" title="non interference"' : '';
+				$class_str = ++$i%2==0 ? ' class="even"' : ' class="odd"';
 				$passes = array();
 				if (isset($val['pass'])):
 					foreach ($val['pass'] as $pass_code => $pass_each):
@@ -158,7 +159,7 @@
 				endif;
 			?>
 
-				<tr<?php echo $non_interference ?>>
+				<tr<?php echo $class_str ?>>
 
 				<th>
 				<label for="<?php echo $code ?>"><input type="checkbox"<?php echo $checked ?> id="<?php echo $code ?>" name="chk[<?php echo $code ?>][on]" value="1" <?php echo $data ?> class="<?php echo $vvv['level']['name'] ?>" /><?php echo $val['name'] ?></label>
