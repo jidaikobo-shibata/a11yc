@@ -87,4 +87,8 @@
 	</tbody>
 </table>
 <h2><?php echo A11YC_LANG_SETUP_TITLE_ETC ?></h2>
+
+<?php
+	$checked = $setup['checklist_behaviour'] ? ' checked="checked"' : '';
+?>
 <label for="a11yc_checklist_behaviour"><input type="checkbox" name="checklist_behaviour" id="a11yc_checklist_behaviour" value="1"<?php echo $checked ?> /><?php echo A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR_DISAPPEAR ?></label>
