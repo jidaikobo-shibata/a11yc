@@ -32,4 +32,34 @@ class Util extends \Kontiki\Util
 	{
 		return str_replace('-', '.', $str);
 	}
+
+	/**
+	 * fetch html
+	 *
+	 * @param   string     $url
+	 * @return  string
+	 */
+	public static function fetch_html($url)
+	{
+		static $html = array();
+		if (isset($html[$url])) return $html[$url];
+		$html[$url] = strtolower(@file_get_contents($url));
+		return $html[$url];
+	}
+
+	/**
+	 * fetch page title
+	 *
+	 * @param   string     $url
+	 * @return  string
+	 */
+	public static function fetch_page_title($url)
+	{
+		static $title = array();
+		if (isset($title[$url])) return $title[$url];
+		$html = static::fetch_html($url);
+		preg_match("/<title.*?>(.+?)<\/title>/", $html, $m);
+		$title[$url] = isset($m[1]) ? $m[1] : '';
+		return $title[$url];
+	}
 }

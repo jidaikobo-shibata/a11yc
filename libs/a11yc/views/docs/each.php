@@ -13,7 +13,7 @@ if ($lines): ?>
 		<!-- relation -->
 <?php
 	if (isset($doc['relations'])):
-		$rels = Util::s($doc['relations']);
+		$rels = \A11yc\Util::s($doc['relations']);
 ?>
 		<h2><?php echo A11YC_LANG_RELATED ?></h2>
 		<ul>
@@ -21,7 +21,7 @@ if ($lines): ?>
 			foreach ($rels as $rel_criterion => $rel_codes):
 				foreach ($rel_codes as $rel_code):
 ?>
-				<li><a<?php echo A11YC_TARGET ?> href="<?php echo A11YC_DOC_URL.$rel_code ?>&amp;criterion=<?php echo \A11yc\Util::s($rel_criterion) ?>">>?php echo $yml['checks'][$rel_criterion][$rel_code]['name'] ?></a></li>
+				<li><a<?php echo A11YC_TARGET ?> href="<?php echo A11YC_DOC_URL.$rel_code ?>&amp;criterion=<?php echo \A11yc\Util::s($rel_criterion) ?>"><?php echo $yml['checks'][$rel_criterion][$rel_code]['name'] ?></a></li>
 			<?php
 				endforeach;
 			endforeach;

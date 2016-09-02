@@ -36,6 +36,7 @@ define('A11YC_LANG_CENTER_TITLE', 'センター');
 
 // pages
 define('A11YC_LANG_PAGES_TITLE', '対象ページ一覧');
+define('A11YC_LANG_PAGES_PAGETITLE', '対象ページのtitle');
 define('A11YC_LANG_PAGES_URLS', '対象ページのURL');
 define('A11YC_LANG_PAGES_URLS_ADD', 'URLを追加する');
 define('A11YC_LANG_PAGES_NOT_FOUND', '対象となるページが存在しません');

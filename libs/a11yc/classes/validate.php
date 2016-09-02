@@ -22,7 +22,7 @@ class Validate
 	{
 		static $retval = '';
 		if ($retval) return $retval;
-	
+
 		$retval = str_replace(array("\n", "\r"), ' ', $str);
 		$retval = strtolower($retval);
 
@@ -44,7 +44,7 @@ class Validate
 	{
 		$error_ids = array();
 		$str = static::ignore_elements($str);
-		
+
 		preg_match_all("/\<img ([^\>]+)\>/i", $str, $ms);
 		foreach ($ms[1] as $k => $m)
 		{
@@ -84,7 +84,7 @@ class Validate
 	 * is not here link
 	 *
 	 * @param   strings     $str
-	 * @return  void
+	 * @return  bool
 	 */
 	public static function is_not_here_link($str)
 	{
@@ -107,7 +107,7 @@ class Validate
 	 * is area has alt
 	 *
 	 * @param   strings     $str
-	 * @return  void
+	 * @return  bool
 	 */
 	public static function is_are_has_alt($str)
 	{
@@ -130,7 +130,7 @@ class Validate
 	 * is img input has alt
 	 *
 	 * @param   strings     $str
-	 * @return  void
+	 * @return  bool
 	 */
 	public static function is_img_input_has_alt($str)
 	{
@@ -152,10 +152,44 @@ class Validate
 	}
 
 	/**
+	 * appropriate heading descending
+	 *
+	 * @param   strings     $str
+	 * @return  bool
+	 */
+	public static function appropriate_heading_descending($str)
+	{
+		$error_ids = array();
+		$str = static::ignore_elements($str);
+
+		$secs = preg_split("/(<h\d)>(.+?)<\/h/", $str, -1, PREG_SPLIT_DELIM_CAPTURE);
+		$prev = 1;
+		foreach ($secs as $k => $v)
+		{
+			if (strlen($v) != 3) continue; // skip non heading
+			$current_level = intval($v[2]);
+			if ($current_level - $prev >= 2)
+			{
+				if (isset($secs[$k + 1]))
+				{
+					$error_ids[] = $secs[$k + 1];
+				}
+				else
+				{
+					$error_ids[] = $v;
+				}
+			}
+			$prev = $current_level;
+		}
+
+		return $error_ids ?: false;
+	}
+
+	/**
 	 * suspicious_elements
 	 *
 	 * @param   strings     $str
-	 * @return  void
+	 * @return  bool
 	 */
 	public static function suspicious_elements($str)
 	{
@@ -166,7 +200,7 @@ class Validate
 		preg_match_all("/\<([^\>| ]+)/i", $body_html, $tags);
 
 		// ignore elements
-		$ignores = array('img', 'br', 'hr', 'input', 'param', 'area', 'embed', '!doctype', 'meta', 'link', 'html', '/html', '![if', '![endif]');
+		$ignores = array('img', 'br', 'hr', 'input', 'param', 'area', 'embed', '!doctype', 'meta', 'link', 'html', '/html', '![if', '![endif]', '?xml', 'track', 'source');
 
 		// tag suspicious elements
 		$suspicious_opens = array();
@@ -185,13 +219,13 @@ class Validate
 				$suspicious_opens[] = $tag;
 			}
 		}
-		
+
 		$suspicious_ends_results = array_diff($suspicious_ends, $suspicious_opens);
 		$suspicious_opens_results = array_diff($suspicious_opens, $suspicious_ends);
-		
+
 		// add slash to end tags
 		$suspicious_ends_results = array_map(function($s){return '/'.$s;} , $suspicious_ends_results);
-		
+
 		// suspicious
 		$suspicious = array_merge(
 			$suspicious_ends_results,
