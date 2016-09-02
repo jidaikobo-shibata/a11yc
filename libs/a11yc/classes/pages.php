@@ -68,16 +68,16 @@ class Pages
 		switch ($list)
 		{
 			case 'yet':
-				$pages = Db::fetch_all('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `done` = 0 and `trash` = 0;');
+				$pages = Db::fetch_all('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `done` = 0 and `trash` = 0 ORDER BY `url` ASC;');
 				break;
 			case 'done':
-				$pages = Db::fetch_all('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `done` = 1 and `trash` = 0;');
+				$pages = Db::fetch_all('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `done` = 1 and `trash` = 0 ORDER BY `url` ASC;');
 				break;
 			case 'trash':
-				$pages = Db::fetch_all('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `trash` = 1;');
+				$pages = Db::fetch_all('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `trash` = 1 ORDER BY `url` ASC;');
 				break;
 			default:
-				$pages = Db::fetch_all('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `trash` = 0;');
+				$pages = Db::fetch_all('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `trash` = 0 ORDER BY `url` ASC;');
 				break;
 		}
 
