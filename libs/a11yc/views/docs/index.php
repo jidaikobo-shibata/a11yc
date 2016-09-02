@@ -7,6 +7,7 @@
 </ul>
 
 <!-- show technique index -->
+<?php /* ?>
 <div id="a11yc_header">
 	<!-- a11yc menu -->
 	<ul id="a11yc_menu_principles">
@@ -14,9 +15,8 @@
 		<li id="a11yc_menuitem_<?php echo $v['code'] ?>"><a href="#a11yc_header_p_<?php echo $v['code'] ?>"><?php echo $v['code'].' '.$v['name'] ?></a></li>
 	<?php endforeach;  ?>
 	</ul><!--/#a11yc_menu_principles-->
-
 </div><!--/#a11yc_header-->
-
+<?php */ ?>
 <?php foreach ($yml['principles'] as $k => $v): ?>
 
 	<!-- principles -->

@@ -1,6 +1,6 @@
 <h2><?php echo A11YC_LANG_SETUP_TITLE ?></h2>
 
-<table>
+<table class="a11yc_table">
 	<tbody>
 	<tr>
 		<th scope="row"><label for="a11yc_declare_date"><?php echo A11YC_LANG_DECLARE_DATE ?></label></th>
