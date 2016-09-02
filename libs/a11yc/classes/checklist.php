@@ -32,7 +32,7 @@ class Checklist
 	 */
 	public static function validate_page($url)
 	{
-		$content = @file_get_contents($url);
+		$content = Util::fetch_html($url);
 		$all_errs = array();
 
 		$codes = array(
@@ -157,6 +157,7 @@ class Checklist
 
 		// assign
 		View::assign('url', $url);
+		View::assign('target_title', Util::fetch_page_title($url));
 		View::assign('users', $users);
 		View::assign('current_user_id', $current_user_id);
 		View::assign('yml', Yaml::fetch(), false);

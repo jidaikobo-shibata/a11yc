@@ -32,7 +32,7 @@
 		<p id="a11yc_current_level"><?php echo A11YC_LANG_CURRENT_LEVEL ?>: <?php echo $current_level ?></p>
 
 		<!-- back to target page -->
-		<p id="a11yc_back_to_target_page"><?php echo A11YC_LANG_PAGES_URLS ?>:&nbsp;<a href="<?php echo urldecode($url) ?>"><?php echo urldecode($url) ?></a></p>
+		<p id="a11yc_back_to_target_page"><?php echo A11YC_LANG_PAGES_PAGETITLE ?>:&nbsp;<?php echo $target_title ?><br /><?php echo A11YC_LANG_PAGES_URLS ?>:&nbsp;<a href="<?php echo urldecode($url) ?>"><?php echo urldecode($url) ?></a></p>
 	<?php if ($errs):
 		// error
 	?>
