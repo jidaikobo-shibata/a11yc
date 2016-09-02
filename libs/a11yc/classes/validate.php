@@ -22,7 +22,7 @@ class Validate
 	{
 		static $retval = '';
 		if ($retval) return $retval;
-	
+
 		$retval = str_replace(array("\n", "\r"), ' ', $str);
 		$retval = strtolower($retval);
 
@@ -44,7 +44,7 @@ class Validate
 	{
 		$error_ids = array();
 		$str = static::ignore_elements($str);
-		
+
 		preg_match_all("/\<img ([^\>]+)\>/i", $str, $ms);
 		foreach ($ms[1] as $k => $m)
 		{
@@ -166,7 +166,7 @@ class Validate
 		preg_match_all("/\<([^\>| ]+)/i", $body_html, $tags);
 
 		// ignore elements
-		$ignores = array('img', 'br', 'hr', 'input', 'param', 'area', 'embed', '!doctype', 'meta', 'link', 'html', '/html', '![if', '![endif]');
+		$ignores = array('img', 'br', 'hr', 'input', 'param', 'area', 'embed', '!doctype', 'meta', 'link', 'html', '/html', '![if', '![endif]', '?xml');
 
 		// tag suspicious elements
 		$suspicious_opens = array();
@@ -185,13 +185,13 @@ class Validate
 				$suspicious_opens[] = $tag;
 			}
 		}
-		
+
 		$suspicious_ends_results = array_diff($suspicious_ends, $suspicious_opens);
 		$suspicious_opens_results = array_diff($suspicious_opens, $suspicious_ends);
-		
+
 		// add slash to end tags
 		$suspicious_ends_results = array_map(function($s){return '/'.$s;} , $suspicious_ends_results);
-		
+
 		// suspicious
 		$suspicious = array_merge(
 			$suspicious_ends_results,

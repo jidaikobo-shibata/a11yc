@@ -30,9 +30,9 @@
 		<p id="a11yc_target_level"><?php echo A11YC_LANG_TARGET_LEVEL ?>: <?php echo \A11yc\Util::num2str($target_level) ?>
 		<?php $current_level = $target_level ? \A11yc\Evaluate::result_str($page['level'], $target_level) : '-';  ?></p>
 		<p id="a11yc_current_level"><?php echo A11YC_LANG_CURRENT_LEVEL ?>: <?php echo $current_level ?></p>
-		
+
 		<!-- back to target page -->
-		<p id="a11yc_back_to_target_page"><?php echo A11YC_LANG_PAGES_URLS ?>:&nbsp;<a href="<?php echo s(urldecode($url)) ?>"><?php echo s(urldecode($url)) ?></a></p>
+		<p id="a11yc_back_to_target_page"><?php echo A11YC_LANG_PAGES_URLS ?>:&nbsp;<a href="<?php echo urldecode($url) ?>"><?php echo urldecode($url) ?></a></p>
 	<?php if ($errs):
 		// error
 	?>
@@ -52,7 +52,7 @@
 			<option value="2"><?php echo A11YC_LANG_BULK_UPDATE2 ?></option>
 			<option value="3"><?php echo A11YC_LANG_BULK_UPDATE3 ?></option>
 		</select></div>
-	
+
 		<div><label for="a11yc_update_done"><?php echo A11YC_LANG_BULK_DONE ?></label>
 		<select name="update_done" id="a11yc_update_done">
 			<option value="1"><?php echo A11YC_LANG_BULK_DONE1 ?></option>
@@ -61,9 +61,9 @@
 		</select></div>
 	<?php endif;  ?>
 	</div><!-- /#a11yc_header_left -->
-	
-	
-	
+
+
+
 	<div id="a11yc_header_right" class="a11yc_fr">
 		<?php
 			// is done
@@ -99,7 +99,7 @@
 		</table>
 		</div>
 	</div><!-- /#a11yc_header_right -->
-	
+
 		<!-- a11yc menu -->
 	<ul id="a11yc_menu_principles">
 	<?php foreach ($yml['principles'] as $v):  ?>

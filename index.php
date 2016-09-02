@@ -46,7 +46,7 @@ if ($is_logged_in && $mode == 'logout')
 }
 
 // urls for checklist
-$url = isset($_GET['url']) ? \A11yc\Util::s($_GET['url']) : '';
+$url = isset($_GET['url']) ? $_GET['url'] : '';
 
 // assign
 if ( ! $is_logged_in)
