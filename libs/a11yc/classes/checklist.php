@@ -42,6 +42,7 @@ class Checklist
 			'is_img_input_has_alt',
 			'is_are_has_alt',
 			'suspicious_elements',
+			'appropriate_heading_descending',
 		);
 
 		foreach ($codes as $code)
