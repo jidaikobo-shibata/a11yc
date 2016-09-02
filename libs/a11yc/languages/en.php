@@ -16,6 +16,7 @@ define('A11YC_LANG_TEST_RESUST', 'Test result');
 define('A11YC_LANG_CURRENT_LEVEL', 'Current Level');
 define('A11YC_LANG_CURRENT_LEVEL_WEBPAGES', 'Level that has been achieved at the site');
 define('A11YC_LANG_NUM_OF_CHECKED', 'Number of checked pages');
+define('A11YC_LANG_CHECKED_PAGES', 'Target pages');
 define('A11YC_LANG_UNPASSED_PAGES', 'Page less than the achievement grade as a target');
 define('A11YC_LANG_UNPASSED_PAGES_NO', 'All checked page meet success criteria to target');
 define('A11YC_LANG_RELATED', 'Related');

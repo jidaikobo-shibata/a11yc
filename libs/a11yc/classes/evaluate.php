@@ -255,6 +255,16 @@ class Evaluate
 	}
 
 	/**
+	 * pages of passed
+	 *
+	 * @return  array
+	 */
+	public static function passed_pages($target_level)
+	{
+		return Db::fetch_all('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `level` >= '.$target_level.' and `done` = 1 and `trash` = 0;');
+	}
+
+	/**
 	 * pages of unpassed
 	 *
 	 * @return  array

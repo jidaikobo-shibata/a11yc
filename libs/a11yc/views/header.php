@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="<?php echo A11YC_LANG ?>">
 <head>
 	<meta charset="utf-8">
 	<title><?php echo $title ?> - A11YC</title>

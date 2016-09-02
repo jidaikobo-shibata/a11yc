@@ -16,6 +16,7 @@ define('A11YC_LANG_TEST_RESUST', '試験結果');
 define('A11YC_LANG_CURRENT_LEVEL', '達成しているレベル');
 define('A11YC_LANG_CURRENT_LEVEL_WEBPAGES', 'サイトで達成しているレベル');
 define('A11YC_LANG_NUM_OF_CHECKED', 'チェック済みのページ数');
+define('A11YC_LANG_CHECKED_PAGES', 'チェック対象のページ');
 define('A11YC_LANG_UNPASSED_PAGES', '目標とする達成等級に満たないページ');
 define('A11YC_LANG_UNPASSED_PAGES_NO', 'すべてのチェック済みページが目標とする達成基準を満たしています');
 define('A11YC_LANG_RELATED', '関連項目');

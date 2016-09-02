@@ -3,16 +3,16 @@
 <tbody>
 	<tr>
 		<th><!-- target level --><?php echo A11YC_LANG_TARGET_LEVEL ?></th>
-		<td><p><?php echo \A11YC\Util::num2str($target_level) ?></p></td>
+		<td><?php echo \A11YC\Util::num2str($target_level) ?></td>
 	</tr>
 	<tr>
 		<th><!-- current level --><?php echo A11YC_LANG_CURRENT_LEVEL_WEBPAGES ?></th>
-		<td><p>
+		<td>
 <?php
 $site_level = \A11YC\Evaluate::check_site_level();
 echo \A11YC\Evaluate::result_str($site_level, $target_level);
 ?>
-		</p></td>
+		</td>
 	</tr>
 	<tr>
 		<th><!-- selected method --><?php echo A11YC_LANG_CANDIDATES0 ?></th>
@@ -24,32 +24,33 @@ $arr = array(
   A11YC_LANG_CANDIDATES4,
 );
 ?>
-		<td><p><?php echo $arr[$selected_method] ?></p></td>
+		<td><?php echo $arr[$selected_method] ?></td>
 	</tr>
 	<tr>
 		<th><!-- number of checked --><?php echo A11YC_LANG_NUM_OF_CHECKED ?></th>
-		<td><p><?php echo $done['done'].' / '.$total['total'] ?></p></td>
+		<td><?php echo $done['done'].' / '.$total['total'] ?></td>
 	</tr>
 	<tr>
 		<th><!-- unpassed pages --><?php echo A11YC_LANG_UNPASSED_PAGES ?></th>
 		<td>
+			<?php
+			if ($unpassed_pages):
+			?>
 			<ul>
-<?php
-$unpassed_pages = \A11yc\Evaluate::unpassed_pages($target_level);
-if ($unpassed_pages):
-?>
-<?php
-foreach ($unpassed_pages as $v):
-$url = s($v['url']);
-?>
+			<?php
+			foreach ($unpassed_pages as $v):
+				$url = s($v['url']);
+			?>
 				<li>
 					<a href="<?php echo $url ?>"<?php echo A11YC_TARGET ?>><?php echo $url ?></a>
 					(<a href="<?php echo A11YC_CHECKLIST_URL.$url ?>"<?php echo A11YC_TARGET ?>>check</a>)
 				</li>
-<?php endforeach; ?>
+			<?php endforeach; ?>
 			</ul>
-<?php else: ?>
-			<p><?php echo A11YC_LANG_UNPASSED_PAGES_NO ?></p>
+			<?php elseif (count($passed_pages) >= 1): ?>
+			<?php echo A11YC_LANG_UNPASSED_PAGES_NO ?>
+			<?php else: ?>
+			<?php echo '-' ?>
 <?php endif; ?>
 		</td>
 	</tr>
