@@ -29,11 +29,11 @@ require (A11YC_PATH.'/main.php');
 if (isset($_GET['url']))
 {
   $url = $_GET['url'];
-	\A11yc\View::assign('report_title', A11YC_LANG_TEST_RESUST.': '.\A11yc\Util::fetch_page_title($url));
+	\A11yc\View::assign('report_title', A11YC_LANG_TEST_RESULT.': '.\A11yc\Util::fetch_page_title($url));
 	\A11yc\Center::each($url);
 }
 else
 {
-	\A11yc\View::assign('report_title', A11YC_LANG_TEST_RESUST);
+	\A11yc\View::assign('report_title', A11YC_LANG_TEST_RESULT);
 	\A11yc\Center::index();
 }

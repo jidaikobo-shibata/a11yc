@@ -12,7 +12,7 @@ define('A11YC_LANG_EXIST_NON', '適用なし');
 define('A11YC_LANG_PASS', '適合');
 define('A11YC_LANG_CRITERION', '達成基準');
 define('A11YC_LANG_HERE', 'こちら');
-define('A11YC_LANG_TEST_RESUST', '試験結果');
+define('A11YC_LANG_TEST_RESULT', '試験結果');
 define('A11YC_LANG_CURRENT_LEVEL', '達成しているレベル');
 define('A11YC_LANG_CURRENT_LEVEL_WEBPAGES', 'サイトで達成しているレベル');
 define('A11YC_LANG_NUM_OF_CHECKED', 'チェック済みのページ数');

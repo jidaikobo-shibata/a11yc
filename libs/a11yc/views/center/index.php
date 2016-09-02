@@ -1,4 +1,4 @@
-<h2><?php echo A11YC_LANG_TEST_RESUST ?></h2>
+<h2><?php echo A11YC_LANG_TEST_RESULT ?></h2>
 <table class="a11yc_table">
 <tbody>
 	<tr>
