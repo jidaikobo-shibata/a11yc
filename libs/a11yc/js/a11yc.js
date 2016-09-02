@@ -16,13 +16,13 @@ jQuery(function($){
 
 	$a11yc_content = $('.a11yc').eq(0);
 	menu_height = $('#a11yc_menu ul').outerHeight();
-	header_height = $('#a11yc_header').outerHeight();
-	pagemenu_top = $('#a11yc_menu_principles').offset().top-menu_height;
+	header_height = $('#a11yc_header')[0] ? $('#a11yc_header').outerHeight() : 0;
+	pagemenu_top = $('#a11yc_menu_principles')[0] ? $('#a11yc_menu_principles').offset().top-menu_height : 0;
 // resize
 $(window).on('resize', function(){
 	menu_height = $('#a11yc_menu ul').outerHeight();
 	header_height = $('#a11yc_header').outerHeight();
-	pagemenu_top = $('#a11yc_menu_principles').offset().top-menu_height;
+	pagemenu_top = pagemenu_top>0 ? $('#a11yc_menu_principles').offset().top-menu_height : pagemenu_top;
 	a11yc_fixed_header();
 });
 
@@ -192,7 +192,6 @@ if($('.a11yc_table_check')[0])
 
 	//count checkbox
 	function a11yc_count_checkbox(){
-	//見えているチェックボックスのうち、ちぇっくされていないもの
 		num = $('.a11yc tr:visible input:not(:checked)').length;
 		$info.find('thead td').text(num);
 		var n = 0, subtotal = 0, total = 0; n_str = '', num_arr = [];

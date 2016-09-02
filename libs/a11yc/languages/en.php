@@ -38,7 +38,10 @@ define('A11YC_LANG_PAGES_PAGETITLE', 'Target Page\'s title');
 define('A11YC_LANG_PAGES_URLS', 'Target Page\'s URL');
 define('A11YC_LANG_PAGES_URLS_ADD', 'Add URL');
 define('A11YC_LANG_PAGES_NOT_FOUND', 'No pages to check found');
+define('A11YC_LANG_PAGES_DONE', 'Done');
 define('A11YC_LANG_PAGES_CHECK', 'Check');
+define('A11YC_LANG_PAGES_DELETE', 'Delete');
+define('A11YC_LANG_PAGES_UNDELETE', 'Undelete');
 
 // setup
 define('A11YC_LANG_SETUP_TITLE', 'Setup');

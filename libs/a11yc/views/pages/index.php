@@ -19,8 +19,8 @@
 	<th>URL</th>
 	<th class="a11yc_result"><?php echo A11YC_LANG_LEVEL ?></th>
 	<th class="a11yc_result"><?php echo A11YC_LANG_CHECKLIST_DONE ?></th>
-	<th class="a11yc_result">Check</th>
-	<th class="a11yc_result">Delete</th>
+	<th class="a11yc_result"><?php echo A11YC_LANG_PAGES_CHECK ?></th>
+	<th class="a11yc_result"><?php echo A11YC_LANG_PAGES_DELETE ?></th>
 	</thead>
 	<tbody>
 	<?php
@@ -32,13 +32,13 @@
 	<tr<?php echo $class_str ?>>
 		<th><?php echo $url ?></th>
 		<td class="a11yc_result"><?php echo \A11yc\Util::num2str($page['level']) ?></td>
-		<?php $done = @$page['done'] == 1 ? 'Done' : '' ; ?>
+		<?php $done = @$page['done'] == 1 ? A11YC_LANG_PAGES_DONE : '' ; ?>
 		<td class="a11yc_result"><?php echo $done ?></td>
-		<td class="a11yc_result"><a href="<?php echo A11YC_CHECKLIST_URL.urlencode($url) ?>">Check</a></td>
+		<td class="a11yc_result"><a href="<?php echo A11YC_CHECKLIST_URL.urlencode($url) ?>"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_CHECK ?></span><span class="a11yc_icon_check" role="presentation" aria-hidden="true"></span></a></td>
 		<?php if ($list == 'trash'): ?>
-			<td class="a11yc_result"><a href="<?php echo A11YC_PAGES_URL ?>&amp;undel=1&amp;url=<?php echo urlencode($url) ?>">Undelete</a></td>
+			<td class="a11yc_result"><a href="<?php echo A11YC_PAGES_URL ?>&amp;undel=1&amp;url=<?php echo urlencode($url) ?>"><?php echo A11YC_LANG_PAGES_UNDELETE ?></a></td>
 		<?php else: ?>
-			<td class="a11yc_result"><a href="<?php echo A11YC_PAGES_URL ?>&amp;del=1&amp;url=<?php echo urlencode($url) ?>">Delete</a></td>
+			<td class="a11yc_result"><a href="<?php echo A11YC_PAGES_URL ?>&amp;del=1&amp;url=<?php echo urlencode($url) ?>"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_DELETE ?></span><span class="a11yc_icon_delete" role="presentation" aria-hidden="true"></span></a></td>
 		<?php endif; ?>
 	</tr>
 	<?php endforeach; ?>
