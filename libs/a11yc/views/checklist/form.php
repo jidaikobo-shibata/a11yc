@@ -8,7 +8,7 @@
 		<select name="standard" id="a11yc_standard">
 		<?php
 		foreach ($standards['standards'] as $k => $v):
-			$selected = $k == $page['standard'] ? ' selected="selected"' : '';
+			$selected = $k == @$page['standard'] ? ' selected="selected"' : '';
 		?>
 			<option<?php echo $selected ?> value="<?php echo $k ?>"><?php echo $v ?></option>
 		<?php endforeach;  ?>
@@ -28,7 +28,7 @@
 	<?php if ($url != 'bulk'):  ?>
 		<!-- level -->
 		<p id="a11yc_target_level"><?php echo A11YC_LANG_TARGET_LEVEL ?>: <?php echo \A11yc\Util::num2str($target_level) ?>
-		<?php $current_level = $target_level ? \A11yc\Evaluate::result_str($page['level'], $target_level) : '-';  ?></p>
+		<?php $current_level = $target_level ? \A11yc\Evaluate::result_str(@$page['level'], $target_level) : '-';  ?></p>
 		<p id="a11yc_current_level"><?php echo A11YC_LANG_CURRENT_LEVEL ?>: <?php echo $current_level ?></p>
 
 		<!-- back to target page -->
