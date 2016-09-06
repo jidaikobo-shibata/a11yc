@@ -283,6 +283,9 @@ tr.a11yc_flash {
 #a11yc_header p {
 	margin: .3em 0;
 }
+p#a11yc_narrow_level {
+	margin-top: 0;
+}
 #a11yc_header #a11yc_update_all,
 #a11yc_header #a11yc_update_done {
 	width: 22em;

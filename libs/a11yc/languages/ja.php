@@ -53,7 +53,7 @@ define('A11YC_LANG_PAGES_UNDELETE', '復活');
 define('A11YC_LANG_SETUP_TITLE', '設定');
 define('A11YC_LANG_SETUP_TITLE_ETC', 'その他の設定');
 define('A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR', 'チェックリストの振る舞い');
-define('A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR_DISAPPEAR', 'チェック時にパスした項目は消える');
+define('A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR_DISAPPEAR', 'チェック時にパスした項目は表示しない');
 define('A11YC_LANG_SETUP_SUBMIT', '送信');
 
 define('A11YC_LANG_DECLARE_DATE', '表明日');

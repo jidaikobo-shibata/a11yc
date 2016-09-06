@@ -1,5 +1,3 @@
-<h1><?php echo $title ?></h1>
-
 <?php if (isset($_POST['username'])):  ?>
   <p><strong><?php echo A11YC_LANG_LOGIN_ERROR0 ?></strong></p>
 <?php endif; ?>
