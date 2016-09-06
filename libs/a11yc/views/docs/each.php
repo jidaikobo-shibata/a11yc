@@ -1,4 +1,6 @@
 <?php
+if(isset($doc['name'])) echo '<h2>'.sprintf(A11YC_LANG_DOCS_EACH_SUBTITLE, $doc['name']).'</h2>';
+
 $lines = isset($doc['tech']) ? explode("\n", stripslashes($doc['tech'])) : false;
 if ($lines): ?>
 	<ul>

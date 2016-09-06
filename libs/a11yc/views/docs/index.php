@@ -1,4 +1,3 @@
-<h1><?php echo A11YC_LANG_DOCS_TITLE ?></h1>
 <h2><?php echo A11YC_LANG_DOCS_TEST ?></h2>
 <ul>
 <?php foreach ($test['tests'] as $code => $v): ?>

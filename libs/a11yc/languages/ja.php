@@ -23,6 +23,9 @@ define('A11YC_LANG_RELATED', '関連項目');
 define('A11YC_LANG_AS', 'アクセシビリティ・サポーテッド');
 define('A11YC_LANG_UNDERSTANDING', '解説');
 define('A11YC_LANG_NO_DOC', 'ドキュメントが存在しません');
+define('A11YC_LANG_JUMP_TO_CONTENT', '本文へ移動');
+define('A11YC_LANG_BEGINNING_OF_THE_CONTENT', 'ここから本文です');
+
 
 // login
 define('A11YC_LANG_LOGIN_TITLE', 'A11YC ログイン');
@@ -72,6 +75,7 @@ define('A11YC_LANG_CANDIDATES3', 'ウェブページ一式を代表するウェ�
 define('A11YC_LANG_CANDIDATES4', 'ウェブページ一式を代表するウェブページとランダムに選択したウェブページとを合わせて選択');
 
 // checklist
+define('A11YC_LANG_CHECKLIST_TARGETPAGE', '対象ページ');
 define('A11YC_LANG_CHECKLIST_NOT_FOUND_ERR', '自動チェックではエラーが見つかりませんでした');
 define('A11YC_LANG_CHECKLIST_TITLE', 'チェックリスト');
 define('A11YC_LANG_CHECKLIST_DONE', 'チェック終了');
@@ -94,4 +98,6 @@ define('A11YC_LANG_BULK_DONE3', '既存のページをすべて未チェック�
 
 // documents
 define('A11YC_LANG_DOCS_TITLE', '参考資料');
+define('A11YC_LANG_DOCS_EACH_TITLE', '参考資料');
+define('A11YC_LANG_DOCS_EACH_SUBTITLE', '「%s」の howto');
 define('A11YC_LANG_DOCS_TEST', '試験方法について');

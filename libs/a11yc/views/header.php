@@ -25,6 +25,7 @@
 <div id="<?php echo 'a11yc_'.$mode ?>" class="a11yc">
 <nav id="a11yc_menu">
 <?php if ($mode != 'login'): ?>
+<a href="#a11yc_content" class="a11yc_skip a11yc_show_if_focus"><?php echo A11YC_LANG_JUMP_TO_CONTENT ?></a>
 <ul>
 	<li class="a11yc_menu_item a11yc_center"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><a href="?mode=center"><?php echo A11YC_LANG_CENTER_TITLE ?></a></li>
 	<li class="a11yc_menu_item a11yc_setup"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><a href="?mode=setup"><?php echo A11YC_LANG_SETUP_TITLE ?></a></li>
@@ -36,3 +37,5 @@
 </ul>
 <?php endif; ?>
 </nav>
+<a href="javascript:void(0);" id="a11yc_content" class="a11yc_skip a11yc_show_if_focus"><?php echo A11YC_LANG_BEGINNING_OF_THE_CONTENT ?></a>
+<h1><?php echo constant('A11YC_LANG_'.strtoupper($mode).'_TITLE')?></h1>

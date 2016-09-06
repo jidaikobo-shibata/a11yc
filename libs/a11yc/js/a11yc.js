@@ -236,9 +236,12 @@ if($('.a11yc_table_check')[0])
 		var movement_distance = current_position - $(this).offset().top;
 		current_position = $(this).offset().top;
 		$('body').scrollTop($(window).scrollTop()-movement_distance);
-		console.log(movement_distance);
 	});
 }
+// パスした項目の表示・非表示
+$('#a11yc_checklist_behaviour').on('click',function(){
+	if($('#a11yc_checks')[0]) $('#a11yc_checks').toggleClass('a11yc_hide_passed_item');
+});
 
 
 /* === bulk === */

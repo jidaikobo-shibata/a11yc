@@ -54,7 +54,7 @@
 	<tr>
 		<th scope="row"><label for="a11yc_test_period"><?php echo A11YC_LANG_TEST_PERIOD ?></label></th>
 		<td>
-			<input type="text" name="test_period" id="a11yc_test_period" size="20" value="<?php echo s(@$setup['test_period']) ?>">
+			<input type="text" name="test_period" id="a11yc_test_period" size="30" value="<?php echo s(@$setup['test_period']) ?>">
 		</td>
 	</tr>
 	<tr>

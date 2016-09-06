@@ -23,6 +23,9 @@ define('A11YC_LANG_RELATED', 'Related');
 define('A11YC_LANG_AS', 'Accessibility Supported');
 define('A11YC_LANG_UNDERSTANDING', 'Understanding WCAG2.0');
 define('A11YC_LANG_NO_DOC', 'There is no document');
+define('A11YC_LANG_JUMP_TO_CONTENT', 'Jump to content');
+define('A11YC_LANG_BEGINNING_OF_THE_CONTENT', '');
+
 
 // login
 define('A11YC_LANG_LOGIN_TITLE', 'A11YC Login');
@@ -31,6 +34,9 @@ define('A11YC_LANG_LOGIN_PASWWORD', 'Password');
 define('A11YC_LANG_LOGIN_BTN', 'Login');
 define('A11YC_LANG_LOGIN_ERROR0', 'Login was failed');
 define('A11YC_LANG_LOGOUT', 'Logout');
+
+// center
+define('A11YC_LANG_CENTER_TITLE', 'Center');
 
 // pages
 define('A11YC_LANG_PAGES_TITLE', 'Target Pages');
@@ -69,6 +75,7 @@ define('A11YC_LANG_CANDIDATES3', 'Select a web page to represent the set of web 
 define('A11YC_LANG_CANDIDATES4', 'Selected in accordance with a web page that you selected in web pages and random to represent the set of web pages');
 
 // checklist
+define('A11YC_LANG_CHECKLIST_TARGETPAGE', 'Target Page');
 define('A11YC_LANG_CHECKLIST_NOT_FOUND_ERR', 'Could not find an error in the automatic check');
 define('A11YC_LANG_CHECKLIST_TITLE', 'Checklist');
 define('A11YC_LANG_CHECKLIST_DONE', 'Done');
@@ -91,4 +98,6 @@ define('A11YC_LANG_BULK_DONE3', 'To un-check all of the existing page');
 
 // documents
 define('A11YC_LANG_DOCS_TITLE', 'Documents');
+define('A11YC_LANG_EACTH_DOCS_TITLE', 'Documents');
+define('A11YC_LANG_DOCS_EACH_SUBTITLE', 'How to "%s"');
 define('A11YC_LANG_DOCS_TEST', 'About Testing');

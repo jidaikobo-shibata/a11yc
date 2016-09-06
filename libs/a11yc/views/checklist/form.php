@@ -14,25 +14,14 @@
 		<?php endforeach;  ?>
 		</select></p>
 	<?php endif; ?>
-		<!-- narrow level -->
-		<p id="a11yc_narrow_level" class="a11yc_hide_if_no_js">Level:
-		<?php
-			for ($i=1; $i<=3; $i++)
-			{
-				$class_str = $i == $target_level ? ' class="current"' : '';
-				echo '<a role="button" tabindex="0" data-narrow-level="'.implode(',', array_slice(array('l_a', 'l_aa', 'l_aaa'), 0, $i)).'"'.$class_str.'>'.str_repeat('A', $i).'</a>';
-			}
-		?>
-		</p>
 		<!-- not for bulk -->
 	<?php if ($url != 'bulk'):  ?>
 		<!-- level -->
 		<p id="a11yc_target_level"><?php echo A11YC_LANG_TARGET_LEVEL ?>: <?php echo \A11yc\Util::num2str($target_level) ?>
 		<?php $current_level = $target_level ? \A11yc\Evaluate::result_str(@$page['level'], $target_level) : '-';  ?></p>
 		<p id="a11yc_current_level"><?php echo A11YC_LANG_CURRENT_LEVEL ?>: <?php echo $current_level ?></p>
-
-		<!-- back to target page -->
-		<p id="a11yc_back_to_target_page"><?php echo A11YC_LANG_PAGES_PAGETITLE ?>:&nbsp;<?php echo $target_title ?><br /><?php echo A11YC_LANG_PAGES_URLS ?>:&nbsp;<a href="<?php echo urldecode($url) ?>"><?php echo urldecode($url) ?></a></p>
+		<!-- target page -->
+		<p id="a11yc_back_to_target_page"><?php echo A11YC_LANG_CHECKLIST_TARGETPAGE ?>:&nbsp;<?php echo $target_title ?><br><?php echo A11YC_LANG_PAGES_URLS ?>:&nbsp;<a href="<?php echo urldecode($url) ?>"><?php echo urldecode($url) ?></a></p>
 	<?php if ($errs):
 		// error
 	?>
@@ -62,17 +51,25 @@
 	<?php endif;  ?>
 	</div><!-- /#a11yc_header_left -->
 
-
-
 	<div id="a11yc_header_right" class="a11yc_fr">
+	<!-- narrow level -->
+		<p id="a11yc_narrow_level" class="a11yc_hide_if_no_js">Level:
 		<?php
+			for ($i=1; $i<=3; $i++)
+			{
+				$class_str = $i == $target_level ? ' class="current"' : '';
+				echo '<a role="button" tabindex="0" data-narrow-level="'.implode(',', array_slice(array('l_a', 'l_aa', 'l_aaa'), 0, $i)).'"'.$class_str.'>'.str_repeat('A', $i).'</a>';
+			}
+		?>
+		</p>
+		<?php /*
 			// is done
 			if ($url != 'bulk'):
 			$checked = @$page['done'] ? ' checked="checked"' : '';
 		?>
 		<!-- is done -->
 		<p id="a11yc_check_done"><label for="a11yc_done"><?php echo A11YC_LANG_CHECKLIST_DONE ?>: <input type="checkbox" name="done" id="a11yc_done" value="1"<?php echo $checked ?> /></label></p>
-		<?php endif; ?>
+		<?php endif; */?>
 		<!-- rest of num -->
 		<p><a role="button" class="a11yc_disclosure"><?php echo A11YC_LANG_CHECKLIST_RESTOFNUM ?>&nbsp;:&nbsp;<span id="a11yc_rest_total">&nbsp;-&nbsp;</span></a></p>
 		<div class="a11yc_disclosure_target show a11yc_hide_if_fixedheader">
@@ -98,6 +95,11 @@
 			</tbody>
 		</table>
 		</div>
+		<?php /*
+			$checked = $setup['checklist_behaviour'] ? ' checked="checked"' : '';
+		?>
+		<label for="a11yc_checklist_behaviour" class="a11yc_label_switch"><span role="presentation" aria-hidden="true"></span><input type="checkbox" name="checklist_behaviour" id="a11yc_checklist_behaviour" value=""<?php echo $checked ?> class="" /><?php echo A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR_DISAPPEAR ?></label>
+		<?php */ ?>
 	</div><!-- /#a11yc_header_right -->
 
 		<!-- a11yc menu -->
@@ -162,15 +164,15 @@
 				<tr<?php echo $class_str ?>>
 
 				<th>
-				<label for="<?php echo $code ?>"><input type="checkbox"<?php echo $checked ?> id="<?php echo $code ?>" name="chk[<?php echo $code ?>][on]" value="1" <?php echo $data ?> class="<?php echo $vvv['level']['name'] ?>" /><?php echo $val['name'] ?></label>
+				<label for="<?php echo $code ?>"><input type="checkbox"<?php echo $checked ?> id="<?php echo $code ?>" name="chk[<?php echo $code ?>][on]" value="1" <?php echo $data ?> class="<?php echo $vvv['level']['name'] ?> a11yc_skip" /><span class="a11yc_icon_fa a11yc_icon_checkbox" role="presentation" aria-hidden="true"></span><?php echo $val['name'] ?></label>
 				</th>
 
-				<td style="white-space: nowrap;width:5em;">
+				<td class="a11yc_table_check_memo">
 				<?php $memo = isset($cs[$code]['memo']) ? $cs[$code]['memo'] : @$bulk[$code]['memo'] ;  ?>
 				<textarea name="chk[<?php echo $code ?>][memo]"><?php echo $memo ?></textarea>
 				</td>
 
-				<td style="white-space: nowrap;width:5em;">
+				<td class="a11yc_table_check_user">
 				<select name="chk[<?php echo $code ?>][uid]">
 				<?php
 				foreach ($users as $uid => $name):
@@ -186,8 +188,8 @@
 				<?php endforeach;  ?>
 				</select>
 				</td>
-				<td style="white-space: nowrap;width:5em;">
-				<a<?php echo A11YC_TARGET ?> href="<?php echo A11YC_DOC_URL.$code ?>&amp;criterion=<?php echo $kkk ?>">how to</a>
+				<td class="a11yc_table_check_howto">
+				<a<?php echo A11YC_TARGET ?> href="<?php echo A11YC_DOC_URL.$code ?>&amp;criterion=<?php echo $kkk ?>" title="how to" class="a11yc_link_howto"><span role="presentation" aria-hidden="true" class="a11yc_icon_fa a11yc_icon_howto"></span><span class="a11yc_skip">how to</span></a>
 				</td>
 				</tr>
 			<?php endforeach;  ?>

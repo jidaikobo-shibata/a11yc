@@ -5,6 +5,14 @@
 <?php endif; ?>
 <?php echo $form ?>
 	<div id="a11y_submit">
+<?php
+	// is done
+	if ($url != 'bulk'):
+	$checked = @$page['done'] ? ' checked="checked"' : '';
+?>
+	<!-- is done -->
+	<label for="a11yc_done"><input type="checkbox" name="done" id="a11yc_done" value="1"<?php echo $checked ?> /><?php echo A11YC_LANG_CHECKLIST_DONE ?></label>
+<?php endif; ?>
 		<input type="submit" value="<?php echo A11YC_LANG_SETUP_SUBMIT ?>" />
 	</div>
 </form>
