@@ -2,6 +2,8 @@ jQuery(function($){
 	var $a11yc_content = $(),
 			menu_height = 0,
 			header_height = 0,
+			$pagemenu = $(),
+			$pagemenu_count =$(),
 			pagemenu_top = 0,
 			current_position = 0,
 			current_distance = 0,
@@ -17,12 +19,22 @@ jQuery(function($){
 	$a11yc_content = $('.a11yc').eq(0);
 	menu_height = $('#a11yc_menu ul').outerHeight();
 	header_height = $('#a11yc_header')[0] ? $('#a11yc_header').outerHeight() : 0;
-	pagemenu_top = $('#a11yc_menu_principles')[0] ? $('#a11yc_menu_principles').offset().top - menu_height : 0;
+	$pagemenu = $('#a11yc_menu_principles')[0] ? $('#a11yc_menu_principles') : $pagemenu;
+	pagemenu_top = $pagemenu[0] ? $pagemenu.offset().top - menu_height : 0;
+
+	if($pagemenu[0])
+		{
+			$pagemenu.find('a').each(function(index){
+				var $obj = $('<span></span>').appendTo(this);
+				$pagemenu_count = $pagemenu_count.add($obj);
+			});
+		}
+
 // resize
 $(window).on('resize', function(){
 	menu_height = $('#a11yc_menu ul').outerHeight();
 	header_height = $('#a11yc_header').outerHeight();
-	pagemenu_top = pagemenu_top>0 ? $('#a11yc_menu_principles').offset().top - menu_height : pagemenu_top;
+	pagemenu_top = pagemenu_top>0 ? $pagemenu.offset().top - menu_height : pagemenu_top;
 	pagemenu_top = $('.a11yc_fixed_header')[0] ? pagemenu_top - $(window).scrollTop() : pagemenu_top;
 	a11yc_fixed_header();
 });
@@ -191,6 +203,7 @@ if($('.a11yc_table_check')[0])
 		}
 	}
 
+
 	//count checkbox
 	function a11yc_count_checkbox(){
 		num = $('.a11yc tr:visible input:not(:checked)').length;
@@ -218,6 +231,7 @@ if($('.a11yc_table_check')[0])
 					else
 					{
 						$(this).text(subtotal);
+						$pagemenu_count.eq($('.a11yc_rest_subtotal').index(this)).text('('+subtotal+')');
 					}
 				});
 				total = total+subtotal;

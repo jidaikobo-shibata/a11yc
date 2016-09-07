@@ -71,8 +71,8 @@
 		<p id="a11yc_check_done"><label for="a11yc_done"><?php echo A11YC_LANG_CHECKLIST_DONE ?>: <input type="checkbox" name="done" id="a11yc_done" value="1"<?php echo $checked ?> /></label></p>
 		<?php endif; */?>
 		<!-- rest of num -->
-		<p><a role="button" class="a11yc_disclosure"><?php echo A11YC_LANG_CHECKLIST_RESTOFNUM ?>&nbsp;:&nbsp;<span id="a11yc_rest_total">&nbsp;-&nbsp;</span></a></p>
-		<div class="a11yc_disclosure_target show a11yc_hide_if_fixedheader">
+		<p class="a11yc_hide_if_no_js"><a role="button" class="a11yc_disclosure"><?php echo A11YC_LANG_CHECKLIST_RESTOFNUM ?>&nbsp;:&nbsp;<span id="a11yc_rest_total">&nbsp;-&nbsp;</span></a></p>
+		<div class="a11yc_disclosure_target show a11yc_hide_if_fixedheader a11yc_hide_if_no_js">
 		<table id="a11yc_rest">
 			<thead>
 				<tr>

@@ -632,6 +632,10 @@ td.a11yc_table_check_howto {
 .a11yc_link_howto {
 	text-decoration: none;
 }
+.a11yc_link_howto:hover span:before,
+.a11yc_link_howto:focus span:before {
+	color: #666;
+}
 .a11yc_icon_howto:before {
 	content: "\f29c";
 	color: #000;
