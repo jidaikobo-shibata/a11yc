@@ -17,11 +17,13 @@ jQuery(function($){
 			$show_items2 = $();
 
 	$a11yc_content = $('.a11yc').eq(0);
-	menu_height = $('#a11yc_menu ul').outerHeight();
-	header_height = $('#a11yc_header')[0] ? $('#a11yc_header').outerHeight() : 0;
 	$pagemenu = $('#a11yc_menu_principles')[0] ? $('#a11yc_menu_principles') : $pagemenu;
-	pagemenu_top = $pagemenu[0] ? $pagemenu.offset().top - menu_height : 0;
 
+	setTimeout(function(){
+		menu_height = $('#a11yc_menu ul').outerHeight();
+		header_height = $('#a11yc_header')[0] ? $('#a11yc_header').outerHeight() : 0;
+		pagemenu_top = $pagemenu[0] ? $pagemenu.offset().top - menu_height : 0;
+	},0);
 	if($pagemenu[0])
 		{
 			$pagemenu.find('a').each(function(index){
@@ -102,15 +104,13 @@ if($('.a11yc_table_check')[0])
 
 	//チェック項目の表示・非表示切り替え
 	a11yc_toggle_item();
-
-	$(':checkbox').on('click', a11yc_toggle_item);
+	$('.a11yc_table_check input[type="checkbox"]').on('click', a11yc_toggle_item);
+	
 	function a11yc_toggle_item(e){
 		var input = e ? $(e.target) : '';
-		if(!input) $checked = $(':checked');
-
+		$checked = $('.a11yc_table_check th :checked');
 		if(!input) //ページ読み込み時
 		{
-			$checked = $(':checked');
 			$checked.each(function(){
 				data_pass_arr = $(this).data('pass') ? $(this).data('pass').split(',') : [];
 				for(var k in data_pass_arr)
@@ -123,7 +123,7 @@ if($('.a11yc_table_check')[0])
 		}
 		else if(input.prop('checked')) // チェックされたとき
 		{
-			//チェックボックスの位置を取得
+			//位置調整用。チェックした行の表示がずれないように位置を取得しておく
 			current_position = $(this).offset().top;
 			current_distance = current_distance-$(window).scrollTop();
 
@@ -143,8 +143,8 @@ if($('.a11yc_table_check')[0])
 				if(data_pass_arr[k]==this.id) continue; //自分自身は相手にしない
 				$show_items = $show_items.add('#'+data_pass_arr[k]);
 			}
-			//現在の閉じるべきもの取りなおし
-			$checked = $(':checked');
+//			//現在の閉じるべきもの取りなおし
+//			$checked = $('.a11yc_table_check th :checked');
 			$pass_items = $();
 			$checked.each(function(){
 				data_pass_arr = $(this).data('pass') ? $(this).data('pass').split(',') : [];
@@ -171,6 +171,7 @@ if($('.a11yc_table_check')[0])
 	
 	//table display
 	function a11yc_table_display(){
+		if(!$('.a11yc_hide_passed_item')[0]) return;
 		//不要な項目を隠す
 		$('.a11yc form').find('.a11yc_section_guideline, .a11yc_table_check').each(function(){
 			var $t = !$(this).is('table') ? $(this) : $(this).closest('.a11yc_section_criterion');
@@ -203,42 +204,43 @@ if($('.a11yc_table_check')[0])
 		}
 	}
 
-
 	//count checkbox
 	function a11yc_count_checkbox(){
-		num = $('.a11yc tr:visible input:not(:checked)').length;
+		num = $('.a11yc_table_check tr:visible th input:not(:checked)').length;
 		$info.find('thead td').text(num);
-		var n = 0, subtotal = 0, total = 0; n_str = '', num_arr = [];
-		//eachを表側で行う方が良いかも
-		$('.a11yc_section_principle').each(function(index){
-			num_arr = {'l_a':0, 'l_aa':0, 'l_aaa':0};
-			$(this).find('.a11yc_section_criterion').each(function(){
-				n = $(this).find('tr:visible input:not(:checked)').length;
-				num_arr[$(this).data('a11ycLebel')] = num_arr[$(this).data('a11ycLebel')]+n;
-			});
-			$('#a11yc_rest_'+(index+1)).each(function(){
-					subtotal = 0;
-				$(this).find('td').each(function(index){
-					n_str = '';
-					if (!$(this).is('.a11yc_rest_subtotal'))
+		var n = 0, subtotal = 0, total = 0, n_str = '', num_arr = [];
+		$('#a11yc_rest tbody tr').each(function(index){
+			subtotal = 0;
+			var pid = '#a11yc_p_'+(index+1);
+			$(this).find('td').each(function(index){
+				if(!$(this).is('.a11yc_rest_subtotal')){
+					if (index+1 <= $current_level.length)
 					{
-						n = num_arr['l_'+$(this).data('a11ycRestLebel')];
-						subtotal = subtotal+n;
-						n_str = n;
-						n_str = $(this).data('a11ycRestLebel').length > $current_level.length ? ' - ' : n_str;
-						$(this).text(n_str);
+						var l_str = '';
+						for(var i=0; i<=index; i++) l_str= l_str+'a'; 
+						var $checkbox = $(pid).find('[data-a11yc-lebel=l_'+l_str+'] th input');
+						var $unchecked = $checkbox.filter(':not(:disabled,:checked)');
+						n_str = $unchecked.length;
+						subtotal = subtotal+n_str;
 					}
 					else
 					{
-						$(this).text(subtotal);
-						$pagemenu_count.eq($('.a11yc_rest_subtotal').index(this)).text('('+subtotal+')');
+							n_str = '-';
 					}
-				});
-				total = total+subtotal;
+					$(this).text(n_str);
+				}
+				else
+				{
+					$(this).text(subtotal);
+				}
 			});
+			total = total+subtotal;
+			$pagemenu_count.eq(index).text('('+subtotal+')');
 		});
 		$('#a11yc_rest_total').text(total);
 	}
+
+	// 現在のログインユーザを反映
 	var c_id = $('#a11yc_checks').data('a11ycCurrentUser');
 	$('#a11yc_checks :checkbox').on('click', function(){
 		var select = $(this).closest('tr').find('select');

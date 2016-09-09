@@ -23,7 +23,7 @@ if ($lines): ?>
 			foreach ($rels as $rel_criterion => $rel_codes):
 				foreach ($rel_codes as $rel_code):
 ?>
-				<li><a<?php echo A11YC_TARGET ?> href="<?php echo A11YC_DOC_URL.$rel_code ?>&amp;criterion=<?php echo \A11yc\Util::s($rel_criterion) ?>"><?php echo $yml['checks'][$rel_criterion][$rel_code]['name'] ?></a></li>
+				<li><a<?php echo A11YC_TARGET ?> href="<?php echo A11YC_DOC_URL.$rel_code ?>&amp;criterion=<?php echo \A11yc\Util::s($rel_criterion) ?>"><?php echo $yml['checks'][$rel_criterion][$rel_code]['name'] ?>&nbsp;(<?php echo \A11yc\Util::key2code($yml['checks'][$rel_criterion][$rel_code]['criterion']['code']).'&nbsp;'.$yml['checks'][$rel_criterion][$rel_code]['level']['name'] ?>)</a></li>
 			<?php
 				endforeach;
 			endforeach;
@@ -37,7 +37,7 @@ if ($lines): ?>
 ?>
 		<!-- understanding -->
 	<h2><?php echo A11YC_LANG_UNDERSTANDING ?></h2>
-	<p><a<?php echo A11YC_TARGET_OUT ?> href="<?php echo $yml['criterions'][$criterion]['url'] ?>"><?php echo $yml['criterions'][$criterion]['name'] ?></a></p>
+	<p><a<?php echo A11YC_TARGET_OUT ?> href="<?php echo $yml['criterions'][$criterion]['url'] ?>"><?php echo $yml['criterions'][$criterion]['summary'] ?></a></p>
 <?php endif; ?>
 
 <?php if (isset($doc['url_as'])): ?>

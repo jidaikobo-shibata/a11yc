@@ -51,7 +51,7 @@ tr.a11yc_flash {
 .a11yc h2 {
 	position: relative;
 	padding-left: 1.25em;
-	font-size: 1.25em;
+	font-size: 1.2em;
 	margin-top: 2em;
 	margin-bottom: .5em;
 }
@@ -193,6 +193,7 @@ tr.a11yc_flash {
 }
 /* fixed a11yc menu */
 #a11yc_header {
+	position: relative;
 	width: 100%;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
@@ -283,12 +284,27 @@ tr.a11yc_flash {
 #a11yc_header p {
 	margin: .3em 0;
 }
-p#a11yc_narrow_level {
-	margin-top: 0;
-}
 #a11yc_header #a11yc_update_all,
 #a11yc_header #a11yc_update_done {
 	width: 22em;
+}
+#a11yc_header_top {
+	text-align: right;
+	margin-top: -3.25em;
+	margin-bottom: .25em;
+}
+.a11yc_fixed_header #a11yc_header_top {
+	margin-top: 0;
+	position: absolute;
+	right: 0;
+}
+#a11yc_select_standard,
+#a11yc_narrow_level {
+	display: inline-block;
+	margin-left: 5px;
+}
+.a11yc_fixed_header #a11yc_select_standard {
+	display: none;
 }
 #a11yc_narrow_level a {
 	font-size: 1.25em;
@@ -301,11 +317,6 @@ p#a11yc_narrow_level {
 	background-color: #0073aa;
 	color: #fff;
 }
-.a11yc #a11yc_target_level,
-.a11yc #a11yc_current_level {
-	display: inline-block;
-	margin-right: .5em;
-}
 #a11yc_header_left {
 	width: calc( 100% - 20em );
 }
@@ -313,6 +324,9 @@ p#a11yc_narrow_level {
 	text-align: right;
 	width: 20em;
 }
+.a11yc_fixed_header #a11yc_header_right {
+	margin-top: 1.8em;
+} 
 #a11yc_rest_total {
 	display: inline-block;
 	width: 2em;
@@ -369,12 +383,10 @@ table#a11yc_rest {
 }
 #a11yc_errors {
 	margin: 1em 0;
-	border: 1px #aaa solid;
-	padding: 10px 5px 10px;
 }
 ul#a11yc_errors {
+	padding: 10px 5px 10px 40px;
 	background-color: #fee;
-	padding-left: 40px;
 }
 #a11yc_menu_principles {
 	margin: 0;
@@ -440,7 +452,7 @@ h2.a11yc_header_principle {
 	position: relative;
 	margin: 40px 0 .5em;
 	padding: 7px 9em 4px 5px;
-	font-size: 1.65em;
+	font-size: 1.5em;
 	background-color: #1a5faa;
 	color: #fff;
 	-moz-border-radius: 3px;
@@ -608,6 +620,14 @@ td.a11yc_table_check_howto {
 	font-weight: normal;
 	color: #aaa;
 }
+input:focus+.a11yc_icon_checkbox:before {
+	outline: 2px solid rgba( 0,115,170,.15 );
+	outline-offset: -2px;
+	box-shadow: 0 0 3px 2px rgba( 0,115,170,.5 );
+	-moz-box-shadow: 0 0 3px 2px rgba( 0,115,170,.5 );
+	-webkit-box-shadow: 0 0 3px 2px rgba( 0,115,170,.5 );
+	
+}
 :checked+.a11yc_icon_checkbox:before {
 	content: "\f111";
 	color: #1a5faa;
@@ -637,7 +657,8 @@ td.a11yc_table_check_howto {
 	color: #666;
 }
 .a11yc_icon_howto:before {
-	content: "\f29c";
+/*	content: "\f29c";*/
+	content: "\f02d";
 	color: #000;
 	font-size: 1.5em;
 }
@@ -729,12 +750,12 @@ table .a11yc_result {
 .a11yc_disclosure.active:hover {
 	background-color: rgba(0,0,0,.05);
 }
-.a11yc_dn {
-	display: none !important;
+.a11yc .a11yc_dn {
+	display: none;
 }
 /* === hide if no js === */
-.a11yc_hide_if_no_js {
-	display: none !important;
+.a11yc .a11yc_hide_if_no_js {
+	display: none;
 }
 
 /* a11yc_skip */

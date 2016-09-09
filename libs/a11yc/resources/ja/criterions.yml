@@ -455,7 +455,7 @@ criterions:
     level: *lv1
     url: http://waic.jp/docs/UNDERSTANDING-WCAG20/consistent-behavior-unpredictable-change.html
     summary: |
-      いずれのコンポーネントも、フォーカスを受け取ったときに コンテキストの変化を引き起こさない。
+      いずれのコンポーネントも、フォーカスを受け取ったときにコンテキストの変化を引き起こさない。
 
   3-2-2: &c3-2-2
     code: 3-2-2
@@ -464,7 +464,7 @@ criterions:
     level: *lv1
     url: http://waic.jp/docs/UNDERSTANDING-WCAG20/consistent-behavior-unpredictable-change.html
     summary: |
-      ユーザインタフェース コンポーネント の設定を変更することが、コンテキストの変化を自動的に引き起こさない。ただし、利用者が使用する前にその挙動を知らせてある場合を除く。
+      ユーザインタフェースコンポーネントの設定を変更することが、コンテキストの変化を自動的に引き起こさない。ただし、利用者が使用する前にその挙動を知らせてある場合を除く。
 
   3-2-3: &c3-2-3
     code: 3-2-3

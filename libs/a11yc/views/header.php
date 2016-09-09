@@ -37,5 +37,9 @@
 </ul>
 <?php endif; ?>
 </nav>
+<?php
+	$h1 = constant('A11YC_LANG_'.strtoupper($mode).'_TITLE');
+	$h1 .= $mode == 'docs_each' ? ':&nbsp;'.\A11yc\Util::key2code($doc['criterion']['code']).'&nbsp;'.$doc['criterion']['name'].'&nbsp;('.$doc['criterion']['level']['name'].')' : '';
+?>
 <a href="javascript:void(0);" id="a11yc_content" class="a11yc_skip a11yc_show_if_focus"><?php echo A11YC_LANG_BEGINNING_OF_THE_CONTENT ?></a>
-<h1><?php echo constant('A11YC_LANG_'.strtoupper($mode).'_TITLE')?></h1>
+<h1><?php echo $h1 ?></h1>
