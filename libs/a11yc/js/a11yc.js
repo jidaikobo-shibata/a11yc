@@ -22,7 +22,10 @@ jQuery(function($){
 	setTimeout(function(){
 		menu_height = $('#a11yc_menu ul').outerHeight();
 		header_height = $('#a11yc_header')[0] ? $('#a11yc_header').outerHeight() : 0;
-		pagemenu_top = $pagemenu[0] ? $pagemenu.offset().top - menu_height : 0;
+		if ($pagemenu[0])
+		{
+			pagemenu_top = $('.a11yc_fixed_header')[0] ? $pagemenu.offset().top - $(window).scrollTop() : pagemenu_top;
+		}
 	},0);
 	if($pagemenu[0])
 		{
@@ -52,22 +55,15 @@ function a11yc_fixed_header(){
 	if ($(window).scrollTop() > pagemenu_top)
 	{
 		$a11yc_content.addClass('a11yc_fixed_header');
-	}
-	else
-	{
-		$a11yc_content.removeClass('a11yc_fixed_header');
-	}
-	if ($a11yc_content.hasClass('a11yc_fixed_header'))
-	{
 		$a11yc_content.css('paddingTop', menu_height+header_height+30);//あとでヘッダの高さ等調整が利くようにする
 		$('#a11yc_header').css('paddingTop', menu_height);
 	}
 	else
 	{
+		$a11yc_content.removeClass('a11yc_fixed_header');
 		$a11yc_content.css('paddingTop', menu_height);
 		$('#a11yc_header').css('paddingTop', 0);
 	}
-
 }
 
 	
@@ -91,7 +87,7 @@ if($('.a11yc_table_check')[0])
 		for (var k in data_levels)
 		{
 //			$show_levels = $show_levels.add($('.'+data_levels[k]));
-			$show_levels = $show_levels.add($('[data-a11yc-lebel ='+data_levels[k]+']'));
+			$show_levels = $show_levels.add($('[data-a11yc-level ='+data_levels[k]+']'));
 		}
 		$('.a11yc_section_criterion').hide();
 		$show_levels.show();
@@ -214,13 +210,12 @@ if($('.a11yc_table_check')[0])
 			var pid = '#a11yc_p_'+(index+1);
 			$(this).find('td').each(function(index){
 				if(!$(this).is('.a11yc_rest_subtotal')){
+					var l_str = '';
+					for(var i=0; i<=index; i++) l_str= l_str+'a'; 
+					n_str = $(pid).find('[data-a11yc-level=l_'+l_str+'] th input').filter(':not(:disabled,:checked)').length;
+
 					if (index+1 <= $current_level.length)
 					{
-						var l_str = '';
-						for(var i=0; i<=index; i++) l_str= l_str+'a'; 
-						var $checkbox = $(pid).find('[data-a11yc-lebel=l_'+l_str+'] th input');
-						var $unchecked = $checkbox.filter(':not(:disabled,:checked)');
-						n_str = $unchecked.length;
 						subtotal = subtotal+n_str;
 					}
 					else

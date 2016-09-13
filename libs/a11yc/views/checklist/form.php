@@ -1,4 +1,4 @@
-<div id="a11yc_checks" data-a11yc-current-user="<?php echo $current_user_id ?>"<?php if($checklist_behaviour) echo ' class="a11yc_hide_passed_item"' ?>>
+<div id="a11yc_checks" data-a11yc-current-user="<?php echo $current_user_id ?>" data-a11yc-conformance="<?php echo A11YC_LANG_CHECKLIST_CONFORMANCE.','.A11YC_LANG_CHECKLIST_CONFORMANCE_PARTIAL ?>" <?php if($checklist_behaviour) echo ' class="a11yc_hide_passed_item"' ?>>
 <!-- header -->
 <div id="a11yc_header">
 	<div id="a11yc_header_top">
@@ -65,16 +65,8 @@
 	<?php if ($url != 'bulk'):  ?>
 		<!-- level -->
 		<p id="a11yc_target_level"><?php echo A11YC_LANG_TARGET_LEVEL ?>: <?php echo \A11yc\Util::num2str($target_level) ?>
-		<?php $current_level = $target_level ? \A11yc\Evaluate::result_str(@$page['level'], $target_level) : '-';  ?><br><?php echo A11YC_LANG_CURRENT_LEVEL ?>: <?php echo $current_level ?></p>
+		<?php $current_level = $target_level ? \A11yc\Evaluate::result_str(@$page['level'], $target_level) : '-';  ?><br><?php echo A11YC_LANG_CURRENT_LEVEL ?>: <span id="a11yc_conformance_level"><?php echo $current_level ?></span></p>
 	<?php endif ?>
-	<?php /*
-			// is done
-			if ($url != 'bulk'):
-			$checked = @$page['done'] ? ' checked="checked"' : '';
-		?>
-		<!-- is done -->
-		<p id="a11yc_check_done"><label for="a11yc_done"><?php echo A11YC_LANG_CHECKLIST_DONE ?>: <input type="checkbox" name="done" id="a11yc_done" value="1"<?php echo $checked ?> /></label></p>
-	<?php endif; */?>
 		<!-- rest of num -->
 		<p class="a11yc_hide_if_no_js"><a role="button" class="a11yc_disclosure"><?php echo A11YC_LANG_CHECKLIST_RESTOFNUM ?>&nbsp;:&nbsp;<span id="a11yc_rest_total">&nbsp;-&nbsp;</span></a></p>
 		<div class="a11yc_disclosure_target show a11yc_hide_if_fixedheader a11yc_hide_if_no_js">
@@ -82,18 +74,18 @@
 			<thead>
 				<tr>
 					<th scope="col">&nbsp;</th>
-					<th scope="col">A</th>
-					<th scope="col">AA</th>
-					<th scope="col">AAA</th>
+					<th scope="col" class="a11yc_rest_label_lv">A</th>
+					<th scope="col" class="a11yc_rest_label_lv">AA</th>
+					<th scope="col" class="a11yc_rest_label_lv">AAA</th>
 					<th scope="col">total</th>
 				</tr>
 			<tbody>
 		<?php foreach ($yml['principles'] as $v): ?>
 				<tr id="a11yc_rest_<?php echo $v['code'] ?>">
 					<th scope="row"><?php echo $v['code'].'&nbsp;'.$v['name'] ?></th>
-					<td data-a11yc-rest-lebel="a">&nbsp;-&nbsp;</td>
-					<td data-a11yc-rest-lebel="aa">&nbsp;-&nbsp;</td>
-					<td data-a11yc-rest-lebel="aaa">&nbsp;-&nbsp;</td>
+					<td data-a11yc-rest-level="a">&nbsp;-&nbsp;</td>
+					<td data-a11yc-rest-level="aa">&nbsp;-&nbsp;</td>
+					<td data-a11yc-rest-level="aaa">&nbsp;-&nbsp;</td>
 					<td class="a11yc_rest_subtotal">&nbsp;-&nbsp;</td>
 				</tr>
 		<?php endforeach; ?>
@@ -132,8 +124,9 @@
 		foreach ($yml['criterions'] as $kkk => $vvv):
 			if (substr($kkk, 0, 3) != $kk) continue;
 			$class_str = isset($vvvv['non-interference']) ? ' non_interference' : '';
+			$class_str = ' a11yc_criterion_l_'.strtolower($vvv['level']['name']);
 		?>
-			<div id="a11yc_c_<?php echo $kkk ?>" class="a11yc_section_criterion<?php echo $class_str ?>" data-a11yc-lebel="l_<?php echo strtolower($vvv['level']['name']) ?>">
+			<div id="a11yc_c_<?php echo $kkk ?>" class="a11yc_section_criterion<?php echo $class_str ?>" data-a11yc-level="l_<?php echo strtolower($vvv['level']['name']) ?>">
 			<h4 class="a11yc_header_criterion"><?php echo \A11yc\Util::key2code($vvv['code']).' '.$vvv['name'].' ('.$vvv['level']['name'].')' ?></h4>
 			<ul class="a11yc_outlink">
 			<?php if (isset($vvv['url_as'])):  ?>
