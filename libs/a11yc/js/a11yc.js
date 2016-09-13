@@ -105,8 +105,8 @@ if($('.a11yc_table_check')[0])
 //			$show_levels = $show_levels.add($('.'+data_levels[k]));
 			$show_levels = $show_levels.add($('[data-a11yc-level ='+data_levels[k]+']'));
 		}
-		$('.a11yc_section_criterion').hide();
-		$show_levels.show();
+		$('.a11yc_section_criterion').addClass('a11yc_dn');
+		$show_levels.removeClass('a11yc_dn');
 		
 		//テーブルの表示調整
 		a11yc_table_display();
@@ -121,6 +121,7 @@ if($('.a11yc_table_check')[0])
 	function a11yc_toggle_item(e){
 		var input = e ? $(e.target) : '';
 		$checked = $('.a11yc_table_check th :checked');
+
 		if(!input) //ページ読み込み時
 		{
 			$checked.each(function(){
@@ -133,48 +134,50 @@ if($('.a11yc_table_check')[0])
 			});
 			$pass_items.closest('tr').addClass('off').find(':input').prop("disabled", true);
 		}
-		else if(input.prop('checked')) // チェックされたとき
+		else
 		{
 			//位置調整用。チェックした行の表示がずれないように位置を取得しておく
-			current_position = $(this).offset().top;
-			current_distance = current_distance-$(window).scrollTop();
-
-			data_pass_arr = $(this).data('pass') ? $(this).data('pass').split(',') : [];
-			for(var k in data_pass_arr)
+			current_position = input.offset().top;
+			if(input.prop('checked')) // チェックされたとき
 			{
-				if(data_pass_arr[k]==this.id) continue; //自分自身は相手にしない？
-				$pass_items = $pass_items.add('#'+data_pass_arr[k]); 
-			}
-			$pass_items.closest('tr').addClass('off').find(':input').prop("disabled", true);
-		}
-		else //チェックが外されたとき
-		{
-			data_pass_arr = $(this).data('pass') ? $(this).data('pass').split(',') : [];
-			for(var k in data_pass_arr)
-			{
-				if(data_pass_arr[k]==this.id) continue; //自分自身は相手にしない
-				$show_items = $show_items.add('#'+data_pass_arr[k]);
-			}
-//			//現在の閉じるべきもの取りなおし
-//			$checked = $('.a11yc_table_check th :checked');
-			$pass_items = $();
-			$checked.each(function(){
-				data_pass_arr = $(this).data('pass') ? $(this).data('pass').split(',') : [];
+				data_pass_arr = input.data('pass') ? input.data('pass').split(',') : [];
 				for(var k in data_pass_arr)
 				{
 					if(data_pass_arr[k]==this.id) continue; //自分自身は相手にしない？
 					$pass_items = $pass_items.add('#'+data_pass_arr[k]); 
 				}
-			});
-			$show_items.each(function(){
-				// 閉じるべきものの中にないものだけ開く
-				if($pass_items[0] && $pass_items.index($(this)) != -1 ) return;
-				$show_items2 = $show_items2.add($(this));
-			});
-			$show_items2 = $pass_items[0] ? $show_items2 : $show_items;
-			$show_items2.closest('tr').removeClass('off').find(':input').prop("disabled", false);
-		}
+				$pass_items.closest('tr').addClass('off').find(':input').prop("disabled", true);
+			}
+			else //チェックが外されたとき
+			{
+				data_pass_arr = input.data('pass') ? input.data('pass').split(',') : [];
+				$show_items = $();
+				$pass_items = $();
+				$show_items2 = $();
+				for(var k in data_pass_arr)
+				{
+					if(data_pass_arr[k]==this.id) continue; //自分自身は相手にしない
+					$show_items = $show_items.add('#'+data_pass_arr[k]);
+				}
+				$checked.each(function(){
+					data_pass_arr = $(this).data('pass') ? $(this).data('pass').split(',') : [];
+					for(var k in data_pass_arr)
+					{
+						if(data_pass_arr[k]==this.id) continue; //自分自身は相手にしない？
+						$pass_items = $pass_items.add('#'+data_pass_arr[k]); 
+					}
+				});
+//ここまで、pass_itemsは大丈夫
+				$show_items.each(function(){
+					// 閉じるべきものの中にないものだけ開く
+					if($pass_items[0] && $pass_items.index(this) != -1 ) return;
+					$show_items2 = $show_items2.add(this);
+				});
+				$show_items2 = $pass_items[0] ? $show_items2 : $show_items;
+				$show_items2.closest('tr').removeClass('off').find(':input').prop("disabled", false);
 
+			}
+		}
 		//テーブルの表示調整
 		a11yc_table_display();
 		//カウント
@@ -187,13 +190,16 @@ if($('.a11yc_table_check')[0])
 		//不要な項目を隠す
 		$('.a11yc form').find('.a11yc_section_guideline, .a11yc_table_check').each(function(){
 			var $t = !$(this).is('table') ? $(this) : $(this).closest('.a11yc_section_criterion');
+			
 			if (!$(this).find('tr:not(.off)')[0]) //見えているものがない場合
 			{
-				$t.addClass('a11yc_dn');
+//				$t.addClass('a11yc_dn');
+					$t.hide();
 			}
 			else
 			{
-				$t.removeClass('a11yc_dn');
+//				$t.removeClass('a11yc_dn');
+				if(!$t.hasClass('a11yc_dn')) $t.show();
 			}
 		});
 
@@ -264,6 +270,7 @@ if($('.a11yc_table_check')[0])
 		if (!$('.a11yc_hide_passed_item')[0] || $(window).scrollTop()==0) return;
 		var movement_distance = current_position - $(this).offset().top;
 //		current_position = $(this).offset().top;
+// 何かのタイミングで、（ヘッダの高さが変わった時に）移動する場所が補正されないといけない
 		$('body').scrollTop($(window).scrollTop()-movement_distance);
 	});
 }
