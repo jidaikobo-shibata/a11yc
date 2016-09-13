@@ -80,6 +80,7 @@ define('A11YC_LANG_CHECKLIST_NOT_FOUND_ERR', 'Could not find an error in the aut
 define('A11YC_LANG_CHECKLIST_TITLE', 'Checklist');
 define('A11YC_LANG_CHECKLIST_DONE', 'Done');
 define('A11YC_LANG_CHECKLIST_RESTOFNUM', 'Rest Of Numbers');
+define('A11YC_LANG_CHECKLIST_TOTAL', 'Total');
 define('A11YC_LANG_CHECKLIST_ACHIEVEMENT', 'Achieve Grade');
 define('A11YC_LANG_CHECKLIST_CONFORMANCE', 'Conformance with %s');
 define('A11YC_LANG_CHECKLIST_CONFORMANCE_PARTIAL', 'Partial Conformance with %s');

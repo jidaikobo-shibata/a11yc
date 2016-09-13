@@ -2,6 +2,7 @@ jQuery(function($){
 	var $a11yc_content = $(),
 			menu_height = 0,
 			header_height = 0,
+			$menu = $(),
 			$pagemenu = $(),
 			$pagemenu_count =$(),
 			pagemenu_top = 0,
@@ -17,10 +18,11 @@ jQuery(function($){
 			$show_items2 = $();
 
 	$a11yc_content = $('.a11yc').eq(0);
+	$menu = $('#wpadminbar')[0] ? $('#wpadminbar') : $('#a11yc_menu ul');
 	$pagemenu = $('#a11yc_menu_principles')[0] ? $('#a11yc_menu_principles') : $pagemenu;
 
 	setTimeout(function(){
-		menu_height = $('#a11yc_menu ul').outerHeight();
+		menu_height = $menu.outerHeight();
 		header_height = $('#a11yc_header')[0] ? $('#a11yc_header').outerHeight() : 0;
 		if ($pagemenu[0])
 		{
@@ -37,9 +39,9 @@ jQuery(function($){
 
 // resize
 $(window).on('resize', function(){
-	menu_height = $('#a11yc_menu ul').outerHeight();
+	menu_height = $menu.outerHeight();
 	header_height = $('#a11yc_header').outerHeight();
-	pagemenu_top = pagemenu_top>0 ? $pagemenu.offset().top - menu_height : pagemenu_top;
+//	pagemenu_top = pagemenu_top>0 ? $pagemenu.offset().top - menu_height : pagemenu_top;
 	pagemenu_top = $('.a11yc_fixed_header')[0] ? pagemenu_top - $(window).scrollTop() : pagemenu_top;
 	a11yc_fixed_header();
 });
@@ -55,13 +57,27 @@ function a11yc_fixed_header(){
 	if ($(window).scrollTop() > pagemenu_top)
 	{
 		$a11yc_content.addClass('a11yc_fixed_header');
-		$a11yc_content.css('paddingTop', menu_height+header_height+30);//あとでヘッダの高さ等調整が利くようにする
+		if(!$('.wp-admin')[0])
+		{
+			$a11yc_content.css('paddingTop', menu_height);
+		}
+		else
+		{
+			$a11yc_content.css('paddingTop', 0);
+		}
 		$('#a11yc_header').css('paddingTop', menu_height);
 	}
 	else
 	{
 		$a11yc_content.removeClass('a11yc_fixed_header');
-		$a11yc_content.css('paddingTop', menu_height);
+		if(!$('.wp-admin')[0])
+		{
+			$a11yc_content.css('paddingTop', menu_height);
+		}
+		else
+		{
+			$a11yc_content.css('paddingTop', 0);
+		}
 		$('#a11yc_header').css('paddingTop', 0);
 	}
 }
@@ -241,12 +257,13 @@ if($('.a11yc_table_check')[0])
 		var select = $(this).closest('tr').find('select');
 		if(c_id!=select.val()) select.val(c_id).a11yc_flash();
 	});
-	// チェックボックスクリック時の強調
+	// チェックボックスクリック時の強調と、位置調整
 	$('#a11yc_checks :checkbox').on('click', function(){
 		$(this).closest('tr').a11yc_flash();
+
 		if (!$('.a11yc_hide_passed_item')[0] || $(window).scrollTop()==0) return;
 		var movement_distance = current_position - $(this).offset().top;
-		current_position = $(this).offset().top;
+//		current_position = $(this).offset().top;
 		$('body').scrollTop($(window).scrollTop()-movement_distance);
 	});
 }

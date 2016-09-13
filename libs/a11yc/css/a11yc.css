@@ -199,9 +199,11 @@ tr.a11yc_flash {
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 }
+/*
 .a11yc.a11yc_fixed_header {
 	padding-top: 200px;
 }
+*/
 .a11yc_fixed_header #a11yc_header {
 	background-color: #fff;
 	position: fixed;
@@ -211,6 +213,24 @@ tr.a11yc_flash {
 	padding: 26px 8px 0;
 	z-index: 90;
 }
+.wp-admin .a11yc_fixed_header #a11yc_header,
+.wp-admin #a11y_submit {
+	padding-right: 0;
+	padding-left: 160px;
+}
+@media only screen and (max-width: 960px) {
+	.wp-admin .a11yc_fixed_header #a11yc_header,
+	.wp-admin #a11y_submit {
+		padding-left: 36px;
+	}
+}
+@media screen and (max-width: 782px) {
+	.wp-admin .a11yc_fixed_header #a11yc_header,
+	.wp-admin #a11y_submit {
+		padding-left: 0;
+	}
+}
+
 .a11yc_fixed_header .a11yc_hide_if_fixedheader {
 	display: none;
 }
@@ -273,6 +293,10 @@ tr.a11yc_flash {
 	background-color: #e6e6e6;
 	border-top: 1px solid #ccc;
 }
+.a11y-center_page_jwp_a11y-jwp_a11y_setup #wpfooter,
+.a11y-center_page_jwp_a11y-jwp_a11y_checklist #wpfooter {
+	display: none;
+}
 #a11y_submit label[for="a11yc_done"] {
 	margin-right: 1em;
 }
@@ -293,6 +317,11 @@ tr.a11yc_flash {
 	text-align: right;
 	margin-top: -3.25em;
 	margin-bottom: .25em;
+}
+.wp-admin #a11yc_header_top {
+	text-align: right;
+	margin-top: -3.65em;
+	margin-bottom: .5em;
 }
 .a11yc_fixed_header #a11yc_header_top {
 	margin-top: 0;
@@ -462,8 +491,13 @@ h2.a11yc_header_principle {
 h2.a11yc_header_principle:after {
 	content: none;
 }
-.wp-admin .a11yc_header_principle {
+.wp-admin h2.a11yc_header_principle {
 	font-size: 1.75em;
+	margin: 40px 0 .5em;
+	padding: 7px 9em 4px 5px;
+}
+.wp-admin .a11yc_header_principle#a11yc_header_p_1 {
+	margin-top: 30px;
 }
 .a11yc_header_principle#a11yc_header_p_2 {
 	background-color: #14a523;
@@ -515,8 +549,9 @@ h2.a11yc_header_principle:after {
 	margin: 0;
 	white-space: nowrap;
 }
-.a11yc_outlink li {
+ul.a11yc_outlink li {
 	display: inline;
+	margin-left: 0;
 }
 .a11yc_outlink li a {
 	color: #000;
@@ -568,6 +603,10 @@ h2.a11yc_header_principle:after {
 	font-weight: normal;
 	font-size: .8em;
 	text-align: left;
+}
+.wp-admin .a11yc_table_check th,
+.wp-admin .a11yc_table_check td {
+	font-size: 1em;
 }
 .a11yc_table_check th {
 	border-left: 1px #bbb solid;
@@ -649,6 +688,9 @@ input:focus+.a11yc_icon_checkbox:before {
 	font-size: .65em;
 	content: "\f00c";
 	color: #fff;
+}
+.wp-admin :checked+.a11yc_icon_checkbox:after {
+	top: 0;
 }
 .a11yc_link_howto {
 	text-decoration: none;

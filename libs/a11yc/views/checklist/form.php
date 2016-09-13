@@ -77,7 +77,7 @@
 					<th scope="col" class="a11yc_rest_label_lv">A</th>
 					<th scope="col" class="a11yc_rest_label_lv">AA</th>
 					<th scope="col" class="a11yc_rest_label_lv">AAA</th>
-					<th scope="col">total</th>
+					<th scope="col"><?php echo A11YC_LANG_CHECKLIST_TOTAL ?></th>
 				</tr>
 			<tbody>
 		<?php foreach ($yml['principles'] as $v): ?>
