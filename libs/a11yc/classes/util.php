@@ -14,6 +14,7 @@ class Util extends \Kontiki\Util
 {
 	/**
 	 * number to 'A'
+	 * to get conformance level string
 	 *
 	 * @return  string
 	 */
@@ -31,6 +32,54 @@ class Util extends \Kontiki\Util
 	public static function key2code($str)
 	{
 		return str_replace('-', '.', $str);
+	}
+
+	/**
+	 * create doc link of '\d-\d-\d\w' in the text
+	 *
+	 * @return  string
+	 */
+	public static function key2link($text)
+	{
+		$yml = Yaml::fetch();
+
+		preg_match("/\d-\d-\d+?\w/", $text, $ms);
+		if ($ms)
+		{
+			foreach ($ms as $m)
+			{
+				$criterion = static::get_criterion_from_code($m);
+				if ( ! isset($yml['checks'][$criterion][$m])) continue;
+				$text = str_replace(
+					$m,
+					'<a href="'.A11YC_DOC_URL.$m.'&criterion='.$criterion.'">'.static::key2code($m).' ('.$yml['checks'][$criterion][$m]['name'].')</a> ',
+					$text);
+			}
+		}
+
+		return $text;
+	}
+
+	/**
+	 * get criterion from a11yc code
+	 *
+	 * @return  string
+	 */
+	public static function get_criterion_from_code($code)
+	{
+		static $retvals = array();
+		if (array_key_exists($code, $retvals)) return $retvals[$code];
+
+		$yml = Yaml::fetch();
+		foreach ($yml['checks'] as $criterion => $v)
+		{
+			if (array_key_exists($code, $v))
+			{
+				$retvals[$code] = $criterion;
+				return $criterion;
+			}
+		}
+		return false;
 	}
 
 	/**

@@ -26,7 +26,6 @@ define('A11YC_LANG_NO_DOC', 'ドキュメントが存在しません');
 define('A11YC_LANG_JUMP_TO_CONTENT', '本文へ移動');
 define('A11YC_LANG_BEGINNING_OF_THE_CONTENT', 'ここから本文です');
 
-
 // login
 define('A11YC_LANG_LOGIN_TITLE', 'A11YC ログイン');
 define('A11YC_LANG_LOGIN_USERNAME', 'ユーザ名');
@@ -60,6 +59,7 @@ define('A11YC_LANG_DECLARE_DATE', '表明日');
 define('A11YC_LANG_STANDARD', '規格の種類');
 define('A11YC_LANG_DEPENDENCIES', '依存したウェブコンテンツ技術のリスト');
 define('A11YC_LANG_TEST_PERIOD', '試験実施期間');
+define('A11YC_LANG_TEST_DATE', '試験実施日');
 define('A11YC_LANG_TARGET_LEVEL', '目標とする達成等級');
 define('A11YC_LANG_POLICY', 'アクセシビリティ方針');
 define('A11YC_LANG_POLICY_DESC', 'ウェブアクセシビリティ確保に取り組む理由、達成目標日、対応方針、例外事項、追加して目標とする達成等級などを書いてください。');

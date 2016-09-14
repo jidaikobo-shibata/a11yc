@@ -60,6 +60,7 @@ define('A11YC_LANG_DECLARE_DATE', 'Declare Date');
 define('A11YC_LANG_STANDARD', 'Standard');
 define('A11YC_LANG_DEPENDENCIES', 'List of dependent Web content technology');
 define('A11YC_LANG_TEST_PERIOD', 'Test Period');
+define('A11YC_LANG_TEST_DATE', 'Test Date');
 define('A11YC_LANG_TARGET_LEVEL', 'Target Level');
 define('A11YC_LANG_POLICY', 'Accessibility Policy');
 define('A11YC_LANG_POLICY_DESC', 'Why you work in web accessibility ensure, goal date, corresponding policies, exceptions, please write and achieve grade to which you want to add to goal.');
