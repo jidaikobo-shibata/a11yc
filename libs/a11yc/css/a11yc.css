@@ -617,8 +617,12 @@ ul.a11yc_outlink li {
 .a11yc_table_check .off th {
 	cursor: initial;
 }
-.a11yc .non_interference {
+.a11yc .non_interference h4,
+.a11yc .non_interference th {
 	color: #e00;
+}
+.a11yc .non_interference .even th {
+	color: #e10000;
 }
 .a11yc_table_check label {
 	display: block;

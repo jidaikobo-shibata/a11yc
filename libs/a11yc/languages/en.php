@@ -85,6 +85,7 @@ define('A11YC_LANG_CHECKLIST_ACHIEVEMENT', 'Achieve Grade');
 define('A11YC_LANG_CHECKLIST_CONFORMANCE', 'Conformance with %s');
 define('A11YC_LANG_CHECKLIST_CONFORMANCE_PARTIAL', 'Partial Conformance with %s');
 define('A11YC_LANG_CHECKLIST_CONFORMANCE_ADDITIONAL', 'Additional Conformance');
+define('A11YC_LANG_CHECKLIST_NON_INTERFERENCE', 'Non interference');
 
 // bulk
 define('A11YC_LANG_BULK_TITLE', 'Batch');
