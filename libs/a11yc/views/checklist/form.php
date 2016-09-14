@@ -20,7 +20,7 @@
 		for ($i=1; $i<=3; $i++)
 		{
 			$class_str = $i == $target_level ? ' class="current"' : '';
-			echo '<a role="button" tabindex="0" data-narrow-level="'.implode(',', array_slice(array('l_a', 'l_aa', 'l_aaa'), 0, $i)).'"'.$class_str.'>'.str_repeat('A', $i).'</a>';
+			echo '<a role="button" tabindex="0" data-narrow-level="'.implode(',', array_slice(array('l_a', 'l_aa', 'l_aaa'), 0, $i)).'"'.$class_str.'>'.\A11yc\Util::num2str($i).'</a>';
 		}
 	?>
 		</p>

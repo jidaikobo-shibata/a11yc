@@ -66,9 +66,9 @@ foreach ($pages as $v):
 $url = \A11yc\Util::s($v['url']);
 ?>
 <tr>
-	<td><?php echo '<a href=".$url.">'.$url.'</a>' ?></td>
-	<td><?php echo \A11yc\Util::num2str($v['level']) ?></td>
-	<td><?php echo \A11yc\Util::s($v['date']) ?></td>
+	<td style="word-break: break-all;"><?php echo '<a href="'.$url.'">'.$url.'</a>' ?></td>
+	<td style="text-align: center;"><?php echo \A11yc\Util::num2str($v['level']) ?></td>
+	<td style="white-space: nowrap;"><?php echo \A11yc\Util::s($v['date']) ?></td>
 </tr>
 <?php endforeach; ?>
 </table>

@@ -35,7 +35,7 @@ if ($lines): ?>
 	if (isset($yml['criterions'][$criterion]['url'])):
 ?>
 		<!-- understanding -->
-	<h2><?php echo A11YC_LANG_UNDERSTANDING ?></h2>
+	<h2><?php echo A11YC_LANG_UNDERSTANDING ?>:&nbsp;<?php echo sprintf(A11YC_LANG_DOCS_UNDERSTANDING, \A11yc\Util::key2code($doc['criterion']['code'])) ?></h2>
 	<p><a<?php echo A11YC_TARGET_OUT ?> href="<?php echo $yml['criterions'][$criterion]['url'] ?>"><?php echo $yml['criterions'][$criterion]['summary'] ?></a></p>
 <?php endif; ?>
 

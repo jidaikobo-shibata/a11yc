@@ -104,3 +104,4 @@ define('A11YC_LANG_DOCS_TITLE', 'Documents');
 define('A11YC_LANG_EACTH_DOCS_TITLE', 'Documents');
 define('A11YC_LANG_DOCS_EACH_SUBTITLE', 'How to "%s"');
 define('A11YC_LANG_DOCS_TEST', 'About Testing');
+define('A11YC_LANG_DOCS_UNDERSTANDING', 'Understanding SC&nbsp;%s');
