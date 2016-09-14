@@ -130,11 +130,21 @@ class Checklist
 		// current user
 		$current_user = Users::fetch_current_user();
 
+		// title
+		if ($url == 'bulk')
+		{
+			$title = A11YC_LANG_BULK_TITLE;
+		}
+		else
+		{
+			$title = A11YC_LANG_CHECKLIST_TITLE.':'.Util::fetch_page_title($url);
+		}
+
 		// assign
 		View::assign('current_user', $current_user);
 		View::assign('users', $users);
 		View::assign('url', $url);
-		View::assign('title', $url == 'bulk' ? A11YC_LANG_BULK_TITLE : A11YC_LANG_CHECKLIST_TITLE);
+		View::assign('title', $title);
 
 		static::form($url, $users, $current_user['id']);
 		View::assign('body', View::fetch_tpl('checklist/checklist.php'), false);
