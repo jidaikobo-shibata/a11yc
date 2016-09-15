@@ -225,7 +225,7 @@ class Checklist
 		$html.= '<section>';
 		$html.= '<h1>'.A11YC_LANG_CHECKLIST_TITLE.'</h1>';
 		$html.= '<p>'.A11YC_LANG_TARGET_LEVEL.': '.Util::num2str($target_level).'</p>';
-		$html.= '<p>'.A11YC_LANG_CHECKLIST_ACHIEVEMENT.': '.evaluate::result_str($result, $target_level).'</p>';
+		$html.= '<p>'.A11YC_LANG_CHECKLIST_ACHIEVEMENT.': '.Evaluate::result_str($result, $target_level).'</p>';
 
 		// target level
 		$html.= static::part_result($results, $target_level);

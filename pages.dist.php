@@ -25,8 +25,9 @@ require (A11YC_PATH.'/main.php');
 // pages
 $pages = \A11yc\Db::fetch_all('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `trash` = 0 ORDER BY `url` ASC;');
 
-// title
-$title = A11YC_LANG_CHECKED_PAGES;
+// assign
+$report_url = './report.dist.php';
+$title      = A11YC_LANG_CHECKED_PAGES;
 
 ?><!DOCTYPE html>
 <html lang="<?php echo A11YC_LANG ?>">
@@ -58,6 +59,7 @@ $title = A11YC_LANG_CHECKED_PAGES;
 <tr>
 	<th><?php echo A11YC_LANG_CHECKLIST_TARGETPAGE ?></th>
 	<th><?php echo A11YC_LANG_CURRENT_LEVEL ?></th>
+	<th><?php echo A11YC_LANG_CHECKLIST_TITLE ?></th>
 	<th><?php echo A11YC_LANG_TEST_DATE ?></th>
 </tr>
 </thead>
@@ -68,12 +70,13 @@ $url = \A11yc\Util::s($v['url']);
 <tr>
 	<td style="word-break: break-all;"><?php echo '<a href="'.$url.'">'.$url.'</a>' ?></td>
 	<td style="text-align: center;"><?php echo \A11yc\Util::num2str($v['level']) ?></td>
+	<td style="text-align: center;"><?php echo '<a href="'.$report_url.'?url='.urlencode($url).'">'.A11YC_LANG_CHECKLIST_TITLE.'</a>' ?></td>
 	<td style="white-space: nowrap;"><?php echo \A11yc\Util::s($v['date']) ?></td>
 </tr>
 <?php endforeach; ?>
 </table>
 
-<p style="text-align: right;"><a href="./report.dist.php"><?php echo A11YC_LANG_REPORT ?></a></p>
+<p style="text-align: right;"><a href="<?php echo $report_url ?>"><?php echo A11YC_LANG_REPORT ?></a></p>
 
 </body>
 </html>

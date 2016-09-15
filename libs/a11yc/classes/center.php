@@ -35,6 +35,16 @@ class Center
 		// result
 		list($results, $checked, $passed_flat) = Evaluate::evaluate(Evaluate::evaluate_total());
 		Checklist::part_result($results, $target_level);
+		$result = \A11yc\View::fetch('result');
+
+		$additional = '';
+		if ($target_level != 3)
+		{
+			Checklist::part_result($results, $target_level, false);
+			$additional = \A11yc\View::fetch('result');
+		}
+		View::assign('result', $result, false);
+		View::assign('additional', $additional, false);
 
 		// passed and unpassed pages
 		View::assign('unpassed_pages', \A11yc\Evaluate::unpassed_pages($target_level));

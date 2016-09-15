@@ -23,11 +23,19 @@ require (A11YC_PATH.'/main.php');
 \A11yc\Db::init_table();
 
 // assign
+$url = '';
+$level = '';
 if (isset($_GET['url']))
 {
   $url = $_GET['url'];
 	\A11yc\View::assign('report_title', A11YC_LANG_TEST_RESULT.': '.\A11yc\Util::fetch_page_title($url));
 	\A11yc\Center::each($url);
+  // level
+  $level = \A11yc\Db::fetch('SELECT `level` FROM '.A11YC_TABLE_PAGES.' WHERE `url` = '.\A11yc\Db::escapeStr($url).';');
+  if ($level)
+  {
+    $level = $level['level'];
+  }
 }
 else
 {
@@ -41,6 +49,7 @@ $title           = \A11yc\View::fetch('report_title');
 $target_level    = \A11yc\View::fetch('target_level');
 $selected_method = \A11yc\View::fetch('selected_method');
 $result          = \A11yc\View::fetch('result');
+$additional      = \A11yc\View::fetch('additional');
 $done            = \A11yc\View::fetch('done');
 $total           = \A11yc\View::fetch('total');
 
@@ -75,6 +84,12 @@ $total           = \A11yc\View::fetch('total');
 		<th><!-- target level --><?php echo A11YC_LANG_TARGET_LEVEL ?></th>
 		<td><?php echo \A11YC\Util::num2str($target_level) ?></td>
 	</tr>
+<?php if ($url): ?>
+	<tr>
+		<th><!-- current level --><?php echo A11YC_LANG_CHECKLIST_ACHIEVEMENT ?></th>
+		<td><?php echo \A11YC\Util::num2str($level) ?></td>
+	</tr>
+<?php else: ?>
 	<tr>
 		<th><!-- current level --><?php echo A11YC_LANG_CURRENT_LEVEL_WEBPAGES ?></th>
 		<td>
@@ -124,11 +139,23 @@ $arr = array(
 <?php endif; ?>
 		</td>
 	</tr>
+<?php endif; ?>
+</tbody>
 </table>
 
 <!-- site results -->
 <h2><?php echo A11YC_LANG_CHECKLIST_TITLE ?></h2>
 <?php echo $result ?>
+
+<?php if ($additional): ?>
+<h2><?php echo A11YC_LANG_CHECKLIST_CONFORMANCE_ADDITIONAL ?></h2>
+<?php echo $additional ?>
+<?php endif; ?>
+
+<?php if($url): ?>
+<!--  -->
+<p style="text-align: right;"><a href="<?php echo $pages_url ?>"><?php echo A11YC_LANG_CHECKED_PAGES ?></a></p>
+<?php endif; ?>
 
 </body>
 </html>
