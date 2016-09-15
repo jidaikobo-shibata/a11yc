@@ -39,7 +39,7 @@ class Pages
 		// delete
 		if (isset($_GET['del']))
 		{
-			$page = urldecode(trim($_GET['url']));
+			$page = trim($_GET['url']);
 			$page = Db::escape($page);
 			Db::execute('UPDATE '.A11YC_TABLE_PAGES.' SET `trash` = 1 WHERE `url` = '.$page.';');
 		}
@@ -47,7 +47,7 @@ class Pages
 		// undelete
 		if (isset($_GET['undel']))
 		{
-			$page = urldecode(trim($_GET['url']));
+			$page = trim($_GET['url']);
 			$page = Db::escape($page);
 			Db::execute('UPDATE '.A11YC_TABLE_PAGES.' SET `trash` = 0 WHERE `url` = '.$page.';');
 		}
