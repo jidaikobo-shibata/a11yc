@@ -27,7 +27,7 @@ class Pages
 			foreach ($pages as $page)
 			{
 				$page = trim($page);
-				$page = Db::escapeStr($page);
+				$page = Db::escape($page);
 				$exist = Db::fetch('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = '.$page.';');
 				if ( ! $exist)
 				{
@@ -40,7 +40,7 @@ class Pages
 		if (isset($_GET['del']))
 		{
 			$page = urldecode(trim($_GET['url']));
-			$page = Db::escapeStr($page);
+			$page = Db::escape($page);
 			Db::execute('UPDATE '.A11YC_TABLE_PAGES.' SET `trash` = 1 WHERE `url` = '.$page.';');
 		}
 
@@ -48,7 +48,7 @@ class Pages
 		if (isset($_GET['undel']))
 		{
 			$page = urldecode(trim($_GET['url']));
-			$page = Db::escapeStr($page);
+			$page = Db::escape($page);
 			Db::execute('UPDATE '.A11YC_TABLE_PAGES.' SET `trash` = 0 WHERE `url` = '.$page.';');
 		}
 	}

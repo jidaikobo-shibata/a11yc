@@ -20,7 +20,7 @@ class Evaluate
 	 */
 	public static function fetch_results($url)
 	{
-		$sql = 'SELECT * FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = '.Db::escapeStr($url).';';
+		$sql = 'SELECT * FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = '.Db::escape($url).';';
 		$cs = array();
 		foreach (Db::fetch_all($sql) as $v)
 		{
@@ -222,7 +222,7 @@ class Evaluate
 		$css = array();
 		foreach ($ps as $k => $p)
 		{
-			$url = Db::escapeStr($p['url']);
+			$url = Db::escape($p['url']);
 			$cs = Db::fetch_all('SELECT * FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = '.$url.';');
 			foreach ($cs as $v)
 			{

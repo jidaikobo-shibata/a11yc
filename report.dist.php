@@ -31,7 +31,7 @@ if (isset($_GET['url']))
 	\A11yc\View::assign('report_title', A11YC_LANG_TEST_RESULT.': '.\A11yc\Util::fetch_page_title($url));
 	\A11yc\Center::each($url);
   // level
-  $level = \A11yc\Db::fetch('SELECT `level` FROM '.A11YC_TABLE_PAGES.' WHERE `url` = '.\A11yc\Db::escapeStr($url).';');
+  $level = \A11yc\Db::fetch('SELECT `level` FROM '.A11YC_TABLE_PAGES.' WHERE `url` = '.\A11yc\Db::escape($url).';');
   if ($level)
   {
     $level = $level['level'];

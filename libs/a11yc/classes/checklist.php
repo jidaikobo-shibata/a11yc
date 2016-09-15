@@ -20,7 +20,7 @@ class Checklist
 	 */
 	public static function fetch_page($url)
 	{
-		$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = '.Db::escapeStr($url).';';
+		$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = '.Db::escape($url).';';
 		return Db::fetch($sql);
 	}
 
@@ -69,8 +69,8 @@ class Checklist
 	{
 		if ($_POST)
 		{
-			$esc_url = Db::escapeStr($url);
-			$cs = Db::escapeStr($_POST['chk']);
+			$esc_url = Db::escape($url);
+			$cs = Db::escape($_POST['chk']);
 
 			// delete all
 			$sql = 'DELETE FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = '.$esc_url.';';
@@ -82,7 +82,7 @@ class Checklist
 				// if ( ! isset($v['on']) && empty($v['memo'])) continue;
 				if ( ! isset($v['on'])) continue;
 				$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS.' (`url`, `code`, `uid`, `memo`) VALUES ';
-				$sql.= '('.$esc_url.', '.Db::escapeStr($code).', '.$v['uid'].', '.$v['memo'].');';
+				$sql.= '('.$esc_url.', '.Db::escape($code).', '.$v['uid'].', '.$v['memo'].');';
 				Db::execute($sql);
 			}
 
@@ -91,8 +91,8 @@ class Checklist
 			$result = Evaluate::check_result($passed_flat);
 
 			// update/create page
-			$done = Db::escapeStr(isset($_POST['done']));
-			$date = Db::escapeStr(date('Y-m-d'));
+			$done = Db::escape(isset($_POST['done']));
+			$date = Db::escape(date('Y-m-d'));
 			$standard = intval($_POST['standard']);
 
 			if (static::fetch_page($url))

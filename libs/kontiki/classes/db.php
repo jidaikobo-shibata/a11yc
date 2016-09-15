@@ -124,7 +124,7 @@ class Db
 	 */
 	public static function is_table_exist($table, $name = 'default')
 	{
-		$table = static::escapeStr($table, $name);
+		$table = static::escape($table, $name);
 		$instance = static::instance($name);
 		if($instance->dbtype == 'sqlite')
 		{
@@ -138,17 +138,17 @@ class Db
 	}
 
 	/**
-	 * escapeStr
+	 * escape
 	 *
 	 * @param   string|array $str
 	 * @param   string       $name
 	 * @return  string|array
 	 */
-	public static function escapeStr($str, $name = 'default')
+	public static function escape($str, $name = 'default')
 	{
 		if (is_array($str))
 		{
-			return array_map(array('Kontiki\Db', 'escapeStr'), $str);
+			return array_map(array('Kontiki\Db', 'escape'), $str);
 		}
 		return static::instance($name)->dbh->quote(trim($str));
 	}

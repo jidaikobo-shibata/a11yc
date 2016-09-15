@@ -39,7 +39,7 @@ class Bulk extends Checklist
 	{
 		if ($_POST)
 		{
-			$cs = Db::escapeStr($_POST['chk']);
+			$cs = Db::escape($_POST['chk']);
 
 			// delete all
 			$sql = 'DELETE FROM '.A11YC_TABLE_BULK.';';
@@ -50,7 +50,7 @@ class Bulk extends Checklist
 			{
 				if ( ! isset($v['on'])) continue;
 				$sql = 'INSERT INTO '.A11YC_TABLE_BULK.' (`code`, `uid`, `memo`) VALUES ';
-				$sql.= '('.Db::escapeStr($code).', '.$v['uid'].', '.$v['memo'].');';
+				$sql.= '('.Db::escape($code).', '.$v['uid'].', '.$v['memo'].');';
 				Db::execute($sql);
 			}
 
@@ -60,10 +60,10 @@ class Bulk extends Checklist
 			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.';';
 			foreach (Db::fetch_all($sql) as $v)
 			{
-				$esc_url = Db::escapeStr($v['url']);
+				$esc_url = Db::escape($v['url']);
 				foreach ($cs as $code => $vv)
 				{
-					$code = Db::escapeStr($code);
+					$code = Db::escape($code);
 					$code_sql = 'SELECT code FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = '.$esc_url.' and `code` = '.$code.';';
 
 					if ( ! Db::fetch($code_sql) && isset($vv['on']))
@@ -85,7 +85,7 @@ class Bulk extends Checklist
 				$result = Evaluate::check_result($passed_flat);
 
 				$update_done = intval($_POST['update_done']);
-				$date = Db::escapeStr(date('Y-m-d'));
+				$date = Db::escape(date('Y-m-d'));
 
 				// update/create page
 				// do not update standard of each page
