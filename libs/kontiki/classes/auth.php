@@ -12,6 +12,8 @@
 namespace Kontiki;
 class Auth
 {
+	public static $user_id;
+
 	/**
 	 * __construct
 	 *
@@ -42,6 +44,7 @@ class Auth
 			if ($v[0] === $username && $v[1] === $password)
 			{
 				$_SESSION['uid'] = $id;
+				static::$user_id = $id;
 				return TRUE;
 			}
 		}

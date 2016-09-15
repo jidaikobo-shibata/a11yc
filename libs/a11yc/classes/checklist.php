@@ -157,7 +157,7 @@ class Checklist
 	 *
 	 * @param   string     $url
 	 * @param   array      $users
-	 * @param   integer    $current_user
+	 * @param   integer    $current_user_id
 	 * @return  string
 	 */
 	public static function form($url, $users = array(), $current_user_id = null)
