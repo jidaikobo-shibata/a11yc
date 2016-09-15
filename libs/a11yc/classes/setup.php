@@ -33,7 +33,7 @@ class Setup
 	{
 		if (isset($_POST) && $_POST)
 		{
-			$esc_post = Db::escapeStr($_POST);
+			$esc_post = Db::escape($_POST);
 			$target_level = intval($_POST['target_level']);
 			$selected_method = intval($_POST['selected_method']);
 			$checklist_behaviour = intval(@$_POST['checklist_behaviour']);
