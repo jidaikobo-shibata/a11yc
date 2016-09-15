@@ -91,7 +91,7 @@ class Checklist
 			$result = Evaluate::check_result($passed_flat);
 
 			// update/create page
-			$done = Db::escape(isset($_POST['done']));
+			$done = isset($_POST['done']) ? 1 : 0;
 			$date = Db::escape(date('Y-m-d'));
 			$standard = intval($_POST['standard']);
 
@@ -103,8 +103,8 @@ class Checklist
 			}
 			else
 			{
-				$sql = 'INSERT INTO '.A11YC_TABLE_PAGES.' (`url`, `date`, `level`, `done`, `standard`)';
-				$sql.= ' VALUES ('.$esc_url.', '.$date.', '.$result.', '.$done.', '.$standard.');';
+				$sql = 'INSERT INTO '.A11YC_TABLE_PAGES.' (`url`, `date`, `level`, `done`, `standard`, `trash`)';
+				$sql.= ' VALUES ('.$esc_url.', '.$date.', '.$result.', '.$done.', '.$standard.', 0);';
 			}
 			Db::execute($sql);
 		}
