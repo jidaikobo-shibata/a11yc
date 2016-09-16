@@ -2,20 +2,27 @@
 /**
  * config
  *
- * @package    part of Kontiki
+ * @package    part of Kontiki and a11yc
  */
 
-// database - sqlite or mysql
-define('KONTIKI_DBTYPE', 'sqlite');
+return array(
+  // database
+	'db' => array(
+		'default' => array(
+			'dbtype' => 'sqlite',
+			'path' => dirname(__DIR__).'/path/to/db.sqlite',
+		),
+		/*
+			'default' => array(
+				'dbtype' => 'mysql',
+				'db' => '',
+				'user' => '',
+				'host' => '',
+				'password' => '',
+			),
+		*/
+	),
 
-// sqlite
-define('KONTIKI_SQLITE_PATH', '/path/to/db/db.sqlite');
-
-// mysql
-define('KONTIKI_MYSQL_NAME', '');
-define('KONTIKI_MYSQL_USER', '');
-define('KONTIKI_MYSQL_HOST', '');
-define('KONTIKI_MYSQL_PASSWORD', '');
-
-// view
-define('KONTIKI_VIEWS_PATH', '/path/to/views');
+  // template
+	'template_path' => dirname(__DIR__).'/path/to/views',
+);

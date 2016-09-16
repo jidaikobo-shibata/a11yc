@@ -13,6 +13,21 @@ namespace Kontiki;
 class Util
 {
 	/**
+	 * add autoloader path
+	 *
+	 * @return  void
+	 */
+	public static function add_autoloader_path($path)
+	{
+		spl_autoload_register(
+			function ($class_name) use ($path)
+			{
+				require $path.$class_name.= '.php';
+			}
+		);
+	}
+
+	/**
 	 * get current uri
 	 *
 	 * @return  string

@@ -8,6 +8,6 @@
  * key must be started with 1 (not 0)
  */
 
-$users = array(
+return array(
   1 => array('root', 'password', 'root', ''),
 );

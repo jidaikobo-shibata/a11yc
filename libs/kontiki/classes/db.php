@@ -161,7 +161,12 @@ class Db
 	 * @param   string     $name
 	 * @return  array
 	 */
-	public static function fetch($sql, $placeholders = array(), $name = 'default')
+	public static function fetch
+		(
+			$sql,
+			$placeholders = array(),
+			$name = 'default'
+		)
 	{
 		$retval = FALSE;
 		$dbh = static::instance($name)->dbh->prepare($sql);
@@ -179,7 +184,12 @@ class Db
 	 * @param   string     $name
 	 * @return  array
 	 */
-	public static function fetch_all($sql, $placeholders = array(), $name = 'default')
+	public static function fetch_all
+		(
+			$sql,
+			$placeholders = array(),
+			$name = 'default'
+		)
 	{
 		$dbh = static::instance($name)->dbh->prepare($sql);
 		$dbh->execute($placeholders);
@@ -189,17 +199,22 @@ class Db
 	}
 
 	/**
-	 * fetch_all.
+	 * fetch_all
 	 *
 	 * @param   string     $sql
 	 * @param   array      $placeholders
 	 * @param   string     $fetch_style
 	 * @return  array
 	 */
-	public static function fetchAll($sql, $placeholders = array(), $fetch_style='PDO::FETCH_ASSOC', $name = 'default')
+	public static function fetchAll
+		(
+			$sql,
+			$placeholders = array(),
+			$fetch_style = 'PDO::FETCH_ASSOC',
+			$name = 'default'
+		)
 	{
 		$instance = static::instance($name);
-		$fetch_style = substr($fetch_style,0,5) == 'PDO::' ? $fetch_style : 'PDO::'.$fetch_style;
 		$dbh = $instance->prepare($sql, $name);
 		$dbh->execute($placeholders);
 		$retvals = $dbh->fetchAll(constant($fetch_style));
@@ -208,14 +223,19 @@ class Db
 	}
 
 	/**
-	 * execute sql.
+	 * execute sql
 	 *
 	 * @param   string     $sql
 	 * @param   array      $placeholders
 	 * @param   string     $name
 	 * @return  void
 	 */
-	public static function execute($sql, $placeholders = array(), $name = 'default')
+	public static function execute
+		(
+			$sql,
+			$placeholders = array(),
+			$name = 'default'
+		)
 	{
 		$dbh = static::instance($name)->dbh->prepare($sql);
 		$dbh->execute($placeholders);
