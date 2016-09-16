@@ -92,7 +92,8 @@ define('A11YC_LANG_BULK_TITLE', '一括処理');
 define('A11YC_LANG_BULK_UPDATE', '一括処理タイプ');
 define('A11YC_LANG_BULK_UPDATE1', '新規チェック時の初期値として保存する（既存のページの試験結果を一切変更しません）');
 define('A11YC_LANG_BULK_UPDATE2', 'チェックしたものだけを既存の試験結果に反映する（チェックを外す更新は行いません）');
-define('A11YC_LANG_BULK_UPDATE3', 'チェックを外したものも既存の試験結果に反映する（注意：サイト内で全ページの試験結果が同じになります）');
+//define('A11YC_LANG_BULK_UPDATE3', 'チェックを外したものも既存の試験結果に反映する（注意：サイト内で全ページの試験結果が同じになります）');
+define('A11YC_LANG_BULK_UPDATE3', 'すべての項目を既存の試験結果に反映する（注意：サイト内で全ページの試験結果が同じになります）');
 define('A11YC_LANG_BULK_DONE', 'チェック終了');
 define('A11YC_LANG_BULK_DONE1', '既存のページのチェックフラグを変更しない');
 define('A11YC_LANG_BULK_DONE2', '既存のページをすべてチェック終了にする');
@@ -101,6 +102,7 @@ define('A11YC_LANG_BULK_DONE3', '既存のページをすべて未チェック�
 // documents
 define('A11YC_LANG_DOCS_TITLE', '参考資料');
 define('A11YC_LANG_DOCS_EACH_TITLE', '参考資料');
-define('A11YC_LANG_DOCS_EACH_SUBTITLE', '「%s」の&nbsp;howto');
+define('A11YC_LANG_DOCS_EACH_SUBTITLE', '「%s」について');
+define('A11YC_LANG_DOCS_EACH_SUBTITLE_HOWTO', '「%s」の&nbsp;howto');
 define('A11YC_LANG_DOCS_TEST', '試験方法について');
 define('A11YC_LANG_DOCS_UNDERSTANDING', '達成基準&nbsp;%s&nbsp;を理解する');

@@ -379,4 +379,28 @@ $('#a11yc_checks th').on('click', function(e){
 //JavaScript有効時に表示、無効時にはCSSで非表示
 	$('.a11yc_hide_if_no_js').removeClass('a11yc_hide_if_no_js').addClass('a11yc_show_if_js');
 	$('.a11yc_hide_if_no_js').find(':disabled').prop("disabled", false);
+	
+	
+	//yml確認用
+	var $panel = $('<textarea id="panel" style="position: fixed; width: 500px; resize: vertical; height: 60px; top: 40px; right: 0; box-shadow: 0 0 3px 0 rgba(0,0,0,.25); border: 1px solid #9bc; z-index: 10000;">').appendTo('body');
+	var $checked_arr = $('.a11yc_table_check input[type="checkbox"]');
+	var yml_arr = [];
+	var yml_passed = [];
+	$checked_arr.each(function(index){
+		var arr = $(this).data('pass').split(',');
+		yml_arr[this.id] = arr;
+		for(var k in arr)
+		{
+			yml_passed[arr[k]] = typeof yml_passed[arr[k]] =='undefined' ? [this.id] : yml_passed[arr[k]].concat([this.id]);
+		}
+	});
+	
+	//出力
+	var str = '';
+	for(var k in yml_arr)
+	{
+		str = str+ "■" + k +"\npassed: \n\t"+yml_arr[k].join(', ')+"\n";
+		if(yml_passed[k]) str = str+"被pass: \n\t"+yml_passed[k].join(', ')+"\n\n";
+	}
+	$panel.text(str);
 });

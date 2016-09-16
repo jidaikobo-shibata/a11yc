@@ -7,6 +7,9 @@
 [lang=ja] .a11yc {
 	font-family: helvetica, arial, "hiragino kaku gothic pro",meiryo,"ms pgothic",sans-serif;
 }
+a:link {
+	color: #006ab6;
+}
 .a11yc_icon_fa {
 	font-family: FontAwesome;
 	-webkit-font-smoothing: antialiased;
