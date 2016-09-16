@@ -43,7 +43,7 @@ class Util
 	public static function s($str)
 	{
 		if (is_array($str)) return array_map(array('\Kontiki\Util', 's'), $str);
-		return htmlspecialchars($str, ENT_QUOTES);
+		return htmlspecialchars($str, ENT_QUOTES, 'UTF-8', false);
 	}
 
 	/**

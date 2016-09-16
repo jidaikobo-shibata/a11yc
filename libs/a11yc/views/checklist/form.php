@@ -200,5 +200,5 @@
 	<?php endforeach;  ?>
 	</div><!--/#section_p_<?php echo $v['code'] ?>.section_guidelines-->
 <?php endforeach;  ?>
-<input type="hidden" value="<?php echo s($url) ?>" />
+<input type="hidden" name="url" value="<?php echo s($url) ?>" />
 </div><!-- /#a11yc_checks -->
