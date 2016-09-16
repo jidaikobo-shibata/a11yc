@@ -180,18 +180,10 @@ class Checklist
 		View::assign('errs', static::validate_page($url));
 
 		// cs
-		if ($url == 'bulk')
-		{
-			$cs = Bulk::fetch_results();
-			View::assign('cs', array());
-			View::assign('bulk', $cs);
-		}
-		else
-		{
-			$cs = Evaluate::fetch_results($url);
-			View::assign('cs', $cs);
-			View::assign('bulk', array());
-		}
+		$bulk = Bulk::fetch_results();
+		$cs = Evaluate::fetch_results($url);
+		View::assign('bulk', $bulk);
+		View::assign('cs', $url == 'bulk' ? array() : $cs);
 
 		// form
 		View::assign('form', View::fetch_tpl('checklist/form.php'), false);

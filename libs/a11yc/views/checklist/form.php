@@ -154,8 +154,9 @@
 
 				$checked = '';
 				if (
-					($page && isset($cs[$code])) ||
-					( ! $page && isset($bulk[$code]))
+					($page && isset($cs[$code])) || // ordinary
+					($page && isset($bulk[$code]) && empty($cs)) || // default
+					( ! $page && isset($bulk[$code])) // bulk
 				):
 					$checked = ' checked="checked"';
 				endif;
