@@ -25,6 +25,8 @@ require (A11YC_PATH.'/main.php');
 // assign
 $url = '';
 $level = '';
+
+// each page
 if (isset($_GET['url']))
 {
   $url = $_GET['url'];
@@ -37,6 +39,7 @@ if (isset($_GET['url']))
     $level = $level['level'];
   }
 }
+// total
 else
 {
 	\A11yc\View::assign('report_title', A11YC_LANG_TEST_RESULT);
@@ -51,6 +54,8 @@ $selected_method = \A11yc\View::fetch('selected_method');
 $result          = \A11yc\View::fetch('result');
 $additional      = \A11yc\View::fetch('additional');
 $done            = \A11yc\View::fetch('done');
+$unpassed_pages  = \A11yc\View::fetch('unpassed_pages');
+$passed_pages    = \A11yc\View::fetch('passed_pages');
 $total           = \A11yc\View::fetch('total');
 
 ?><!DOCTYPE html>
