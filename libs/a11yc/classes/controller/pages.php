@@ -29,7 +29,6 @@ class Controller_Pages
 	 */
 	public static function dbio()
 	{
-
 		// update
 		if (isset($_POST['pages']))
 		{
@@ -39,11 +38,12 @@ class Controller_Pages
 			{
 				$page = trim($page);
 				if ( ! $page) continue;
-				$page = Db::escape(urldecode($page));
-				$exist = Db::fetch('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = '.$page.';');
+				$page = urldecode($page);
+				$exist = Db::fetch('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;', array($page));
 				if ( ! $exist)
 				{
-					$r = Db::execute('INSERT INTO '.A11YC_TABLE_PAGES.' (`url`, `trash`) VALUES ('.$page.', 0);');
+					$sql = 'INSERT INTO '.A11YC_TABLE_PAGES.' (`url`, `trash`) VALUES (?, 0);';
+					$r = Db::execute(array($sql, $page));
 				}
 			}
 		}
@@ -52,16 +52,16 @@ class Controller_Pages
 		if (isset($_GET['del']))
 		{
 			$page = urldecode(trim($_GET['url']));
-			$page = Db::escape($page);
-			$r = Db::execute('UPDATE '.A11YC_TABLE_PAGES.' SET `trash` = 1 WHERE `url` = '.$page.';');
+			$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET `trash` = 1 WHERE `url` = ?;';
+			$r = Db::execute($sql, array($page));
 		}
 
 		// undelete
 		if (isset($_GET['undel']))
 		{
 			$page = urldecode(trim($_GET['url']));
-			$page = Db::escape($page);
-			$r = Db::execute('UPDATE '.A11YC_TABLE_PAGES.' SET `trash` = 0 WHERE `url` = '.$page.';');
+			$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET `trash` = 0 WHERE `url` = ?;';
+			$r = Db::execute($sql, array($page));
 		}
 
 		if ($r)
