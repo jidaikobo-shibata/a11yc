@@ -24,7 +24,7 @@ class View
 	 */
 	public static function forge($tpl_path)
 	{
-		if ( ! file_exists($tpl_path)) die('template path not found');
+		if ( ! file_exists($tpl_path)) die('template path not found: '. s($tpl_path));
 		static::$tpl_path = rtrim($tpl_path, '/');
 	}
 
@@ -70,7 +70,7 @@ class View
 	public static function fetch_tpl($tpl)
 	{
 		$tpl_path = static::tpl_path($tpl);
-		if ( ! $tpl_path) die('template not found');
+		if ( ! $tpl_path) die('template not found: '. s($tpl));
 
 		// extract
 		extract (static::$vals);
