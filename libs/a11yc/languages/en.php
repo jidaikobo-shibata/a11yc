@@ -94,7 +94,8 @@ define('A11YC_LANG_BULK_TITLE', 'Batch');
 define('A11YC_LANG_BULK_UPDATE', 'Batch Type');
 define('A11YC_LANG_BULK_UPDATE1', 'Save as the initial value at the new check (does not change any of the test results of an existing page)');
 define('A11YC_LANG_BULK_UPDATE2', 'Only those that checked reflected in the existing test results (but does not update to remove the check)');
-define('A11YC_LANG_BULK_UPDATE3', 'Remove the check is also reflected in the existing test results (Note: The test results of all the pages will be the same in the site)');
+//define('A11YC_LANG_BULK_UPDATE3', 'Remove the check is also reflected in the existing test results (Note: The test results of all the pages will be the same in the site)');
+define('A11YC_LANG_BULK_UPDATE3', 'Reflect all of the items to the existing test results (Note: The test results of all the pages will be the same in the site)');
 define('A11YC_LANG_BULK_DONE', 'Check the end ');
 define('A11YC_LANG_BULK_DONE1', 'Do not change the check flag of an existing page');
 define('A11YC_LANG_BULK_DONE2', 'To check the end all existing page');
@@ -103,6 +104,7 @@ define('A11YC_LANG_BULK_DONE3', 'To un-check all of the existing page');
 // documents
 define('A11YC_LANG_DOCS_TITLE', 'Documents');
 define('A11YC_LANG_EACTH_DOCS_TITLE', 'Documents');
-define('A11YC_LANG_DOCS_EACH_SUBTITLE', 'How to "%s"');
+define('A11YC_LANG_DOCS_EACH_SUBTITLE', 'About "%s"');
+define('A11YC_LANG_DOCS_EACH_SUBTITLE_HOWTO', 'How to "%s"');
 define('A11YC_LANG_DOCS_TEST', 'About Testing');
 define('A11YC_LANG_DOCS_UNDERSTANDING', 'Understanding SC&nbsp;%s');

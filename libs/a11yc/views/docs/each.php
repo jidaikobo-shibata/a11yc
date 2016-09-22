@@ -1,5 +1,11 @@
 <?php
-if(isset($doc['name'])) echo '<h2>'.sprintf(A11YC_LANG_DOCS_EACH_SUBTITLE, $doc['name']).'</h2>';
+if (isset($doc['criterion'])):
+	echo isset($doc['name']) ? '<h2>'.sprintf(A11YC_LANG_DOCS_EACH_SUBTITLE_HOWTO, $doc['name']).'</h2>' : '';
+else:
+	echo isset($doc['name']) ? '<h2>'.sprintf(A11YC_LANG_DOCS_EACH_SUBTITLE, $doc['name']).'</h2>' : '';
+endif;
+
+
 $lines = isset($doc['tech']) ? explode("\n", stripslashes(\A11YC\Util::key2link($doc['tech']))) : false;
 if ($lines): ?>
 	<ul>

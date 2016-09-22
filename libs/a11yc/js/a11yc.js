@@ -379,4 +379,56 @@ $('#a11yc_checks th').on('click', function(e){
 //JavaScript有効時に表示、無効時にはCSSで非表示
 	$('.a11yc_hide_if_no_js').removeClass('a11yc_hide_if_no_js').addClass('a11yc_show_if_js');
 	$('.a11yc_hide_if_no_js').find(':disabled').prop("disabled", false);
+	
+	
+	//yml確認用
+	if($('#a11yc_checklist')[0]){
+		var $panel = $('<div id="panel" style="position: fixed; width: 600px; resize: vertical; height: 800px;background-color: #fff;font-size: 80%; overflow-y: auto; top: 40px; right: 0; box-shadow: 0 0 3px 0 rgba(0,0,0,.25); border: 1px solid #9bc; z-index: 10000;padding:0 5px;">').appendTo('body');
+		var $button = $('<span style="position: fixed; top: 32px; right: 0; display: inline-block; padding: 2px 5px;border-radius: 3px; background-color: #e66;font-size: 12px; color: #fff; z-index: 20000;cursor: pointer;">ｘ閉じる</span>').appendTo('body');
+		$button.on('click',function(){
+			$panel.add($button).remove();
+		});
+		var $checked_arr = $('.a11yc_table_check input[type="checkbox"]');
+		var yml_arr = [];
+		var yml_passed = [];
+		var yml_diff = [];
+		$checked_arr.each(function(index){
+			var arr = $(this).data('pass').split(',');
+			yml_arr[this.id] = arr;
+			for(var k in arr)
+			{
+				yml_passed[arr[k]] = typeof yml_passed[arr[k]] =='undefined' ? [this.id] : yml_passed[arr[k]].concat([this.id]);
+			}
+		});
+		
+		//出力
+		var str = '';
+		for(var k in yml_arr)
+		{
+			var label = $('#'+k).parent().text();
+			if(yml_passed[k] && yml_arr[k] && yml_arr[k].length == yml_passed[k].length)
+			{
+				str = str+"<h1 style='font-size: 1em; border-bottom: 1px solid #ccc; margin: 5px 0 1em; color: #aaa;font-weight: normal;'>□"+k+" "+label+' (差なし)'+"</h1>";
+				continue;
+			}
+			yml_arr_str = "";
+			yml_passed_str = "";
+			for(var kk in yml_arr[k])
+			{
+				yml_diff_str = $.inArray(yml_arr[k][kk], yml_passed[k])==-1 ? ' color: #e33;' : '';
+				yml_arr_str = yml_arr_str+'<a href="" title="'+$('#'+yml_arr[k][kk]).parent().text()+'" style="cursor: help;'+yml_diff_str+'">'+yml_arr[k][kk]+'</a>, ';
+			}
+			for(var kk in yml_passed[k])
+			{
+				yml_diff_str = $.inArray(yml_passed[k][kk], yml_arr[k])==-1 ? ' color: #e33;' : '';
+
+				yml_passed_str = yml_passed_str+'<a href="" title="'+$('#'+yml_passed[k][kk]).parent().text()+'" style="cursor: help;'+yml_diff_str+'">'+yml_passed[k][kk]+'</a>, ';
+			}
+
+			str = str+ "<h1 style='font-size: 1em; border-bottom: 1px solid #ccc; margin-bottom: 0;'>■" + k+" "+label +"</h1><dl style='margin-top: 2px;'><dt>\npassed:</dt><dd>"+yml_arr_str+"</dd>";
+			if(yml_passed[k]) str = str+"<dt>被pass:</dt><dd>"+yml_passed_str+"</dd>";
+			str = str+"</dl>";
+		}
+		$panel.html(str);
+	}
 });
