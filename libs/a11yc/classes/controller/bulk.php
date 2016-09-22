@@ -49,7 +49,7 @@ class Controller_Bulk extends Controller_Checklist
 	{
 		if ($_POST)
 		{
-			$cs = Db::escape($_POST['chk']);
+			$cs = $_POST['chk'];
 
 			// delete all
 			$sql = 'DELETE FROM '.A11YC_TABLE_BULK.';';
@@ -60,8 +60,8 @@ class Controller_Bulk extends Controller_Checklist
 			{
 				if ( ! isset($v['on'])) continue;
 				$sql = 'INSERT INTO '.A11YC_TABLE_BULK.' (`code`, `uid`, `memo`) VALUES ';
-				$sql.= '('.Db::escape($code).', '.$v['uid'].', '.$v['memo'].');';
-				if (Db::execute($sql))
+				$sql.= '(?, ?, ?);';
+				if (Db::execute($sql, array($code, $v['uid'], $v['memo'])))
 				{
 					\A11yc\View::assign('messages', array(A11YC_LANG_UPDATE_SUCCEED));
 				}
@@ -77,23 +77,22 @@ class Controller_Bulk extends Controller_Checklist
 			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.';';
 			foreach (Db::fetch_all($sql) as $v)
 			{
-				$esc_url = Db::escape($v['url']);
 				foreach ($cs as $code => $vv)
 				{
-					$code = Db::escape($code);
-					$code_sql = 'SELECT code FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = '.$esc_url.' and `code` = '.$code.';';
+					$code_sql = 'SELECT code FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = ? and `code` = ?;';
 
-					if ( ! Db::fetch($code_sql) && isset($vv['on']))
+					if ( ! Db::fetch($code_sql, array($v['url'], $code)) && isset($vv['on']))
 					{
-						$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS.' (`url`, `code`, `uid`, `memo`) VALUES ('.$esc_url.', '.$code.', '.$vv['uid'].', '.$vv['memo'].');';
-						Db::execute($sql);
+						$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS.' (`url`, `code`, `uid`, `memo`)';
+						$sql.= ' VALUES (?, ?, ?, ?);';
+						Db::execute($sql, array($v['url'], $code, $vv['uid'], $vv['memo']));
 					}
 
 					// uncheck
-					if ($_POST['update_all'] == 3 && Db::fetch($code_sql) && ! isset($vv['on']))
+					if ($_POST['update_all'] == 3 && Db::fetch($code_sql, array($v['url'], $code)) && ! isset($vv['on']))
 					{
-						$sql = 'DELETE FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = '.$esc_url.' and `code` = '.$code.';';
-						Db::execute($sql);
+						$sql = 'DELETE FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = ? and `code` = ?;';
+						Db::execute($sql, array($v['url'], $code));
 					}
 				}
 
@@ -109,17 +108,16 @@ class Controller_Bulk extends Controller_Checklist
 				if ($update_done == 1)
 				{
 					$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET ';
-					$sql.= '`date` = '.$date.', `level` = '.$result.';';
-					$sql.= ' WHERE `url` = '.$esc_url.';';
+					$sql.= '`date` = ?, `level` = ? WHERE `url` = ?;';
+					Db::execute($sql, array($date, $result, $v['url']));
 				}
 				else
 				{
 					$done = $update_done == 2 ? 1 : 0 ;
 					$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET ';
-					$sql.= '`date` = '.$date.', `level` = '.$result.', `done` = '.$done;
-					$sql.= ' WHERE `url` = '.$esc_url.';';
+					$sql.= '`date` = ?, `level` = ?, `done` = ? WHERE `url` = ?;';
+					Db::execute($sql, array($date, $result, $done, $v['url']));
 				}
-				Db::execute($sql);
 			}
 		}
 	}
