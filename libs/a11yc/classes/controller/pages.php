@@ -38,6 +38,7 @@ class Controller_Pages
 			foreach ($pages as $page)
 			{
 				$page = trim($page);
+				if ( ! $page) continue;
 				$page = Db::escape(urldecode($page));
 				$exist = Db::fetch('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = '.$page.';');
 				if ( ! $exist)
