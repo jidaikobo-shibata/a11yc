@@ -11,7 +11,6 @@
  */
 
 // path
-define('A11YC_PATH', dirname(__DIR__).'/libs/a11yc');
 define('A11YC_CLASSES_PATH',  A11YC_PATH.'/classes');
 define('A11YC_RESOURCE_PATH', A11YC_PATH.'/resources/'.A11YC_LANG);
 
