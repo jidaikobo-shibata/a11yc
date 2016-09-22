@@ -25,9 +25,11 @@ define('A11YC_LANG_UNDERSTANDING', '解説');
 define('A11YC_LANG_NO_DOC', 'ドキュメントが存在しません');
 define('A11YC_LANG_JUMP_TO_CONTENT', '本文へ移動');
 define('A11YC_LANG_BEGINNING_OF_THE_CONTENT', 'ここから本文です');
+define('A11YC_LANG_UPDATE_SUCCEED', '更新しました');
+define('A11YC_LANG_UPDATE_FAILED', '更新に失敗しました');
 
 // login
-define('A11YC_LANG_LOGIN_TITLE', 'A11YC ログイン');
+define('A11YC_LANG_AUTH_TITLE', 'A11YC ログイン');
 define('A11YC_LANG_LOGIN_USERNAME', 'ユーザ名');
 define('A11YC_LANG_LOGIN_PASWWORD', 'パスワード');
 define('A11YC_LANG_LOGIN_BTN', 'ログインする');

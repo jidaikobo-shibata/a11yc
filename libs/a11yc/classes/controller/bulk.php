@@ -10,8 +10,18 @@
  * @link       http:/www.jidaikobo.com
  */
 namespace A11yc;
-class Bulk extends Checklist
+class Controller_Bulk extends Controller_Checklist
 {
+	/**
+	 * action index
+	 *
+	 * @return  void
+	 */
+	public static function Action_Index()
+	{
+		static::checklist('bulk');
+	}
+
 	/**
 	 * fetch_results
 	 *
@@ -51,7 +61,14 @@ class Bulk extends Checklist
 				if ( ! isset($v['on'])) continue;
 				$sql = 'INSERT INTO '.A11YC_TABLE_BULK.' (`code`, `uid`, `memo`) VALUES ';
 				$sql.= '('.Db::escape($code).', '.$v['uid'].', '.$v['memo'].');';
-				Db::execute($sql);
+				if (Db::execute($sql))
+				{
+					\A11yc\View::assign('messages', array(A11YC_LANG_UPDATE_SUCCEED));
+				}
+				else
+				{
+					\A11yc\View::assign('errors', array(A11YC_LANG_UPDATE_FAILED));
+				}
 			}
 
 			if ($_POST['update_all'] == 1) return;

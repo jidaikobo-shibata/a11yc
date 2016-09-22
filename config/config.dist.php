@@ -8,6 +8,11 @@
 // base url
 define('A11YC_URL', 'http://example.com/a11yc/index.php');
 
+// users
+define('A11YC_USERS', serialize(array(
+	1 => array('root', 'password', 'root', ''),
+)));
+
 // for css and js
 define('A11YC_URL_DIR', dirname(A11YC_URL).'/libs/a11yc');
 
@@ -26,10 +31,10 @@ define('A11YC_TABLE_SETUP',  'a11y_setup');
 define('A11YC_TABLE_BULK',   'a11y_bulk');
 
 // url
-define('A11YC_BULK_URL',      A11YC_URL.'?mode=bulk');
-define('A11YC_PAGES_URL',     A11YC_URL.'?mode=pages');
-define('A11YC_CHECKLIST_URL', A11YC_URL.'?mode=checklist&amp;url=');
-define('A11YC_DOC_URL',       A11YC_URL.'?mode=docs_each&amp;code=');
+define('A11YC_BULK_URL',      A11YC_URL.'?c=bulk&amp;a=index');
+define('A11YC_PAGES_URL',     A11YC_URL.'?c=pages&amp;a=index');
+define('A11YC_CHECKLIST_URL', A11YC_URL.'?c=checklist&amp;a=index&amp;url=');
+define('A11YC_DOC_URL',       A11YC_URL.'?c=docs&amp;a=each&amp;code=');
 
 // target
 define('A11YC_TARGET',     ' target="a11y_target"');

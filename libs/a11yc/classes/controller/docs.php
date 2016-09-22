@@ -10,8 +10,30 @@
  * @link       http:/www.jidaikobo.com
  */
 namespace A11yc;
-class Docs
+class Controller_Docs
 {
+	/**
+	 * action index
+	 *
+	 * @return  void
+	 */
+	public static function Action_Index()
+	{
+		static::index();
+	}
+
+	/**
+	 * action each
+	 *
+	 * @return  void
+	 */
+	public static function Action_Each()
+	{
+		$criterion = isset($_GET['criterion']) ? $_GET['criterion'] : '';
+		$code = isset($_GET['code']) ? $_GET['code'] : '';
+		static::each($criterion, $code);
+	}
+
 	/**
 	 * Show Techs Index
 	 *

@@ -17,12 +17,30 @@ class Util
 	 *
 	 * @return  void
 	 */
-	public static function add_autoloader_path($path)
+	public static function add_autoloader_path($path, $namespace = '')
 	{
 		spl_autoload_register(
-			function ($class_name) use ($path)
+			function ($class_name) use ($path, $namespace)
 			{
-				require $path.$class_name.= '.php';
+				// check namespace
+				$class = strtolower($class_name);
+				$strlen = strlen($namespace);
+
+				if (substr($class, 0, $strlen) !== $namespace) return;
+				$class = substr($class, $strlen + 1);
+
+				// underscores are directories
+				$path.= str_replace('_', '/', $class);
+
+				// require
+				require $path.'.php';
+
+				// init
+				if (method_exists($class_name, '_init') and is_callable($class_name.'::_init'))
+				{
+					call_user_func($class_name.'::_init');
+				}
+
 			}
 		);
 	}

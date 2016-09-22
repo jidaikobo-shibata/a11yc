@@ -15,11 +15,11 @@ class Auth
 	public static $user_id;
 
 	/**
-	 * __construct
+	 * _init
 	 *
 	 * @return  void
 	 */
-	public function __construct()
+	public static function _init()
 	{
 		if (Util::is_ssl())
 		{
@@ -67,16 +67,5 @@ class Auth
 	public static function logout ()
 	{
 		unset($_SESSION['uid']);
-	}
-
-	/**
-	 * login form
-	 *
-	 * @return string
-	 */
-	public static function login_form ()
-	{
-		\Kontiki\View::assign('title', A11YC_LANG_LOGIN_TITLE);
-		\Kontiki\View::assign('body', \Kontiki\View::fetch_tpl('auth/login.php'), false);
 	}
 }

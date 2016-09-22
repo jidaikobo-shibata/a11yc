@@ -10,8 +10,20 @@
  * @link       http:/www.jidaikobo.com
  */
 namespace A11yc;
-class Setup
+class Controller_Setup
 {
+	/**
+	 * action
+	 *
+	 * @return  void
+	 */
+	public static function Action_Index()
+	{
+		static::form();
+		View::assign('form', View::fetch('form'), false);
+		View::assign('body', View::fetch_tpl('setup/index.php'), false);
+	}
+
 	/**
 	 * fetch setup
 	 *
@@ -20,7 +32,7 @@ class Setup
 	public static function fetch_setup()
 	{
 		$sql = 'SELECT * FROM '.A11YC_TABLE_SETUP.';';
-		$ret = \A11yc\Db::fetch_all($sql);
+		$ret = Db::fetch_all($sql);
 		return isset($ret[0]) ? $ret[0] : array();
 	}
 
@@ -79,20 +91,15 @@ class Setup
 				$sql.= $esc_post['report'].', ';
 				$sql.= $checklist_behaviour.');';
 			}
-			Db::execute($sql);
+			if (Db::execute($sql))
+			{
+				\A11yc\View::assign('messages', array(A11YC_LANG_UPDATE_SUCCEED));
+			}
+			else
+			{
+				\A11yc\View::assign('errors', array(A11YC_LANG_UPDATE_FAILED));
+			}
 		}
-	}
-
-	/**
-	 * index
-	 *
-	 * @return  string
-	 */
-	public static function index()
-	{
-		static::form();
-		View::assign('form', View::fetch('form'), false);
-		View::assign('body', View::fetch_tpl('setup/index.php'), false);
 	}
 
 	/**

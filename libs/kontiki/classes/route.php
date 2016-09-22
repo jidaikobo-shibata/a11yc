@@ -12,5 +12,4 @@
 namespace Kontiki;
 class Route
 {
-
 }

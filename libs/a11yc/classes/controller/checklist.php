@@ -10,8 +10,20 @@
  * @link       http:/www.jidaikobo.com
  */
 namespace A11yc;
-class Checklist
+class Controller_Checklist
 {
+	/**
+	 * action index
+	 *
+	 * @return  void
+	 */
+	public static function Action_Index()
+	{
+		$url = isset($_GET['url']) ? urldecode($_GET['url']) : '';
+		$url = empty($url) && isset($_POST['url']) ? urldecode($_POST['url']) : $url;
+		static::checklist($url);
+	}
+
 	/**
 	 * fetch page from db
 	 *
@@ -106,7 +118,15 @@ class Checklist
 				$sql = 'INSERT INTO '.A11YC_TABLE_PAGES.' (`url`, `date`, `level`, `done`, `standard`, `trash`)';
 				$sql.= ' VALUES ('.$esc_url.', '.$date.', '.$result.', '.$done.', '.$standard.', 0);';
 			}
-			Db::execute($sql);
+
+			if (Db::execute($sql))
+			{
+				\A11yc\View::assign('messages', array(A11YC_LANG_UPDATE_SUCCEED));
+			}
+			else
+			{
+				\A11yc\View::assign('errors', array(A11YC_LANG_UPDATE_FAILED));
+			}
 		}
 	}
 
@@ -172,7 +192,7 @@ class Checklist
 		View::assign('current_user_id', $current_user_id);
 		View::assign('yml', Yaml::fetch(), false);
 		View::assign('standards', Yaml::each('standards'));
-		$setup = Setup::fetch_setup();
+		$setup = Controller_Setup::fetch_setup();
 		View::assign('setup', $setup);
 		View::assign('checklist_behaviour', intval(@$setup['checklist_behaviour']));
 		View::assign('target_level', intval(@$setup['target_level']));
@@ -180,7 +200,7 @@ class Checklist
 		View::assign('errs', static::validate_page($url));
 
 		// cs
-		$bulk = Bulk::fetch_results();
+		$bulk = Controller_Bulk::fetch_results();
 		$cs = Evaluate::fetch_results($url);
 		View::assign('bulk', $bulk);
 		View::assign('cs', $url == 'bulk' ? array() : $cs);
@@ -206,7 +226,7 @@ class Checklist
 		}
 
 		// base informations
-		$setup = Setup::fetch_setup();
+		$setup = Controller_Setup::fetch_setup();
 		$target_level = intval(@$setup['target_level']);
 
 		// evaluate

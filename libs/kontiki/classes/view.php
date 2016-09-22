@@ -13,6 +13,20 @@ namespace Kontiki;
 class View
 {
 	public static $vals = array();
+	public static $tpl_path;
+
+	/**
+	 * set template path
+	 *
+	 * @param   string    Identifier for this db
+	 * @param   array     Configuration array
+	 * @return  Fieldset
+	 */
+	public static function forge($tpl_path)
+	{
+		if ( ! file_exists($tpl_path)) die('template path not found');
+		static::$tpl_path = rtrim($tpl_path, '/');
+	}
 
 	/**
 	 * tpl_path
@@ -22,11 +36,8 @@ class View
 	 */
 	public static function tpl_path($tpl)
 	{
-		$configs = include KONTIKI_CONFIG_PATH;
-		$template_path = $configs['template_path'];
-
-		$path = $template_path.'/'.$tpl;
-		$fallback = dirname(__DIR__).'/templates/'.$tpl;
+		$path = static::$tpl_path.'/'.$tpl;
+		$fallback = dirname(__DIR__).'/views/'.$tpl;
 
 		if (file_exists($path))
 		{

@@ -10,8 +10,18 @@
  * @link       http:/www.jidaikobo.com
  */
 namespace A11yc;
-class Center
+class Controller_Center
 {
+	/**
+	 * action
+	 *
+	 * @return  void
+	 */
+	public static function Action_Index()
+	{
+		static::index();
+	}
+
 	/**
 	 * Show A11y Center Index
 	 *
@@ -26,7 +36,7 @@ class Center
 		View::assign('total', $total);
 
 		// setup
-		$setup = Setup::fetch_setup();
+		$setup = Controller_Setup::fetch_setup();
 		$target_level = intval(@$setup['target_level']);
 		View::assign('setup', $setup);
 		View::assign('target_level', $target_level);
@@ -34,13 +44,13 @@ class Center
 
 		// result
 		list($results, $checked, $passed_flat) = Evaluate::evaluate(Evaluate::evaluate_total());
-		Checklist::part_result($results, $target_level);
+		Controller_Checklist::part_result($results, $target_level);
 		$result = \A11yc\View::fetch('result');
 
 		$additional = '';
 		if ($target_level != 3)
 		{
-			Checklist::part_result($results, $target_level, false);
+			Controller_Checklist::part_result($results, $target_level, false);
 			$additional = \A11yc\View::fetch('result');
 		}
 		View::assign('result', $result, false);
@@ -63,7 +73,7 @@ class Center
 	public static function each($url)
 	{
 		// setup
-		$setup = Setup::fetch_setup();
+		$setup = Controller_Setup::fetch_setup();
 		$target_level = intval(@$setup['target_level']);
 		View::assign('setup', $setup);
 		View::assign('target_level', $target_level);
@@ -71,7 +81,7 @@ class Center
 
 		// result
 		list($results, $checked, $passed_flat) = Evaluate::evaluate_url($url);
-		Checklist::part_result($results, $target_level);
+		Controller_Checklist::part_result($results, $target_level);
 
 		// body
 		View::assign('title', A11YC_LANG_CENTER_TITLE);

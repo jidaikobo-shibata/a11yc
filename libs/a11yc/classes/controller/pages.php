@@ -10,8 +10,18 @@
  * @link       http:/www.jidaikobo.com
  */
 namespace A11yc;
-class Pages
+class Controller_Pages
 {
+	/**
+	 * Show Pages Index
+	 *
+	 * @return  void
+	 */
+	public static function Action_Index()
+	{
+		static::index();
+	}
+
 	/**
 	 * dbio
 	 *
@@ -23,6 +33,7 @@ class Pages
 		// update
 		if (isset($_POST['pages']))
 		{
+			$r = false;
 			$pages = explode("\n", trim($_POST['pages']));
 			foreach ($pages as $page)
 			{
@@ -31,7 +42,7 @@ class Pages
 				$exist = Db::fetch('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = '.$page.';');
 				if ( ! $exist)
 				{
-					Db::execute('INSERT INTO '.A11YC_TABLE_PAGES.' (`url`, `trash`) VALUES ('.$page.', 0);');
+					$r = Db::execute('INSERT INTO '.A11YC_TABLE_PAGES.' (`url`, `trash`) VALUES ('.$page.', 0);');
 				}
 			}
 		}
@@ -41,7 +52,7 @@ class Pages
 		{
 			$page = urldecode(trim($_GET['url']));
 			$page = Db::escape($page);
-			Db::execute('UPDATE '.A11YC_TABLE_PAGES.' SET `trash` = 1 WHERE `url` = '.$page.';');
+			$r = Db::execute('UPDATE '.A11YC_TABLE_PAGES.' SET `trash` = 1 WHERE `url` = '.$page.';');
 		}
 
 		// undelete
@@ -49,7 +60,16 @@ class Pages
 		{
 			$page = urldecode(trim($_GET['url']));
 			$page = Db::escape($page);
-			Db::execute('UPDATE '.A11YC_TABLE_PAGES.' SET `trash` = 0 WHERE `url` = '.$page.';');
+			$r = Db::execute('UPDATE '.A11YC_TABLE_PAGES.' SET `trash` = 0 WHERE `url` = '.$page.';');
+		}
+
+		if ($r)
+		{
+			\A11yc\View::assign('messages', array(A11YC_LANG_UPDATE_SUCCEED));
+		}
+		else
+		{
+			\A11yc\View::assign('errors', array(A11YC_LANG_UPDATE_FAILED));
 		}
 	}
 

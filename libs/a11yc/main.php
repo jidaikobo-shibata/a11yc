@@ -15,17 +15,6 @@ include A11YC_PATH.'/languages/'.A11YC_LANG.'.php';
 
 // include
 include dirname(dirname(__DIR__)).'/libs/spyc/spyc.php';
-include A11YC_PATH.'/classes/db.php';
-include A11YC_PATH.'/classes/auth.php';
-include A11YC_PATH.'/classes/users.php';
-include A11YC_PATH.'/classes/util.php';
-include A11YC_PATH.'/classes/view.php';
-include A11YC_PATH.'/classes/evaluate.php';
-include A11YC_PATH.'/classes/validate.php';
-include A11YC_PATH.'/classes/yaml.php';
-include A11YC_PATH.'/classes/checklist.php';
-include A11YC_PATH.'/classes/bulk.php';
-include A11YC_PATH.'/classes/setup.php';
-include A11YC_PATH.'/classes/center.php';
-include A11YC_PATH.'/classes/pages.php';
-include A11YC_PATH.'/classes/docs.php';
+
+// Autoloader
+\Kontiki\Util::add_autoloader_path(__DIR__.'/classes/', 'a11yc');

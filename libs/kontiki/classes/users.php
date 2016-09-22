@@ -12,6 +12,20 @@
 namespace Kontiki;
 class Users
 {
+	protected static $users = array();
+
+	/**
+	 * set users
+	 * key must be started with 1 (not 0)
+	 *
+	 * @param   array array(1 => array(username, password, display_name, memo))
+	 * @return  void
+	 */
+	public static function forge($users = array())
+	{
+		static::$users = $users;
+	}
+
 	/**
 	 * fetch_users
 	 *
@@ -19,10 +33,7 @@ class Users
 	 */
 	public static function fetch_users()
 	{
-		static $users = array();
-		if ($users) return $users;
-		$users = require(dirname(KONTIKI_CONFIG_PATH).'/users.php');
-		return $users;
+		return static::$users;
 	}
 
 	/**

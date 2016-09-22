@@ -10,22 +10,21 @@
  * @link       http:/www.jidaikobo.com
  */
 
+// performance
+include __DIR__.'/classes/performance.php';
+\Kontiki\Performance::set_time();
+\Kontiki\Performance::set_memory();
+
+// mb_internal_encoding()
+mb_internal_encoding('UTF-8');
+
+// constants
+defined('KONTIKI_DEFAULT_LANG') or die('set KONTIKI_DEFAULT_LANG');
+define('KONTIKI_PATH', __DIR__);
+
 // load function
 include __DIR__.'/functions.php';
 
 // Autoloader
-spl_autoload_register(
-	function ($class_name)
-	{
-		if (strtolower(substr($class_name, 0, 7)) !== 'kontiki') return;
-		require __DIR__.'/classes/'.substr($class_name, 8).'.php';
-	}
-);
-
-/*
-include __DIR__.'/classes/db.php';
-include __DIR__.'/classes/auth.php';
-include __DIR__.'/classes/users.php';
 include __DIR__.'/classes/util.php';
-include __DIR__.'/classes/view.php';
-*/
+\Kontiki\Util::add_autoloader_path(__DIR__.'/classes/', 'kontiki');

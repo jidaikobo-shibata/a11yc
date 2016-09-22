@@ -15,18 +15,17 @@ class Db
 	protected $dbh;
 	protected $name;
 	protected $dbtype;
-	protected static $configs = array();
 	protected static $_instances = array();
 
 	/**
-	 * Create Fieldset object
+	 * instance
 	 *
 	 * @param   string    $name
 	 * @return  instance
 	 */
 	public static function instance($name = 'default')
 	{
-		return isset(static::$_instances[$name]) ? static::$_instances[$name] : FALSE;
+		return array_key_exists($name, static::$_instances) ? static::$_instances[$name] : FALSE;
 	}
 
 	/**
@@ -36,33 +35,20 @@ class Db
 	 * @param   array     Configuration array
 	 * @return  Fieldset
 	 */
-	public static function forge($name = 'default')
+	public static function forge($name = 'default', $cons = array())
 	{
-		// exists
-		if (static::instance($name)) die('already exists');
-
 		// config
 		if (is_array($name))
 		{
-			static::$configs['default'] = $name;
+			$cons = $name;
 			$name = 'default';
 		}
-		else
-		{
-			$config = include KONTIKI_CONFIG_PATH;
-			static::$configs = $config['db'];
-			if ( ! isset(static::$configs[$name]))
-			{
-				die('databse setting is not found');
-			}
-		}
-		$config = static::$configs[$name];
+
+		// exists
+		if (static::instance($name)) die('already exists');
 
 		// instance
-		static::$_instances[$name] = new static($name, $config);
-
-		// TODO: recognize instance eventually
-		// return static::$_instances[$name];
+		static::$_instances[$name] = new static($name, $cons);
 	}
 
 	/**
@@ -238,7 +224,8 @@ class Db
 		)
 	{
 		$dbh = static::instance($name)->dbh->prepare($sql);
-		$dbh->execute($placeholders);
+		$ret = $dbh->execute($placeholders);
 		$dbh->closeCursor();
+		return $ret;
 	}
 }
