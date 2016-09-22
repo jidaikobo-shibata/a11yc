@@ -32,8 +32,8 @@ class Controller_Checklist
 	 */
 	public static function fetch_page($url)
 	{
-		$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = '.Db::escape($url).';';
-		return Db::fetch($sql);
+		$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;';
+		return Db::fetch($sql, array($url));
 	}
 
 	/**
@@ -81,21 +81,18 @@ class Controller_Checklist
 	{
 		if ($_POST)
 		{
-			$esc_url = Db::escape($url);
-			$cs = Db::escape($_POST['chk']);
-
 			// delete all
-			$sql = 'DELETE FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = '.$esc_url.';';
-			Db::execute($sql);
+			$sql = 'DELETE FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = ?;';
+			Db::execute($sql, array($url));
 
 			// insert
-			foreach ($cs as $code => $v)
+			foreach ($_POST['chk'] as $code => $v)
 			{
 				// if ( ! isset($v['on']) && empty($v['memo'])) continue;
 				if ( ! isset($v['on'])) continue;
-				$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS.' (`url`, `code`, `uid`, `memo`) VALUES ';
-				$sql.= '('.$esc_url.', '.Db::escape($code).', '.$v['uid'].', '.$v['memo'].');';
-				Db::execute($sql);
+				$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS.' (`url`, `code`, `uid`, `memo`)';
+				$sql.= ' VALUES (?, ?, ?, ?);';
+				Db::execute($sql, array($url, $code, $v['uid'], $v['memo']));
 			}
 
 			// leveling
@@ -106,20 +103,23 @@ class Controller_Checklist
 			$done = isset($_POST['done']) ? 1 : 0;
 			$date = Db::escape(date('Y-m-d'));
 			$standard = intval($_POST['standard']);
+			$r = false;
 
 			if (static::fetch_page($url))
 			{
 				$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET ';
-				$sql.= '`date` = '.$date.', `level` = '.$result.', `done` = '.$done.', `standard` = '.$standard;
-				$sql.= ' WHERE `url` = '.$esc_url.';';
+				$sql.= '`date` = ?, `level` = ?, `done` = ?, `standard` = ?';
+				$sql.= ' WHERE `url` = ?;';
+				$r = Db::execute($sql, array($date, $result, $done, $standard, $url));
 			}
 			else
 			{
 				$sql = 'INSERT INTO '.A11YC_TABLE_PAGES.' (`url`, `date`, `level`, `done`, `standard`, `trash`)';
-				$sql.= ' VALUES ('.$esc_url.', '.$date.', '.$result.', '.$done.', '.$standard.', 0);';
+				$sql.= ' VALUES (?, ?, ?, ?, ?, 0);';
+				$r = Db::execute($sql, array($url, $date, $result, $done, $standard));
 			}
 
-			if (Db::execute($sql))
+			if ($r)
 			{
 				\A11yc\View::assign('messages', array(A11YC_LANG_UPDATE_SUCCEED));
 			}
