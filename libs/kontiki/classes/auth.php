@@ -21,7 +21,15 @@ class Auth
 	 */
 	public function __construct()
 	{
+		if (Util::is_ssl())
+		{
+			ini_set('session.cookie_secure', 1);
+		}
+		ini_set('session.use_trans_sid', 0);
+		ini_set('session.use_only_cookies', 1);
+		session_name('KNTKSESSID');
 		session_start();
+		session_regenerate_id(true);
 	}
 
 	/**
@@ -68,7 +76,7 @@ class Auth
 	 */
 	public static function login_form ()
 	{
-		\A11yc\View::assign('title', A11YC_LANG_LOGIN_TITLE);
-		\A11yc\View::assign('body', \A11yc\View::fetch_tpl('auth/login.php'), false);
+		\Kontiki\View::assign('title', A11YC_LANG_LOGIN_TITLE);
+		\Kontiki\View::assign('body', \Kontiki\View::fetch_tpl('auth/login.php'), false);
 	}
 }
