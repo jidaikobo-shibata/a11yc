@@ -11,7 +11,7 @@
  */
 
 // kontiki
-define('KONTIKI_CONFIG_PATH', __DIR__.'/config/kontiki.php');
+define('KONTIKI_DEFAULT_LANG', 'ja');
 require (__DIR__.'/libs/kontiki/main.php');
 
 // a11yc
@@ -19,8 +19,14 @@ require (__DIR__.'/config/config.php');
 require (A11YC_PATH.'/main.php');
 
 // database
-\A11yc\Db::forge();
+\A11yc\Db::forge(array(
+	'dbtype' => 'sqlite',
+	'path' => __DIR__.'/db/db.sqlite',
+));
 \A11yc\Db::init_table();
+
+// view
+\A11yc\View::forge(A11YC_PATH.'/views/');
 
 // pages
 $pages = \A11yc\Db::fetch_all('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `trash` = 0 ORDER BY `url` ASC;');

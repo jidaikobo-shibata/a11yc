@@ -11,7 +11,7 @@
  */
 
 // kontiki
-define('KONTIKI_CONFIG_PATH', __DIR__.'/config/kontiki.php');
+define('KONTIKI_DEFAULT_LANG', 'ja');
 require (__DIR__.'/libs/kontiki/main.php');
 
 // a11yc
@@ -19,8 +19,14 @@ require (__DIR__.'/config/config.php');
 require (A11YC_PATH.'/main.php');
 
 // database
-\A11yc\Db::forge();
+\A11yc\Db::forge(array(
+	'dbtype' => 'sqlite',
+	'path' => __DIR__.'/db/db.sqlite',
+));
 \A11yc\Db::init_table();
+
+// view
+\A11yc\View::forge(A11YC_PATH.'/views/');
 
 // assign
 $url = '';
@@ -31,7 +37,7 @@ if (isset($_GET['url']))
 {
   $url = $_GET['url'];
 	\A11yc\View::assign('report_title', A11YC_LANG_TEST_RESULT.': '.\A11yc\Util::fetch_page_title($url));
-	\A11yc\Center::each($url);
+	\A11yc\Controller_Center::each($url);
   // level
   $level = \A11yc\Db::fetch('SELECT `level` FROM '.A11YC_TABLE_PAGES.' WHERE `url` = '.\A11yc\Db::escape($url).';');
   if ($level)
@@ -43,7 +49,7 @@ if (isset($_GET['url']))
 else
 {
 	\A11yc\View::assign('report_title', A11YC_LANG_TEST_RESULT);
-	\A11yc\Center::index();
+	\A11yc\Controller_Center::index();
 }
 
 // re assign
