@@ -18,6 +18,7 @@ define('A11YC_URL_DIR', dirname(A11YC_URL).'/libs/a11yc');
 
 // language
 define('A11YC_LANG', 'ja');
+define('KONTIKI_DEFAULT_LANG', 'ja');
 
 // path
 define('A11YC_PATH', dirname(__DIR__).'/libs/a11yc');

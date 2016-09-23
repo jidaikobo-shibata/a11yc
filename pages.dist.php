@@ -10,12 +10,9 @@
  * @link       http:/www.jidaikobo.com
  */
 
-// kontiki
-define('KONTIKI_DEFAULT_LANG', 'ja');
-require (__DIR__.'/libs/kontiki/main.php');
-
-// a11yc
+// kontiki and a11yc
 require (__DIR__.'/config/config.php');
+require (__DIR__.'/libs/kontiki/main.php');
 require (A11YC_PATH.'/main.php');
 
 // database

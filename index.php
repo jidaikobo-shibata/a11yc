@@ -15,12 +15,9 @@
 //error_reporting(0);
 //date_default_timezone_set('Asia/Tokyo');
 
-// kontiki
-define('KONTIKI_DEFAULT_LANG', 'ja');
-require (__DIR__.'/libs/kontiki/main.php');
-
-// a11yc
+// kontiki and a11yc
 require (__DIR__.'/config/config.php');
+require (__DIR__.'/libs/kontiki/main.php');
 require (A11YC_PATH.'/main.php');
 
 // database
