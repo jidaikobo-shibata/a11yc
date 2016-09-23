@@ -96,16 +96,18 @@ class View
 	/**
 	 * display
 	 *
+	 * @param  array $tpls order of templates
 	 * @return  void
 	 */
-	public static function display()
+	public static function display(array $tpls)
 	{
 		// extract
 		extract (static::$vals);
 
 		// render
-		echo static::fetch_tpl('header.php');
-		echo static::fetch_tpl('body.php');
-		echo static::fetch_tpl('footer.php');
+		foreach ($tpls as $tpl)
+		{
+			echo static::fetch_tpl($tpl);
+		}
 	}
 }
