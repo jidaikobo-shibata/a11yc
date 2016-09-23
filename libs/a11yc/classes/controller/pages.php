@@ -32,7 +32,6 @@ class Controller_Pages
 		// update
 		if (isset($_POST['pages']))
 		{
-			$r = false;
 			$pages = explode("\n", trim($_POST['pages']));
 			foreach ($pages as $page)
 			{
@@ -43,7 +42,7 @@ class Controller_Pages
 				if ( ! $exist)
 				{
 					$sql = 'INSERT INTO '.A11YC_TABLE_PAGES.' (`url`, `trash`) VALUES (?, 0);';
-					$r = Db::execute(array($sql, $page));
+					$r = Db::execute($sql, array($page));
 				}
 			}
 		}
@@ -64,13 +63,16 @@ class Controller_Pages
 			$r = Db::execute($sql, array($page));
 		}
 
-		if ($r)
+		if (isset($r))
 		{
-			\A11yc\View::assign('messages', array(A11YC_LANG_UPDATE_SUCCEED));
-		}
-		else
-		{
-			\A11yc\View::assign('errors', array(A11YC_LANG_UPDATE_FAILED));
+			if ($r)
+			{
+				\A11yc\View::assign('messages', array(A11YC_LANG_UPDATE_SUCCEED));
+			}
+			else
+			{
+				\A11yc\View::assign('errors', array(A11YC_LANG_UPDATE_FAILED));
+			}
 		}
 	}
 

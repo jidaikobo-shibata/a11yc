@@ -45,27 +45,39 @@ class Controller_Setup
 	{
 		if (isset($_POST) && $_POST)
 		{
-			$esc_post = Db::escape($_POST);
-			$target_level = intval($_POST['target_level']);
-			$selected_method = intval($_POST['selected_method']);
-			$checklist_behaviour = intval(@$_POST['checklist_behaviour']);
-			$standard = intval($_POST['standard']);
+			$post = $_POST;
+			$target_level = intval($post['target_level']);
+			$selected_method = intval($post['selected_method']);
+			$checklist_behaviour = intval(@$post['checklist_behaviour']);
+			$standard = intval($post['standard']);
 
 			$setup = static::fetch_setup();
 
 			if (isset($setup['report']))
 			{
 				$sql = 'UPDATE '.A11YC_TABLE_SETUP.' SET';
-				$sql.= '`target_level` = '.$target_level.', ';
-				$sql.= '`standard` = '.$standard.', ';
-				$sql.= '`selected_method` = '.$selected_method.', ';
-				$sql.= '`declare_date` = '.$esc_post['declare_date'].', ';
-				$sql.= '`test_period` = '.$esc_post['test_period'].', ';
-				$sql.= '`dependencies` = '.$esc_post['dependencies'].', ';
-				$sql.= '`contact` = '.$esc_post['contact'].', ';
-				$sql.= '`policy` = '.$esc_post['policy'].', ';
-				$sql.= '`report` = '.$esc_post['report'].',';
-				$sql.= '`checklist_behaviour` = '.$checklist_behaviour.';';
+				$sql.= '`target_level` = ?, ';
+				$sql.= '`standard` = ?, ';
+				$sql.= '`selected_method` = ?, ';
+				$sql.= '`declare_date` = ?, ';
+				$sql.= '`test_period` = ?, ';
+				$sql.= '`dependencies` = ?, ';
+				$sql.= '`contact` = ?, ';
+				$sql.= '`policy` = ?, ';
+				$sql.= '`report` = ?,';
+				$sql.= '`checklist_behaviour` = ?;';
+				$r = Db::execute($sql, array(
+						$target_level,
+						$standard,
+						$selected_method,
+						$post['declare_date'],
+						$post['test_period'],
+						$post['dependencies'],
+						$post['contact'],
+						$post['policy'],
+						$post['report'],
+						$checklist_behaviour
+					));
 			}
 			else
 			{
@@ -79,19 +91,22 @@ class Controller_Setup
 				$sql.= '`contact`, ';
 				$sql.= '`policy`, ';
 				$sql.= '`report`, ';
-				$sql.= '`checklist_behaviour`) VALUES (';
-				$sql.= $target_level.', ';
-				$sql.= $selected_method.', ';
-				$sql.= $standard.', ';
-				$sql.= $esc_post['declare_date'].', ';
-				$sql.= $esc_post['test_period'].', ';
-				$sql.= $esc_post['dependencies'].', ';
-				$sql.= $esc_post['contact'].', ';
-				$sql.= $esc_post['policy'].', ';
-				$sql.= $esc_post['report'].', ';
-				$sql.= $checklist_behaviour.');';
+				$sql.= '`checklist_behaviour`)';
+				$sql.= ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+				$r = Db::execute($sql, array(
+						$target_level,
+						$selected_method,
+						$standard,
+						$post['declare_date'],
+						$post['test_period'],
+						$post['dependencies'],
+						$post['contact'],
+						$post['policy'],
+						$post['report'],
+						$checklist_behaviour
+					));
 			}
-			if (Db::execute($sql))
+			if ($r)
 			{
 				\A11yc\View::assign('messages', array(A11YC_LANG_UPDATE_SUCCEED));
 			}
