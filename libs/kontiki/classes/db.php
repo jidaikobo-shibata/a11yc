@@ -102,6 +102,61 @@ class Db
 	}
 
 	/**
+	 * get_fields
+	 *
+	 * @param   string  $table
+	 * @return  array
+	 */
+	public function get_fields($table)
+	{
+		$table = ucfirst($table);
+
+		if ($this->dbtype == 'sqlite')
+		{
+			$sql = "PRAGMA table_info('".$table."');";
+			$retvals = self::fetch_all($sql);
+			foreach ($retvals as $k => $v)
+			{
+				if($v['name'])
+				{
+					$retvals[$k]['name'] = $v['name'];
+				}
+			}
+		}
+		elseif ($this->dbtype == 'mysql')
+		{
+			$sql = "SHOW COLUMNS FROM ".$table.";";
+			$retvals = self::fetch_all($sql);
+
+			$sql2 = "SHOW INDEX FROM ".$table.";";
+			$indexes = self::fetch_all( $sql2 );
+
+			foreach ($retvals as $k => $v)
+			{
+				if($v['Field'])
+				{
+					$retvals[$k]['name'] = $v['Field'];
+
+					//search indexes
+					foreach ( $indexes as $kk => $vv )
+					{
+						if (
+							strtolower($v['Field']) == strtolower($vv['Column_name']) &&
+							strtolower($v['Key']) != 'pri'
+						)
+						{
+							$retvals[$k]['index_type'] = $vv['Index_type'];
+							$retvals[$k]['key_name'] = $vv['Key_name'];
+						}
+					}
+				}
+			}
+		}
+
+		return $retvals;
+	}
+
+	/**
 	 * is_table_exist
 	 *
 	 * @param   string  $table
@@ -121,6 +176,31 @@ class Db
 			$sql = 'SHOW COLUMNS FROM '.$table.';';
 		}
 		return static::fetch_all($sql) ? TRUE : FALSE;
+	}
+
+	/**
+	 * is_fields_exists
+	 *
+	 * @param   string  $table
+	 * @param   array   $fields
+	 * @return  bool
+	 */
+	public function is_fields_exists($table, $fields = array())
+	{
+		foreach ($fields as $field)
+		{
+			$retvals[$field] = FALSE;
+			foreach (self::get_fields($table) as $exist_fields)
+			{
+				if ($exist_fields['name'] == $field)
+				{
+					$retvals[$field] = TRUE;
+					break;
+				}
+			}
+		}
+		if (in_array(FALSE, $retvals)) return FALSE;
+		return TRUE;
 	}
 
 	/**
@@ -180,30 +260,6 @@ class Db
 		$dbh = static::instance($name)->dbh->prepare($sql);
 		$dbh->execute($placeholders);
 		$retvals = $dbh->fetchAll(\PDO::FETCH_ASSOC);
-		$dbh->closeCursor();
-		return $retvals;
-	}
-
-	/**
-	 * fetch_all
-	 *
-	 * @param   string     $sql
-	 * @param   array      $placeholders
-	 * @param   string     $fetch_style
-	 * @return  array
-	 */
-	public static function fetchAll
-		(
-			$sql,
-			$placeholders = array(),
-			$fetch_style = 'PDO::FETCH_ASSOC',
-			$name = 'default'
-		)
-	{
-		$instance = static::instance($name);
-		$dbh = $instance->prepare($sql, $name);
-		$dbh->execute($placeholders);
-		$retvals = $dbh->fetchAll(constant($fetch_style));
 		$dbh->closeCursor();
 		return $retvals;
 	}
