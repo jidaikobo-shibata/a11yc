@@ -33,11 +33,12 @@
 		</select></td>
 	</tr>
 	<tr>
-		<th scope="row"><label for="a11yc_selected_method"><?php echo A11YC_LANG_CANDIDATES0 ?></label></th>
+		<th scope="row"><label for="a11yc_selected_method"><?php echo A11YC_LANG_CANDIDATES_TITLE ?></label></th>
 		<td>
 			<select name="selected_method" id="a11yc_selected_method">
 <?php
 	$selected_methods = array(
+		A11YC_LANG_CANDIDATES0,
 		A11YC_LANG_CANDIDATES1,
 		A11YC_LANG_CANDIDATES2,
 		A11YC_LANG_CANDIDATES3,

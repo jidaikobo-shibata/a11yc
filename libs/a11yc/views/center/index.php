@@ -15,7 +15,7 @@ echo \A11YC\Evaluate::result_str($site_level, $target_level);
 		</td>
 	</tr>
 	<tr>
-		<th><!-- selected method --><?php echo A11YC_LANG_CANDIDATES0 ?></th>
+		<th><!-- selected method --><?php echo A11YC_LANG_CANDIDATES_TITLE ?></th>
 <?php
 $arr = array(
   A11YC_LANG_CANDIDATES1,
@@ -26,10 +26,13 @@ $arr = array(
 ?>
 		<td><?php echo $arr[$selected_method] ?></td>
 	</tr>
+<?php if (isset($done)): ?>
 	<tr>
 		<th><!-- number of checked --><?php echo A11YC_LANG_NUM_OF_CHECKED ?></th>
 		<td><?php echo $done['done'].' / '.$total['total'] ?></td>
 	</tr>
+<?php endif; ?>
+<?php if (isset($unpassed_pages)): ?>
 	<tr>
 		<th><!-- unpassed pages --><?php echo A11YC_LANG_UNPASSED_PAGES ?></th>
 		<td>
@@ -54,8 +57,11 @@ $arr = array(
 <?php endif; ?>
 		</td>
 	</tr>
+<?php endif; ?>
 </table>
 
+<?php if ($result): ?>
 <!-- site results -->
 <h2><?php echo A11YC_LANG_CHECKLIST_TITLE ?></h2>
 <?php echo $result ?>
+<?php endif; ?>

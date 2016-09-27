@@ -216,7 +216,7 @@ class Controller_Checklist
 	 * @param   array      $users
 	 * @return  string
 	 */
-	public static function results($url, $users = array())
+	public static function ___results($url)
 	{
 		// is done?
 		$page = static::fetch_page($url);

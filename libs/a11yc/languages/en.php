@@ -70,7 +70,8 @@ define('A11YC_LANG_REPORT_DESC', 'Scope, election method, please write and depen
 define('A11YC_LANG_CONTACT', 'Contact Us Information');
 define('A11YC_LANG_CONTACT_DESC', 'Such as for accessibility of deficiencies, contact details of when that could not get the information, or please write the contact information on the web accessibility.');
 
-define('A11YC_LANG_CANDIDATES0', 'Selected Method');
+define('A11YC_LANG_CANDIDATES_TITLE', 'Selected Method');
+define('A11YC_LANG_CANDIDATES0', 'Each Page');
 define('A11YC_LANG_CANDIDATES1', 'Select all of the web page');
 define('A11YC_LANG_CANDIDATES2', 'Randomly selected');
 define('A11YC_LANG_CANDIDATES3', 'Select a web page to represent the set of web pages');

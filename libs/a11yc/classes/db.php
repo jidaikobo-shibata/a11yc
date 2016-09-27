@@ -22,7 +22,7 @@ class Db extends \Kontiki\Db
 		// create table
 		if (defined('A11YC_TABLE_PAGES'))
 		{
-			if( ! static::is_table_exist(A11YC_TABLE_PAGES))
+			if ( ! static::is_table_exist(A11YC_TABLE_PAGES))
 			{
 				$sql = 'CREATE TABLE '.A11YC_TABLE_PAGES.' (';
 				$sql.= '`url`      text NOT NULL,';
@@ -38,7 +38,7 @@ class Db extends \Kontiki\Db
 
 		if (defined('A11YC_TABLE_CHECKS'))
 		{
-			if( ! static::is_table_exist(A11YC_TABLE_CHECKS))
+			if ( ! static::is_table_exist(A11YC_TABLE_CHECKS))
 			{
 				$sql = 'CREATE TABLE '.A11YC_TABLE_CHECKS.' (';
 				$sql.= '`url`  text NOT NULL,';
@@ -52,7 +52,7 @@ class Db extends \Kontiki\Db
 
 		if (defined('A11YC_TABLE_BULK'))
 		{
-			if( ! static::is_table_exist(A11YC_TABLE_BULK))
+			if ( ! static::is_table_exist(A11YC_TABLE_BULK))
 			{
 				$sql = 'CREATE TABLE '.A11YC_TABLE_BULK.' (';
 				$sql.= '`code`     text NOT NULL,';
@@ -65,7 +65,7 @@ class Db extends \Kontiki\Db
 
 		if (defined('A11YC_TABLE_SETUP'))
 		{
-			if( ! static::is_table_exist(A11YC_TABLE_SETUP))
+			if ( ! static::is_table_exist(A11YC_TABLE_SETUP))
 			{
 				$sql = 'CREATE TABLE '.A11YC_TABLE_SETUP.' (';
 				$sql.= '`target_level`        INTEGER NOT NULL,';

@@ -108,9 +108,10 @@ echo \A11YC\Evaluate::result_str($site_level, $target_level);
 		</td>
 	</tr>
 	<tr>
-		<th><!-- selected method --><?php echo A11YC_LANG_CANDIDATES0 ?></th>
+		<th><!-- selected method --><?php echo A11YC_LANG_CANDIDATES_TITLE ?></th>
 <?php
 $arr = array(
+  A11YC_LANG_CANDIDATES0,
   A11YC_LANG_CANDIDATES1,
   A11YC_LANG_CANDIDATES2,
   A11YC_LANG_CANDIDATES3,

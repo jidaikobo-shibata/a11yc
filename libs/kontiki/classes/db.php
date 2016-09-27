@@ -179,13 +179,13 @@ class Db
 	}
 
 	/**
-	 * is_fields_exists
+	 * is_fields_exist
 	 *
 	 * @param   string  $table
 	 * @param   array   $fields
 	 * @return  bool
 	 */
-	public function is_fields_exists($table, $fields = array())
+	public function is_fields_exist($table, $fields = array())
 	{
 		foreach ($fields as $field)
 		{

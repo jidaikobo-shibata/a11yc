@@ -53,6 +53,7 @@ class Controller_Center
 			Controller_Checklist::part_result($results, $target_level, false);
 			$additional = \A11yc\View::fetch('result');
 		}
+
 		View::assign('result', $result, false);
 		View::assign('additional', $additional, false);
 

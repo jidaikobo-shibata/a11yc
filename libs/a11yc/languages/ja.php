@@ -70,7 +70,8 @@ define('A11YC_LANG_REPORT_DESC', '対象範囲、選出方法、依存したウ�
 define('A11YC_LANG_CONTACT', '連絡先');
 define('A11YC_LANG_CONTACT_DESC', 'アクセシビリティの不備等のため、情報を取得できなかった時の問い合わせ先、あるいはウェブアクセシビリティに関する問い合わせ先を書いてください。');
 
-define('A11YC_LANG_CANDIDATES0', '選択した方法');
+define('A11YC_LANG_CANDIDATES_TITLE', '選択した方法');
+define('A11YC_LANG_CANDIDATES0', 'ウェブページ単位');
 define('A11YC_LANG_CANDIDATES1', 'すべてのウェブページを選択');
 define('A11YC_LANG_CANDIDATES2', 'ランダムに選択');
 define('A11YC_LANG_CANDIDATES3', 'ウェブページ一式を代表するウェブページを選択');
