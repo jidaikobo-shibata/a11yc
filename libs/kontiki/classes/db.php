@@ -64,7 +64,7 @@ class Db
 		{
 			try
 			{
-				$dbh = new \PDO("sqlite:".$config['path'].';charset=utf8');
+				$dbh = new \PDO("sqlite:".$config['path']);
 				$dbh->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 			}
 			catch (\PDOException $e)
