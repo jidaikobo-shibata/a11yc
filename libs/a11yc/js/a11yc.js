@@ -90,9 +90,9 @@ if($('.a11yc_table_check')[0])
 
 	// レベルを絞り込み
 	a11yc_nallow_level();
-	$('#a11yc_narrow_level a').on('click', a11yc_nallow_level);
-	
+	$('#a11yc_narrow_level a').on('click keydown', a11yc_nallow_level);
 	function a11yc_nallow_level(e){
+		if(e && e.type=='keydown' && e.keyCode!=13) return;
 		var $target = e ? $(e.target) : $('#a11yc_narrow_level .current');
 		if(!$target[0]) $target = $('#a11yc_narrow_level a').eq(-1);
 		$current_level = $target.text();
@@ -356,10 +356,25 @@ function a11yc_smooth_scroll($t) {
 	if($t.closest($('#a11yc_menu, #a11yc_header'))[0]) return;
 	position = $t.offset();
 	if(typeof position === 'undefined') return;
-	a11yc_headerheight = $('#a11yc_menu').height()+$('#a11yc_header').height();
+	a11yc_headerheight = $('#a11yc_menu ul').height()+$('#a11yc_header').height();
 	margin = 40;
 	position = position.top-$(window).scrollTop()-a11yc_headerheight;
 	$(is_html_scrollable ? 'html' : 'body').animate({scrollTop: $t.offset().top-a11yc_headerheight-margin},500);
+}
+
+$('.a11yc').on('keydown', function(e){
+	if( e.which!=9 ) return;
+	setTimeout(function(){
+		a11yc_adjust_position($(':focus'));
+	},0);
+});
+function a11yc_adjust_position($obj) {
+	if($obj.closest('#a11yc_menu , #a11yc_header')[0] ) return;
+	setTimeout(function(){
+		var a11yc_position_header_bottom = $('#a11yc_header').offset().top+$('#a11yc_header').outerHeight();
+		if($obj.offset().top >= a11yc_position_header_bottom) return;
+		$('body').scrollTop($(window).scrollTop()-(a11yc_position_header_bottom-$obj.offset().top)-30);
+	},100);
 }
 
 //一時的なハイライト
@@ -379,12 +394,48 @@ $('#a11yc_checks th').on('click', function(e){
 //JavaScript有効時に表示、無効時にはCSSで非表示
 	$('.a11yc_hide_if_no_js').removeClass('a11yc_hide_if_no_js').addClass('a11yc_show_if_js');
 	$('.a11yc_hide_if_no_js').find(':disabled').prop("disabled", false);
+
+// titleツールチップ
+// title要素をaria-labelに置換する。本文内のリンクでは中身のskip文字列を読むので大丈夫。中身にaria-hiddenを与えたらちょうどよくなる？
+a11yc_tooltip();
+function a11yc_tooltip(){
+	var $a11yc_tooltip = $('<span id="a11yc_tooltip" aria-hidden="true" role="presentation"></span>').hide().appendTo('body');
 	
+	$(document).on({
+		'mouseenter focus': function(e){
+			setTimeout(function($obj){
+				var title_str = $obj.attr('title');
+				var position = $obj.offset();
+				$a11yc_tooltip.text(title_str).stop(true, true).show();
+				$obj.data('a11ycTitle', title_str).attr('ariaLabel', title_str).removeAttr('title');
+				//position
+				$a11yc_tooltip.css('top', position.top-5-$a11yc_tooltip.outerHeight()+'px');
+				$a11yc_tooltip.css('left', position.left-$a11yc_tooltip.outerWidth()/2+'px');
+				var top = position.top-5-$a11yc_tooltip.outerHeight();
+				top = top-$(window).scrollTop()<0 ? position.top+$obj.outerHeight()+5 : top;
+				var left = $a11yc_tooltip.offset().left;
+				left = left<0 ? 0 : left;
+				var right = $(window).outerWidth()-left-$a11yc_tooltip.outerWidth();
+				left = right<0 ? left + right : left; 
+				
+				$a11yc_tooltip.css({'top': top+'px', 'left': left+'px'});
+			}
+			, 0, $(this));
+		},
+		'mouseleave blur': function(e){
+			$a11yc_tooltip.fadeOut('10', function(){
+				$(this).css({'top': '-1em', 'left': '.5em'});
+			});
+			$(this).attr('title',$(this).data('a11ycTitle')).removeAttr('ariaLabel');
+		}
+	},'[title], [ariaLabel]');
+}
 	
 	//yml確認用
+	//あとでdata-non-exsistはform.phpから消すこと
 	if($('#a11yc_checklist')[0]){
-		var $panel = $('<div id="panel" style="position: fixed; width: 600px; resize: vertical; height: 800px;background-color: #fff;font-size: 80%; overflow-y: auto; top: 40px; right: 0; box-shadow: 0 0 3px 0 rgba(0,0,0,.25); border: 1px solid #9bc; z-index: 10000;padding:0 5px;">').appendTo('body');
-		var $button = $('<span style="position: fixed; top: 32px; right: 0; display: inline-block; padding: 2px 5px;border-radius: 3px; background-color: #e66;font-size: 12px; color: #fff; z-index: 20000;cursor: pointer;">ｘ閉じる</span>').appendTo('body');
+		var $panel = $('<div id="panel" class="a11yc_sansserif" style="position: fixed; width: 600px; resize: vertical; height: 800px;background-color: #fff;font-size: 80%; overflow-y: auto; top: 40px; right: 0; box-shadow: 0 0 3px 0 rgba(0,0,0,.25); border: 1px solid #9bc; z-index: 10000;padding:0 5px;">').appendTo('body');
+		var $button = $('<span class="a11yc_sansserif" style="position: fixed; top: 40px; right: 0; display: inline-block; padding: 2px 5px;border-radius: 3px; background-color: #e66;font-size: 12px; font-weight: bold; color: #fff; z-index: 20000;cursor: pointer;">ｘ閉じる</span>').appendTo('body');
 		$button.on('click',function(){
 			$panel.add($button).remove();
 		});
@@ -406,27 +457,43 @@ $('#a11yc_checks th').on('click', function(e){
 		for(var k in yml_arr)
 		{
 			var label = $('#'+k).parent().text();
-			if(yml_passed[k] && yml_arr[k] && yml_arr[k].length == yml_passed[k].length)
-			{
-				str = str+"<h1 style='font-size: 1em; border-bottom: 1px solid #ccc; margin: 5px 0 1em; color: #aaa;font-weight: normal;'>□"+k+" "+label+' (差なし)'+"</h1>";
-				continue;
-			}
+			var level = $('#'+k).closest('.a11yc_section_criterion').data('a11ycLevel').replace('l_', '').toUpperCase();
+			label = label+' ('+level+')';
 			yml_arr_str = "";
 			yml_passed_str = "";
 			for(var kk in yml_arr[k])
 			{
 				yml_diff_str = $.inArray(yml_arr[k][kk], yml_passed[k])==-1 ? ' color: #e33;' : '';
-				yml_arr_str = yml_arr_str+'<a href="" title="'+$('#'+yml_arr[k][kk]).parent().text()+'" style="cursor: help;'+yml_diff_str+'">'+yml_arr[k][kk]+'</a>, ';
+				yml_current_str = yml_arr[k][kk]==[k] ? ' color: #aaa;' : '';
+				yml_arr_str = yml_arr_str+'<a href="" title="'+$('#'+yml_arr[k][kk]).parent().text()+'" style="cursor: help;'+yml_diff_str+yml_current_str+'">'+yml_arr[k][kk]+'</a>, ';
 			}
 			for(var kk in yml_passed[k])
 			{
 				yml_diff_str = $.inArray(yml_passed[k][kk], yml_arr[k])==-1 ? ' color: #e33;' : '';
-
-				yml_passed_str = yml_passed_str+'<a href="" title="'+$('#'+yml_passed[k][kk]).parent().text()+'" style="cursor: help;'+yml_diff_str+'">'+yml_passed[k][kk]+'</a>, ';
+				yml_current_str = yml_passed[k][kk]==[k] ? ' color: #aaa;' : '';
+				yml_passed_str = yml_passed_str+'<a href="" title="'+$('#'+yml_passed[k][kk]).parent().text()+'" style="cursor: help;'+yml_diff_str+yml_current_str+'">'+yml_passed[k][kk]+'</a>, ';
 			}
-
-			str = str+ "<h1 style='font-size: 1em; border-bottom: 1px solid #ccc; margin-bottom: 0;'>■" + k+" "+label +"</h1><dl style='margin-top: 2px;'><dt>\npassed:</dt><dd>"+yml_arr_str+"</dd>";
-			if(yml_passed[k]) str = str+"<dt>被pass:</dt><dd>"+yml_passed_str+"</dd>";
+			var yml_nonexist_arr = $('#'+k).data('nonExist') ? $('#'+k).data('nonExist').split(',') : '';
+			var yml_nonexist_str = '';
+			for(var kk in yml_nonexist_arr )
+			{
+				yml_nonexist_str = yml_nonexist_str+'<a href="" title="'+$('#a11yc_c_'+yml_nonexist_arr[kk]).find('h4').text()+'" style="cursor: help;">'+yml_nonexist_arr[kk]+'</a>, ';
+			}
+			if(yml_passed[k] && yml_arr[k] && yml_arr[k].length == yml_passed[k].length)
+			{
+				if(!yml_nonexist_str)
+				{
+					str = str+"<h1 style='font-size: 1em; border-bottom: 1px solid #ccc; margin: 5px 0 1em; color: #aaa;font-weight: normal;'>□"+k+" "+label+' (差なし)'+"</h1>";
+				}
+				else
+				{
+					str = str+ "<h1 style='font-size: 1em; border-bottom: 1px solid #ccc; margin-bottom: 0;'>□" + k+" "+label +" (差なし)</h1><dl style='margin-top: 2px;'><dt style='color: green;'>適用なし適合になる達成基準:</dt><dd>"+yml_nonexist_str+"</dd></dl>";
+				}
+				continue;
+			}
+			str = str+ "<h1 style='font-size: 1em; border-bottom: 1px solid #ccc; margin-bottom: 0;'>■" + k+" "+label +"</h1><dl style='margin-top: 2px;'><dt>\n選択するとパスする項目:</dt><dd>"+yml_arr_str+"</dd>";
+			if(yml_passed[k]) str = str+"<dt>この項目をパスにする項目:</dt><dd>"+yml_passed_str+"</dd>";
+			if(yml_nonexist_str) str = str+"<dt style='color: green;'>適用なし適合になる達成基準:</dt><dd>"+yml_nonexist_str+"</dd>";
 			str = str+"</dl>";
 		}
 		$panel.html(str);

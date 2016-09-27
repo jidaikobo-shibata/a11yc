@@ -1,10 +1,12 @@
-.a11yc {
+.a11yc,
+.a11yc_sansserif {
 	margin: auto;
 	padding-top: 2em;
 	max-width: 960px;
 	font-family: "'Helvetica Neue'",Helvetica,Arial,Verdana,Geneva,sans-serif;
 }
-[lang=ja] .a11yc {
+[lang=ja] .a11yc,
+[lang=ja] .a11yc_sansserif {
 	font-family: helvetica, arial, "hiragino kaku gothic pro",meiryo,"ms pgothic",sans-serif;
 }
 a:link {
@@ -29,6 +31,29 @@ a:link {
 	list-style: disc;
 	margin-left: 2em;
 }
+
+#a11yc_tooltip {
+	padding: 3px 5px;
+	background-color: #333;
+	color: #fff;
+	font-size: .75rem !important;
+	text-align: left !important;
+	min-width: 3em ;
+	max-width: 30em;
+	position: absolute;
+	top: -1em;
+	left: .5em;
+	z-index: 100000;
+	box-shadow: 0 0 3px 0 rgba(0,0,0,.25);
+	border: 1px solid #ddd;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	font-family: "'Helvetica Neue'",Helvetica,Arial,Verdana,Geneva,sans-serif;
+}
+[lang=ja] #a11yc_tooltip {
+	font-family: helvetica, arial, "hiragino kaku gothic pro",meiryo,"ms pgothic",sans-serif;
+}
+
 acronym,
 abbr
 {
@@ -620,12 +645,8 @@ ul.a11yc_outlink li {
 .a11yc_table_check .off th {
 	cursor: initial;
 }
-.a11yc .non_interference h4,
-.a11yc .non_interference th {
+.a11yc .non_interference h4 .a11yc_header_criterion_level {
 	color: #e00;
-}
-.a11yc .non_interference .even th {
-	color: #e10000;
 }
 .a11yc_table_check label {
 	display: block;

@@ -129,7 +129,7 @@
 			$class_str.= ' a11yc_criterion_l_'.strtolower($vvv['level']['name']);
 		?>
 			<div id="a11yc_c_<?php echo $kkk ?>" class="a11yc_section_criterion<?php echo $class_str ?>" data-a11yc-level="l_<?php echo strtolower($vvv['level']['name']) ?>">
-			<h4 class="a11yc_header_criterion"><?php echo \A11yc\Util::key2code($vvv['code']).' '.$vvv['name'].' ('.$vvv['level']['name'].$non_interference.')' ?></h4>
+			<h4 class="a11yc_header_criterion"><?php echo \A11yc\Util::key2code($vvv['code']).' '.$vvv['name'].' <span class="a11yc_header_criterion_level">('.$vvv['level']['name'].$non_interference.')</span>' ?></h4>
 			<ul class="a11yc_outlink">
 			<?php if (isset($vvv['url_as'])):  ?>
 				<li class="a11yc_outlink_as"><a<?php echo A11YC_TARGET ?> href="<?php echo $vvv['url_as'] ?>" title="Accessibility Supported"><span class="a11yc_skip">Accessibility Supported</span></a></li>
@@ -151,7 +151,7 @@
 					endforeach;
 				endif;
 				$data = $passes ? ' data-pass="'.join(',', $passes).'"' : '';
-
+				$data.= isset($val["non-exist"]) ? ' data-non-exist="'.join(',', $val["non-exist"]).'"' : '';
 				$checked = '';
 				if (
 					($page && isset($cs[$code])) || // ordinary
@@ -165,7 +165,7 @@
 				<tr<?php echo $class_str ?>>
 
 				<th>
-				<label for="<?php echo $code ?>"><input type="checkbox"<?php echo $checked ?> id="<?php echo $code ?>" name="chk[<?php echo $code ?>][on]" value="1" <?php echo $data ?> class="<?php echo $vvv['level']['name'] ?> a11yc_skip" /><span class="a11yc_icon_fa a11yc_icon_checkbox" role="presentation" aria-hidden="true"></span><?php echo $skip_non_interference.$val['name'] ?></label>
+				<label for="<?php echo $code ?>"><input type="checkbox"<?php echo $checked ?> id="<?php echo $code ?>" name="chk[<?php echo $code ?>][on]" value="1" <?php echo $data ?> class="<?php echo $vvv['level']['name'] ?> a11yc_skip"/><span class="a11yc_icon_fa a11yc_icon_checkbox" role="presentation" aria-hidden="true"></span><?php echo $skip_non_interference.$val['name'] ?></label>
 				</th>
 
 				<td class="a11yc_table_check_memo">
