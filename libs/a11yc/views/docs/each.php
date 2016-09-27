@@ -37,7 +37,7 @@ if ($lines): ?>
 <?php endif; ?>
 
 <?php
-	$criterion = $doc['criterion']['code'];
+	$criterion = isset($doc['criterion']) ? $doc['criterion']['code'] : '';
 	if (isset($yml['criterions'][$criterion]['url'])):
 ?>
 		<!-- understanding -->
@@ -51,6 +51,19 @@ if ($lines): ?>
 	<ul>
 	<?php
 		foreach ($doc['url_as'] as $v):
+		$v = \A11yc\Util::s($v);
+	?>
+		<li><a<?php echo A11YC_TARGET_OUT ?> href="<?php echo $v['url'] ?>"><?php echo $v['name'] ?></a></li>
+	<?php endforeach; ?>
+	</ul>
+<?php endif; ?>
+
+<?php if (isset($doc['urls'])): ?>
+	<!-- related -->
+	<h2><?php echo A11YC_LANG_RELATED ?></h2>
+	<ul>
+	<?php
+		foreach ($doc['urls'] as $v):
 		$v = \A11yc\Util::s($v);
 	?>
 		<li><a<?php echo A11YC_TARGET_OUT ?> href="<?php echo $v['url'] ?>"><?php echo $v['name'] ?></a></li>
