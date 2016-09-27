@@ -64,7 +64,7 @@ class Db
 		{
 			try
 			{
-				$dbh = new \PDO("sqlite:".$config['path']);
+				$dbh = new \PDO("sqlite:".$config['path'].';charset=utf8');
 				$dbh->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 			}
 			catch (\PDOException $e)
@@ -75,7 +75,7 @@ class Db
 		// mysql
 		elseif ($dbtype == 'mysql')
 		{
-			$dtbs = 'mysql:dbname='.$config['db'].';host='.$config['host'];
+			$dtbs = 'mysql:dbname='.$config['db'].';charset=utf8;host='.$config['host'];
 			try
 			{
 				$dbh = new \PDO($dtbs, $config['user'], $config['password']);
