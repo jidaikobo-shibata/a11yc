@@ -139,7 +139,8 @@ endif;
 <?php endif; ?>
 
 <?php
-if ($setup['selected_method'] !== 0):
-echo '<p class="a11yc_link"><a href="'.\A11yc\Util::remove_query_strings(\A11yc\Util::uri(), array('url', 'a11yc_pages')).'">'.A11YC_LANG_REPORT.'</a></p>';
+if ($setup['selected_method'] !== 0 && $is_total == FALSE):
+	echo '<p class="a11yc_link"><a href="'.\A11yc\Util::remove_query_strings(\A11yc\Util::uri(), array('url', 'a11yc_pages')).'">'.A11YC_LANG_REPORT.'</a></p>';
 endif;
+echo '<p class="a11yc_link"><a href="'.\A11yc\Util::add_query_strings(\A11yc\Util::uri(), array(array('a11yc_policy', 1))).'">'.A11YC_LANG_POLICY.'</a></p>';
 ?>

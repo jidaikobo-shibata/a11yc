@@ -21,6 +21,7 @@ class Controller_Disclosure
 	{
 		// setup
 		$setup = Controller_Setup::fetch_setup();
+		if ( ! $setup['policy']) die('Error. Set policy first');
 		$target_level = intval(@$setup['target_level']);
 		if ( ! $target_level) die('Error. Set target level first');
 
@@ -33,7 +34,6 @@ class Controller_Disclosure
 		}
 		else if (isset($_GET['a11yc_policy']))
 		{
-			$setup = \A11yc\Controller_Setup::fetch_setup();
 			View::assign('title', A11YC_LANG_POLICY);
 			View::assign('body', $setup['policy'], false);
 		}
