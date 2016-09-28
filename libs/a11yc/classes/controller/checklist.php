@@ -210,49 +210,6 @@ class Controller_Checklist
 	}
 
 	/**
-	 * results html
-	 *
-	 * @param   string     $url
-	 * @param   array      $users
-	 * @return  string
-	 */
-	public static function ___results($url)
-	{
-		// is done?
-		$page = static::fetch_page($url);
-		if ( ! $page['done'])
-		{
-//			die();
-		}
-
-		// base informations
-		$setup = Controller_Setup::fetch_setup();
-		$target_level = intval(@$setup['target_level']);
-
-		// evaluate
-		list($results, $checked, $passed_flat) = Evaluate::evaluate_url($url);
-		$result = Evaluate::check_result($passed_flat);
-
-		$html = '';
-		$html.= '<section>';
-		$html.= '<h1>'.A11YC_LANG_CHECKLIST_TITLE.'</h1>';
-		$html.= '<p>'.A11YC_LANG_TARGET_LEVEL.': '.Util::num2str($target_level).'</p>';
-		$html.= '<p>'.A11YC_LANG_CHECKLIST_ACHIEVEMENT.': '.Evaluate::result_str($result, $target_level).'</p>';
-
-		// target level
-		$html.= static::part_result($results, $target_level);
-
-		// Additional Criterion
-		if ($target_level != 3)
-		{
-			$html.= '<h2>'.A11YC_LANG_CHECKLIST_CONFORMANCE_ADDITIONAL.'</h2>';
-			$html.= static::part_result($results, $target_level, false);
-		}
-		$html.= '</section>';
-		return $html;
-	}
-
-	/**
 	 * part of result html
 	 *
 	 * @param   array      $results
