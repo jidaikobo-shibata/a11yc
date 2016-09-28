@@ -1,4 +1,0 @@
-</div><!-- /#kontiki -->
-
-</body>
-</html>
