@@ -15,6 +15,8 @@ class Util
 	/**
 	 * add autoloader path
 	 *
+	 * @param   string    $path
+	 * @param   string    $namespace
 	 * @return  void
 	 */
 	public static function add_autoloader_path($path, $namespace = '')
@@ -40,7 +42,6 @@ class Util
 				{
 					call_user_func($class_name.'::_init');
 				}
-
 			}
 		);
 	}
@@ -59,13 +60,52 @@ class Util
 
 	/**
 	 * add query strings
+	 * this medhod doesn't apply sanitizing
 	 *
+	 * @param   string    $uri
+	 * @param   array     $query_strings array(array('key', 'val'),...)
 	 * @return  string
 	 */
 	public static function add_query_strings($uri, $query_strings = array())
 	{
 		$delimiter = strpos($uri, '?') !== false ? '&amp;' : '?';
-		return $uri.$delimiter.join('&amp;', $query_strings);
+		$qs = array();
+		foreach ($query_strings as $v)
+		{
+			// if (is_array($v))
+			$qs[] = $v[0].'='.$v[1];
+		}
+		return $uri.$delimiter.join('&amp;', $qs);
+	}
+
+	/**
+	 * remove query strings
+	 *
+	 * @param   string    $uri
+	 * @param   array     $query_strings array('key',....)
+	 * @return  string
+	 */
+	public static function remove_query_strings($uri, $query_strings = array())
+	{
+		if (strpos($uri, '?') !== false)
+		{
+			$uri = str_replace('&amp;', '&', $uri);
+			$pos = strpos($uri, '?');
+			$base_url = substr($uri, 0, $pos);
+			$qs = explode('&', substr($uri, $pos + 1));
+			foreach ($qs as $k => $v)
+			{
+				foreach ($query_strings as $vv)
+				{
+					if (substr($v, 0, strpos($v, '=')) == $vv)
+					{
+						unset($qs[$k]);
+					}
+				}
+			}
+			$uri = $qs ? $base_url.'?'.join('&amp;', $qs) : $base_url;
+		}
+		return $uri;
 	}
 
 	/**
