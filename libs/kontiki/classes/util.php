@@ -58,6 +58,17 @@ class Util
 	}
 
 	/**
+	 * add query strings
+	 *
+	 * @return  string
+	 */
+	public static function add_query_strings($uri, $query_strings = array())
+	{
+		$delimiter = strpos($uri, '?') !== false ? '&amp;' : '?';
+		return $uri.$delimiter.join('&amp;', $query_strings);
+	}
+
+	/**
 	 * is ssl
 	 *
 	 * @return  bool
