@@ -107,11 +107,12 @@ class Db
 	 * @param   string  $table
 	 * @return  array
 	 */
-	public function get_fields($table)
+	public function get_fields($table, $name = 'default')
 	{
 		$table = ucfirst($table);
+		$instance = static::instance($name);
 
-		if ($this->dbtype == 'sqlite')
+		if ($instance->dbtype == 'sqlite')
 		{
 			$sql = "PRAGMA table_info('".$table."');";
 			$retvals = self::fetch_all($sql);
@@ -123,7 +124,7 @@ class Db
 				}
 			}
 		}
-		elseif ($this->dbtype == 'mysql')
+		elseif ($instance->dbtype == 'mysql')
 		{
 			$sql = "SHOW COLUMNS FROM ".$table.";";
 			$retvals = self::fetch_all($sql);
@@ -185,12 +186,12 @@ class Db
 	 * @param   array   $fields
 	 * @return  bool
 	 */
-	public function is_fields_exist($table, $fields = array())
+	public function is_fields_exist($table, $fields = array(), $name = 'default')
 	{
 		foreach ($fields as $field)
 		{
 			$retvals[$field] = FALSE;
-			foreach (self::get_fields($table) as $exist_fields)
+			foreach (self::get_fields($table, $name) as $exist_fields)
 			{
 				if ($exist_fields['name'] == $field)
 				{

@@ -15,6 +15,7 @@ class Db extends \Kontiki\Db
 	/**
 	 * init table
 	 *
+	 * @param   string $name
 	 * @return  void
 	 */
 	public static function init_table($name = 'default')

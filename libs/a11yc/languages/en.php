@@ -38,6 +38,7 @@ define('A11YC_LANG_LOGOUT', 'Logout');
 
 // center
 define('A11YC_LANG_CENTER_TITLE', 'Center');
+define('A11YC_LANG_CENTER_BOOKMARKLET_EXP', 'Please register the following link into your browser\'s bookmark. You can be inspected any page.');
 
 // pages
 define('A11YC_LANG_PAGES_TITLE', 'Target Pages');
@@ -67,7 +68,7 @@ define('A11YC_LANG_POLICY', 'Accessibility Policy');
 define('A11YC_LANG_POLICY_DESC', 'Why you work in web accessibility ensure, goal date, corresponding policies, exceptions, please write and achieve grade to which you want to add to goal.');
 define('A11YC_LANG_REPORT', 'Accessibility Report');
 define('A11YC_LANG_REPORT_DESC', 'Scope, election method, please write and dependent on web content technology.');
-define('A11YC_LANG_CONTACT', 'Contact Us Information');
+define('A11YC_LANG_CONTACT', 'Contact Us About Accessibility');
 define('A11YC_LANG_CONTACT_DESC', 'Such as for accessibility of deficiencies, contact details of when that could not get the information, or please write the contact information on the web accessibility.');
 
 define('A11YC_LANG_CANDIDATES_TITLE', 'Selected Method');

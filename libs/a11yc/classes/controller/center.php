@@ -65,27 +65,4 @@ class Controller_Center
 		View::assign('title', A11YC_LANG_CENTER_TITLE);
 		View::assign('body', View::fetch_tpl('center/index.php'), false);
 	}
-
-	/**
-	 * Show A11y each report
-	 *
-	 * @return  void
-	 */
-	public static function each($url)
-	{
-		// setup
-		$setup = Controller_Setup::fetch_setup();
-		$target_level = intval(@$setup['target_level']);
-		View::assign('setup', $setup);
-		View::assign('target_level', $target_level);
-		View::assign('selected_method', intval(@$setup['selected_method']));
-
-		// result
-		list($results, $checked, $passed_flat) = Evaluate::evaluate_url($url);
-		Controller_Checklist::part_result($results, $target_level);
-
-		// body
-		View::assign('title', A11YC_LANG_CENTER_TITLE);
-		View::assign('body', View::fetch_tpl('center/index.php'), false);
-	}
 }

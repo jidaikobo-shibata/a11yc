@@ -38,6 +38,7 @@ define('A11YC_LANG_LOGOUT', 'ログアウト');
 
 // center
 define('A11YC_LANG_CENTER_TITLE', 'センター');
+define('A11YC_LANG_CENTER_BOOKMARKLET_EXP', '以下のリンクをブラウザのブックマークに登録してください。任意のページを検査対象にできます。');
 
 // pages
 define('A11YC_LANG_PAGES_TITLE', '対象ページ一覧');
@@ -67,7 +68,7 @@ define('A11YC_LANG_POLICY', 'アクセシビリティ方針');
 define('A11YC_LANG_POLICY_DESC', 'ウェブアクセシビリティ確保に取り組む理由、達成目標日、対応方針、例外事項、追加して目標とする達成等級などを書いてください。');
 define('A11YC_LANG_REPORT', 'アクセシビリティ報告書');
 define('A11YC_LANG_REPORT_DESC', '対象範囲、選出方法、依存したウェブコンテンツ技術などを書いてください。');
-define('A11YC_LANG_CONTACT', '連絡先');
+define('A11YC_LANG_CONTACT', 'アクセシビリティに関する連絡先');
 define('A11YC_LANG_CONTACT_DESC', 'アクセシビリティの不備等のため、情報を取得できなかった時の問い合わせ先、あるいはウェブアクセシビリティに関する問い合わせ先を書いてください。');
 
 define('A11YC_LANG_CANDIDATES_TITLE', '選択した方法');
