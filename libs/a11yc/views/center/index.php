@@ -65,3 +65,16 @@ $arr = array(
 <h2><?php echo A11YC_LANG_CHECKLIST_TITLE ?></h2>
 <?php echo $result ?>
 <?php endif; ?>
+
+<h2>Bookmarklet</h2>
+
+<p><a href="javascript:(function(){var%20a11yc_pass,url;a11yc_pass=<?php echo A11YC_CHECKLIST_URL; ?>;url=encodeURI(location.href);window.document.location=a11yc_pass+url;})();">add to your bookmark</a></p>
+
+<textarea style="width:100%;height:8em;">
+javascript:(function(){
+	var a11yc_pass,url;
+	a11yc_pass=<?php echo A11YC_CHECKLIST_URL; ?>;
+	url=encodeURI(location.href);
+	window.document.location=a11yc_pass+url;
+})();
+</textarea>
