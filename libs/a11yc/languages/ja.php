@@ -27,6 +27,7 @@ define('A11YC_LANG_JUMP_TO_CONTENT', '本文へ移動');
 define('A11YC_LANG_BEGINNING_OF_THE_CONTENT', 'ここから本文です');
 define('A11YC_LANG_UPDATE_SUCCEED', '更新しました');
 define('A11YC_LANG_UPDATE_FAILED', '更新に失敗しました');
+define('A11YC_LANG_ERROR_NON_TARGET_LEVEL', '設定で「目標とする達成等級」を選んでからチェックを行ってください。');
 
 // login
 define('A11YC_LANG_AUTH_TITLE', 'A11YC ログイン');
@@ -50,6 +51,7 @@ define('A11YC_LANG_PAGES_DONE', '終了');
 define('A11YC_LANG_PAGES_CHECK', 'チェック');
 define('A11YC_LANG_PAGES_DELETE', '削除');
 define('A11YC_LANG_PAGES_UNDELETE', '復活');
+define('A11YC_LANG_PAGES_URL_FOR_EACH_LINE', '各行に一つのURLを入力して、「'.A11YC_LANG_PAGES_URLS_ADD.'」を押してください');
 
 // setup
 define('A11YC_LANG_SETUP_TITLE', '設定');
@@ -67,7 +69,7 @@ define('A11YC_LANG_TARGET_LEVEL', '目標とする達成等級');
 define('A11YC_LANG_POLICY', 'アクセシビリティ方針');
 define('A11YC_LANG_POLICY_DESC', 'ウェブアクセシビリティ確保に取り組む理由、達成目標日、対応方針、例外事項、追加して目標とする達成等級などを書いてください。');
 define('A11YC_LANG_REPORT', 'アクセシビリティ報告書');
-define('A11YC_LANG_REPORT_DESC', '対象範囲、選出方法、依存したウェブコンテンツ技術などを書いてください。');
+define('A11YC_LANG_REPORT_DESC', '所見等があったら、記述してください。');
 define('A11YC_LANG_CONTACT', 'アクセシビリティに関する連絡先');
 define('A11YC_LANG_CONTACT_DESC', 'アクセシビリティの不備等のため、情報を取得できなかった時の問い合わせ先、あるいはウェブアクセシビリティに関する問い合わせ先を書いてください。');
 

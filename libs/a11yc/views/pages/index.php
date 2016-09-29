@@ -1,6 +1,8 @@
 <!-- form -->
 <form action="" method="POST">
 <h2><label for="a11yc_pages"><?php echo A11YC_LANG_PAGES_URLS ?></label></h2>
+<p><?php echo A11YC_LANG_PAGES_URL_FOR_EACH_LINE ?></p>
+
 <textarea id="a11yc_pages" name="pages" rows="7" style="width: 100%;">
 </textarea>
 <input type="submit" value="<?php echo A11YC_LANG_PAGES_URLS_ADD ?>" />

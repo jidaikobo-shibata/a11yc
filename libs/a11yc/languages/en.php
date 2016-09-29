@@ -27,6 +27,7 @@ define('A11YC_LANG_JUMP_TO_CONTENT', 'Jump to content');
 define('A11YC_LANG_BEGINNING_OF_THE_CONTENT', '');
 define('A11YC_LANG_UPDATE_SUCCEED', 'Update Succeed');
 define('A11YC_LANG_UPDATE_FAILED', 'Update Failed');
+define('A11YC_LANG_ERROR_NON_TARGET_LEVEL', 'Please perform the check from select "Target Level" in setting.');
 
 // login
 define('A11YC_LANG_AUTH_TITLE', 'A11YC Login');
@@ -50,6 +51,7 @@ define('A11YC_LANG_PAGES_DONE', 'Done');
 define('A11YC_LANG_PAGES_CHECK', 'Check');
 define('A11YC_LANG_PAGES_DELETE', 'Delete');
 define('A11YC_LANG_PAGES_UNDELETE', 'Undelete');
+define('A11YC_LANG_PAGES_URL_FOR_EACH_LINE', 'Enter one URL to each line, please press the "'.A11YC_LANG_PAGES_URLS_ADD.'"');
 
 // setup
 define('A11YC_LANG_SETUP_TITLE', 'Setup');
@@ -67,7 +69,7 @@ define('A11YC_LANG_TARGET_LEVEL', 'Target Level');
 define('A11YC_LANG_POLICY', 'Accessibility Policy');
 define('A11YC_LANG_POLICY_DESC', 'Why you work in web accessibility ensure, goal date, corresponding policies, exceptions, please write and achieve grade to which you want to add to goal.');
 define('A11YC_LANG_REPORT', 'Accessibility Report');
-define('A11YC_LANG_REPORT_DESC', 'Scope, election method, please write and dependent on web content technology.');
+define('A11YC_LANG_REPORT_DESC', 'If you have any findings, etc., please describe.');
 define('A11YC_LANG_CONTACT', 'Contact Us About Accessibility');
 define('A11YC_LANG_CONTACT_DESC', 'Such as for accessibility of deficiencies, contact details of when that could not get the information, or please write the contact information on the web accessibility.');
 

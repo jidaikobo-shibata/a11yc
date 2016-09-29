@@ -19,6 +19,11 @@ class Controller_Bulk extends Controller_Checklist
 	 */
 	public static function Action_Index()
 	{
+		$setup = Controller_Setup::fetch_setup();
+		if ( ! $setup['target_level'])
+		{
+			\A11yc\View::assign('errors', array(A11YC_LANG_ERROR_NON_TARGET_LEVEL));
+		}
 		static::checklist('bulk');
 	}
 
