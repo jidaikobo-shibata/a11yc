@@ -50,7 +50,7 @@ class Validate
 		{
 			if ( ! preg_match("/alt=[\"|']/i", $m))
 			{
-				preg_match("/src=\"([^\"]+)\"/i", $m, $im);
+				preg_match("/src=[\"|']([^\"]+)[\"|']/i", $m, $im);
 				$error_ids[] = @basename($im[1]);
 			}
 		}
@@ -73,7 +73,7 @@ class Validate
 		{
 			if (preg_match("/alt=[\"|'] *?[\"|']/i", $m))
 			{
-				preg_match("/src=\"([^\"]+)\"/i", $m, $im);
+				preg_match("/src=[\"|']([^\"]+)[\"|']/i", $m, $im);
 				$error_ids[] = @basename($im[1]);
 			}
 		}
@@ -119,7 +119,7 @@ class Validate
 		{
 			if ( ! preg_match("/alt=[\"|']/i", $m) || preg_match("/alt=[\"|'] *?[\"|']/i", $m))
 			{
-				preg_match("/coords=\"([^\"]+)\"/i", $m, $im);
+				preg_match("/coords=[\"|']([^\"]+)[\"|']/i", $m, $im);
 				$error_ids[] = @basename($im[1]);
 			}
 		}
@@ -144,7 +144,7 @@ class Validate
 				(strpos($m, 'image') && preg_match("/alt=[\"|'] *?[\"|']/i", $m))
 			)
 			{
-				preg_match("/src=\"([^\"]+)\"/i", $m, $im);
+				preg_match("/src=[\"|']([^\"]+)[\"|']/i", $m, $im);
 				$error_ids[] = @basename($im[1]);
 			}
 		}
@@ -236,6 +236,33 @@ class Validate
 			foreach ($suspicious as $v)
 			{
 				$error_ids[] = $v;
+			}
+		}
+		return $error_ids ?: false;
+	}
+
+	/**
+	 * is not same alt and filename of img
+	 *
+	 * @param   strings     $str
+	 * @return  mixed
+	 */
+	public static function is_not_same_alt_and_filename_of_img($str)
+	{
+		$error_ids = array();
+		$str = static::ignore_elements($str);
+
+		preg_match_all("/\<img ([^\>]+)\>/i", $str, $ms);
+		foreach ($ms[1] as $k => $m)
+		{
+			if (preg_match("/alt=[\"|']([^\"]+)[\"|']/i", $m, $m_alt))
+			{
+				preg_match("/src=[\"|']([^\"]+)[\"|']/i", $m, $m_src);
+				$filename = basename($m_src[1]);
+				if ($filename == $m_alt[1])
+				{
+					$error_ids[] = $filename;
+				}
 			}
 		}
 		return $error_ids ?: false;
