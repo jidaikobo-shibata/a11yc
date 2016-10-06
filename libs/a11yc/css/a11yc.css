@@ -800,6 +800,7 @@ span.a11yc_icon_check:before {
 	text-align: right;
 	white-space: nowrap;
 	margin-top: -4.25em;
+	margin-left: 10em;
 }
 #a11yc_docs .a11yc_section_principle {
 	margin-bottom: 60px;
