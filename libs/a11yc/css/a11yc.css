@@ -796,6 +796,11 @@ span.a11yc_icon_check:before {
 	color: #333;
 }
 /* docs */
+#a11yc_docs_search {
+	text-align: right;
+	white-space: nowrap;
+	margin-top: -4.25em;
+}
 #a11yc_docs .a11yc_section_principle {
 	margin-bottom: 60px;
 }
@@ -806,7 +811,6 @@ span.a11yc_icon_check:before {
 	border-width: 1px;
 	border-bottom-style: dotted;
 }
-
 #a11yc_docs .a11yc_ul_test,
 #a11yc_docs .a11yc_ul_check {
 	padding-left: 10px;
