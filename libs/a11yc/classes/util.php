@@ -92,8 +92,16 @@ class Util extends \Kontiki\Util
 	{
 		static $html = array();
 		if (isset($html[$url])) return $html[$url];
-		$html[$url] = strtolower(@file_get_contents($url));
-		return $html[$url];
+		$html = strtolower(@file_get_contents($url));
+
+		$encodes = array("ASCII", "SJIS-win", "SJIS", "ISO-2022-JP", "EUC-JP");
+		$encode = mb_detect_encoding($html, array_merge($encodes, array("UTF-8")));
+		if (in_array($encode, $encodes))
+		{
+			$html = mb_convert_encoding($html, "UTF-8", $encode);
+		}
+		$html[$url] = $html;
+		return $html;
 	}
 
 	/**

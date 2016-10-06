@@ -13,19 +13,30 @@ namespace Kontiki;
 class View
 {
 	public static $vals = array();
-	public static $tpl_path;
+	public static $tpl_paths;
 
 	/**
 	 * set template path
 	 *
-	 * @param   string    Identifier for this db
-	 * @param   array     Configuration array
-	 * @return  Fieldset
+	 * @param   string    path
+	 * @return  void
 	 */
 	public static function forge($tpl_path)
 	{
 		if ( ! file_exists($tpl_path)) die('template path not found: '. s($tpl_path));
-		static::$tpl_path = rtrim($tpl_path, '/');
+		static::$tpl_paths[] = rtrim($tpl_path, '/');
+	}
+
+	/**
+	 * add template path
+	 *
+	 * @param   string    path
+	 * @return  void
+	 */
+	public static function add_tpl_path($tpl_path)
+	{
+		if ( ! file_exists($tpl_path)) die('template path not found: '. s($tpl_path));
+		array_unshift(static::$tpl_paths, rtrim($tpl_path, '/'));
 	}
 
 	/**
@@ -36,17 +47,22 @@ class View
 	 */
 	public static function tpl_path($tpl)
 	{
-		$path = static::$tpl_path.'/'.$tpl;
-		$fallback = dirname(__DIR__).'/views/'.$tpl;
-
-		if (file_exists($path))
+		foreach (static::$tpl_paths as $tpl_path)
 		{
-			return $path;
+			$path = $tpl_path.'/'.$tpl;
+
+			if (file_exists($path))
+			{
+				return $path;
+			}
 		}
-		elseif(file_exists($fallback))
+
+		$fallback = dirname(__DIR__).'/views/'.$tpl;
+		if (file_exists($fallback))
 		{
 			return $fallback;
 		}
+
 		return false;
 	}
 

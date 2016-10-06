@@ -30,6 +30,7 @@ class Validate
 		$retval = preg_replace("/\<!--.+?-->/i", '', $retval);
 		$retval = preg_replace("/\<script.+?<\/script>/i", '', $retval);
 		$retval = preg_replace("/\<style.+?<\/style>/i", '', $retval);
+		$retval = preg_replace("/\<rdf:RDF.+?<\/rdf:RDF>/i", '', $retval);
 
 		return $retval;
 	}
@@ -74,7 +75,14 @@ class Validate
 			if (preg_match("/alt=[\"|'] *?[\"|']/i", $m))
 			{
 				preg_match("/src=[\"|']([^\"]+)[\"|']/i", $m, $im);
-				$error_ids[] = @basename($im[1]);
+				if ($im)
+				{
+					$error_ids[] = @basename($im[1]);
+				}
+				else
+				{
+					$error_ids[] = '" "';
+				}
 			}
 		}
 		return $error_ids ?: false;
@@ -281,7 +289,7 @@ class Validate
 		$str = str_replace(array("\n", "\r"), '', $str);
 		$str = static::ignore_elements($str, true);
 
-		preg_match_all("/([^\x01-\x7E][ |　][ |　]+[^\x01-\x7E])/u", $str, $ms);
+		preg_match_all("/([^\x01-\x7E][ 　][ 　]+[^\x01-\x7E])/u", $str, $ms);
 		foreach ($ms[1] as $k => $m)
 		{
 			$error_ids[] = $m;
@@ -335,7 +343,13 @@ class Validate
 		preg_match_all("/\<[a-zA-Z1-6]+? ([^\>]+)\>/i", $str, $ms);
 		foreach ($ms[1] as $k => $m)
 		{
-			if (strpos($m, 'style=') !== false)
+			if (
+				strpos($m, 'style=') !== false &&
+				(
+					strpos($m, 'size') !== false ||
+					strpos($m, 'color') !== false
+				)
+			)
 			{
 				$error_ids[] = $m;
 			}
@@ -357,15 +371,15 @@ class Validate
 
 		preg_match_all("/\<a [^\>]*href=[\"|']([^\"|']+?)[\"|'][^\>]*?\>([^\<|\>]+?)\<\/a\>/i", $str, $ms);
 		$suspicious = array(
-			'pdf',
-			'doc',
-			'docx',
-			'xls',
-			'xlsx',
-			'ppt',
-			'pptx',
-			'zip',
-			'tar',
+			'.pdf',
+			'.doc',
+			'.docx',
+			'.xls',
+			'.xlsx',
+			'.ppt',
+			'.pptx',
+			'.zip',
+			'.tar',
 		);
 
 		foreach ($ms[1] as $k => $m)
@@ -376,9 +390,9 @@ class Validate
 				{
 					$val = $ms[2][$k];
 					if (
-						(($vv == 'doc' || $vv == 'docx') && strpos($val, 'word') !== false) ||
-						(($vv == 'xls' || $vv == 'xlsx') && strpos($val, 'excel') !== false) ||
-						(($vv == 'ppt' || $vv == 'pptx') && strpos($val, 'power') !== false)
+						(($vv == '.doc' || $vv == '.docx') && strpos($val, 'word') !== false) ||
+						(($vv == '.xls' || $vv == '.xlsx') && strpos($val, 'excel') !== false) ||
+						(($vv == '.ppt' || $vv == '.pptx') && strpos($val, 'power') !== false)
 					)
 					{
 						$val.= 'doc,docx,xls,xlsx,ppt,pptx';
@@ -409,7 +423,7 @@ class Validate
 		$error_ids = array();
 		$str = static::ignore_elements($str, true);
 
-		if ( ! preg_match("/\<title[^\>]*?\>/u", $str))
+		if ( ! preg_match("/\<title[^\>]*?\>/i", $str))
 		{
 			$error_ids[] = 'title';
 		}
@@ -428,7 +442,7 @@ class Validate
 		$error_ids = array();
 		$str = static::ignore_elements($str, true);
 
-		if ( ! preg_match("/\<html[^\>]*?lang=[^\>]*?\>/u", $str))
+		if ( ! preg_match("/\<html[^\>]*?lang=[^\>]*?\>/i", $str))
 		{
 			$error_ids[] = 'language';
 		}

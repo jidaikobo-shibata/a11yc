@@ -5,8 +5,11 @@ else:
 	echo isset($doc['name']) ? '<h2>'.sprintf(A11YC_LANG_DOCS_EACH_SUBTITLE, $doc['name']).'</h2>' : '';
 endif;
 
-
-$lines = isset($doc['tech']) ? explode("\n", stripslashes(\A11YC\Util::key2link($doc['tech']))) : false;
+if (isset($is_index)):
+	$lines = isset($doc['tech']) ? explode("\n", stripslashes($doc['tech'])) : false;
+else:
+	$lines = isset($doc['tech']) ? explode("\n", stripslashes(\A11YC\Util::key2link($doc['tech']))) : false;
+endif;
 if ($lines): ?>
 	<ul>
 	<?php foreach ($lines as $line): ?>

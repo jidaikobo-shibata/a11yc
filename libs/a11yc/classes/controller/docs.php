@@ -110,6 +110,7 @@ class Controller_Docs
 		View::assign('yml', Yaml::fetch(), FALSE);
 		View::assign('test', Yaml::each('test'));
 		View::assign('title', A11YC_LANG_DOCS_TITLE);
+		View::assign('search_form', View::fetch_tpl('docs/search.php'), FALSE);
 		View::assign('body', View::fetch_tpl('docs/index.php'), FALSE);
 	}
 
