@@ -20,13 +20,15 @@ jQuery(function($){
 	$a11yc_content = $('.a11yc').eq(0);
 	$menu = $('#wpadminbar')[0] ? $('#wpadminbar') : $('#a11yc_menu ul');
 	$pagemenu = $('#a11yc_menu_principles')[0] ? $('#a11yc_menu_principles') : $pagemenu;
+	pagemenu_top = $pagemenu[0] ? $pagemenu.offset().top : 0;
 
 	setTimeout(function(){
 		menu_height = $menu.outerHeight();
 		header_height = $('#a11yc_header')[0] ? $('#a11yc_header').outerHeight() : 0;
 		if ($pagemenu[0])
 		{
-			pagemenu_top = $('.a11yc_fixed_header')[0] ? $pagemenu.offset().top - $(window).scrollTop() : pagemenu_top;
+			pagemenu_top = $pagemenu.offset().top - menu_height;
+			if($('.a11yc_fixed_header')[0]) pagemenu_top = pagemenu_top - $(window).scrollTop();
 		}
 	},0);
 	if($pagemenu[0])
@@ -41,8 +43,8 @@ jQuery(function($){
 $(window).on('resize', function(){
 	menu_height = $menu.outerHeight();
 	header_height = $('#a11yc_header').outerHeight();
-//	pagemenu_top = pagemenu_top>0 ? $pagemenu.offset().top - menu_height : pagemenu_top;
-	pagemenu_top = $('.a11yc_fixed_header')[0] ? pagemenu_top - $(window).scrollTop() : pagemenu_top;
+	pagemenu_top = $pagemenu.offset().top - menu_height;
+	if($('.a11yc_fixed_header')[0]) pagemenu_top = pagemenu_top - $(window).scrollTop();
 	a11yc_fixed_header();
 });
 
@@ -54,6 +56,8 @@ if ($('#a11yc_header')[0])
 }
 
 function a11yc_fixed_header(){
+	console.log(pagemenu_top);
+	console.log($(window).scrollTop() > pagemenu_top);
 	if ($(window).scrollTop() > pagemenu_top)
 	{
 		$a11yc_content.addClass('a11yc_fixed_header');
