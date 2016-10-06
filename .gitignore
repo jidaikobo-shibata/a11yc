@@ -1,4 +1,5 @@
 config/users.php
 config/config.php
+views/
 db/db.sqlite
 jwp_*

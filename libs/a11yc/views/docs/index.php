@@ -5,7 +5,7 @@ $msg = A11YC_LANG_DOCS_SEARCH_RESULT_NONE;
 $html = '';
 foreach ($test['tests'] as $code => $v):
 	if ($word && ! in_array($code, $results['tests'])) continue;
-	\A11yc\View::assign('doc', $v);
+	\A11yc\View::assign('doc', $v, false);
 	\A11yc\View::assign('is_index', true);
 //	$html.= '<li><a'.A11YC_TARGET.' href="'.A11YC_DOC_URL.$code.'">'.$v['name'].'</a></li>';
 	$html.= '<li><a role="button" class="a11yc_disclosure">'.$v['name'].'</a>';
@@ -72,7 +72,7 @@ $msg = '';
 				<a role="button" class="a11yc_disclosure" <?php /* echo A11YC_TARGET ?> href="<?php echo A11YC_DOC_URL.$code ?>&amp;criterion=<?php echo $kkk ?>"<?php */ ?>><?php echo $val['name'] ?></a>
 				<div class="a11yc_section_each_docs a11yc_disclosure_target">
 					<?php
-						\A11yc\View::assign('doc', $val);
+						\A11yc\View::assign('doc', $val, false);
 						\A11yc\View::assign('is_index', true);
 						echo \A11yc\View::fetch_tpl('docs/each.php');
 					?>
