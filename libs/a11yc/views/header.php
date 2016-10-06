@@ -49,7 +49,7 @@
 $errors = \A11yc\View::fetch('errors') ?: array();
 if ($errors):
 ?>
-<ul>
+<ul id="a11yc_msg_error" class="a11yc_msg">
 <?php foreach ($errors as $error): ?>
 	<li><?php echo $error; ?></li>
 <?php endforeach; ?>
@@ -60,7 +60,7 @@ endif;
 $messages = \A11yc\View::fetch('messages') ?: array();
 if ($messages):
 ?>
-<ul>
+<ul id="a11yc_msg_info" class="a11yc_msg">
 <?php foreach ($messages as $message): ?>
 	<li><?php echo $message; ?></li>
 <?php endforeach; ?>

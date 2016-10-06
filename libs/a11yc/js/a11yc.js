@@ -311,7 +311,8 @@ $disclosure.attr('tabindex', 0).each(function(index){
 $disclosure_target.each(function(){
 	if (!$(this).hasClass('show')) $(this).addClass('hide').hide();
 });
-$disclosure.on('click', function(){
+$disclosure.on('click keydown', function(e){
+	if(e && e.type=='keydown' && e.keyCode!=13) return;
 	var index = $(this).index('.a11yc_disclosure');
 	$(this).toggleClass('show hide');
 	$disclosure_target.eq(index).slideToggle(250).toggleClass('show hide');
@@ -401,7 +402,7 @@ a11yc_tooltip();
 function a11yc_tooltip(){
 	var $a11yc_tooltip = $('<span id="a11yc_tooltip" aria-hidden="true" role="presentation"></span>').hide().appendTo('body');
 	
-	$(document).on({
+	$('.a11yc').on({
 		'mouseenter focus': function(e){
 			setTimeout(function($obj){
 				var title_str = $obj.attr('title');
@@ -432,8 +433,7 @@ function a11yc_tooltip(){
 }
 	
 	//yml確認用
-	//あとでdata-non-exsistはform.phpから消すこと
-	if($('#a11yc_checklist')[0]){
+/*	if($('#a11yc_checklist')[0]){
 		var $panel = $('<div id="panel" class="a11yc_sansserif" style="position: fixed; width: 600px; resize: vertical; height: 800px;background-color: #fff;font-size: 80%; overflow-y: auto; top: 40px; right: 0; box-shadow: 0 0 3px 0 rgba(0,0,0,.25); border: 1px solid #9bc; z-index: 10000;padding:0 5px;">').appendTo('body');
 		var $button = $('<span class="a11yc_sansserif" style="position: fixed; top: 40px; right: 0; display: inline-block; padding: 2px 5px;border-radius: 3px; background-color: #e66;font-size: 12px; font-weight: bold; color: #fff; z-index: 20000;cursor: pointer;">ｘ閉じる</span>').appendTo('body');
 		$button.on('click',function(){
@@ -498,4 +498,5 @@ function a11yc_tooltip(){
 		}
 		$panel.html(str);
 	}
+	*/
 });
