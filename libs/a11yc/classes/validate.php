@@ -281,7 +281,7 @@ class Validate
 		$str = str_replace(array("\n", "\r"), '', $str);
 		$str = static::ignore_elements($str, true);
 
-		preg_match_all("/([^\x01-\x7E][ |　]+[^\x01-\x7E])/u", $str, $ms);
+		preg_match_all("/([^\x01-\x7E][ |　][ |　]+[^\x01-\x7E])/u", $str, $ms);
 		foreach ($ms[1] as $k => $m)
 		{
 			$error_ids[] = $m;

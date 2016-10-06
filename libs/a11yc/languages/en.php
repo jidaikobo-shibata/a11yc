@@ -109,6 +109,6 @@ define('A11YC_LANG_BULK_DONE3', 'To un-check all of the existing page');
 define('A11YC_LANG_DOCS_TITLE', 'Documents');
 define('A11YC_LANG_EACTH_DOCS_TITLE', 'Documents');
 define('A11YC_LANG_DOCS_EACH_SUBTITLE', 'About "%s"');
-define('A11YC_LANG_DOCS_EACH_SUBTITLE_HOWTO', 'How to "%s"');
+define('A11YC_LANG_DOCS_EACH_SUBTITLE_HOWTO', 'Document of "%s"');
 define('A11YC_LANG_DOCS_TEST', 'About Testing');
 define('A11YC_LANG_DOCS_UNDERSTANDING', 'Understanding SC&nbsp;%s');
