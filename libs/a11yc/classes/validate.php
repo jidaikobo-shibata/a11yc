@@ -397,4 +397,42 @@ class Validate
 
 		return $error_ids ?: false;
 	}
+
+	/**
+	 * titleless
+	 *
+	 * @param   strings     $str
+	 * @return  mixed
+	 */
+	public static function titleless($str)
+	{
+		$error_ids = array();
+		$str = static::ignore_elements($str, true);
+
+		if ( ! preg_match("/\<title[^\>]*?\>/u", $str))
+		{
+			$error_ids[] = 'title';
+		}
+
+		return $error_ids ?: false;
+	}
+
+	/**
+	 * langless
+	 *
+	 * @param   strings     $str
+	 * @return  mixed
+	 */
+	public static function langless($str)
+	{
+		$error_ids = array();
+		$str = static::ignore_elements($str, true);
+
+		if ( ! preg_match("/\<html[^\>]*?lang=[^\>]*?\>/u", $str))
+		{
+			$error_ids[] = 'language';
+		}
+
+		return $error_ids ?: false;
+	}
 }

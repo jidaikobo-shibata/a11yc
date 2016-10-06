@@ -66,6 +66,8 @@ class Controller_Checklist
 			'is_not_exists_meanless_element',
 			'is_not_style_for_structure',
 			'tell_user_file_type',
+			'titleless',
+			'langless',
 		);
 
 		foreach ($codes as $code)
