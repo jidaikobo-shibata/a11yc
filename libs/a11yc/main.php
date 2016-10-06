@@ -21,10 +21,10 @@ defined('A11YC_TABLE_SETUP')  or define('A11YC_TABLE_SETUP',  'a11y_setup');
 defined('A11YC_TABLE_BULK')   or define('A11YC_TABLE_BULK',   'a11y_bulk');
 
 // url
-defined('A11YC_BULK_URL')      or define('A11YC_BULK_URL',      A11YC_URL.'?c=bulk&amp;a=index');
-defined('A11YC_PAGES_URL')     or define('A11YC_PAGES_URL',     A11YC_URL.'?c=pages&amp;a=index');
+defined('A11YC_BULK_URL') or define('A11YC_BULK_URL', A11YC_URL.'?c=bulk&amp;a=index');
+defined('A11YC_PAGES_URL') or define('A11YC_PAGES_URL', A11YC_URL.'?c=pages&amp;a=index');
 defined('A11YC_CHECKLIST_URL') or define('A11YC_CHECKLIST_URL', A11YC_URL.'?c=checklist&amp;a=index&amp;url=');
-defined('A11YC_DOC_URL')       or define('A11YC_DOC_URL',       A11YC_URL.'?c=docs&amp;a=each&amp;code=');
+defined('A11YC_DOC_URL') or define('A11YC_DOC_URL', A11YC_URL.'?c=docs&amp;a=each&amp;code=');
 
 // languages
 include A11YC_PATH.'/languages/'.A11YC_LANG.'.php';
