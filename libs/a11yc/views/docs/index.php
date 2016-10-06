@@ -1,12 +1,13 @@
 <form action="<?php echo A11YC_URL ?>" method="GET">
-<input type="text" name="s" id="str" size="20" value="<?php echo $word ?>">
 <input type="hidden" name="c" value="docs">
 <input type="hidden" name="a" value="index">
-<input type="submit" value="">
+<label class="a11yc_skip" for="a11yc_str"><?php echo A11YC_LANG_DOCS_SEARCH ?></label><input type="text" name="s" id="a11yc_str" size="40" value="<?php echo $word ?>">
+<input type="submit" value="<?php echo A11YC_LANG_DOCS_SEARCH ?>">
 </form>
 
 
 <?php
+$msg = A11YC_LANG_DOCS_SEARCH_RESULT_NONE;
 $html = '';
 foreach ($test['tests'] as $code => $v):
 	if ($word && ! in_array($code, $results['tests'])) continue;
@@ -14,6 +15,7 @@ foreach ($test['tests'] as $code => $v):
 endforeach;
 
 if ($html):
+$msg = '';
 ?>
 <h2><?php echo A11YC_LANG_DOCS_TEST ?></h2>
 <ul>
@@ -22,19 +24,10 @@ if ($html):
 <?php endif; ?>
 
 <!-- show technique index -->
-<?php /* ?>
-<div id="a11yc_header">
-	<!-- a11yc menu -->
-	<ul id="a11yc_menu_principles">
-	<?php foreach ($yml['principles'] as $v):  ?>
-		<li id="a11yc_menuitem_<?php echo $v['code'] ?>"><a href="#a11yc_header_p_<?php echo $v['code'] ?>"><?php echo $v['code'].' '.$v['name'] ?></a></li>
-	<?php endforeach;  ?>
-	</ul><!--/#a11yc_menu_principles-->
-</div><!--/#a11yc_header-->
-<?php */ ?>
 <?php
 foreach ($yml['principles'] as $k => $v):
 if ($word && ! in_array($k, $results['chks']['principles'])) continue;
+$msg = '';
 ?>
 
 	<!-- principles -->
@@ -48,7 +41,8 @@ if ($word && ! in_array($k, $results['chks']['principles'])) continue;
 		<div id="a11yc_g_<?php echo $vv['code'] ?>" class="a11yc_section_guideline"><h3 class="a11yc_header_guideline a11yc_disclosure"><?php echo \A11yc\Util::key2code($vv['code']).' '.$vv['name'] ?></h3>
 
 		<!-- criterions -->
-		<div class="a11yc_section_criterions a11yc_disclosure_target">
+		<?php $class_str = $word ? ' show' : ''; ?>
+		<div class="a11yc_section_criterions a11yc_disclosure_target<?php echo $class_str ?>">
 		<?php foreach ($yml['criterions'] as $kkk => $vvv):
 		if ($word && ! in_array($kkk, $results['chks']['criterions'])) continue;
 			if (substr($kkk, 0, 3) != $kk) continue; ?>
@@ -78,3 +72,5 @@ if ($word && ! in_array($k, $results['chks']['principles'])) continue;
 	<?php endforeach; ?>
 	</div><!--/#section_p_<?php echo $v['code'] ?> a11yc_section_principle-->
 <?php endforeach; ?>
+
+<?php echo $msg ?>

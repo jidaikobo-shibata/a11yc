@@ -112,3 +112,5 @@ define('A11YC_LANG_DOCS_EACH_SUBTITLE', 'About "%s"');
 define('A11YC_LANG_DOCS_EACH_SUBTITLE_HOWTO', 'Document of "%s"');
 define('A11YC_LANG_DOCS_TEST', 'About Testing');
 define('A11YC_LANG_DOCS_UNDERSTANDING', 'Understanding SC&nbsp;%s');
+define('A11YC_LANG_DOCS_SEARCH', 'Search in the documentation');
+define('A11YC_LANG_DOCS_SEARCH_RESULT_NONE', 'Appropriate documentation was not found.');

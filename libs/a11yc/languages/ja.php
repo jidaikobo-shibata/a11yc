@@ -112,3 +112,5 @@ define('A11YC_LANG_DOCS_EACH_SUBTITLE', '「%s」について');
 define('A11YC_LANG_DOCS_EACH_SUBTITLE_HOWTO', '「%s」の解説');
 define('A11YC_LANG_DOCS_TEST', '試験方法について');
 define('A11YC_LANG_DOCS_UNDERSTANDING', '達成基準&nbsp;%s&nbsp;を理解する');
+define('A11YC_LANG_DOCS_SEARCH', '資料内を検索');
+define('A11YC_LANG_DOCS_SEARCH_RESULT_NONE', '該当する資料が見つかりませんでした');

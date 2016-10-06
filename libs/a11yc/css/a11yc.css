@@ -310,6 +310,13 @@ tr.a11yc_flash {
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 }
+#a11yc_str {
+	padding: calc( 5px + .15em);
+}
+#a11yc_str+[type="submit"] {
+	display: inline-block;
+	padding: 5px 15px;
+}
 .a11yc [type="submit"]:hover,
 .a11yc [type="submit"]:focus {
 	background-color: #00538a;
