@@ -807,6 +807,22 @@ span.a11yc_icon_check:before {
 	border-bottom-style: dotted;
 }
 
+#a11yc_docs .a11yc_ul_test,
+#a11yc_docs .a11yc_ul_check {
+	padding-left: 10px;
+}
+
+#a11yc_docs .a11yc_ul_test li,
+#a11yc_docs .a11yc_ul_check li {
+	list-style-type: none;
+}
+#a11yc_docs .a11yc_ul_test div,
+#a11yc_docs .a11yc_ul_check div {
+	background-color: #fff;
+	padding: 20px;
+	margin-right: 10px;
+} 
+
 /* result */
 table .a11yc_result {
 	text-align: center;

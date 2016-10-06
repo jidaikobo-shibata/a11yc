@@ -383,7 +383,7 @@ $('.a11yc').on('keydown', function(e){
 function a11yc_adjust_position($obj) {
 	if($obj.closest('#a11yc_menu , #a11yc_header')[0] ) return;
 	setTimeout(function(){
-		var a11yc_position_header_bottom = $('#a11yc_header').offset().top+$('#a11yc_header').outerHeight();
+		var a11yc_position_header_bottom = $('#a11yc_header')[0] ? $('#a11yc_header').offset().top+$('#a11yc_header').outerHeight() : 0;
 		if($obj.offset().top >= a11yc_position_header_bottom) return;
 		$('body').scrollTop($(window).scrollTop()-(a11yc_position_header_bottom-$obj.offset().top)-30);
 	},100);
