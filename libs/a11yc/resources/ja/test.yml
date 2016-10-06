@@ -68,3 +68,12 @@ tests:
       -
         name: アクセシビリティ・サポーテッド（AS）情報
         url: http://waic.jp/docs/as/
+
+  doc7:
+    name: 同期したメディア
+    tech: |
+      端的に表現すると、映像と音声が同時に流れる動画。「音声しか含まない」「映像しか含まない」と区別するために用いられる用語。
+    urls:
+      -
+        name: 時間の経過に伴って変化するメディア
+        url: http://waic.jp/docs/UNDERSTANDING-WCAG20/media-equiv.html

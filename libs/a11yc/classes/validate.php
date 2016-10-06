@@ -18,10 +18,10 @@ class Validate
 	 * @param   strings     $str
 	 * @return  $str
 	 */
-	public static function ignore_elements($str)
+	public static function ignore_elements($str, $force = false)
 	{
 		static $retval = '';
-		if ($retval) return $retval;
+		if ($retval && ! $force) return $retval;
 
 		$retval = str_replace(array("\n", "\r"), ' ', $str);
 		$retval = strtolower($retval);
@@ -50,7 +50,7 @@ class Validate
 		{
 			if ( ! preg_match("/alt=[\"|']/i", $m))
 			{
-				preg_match("/src=\"([^\"]+)\"/i", $m, $im);
+				preg_match("/src=[\"|']([^\"]+)[\"|']/i", $m, $im);
 				$error_ids[] = @basename($im[1]);
 			}
 		}
@@ -73,7 +73,7 @@ class Validate
 		{
 			if (preg_match("/alt=[\"|'] *?[\"|']/i", $m))
 			{
-				preg_match("/src=\"([^\"]+)\"/i", $m, $im);
+				preg_match("/src=[\"|']([^\"]+)[\"|']/i", $m, $im);
 				$error_ids[] = @basename($im[1]);
 			}
 		}
@@ -119,7 +119,7 @@ class Validate
 		{
 			if ( ! preg_match("/alt=[\"|']/i", $m) || preg_match("/alt=[\"|'] *?[\"|']/i", $m))
 			{
-				preg_match("/coords=\"([^\"]+)\"/i", $m, $im);
+				preg_match("/coords=[\"|']([^\"]+)[\"|']/i", $m, $im);
 				$error_ids[] = @basename($im[1]);
 			}
 		}
@@ -144,7 +144,7 @@ class Validate
 				(strpos($m, 'image') && preg_match("/alt=[\"|'] *?[\"|']/i", $m))
 			)
 			{
-				preg_match("/src=\"([^\"]+)\"/i", $m, $im);
+				preg_match("/src=[\"|']([^\"]+)[\"|']/i", $m, $im);
 				$error_ids[] = @basename($im[1]);
 			}
 		}
@@ -238,6 +238,201 @@ class Validate
 				$error_ids[] = $v;
 			}
 		}
+		return $error_ids ?: false;
+	}
+
+	/**
+	 * is not same alt and filename of img
+	 *
+	 * @param   strings     $str
+	 * @return  mixed
+	 */
+	public static function is_not_same_alt_and_filename_of_img($str)
+	{
+		$error_ids = array();
+		$str = static::ignore_elements($str);
+
+		preg_match_all("/\<img ([^\>]+)\>/i", $str, $ms);
+		foreach ($ms[1] as $k => $m)
+		{
+			if (preg_match("/alt=[\"|']([^\"]+)[\"|']/i", $m, $m_alt))
+			{
+				preg_match("/src=[\"|']([^\"]+)[\"|']/i", $m, $m_src);
+				$filename = basename($m_src[1]);
+				if ($filename == $m_alt[1])
+				{
+					$error_ids[] = $filename;
+				}
+			}
+		}
+		return $error_ids ?: false;
+	}
+
+	/**
+	 * is not exists ja word breaking space
+	 *
+	 * @param   strings     $str
+	 * @return  mixed
+	 */
+	public static function is_not_exists_ja_word_breaking_space($str)
+	{
+		if (A11YC_LANG != 'ja') return false;
+		$error_ids = array();
+		$str = str_replace(array("\n", "\r"), '', $str);
+		$str = static::ignore_elements($str, true);
+
+		preg_match_all("/([^\x01-\x7E][ |　][ |　]+[^\x01-\x7E])/u", $str, $ms);
+		foreach ($ms[1] as $k => $m)
+		{
+			$error_ids[] = $m;
+		}
+
+		return $error_ids ?: false;
+	}
+
+	/**
+	 * is not exists meanless element
+	 *
+	 * @param   strings     $str
+	 * @return  mixed
+	 */
+	public static function is_not_exists_meanless_element($str)
+	{
+		$error_ids = array();
+		$body_html = static::ignore_elements($str, true);
+
+		$banneds = array(
+			'center',
+			'font',
+			'blink',
+			'marquee',
+		);
+
+		preg_match_all("/\<([^\>| ]+)/i", $body_html, $tags);
+
+		foreach ($tags[1] as $tag)
+		{
+			if (in_array($tag, $banneds))
+			{
+				$error_ids[] = $tag;
+			}
+		}
+
+		return $error_ids ?: false;
+	}
+
+	/**
+	 * is not style for structure
+	 *
+	 * @param   strings     $str
+	 * @return  mixed
+	 */
+	public static function is_not_style_for_structure($str)
+	{
+		$error_ids = array();
+		$str = static::ignore_elements($str, true);
+
+		preg_match_all("/\<[a-zA-Z1-6]+? ([^\>]+)\>/i", $str, $ms);
+		foreach ($ms[1] as $k => $m)
+		{
+			if (strpos($m, 'style=') !== false)
+			{
+				$error_ids[] = $m;
+			}
+		}
+
+		return $error_ids ?: false;
+	}
+
+	/**
+	 * tell user file type
+	 *
+	 * @param   strings     $str
+	 * @return  mixed
+	 */
+	public static function tell_user_file_type($str)
+	{
+		$error_ids = array();
+		$str = static::ignore_elements($str, true);
+
+		preg_match_all("/\<a [^\>]*href=[\"|']([^\"|']+?)[\"|'][^\>]*?\>([^\<|\>]+?)\<\/a\>/i", $str, $ms);
+		$suspicious = array(
+			'pdf',
+			'doc',
+			'docx',
+			'xls',
+			'xlsx',
+			'ppt',
+			'pptx',
+			'zip',
+			'tar',
+		);
+
+		foreach ($ms[1] as $k => $m)
+		{
+			foreach ($suspicious as $vv)
+			{
+				if (strpos($m, $vv) !== false)
+				{
+					$val = $ms[2][$k];
+					if (
+						(($vv == 'doc' || $vv == 'docx') && strpos($val, 'word') !== false) ||
+						(($vv == 'xls' || $vv == 'xlsx') && strpos($val, 'excel') !== false) ||
+						(($vv == 'ppt' || $vv == 'pptx') && strpos($val, 'power') !== false)
+					)
+					{
+						$val.= 'doc,docx,xls,xlsx,ppt,pptx';
+					}
+					if (
+						strpos($val, $vv) === false ||
+						preg_match("/\d/", $val) == false
+					)
+					{
+						$error_ids[] = $m;
+					}
+
+				}
+			}
+		}
+
+		return $error_ids ?: false;
+	}
+
+	/**
+	 * titleless
+	 *
+	 * @param   strings     $str
+	 * @return  mixed
+	 */
+	public static function titleless($str)
+	{
+		$error_ids = array();
+		$str = static::ignore_elements($str, true);
+
+		if ( ! preg_match("/\<title[^\>]*?\>/u", $str))
+		{
+			$error_ids[] = 'title';
+		}
+
+		return $error_ids ?: false;
+	}
+
+	/**
+	 * langless
+	 *
+	 * @param   strings     $str
+	 * @return  mixed
+	 */
+	public static function langless($str)
+	{
+		$error_ids = array();
+		$str = static::ignore_elements($str, true);
+
+		if ( ! preg_match("/\<html[^\>]*?lang=[^\>]*?\>/u", $str))
+		{
+			$error_ids[] = 'language';
+		}
+
 		return $error_ids ?: false;
 	}
 }

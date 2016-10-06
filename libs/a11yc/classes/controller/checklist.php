@@ -61,6 +61,13 @@ class Controller_Checklist
 			'is_are_has_alt',
 			'suspicious_elements',
 			'appropriate_heading_descending',
+			'is_not_same_alt_and_filename_of_img',
+			'is_not_exists_ja_word_breaking_space',
+			'is_not_exists_meanless_element',
+			'is_not_style_for_structure',
+			'tell_user_file_type',
+			'titleless',
+			'langless',
 		);
 
 		foreach ($codes as $code)
