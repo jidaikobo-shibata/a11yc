@@ -53,6 +53,16 @@ define('A11YC_LANG_PAGES_CHECK', 'Check');
 define('A11YC_LANG_PAGES_DELETE', 'Delete');
 define('A11YC_LANG_PAGES_UNDELETE', 'Undelete');
 define('A11YC_LANG_PAGES_PURGE', 'Purge');
+define('A11YC_LANG_PAGES_ADD_DATE', 'Add Date');
+define('A11YC_LANG_PAGES_ORDER_TITLE', 'Order');
+define('A11YC_LANG_PAGES_ORDER_ADD_DATE_ASC', 'Add Date Asc.');
+define('A11YC_LANG_PAGES_ORDER_ADD_DATE_DESC', 'Add Date Desc.');
+define('A11YC_LANG_PAGES_ORDER_TEST_DATE_ASC', 'Test Date Asc');
+define('A11YC_LANG_PAGES_ORDER_TEST_DATE_DESC', 'Test Date Desc');
+define('A11YC_LANG_PAGES_ORDER_URL_ASC', 'URL Asc.');
+define('A11YC_LANG_PAGES_ORDER_URL_DESC', 'URL Desc.');
+define('A11YC_LANG_PAGES_ORDER_PAGE_NAME_ASC', 'Page name Asc.');
+define('A11YC_LANG_PAGES_ORDER_PAGE_NAME_DESC', 'Page name Desc.');
 define('A11YC_LANG_PAGES_CTRL', 'Action');
 define('A11YC_LANG_PAGES_URL_FOR_EACH_LINE', 'Enter one URL to each line, please press the "'.A11YC_LANG_PAGES_URLS_ADD.'"');
 

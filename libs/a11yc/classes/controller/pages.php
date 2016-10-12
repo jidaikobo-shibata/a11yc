@@ -42,12 +42,20 @@ class Controller_Pages
 			{
 				$page = trim($page);
 				if ( ! $page) continue;
+
+				// is page exist?
+				if ( ! Util::is_page_exist($page)) continue;
+
+				// page title
+				$pagetitle = Util::fetch_page_title($page);
+
 				$page = urldecode($page);
 				$exist = Db::fetch('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;', array($page));
 				if ( ! $exist)
 				{
-					$sql = 'INSERT INTO '.A11YC_TABLE_PAGES.' (`url`, `trash`, `add_date`) VALUES (?, 0, ?);';
-					$r = Db::execute($sql, array($page, date('Y-m-d H:i:s')));
+					$sql = 'INSERT INTO '.A11YC_TABLE_PAGES;
+					$sql.= '(`url`, `trash`, `add_date`, `page_title`) VALUES (?, 0, ?, ?);';
+					$r = Db::execute($sql, array($page, date('Y-m-d H:i:s'), $pagetitle));
 				}
 			}
 		}
