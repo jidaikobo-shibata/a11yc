@@ -46,8 +46,8 @@ class Controller_Pages
 				$exist = Db::fetch('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;', array($page));
 				if ( ! $exist)
 				{
-					$sql = 'INSERT INTO '.A11YC_TABLE_PAGES.' (`url`, `trash`) VALUES (?, 0);';
-					$r = Db::execute($sql, array($page));
+					$sql = 'INSERT INTO '.A11YC_TABLE_PAGES.' (`url`, `trash`, `add_date`) VALUES (?, 0, ?);';
+					$r = Db::execute($sql, array($page, date('Y-m-d H:i:s')));
 				}
 			}
 		}

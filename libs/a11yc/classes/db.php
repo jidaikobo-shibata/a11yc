@@ -35,6 +35,12 @@ class Db extends \Kontiki\Db
 				$sql.= ');';
 				static::execute($sql);
 			}
+
+			if ( ! static::is_fields_exist(A11YC_TABLE_PAGES, array('add_date')))
+			{
+				$sql = 'ALTER TABLE '.A11YC_TABLE_PAGES.' ADD `add_date` datetime;';
+				static::execute($sql);
+			}
 		}
 
 		if (defined('A11YC_TABLE_CHECKS'))
