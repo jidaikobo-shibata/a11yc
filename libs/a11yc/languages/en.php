@@ -28,6 +28,7 @@ define('A11YC_LANG_BEGINNING_OF_THE_CONTENT', '');
 define('A11YC_LANG_UPDATE_SUCCEED', 'Update Succeed');
 define('A11YC_LANG_UPDATE_FAILED', 'Update Failed');
 define('A11YC_LANG_ERROR_NON_TARGET_LEVEL', 'Please perform the check from select "Target Level" in setting.');
+define('A11YC_LANG_CTRL_CONFIRM', 'It can not be returned. Are you sure you want to do %s?');
 
 // login
 define('A11YC_LANG_AUTH_TITLE', 'A11YC Login');
@@ -51,6 +52,8 @@ define('A11YC_LANG_PAGES_DONE', 'Done');
 define('A11YC_LANG_PAGES_CHECK', 'Check');
 define('A11YC_LANG_PAGES_DELETE', 'Delete');
 define('A11YC_LANG_PAGES_UNDELETE', 'Undelete');
+define('A11YC_LANG_PAGES_PURGE', 'Purge');
+define('A11YC_LANG_PAGES_CTRL', 'Action');
 define('A11YC_LANG_PAGES_URL_FOR_EACH_LINE', 'Enter one URL to each line, please press the "'.A11YC_LANG_PAGES_URLS_ADD.'"');
 
 // setup

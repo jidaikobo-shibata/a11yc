@@ -68,6 +68,14 @@ class Controller_Pages
 			$r = Db::execute($sql, array($page));
 		}
 
+		// purge
+		if (isset($_GET['purge']))
+		{
+			$page = urldecode(trim($_GET['url']));
+			$sql = 'DELETE FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;';
+			$r = Db::execute($sql, array($page));
+		}
+
 		if (isset($r))
 		{
 			if ($r)

@@ -22,7 +22,7 @@
 	<th class="a11yc_result"><?php echo A11YC_LANG_LEVEL ?></th>
 	<th class="a11yc_result"><?php echo A11YC_LANG_CHECKLIST_DONE ?></th>
 	<th class="a11yc_result"><?php echo A11YC_LANG_PAGES_CHECK ?></th>
-	<th class="a11yc_result"><?php echo A11YC_LANG_PAGES_DELETE ?></th>
+	<th class="a11yc_result"><?php echo A11YC_LANG_PAGES_CTRL ?></th>
 	</thead>
 	<tbody>
 	<?php
@@ -38,7 +38,11 @@
 		<td class="a11yc_result"><?php echo $done ?></td>
 		<td class="a11yc_result"><a href="<?php echo A11YC_CHECKLIST_URL.urlencode($url) ?>"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_CHECK ?></span><span class="a11yc_icon_check" role="presentation" aria-hidden="true"></span></a></td>
 		<?php if ($list == 'trash'): ?>
-			<td class="a11yc_result"><a href="<?php echo A11YC_PAGES_URL ?>&amp;undel=1&amp;url=<?php echo urlencode($url) ?>"><?php echo A11YC_LANG_PAGES_UNDELETE ?></a></td>
+			<td class="a11yc_result">
+				<a href="<?php echo A11YC_PAGES_URL ?>&amp;undel=1&amp;url=<?php echo urlencode($url) ?>"><?php echo A11YC_LANG_PAGES_UNDELETE ?></a>
+				<a href="<?php echo A11YC_PAGES_URL ?>&amp;purge=1&amp;url=<?php echo urlencode($url) ?>"><?php echo A11YC_LANG_PAGES_PURGE ?></a>
+			</td>
+
 		<?php else: ?>
 			<td class="a11yc_result"><a href="<?php echo A11YC_PAGES_URL ?>&amp;del=1&amp;url=<?php echo urlencode($url) ?>"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_DELETE ?></span><span class="a11yc_icon_delete" role="presentation" aria-hidden="true"></span></a></td>
 		<?php endif; ?>
