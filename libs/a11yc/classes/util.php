@@ -93,15 +93,23 @@ class Util extends \Kontiki\Util
 		static $html = array();
 		if (isset($html[$url])) return $html[$url];
 
-		// Modern Browser
-		$options = array(
-			'http' => array(
-				'method' => 'GET',
-				'header' => 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/602.1.50',
-			),
-		);
-		$context = stream_context_create($options);
-		$html = strtolower(@file_get_contents($url, false, $context));
+		// Browser
+		$ua = isset($_SERVER['HTTP_USER_AGENT']) ? Util::s($_SERVER['HTTP_USER_AGENT']) : false;
+		if ($ua)
+		{
+			$options = array(
+				'http' => array(
+					'method' => 'GET',
+					'header' => 'User-Agent: '.$ua,
+				),
+			);
+			$context = stream_context_create($options);
+			$html = strtolower(@file_get_contents($url, false, $context));
+		}
+		else
+		{
+			$html = strtolower(@file_get_contents($url));
+		}
 
 		$encodes = array("ASCII", "SJIS-win", "SJIS", "ISO-2022-JP", "EUC-JP");
 		$encode = mb_detect_encoding($html, array_merge($encodes, array("UTF-8")));
