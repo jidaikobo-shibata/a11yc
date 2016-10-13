@@ -28,6 +28,7 @@ define('A11YC_LANG_BEGINNING_OF_THE_CONTENT', 'ここから本文です');
 define('A11YC_LANG_UPDATE_SUCCEED', '更新しました');
 define('A11YC_LANG_UPDATE_FAILED', '更新に失敗しました');
 define('A11YC_LANG_ERROR_NON_TARGET_LEVEL', '設定で「目標とする達成等級」を選んでからチェックを行ってください。');
+define('A11YC_LANG_CTRL_CONFIRM', '元には戻せません。本当に%sしてもよろしいですか？');
 
 // login
 define('A11YC_LANG_AUTH_TITLE', 'A11YC ログイン');
@@ -55,6 +56,18 @@ define('A11YC_LANG_PAGES_DONE', '終了');
 define('A11YC_LANG_PAGES_CHECK', 'チェック');
 define('A11YC_LANG_PAGES_DELETE', '削除');
 define('A11YC_LANG_PAGES_UNDELETE', '復活');
+define('A11YC_LANG_PAGES_PURGE', '完全に削除');
+define('A11YC_LANG_PAGES_ADD_DATE', '登録日');
+define('A11YC_LANG_PAGES_ORDER_TITLE', '並び替え');
+define('A11YC_LANG_PAGES_ORDER_ADD_DATE_ASC', '登録日昇順');
+define('A11YC_LANG_PAGES_ORDER_ADD_DATE_DESC', '登録日降順');
+define('A11YC_LANG_PAGES_ORDER_TEST_DATE_ASC', '試験日昇順');
+define('A11YC_LANG_PAGES_ORDER_TEST_DATE_DESC', '試験日降順');
+define('A11YC_LANG_PAGES_ORDER_URL_ASC', 'URL昇順');
+define('A11YC_LANG_PAGES_ORDER_URL_DESC', 'URL降順');
+define('A11YC_LANG_PAGES_ORDER_PAGE_NAME_ASC', 'ページ名昇順');
+define('A11YC_LANG_PAGES_ORDER_PAGE_NAME_DESC', 'ページ名降順');
+define('A11YC_LANG_PAGES_CTRL', '操作');
 define('A11YC_LANG_PAGES_URL_FOR_EACH_LINE', '各行に一つのURLを入力して、「'.A11YC_LANG_PAGES_URLS_ADD.'」を押してください');
 
 // setup

@@ -15,6 +15,21 @@
 <a href="<?php echo A11YC_PAGES_URL ?>&amp;list=done">done</a> |
 <a href="<?php echo A11YC_PAGES_URL ?>&amp;list=trash">trash</a></p>
 
+<form action="" method="GET">
+<p><label for="a11yc_order"><?php echo A11YC_LANG_PAGES_ORDER_TITLE ?></label>
+<select name="order" id="a11yc_order">
+	<option value=""><?php echo A11YC_LANG_PAGES_ORDER_ADD_DATE_ASC ?></option>
+	<option value=""><?php echo A11YC_LANG_PAGES_ORDER_ADD_DATE_DESC ?></option>
+	<option value=""><?php echo A11YC_LANG_PAGES_ORDER_TEST_DATE_ASC ?></option>
+	<option value=""><?php echo A11YC_LANG_PAGES_ORDER_TEST_DATE_DESC ?></option>
+	<option value=""><?php echo A11YC_LANG_PAGES_ORDER_URL_ASC ?></option>
+	<option value=""><?php echo A11YC_LANG_PAGES_ORDER_URL_DESC ?></option>
+	<option value=""><?php echo A11YC_LANG_PAGES_ORDER_PAGE_NAME_ASC ?></option>
+	<option value=""><?php echo A11YC_LANG_PAGES_ORDER_PAGE_NAME_DESC ?></option>
+</select></p>
+<input type="submit" value="<?php echo A11YC_LANG_PAGES_ORDER_TITLE ?>" />
+</form>
+
 <?php if ($pages): ?>
 	<table class="a11yc_table">
 	<thead>
@@ -22,26 +37,33 @@
 	<th class="a11yc_result"><?php echo A11YC_LANG_LEVEL ?></th>
 	<th class="a11yc_result"><?php echo A11YC_LANG_CHECKLIST_DONE ?></th>
 	<th class="a11yc_result"><?php echo A11YC_LANG_PAGES_CHECK ?></th>
-	<th class="a11yc_result"><?php echo A11YC_LANG_PAGES_DELETE ?></th>
+	<th class="a11yc_result"><?php echo A11YC_LANG_PAGES_CTRL ?></th>
+	<th class="a11yc_result"><?php echo A11YC_LANG_PAGES_ADD_DATE ?></th>
 	</thead>
 	<tbody>
 	<?php
 	$i = 0;
 	foreach ($pages as $page):
 	$url = \A11yc\Util::s($page['url']);
+	$page_title = \A11yc\Util::s($page['page_title']);
 	$class_str = ++$i%2==0 ? ' class="even"' : ' class="odd"';
 	?>
 	<tr<?php echo $class_str ?>>
-		<th><?php echo $url ?></th>
+		<th><?php echo $page_title.'<br />'.$url ?></th>
 		<td class="a11yc_result"><?php echo \A11yc\Util::num2str($page['level']) ?></td>
 		<?php $done = @$page['done'] == 1 ? A11YC_LANG_PAGES_DONE : '' ; ?>
 		<td class="a11yc_result"><?php echo $done ?></td>
 		<td class="a11yc_result"><a href="<?php echo A11YC_CHECKLIST_URL.urlencode($url) ?>"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_CHECK ?></span><span class="a11yc_icon_check" role="presentation" aria-hidden="true"></span></a></td>
 		<?php if ($list == 'trash'): ?>
-			<td class="a11yc_result"><a href="<?php echo A11YC_PAGES_URL ?>&amp;undel=1&amp;url=<?php echo urlencode($url) ?>"><?php echo A11YC_LANG_PAGES_UNDELETE ?></a></td>
+			<td class="a11yc_result">
+				<a href="<?php echo A11YC_PAGES_URL ?>&amp;undel=1&amp;url=<?php echo urlencode($url) ?>"><?php echo A11YC_LANG_PAGES_UNDELETE ?></a>
+				<a href="<?php echo A11YC_PAGES_URL ?>&amp;purge=1&amp;url=<?php echo urlencode($url) ?>"><?php echo A11YC_LANG_PAGES_PURGE ?></a>
+			</td>
+
 		<?php else: ?>
 			<td class="a11yc_result"><a href="<?php echo A11YC_PAGES_URL ?>&amp;del=1&amp;url=<?php echo urlencode($url) ?>"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_DELETE ?></span><span class="a11yc_icon_delete" role="presentation" aria-hidden="true"></span></a></td>
 		<?php endif; ?>
+		<td><?php echo $page['add_date'] ?></td>
 	</tr>
 	<?php endforeach; ?>
 	</tbody>

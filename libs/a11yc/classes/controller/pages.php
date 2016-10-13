@@ -42,12 +42,20 @@ class Controller_Pages
 			{
 				$page = trim($page);
 				if ( ! $page) continue;
+
+				// is page exist?
+				if ( ! Util::is_page_exist($page)) continue;
+
+				// page title
+				$pagetitle = Util::fetch_page_title($page);
+
 				$page = urldecode($page);
 				$exist = Db::fetch('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;', array($page));
 				if ( ! $exist)
 				{
-					$sql = 'INSERT INTO '.A11YC_TABLE_PAGES.' (`url`, `trash`) VALUES (?, 0);';
-					$r = Db::execute($sql, array($page));
+					$sql = 'INSERT INTO '.A11YC_TABLE_PAGES;
+					$sql.= '(`url`, `trash`, `add_date`, `page_title`) VALUES (?, 0, ?, ?);';
+					$r = Db::execute($sql, array($page, date('Y-m-d H:i:s'), $pagetitle));
 				}
 			}
 		}
@@ -65,6 +73,14 @@ class Controller_Pages
 		{
 			$page = urldecode(trim($_GET['url']));
 			$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET `trash` = 0 WHERE `url` = ?;';
+			$r = Db::execute($sql, array($page));
+		}
+
+		// purge
+		if (isset($_GET['purge']))
+		{
+			$page = urldecode(trim($_GET['url']));
+			$sql = 'DELETE FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;';
 			$r = Db::execute($sql, array($page));
 		}
 

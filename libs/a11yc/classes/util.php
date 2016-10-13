@@ -111,6 +111,8 @@ class Util extends \Kontiki\Util
 			$html = strtolower(@file_get_contents($url));
 		}
 
+		if ( ! $html) return false;
+
 		$encodes = array("ASCII", "SJIS-win", "SJIS", "ISO-2022-JP", "EUC-JP");
 		$encode = mb_detect_encoding($html, array_merge($encodes, array("UTF-8")));
 		if (in_array($encode, $encodes))
@@ -135,5 +137,16 @@ class Util extends \Kontiki\Util
 		preg_match("/<title.*?>(.+?)<\/title>/", $html, $m);
 		$title[$url] = isset($m[1]) ? $m[1] : '';
 		return $title[$url];
+	}
+
+	/**
+	 * is page exist
+	 *
+	 * @param   string     $url
+	 * @return  string
+	 */
+	public static function is_page_exist($url)
+	{
+		return (static::fetch_html($url));
 	}
 }

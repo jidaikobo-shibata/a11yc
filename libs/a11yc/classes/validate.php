@@ -170,7 +170,8 @@ class Validate
 		$error_ids = array();
 		$str = static::ignore_elements($str);
 
-		$secs = preg_split("/(<h\d)>(.+?)<\/h/", $str, -1, PREG_SPLIT_DELIM_CAPTURE);
+		$secs = preg_split("/(\<h\d)[^\>]*\>(.+?)\<\/h\d/", $str, -1, PREG_SPLIT_DELIM_CAPTURE);
+
 		$prev = 1;
 		foreach ($secs as $k => $v)
 		{
