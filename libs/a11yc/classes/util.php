@@ -90,8 +90,8 @@ class Util extends \Kontiki\Util
 	 */
 	public static function fetch_html($url)
 	{
-		static $html = array();
-		if (isset($html[$url])) return $html[$url];
+		static $htmls = array();
+		if (isset($htmls[$url])) return $htmls[$url];
 
 		// Browser
 		$ua = isset($_SERVER['HTTP_USER_AGENT']) ? Util::s($_SERVER['HTTP_USER_AGENT']) : false;
@@ -119,7 +119,7 @@ class Util extends \Kontiki\Util
 		{
 			$html = mb_convert_encoding($html, "UTF-8", $encode);
 		}
-		$html[$url] = $html;
+		$htmls[$url] = $html;
 		return $html;
 	}
 
@@ -134,10 +134,22 @@ class Util extends \Kontiki\Util
 		static $title = array();
 		if (isset($title[$url])) return $title[$url];
 		$html = static::fetch_html($url);
+		$title[$url] = static::fetch_page_title_from_html($html);
+		return $title[$url];
+	}
+
+	/**
+	 * fetch page title from html
+	 *
+	 * @param   string     $html
+	 * @return  string
+	 */
+	public static function fetch_page_title_from_html($html)
+	{
 		preg_match("/<title.*?>(.+?)<\/title>/s", $html, $m);
 		$tmp = isset($m[1]) ? $m[1] : '';
-		$title[$url] = str_replace(array("\n", "\r"), '', $tmp);
-		return $title[$url];
+		$title = str_replace(array("\n", "\r"), '', $tmp);
+		return $title;
 	}
 
 	/**

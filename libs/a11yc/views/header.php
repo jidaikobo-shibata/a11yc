@@ -45,26 +45,3 @@
 ?>
 <a href="javascript:void(0);" id="a11yc_content" class="a11yc_skip a11yc_show_if_focus"><?php echo A11YC_LANG_BEGINNING_OF_THE_CONTENT ?></a>
 <h1><?php echo $h1 ?></h1>
-<?php
-$errors = \A11yc\Session::fetch('messages', 'errors') ?: array();
-if ($errors):
-?>
-<ul id="a11yc_msg_error" class="a11yc_msg">
-<?php foreach ($errors as $error): ?>
-	<li><?php echo $error; ?></li>
-<?php endforeach; ?>
-</ul>
-<?php
-endif;
-
-$messages = \A11yc\Session::fetch('messages', 'messages') ?: array();
-if ($messages):
-?>
-<ul id="a11yc_msg_info" class="a11yc_msg">
-<?php foreach ($messages as $message): ?>
-	<li><?php echo $message; ?></li>
-<?php endforeach; ?>
-</ul>
-<?php
-endif;
-?>

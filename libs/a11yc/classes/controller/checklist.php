@@ -66,6 +66,7 @@ class Controller_Checklist
 			'is_not_exists_meanless_element',
 			'is_not_style_for_structure',
 			'tell_user_file_type',
+			'is_not_exist_same_page_title_in_same_site',
 			'titleless',
 			'langless',
 		);
@@ -92,6 +93,20 @@ class Controller_Checklist
 	 */
 	public static function dbio($url)
 	{
+		// page existence
+		if ($url != 'bulk' && ! Util::is_page_exist($url))
+		{
+			$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET ';
+			$sql.= '`trash` =1 WHERE `url` = ?;';
+			Db::execute($sql, array($url));
+			Session::add('messages', 'errors', A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR);
+			if ( ! headers_sent())
+			{
+				header('location:'.A11YC_PAGES_URL.'&list=trash');
+				exit();
+			}
+		}
+
 		if ($_POST)
 		{
 			// delete all
@@ -197,17 +212,6 @@ class Controller_Checklist
 	 */
 	public static function form($url, $users = array(), $current_user_id = null)
 	{
-		// page existence
-		if ($url != 'bulk' && ! Util::is_page_exist($url))
-		{
-			$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET ';
-			$sql.= '`trash` =1 WHERE `url` = ?;';
-			Db::execute($sql, array($url));
-			Session::add('messages', 'errors', A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR);
-			header('location:'.A11YC_PAGES_URL.'&list=trash');
-			exit();
-		}
-
 		// dbio
 		static::dbio($url);
 

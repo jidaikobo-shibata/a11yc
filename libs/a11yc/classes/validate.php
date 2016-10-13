@@ -449,11 +449,32 @@ class Validate
 	public static function langless($str)
 	{
 		$error_ids = array();
-		$str = static::ignore_elements($str, true);
+		// do not use static::ignore_elements() in case it is in comment out
 
 		if ( ! preg_match("/\<html[^\>]*?lang=[^\>]*?\>/i", $str))
 		{
 			$error_ids[] = 'language';
+		}
+
+		return $error_ids ?: false;
+	}
+
+	/**
+	 * is not exist same page title in same site
+	 *
+	 * @param   strings     $str
+	 * @return  mixed
+	 */
+	public static function is_not_exist_same_page_title_in_same_site($str)
+	{
+		$error_ids = array();
+
+		$title = Util::fetch_page_title_from_html($str);
+		$sql = 'SELECT count(*) as num FROM '.A11YC_TABLE_PAGES.' WHERE `page_title` = ?;';
+		$results = Db::fetch($sql, array($title));
+		if (intval($results['num']) >= 2)
+		{
+			$error_ids[] = $title;
 		}
 
 		return $error_ids ?: false;
