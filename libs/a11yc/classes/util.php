@@ -134,8 +134,9 @@ class Util extends \Kontiki\Util
 		static $title = array();
 		if (isset($title[$url])) return $title[$url];
 		$html = static::fetch_html($url);
-		preg_match("/<title.*?>(.+?)<\/title>/", $html, $m);
-		$title[$url] = isset($m[1]) ? $m[1] : '';
+		preg_match("/<title.*?>(.+?)<\/title>/s", $html, $m);
+		$tmp = isset($m[1]) ? $m[1] : '';
+		$title[$url] = str_replace(array("\n", "\r"), '', $tmp);
 		return $title[$url];
 	}
 
