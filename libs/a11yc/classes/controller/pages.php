@@ -22,7 +22,7 @@ class Controller_Pages
 		$setup = Controller_Setup::fetch_setup();
 		if ( ! $setup['target_level'])
 		{
-			\A11yc\View::assign('errors', array(A11YC_LANG_ERROR_NON_TARGET_LEVEL));
+			Session::add('messages', 'errors', A11YC_LANG_ERROR_NON_TARGET_LEVEL);
 		}
 		static::index();
 	}
@@ -64,35 +64,66 @@ class Controller_Pages
 		if (isset($_GET['del']))
 		{
 			$page = urldecode(trim($_GET['url']));
-			$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET `trash` = 1 WHERE `url` = ?;';
-			$r = Db::execute($sql, array($page));
+			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES;
+			$sql.= ' WHERE `url` = ? and `trash` = 0;';
+			$exist = Db::fetch($sql, array($page));
+			if ($exist)
+			{
+				$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET `trash` = 1 WHERE `url` = ?;';
+				$r = Db::execute($sql, array($page));
+			}
+			else
+			{
+				header('location:'.A11YC_PAGES_URL);
+			}
 		}
 
 		// undelete
 		if (isset($_GET['undel']))
 		{
 			$page = urldecode(trim($_GET['url']));
-			$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET `trash` = 0 WHERE `url` = ?;';
-			$r = Db::execute($sql, array($page));
+			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES;
+			$sql.= ' WHERE `url` = ? and `trash` = 1;';
+			$exist = Db::fetch($sql, array($page));
+			if ($exist)
+			{
+				$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET `trash` = 0 WHERE `url` = ?;';
+				$r = Db::execute($sql, array($page));
+			}
+			else
+			{
+				header('location:'.A11YC_PAGES_URL);
+			}
 		}
 
 		// purge
 		if (isset($_GET['purge']))
 		{
 			$page = urldecode(trim($_GET['url']));
-			$sql = 'DELETE FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;';
-			$r = Db::execute($sql, array($page));
+			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES;
+			$sql.= ' WHERE `url` = ? and `trash` = 1;';
+			$exist = Db::fetch($sql, array($page));
+			if ($exist)
+			{
+				$page = urldecode(trim($_GET['url']));
+				$sql = 'DELETE FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;';
+				$r = Db::execute($sql, array($page));
+			}
+			else
+			{
+				header('location:'.A11YC_PAGES_URL);
+			}
 		}
 
 		if (isset($r))
 		{
 			if ($r)
 			{
-				\A11yc\View::assign('messages', array(A11YC_LANG_UPDATE_SUCCEED));
+				Session::add('messages', 'messages', A11YC_LANG_UPDATE_SUCCEED);
 			}
 			else
 			{
-				\A11yc\View::assign('errors', array(A11YC_LANG_UPDATE_FAILED));
+				Session::add('messages', 'errors', A11YC_LANG_UPDATE_FAILED);
 			}
 		}
 	}

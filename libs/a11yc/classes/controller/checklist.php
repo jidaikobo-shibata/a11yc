@@ -22,7 +22,7 @@ class Controller_Checklist
 		$setup = Controller_Setup::fetch_setup();
 		if ( ! $setup['target_level'])
 		{
-			\A11yc\View::assign('errors', array(A11YC_LANG_ERROR_NON_TARGET_LEVEL));
+			Session::add('messages', 'errors', array(A11YC_LANG_ERROR_NON_TARGET_LEVEL));
 		}
 
 		$url = isset($_GET['url']) ? urldecode($_GET['url']) : '';
@@ -114,31 +114,33 @@ class Controller_Checklist
 
 			// update/create page
 			$done = isset($_POST['done']) ? 1 : 0;
-			$date = Db::escape(date('Y-m-d'));
+			$date = date('Y-m-d');
+			$page_title = $_POST['page_title'];
 			$standard = intval($_POST['standard']);
 			$r = false;
 
 			if (static::fetch_page($url))
 			{
 				$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET ';
-				$sql.= '`date` = ?, `level` = ?, `done` = ?, `standard` = ?';
+				$sql.= '`date` = ?, `level` = ?, `done` = ?, `standard` = ?, `page_title` =?';
 				$sql.= ' WHERE `url` = ?;';
-				$r = Db::execute($sql, array($date, $result, $done, $standard, $url));
+				$r = Db::execute($sql, array($date, $result, $done, $standard, $page_title, $url));
 			}
 			else
 			{
-				$sql = 'INSERT INTO '.A11YC_TABLE_PAGES.' (`url`, `date`, `level`, `done`, `standard`, `trash`)';
-				$sql.= ' VALUES (?, ?, ?, ?, ?, 0);';
-				$r = Db::execute($sql, array($url, $date, $result, $done, $standard));
+				$sql = 'INSERT INTO '.A11YC_TABLE_PAGES;
+				$sql.= ' (`url`, `date`, `level`, `done`, `standard`, `trash`, `page_title`)';
+				$sql.= ' VALUES (?, ?, ?, ?, ?, 0, ?);';
+				$r = Db::execute($sql, array($url, $date, $result, $done, $standard, $page_title));
 			}
 
 			if ($r)
 			{
-				\A11yc\View::assign('messages', array(A11YC_LANG_UPDATE_SUCCEED));
+				Session::add('messages', 'messages', A11YC_LANG_UPDATE_SUCCEED);
 			}
 			else
 			{
-				\A11yc\View::assign('errors', array(A11YC_LANG_UPDATE_FAILED));
+				Session::add('messages', 'errors', A11YC_LANG_UPDATE_FAILED);
 			}
 		}
 	}
@@ -195,6 +197,17 @@ class Controller_Checklist
 	 */
 	public static function form($url, $users = array(), $current_user_id = null)
 	{
+		// page existence
+		if ( ! Util::is_page_exist($url))
+		{
+			$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET ';
+			$sql.= '`trash` =1 WHERE `url` = ?;';
+			Db::execute($sql, array($url));
+			Session::add('messages', 'errors', A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR);
+			header('location:'.A11YC_PAGES_URL.'&list=trash');
+			exit();
+		}
+
 		// dbio
 		static::dbio($url);
 

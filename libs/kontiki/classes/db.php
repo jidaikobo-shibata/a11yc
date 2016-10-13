@@ -33,7 +33,7 @@ class Db
 	 *
 	 * @param   string    Identifier for this db
 	 * @param   array     Configuration array
-	 * @return  Fieldset
+	 * @return  void
 	 */
 	public static function forge($name = 'default', $cons = array())
 	{

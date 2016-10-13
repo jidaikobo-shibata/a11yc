@@ -64,7 +64,7 @@ define('A11YC_LANG_PAGES_ORDER_URL_DESC', 'URL降順');
 define('A11YC_LANG_PAGES_ORDER_PAGE_NAME_ASC', 'ページ名昇順');
 define('A11YC_LANG_PAGES_ORDER_PAGE_NAME_DESC', 'ページ名降順');
 define('A11YC_LANG_PAGES_CTRL', '操作');
-define('A11YC_LANG_PAGES_URL_FOR_EACH_LINE', '各行に一つのURLを入力して、「'.A11YC_LANG_PAGES_URLS_ADD.'」を押してください');
+define('A11YC_LANG_PAGES_URL_FOR_EACH_LINE', '各行に一つのURLを入力して、「'.A11YC_LANG_PAGES_URLS_ADD.'」を押してください。一度の登録は10個程度にしてください。あまり多いと登録処理でプログラムが停止することがあります');
 
 // setup
 define('A11YC_LANG_SETUP_TITLE', '設定');
@@ -95,6 +95,7 @@ define('A11YC_LANG_CANDIDATES4', 'ウェブページ一式を代表するウェ�
 
 // checklist
 define('A11YC_LANG_CHECKLIST_TARGETPAGE', '対象ページ');
+define('A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR', 'チェック対象のページが存在しないため、対象のURLを削除しました。');
 define('A11YC_LANG_CHECKLIST_NOT_FOUND_ERR', '自動チェックではエラーが見つかりませんでした');
 define('A11YC_LANG_CHECKLIST_TITLE', 'チェックリスト');
 define('A11YC_LANG_CHECKLIST_DONE', 'チェック終了');

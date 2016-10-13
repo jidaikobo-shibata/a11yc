@@ -144,7 +144,7 @@ class Util extends \Kontiki\Util
 	 * is page exist
 	 *
 	 * @param   string     $url
-	 * @return  string
+	 * @return  bool
 	 */
 	public static function is_page_exist($url)
 	{

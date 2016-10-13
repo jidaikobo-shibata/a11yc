@@ -64,7 +64,8 @@ define('A11YC_LANG_PAGES_ORDER_URL_DESC', 'URL Desc.');
 define('A11YC_LANG_PAGES_ORDER_PAGE_NAME_ASC', 'Page name Asc.');
 define('A11YC_LANG_PAGES_ORDER_PAGE_NAME_DESC', 'Page name Desc.');
 define('A11YC_LANG_PAGES_CTRL', 'Action');
-define('A11YC_LANG_PAGES_URL_FOR_EACH_LINE', 'Enter one URL to each line, please press the "'.A11YC_LANG_PAGES_URLS_ADD.'"');
+define('A11YC_LANG_PAGES_URL_FOR_EACH_LINE', 'Enter one URL to each line, please press the "'.A11YC_LANG_PAGES_URLS_ADD.'".  Please once the registration is in the order of ten. The program may
+be stopped at the registration process and too many.');
 
 // setup
 define('A11YC_LANG_SETUP_TITLE', 'Setup');
@@ -95,6 +96,7 @@ define('A11YC_LANG_CANDIDATES4', 'Selected in accordance with a web page that yo
 
 // checklist
 define('A11YC_LANG_CHECKLIST_TARGETPAGE', 'Target Page');
+define('A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR', 'The page does not exist, it has been deleted from list.');
 define('A11YC_LANG_CHECKLIST_NOT_FOUND_ERR', 'Could not find an error in the automatic check');
 define('A11YC_LANG_CHECKLIST_TITLE', 'Checklist');
 define('A11YC_LANG_CHECKLIST_DONE', 'Done');

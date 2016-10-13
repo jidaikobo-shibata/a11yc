@@ -21,15 +21,7 @@ class Auth
 	 */
 	public static function _init()
 	{
-		if (Util::is_ssl())
-		{
-			ini_set('session.cookie_secure', 1);
-		}
-		ini_set('session.use_trans_sid', 0);
-		ini_set('session.use_only_cookies', 1);
-		session_name('KNTKSESSID');
-		session_start();
-		session_regenerate_id(true);
+		Session::forge();
 	}
 
 	/**
