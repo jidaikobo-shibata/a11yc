@@ -100,7 +100,7 @@ class Session
 	 * @param   string  $realm
 	 * @param   string  $key
 	 * @param   bool    $is_once
-	 * @return  void
+	 * @return  mixed
 	 */
 	public static function fetch($realm, $key = '', $is_once = 1)
 	{
@@ -133,7 +133,7 @@ class Session
 			}
 		}
 		$vals = array_unique($vals);
-		return $vals;
+		return $vals ?: false;
 	}
 
 	/**
@@ -141,7 +141,7 @@ class Session
 	 *
 	 * @param   string  $realm
 	 * @param   string  $key
-	 * @return  void
+	 * @return  mixed
 	 */
 	public static function show($realm = '', $key = '')
 	{
@@ -149,6 +149,6 @@ class Session
 		{
 			return array_merge(static::$values, $_SESSION);
 		}
-		return static::fetch($realm, $key, false);
+		return static::fetch($realm, $key, false) ?: false;
 	}
 }

@@ -198,7 +198,7 @@ class Controller_Checklist
 	public static function form($url, $users = array(), $current_user_id = null)
 	{
 		// page existence
-		if ( ! Util::is_page_exist($url))
+		if ($url != 'bulk' && ! Util::is_page_exist($url))
 		{
 			$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET ';
 			$sql.= '`trash` =1 WHERE `url` = ?;';
