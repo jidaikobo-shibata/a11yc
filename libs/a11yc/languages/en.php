@@ -40,6 +40,8 @@ define('A11YC_LANG_LOGOUT', 'Logout');
 // center
 define('A11YC_LANG_CENTER_TITLE', 'Center');
 define('A11YC_LANG_CENTER_BOOKMARKLET_EXP', 'Please register the following link into your browser\'s bookmark. You can be inspected any page.');
+define('A11YC_LANG_CENTER_ABOUT', 'About A11yc');
+define('A11YC_LANG_CENTER_LOGO', 'Logo');
 
 // pages
 define('A11YC_LANG_PAGES_TITLE', 'Target Pages');

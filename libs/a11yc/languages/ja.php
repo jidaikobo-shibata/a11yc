@@ -40,6 +40,10 @@ define('A11YC_LANG_LOGOUT', 'ログアウト');
 // center
 define('A11YC_LANG_CENTER_TITLE', 'センター');
 define('A11YC_LANG_CENTER_BOOKMARKLET_EXP', '以下のリンクをブラウザのブックマークに登録してください。任意のページを検査対象にできます。');
+define('A11YC_LANG_CENTER_ABOUT', 'A11ycについて');
+define('A11YC_LANG_CENTER_LOGO', 'ロゴマーク');
+define('A11YC_LANG_CENTER_ABOUT_CONTENT', 'A11ycは、有限会社時代工房が作成したWCAG2.0対応のウェブアクセシビリティチェッカーです。');
+
 
 // pages
 define('A11YC_LANG_PAGES_TITLE', '対象ページ一覧');
