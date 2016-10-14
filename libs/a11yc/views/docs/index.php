@@ -8,7 +8,7 @@ foreach ($test['tests'] as $code => $v):
 	\A11yc\View::assign('doc', $v, false);
 	\A11yc\View::assign('is_index', true);
 //	$html.= '<li><a'.A11YC_TARGET.' href="'.A11YC_DOC_URL.$code.'">'.$v['name'].'</a></li>';
-	$html.= '<li><a role="button" class="a11yc_disclosure">'.$v['name'].'</a>';
+	$html.= '<li class="a11yc_disclosure_parent"><a role="button" class="a11yc_disclosure">'.$v['name'].'</a>';
 	$html.= '<div class="a11yc_disclosure_target">';
 	$html.= \A11yc\View::fetch_tpl('docs/each.php');
 	$html.= '</div>';
@@ -67,8 +67,8 @@ $msg = '';
 			<ul class="a11yc_ul_check a11yc_disclosure_target show">
 			<?php foreach ($yml['checks'][$kkk] as $code => $val):
 				if ($word && ! in_array($code, $results['chks']['codes'])) continue;
-				$non_interference = isset($vvvv['non-interference']) ? ' class="non_interference" title="non interference"' : ''; ?>
-				<li<?php echo $non_interference ?>>
+				$non_interference = isset($vvvv['non-interference']) ? ' non_interference" title="non interference"' : ''; ?>
+				<li  class="a11yc_disclosure_parent<?php echo $non_interference ?>">
 				<a role="button" class="a11yc_disclosure" <?php /* echo A11YC_TARGET ?> href="<?php echo A11YC_DOC_URL.$code ?>&amp;criterion=<?php echo $kkk ?>"<?php */ ?>><?php echo $val['name'] ?></a>
 				<div class="a11yc_section_each_docs a11yc_disclosure_target">
 					<?php

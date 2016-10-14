@@ -47,6 +47,10 @@ define('A11YC_LANG_LOGOUT', 'ログアウト');
 // center
 define('A11YC_LANG_CENTER_TITLE', 'センター');
 define('A11YC_LANG_CENTER_BOOKMARKLET_EXP', '以下のリンクをブラウザのブックマークに登録してください。任意のページを検査対象にできます。');
+define('A11YC_LANG_CENTER_ABOUT', 'A11ycについて');
+define('A11YC_LANG_CENTER_LOGO', 'ロゴマーク');
+define('A11YC_LANG_CENTER_ABOUT_CONTENT', 'A11ycは、有限会社時代工房が作成したWCAG2.0対応のウェブアクセシビリティチェッカーです。');
+
 
 // pages
 define('A11YC_LANG_PAGES_TITLE', '対象ページ一覧');
@@ -114,6 +118,7 @@ define('A11YC_LANG_CHECKLIST_CONFORMANCE_PARTIAL', '%s 一部準拠');
 define('A11YC_LANG_CHECKLIST_CONFORMANCE_ADDITIONAL', '目標とする達成基準以上の達成項目');
 define('A11YC_LANG_CHECKLIST_NON_INTERFERENCE', '非干渉');
 define('A11YC_LANG_CHECKLIST_DO_LINK_CHECK', 'リンク切れをチェック');
+define('A11YC_LANG_CHECKLIST_VIEW_SOURCE', 'ソースコードを見る');
 
 // bulk
 define('A11YC_LANG_BULK_TITLE', '一括処理');

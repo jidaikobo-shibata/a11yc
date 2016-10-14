@@ -47,6 +47,8 @@ define('A11YC_LANG_LOGOUT', 'Logout');
 // center
 define('A11YC_LANG_CENTER_TITLE', 'Center');
 define('A11YC_LANG_CENTER_BOOKMARKLET_EXP', 'Please register the following link into your browser\'s bookmark. You can be inspected any page.');
+define('A11YC_LANG_CENTER_ABOUT', 'About A11yc');
+define('A11YC_LANG_CENTER_LOGO', 'Logo');
 
 // pages
 define('A11YC_LANG_PAGES_TITLE', 'Target Pages');
@@ -115,6 +117,7 @@ define('A11YC_LANG_CHECKLIST_CONFORMANCE_PARTIAL', 'Partial Conformance with %s'
 define('A11YC_LANG_CHECKLIST_CONFORMANCE_ADDITIONAL', 'Additional Conformance');
 define('A11YC_LANG_CHECKLIST_NON_INTERFERENCE', 'Non interference');
 define('A11YC_LANG_CHECKLIST_DO_LINK_CHECK', 'Do link check');
+define('A11YC_LANG_CHECKLIST_VIEW_SOURCE', 'View source code');
 
 // bulk
 define('A11YC_LANG_BULK_TITLE', 'Batch');

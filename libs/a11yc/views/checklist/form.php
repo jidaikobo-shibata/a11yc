@@ -38,6 +38,25 @@
 			<?php foreach ($errs as $err):  ?>
 				<li><?php echo htmlspecialchars_decode($err) ?></li>
 			<?php endforeach;  ?>
+				<li class="a11yc_disclosure_parent">
+					<a role="button" class="a11yc_disclosure" tabindex="0"><?php echo A11YC_LANG_CHECKLIST_VIEW_SOURCE ?></a>
+					<div class="a11yc_disclosure_target a11yc_source" style="display: block;">
+						<table>
+						<tr>
+							<td>test</td>
+						</tr>
+						<tr>
+							<td>test</td>
+						</tr>
+						<tr>
+							<td>test</td>
+						</tr>
+						<tr>
+							<td>test</td>
+						</tr>
+						</table>
+					</div><!-- /.a11yc_disclosure_target -->
+				</li>
 			</ul>
 		<?php else:
 			echo '<p id="a11yc_errors" class="a11yc_hide_if_fixedheader">'.A11YC_LANG_CHECKLIST_NOT_FOUND_ERR.'</p>';
@@ -190,7 +209,7 @@
 				</select>
 				</td>
 				<td class="a11yc_table_check_howto">
-				<a<?php echo A11YC_TARGET ?> href="<?php echo A11YC_DOC_URL.$code ?>&amp;criterion=<?php echo $kkk ?>" title="how to" class="a11yc_link_howto"><span role="presentation" aria-hidden="true" class="a11yc_icon_fa a11yc_icon_howto"></span><span class="a11yc_skip">how to</span></a>
+				<a<?php echo A11YC_TARGET ?> href="<?php echo A11YC_DOC_URL.$code ?>&amp;criterion=<?php echo $kkk ?>" title="<?php echo A11YC_LANG_DOCS_TITLE ?>" class="a11yc_link_howto"><span role="presentation" aria-hidden="true" class="a11yc_icon_fa a11yc_icon_howto"></span><span class="a11yc_skip"><?php echo A11YC_LANG_DOCS_TITLE ?></span></a>
 				</td>
 				</tr>
 			<?php endforeach;  ?>
