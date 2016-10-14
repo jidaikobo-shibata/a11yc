@@ -280,6 +280,7 @@ tr.a11yc_flash {
 #a11yc_header {
 	position: relative;
 	width: 100%;
+	word-break: break-all;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
@@ -511,7 +512,6 @@ table#a11yc_rest {
 ul#a11yc_errors {
 	padding: 10px 5px 10px 40px;
 	background-color: #fee;
-	word-break: break-all;
 }
 #a11yc_menu_principles {
 	margin: 0;

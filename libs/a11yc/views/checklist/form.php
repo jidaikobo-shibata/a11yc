@@ -36,7 +36,7 @@
 		?>
 			<ul id="a11yc_errors" class="a11yc_hide_if_fixedheader">
 			<?php foreach ($errs as $err):  ?>
-				<li><?php echo htmlspecialchars_decode($err) ?></li>
+				<li><?php echo $err ?></li>
 			<?php endforeach;  ?>
 				<li class="a11yc_disclosure_parent">
 					<a role="button" class="a11yc_disclosure" tabindex="0"><?php echo A11YC_LANG_CHECKLIST_VIEW_SOURCE ?></a>

@@ -326,8 +326,15 @@ $disclosure.on('click keydown', function(e){
 	if(e && e.type=='keydown' && e.keyCode!=13) return;
 	var index = $(this).index('.a11yc_disclosure');
 	$(this).toggleClass('show hide');
-	$disclosure_target.eq(index).slideToggle(250).toggleClass('show hide');
+	$.when(
+		$disclosure_target.eq(index).slideToggle(250).toggleClass('show hide')
+	).done(function(){
+		if(!$(this).hasClass('a11yc_source')) return;
+		pagemenu_top = $pagemenu[0] ? $pagemenu.offset().top - menu_height : 0;
+	});
 });
+
+
 
 /* === 動作補助 === */
 
