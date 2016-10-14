@@ -54,7 +54,10 @@ a:link {
 }
 .a11yc_source tr:hover > * {
 	background-color: #fefedd;
-} 
+}
+.a11yc_source strong {
+	background-color: #ff6;
+}
 
 div.a11yc_disclosure_target {
 	margin-top: 5px;
