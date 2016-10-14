@@ -236,7 +236,7 @@ class Controller_Checklist
 		View::assign('page', static::fetch_page($url));
 
 		$errs = static::validate_page($url);
-		View::assign('errs', $errs);
+		View::assign('errs', $errs, false);
 
 		// assign html source code
 		$raw = '';
