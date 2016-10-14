@@ -536,7 +536,7 @@ class Validate
 			if ($headers !== false)
 			{
 				// OK
-				if (strpos($headers[0], '200') !== false) continue;
+				if (strpos($headers[0], ' 20') !== false) continue;
 
 				// not OK
 				$error_ids[] = Util::s(substr($headers[0], strpos($headers[0], ' '))).': '.Util::s($url);
