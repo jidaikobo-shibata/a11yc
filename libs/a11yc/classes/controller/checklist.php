@@ -80,8 +80,12 @@ class Controller_Checklist
 
 		foreach ($codes as $code)
 		{
-			$errs = Validate::$code($content);
-			if (is_array($errs))
+			Validate::$code($content);
+		}
+
+		if (Validate::get_error_ids())
+		{
+			foreach (Validate::get_error_ids() as $code => $errs)
 			{
 				foreach ($errs as $err)
 				{
@@ -89,6 +93,7 @@ class Controller_Checklist
 				}
 			}
 		}
+
 		return $all_errs;
 	}
 
@@ -245,13 +250,46 @@ class Controller_Checklist
 			$html = Util::fetch_html($url);
 			$html = Util::s($html);
 
+			$replaces = array();
+			foreach (Validate::$ignores as $k => $ignore)
+			{
+				preg_match_all(Util::s($ignore), $html, $ms);
+				if ($ms)
+				{
+					foreach ($ms[0] as $kk => $vv)
+					{
+						$original = $vv;
+						$replaced = hash("sha256", $vv);
+						$replaces[$k][$kk] = array(
+							'original' => $original,
+							'replaced' => $replaced,
+						);
+						$html = str_replace($original, $replaced, $html);
+					}
+				}
+			}
+
 			foreach (Validate::get_errors() as $id => $v)
 			{
-				$html = str_replace($v, '<strong id="a11yc_validate_'.$id.'">'.$v.'</strong>', $html);
+				$html = str_replace(
+					$v,
+					'<strong id="a11yc_validate_'.$id.'">'.$v.'</strong>',
+					$html);
+			}
+
+			foreach ($replaces as $v)
+			{
+				foreach ($v as $vv)
+				{
+					$html = str_replace(
+						$vv['replaced'],
+						'<div style="color:#900">'.$vv['original'].'</div>',
+						$html);
+				}
 			}
 
 			$lines = explode("\n", $html);
-			$lines = array_map(function($v){return '<tr><td>'.$v.'</td></tr>';}, $lines);
+			$lines = array_map(function($v){return '<p><span>'.$v.'</span></p>';}, $lines);
 			$raw = join("\n", $lines);
 		}
 		View::assign('raw', $raw, false);

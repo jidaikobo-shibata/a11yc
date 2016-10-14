@@ -13,7 +13,15 @@ namespace A11yc;
 class Validate
 {
 	protected static $root_path;
+	protected static $error_ids = array();
 	protected static $errors = array();
+
+	public static $ignores = array(
+		"/\<script.+?\<\/script\>/si",
+		"/\<style.+?\<\/style\>/si",
+		"/\<rdf:RDF.+?\<\/rdf:RDF\>/si",
+		"/\<!--.+?--\>/si",
+	);
 
 	/**
 	 * set_root_path
@@ -34,7 +42,17 @@ class Validate
 	 */
 	public static function get_errors()
 	{
-		return array_unique(static::$errors);
+		return static::$errors;
+	}
+
+	/**
+	 * get_error_ids
+	 *
+	 * @return  array
+	 */
+	public static function get_error_ids()
+	{
+		return static::$error_ids;
 	}
 
 	/**
@@ -53,10 +71,10 @@ class Validate
 //		$retval = strtolower($str);
 
 		// ignore comment out, script, style
-		$str = preg_replace("/\<!--.+?-->/si", '', $str);
-		$str = preg_replace("/\<script.+?<\/script>/si", '', $str);
-		$str = preg_replace("/\<style.+?<\/style>/si", '', $str);
-		$str = preg_replace("/\<rdf:RDF.+?<\/rdf:RDF>/si", '', $str);
+		foreach (static::$ignores as $ignore)
+		{
+			$str = preg_replace($ignore, '', $str);
+		}
 
 		return $str;
 	}
@@ -65,11 +83,10 @@ class Validate
 	 * is exist alt attr of img
 	 *
 	 * @param   strings     $str
-	 * @return  mixed
+	 * @return  void
 	 */
 	public static function is_exist_alt_attr_of_img($str)
 	{
-		$error_ids = array();
 		$str = static::ignore_elements($str);
 
 		preg_match_all("/\<img ([^\>]+)\>/i", $str, $ms);
@@ -78,22 +95,20 @@ class Validate
 			if ( ! preg_match("/alt=[\"|']/i", $m))
 			{
 				preg_match("/src=[\"|']([^\"]+)[\"|']/i", $m, $im);
-				$error_ids[] = Util::s(@basename($im[1]));
-				static::$errors[max(array_flip($error_ids))] = Util::s($ms[0][$k]);
+				static::$error_ids['is_exist_alt_attr_of_img'][] = Util::s(@basename($im[1]));
+				static::$errors[] = Util::s($ms[0][$k]);
 			}
 		}
-		return $error_ids ?: false;
 	}
 
 	/**
 	 * is not empty alt attr of img inside a
 	 *
 	 * @param   strings     $str
-	 * @return  mixed
+	 * @return  void
 	 */
 	public static function is_not_empty_alt_attr_of_img_inside_a($str)
 	{
-		$error_ids = array();
 		$str = static::ignore_elements($str);
 
 		preg_match_all("/\<a +[^\>]+\>\<img ([^\>]+)\>\<\/a\>/i", $str, $ms);
@@ -104,16 +119,15 @@ class Validate
 				preg_match("/src=[\"|']([^\"]+)[\"|']/i", $m, $im);
 				if ($im)
 				{
-					$error_ids[] = Util::s(@basename($im[1]));
+					static::$error_ids['is_not_empty_alt_attr_of_img_inside_a'][] = Util::s(@basename($im[1]));
 				}
 				else
 				{
-					$error_ids[] = '" "';
+					static::$error_ids['is_not_empty_alt_attr_of_img_inside_a'][] = '" "';
 				}
-				static::$errors[max(array_flip($error_ids))] = Util::s($ms[0][$k]);
+				static::$errors[] = Util::s($ms[0][$k]);
 			}
 		}
-		return $error_ids ?: false;
 	}
 
 	/**
@@ -124,7 +138,6 @@ class Validate
 	 */
 	public static function is_not_here_link($str)
 	{
-		$error_ids = array();
 		$str = static::ignore_elements($str);
 
 		preg_match_all(
@@ -134,10 +147,9 @@ class Validate
 
 		foreach ($ms[1] as $k => $m)
 		{
-			$error_ids[] = @Util::s($m);
-			static::$errors[max(array_flip($error_ids))] = Util::s($ms[0][$k]);
+			static::$error_ids['is_not_here_link'][] = @Util::s($m);
+			static::$errors[] = Util::s($ms[0][$k]);
 		}
-		return $error_ids ?: false;
 	}
 
 	/**
@@ -148,7 +160,6 @@ class Validate
 	 */
 	public static function is_are_has_alt($str)
 	{
-		$error_ids = array();
 		$str = static::ignore_elements($str);
 
 		preg_match_all("/\<area ([^\>]+)\>/i", $str, $ms);
@@ -157,11 +168,10 @@ class Validate
 			if ( ! preg_match("/alt=[\"|']/i", $m) || preg_match("/alt=[\"|'] *?[\"|']/i", $m))
 			{
 				preg_match("/coords=[\"|']([^\"]+)[\"|']/i", $m, $im);
-				$error_ids[] = Util::s(@basename($im[1]));
-				static::$errors[max(array_flip($error_ids))] = Util::s($ms[0][$k]);
+				static::$error_ids['is_are_has_alt'][] = Util::s(@basename($im[1]));
+				static::$errors[] = Util::s($ms[0][$k]);
 			}
 		}
-		return $error_ids ?: false;
 	}
 
 	/**
@@ -172,7 +182,6 @@ class Validate
 	 */
 	public static function is_img_input_has_alt($str)
 	{
-		$error_ids = array();
 		$str = static::ignore_elements($str);
 
 		preg_match_all("/\<input ([^\>]+?)\>/i", $str, $ms);
@@ -183,11 +192,10 @@ class Validate
 			)
 			{
 				preg_match("/src=[\"|']([^\"]+)[\"|']/i", $m, $im);
-				$error_ids[] = Util::s(@basename($im[1]));
-				static::$errors[max(array_flip($error_ids))] = Util::s($ms[0][$k]);
+				static::$error_ids['is_img_input_has_alt'][] = Util::s(@basename($im[1]));
+				static::$errors[] = Util::s($ms[0][$k]);
 			}
 		}
-		return $error_ids ?: false;
 	}
 
 	/**
@@ -198,7 +206,6 @@ class Validate
 	 */
 	public static function appropriate_heading_descending($str)
 	{
-		$error_ids = array();
 		$str = static::ignore_elements($str);
 
 		$secs = preg_split("/(\<h\d)[^\>]*\>(.+?)\<\/h\d/", $str, -1, PREG_SPLIT_DELIM_CAPTURE);
@@ -213,13 +220,12 @@ class Validate
 			if ($current_level - $prev >= 2)
 			{
 				$str = isset($secs[$k + 1]) ? Util::s($secs[$k + 1]) : Util::s($v);
-				$error_ids[] = $str;
-				static::$errors[max(array_flip($error_ids))] = $str;
+				static::$error_ids['appropriate_heading_descending'][] = $str;
+				static::$errors[] = $str;
 			}
 			$prev = $current_level;
 		}
 
-		return $error_ids ?: false;
 	}
 
 	/**
@@ -230,7 +236,6 @@ class Validate
 	 */
 	public static function suspicious_elements($str)
 	{
-		$error_ids = array();
 		$body_html = static::ignore_elements($str);
 
 		// tags
@@ -272,22 +277,20 @@ class Validate
 		{
 			foreach ($suspicious as $v)
 			{
-				$error_ids[] = Util::s($v);
-				static::$errors[max(array_flip($error_ids))] = Util::s('<'.$v);
+				static::$error_ids['suspicious_elements'][] = Util::s($v);
+				static::$errors[] = Util::s('<'.$v);
 			}
 		}
-		return $error_ids ?: false;
 	}
 
 	/**
 	 * is not same alt and filename of img
 	 *
 	 * @param   strings     $str
-	 * @return  mixed
+	 * @return  void
 	 */
 	public static function is_not_same_alt_and_filename_of_img($str)
 	{
-		$error_ids = array();
 		$str = static::ignore_elements($str);
 
 		preg_match_all("/\<img ([^\>]+)\>/i", $str, $ms);
@@ -302,46 +305,41 @@ class Validate
 					substr($filename, 0, strrpos($filename, '.')) == $m_alt[1] // without extension
 				)
 				{
-					$error_ids[] = Util::s($filename);
-					static::$errors[max(array_flip($error_ids))] = Util::s($ms[0][$k]);
+					static::$error_ids['is_not_same_alt_and_filename_of_img'][] = Util::s($filename);
+					static::$errors[] = Util::s($ms[0][$k]);
 				}
 			}
 		}
-		return $error_ids ?: false;
 	}
 
 	/**
 	 * is not exists ja word breaking space
 	 *
 	 * @param   strings     $str
-	 * @return  mixed
+	 * @return  void
 	 */
 	public static function is_not_exists_ja_word_breaking_space($str)
 	{
 		if (A11YC_LANG != 'ja') return false;
-		$error_ids = array();
 		$str = str_replace(array("\n", "\r"), '', $str);
 		$str = static::ignore_elements($str, true);
 
-		preg_match_all("/([^\x01-\x7E][ 　][ 　]+[^\x01-\x7E])/u", $str, $ms);
+		preg_match_all("/([^\x01-\x7E][ 　][ 　]+[^\x01-\x7E])/iu", $str, $ms);
 		foreach ($ms[1] as $k => $m)
 		{
-			$error_ids[] = Util::s($m);
-			static::$errors[max(array_flip($error_ids))] = Util::s($ms[0][$k]);
+			static::$error_ids['is_not_exists_ja_word_breaking_space'][] = Util::s($m);
+			static::$errors[] = Util::s($ms[0][$k]);
 		}
-
-		return $error_ids ?: false;
 	}
 
 	/**
 	 * is not exists meanless element
 	 *
 	 * @param   strings     $str
-	 * @return  mixed
+	 * @return  void
 	 */
 	public static function is_not_exists_meanless_element($str)
 	{
-		$error_ids = array();
 		$body_html = static::ignore_elements($str, true);
 
 		$banneds = array(
@@ -357,23 +355,21 @@ class Validate
 		{
 			if (in_array($tag, $banneds))
 			{
-				$error_ids[] = Util::s($tag);
-				static::$errors[max(array_flip($error_ids))] = Util::s('<'.$tag);
+				static::$error_ids['is_not_exists_meanless_element'][] = Util::s($tag);
+				static::$errors[] = Util::s('<'.$tag);
 			}
 		}
 
-		return $error_ids ?: false;
 	}
 
 	/**
 	 * is not style for structure
 	 *
 	 * @param   strings     $str
-	 * @return  mixed
+	 * @return  void
 	 */
 	public static function is_not_style_for_structure($str)
 	{
-		$error_ids = array();
 		$str = static::ignore_elements($str, true);
 
 		preg_match_all("/\<[a-zA-Z1-6]+? ([^\>]+)\>/i", $str, $ms);
@@ -387,23 +383,21 @@ class Validate
 				)
 			)
 			{
-				$error_ids[] = Util::s($m);
-				static::$errors[max(array_flip($error_ids))] = Util::s($ms[0][$k]);
+				static::$error_ids['is_not_style_for_structure'][] = Util::s($m);
+				static::$errors[] = Util::s($ms[0][$k]);
 			}
 		}
 
-		return $error_ids ?: false;
 	}
 
 	/**
 	 * tell user file type
 	 *
 	 * @param   strings     $str
-	 * @return  mixed
+	 * @return  void
 	 */
 	public static function tell_user_file_type($str)
 	{
-		$error_ids = array();
 		$str = static::ignore_elements($str, true);
 
 		preg_match_all("/\<a [^\>]*href=[\"|']([^\"|']+?)[\"|'][^\>]*?\>([^\<|\>]+?)\<\/a\>/i", $str, $ms);
@@ -442,87 +436,78 @@ class Validate
 						preg_match("/\d/", $val) == false
 					)
 					{
-						$error_ids[] = Util::s($val);
-						static::$errors[max(array_flip($error_ids))] = Util::s($ms[0][$k]);
+						static::$error_ids['tell_user_file_type'][] = Util::s($val);
+						static::$errors[] = Util::s($ms[0][$k]);
 					}
 
 				}
 			}
 		}
 
-		return $error_ids ?: false;
 	}
 
 	/**
 	 * titleless
 	 *
 	 * @param   strings     $str
-	 * @return  mixed
+	 * @return  void
 	 */
 	public static function titleless($str)
 	{
-		$error_ids = array();
 		$str = static::ignore_elements($str, true);
 
 		if ( ! preg_match("/\<title[^\>]*?\>/i", $str))
 		{
-			$error_ids[] = 'title';
+			static::$error_ids['titleless'][] = 'title';
+			static::$errors[] = Util::s('<title');
 		}
-
-		return $error_ids ?: false;
 	}
 
 	/**
 	 * langless
 	 *
 	 * @param   strings     $str
-	 * @return  mixed
+	 * @return  void
 	 */
 	public static function langless($str)
 	{
-		$error_ids = array();
 		// do not use static::ignore_elements() in case it is in comment out
 
 		if ( ! preg_match("/\<html[^\>]*?lang=[^\>]*?\>/i", $str))
 		{
-			$error_ids[] = 'language';
-			static::$errors[max(array_flip($error_ids))] = Util::s('<html');
+			static::$error_ids['langless'][] = 'language';
+			static::$errors[] = Util::s('<html');
 		}
 
-		return $error_ids ?: false;
 	}
 
 	/**
 	 * is not exist same page title in same site
 	 *
 	 * @param   strings     $str
-	 * @return  mixed
+	 * @return  void
 	 */
 	public static function is_not_exist_same_page_title_in_same_site($str)
 	{
-		$error_ids = array();
-
 		$title = Util::fetch_page_title_from_html($str);
 		$sql = 'SELECT count(*) as num FROM '.A11YC_TABLE_PAGES.' WHERE `page_title` = ?;';
 		$results = Db::fetch($sql, array($title));
 		if (intval($results['num']) >= 2)
 		{
-			$error_ids[] = Util::s($title);
-			static::$errors[max(array_flip($error_ids))] = Util::s('<title');
+			static::$error_ids['is_not_exist_same_page_title_in_same_site'][] = Util::s($title);
+			static::$errors[] = Util::s('<title');
 		}
 
-		return $error_ids ?: false;
 	}
 
 	/**
 	 * link_check
 	 *
 	 * @param   strings     $str
-	 * @return  mixed
+	 * @return  void
 	 */
 	public static function link_check($str)
 	{
-		$error_ids = array();
 		$str = static::ignore_elements($str, true);
 
 		preg_match_all("/(?:href|src|cite|data|poster|action)=[\"|']([^\"]+)[\"|']/i", $str, $ms);
@@ -539,10 +524,9 @@ class Validate
 				if (strpos($headers[0], ' 20') !== false) continue;
 
 				// not OK
-				$error_ids[] = Util::s(substr($headers[0], strpos($headers[0], ' '))).': '.Util::s($url);
-				static::$errors[max(array_flip($error_ids))] = Util::s($url);
+				static::$error_ids['link_check'][] = Util::s(substr($headers[0], strpos($headers[0], ' '))).': '.Util::s($url);
+				static::$errors[] = Util::s($url);
 			}
 		}
-		return $error_ids ?: false;
 	}
 }
