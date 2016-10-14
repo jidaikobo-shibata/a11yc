@@ -329,7 +329,7 @@ $disclosure.on('click keydown', function(e){
 	$.when(
 		$disclosure_target.eq(index).slideToggle(250).toggleClass('show hide')
 	).done(function(){
-		if(!$(this).hasClass('a11yc_source')) return;
+		if(!$(this).closest('#a11yc_header')[0]) return;
 		pagemenu_top = $pagemenu[0] ? $pagemenu.offset().top - menu_height : 0;
 	});
 });
