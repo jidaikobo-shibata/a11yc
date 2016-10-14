@@ -12,10 +12,25 @@
 namespace A11yc;
 class Validate
 {
+	protected static $root_path;
+
+	/**
+	 * set_root_path
+	 *
+	 * @param   strings     $url
+	 * @return  void
+	 */
+	public static function set_root_path($url)
+	{
+		$paths = explode('/', $url);
+		static::$root_path = join('/', array_slice($paths, 0, 3));
+	}
+
 	/**
 	 * ignore_elements
 	 *
 	 * @param   strings     $str
+	 * @param   bool        $force
 	 * @return  $str
 	 */
 	public static function ignore_elements($str, $force = false)
@@ -52,7 +67,7 @@ class Validate
 			if ( ! preg_match("/alt=[\"|']/i", $m))
 			{
 				preg_match("/src=[\"|']([^\"]+)[\"|']/i", $m, $im);
-				$error_ids[] = @basename($im[1]);
+				$error_ids[] = Util::s(@basename($im[1]));
 			}
 		}
 		return $error_ids ?: false;
@@ -77,7 +92,7 @@ class Validate
 				preg_match("/src=[\"|']([^\"]+)[\"|']/i", $m, $im);
 				if ($im)
 				{
-					$error_ids[] = @basename($im[1]);
+					$error_ids[] = Util::s(@basename($im[1]));
 				}
 				else
 				{
@@ -128,7 +143,7 @@ class Validate
 			if ( ! preg_match("/alt=[\"|']/i", $m) || preg_match("/alt=[\"|'] *?[\"|']/i", $m))
 			{
 				preg_match("/coords=[\"|']([^\"]+)[\"|']/i", $m, $im);
-				$error_ids[] = @basename($im[1]);
+				$error_ids[] = Util::s(@basename($im[1]));
 			}
 		}
 		return $error_ids ?: false;
@@ -153,7 +168,7 @@ class Validate
 			)
 			{
 				preg_match("/src=[\"|']([^\"]+)[\"|']/i", $m, $im);
-				$error_ids[] = @basename($im[1]);
+				$error_ids[] = Util::s(@basename($im[1]));
 			}
 		}
 		return $error_ids ?: false;
@@ -183,11 +198,11 @@ class Validate
 			{
 				if (isset($secs[$k + 1]))
 				{
-					$error_ids[] = $secs[$k + 1];
+					$error_ids[] = Util::s($secs[$k + 1]);
 				}
 				else
 				{
-					$error_ids[] = $v;
+					$error_ids[] = Util::s($v);
 				}
 			}
 			$prev = $current_level;
@@ -246,7 +261,7 @@ class Validate
 		{
 			foreach ($suspicious as $v)
 			{
-				$error_ids[] = $v;
+				$error_ids[] = Util::s($v);
 			}
 		}
 		return $error_ids ?: false;
@@ -275,7 +290,7 @@ class Validate
 					substr($filename, 0, strrpos($filename, '.')) == $m_alt[1] // without extension
 				)
 				{
-					$error_ids[] = $filename;
+					$error_ids[] = Util::s($filename);
 				}
 			}
 		}
@@ -298,7 +313,7 @@ class Validate
 		preg_match_all("/([^\x01-\x7E][ 　][ 　]+[^\x01-\x7E])/u", $str, $ms);
 		foreach ($ms[1] as $k => $m)
 		{
-			$error_ids[] = $m;
+			$error_ids[] = Util::s($m);
 		}
 
 		return $error_ids ?: false;
@@ -328,7 +343,7 @@ class Validate
 		{
 			if (in_array($tag, $banneds))
 			{
-				$error_ids[] = $tag;
+				$error_ids[] = Util::s($tag);
 			}
 		}
 
@@ -357,7 +372,7 @@ class Validate
 				)
 			)
 			{
-				$error_ids[] = $m;
+				$error_ids[] = Util::s($m);
 			}
 		}
 
@@ -411,7 +426,7 @@ class Validate
 						preg_match("/\d/", $val) == false
 					)
 					{
-						$error_ids[] = $val;
+						$error_ids[] = Util::s($val);
 					}
 
 				}
@@ -474,9 +489,40 @@ class Validate
 		$results = Db::fetch($sql, array($title));
 		if (intval($results['num']) >= 2)
 		{
-			$error_ids[] = $title;
+			$error_ids[] = Util::s($title);
 		}
 
+		return $error_ids ?: false;
+	}
+
+	/**
+	 * link_check
+	 *
+	 * @param   strings     $str
+	 * @return  mixed
+	 */
+	public static function link_check($str)
+	{
+		$error_ids = array();
+		$str = static::ignore_elements($str, true);
+
+		preg_match_all("/(?:href|src|cite|data|poster|action)=[\"|']([^\"]+)[\"|']/i", $str, $ms);
+		$urls = array_map(function($v){if($v[0] == '/'){return \A11yc\Validate::$root_path.$v;}return $v;}, $ms[1]);
+		$urls = array_unique($urls);
+
+		// check
+		foreach ($urls as $url)
+		{
+			$headers = @get_headers($url);
+			if ($headers !== false)
+			{
+				// OK
+				if (strpos($headers[0], '200') !== false) continue;
+
+				// not OK
+				$error_ids[] = Util::s(substr($headers[0], strpos($headers[0], ' '))).': '.Util::s($url);
+			}
+		}
 		return $error_ids ?: false;
 	}
 }

@@ -114,6 +114,7 @@ define('A11YC_LANG_CHECKLIST_CONFORMANCE', 'Conformance with %s');
 define('A11YC_LANG_CHECKLIST_CONFORMANCE_PARTIAL', 'Partial Conformance with %s');
 define('A11YC_LANG_CHECKLIST_CONFORMANCE_ADDITIONAL', 'Additional Conformance');
 define('A11YC_LANG_CHECKLIST_NON_INTERFERENCE', 'Non interference');
+define('A11YC_LANG_CHECKLIST_DO_LINK_CHECK', 'Do link check');
 
 // bulk
 define('A11YC_LANG_BULK_TITLE', 'Batch');

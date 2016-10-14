@@ -72,6 +72,12 @@ class Controller_Checklist
 			'langless',
 		);
 
+		if (isset($_POST['do_link_check']))
+		{
+			Validate::set_root_path($url);
+			$codes[] = 'link_check';
+		}
+
 		foreach ($codes as $code)
 		{
 			$errs = Validate::$code($content);
