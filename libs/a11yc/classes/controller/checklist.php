@@ -50,7 +50,7 @@ class Controller_Checklist
 	 */
 	public static function validate_page($url)
 	{
-		$content = strtolower(Util::fetch_html($url));
+		$content = Util::fetch_html($url);
 		if ( ! $content) return array();
 		$all_errs = array();
 
@@ -244,6 +244,12 @@ class Controller_Checklist
 		{
 			$html = Util::fetch_html($url);
 			$html = Util::s($html);
+
+			foreach (Validate::get_errors() as $id => $v)
+			{
+				$html = str_replace($v, '<strong id="a11yc_validate_'.$id.'">'.$v.'</strong>', $html);
+			}
+
 			$lines = explode("\n", $html);
 			$lines = array_map(function($v){return '<tr><td>'.$v.'</td></tr>';}, $lines);
 			$raw = join("\n", $lines);

@@ -13,6 +13,7 @@ namespace A11yc;
 class Validate
 {
 	protected static $root_path;
+	protected static $errors = array();
 
 	/**
 	 * set_root_path
@@ -27,6 +28,16 @@ class Validate
 	}
 
 	/**
+	 * get_errors
+	 *
+	 * @return  array
+	 */
+	public static function get_errors()
+	{
+		return array_unique(static::$errors);
+	}
+
+	/**
 	 * ignore_elements
 	 *
 	 * @param   strings     $str
@@ -38,16 +49,16 @@ class Validate
 		static $retval = '';
 		if ($retval && ! $force) return $retval;
 
-		$retval = str_replace(array("\n", "\r"), ' ', $str);
-		$retval = strtolower($retval);
+//		$str = str_replace(array("\n", "\r"), ' ', $str);
+//		$retval = strtolower($str);
 
 		// ignore comment out, script, style
-		$retval = preg_replace("/\<!--.+?-->/i", '', $retval);
-		$retval = preg_replace("/\<script.+?<\/script>/i", '', $retval);
-		$retval = preg_replace("/\<style.+?<\/style>/i", '', $retval);
-		$retval = preg_replace("/\<rdf:RDF.+?<\/rdf:RDF>/i", '', $retval);
+		$str = preg_replace("/\<!--.+?-->/si", '', $str);
+		$str = preg_replace("/\<script.+?<\/script>/si", '', $str);
+		$str = preg_replace("/\<style.+?<\/style>/si", '', $str);
+		$str = preg_replace("/\<rdf:RDF.+?<\/rdf:RDF>/si", '', $str);
 
-		return $retval;
+		return $str;
 	}
 
 	/**
@@ -68,6 +79,7 @@ class Validate
 			{
 				preg_match("/src=[\"|']([^\"]+)[\"|']/i", $m, $im);
 				$error_ids[] = Util::s(@basename($im[1]));
+				static::$errors[max(array_flip($error_ids))] = Util::s($ms[0][$k]);
 			}
 		}
 		return $error_ids ?: false;
@@ -98,6 +110,7 @@ class Validate
 				{
 					$error_ids[] = '" "';
 				}
+				static::$errors[max(array_flip($error_ids))] = Util::s($ms[0][$k]);
 			}
 		}
 		return $error_ids ?: false;
@@ -116,12 +129,13 @@ class Validate
 
 		preg_match_all(
 			"/<a +[^>]*?href *?= *?['\"]([^\"]+?)['\"][^>]*?> *?".A11YC_LANG_HERE." *?<\/a>/i",
-			strtolower($str),
+			$str,
 			$ms);
 
 		foreach ($ms[1] as $k => $m)
 		{
 			$error_ids[] = @Util::s($m);
+			static::$errors[max(array_flip($error_ids))] = Util::s($ms[0][$k]);
 		}
 		return $error_ids ?: false;
 	}
@@ -137,13 +151,14 @@ class Validate
 		$error_ids = array();
 		$str = static::ignore_elements($str);
 
-		preg_match_all("/\<area ([^\>]+)\>/i", $str, $matches);
-		foreach ($matches[1] as $k => $m)
+		preg_match_all("/\<area ([^\>]+)\>/i", $str, $ms);
+		foreach ($ms[1] as $k => $m)
 		{
 			if ( ! preg_match("/alt=[\"|']/i", $m) || preg_match("/alt=[\"|'] *?[\"|']/i", $m))
 			{
 				preg_match("/coords=[\"|']([^\"]+)[\"|']/i", $m, $im);
 				$error_ids[] = Util::s(@basename($im[1]));
+				static::$errors[max(array_flip($error_ids))] = Util::s($ms[0][$k]);
 			}
 		}
 		return $error_ids ?: false;
@@ -160,8 +175,8 @@ class Validate
 		$error_ids = array();
 		$str = static::ignore_elements($str);
 
-		preg_match_all("/\<input ([^\>]+?)\>/i", $str, $matches);
-		foreach($matches[1] as $k => $m){
+		preg_match_all("/\<input ([^\>]+?)\>/i", $str, $ms);
+		foreach($ms[1] as $k => $m){
 			if (
 				(strpos($m, 'image') && ! preg_match("/alt=[\"|']/i", $m)) ||
 				(strpos($m, 'image') && preg_match("/alt=[\"|'] *?[\"|']/i", $m))
@@ -169,6 +184,7 @@ class Validate
 			{
 				preg_match("/src=[\"|']([^\"]+)[\"|']/i", $m, $im);
 				$error_ids[] = Util::s(@basename($im[1]));
+				static::$errors[max(array_flip($error_ids))] = Util::s($ms[0][$k]);
 			}
 		}
 		return $error_ids ?: false;
@@ -196,14 +212,9 @@ class Validate
 
 			if ($current_level - $prev >= 2)
 			{
-				if (isset($secs[$k + 1]))
-				{
-					$error_ids[] = Util::s($secs[$k + 1]);
-				}
-				else
-				{
-					$error_ids[] = Util::s($v);
-				}
+				$str = isset($secs[$k + 1]) ? Util::s($secs[$k + 1]) : Util::s($v);
+				$error_ids[] = $str;
+				static::$errors[max(array_flip($error_ids))] = $str;
 			}
 			$prev = $current_level;
 		}
@@ -233,7 +244,7 @@ class Validate
 		$suspicious_ends = array();
 		foreach ($tags[1] as $tag)
 		{
-			if (in_array($tag, $ignores)) continue; // ignore
+			if (in_array(strtolower($tag), $ignores)) continue; // ignore
 
 			// collect tags
 			if (substr($tag, 0, 1) =='/')
@@ -262,6 +273,7 @@ class Validate
 			foreach ($suspicious as $v)
 			{
 				$error_ids[] = Util::s($v);
+				static::$errors[max(array_flip($error_ids))] = Util::s('<'.$v);
 			}
 		}
 		return $error_ids ?: false;
@@ -291,6 +303,7 @@ class Validate
 				)
 				{
 					$error_ids[] = Util::s($filename);
+					static::$errors[max(array_flip($error_ids))] = Util::s($ms[0][$k]);
 				}
 			}
 		}
@@ -314,6 +327,7 @@ class Validate
 		foreach ($ms[1] as $k => $m)
 		{
 			$error_ids[] = Util::s($m);
+			static::$errors[max(array_flip($error_ids))] = Util::s($ms[0][$k]);
 		}
 
 		return $error_ids ?: false;
@@ -344,6 +358,7 @@ class Validate
 			if (in_array($tag, $banneds))
 			{
 				$error_ids[] = Util::s($tag);
+				static::$errors[max(array_flip($error_ids))] = Util::s('<'.$tag);
 			}
 		}
 
@@ -373,6 +388,7 @@ class Validate
 			)
 			{
 				$error_ids[] = Util::s($m);
+				static::$errors[max(array_flip($error_ids))] = Util::s($ms[0][$k]);
 			}
 		}
 
@@ -427,6 +443,7 @@ class Validate
 					)
 					{
 						$error_ids[] = Util::s($val);
+						static::$errors[max(array_flip($error_ids))] = Util::s($ms[0][$k]);
 					}
 
 				}
@@ -469,6 +486,7 @@ class Validate
 		if ( ! preg_match("/\<html[^\>]*?lang=[^\>]*?\>/i", $str))
 		{
 			$error_ids[] = 'language';
+			static::$errors[max(array_flip($error_ids))] = Util::s('<html');
 		}
 
 		return $error_ids ?: false;
@@ -490,6 +508,7 @@ class Validate
 		if (intval($results['num']) >= 2)
 		{
 			$error_ids[] = Util::s($title);
+			static::$errors[max(array_flip($error_ids))] = Util::s('<title');
 		}
 
 		return $error_ids ?: false;
@@ -521,6 +540,7 @@ class Validate
 
 				// not OK
 				$error_ids[] = Util::s(substr($headers[0], strpos($headers[0], ' '))).': '.Util::s($url);
+				static::$errors[max(array_flip($error_ids))] = Util::s($url);
 			}
 		}
 		return $error_ids ?: false;
