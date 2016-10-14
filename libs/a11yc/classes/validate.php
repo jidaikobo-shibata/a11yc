@@ -145,7 +145,7 @@ class Validate
 		$error_ids = array();
 		$str = static::ignore_elements($str);
 
-		preg_match_all("/\<input ([^\>]+)\>/i", $str, $matches);
+		preg_match_all("/\<input ([^\>]+?)\>/i", $str, $matches);
 		foreach($matches[1] as $k => $m){
 			if (
 				(strpos($m, 'image') && ! preg_match("/alt=[\"|']/i", $m)) ||

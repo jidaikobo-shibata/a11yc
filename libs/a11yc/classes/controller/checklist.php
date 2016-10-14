@@ -51,6 +51,7 @@ class Controller_Checklist
 	public static function validate_page($url)
 	{
 		$content = Util::fetch_html($url);
+		if ( ! $content) return array();
 		$all_errs = array();
 
 		$codes = array(

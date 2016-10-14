@@ -50,16 +50,35 @@ class Session
 	}
 
 	/**
+	 * Destroy Session
+	 *
+	 * @return  void
+	 */
+	public static function destroy()
+	{
+		$_SESSION = array();
+		if (isset($_COOKIE[session_name()]))
+		{
+			setcookie(session_name(), '', time()-42000, '/');
+		}
+		session_destroy();
+	}
+
+	/**
 	 * add
 	 *
 	 * @param   string    $realm
 	 * @param   string    $key
-	 * @param   array     $vals
+	 * @param   mixed     $vals
 	 * @return  void
 	 */
 	public static function add($realm, $key, $vals)
 	{
 		static::$values[$realm][$key][] = $vals;
+		if (isset($_SESSION[$realm]))
+		{
+			static::$values[$realm] = array_merge($_SESSION[$realm], static::$values[$realm]);
+		}
 		static::$values[$realm][$key] = array_unique(static::$values[$realm][$key]);
 		$_SESSION[$realm] = static::$values[$realm];
 	}
@@ -69,28 +88,46 @@ class Session
 	 *
 	 * @param   string  $realm
 	 * @param   string  $key
-	 * @param   int     $child_key
+	 * @param   int     $c_key
 	 * @return  void
 	 */
-	public static function remove($realm, $key = '', $child_key = '')
+	public static function remove($realm, $key = '', $c_key = '')
 	{
 		// remove realm
-		if (empty($key) && empty($child_key) && isset(static::$values[$realm]))
+		if (empty($key) && empty($c_key))
 		{
-			unset(static::$values[$realm]);
-			unset($_SESSION[$realm]);
+			if (isset($_SESSION[$realm]))
+			{
+				unset($_SESSION[$realm]);
+			}
+			if (isset(static::$values[$realm]))
+			{
+				unset(static::$values[$realm]);
+			}
 		}
 		// remove key
-		elseif(empty($child_key) && isset(static::$values[$realm][$key]))
+		elseif(empty($c_key))
 		{
-			unset(static::$values[$realm][$key]);
-			unset($_SESSION[$realm][$key]);
+			if (isset($_SESSION[$realm][$key]))
+			{
+				unset($_SESSION[$realm][$key]);
+			}
+			if (isset(static::$values[$realm][$key]))
+			{
+				unset(static::$values[$realm][$key]);
+			}
 		}
-		// remove key
-		elseif(isset(static::$values[$realm][$key][$child_key]))
+		// remove each value
+		else
 		{
-			unset(static::$values[$realm][$key][$child_key]);
-			unset($_SESSION[$realm][$key][$child_key]);
+			if (isset($_SESSION[$realm][$key][$c_key]))
+			{
+				unset($_SESSION[$realm][$key][$c_key]);
+			}
+			if (isset(static::$values[$realm][$key][$c_key]))
+			{
+				unset(static::$values[$realm][$key][$c_key]);
+			}
 		}
 	}
 
@@ -110,12 +147,12 @@ class Session
 			if (isset($_SESSION[$realm]))
 			{
 				$vals = $_SESSION[$realm];
-				if ($is_once) unset($_SESSION[$realm]);
 			}
 			if (isset(static::$values[$realm]))
 			{
 				$vals = array_merge($vals, static::$values[$realm]);
 			}
+			if ($is_once) static::remove($realm);
 		}
 		elseif (
 			isset(static::$values[$realm][$key]) ||
@@ -125,12 +162,12 @@ class Session
 			if (isset($_SESSION[$realm][$key]))
 			{
 				$vals = $_SESSION[$realm][$key];
-				if ($is_once) unset($_SESSION[$realm][$key]);
 			}
 			if (isset(static::$values[$realm]))
 			{
 				$vals = array_merge($vals, static::$values[$realm][$key]);
 			}
+			if ($is_once) static::remove($realm, $key);
 		}
 		$vals = array_unique($vals);
 		return $vals ?: false;

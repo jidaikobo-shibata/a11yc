@@ -58,6 +58,6 @@ class Auth
 	 */
 	public static function logout ()
 	{
-		Session::remove('auth', 'uid');
+		Session::destroy();
 	}
 }
