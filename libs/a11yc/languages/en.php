@@ -29,6 +29,10 @@ define('A11YC_LANG_UPDATE_SUCCEED', 'Update Succeed');
 define('A11YC_LANG_UPDATE_FAILED', 'Update Failed');
 define('A11YC_LANG_ERROR_NON_TARGET_LEVEL', 'Please perform the check from select "Target Level" in setting.');
 define('A11YC_LANG_CTRL_CONFIRM', 'It can not be returned. Are you sure you want to do %s?');
+define('A11YC_LANG_CTRL_KEYWORD_TITLE', 'Keyword');
+define('A11YC_LANG_CTRL_ORDER_TITLE', 'Order');
+define('A11YC_LANG_CTRL_SEARCH', 'Search');
+define('A11YC_LANG_CTRL_SEND', 'Send');
 
 // login
 define('A11YC_LANG_AUTH_TITLE', 'A11YC Login');
@@ -56,7 +60,6 @@ define('A11YC_LANG_PAGES_DELETE', 'Delete');
 define('A11YC_LANG_PAGES_UNDELETE', 'Undelete');
 define('A11YC_LANG_PAGES_PURGE', 'Purge');
 define('A11YC_LANG_PAGES_ADD_DATE', 'Add Date');
-define('A11YC_LANG_PAGES_ORDER_TITLE', 'Order');
 define('A11YC_LANG_PAGES_ORDER_ADD_DATE_ASC', 'Add Date Asc.');
 define('A11YC_LANG_PAGES_ORDER_ADD_DATE_DESC', 'Add Date Desc.');
 define('A11YC_LANG_PAGES_ORDER_TEST_DATE_ASC', 'Test Date Asc');
@@ -66,15 +69,14 @@ define('A11YC_LANG_PAGES_ORDER_URL_DESC', 'URL Desc.');
 define('A11YC_LANG_PAGES_ORDER_PAGE_NAME_ASC', 'Page name Asc.');
 define('A11YC_LANG_PAGES_ORDER_PAGE_NAME_DESC', 'Page name Desc.');
 define('A11YC_LANG_PAGES_CTRL', 'Action');
-define('A11YC_LANG_PAGES_URL_FOR_EACH_LINE', 'Enter one URL to each line, please press the "'.A11YC_LANG_PAGES_URLS_ADD.'"');
+define('A11YC_LANG_PAGES_URL_FOR_EACH_LINE', 'Enter one URL to each line, please press the "'.A11YC_LANG_PAGES_URLS_ADD.'".  Please once the registration is in the order of ten. The program may
+be stopped at the registration process and too many.');
 
 // setup
 define('A11YC_LANG_SETUP_TITLE', 'Setup');
 define('A11YC_LANG_SETUP_TITLE_ETC', 'etc.');
 define('A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR', 'Checklist Behaviour');
 define('A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR_DISAPPEAR', 'Disappear when check');
-define('A11YC_LANG_SETUP_SUBMIT', 'Submit');
-
 define('A11YC_LANG_DECLARE_DATE', 'Declare Date');
 define('A11YC_LANG_STANDARD', 'Standard');
 define('A11YC_LANG_DEPENDENCIES', 'List of dependent Web content technology');
@@ -97,6 +99,7 @@ define('A11YC_LANG_CANDIDATES4', 'Selected in accordance with a web page that yo
 
 // checklist
 define('A11YC_LANG_CHECKLIST_TARGETPAGE', 'Target Page');
+define('A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR', 'The page does not exist, it has been deleted from list.');
 define('A11YC_LANG_CHECKLIST_NOT_FOUND_ERR', 'Could not find an error in the automatic check');
 define('A11YC_LANG_CHECKLIST_TITLE', 'Checklist');
 define('A11YC_LANG_CHECKLIST_DONE', 'Done');
@@ -127,5 +130,4 @@ define('A11YC_LANG_DOCS_EACH_SUBTITLE', 'About "%s"');
 define('A11YC_LANG_DOCS_EACH_SUBTITLE_HOWTO', 'Document of "%s"');
 define('A11YC_LANG_DOCS_TEST', 'About Testing');
 define('A11YC_LANG_DOCS_UNDERSTANDING', 'Understanding SC&nbsp;%s');
-define('A11YC_LANG_DOCS_SEARCH', 'Search');
 define('A11YC_LANG_DOCS_SEARCH_RESULT_NONE', 'Appropriate documentation was not found.');

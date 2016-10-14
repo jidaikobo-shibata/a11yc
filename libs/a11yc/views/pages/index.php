@@ -15,22 +15,12 @@
 <a href="<?php echo A11YC_PAGES_URL ?>&amp;list=done">done</a> |
 <a href="<?php echo A11YC_PAGES_URL ?>&amp;list=trash">trash</a></p>
 
-<form action="" method="GET">
-<p><label for="a11yc_order"><?php echo A11YC_LANG_PAGES_ORDER_TITLE ?></label>
-<select name="order" id="a11yc_order">
-	<option value=""><?php echo A11YC_LANG_PAGES_ORDER_ADD_DATE_ASC ?></option>
-	<option value=""><?php echo A11YC_LANG_PAGES_ORDER_ADD_DATE_DESC ?></option>
-	<option value=""><?php echo A11YC_LANG_PAGES_ORDER_TEST_DATE_ASC ?></option>
-	<option value=""><?php echo A11YC_LANG_PAGES_ORDER_TEST_DATE_DESC ?></option>
-	<option value=""><?php echo A11YC_LANG_PAGES_ORDER_URL_ASC ?></option>
-	<option value=""><?php echo A11YC_LANG_PAGES_ORDER_URL_DESC ?></option>
-	<option value=""><?php echo A11YC_LANG_PAGES_ORDER_PAGE_NAME_ASC ?></option>
-	<option value=""><?php echo A11YC_LANG_PAGES_ORDER_PAGE_NAME_DESC ?></option>
-</select></p>
-<input type="submit" value="<?php echo A11YC_LANG_PAGES_ORDER_TITLE ?>" />
-</form>
+<?php
+if ($pages):
+	// show search and order form
+	echo $search_form;
+?>
 
-<?php if ($pages): ?>
 	<table class="a11yc_table">
 	<thead>
 	<th>URL</th>

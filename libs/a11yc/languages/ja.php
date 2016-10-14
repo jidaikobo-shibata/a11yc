@@ -29,6 +29,10 @@ define('A11YC_LANG_UPDATE_SUCCEED', '更新しました');
 define('A11YC_LANG_UPDATE_FAILED', '更新に失敗しました');
 define('A11YC_LANG_ERROR_NON_TARGET_LEVEL', '設定で「目標とする達成等級」を選んでからチェックを行ってください。');
 define('A11YC_LANG_CTRL_CONFIRM', '元には戻せません。本当に%sしてもよろしいですか？');
+define('A11YC_LANG_CTRL_KEYWORD_TITLE', 'キーワード');
+define('A11YC_LANG_CTRL_ORDER_TITLE', '並び替え');
+define('A11YC_LANG_CTRL_SEARCH', '検索する');
+define('A11YC_LANG_CTRL_SEND', '送信');
 
 // login
 define('A11YC_LANG_AUTH_TITLE', 'A11YC ログイン');
@@ -58,7 +62,6 @@ define('A11YC_LANG_PAGES_DELETE', '削除');
 define('A11YC_LANG_PAGES_UNDELETE', '復活');
 define('A11YC_LANG_PAGES_PURGE', '完全に削除');
 define('A11YC_LANG_PAGES_ADD_DATE', '登録日');
-define('A11YC_LANG_PAGES_ORDER_TITLE', '並び替え');
 define('A11YC_LANG_PAGES_ORDER_ADD_DATE_ASC', '登録日昇順');
 define('A11YC_LANG_PAGES_ORDER_ADD_DATE_DESC', '登録日降順');
 define('A11YC_LANG_PAGES_ORDER_TEST_DATE_ASC', '試験日昇順');
@@ -68,15 +71,13 @@ define('A11YC_LANG_PAGES_ORDER_URL_DESC', 'URL降順');
 define('A11YC_LANG_PAGES_ORDER_PAGE_NAME_ASC', 'ページ名昇順');
 define('A11YC_LANG_PAGES_ORDER_PAGE_NAME_DESC', 'ページ名降順');
 define('A11YC_LANG_PAGES_CTRL', '操作');
-define('A11YC_LANG_PAGES_URL_FOR_EACH_LINE', '各行に一つのURLを入力して、「'.A11YC_LANG_PAGES_URLS_ADD.'」を押してください');
+define('A11YC_LANG_PAGES_URL_FOR_EACH_LINE', '各行に一つのURLを入力して、「'.A11YC_LANG_PAGES_URLS_ADD.'」を押してください。一度の登録は10個程度にしてください。あまり多いと登録処理でプログラムが停止することがあります');
 
 // setup
 define('A11YC_LANG_SETUP_TITLE', '設定');
 define('A11YC_LANG_SETUP_TITLE_ETC', 'その他の設定');
 define('A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR', 'チェックリストの振る舞い');
 define('A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR_DISAPPEAR', 'チェック時にパスした項目は表示しない');
-define('A11YC_LANG_SETUP_SUBMIT', '送信');
-
 define('A11YC_LANG_DECLARE_DATE', '表明日');
 define('A11YC_LANG_STANDARD', '規格の種類');
 define('A11YC_LANG_DEPENDENCIES', '依存したウェブコンテンツ技術のリスト');
@@ -99,6 +100,7 @@ define('A11YC_LANG_CANDIDATES4', 'ウェブページ一式を代表するウェ�
 
 // checklist
 define('A11YC_LANG_CHECKLIST_TARGETPAGE', '対象ページ');
+define('A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR', 'チェック対象のページが存在しないため、対象のURLを削除しました。');
 define('A11YC_LANG_CHECKLIST_NOT_FOUND_ERR', '自動チェックではエラーが見つかりませんでした');
 define('A11YC_LANG_CHECKLIST_TITLE', 'チェックリスト');
 define('A11YC_LANG_CHECKLIST_DONE', 'チェック終了');
@@ -129,5 +131,4 @@ define('A11YC_LANG_DOCS_EACH_SUBTITLE', '「%s」について');
 define('A11YC_LANG_DOCS_EACH_SUBTITLE_HOWTO', '「%s」の解説');
 define('A11YC_LANG_DOCS_TEST', '試験方法について');
 define('A11YC_LANG_DOCS_UNDERSTANDING', '達成基準&nbsp;%s&nbsp;を理解する');
-define('A11YC_LANG_DOCS_SEARCH', '検索');
 define('A11YC_LANG_DOCS_SEARCH_RESULT_NONE', '該当する資料が見つかりませんでした');

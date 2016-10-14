@@ -21,15 +21,7 @@ class Auth
 	 */
 	public static function _init()
 	{
-		if (Util::is_ssl())
-		{
-			ini_set('session.cookie_secure', 1);
-		}
-		ini_set('session.use_trans_sid', 0);
-		ini_set('session.use_only_cookies', 1);
-		session_name('KNTKSESSID');
-		session_start();
-		session_regenerate_id(true);
+		Session::forge();
 	}
 
 	/**
@@ -39,7 +31,7 @@ class Auth
 	 */
 	public static function auth ()
 	{
-		if (isset($_SESSION['uid'])) return TRUE;
+		if (Session::show('auth', 'uid')) return TRUE;
 
 		$username = isset($_POST['username']) ? $_POST['username'] : false;
 		$password = isset($_POST['password']) ? $_POST['password'] : false;
@@ -51,7 +43,7 @@ class Auth
 		{
 			if ($v[0] === $username && $v[1] === $password)
 			{
-				$_SESSION['uid'] = $id;
+				Session::add('auth', 'uid', $id);
 				static::$user_id = $id;
 				return TRUE;
 			}
@@ -66,6 +58,6 @@ class Auth
 	 */
 	public static function logout ()
 	{
-		unset($_SESSION['uid']);
+		Session::destroy();
 	}
 }

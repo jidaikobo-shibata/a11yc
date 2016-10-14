@@ -186,7 +186,7 @@
 					endif;
 				?>
 					<option value="<?php echo $uid ?>"><?php echo $name ?></option>
-				<?php endforeach;  ?>
+				<?php endforeach; ?>
 				</select>
 				</td>
 				<td class="a11yc_table_check_howto">
@@ -201,5 +201,6 @@
 	<?php endforeach;  ?>
 	</div><!--/#section_p_<?php echo $v['code'] ?>.section_guidelines-->
 <?php endforeach;  ?>
+<input type="hidden" name="page_title" value="<?php echo s($target_title) ?>" />
 <input type="hidden" name="url" value="<?php echo s($url) ?>" />
 </div><!-- /#a11yc_checks -->

@@ -55,3 +55,7 @@ errors:
     message: html要素で文書の初期設定言語を特定してください
     criterion: 3-1-1
     code: 3-1-1a
+  is_not_exist_same_page_title_in_same_site:
+    message: チェック対象のサイトに同じtitle要素のページが存在します
+    criterion: 2-4-2
+    code: 2-4-2a

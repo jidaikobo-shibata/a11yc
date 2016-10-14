@@ -22,7 +22,7 @@ class Controller_Pages
 		$setup = Controller_Setup::fetch_setup();
 		if ( ! $setup['target_level'])
 		{
-			\A11yc\View::assign('errors', array(A11YC_LANG_ERROR_NON_TARGET_LEVEL));
+			Session::add('messages', 'errors', A11YC_LANG_ERROR_NON_TARGET_LEVEL);
 		}
 		static::index();
 	}
@@ -64,35 +64,66 @@ class Controller_Pages
 		if (isset($_GET['del']))
 		{
 			$page = urldecode(trim($_GET['url']));
-			$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET `trash` = 1 WHERE `url` = ?;';
-			$r = Db::execute($sql, array($page));
+			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES;
+			$sql.= ' WHERE `url` = ? and `trash` = 0;';
+			$exist = Db::fetch($sql, array($page));
+			if ($exist)
+			{
+				$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET `trash` = 1 WHERE `url` = ?;';
+				$r = Db::execute($sql, array($page));
+			}
+			else
+			{
+				header('location:'.A11YC_PAGES_URL);
+			}
 		}
 
 		// undelete
 		if (isset($_GET['undel']))
 		{
 			$page = urldecode(trim($_GET['url']));
-			$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET `trash` = 0 WHERE `url` = ?;';
-			$r = Db::execute($sql, array($page));
+			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES;
+			$sql.= ' WHERE `url` = ? and `trash` = 1;';
+			$exist = Db::fetch($sql, array($page));
+			if ($exist)
+			{
+				$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET `trash` = 0 WHERE `url` = ?;';
+				$r = Db::execute($sql, array($page));
+			}
+			else
+			{
+				header('location:'.A11YC_PAGES_URL);
+			}
 		}
 
 		// purge
 		if (isset($_GET['purge']))
 		{
 			$page = urldecode(trim($_GET['url']));
-			$sql = 'DELETE FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;';
-			$r = Db::execute($sql, array($page));
+			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES;
+			$sql.= ' WHERE `url` = ? and `trash` = 1;';
+			$exist = Db::fetch($sql, array($page));
+			if ($exist)
+			{
+				$page = urldecode(trim($_GET['url']));
+				$sql = 'DELETE FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;';
+				$r = Db::execute($sql, array($page));
+			}
+			else
+			{
+				header('location:'.A11YC_PAGES_URL);
+			}
 		}
 
 		if (isset($r))
 		{
 			if ($r)
 			{
-				\A11yc\View::assign('messages', array(A11YC_LANG_UPDATE_SUCCEED));
+				Session::add('messages', 'messages', A11YC_LANG_UPDATE_SUCCEED);
 			}
 			else
 			{
-				\A11yc\View::assign('errors', array(A11YC_LANG_UPDATE_FAILED));
+				Session::add('messages', 'errors', A11YC_LANG_UPDATE_FAILED);
 			}
 		}
 	}
@@ -108,27 +139,68 @@ class Controller_Pages
 		static::dbio();
 
 		// pages
+		$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE ';
 		$list = isset($_GET['list']) ? $_GET['list'] : false;
 		switch ($list)
 		{
 			case 'yet':
-				$pages = Db::fetch_all('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `done` = 0 and `trash` = 0 ORDER BY `url` ASC;');
+				$sql.= '`done` = 0 and `trash` = 0 ';
 				break;
 			case 'done':
-				$pages = Db::fetch_all('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `done` = 1 and `trash` = 0 ORDER BY `url` ASC;');
+				$sql.= '`done` = 1 and `trash` = 0 ';
 				break;
 			case 'trash':
-				$pages = Db::fetch_all('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `trash` = 1 ORDER BY `url` ASC;');
+				$sql.= '`trash` = 1 ';
 				break;
 			default:
-				$pages = Db::fetch_all('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `trash` = 0 ORDER BY `url` ASC;');
+				$sql.= '`trash` = 0 ';
 				break;
+		}
+
+		// search
+		$word = '';
+		if (isset($_GET['s']))
+		{
+			$word = mb_convert_kana(trim($_GET['s']), "as");
+			if ($word)
+			{
+				$sql.= 'and (`url` LIKE ? OR `page_title` LIKE ?) ';
+			}
+		}
+
+		// order
+		if (
+			isset($_GET['order']) &&
+			in_array($_GET['order'], array('add_date_asc', 'add_date_desc', 'test_date_asc', 'test_date_desc', 'url_asc', 'url_desc', 'name_asc', 'name_desc'))
+		)
+		{
+			$str = $_GET['order'];
+			$order = strtoupper(substr($str, strrpos($str, '_') + 1));
+			$by = strtolower(substr($str, 0, strrpos($str, '_')));
+		}
+		else
+		{
+			$order = 'ASC';
+			$by = 'url';
+		}
+		$sql.= 'order by '.$by.' '.$order.';';
+
+		// fetch
+		if ($word)
+		{
+			$pages = Db::fetch_all($sql, array('%'.$word.'%', '%'.$word.'%'));
+		}
+		else
+		{
+			$pages = Db::fetch_all($sql);
 		}
 
 		// assign
 		View::assign('pages', $pages);
 		View::assign('list', $list);
-		View::assign('title', A11YC_LANG_PAGES_TITLE);
+		View::assign('title', A11YC_LANG_PAGES_TITLE.' '.$list);
+		View::assign('word', $word);
+		View::assign('search_form', View::fetch_tpl('pages/search.php'), FALSE);
 		View::assign('body', View::fetch_tpl('pages/index.php'), FALSE);
 	}
 }

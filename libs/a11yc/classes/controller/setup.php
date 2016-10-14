@@ -108,11 +108,11 @@ class Controller_Setup
 			}
 			if ($r)
 			{
-				\A11yc\View::assign('messages', array(A11YC_LANG_UPDATE_SUCCEED));
+				Session::add('messages', 'messages', A11YC_LANG_UPDATE_SUCCEED);
 			}
 			else
 			{
-				\A11yc\View::assign('errors', array(A11YC_LANG_UPDATE_FAILED));
+				Session::add('messages', 'errors', A11YC_LANG_UPDATE_FAILED);
 			}
 		}
 	}

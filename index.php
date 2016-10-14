@@ -53,6 +53,7 @@ $mode = strtolower(substr($controller, strpos($controller, '_') + 1));
 \A11yc\View::assign('mode', $mode);
 \A11yc\View::display(array(
 		'header.php',
+		'messages.php',
 		'body.php',
 		'footer.php',
 	));

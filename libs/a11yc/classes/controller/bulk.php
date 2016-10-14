@@ -22,7 +22,7 @@ class Controller_Bulk extends Controller_Checklist
 		$setup = Controller_Setup::fetch_setup();
 		if ( ! $setup['target_level'])
 		{
-			\A11yc\View::assign('errors', array(A11YC_LANG_ERROR_NON_TARGET_LEVEL));
+			Session::add('messages', 'errors', A11YC_LANG_ERROR_NON_TARGET_LEVEL);
 		}
 		static::checklist('bulk');
 	}
@@ -68,11 +68,11 @@ class Controller_Bulk extends Controller_Checklist
 				$sql.= '(?, ?, ?);';
 				if (Db::execute($sql, array($code, $v['uid'], $v['memo'])))
 				{
-					\A11yc\View::assign('messages', array(A11YC_LANG_UPDATE_SUCCEED));
+					Session::add('messages', 'messages', A11YC_LANG_UPDATE_SUCCEED);
 				}
 				else
 				{
-					\A11yc\View::assign('errors', array(A11YC_LANG_UPDATE_FAILED));
+					Session::add('messages', 'errors', A11YC_LANG_UPDATE_FAILED);
 				}
 			}
 
