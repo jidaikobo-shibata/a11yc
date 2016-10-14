@@ -139,18 +139,22 @@ class Controller_Pages
 		static::dbio();
 
 		// pages
+		$qs = '';
 		$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE ';
 		$list = isset($_GET['list']) ? $_GET['list'] : false;
 		switch ($list)
 		{
 			case 'yet':
 				$sql.= '`done` = 0 and `trash` = 0 ';
+				$qs = '&amp;list=yet';
 				break;
 			case 'done':
 				$sql.= '`done` = 1 and `trash` = 0 ';
+				$qs = '&amp;list=done';
 				break;
 			case 'trash':
 				$sql.= '`trash` = 1 ';
+				$qs = '&amp;list=trash';
 				break;
 			default:
 				$sql.= '`trash` = 0 ';
@@ -195,8 +199,31 @@ class Controller_Pages
 			$pages = Db::fetch_all($sql);
 		}
 
+		// pagination
+		$total = count($pages);
+		$num = isset($_GET['num']) ? intval($_GET['num']) : 5 ;
+		$page = isset($_GET['page']) ? intval($_GET['page']) : 1 ;
+
+		// offset
+		$offset = ($page - 1) * $num;
+		$offset = $offset <= 0 ? 0 : $offset;
+
+		// prev
+		$prev = $page > 1 ? $page - 1 : false;
+		$prev_qs = $prev ? '&amp;page='.$prev : '';
+
+		// next
+		$result = $offset + $num;
+		$next = $total > $result ? $page + 1 : false;
+		$next_qs = $next ? '&amp;page='.$next : '';
+
+		// $pages
+		$pages = array_slice($pages, $offset, $num);
+
 		// assign
 		View::assign('pages', $pages);
+		View::assign('prev', $prev_qs ? A11YC_PAGES_URL.$qs.$prev_qs : false);
+		View::assign('next', $next_qs ? A11YC_PAGES_URL.$qs.$next_qs : false);
 		View::assign('list', $list);
 		View::assign('title', A11YC_LANG_PAGES_TITLE.' '.$list);
 		View::assign('word', $word);

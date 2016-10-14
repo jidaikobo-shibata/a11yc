@@ -10,15 +10,27 @@
 
 <!-- list -->
 <h2><?php echo A11YC_LANG_PAGES_TITLE ?></h2>
-<p><a href="<?php echo A11YC_PAGES_URL ?>">pages</a> |
-<a href="<?php echo A11YC_PAGES_URL ?>&amp;list=yet">yet</a> |
-<a href="<?php echo A11YC_PAGES_URL ?>&amp;list=done">done</a> |
-<a href="<?php echo A11YC_PAGES_URL ?>&amp;list=trash">trash</a></p>
+<p><a href="<?php echo A11YC_PAGES_URL ?>"><?php echo A11YC_LANG_PAGES_ALL ?></a> |
+<a href="<?php echo A11YC_PAGES_URL ?>&amp;list=yet"><?php echo A11YC_LANG_PAGES_YET ?></a> |
+<a href="<?php echo A11YC_PAGES_URL ?>&amp;list=done"><?php echo A11YC_LANG_PAGES_DONE ?></a> |
+<a href="<?php echo A11YC_PAGES_URL ?>&amp;list=trash"><?php echo A11YC_LANG_PAGES_TRASH ?></a></a></p>
 
 <?php
 if ($pages):
 	// show search and order form
 	echo $search_form;
+
+	// pagination
+	$pagination = '';
+	if ($prev || $next):
+	if ($prev):
+		$pagination.= '<a href="'.$prev.'">'.A11YC_LANG_CTRL_PREV.'</a>';
+	endif;
+	if ($next):
+		$pagination.= '<a href="'.$next.'">'.A11YC_LANG_CTRL_NEXT.'</a>';
+	endif;
+	endif;
+	echo $pagination;
 ?>
 
 	<table class="a11yc_table">
@@ -58,6 +70,10 @@ if ($pages):
 	<?php endforeach; ?>
 	</tbody>
 	</table>
-<?php else: ?>
+<?php
+	// pagination
+	echo $pagination;
+else:
+?>
 	<p><?php echo A11YC_LANG_PAGES_NOT_FOUND ?></p>
 <?php endif; ?>

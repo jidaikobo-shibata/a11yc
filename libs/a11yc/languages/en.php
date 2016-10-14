@@ -33,6 +33,8 @@ define('A11YC_LANG_CTRL_KEYWORD_TITLE', 'Keyword');
 define('A11YC_LANG_CTRL_ORDER_TITLE', 'Order');
 define('A11YC_LANG_CTRL_SEARCH', 'Search');
 define('A11YC_LANG_CTRL_SEND', 'Send');
+define('A11YC_LANG_CTRL_PREV', 'Previous');
+define('A11YC_LANG_CTRL_NEXT', 'Next');
 
 // login
 define('A11YC_LANG_AUTH_TITLE', 'A11YC Login');
@@ -69,6 +71,10 @@ define('A11YC_LANG_PAGES_ORDER_PAGE_NAME_DESC', 'Page name Desc.');
 define('A11YC_LANG_PAGES_CTRL', 'Action');
 define('A11YC_LANG_PAGES_URL_FOR_EACH_LINE', 'Enter one URL to each line, please press the "'.A11YC_LANG_PAGES_URLS_ADD.'".  Please once the registration is in the order of ten. The program may
 be stopped at the registration process and too many.');
+define('A11YC_LANG_PAGES_ALL', 'All');
+define('A11YC_LANG_PAGES_YET', 'Yet');
+define('A11YC_LANG_PAGES_DONE', 'Done');
+define('A11YC_LANG_PAGES_TRASH', 'Trash');
 
 // setup
 define('A11YC_LANG_SETUP_TITLE', 'Setup');
