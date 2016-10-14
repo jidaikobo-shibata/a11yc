@@ -50,7 +50,7 @@ class Controller_Checklist
 	 */
 	public static function validate_page($url)
 	{
-		$content = Util::fetch_html($url);
+		$content = strtolower(Util::fetch_html($url));
 		if ( ! $content) return array();
 		$all_errs = array();
 
@@ -234,7 +234,21 @@ class Controller_Checklist
 		View::assign('checklist_behaviour', intval(@$setup['checklist_behaviour']));
 		View::assign('target_level', intval(@$setup['target_level']));
 		View::assign('page', static::fetch_page($url));
-		View::assign('errs', static::validate_page($url));
+
+		$errs = static::validate_page($url);
+		View::assign('errs', $errs);
+
+		// assign html source code
+		$raw = '';
+		if ($errs)
+		{
+			$html = Util::fetch_html($url);
+			$html = Util::s($html);
+			$lines = explode("\n", $html);
+			$lines = array_map(function($v){return '<tr><td>'.$v.'</td></tr>';}, $lines);
+			$raw = join("\n", $lines);
+		}
+		View::assign('raw', $raw, false);
 
 		// cs
 		$bulk = Controller_Bulk::fetch_results();

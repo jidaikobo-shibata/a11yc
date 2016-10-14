@@ -104,11 +104,11 @@ class Util extends \Kontiki\Util
 				),
 			);
 			$context = stream_context_create($options);
-			$html = strtolower(@file_get_contents($url, false, $context));
+			$html = @file_get_contents($url, false, $context);
 		}
 		else
 		{
-			$html = strtolower(@file_get_contents($url));
+			$html = @file_get_contents($url);
 		}
 
 		if ( ! $html) return false;
@@ -146,7 +146,7 @@ class Util extends \Kontiki\Util
 	 */
 	public static function fetch_page_title_from_html($html)
 	{
-		preg_match("/<title.*?>(.+?)<\/title>/s", $html, $m);
+		preg_match("/<title.*?>(.+?)<\/title>/s", strtolower($html), $m);
 		$tmp = isset($m[1]) ? $m[1] : '';
 		$title = str_replace(array("\n", "\r"), '', $tmp);
 		return $title;
