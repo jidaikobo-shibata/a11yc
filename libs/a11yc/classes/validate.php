@@ -157,7 +157,8 @@ class Validate
 			// maybe link to file
 			else if ($str[0] != '#')
 			{
-				$str = \A11yc\Validate::$root_path.$str;
+				$ds = $str[0] != '/' ? '/' : '';
+				$str = \A11yc\Validate::$root_path.$ds.$str;
 			}
 			// maybe fragment
 			else
