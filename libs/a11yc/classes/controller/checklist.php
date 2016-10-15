@@ -53,6 +53,7 @@ class Controller_Checklist
 		$content = Util::fetch_html($url);
 		if ( ! $content) return array();
 		$all_errs = array();
+		Validate::set_root_path($url);
 
 		$codes = array(
 			'is_exist_alt_attr_of_img',
@@ -70,11 +71,11 @@ class Controller_Checklist
 			'is_not_exist_same_page_title_in_same_site',
 			'titleless',
 			'langless',
+			'same_urls_should_have_same_text',
 		);
 
 		if (isset($_POST['do_link_check']))
 		{
-			Validate::set_root_path($url);
 			$codes[] = 'link_check';
 		}
 
@@ -251,7 +252,8 @@ class Controller_Checklist
 			$html = Util::s($html);
 
 			$replaces = array();
-			foreach (Validate::$ignores as $k => $ignore)
+			$ignores = array_merge(Validate::$ignores, Validate::$ignores_comment_out);
+			foreach ($ignores as $k => $ignore)
 			{
 				preg_match_all(Util::s($ignore), $html, $ms);
 				if ($ms)
@@ -326,7 +328,7 @@ class Controller_Checklist
 	 *
 	 * @return  str
 	 */
-	public static function message($code_str, $place = '')
+	public static function message($code_str, $place = array())
 	{
 		$yml = Yaml::fetch();
 		if (isset($yml['errors'][$code_str]))
@@ -337,7 +339,8 @@ class Controller_Checklist
 			$criterion = $yml['checks'][$criterion][$code]['criterion'];
 			$ret.= ' (<a href="'.$criterion['url'].'"'.A11YC_TARGET.' title="'.$criterion['name'].'">'.Util::key2code($criterion['code']).'</a>, ';
 			$ret.= '<a href="'.A11YC_DOC_URL.$code.'&amp;criterion='.$yml['errors'][$code_str]['criterion'].'"'.A11YC_TARGET.'>Doc</a>)';
-			$ret.= $place !== '' ? ': <strong>'.$place.'</strong>' : '';
+
+			$ret.= ': <strong data-place="'.$place['id'].'">'.$place['str'].'</strong>';
 			return $ret;
 		}
 		return FALSE;
