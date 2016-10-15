@@ -111,8 +111,8 @@ class Validate
 	{
 		// Strictly this is not so correct. but it seems be considered.
 		if (
-			preg_match("/tabindex=[\"']-1[\"']/i", $str) ||
-			preg_match("/aria-hidden=[\"']true[\"']/i", $str)
+			preg_match("/ tabindex *?= *?[\"']-1[\"']/i", $str) ||
+			preg_match("/ aria-hidden *?= *?[\"']true[\"']/i", $str)
 		)
 		{
 			return true;
@@ -179,12 +179,12 @@ class Validate
 	{
 		$str = static::ignore_elements($str);
 
-		preg_match_all("/\<img ([^\>]+)\>/i", $str, $ms);
+		preg_match_all("/\<img +?([^\>]+)\>/i", $str, $ms);
 		foreach ($ms[1] as $k => $m)
 		{
-			if ( ! preg_match("/alt=[\"']/i", $m))
+			if ( ! preg_match("/alt *?= *?[\"']/i", $m))
 			{
-				preg_match("/src=[\"']([^\"']+?)[\"']/i", $m, $im);
+				preg_match("/src *?= *?[\"']([^\"']+?)[\"']/i", $m, $im);
 				static::$error_ids['is_exist_alt_attr_of_img'][$k]['id'] = Util::s($ms[0][$k]);
 				static::$error_ids['is_exist_alt_attr_of_img'][$k]['str'] = Util::s(@basename($im[1]));
 				static::$errors[] = Util::s($ms[0][$k]);
@@ -202,14 +202,14 @@ class Validate
 	{
 		$str = static::ignore_elements($str);
 
-		preg_match_all("/\<a +[^\>]+?\>\<img ([^\>]+)\>\<\/a\>/i", $str, $ms);
+		preg_match_all("/\<a[^\>]+?\>\<img ([^\>]+)\>\<\/a\>/i", $str, $ms);
 		foreach ($ms[1] as $k => $m)
 		{
 			if (static::is_ignorable($ms[0][$k])) continue;
 
-			if (preg_match("/alt=[\"'] *?[\"']/i", $m))
+			if (preg_match("/ alt *?= *?[\"'] *?[\"']/i", $m))
 			{
-				preg_match("/src=[\"']([^\"']+?)[\"']/i", $m, $im);
+				preg_match("/ src *?= *?[\"']([^\"']+?)[\"']/i", $m, $im);
 				if ($im)
 				{
 					static::$error_ids['is_not_empty_alt_attr_of_img_inside_a'][$k]['id'] = Util::s($ms[0][$k]);
@@ -258,12 +258,12 @@ class Validate
 	{
 		$str = static::ignore_elements($str);
 
-		preg_match_all("/\<area ([^\>]+)\>/i", $str, $ms);
+		preg_match_all("/\<area +?([^\>]+)\>/i", $str, $ms);
 		foreach ($ms[1] as $k => $m)
 		{
-			if ( ! preg_match("/alt=[\"']/i", $m) || preg_match("/alt=[\"'] *?[\"']/i", $m))
+			if ( ! preg_match("/ alt *?= *?[\"']/i", $m) || preg_match("/ alt *?= *?[\"'] *?[\"']/i", $m))
 			{
-				preg_match("/coords=[\"']([^\"']+?)[\"']/i", $m, $im);
+				preg_match("/ coords *?= *?[\"']([^\"']+?)[\"']/i", $m, $im);
 				static::$error_ids['is_are_has_alt'][$k]['id'] = Util::s($ms[0][$k]);
 				static::$error_ids['is_are_has_alt'][$k]['str'] = Util::s(@basename($im[1]));
 				static::$errors[] = Util::s($ms[0][$k]);
@@ -281,14 +281,14 @@ class Validate
 	{
 		$str = static::ignore_elements($str);
 
-		preg_match_all("/\<input ([^\>]+?)\>/i", $str, $ms);
+		preg_match_all("/\<input +?([^\>]+?)\>/i", $str, $ms);
 		foreach($ms[1] as $k => $m){
 			if (
-				(strpos($m, 'image') && ! preg_match("/alt=[\"']/i", $m)) ||
-				(strpos($m, 'image') && preg_match("/alt=[\"'] *?[\"']/i", $m))
+				(strpos($m, 'image') && ! preg_match("/ alt *?= *?[\"']/i", $m)) ||
+				(strpos($m, 'image') && preg_match("/ alt *?= *?[\"'] *?[\"']/i", $m))
 			)
 			{
-				preg_match("/src=[\"']([^\"']+?)[\"']/i", $m, $im);
+				preg_match("/ src *?= *?[\"']([^\"']+?)[\"']/i", $m, $im);
 				static::$error_ids['is_img_input_has_alt'][$k]['id'] = Util::s($ms[0][$k]);
 				static::$error_ids['is_img_input_has_alt'][$k]['str'] = Util::s(@basename($im[1]));
 				static::$errors[] = Util::s($ms[0][$k]);
@@ -338,7 +338,7 @@ class Validate
 		$body_html = static::ignore_elements($str);
 
 		// tags
-		preg_match_all("/\<([^\>| ]+)/i", $body_html, $tags);
+		preg_match_all("/\<([^\> ]+)/i", $body_html, $tags);
 
 		// ignore elements
 		$ignores = array('img', 'br', 'hr', 'base', 'input', 'param', 'area', 'embed', '!doctype', 'meta', 'link', 'html', '/html', '![if', '![endif]', '?xml', 'track', 'source');
@@ -393,12 +393,12 @@ class Validate
 	{
 		$str = static::ignore_elements($str);
 
-		preg_match_all("/\<img ([^\>]+)\>/i", $str, $ms);
+		preg_match_all("/\<img +?([^\>]+)\>/i", $str, $ms);
 		foreach ($ms[1] as $k => $m)
 		{
-			if (preg_match("/alt=[\"']([^\"']+?)[\"']/i", $m, $m_alt))
+			if (preg_match("/ alt *?= *?[\"']([^\"']+?)[\"']/i", $m, $m_alt))
 			{
-				preg_match("/src=[\"']([^\"']+?)[\"']/i", $m, $m_src);
+				preg_match("/ src *?= *?[\"']([^\"']+?)[\"']/i", $m, $m_src);
 				$filename = basename($m_src[1]);
 				if (
 					$filename == $m_alt[1] || // within extension
@@ -451,7 +451,7 @@ class Validate
 			'marquee',
 		);
 
-		preg_match_all("/\<([^\>| ]+)/i", $body_html, $tags);
+		preg_match_all("/\<([^\> ]+)/i", $body_html, $tags);
 
 		foreach ($tags[1] as $k => $tag)
 		{
@@ -475,7 +475,7 @@ class Validate
 	{
 		$str = static::ignore_elements($str, true);
 
-		preg_match_all("/\<[a-zA-Z1-6]+? ([^\>]+)\>/i", $str, $ms);
+		preg_match_all("/\<[a-zA-Z1-6]+? +?([^\>]+)\>/i", $str, $ms);
 		foreach ($ms[1] as $k => $m)
 		{
 			if (
@@ -504,7 +504,7 @@ class Validate
 	{
 		$str = static::ignore_elements($str, true);
 
-		preg_match_all("/\<a [^\>]*href=[\"']([^\"|']+?)[\"'][^\>]*?\>([^\<|\>]+?)\<\/a\>/i", $str, $ms);
+		preg_match_all("/\<a[^\>]*href *?= *?[\"']([^\"|']+?)[\"'][^\>]*?\>([^\<|\>]+?)\<\/a\>/i", $str, $ms);
 		$suspicious = array(
 			'.pdf',
 			'.doc',
@@ -579,7 +579,7 @@ class Validate
 	{
 		// do not use static::ignore_elements() in case it is in comment out
 
-		if ( ! preg_match("/\<html[^\>]*?lang=[^\>]*?\>/i", $str))
+		if ( ! preg_match("/\<html[^\>]*?lang *?= *?[^\>]*?\>/i", $str))
 		{
 			static::$error_ids['langless'][0]['id'] = Util::s('<html');
 			static::$error_ids['langless'][0]['str'] = '';
@@ -623,7 +623,7 @@ class Validate
 		$str = static::ignore_comment_out($str, true);
 
 		// urls
-		preg_match_all("/\<a [^\>]*?href=[\"']([^\"']+?)[\"'].*?\>(.*?)\<\/a\>/si", $str, $ms);
+		preg_match_all("/\<a[^\>]*?href *?= *?[\"']([^\"']+?)[\"'].*?\>(.*?)\<\/a\>/si", $str, $ms);
 
 		$urls = array();
 		foreach ($ms[1] as $k => $v)
@@ -635,7 +635,7 @@ class Validate
 			// strip tag except for alt
 			// do I have to care about title attribute?
 			$text = $ms[2][$k];
-			preg_match("/\<\w+ [^\>]*?alt=[\"']([^\"']*?)[\"'][^\>]*?\>/", $text, $mms);
+			preg_match("/\<\w+ +?[^\>]*?alt *?= *?[\"']([^\"']*?)[\"'][^\>]*?\>/", $text, $mms);
 			if ($mms)
 			{
 				$text = str_replace($mms[0], $mms[1], $text);
@@ -667,7 +667,7 @@ class Validate
 		$str = static::ignore_comment_out($str, true);
 
 		// urls
-		preg_match_all("/(?:href|src|cite|data|poster|action)=[\"']([^\"']+?)[\"']/i", $str, $ms);
+		preg_match_all("/ (?:href|src|cite|data|poster|action) *?= *?[\"']([^\"']+?)[\"']/i", $str, $ms);
 		$urls = array();
 		foreach ($ms[1] as $k => $v)
 		{
@@ -677,7 +677,7 @@ class Validate
 		$urls = array_unique($urls);
 
 		// fragments
-		preg_match_all("/(?:id|name)=[\"']([^\"']+?)[\"']/i", $str, $fragments);
+		preg_match_all("/ (?:id|name) *?= *?[\"']([^\"']+?)[\"']/i", $str, $fragments);
 
 		// check
 		foreach ($urls as $k => $url)
