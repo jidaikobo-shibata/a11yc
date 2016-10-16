@@ -87,7 +87,7 @@ function a11yc_fixed_header(){
 	}
 }
 
-	
+
 // checklists, bulk
 if($('.a11yc_table_check')[0])
 {
@@ -112,7 +112,7 @@ if($('.a11yc_table_check')[0])
 		}
 		$('.a11yc_section_criterion').addClass('a11yc_dn');
 		$show_levels.removeClass('a11yc_dn');
-		
+
 		//テーブルの表示調整
 		a11yc_table_display();
 		//カウント
@@ -122,7 +122,7 @@ if($('.a11yc_table_check')[0])
 	//チェック項目の表示・非表示切り替え
 	a11yc_toggle_item();
 	$('.a11yc_table_check input[type="checkbox"]').on('click', a11yc_toggle_item);
-	
+
 	function a11yc_toggle_item(e){
 		var input = e ? $(e.target) : '';
 		$checked = $('.a11yc_table_check th :checked');
@@ -134,7 +134,7 @@ if($('.a11yc_table_check')[0])
 				for(var k in data_pass_arr)
 				{
 					if(data_pass_arr[k]==this.id) continue; //自分自身は相手にしない？
-					$pass_items = $pass_items.add('#'+data_pass_arr[k]); 
+					$pass_items = $pass_items.add('#'+data_pass_arr[k]);
 				}
 			});
 			$pass_items.closest('tr').addClass('off').find(':input').prop("disabled", true);
@@ -149,7 +149,7 @@ if($('.a11yc_table_check')[0])
 				for(var k in data_pass_arr)
 				{
 					if(data_pass_arr[k]==this.id) continue; //自分自身は相手にしない？
-					$pass_items = $pass_items.add('#'+data_pass_arr[k]); 
+					$pass_items = $pass_items.add('#'+data_pass_arr[k]);
 				}
 				$pass_items.closest('tr').addClass('off').find(':input').prop("disabled", true);
 			}
@@ -169,7 +169,7 @@ if($('.a11yc_table_check')[0])
 					for(var k in data_pass_arr)
 					{
 						if(data_pass_arr[k]==this.id) continue; //自分自身は相手にしない？
-						$pass_items = $pass_items.add('#'+data_pass_arr[k]); 
+						$pass_items = $pass_items.add('#'+data_pass_arr[k]);
 					}
 				});
 //ここまで、pass_itemsは大丈夫
@@ -188,14 +188,14 @@ if($('.a11yc_table_check')[0])
 		//カウント
 		a11yc_count_checkbox();
 	}
-	
+
 	//table display
 	function a11yc_table_display(){
 		if(!$('.a11yc_hide_passed_item')[0]) return;
 		//不要な項目を隠す
 		$('.a11yc form').find('.a11yc_section_guideline, .a11yc_table_check').each(function(){
 			var $t = !$(this).is('table') ? $(this) : $(this).closest('.a11yc_section_criterion');
-			
+
 			if (!$(this).find('tr:not(.off)')[0]) //見えているものがない場合
 			{
 //				$t.addClass('a11yc_dn');
@@ -238,7 +238,7 @@ if($('.a11yc_table_check')[0])
 			$(this).find('td').each(function(index){
 				if(!$(this).is('.a11yc_rest_subtotal')){
 					var l_str = '';
-					for(var i=0; i<=index; i++) l_str= l_str+'a'; 
+					for(var i=0; i<=index; i++) l_str= l_str+'a';
 					n_str = $(pid).find('[data-a11yc-level=l_'+l_str+'] th input').filter(':not(:disabled,:checked)').length;
 
 					if (index+1 <= $current_level.length)
@@ -322,7 +322,7 @@ $disclosure.attr('tabindex', 0).each(function(index){
 $disclosure_target.each(function(){
 	if (!$(this).hasClass('show')) $(this).addClass('hide').hide();
 });
-$disclosure.on('click keydown', function(e){
+$(document).on('click keydown', '.a11yc_disclosure',  function(e){
 	if(e && e.type=='keydown' && e.keyCode!=13) return;
 	var index = $(this).index('.a11yc_disclosure');
 	$(this).toggleClass('show hide');
@@ -419,7 +419,7 @@ $('#a11yc_checks th').on('click', function(e){
 a11yc_tooltip();
 function a11yc_tooltip(){
 	var $a11yc_tooltip = $('<span id="a11yc_tooltip" aria-hidden="true" role="presentation"></span>').hide().appendTo('body');
-	
+
 	$('.a11yc').on({
 		'mouseenter focus': function(e){
 			setTimeout(function($obj){
@@ -435,8 +435,8 @@ function a11yc_tooltip(){
 				var left = $a11yc_tooltip.offset().left;
 				left = left<0 ? 0 : left;
 				var right = $(window).outerWidth()-left-$a11yc_tooltip.outerWidth();
-				left = right<0 ? left + right : left; 
-				
+				left = right<0 ? left + right : left;
+
 				$a11yc_tooltip.css({'top': top+'px', 'left': left+'px'});
 			}
 			, 0, $(this));
@@ -449,7 +449,7 @@ function a11yc_tooltip(){
 		}
 	},'[title], [ariaLabel]');
 }
-	
+
 	//yml確認用
 /*	if($('#a11yc_checklist')[0]){
 		var $panel = $('<div id="panel" class="a11yc_sansserif" style="position: fixed; width: 600px; resize: vertical; height: 800px;background-color: #fff;font-size: 80%; overflow-y: auto; top: 40px; right: 0; box-shadow: 0 0 3px 0 rgba(0,0,0,.25); border: 1px solid #9bc; z-index: 10000;padding:0 5px;">').appendTo('body');
@@ -469,7 +469,7 @@ function a11yc_tooltip(){
 				yml_passed[arr[k]] = typeof yml_passed[arr[k]] =='undefined' ? [this.id] : yml_passed[arr[k]].concat([this.id]);
 			}
 		});
-		
+
 		//出力
 		var str = '';
 		for(var k in yml_arr)

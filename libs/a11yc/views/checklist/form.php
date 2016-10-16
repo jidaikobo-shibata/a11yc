@@ -31,24 +31,37 @@
 		<div id="a11yc_targetpage_data">
 		<!-- target page -->
 			<p id="a11yc_back_to_target_page"><?php echo A11YC_LANG_CHECKLIST_TARGETPAGE ?>:&nbsp;<?php echo $target_title ?><br><?php echo A11YC_LANG_PAGES_URLS ?>:&nbsp;<a href="<?php echo urldecode($url) ?>"><?php echo urldecode($url) ?></a></p>
-		<?php if ($errs):
-			// error
-		?>
-			<ul id="a11yc_errors" class="a11yc_hide_if_fixedheader">
-			<?php foreach ($errs as $err):  ?>
-				<li><?php echo $err ?></li>
-			<?php endforeach;  ?>
-				<li class="a11yc_disclosure_parent">
-					<a role="button" class="a11yc_disclosure" tabindex="0"><?php echo A11YC_LANG_CHECKLIST_VIEW_SOURCE ?></a>
-					<div class="a11yc_disclosure_target a11yc_source" style="display: block;">
-						<table><?php echo $raw ?></table>
-					</div><!-- /.a11yc_disclosure_target -->
-				</li>
-			</ul>
-		<?php else:
-			echo '<p id="a11yc_errors" class="a11yc_hide_if_fixedheader">'.A11YC_LANG_CHECKLIST_NOT_FOUND_ERR.'</p>';
-		endif; ?>
-		<!-- /#a11yc_errors -->
+
+	<!-- #a11yc_errors -->
+	<script type="text/javascript">
+	$(function() {
+		 $(document)
+			 .ajaxStart(function() {
+				 console.log(123);
+				 $('#a11yc_errors').addClass('a11yc_loading');
+			 })
+			 .ajaxStop(function() {
+				 $('#a11yc_errors').removeClass('a11yc_loading');
+			 });
+		$.ajax({
+			type: 'GET',
+			url: '<?php echo dirname(A11YC_URL).'/validate.php' ?>',
+			dataType: 'html',
+			data: {
+				url: '<?php echo $url ?>',
+				link_check: '<?php echo $link_check ?>'
+			},
+			success: function(data) {
+					$('#a11yc_errors').append(data);
+			},
+			error:function() {
+					alert('failed');
+			}
+		});
+	});
+	</script>
+	<div id="a11yc_errors"></div>
+
 	</div><!-- /#a11yc_targetpage_data -->
 	<?php else:  ?>
 		<p><label for="a11yc_update_all"><?php echo A11YC_LANG_BULK_UPDATE ?></label>

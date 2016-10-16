@@ -179,12 +179,12 @@ class Validate
 	{
 		$str = static::ignore_elements($str);
 
-		preg_match_all("/\<img +?([^\>]+)\>/i", $str, $ms);
+		preg_match_all("/\<img([^\>]+)\>/i", $str, $ms);
 		foreach ($ms[1] as $k => $m)
 		{
-			if ( ! preg_match("/alt *?= *?[\"']/i", $m))
+			if ( ! preg_match("/ alt *?= *?[\"']/i", $m))
 			{
-				preg_match("/src *?= *?[\"']([^\"']+?)[\"']/i", $m, $im);
+				preg_match("/ src *?= *?[\"']([^\"']+?)[\"']/i", $m, $im);
 				static::$error_ids['is_exist_alt_attr_of_img'][$k]['id'] = Util::s($ms[0][$k]);
 				static::$error_ids['is_exist_alt_attr_of_img'][$k]['str'] = Util::s(@basename($im[1]));
 				static::$errors[] = Util::s($ms[0][$k]);
@@ -258,7 +258,7 @@ class Validate
 	{
 		$str = static::ignore_elements($str);
 
-		preg_match_all("/\<area +?([^\>]+)\>/i", $str, $ms);
+		preg_match_all("/\<area([^\>]+)\>/i", $str, $ms);
 		foreach ($ms[1] as $k => $m)
 		{
 			if ( ! preg_match("/ alt *?= *?[\"']/i", $m) || preg_match("/ alt *?= *?[\"'] *?[\"']/i", $m))
@@ -281,7 +281,7 @@ class Validate
 	{
 		$str = static::ignore_elements($str);
 
-		preg_match_all("/\<input +?([^\>]+?)\>/i", $str, $ms);
+		preg_match_all("/\<input([^\>]+?)\>/i", $str, $ms);
 		foreach($ms[1] as $k => $m){
 			if (
 				(strpos($m, 'image') && ! preg_match("/ alt *?= *?[\"']/i", $m)) ||
@@ -393,7 +393,7 @@ class Validate
 	{
 		$str = static::ignore_elements($str);
 
-		preg_match_all("/\<img +?([^\>]+)\>/i", $str, $ms);
+		preg_match_all("/\<img([^\>]+)\>/i", $str, $ms);
 		foreach ($ms[1] as $k => $m)
 		{
 			if (preg_match("/ alt *?= *?[\"']([^\"']+?)[\"']/i", $m, $m_alt))
@@ -651,7 +651,7 @@ class Validate
 			{
 				static::$error_ids['same_urls_should_have_same_text'][$k]['id'] = Util::s($ms[0][$k]);
 				static::$error_ids['same_urls_should_have_same_text'][$k]['str'] = Util::s($url).': "'.Util::s($urls[$url]).'" OR "'.Util::s($text).'"';
-				static::$errors[] = Util::s($ms[0]);
+				static::$errors[] = Util::s($ms[0][$k]);
 			}
 		}
 	}

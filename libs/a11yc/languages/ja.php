@@ -76,7 +76,6 @@ define('A11YC_LANG_PAGES_CTRL', '操作');
 define('A11YC_LANG_PAGES_URL_FOR_EACH_LINE', '各行に一つのURLを入力して、「'.A11YC_LANG_PAGES_URLS_ADD.'」を押してください。一度の登録は10個程度にしてください。あまり多いと登録処理でプログラムが停止することがあります');
 define('A11YC_LANG_PAGES_ALL', 'すべて');
 define('A11YC_LANG_PAGES_YET', '未チェック');
-define('A11YC_LANG_PAGES_DONE', 'チェック終了');
 define('A11YC_LANG_PAGES_TRASH', '削除済み');
 
 // setup

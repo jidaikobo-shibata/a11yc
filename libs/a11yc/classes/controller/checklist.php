@@ -48,7 +48,7 @@ class Controller_Checklist
 	 * @param   string     $url
 	 * @return  array
 	 */
-	public static function validate_page($url)
+	public static function validate_page($url, $link_check = false)
 	{
 		$content = Util::fetch_html($url);
 		if ( ! $content) return array();
@@ -74,7 +74,7 @@ class Controller_Checklist
 			'same_urls_should_have_same_text',
 		);
 
-		if (isset($_POST['do_link_check']))
+		if ($link_check)
 		{
 			$codes[] = 'link_check';
 		}
@@ -83,7 +83,6 @@ class Controller_Checklist
 		{
 			Validate::$code($content);
 		}
-
 		if (Validate::get_error_ids())
 		{
 			foreach (Validate::get_error_ids() as $code => $errs)
@@ -94,7 +93,6 @@ class Controller_Checklist
 				}
 			}
 		}
-
 		return $all_errs;
 	}
 
@@ -240,61 +238,11 @@ class Controller_Checklist
 		View::assign('checklist_behaviour', intval(@$setup['checklist_behaviour']));
 		View::assign('target_level', intval(@$setup['target_level']));
 		View::assign('page', static::fetch_page($url));
+		View::assign('link_check', isset($_POST['do_link_check']));
 
-		$errs = static::validate_page($url);
-		View::assign('errs', $errs, false);
+//		$errs = static::validate_page($url);
+//		View::assign('errs', $errs, false);
 
-		// assign html source code
-		$raw = '';
-		if ($errs)
-		{
-			$html = Util::fetch_html($url);
-			$html = Util::s($html);
-
-			$replaces = array();
-			$ignores = array_merge(Validate::$ignores, Validate::$ignores_comment_out);
-			foreach ($ignores as $k => $ignore)
-			{
-				preg_match_all(Util::s($ignore), $html, $ms);
-				if ($ms)
-				{
-					foreach ($ms[0] as $kk => $vv)
-					{
-						$original = $vv;
-						$replaced = hash("sha256", $vv);
-						$replaces[$k][$kk] = array(
-							'original' => $original,
-							'replaced' => $replaced,
-						);
-						$html = str_replace($original, $replaced, $html);
-					}
-				}
-			}
-
-			foreach (Validate::get_errors() as $id => $v)
-			{
-				$html = str_replace(
-					$v,
-					'<strong id="a11yc_validate_'.$id.'">'.$v.'</strong>',
-					$html);
-			}
-
-			foreach ($replaces as $v)
-			{
-				foreach ($v as $vv)
-				{
-					$html = str_replace(
-						$vv['replaced'],
-						'<div style="color:#900">'.$vv['original'].'</div>',
-						$html);
-				}
-			}
-
-			$lines = explode("\n", $html);
-			$lines = array_map(function($v){return '<p><span>'.$v.'</span></p>';}, $lines);
-			$raw = join("\n", $lines);
-		}
-		View::assign('raw', $raw, false);
 
 		// cs
 		$bulk = Controller_Bulk::fetch_results();
