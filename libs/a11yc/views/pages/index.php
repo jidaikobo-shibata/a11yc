@@ -36,13 +36,18 @@ if ($pages):
 	<tbody>
 	<?php
 	$i = 0;
+	$no_url = isset($_GET['no_url']) ? \A11yc\Util::s(urldecode($_GET['no_url'])) : '';
 	foreach ($pages as $page):
 	$url = \A11yc\Util::s($page['url']);
+	$not_found_class = $no_url == $url ? ' not_found_url' : '';
 	$page_title = \A11yc\Util::s($page['page_title']);
-	$class_str = ++$i%2==0 ? ' class="even"' : ' class="odd"';
+	$class_str = ++$i%2==0 ? ' class="even'.$not_found_class.'"' : ' class="odd'.$not_found_class.'"';
 	?>
 	<tr<?php echo $class_str ?>>
-		<th><?php echo $page_title.'<br /><a href="'.$url.'">'.$url ?></a></th>
+		<th>
+			<?php echo $no_url == $url ? '<div><strong>'.A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR.'</strong></div>' : '' ?>
+			<?php echo $page_title.'<br /><a href="'.$url.'">'.$url ?></a>
+		</th>
 		<td class="a11yc_result"><?php echo \A11yc\Util::num2str($page['level']) ?></td>
 		<?php $done = @$page['done'] == 1 ? A11YC_LANG_PAGES_DONE : '' ; ?>
 		<td class="a11yc_result"><?php echo $done ?></td>

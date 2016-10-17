@@ -109,7 +109,7 @@ define('A11YC_LANG_CANDIDATES4', 'Selected in accordance with a web page that yo
 
 // checklist
 define('A11YC_LANG_CHECKLIST_TARGETPAGE', 'Target Page');
-define('A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR', 'The page does not exist, it has been deleted from list.');
+define('A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR', 'The page does not exist');
 define('A11YC_LANG_CHECKLIST_NOT_FOUND_ERR', 'Could not find an error in the automatic check');
 define('A11YC_LANG_CHECKLIST_TITLE', 'Checklist');
 define('A11YC_LANG_CHECKLIST_DONE', 'Done');

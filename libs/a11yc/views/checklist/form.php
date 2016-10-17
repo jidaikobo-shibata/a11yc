@@ -34,24 +34,24 @@
 
 	<!-- #a11yc_errors -->
 	<script type="text/javascript">
-	$(function() {
-		 $(document)
+	jQuery(function() {
+		 jQuery(document)
 			 .ajaxStart(function() {
-				 $('#a11yc_errors').addClass('a11yc_loading');
+				 jQuery('#a11yc_errors').addClass('a11yc_loading');
 			 })
 			 .ajaxStop(function() {
-				 $('#a11yc_errors').removeClass('a11yc_loading');
+				 jQuery('#a11yc_errors').removeClass('a11yc_loading');
 			 });
-		$.ajax({
+		jQuery.ajax({
 			type: 'GET',
-			url: '<?php echo dirname(A11YC_URL).'/validate.php' ?>',
+			url: '<?php echo A11YC_VALIDATE_URL.'/validate.php' ?>',
 			dataType: 'html',
 			data: {
 				url: '<?php echo $url ?>',
 				link_check: '<?php echo $link_check ?>'
 			},
 			success: function(data) {
-					$('#a11yc_errors').append(data);
+					jQuery('#a11yc_errors').append(data);
 			},
 			error:function() {
 					alert('failed');
