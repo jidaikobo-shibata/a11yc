@@ -240,10 +240,6 @@ class Controller_Checklist
 		View::assign('page', static::fetch_page($url));
 		View::assign('link_check', isset($_POST['do_link_check']));
 
-//		$errs = static::validate_page($url);
-//		View::assign('errs', $errs, false);
-
-
 		// cs
 		$bulk = Controller_Bulk::fetch_results();
 		$cs = Evaluate::fetch_results($url);
