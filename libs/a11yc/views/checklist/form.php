@@ -37,7 +37,6 @@
 	$(function() {
 		 $(document)
 			 .ajaxStart(function() {
-				 console.log(123);
 				 $('#a11yc_errors').addClass('a11yc_loading');
 			 })
 			 .ajaxStop(function() {

@@ -16,21 +16,31 @@ jQuery(function($){
 			$pass_items = $(),
 			$show_items = $(),
 			$show_items2 = $(),
-			query_arr=[],
-			param_arr=[];
+			query_arr = [],
+			param_arr = [];
 
 	$a11yc_content = $('.a11yc').eq(0);
-
+	var scrollable_element = (function(){
+		var $html, $el, rs, top;
+		$html = $('html');
+		top = $html.scrollTop();
+		$el = $('<div>').height(10000).prependTo('body');
+		$html.scrollTop(10000);
+		rs = !!$html.scrollTop() ? 'html' : 'body';
+		$html.scrollTop(top);
+		$el.remove();
+		return rs;
+	})();
 	$menu = $('#wpadminbar')[0] ? $('#wpadminbar') : $('#a11yc_menu ul');
 	$pagemenu = $('#a11yc_menu_principles')[0] ? $('#a11yc_menu_principles') : $pagemenu;
-	pagemenu_top = $pagemenu[0] ? $pagemenu.offset().top : 0;
+	set_pagemenu_top();
 
 	setTimeout(function(){
 		menu_height = $menu.outerHeight();
 		header_height = $('#a11yc_header')[0] ? $('#a11yc_header').outerHeight() : 0;
+		set_pagemenu_top();
 		if ($pagemenu[0])
 		{
-			pagemenu_top = $pagemenu.offset().top - menu_height;
 			if($('.a11yc_fixed_header')[0]) pagemenu_top = pagemenu_top - $(window).scrollTop();
 		}
 	},0);
@@ -46,7 +56,7 @@ jQuery(function($){
 $(window).on('resize', function(){
 	menu_height = $menu.outerHeight();
 	header_height = $('#a11yc_header').outerHeight();
-	pagemenu_top = $pagemenu[0] ? $pagemenu.offset().top - menu_height : 0;
+	set_pagemenu_top();
 	if($('.a11yc_fixed_header')[0]) pagemenu_top = pagemenu_top - $(window).scrollTop();
 	a11yc_fixed_header();
 });
@@ -58,22 +68,31 @@ if ($('#a11yc_header')[0])
 	$(window).on('scroll', a11yc_fixed_header);
 }
 
-function a11yc_fixed_header(){
-	if ($(window).scrollTop() > pagemenu_top)
+function a11yc_fixed_header(e){
+	if ($(window).scrollTop() >= pagemenu_top)
 	{
+		var scroll = $(window).scrollTop();
+		if($('.a11yc_fixed_header')[0]) return;
+		header_height = $('#a11yc_header').outerHeight(true)+$('#a11yc_header').offset().top;
 		$a11yc_content.addClass('a11yc_fixed_header');
 		if(!$('.wp-admin')[0])
 		{
-			$a11yc_content.css('paddingTop', menu_height);
+			var top_padding = $('#a11yc_header').outerHeight()+(parseInt($('#a11yc_header_p_1').css('margin-top'), 10))*2;
 		}
 		else
 		{
-			$a11yc_content.css('paddingTop', 0);
+			var top_padding = 0;
 		}
+		$a11yc_content.css('paddingTop', top_padding);
 		$('#a11yc_header').css('paddingTop', menu_height);
+		//この移動量をもう少し考える
+		$(scrollable_element).scrollTop($(window).scrollTop()-header_height+$('#a11yc_header').outerHeight()-$('#a11yc_menu_principles').outerHeight()+1);
 	}
-	else
+	
+//	remove
+	if($(window).scrollTop() == 0)
 	{
+		if(!$('.a11yc_fixed_header')[0]) return;
 		$a11yc_content.removeClass('a11yc_fixed_header');
 		if(!$('.wp-admin')[0])
 		{
@@ -85,6 +104,7 @@ function a11yc_fixed_header(){
 		}
 		$('#a11yc_header').css('paddingTop', 0);
 	}
+	set_pagemenu_top();
 }
 
 
@@ -93,7 +113,7 @@ if($('.a11yc_table_check')[0])
 {
 	$info = $('#a11yc_rest');
 
-	// レベルを絞り込み
+	// nallow level
 	a11yc_nallow_level();
 	$('#a11yc_narrow_level a').on('click keydown', a11yc_nallow_level);
 	function a11yc_nallow_level(e){
@@ -107,19 +127,18 @@ if($('.a11yc_table_check')[0])
 		$target.addClass('current');
 		for (var k in data_levels)
 		{
-//			$show_levels = $show_levels.add($('.'+data_levels[k]));
 			$show_levels = $show_levels.add($('[data-a11yc-level ='+data_levels[k]+']'));
 		}
 		$('.a11yc_section_criterion').addClass('a11yc_dn');
 		$show_levels.removeClass('a11yc_dn');
 
-		//テーブルの表示調整
+		//table display
 		a11yc_table_display();
-		//カウント
+		//count
 		a11yc_count_checkbox();
 	}
 
-	//チェック項目の表示・非表示切り替え
+	// toggle check items
 	a11yc_toggle_item();
 	$('.a11yc_table_check input[type="checkbox"]').on('click', a11yc_toggle_item);
 
@@ -143,7 +162,7 @@ if($('.a11yc_table_check')[0])
 		{
 			//位置調整用。チェックした行の表示がずれないように位置を取得しておく
 			current_position = input.offset().top;
-			if(input.prop('checked')) // チェックされたとき
+			if(input.prop('checked'))
 			{
 				data_pass_arr = input.data('pass') ? input.data('pass').split(',') : [];
 				for(var k in data_pass_arr)
@@ -172,7 +191,7 @@ if($('.a11yc_table_check')[0])
 						$pass_items = $pass_items.add('#'+data_pass_arr[k]);
 					}
 				});
-//ここまで、pass_itemsは大丈夫
+
 				$show_items.each(function(){
 					// 閉じるべきものの中にないものだけ開く
 					if($pass_items[0] && $pass_items.index(this) != -1 ) return;
@@ -183,32 +202,30 @@ if($('.a11yc_table_check')[0])
 
 			}
 		}
-		//テーブルの表示調整
+		// table display
 		a11yc_table_display();
-		//カウント
+		// count items
 		a11yc_count_checkbox();
 	}
 
 	//table display
 	function a11yc_table_display(){
 		if(!$('.a11yc_hide_passed_item')[0]) return;
-		//不要な項目を隠す
+		// hide disuse items
 		$('.a11yc form').find('.a11yc_section_guideline, .a11yc_table_check').each(function(){
 			var $t = !$(this).is('table') ? $(this) : $(this).closest('.a11yc_section_criterion');
 
-			if (!$(this).find('tr:not(.off)')[0]) //見えているものがない場合
+			if (!$(this).find('tr:not(.off)')[0]) // 見えているものがない場合
 			{
-//				$t.addClass('a11yc_dn');
 					$t.hide();
 			}
 			else
 			{
-//				$t.removeClass('a11yc_dn');
 				if(!$t.hasClass('a11yc_dn')) $t.show();
 			}
 		});
 
-		//表示されているtrのeven/odd
+		// addclass even/odd to visible tr
 		if ($('.a11yc_hide_passed_item')[0])
 		{
 			$('.a11yc_table_check').each(function(){
@@ -262,13 +279,13 @@ if($('.a11yc_table_check')[0])
 		$('#a11yc_rest_total').text(total);
 	}
 
-	// 現在のログインユーザを反映
+	// reflect current login user
 	var c_id = $('#a11yc_checks').data('a11ycCurrentUser');
 	$('#a11yc_checks :checkbox').on('click', function(){
 		var select = $(this).closest('tr').find('select');
 		if(c_id!=select.val()) select.val(c_id).a11yc_flash();
 	});
-	// チェックボックスクリック時の強調と、位置調整
+	// highlight/adjust position when checkbox is clicked
 	$('#a11yc_checks :checkbox').on('click', function(){
 		$(this).closest('tr').a11yc_flash();
 
@@ -279,7 +296,7 @@ if($('.a11yc_table_check')[0])
 		$('body').scrollTop($(window).scrollTop()-movement_distance);
 	});
 }
-// パスした項目の表示・非表示
+// show/hide passed items
 $('#a11yc_checklist_behaviour').on('click',function(){
 	if($('#a11yc_checks')[0]) $('#a11yc_checks').toggleClass('a11yc_hide_passed_item');
 });
@@ -299,29 +316,40 @@ $('#a11yc_update_all').on('change', function(){
 	}
 });
 
-/* disclosure */
+/* query request */
 query_arr = window.location.search.substring(1).split('&');
 for(var k in query_arr)
 {
 	var arr = query_arr[k].split('=');
 	param_arr[decodeURIComponent(arr[0])] = decodeURIComponent(arr[1]);
 }
-var $disclosure = $('.a11yc_disclosure');
-var $disclosure_target = $('.a11yc_disclosure_target');
-$disclosure.attr('tabindex', 0).each(function(index){
-	$(this).addClass('active');
-	if ($disclosure_target.eq(index).hasClass('show'))
-	{
-		$(this).addClass('show');
-	}
-	else
-	{
-		$(this).addClass('hide');
-	}
-});
-$disclosure_target.each(function(){
-	if (!$(this).hasClass('show')) $(this).addClass('hide').hide();
-});
+
+/* disclosure */
+var $disclosure = $(document).find('.a11yc_disclosure');
+var $disclosure_target = $(document).find('.a11yc_disclosure_target');
+a11yc_disclosure();
+function a11yc_disclosure(){
+	$disclosure = $(document).find('.a11yc_disclosure');
+	$disclosure_target = $(document).find('.a11yc_disclosure_target');
+	$disclosure.each(function(index){
+		if($(this).hasClass('active')) return;
+		$(this).attr('tabindex', 0).addClass('active');
+		if ($disclosure_target.eq(index).hasClass('show'))
+		{
+			$(this).addClass('show');
+		}
+		else
+		{
+			$(this).addClass('hide');
+		}
+	});
+	$disclosure_target.each(function(){
+		if($(this).hasClass('active')) return;
+		$(this).addClass('active');
+		if (!$(this).hasClass('show')) $(this).addClass('hide').hide();
+	});
+}
+
 $(document).on('click keydown', '.a11yc_disclosure',  function(e){
 	if(e && e.type=='keydown' && e.keyCode!=13) return;
 	var index = $(this).index('.a11yc_disclosure');
@@ -330,28 +358,31 @@ $(document).on('click keydown', '.a11yc_disclosure',  function(e){
 		$disclosure_target.eq(index).slideToggle(250).toggleClass('show hide')
 	).done(function(){
 		if(!$(this).closest('#a11yc_header')[0]) return;
-		pagemenu_top = $pagemenu[0] ? $pagemenu.offset().top - menu_height : 0;
+		set_pagemenu_top();
 	});
 });
 
+if($('#a11yc_checklist')[0]){
+	$(document).ajaxStop(function() {
+		a11yc_disclosure();
+		if(!$('.a11yc_fixed_header')[0])
+		{
+			set_pagemenu_top();
+		}
+	});
+}
+
+function set_pagemenu_top(){
+	pagemenu_top = $pagemenu[0] ? $pagemenu.offset().top - menu_height : 0;
+	header_height = $('#a11yc_header')[0] ? $('#a11yc_header').outerHeight() : 0;
+//	console.log("set: "+pagemenu_top);
+}
 
 
 /* === 動作補助 === */
 
-//ページ内リンクでのスクロール
-var is_html_scrollable = (function(){
-	var $html, $el, rs, top;
-	$html = $('html');
-	top = $html.scrollTop();
-	$el = $('<div>').height(10000).prependTo('body');
-	$html.scrollTop(10000);
-	rs = !!$html.scrollTop();
-	$html.scrollTop(top);
-	$el.remove();
-	return rs;
-})();
-
-// ページ内リンク
+// smooth scroll
+// links on the same page
 $(document).on('click', 'a[href^=#]', function(e){
 	e = e ? e : event;
 	e.preventDefault();
@@ -360,7 +391,7 @@ $(document).on('click', 'a[href^=#]', function(e){
 	if (href!='#')
 	{
 		$t = href != '' ? $(href) : $('html');
-		// ターゲットがフォーカス対象になってない場合はtabindex-1を付与する
+		// add tabindex -1
 		if( !$t.is(':input') && !$t.is('a') && !$t.attr('tabindex')) $t.attr('tabindex', '-1');
 		setTimeout(function(){
 			a11yc_smooth_scroll($t);
@@ -378,7 +409,7 @@ function a11yc_smooth_scroll($t) {
 	a11yc_headerheight = $('#a11yc_menu ul').height()+$('#a11yc_header').height();
 	margin = 40;
 	position = position.top-$(window).scrollTop()-a11yc_headerheight;
-	$(is_html_scrollable ? 'html' : 'body').animate({scrollTop: $t.offset().top-a11yc_headerheight-margin},500);
+	$(scrollable_element).animate({scrollTop: $t.offset().top-a11yc_headerheight-margin},500);
 }
 
 $('.a11yc').on('keydown', function(e){
@@ -396,26 +427,25 @@ function a11yc_adjust_position($obj) {
 	},100);
 }
 
-//一時的なハイライト
+//flash highlight
 $.fn.a11yc_flash = function(){
 	$(this).addClass('a11yc_flash');
 	setTimeout(function($obj){ $obj.removeClass('a11yc_flash') }, 150, $(this));
-	//消えるのもふわっとしたい
 }
 
-//thのクリックをチェックボックスに伝播
+// propagates click event from th to child checkbox
 $('#a11yc_checks th').on('click', function(e){
 	if(e.target!=this) return;
 	$(this).find(':checkbox').click();
 });
 
 
-//JavaScript有効時に表示、無効時にはCSSで非表示
+// display when javascript is active
 	$('.a11yc_hide_if_no_js').removeClass('a11yc_hide_if_no_js').addClass('a11yc_show_if_js');
 	$('.a11yc_hide_if_no_js').find(':disabled').prop("disabled", false);
 
-// titleツールチップ
-// title要素をaria-labelに置換する。本文内のリンクでは中身のskip文字列を読むので大丈夫。中身にaria-hiddenを与えたらちょうどよくなる？
+// title_tooltip
+// replace title attr to aria-label.when element is link, screen reader speach out inner skip str.
 a11yc_tooltip();
 function a11yc_tooltip(){
 	var $a11yc_tooltip = $('<span id="a11yc_tooltip" aria-hidden="true" role="presentation"></span>').hide().appendTo('body');
@@ -449,72 +479,4 @@ function a11yc_tooltip(){
 		}
 	},'[title], [ariaLabel]');
 }
-
-	//yml確認用
-/*	if($('#a11yc_checklist')[0]){
-		var $panel = $('<div id="panel" class="a11yc_sansserif" style="position: fixed; width: 600px; resize: vertical; height: 800px;background-color: #fff;font-size: 80%; overflow-y: auto; top: 40px; right: 0; box-shadow: 0 0 3px 0 rgba(0,0,0,.25); border: 1px solid #9bc; z-index: 10000;padding:0 5px;">').appendTo('body');
-		var $button = $('<span class="a11yc_sansserif" style="position: fixed; top: 40px; right: 0; display: inline-block; padding: 2px 5px;border-radius: 3px; background-color: #e66;font-size: 12px; font-weight: bold; color: #fff; z-index: 20000;cursor: pointer;">ｘ閉じる</span>').appendTo('body');
-		$button.on('click',function(){
-			$panel.add($button).remove();
-		});
-		var $checked_arr = $('.a11yc_table_check input[type="checkbox"]');
-		var yml_arr = [];
-		var yml_passed = [];
-		var yml_diff = [];
-		$checked_arr.each(function(index){
-			var arr = $(this).data('pass').split(',');
-			yml_arr[this.id] = arr;
-			for(var k in arr)
-			{
-				yml_passed[arr[k]] = typeof yml_passed[arr[k]] =='undefined' ? [this.id] : yml_passed[arr[k]].concat([this.id]);
-			}
-		});
-
-		//出力
-		var str = '';
-		for(var k in yml_arr)
-		{
-			var label = $('#'+k).parent().text();
-			var level = $('#'+k).closest('.a11yc_section_criterion').data('a11ycLevel').replace('l_', '').toUpperCase();
-			label = label+' ('+level+')';
-			yml_arr_str = "";
-			yml_passed_str = "";
-			for(var kk in yml_arr[k])
-			{
-				yml_diff_str = $.inArray(yml_arr[k][kk], yml_passed[k])==-1 ? ' color: #e33;' : '';
-				yml_current_str = yml_arr[k][kk]==[k] ? ' color: #aaa;' : '';
-				yml_arr_str = yml_arr_str+'<a href="" title="'+$('#'+yml_arr[k][kk]).parent().text()+'" style="cursor: help;'+yml_diff_str+yml_current_str+'">'+yml_arr[k][kk]+'</a>, ';
-			}
-			for(var kk in yml_passed[k])
-			{
-				yml_diff_str = $.inArray(yml_passed[k][kk], yml_arr[k])==-1 ? ' color: #e33;' : '';
-				yml_current_str = yml_passed[k][kk]==[k] ? ' color: #aaa;' : '';
-				yml_passed_str = yml_passed_str+'<a href="" title="'+$('#'+yml_passed[k][kk]).parent().text()+'" style="cursor: help;'+yml_diff_str+yml_current_str+'">'+yml_passed[k][kk]+'</a>, ';
-			}
-			var yml_nonexist_arr = $('#'+k).data('nonExist') ? $('#'+k).data('nonExist').split(',') : '';
-			var yml_nonexist_str = '';
-			for(var kk in yml_nonexist_arr )
-			{
-				yml_nonexist_str = yml_nonexist_str+'<a href="" title="'+$('#a11yc_c_'+yml_nonexist_arr[kk]).find('h4').text()+'" style="cursor: help;">'+yml_nonexist_arr[kk]+'</a>, ';
-			}
-			if(yml_passed[k] && yml_arr[k] && yml_arr[k].length == yml_passed[k].length)
-			{
-				if(!yml_nonexist_str)
-				{
-					str = str+"<h1 style='font-size: 1em; border-bottom: 1px solid #ccc; margin: 5px 0 1em; color: #aaa;font-weight: normal;'>□"+k+" "+label+' (差なし)'+"</h1>";
-				}
-				else
-				{
-					str = str+ "<h1 style='font-size: 1em; border-bottom: 1px solid #ccc; margin-bottom: 0;'>□" + k+" "+label +" (差なし)</h1><dl style='margin-top: 2px;'><dt style='color: green;'>適用なし適合になる達成基準:</dt><dd>"+yml_nonexist_str+"</dd></dl>";
-				}
-				continue;
-			}
-			str = str+ "<h1 style='font-size: 1em; border-bottom: 1px solid #ccc; margin-bottom: 0;'>■" + k+" "+label +"</h1><dl style='margin-top: 2px;'><dt>\n選択するとパスする項目:</dt><dd>"+yml_arr_str+"</dd>";
-			if(yml_passed[k]) str = str+"<dt>この項目をパスにする項目:</dt><dd>"+yml_passed_str+"</dd>";
-			if(yml_nonexist_str) str = str+"<dt style='color: green;'>適用なし適合になる達成基準:</dt><dd>"+yml_nonexist_str+"</dd>";
-			str = str+"</dl>";
-		}
-		$panel.html(str);
-	}
-	*/
 });

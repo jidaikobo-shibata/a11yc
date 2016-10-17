@@ -303,6 +303,12 @@ tr.a11yc_flash {
 	padding: 26px 8px 0;
 	z-index: 90;
 }
+.a11yc_fixed_header > h1 {
+	clip: rect(1px 1px 1px 1px);
+	clip: rect(1px,1px,1px,1px);
+	position: absolute;
+	left: 0;
+}
 .wp-admin .a11yc_fixed_header #a11yc_header,
 .wp-admin #a11y_submit {
 	padding-right: 0;
@@ -510,15 +516,15 @@ table#a11yc_rest {
 	text-align: right;
 	width: 3em;
 }
-
 #a11yc_errors,
 #a11yc_menu_principles {
 	clear: both;
 }
-#a11yc_errors {
+#a11yc_errors ul,
+#a11yc_errors p {
 	margin: 1em 0;
 }
-ul#a11yc_errors {
+#a11yc_errors ul {
 	padding: 10px 5px 10px 40px;
 	background-color: #fee;
 }

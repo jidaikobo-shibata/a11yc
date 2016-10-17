@@ -1,7 +1,7 @@
 <?php if ($errs):
 	// error
 ?>
-	<ul id="a11yc_errors" class="a11yc_hide_if_fixedheader">
+	<ul class="a11yc_hide_if_fixedheader">
 	<?php foreach ($errs as $err):  ?>
 		<li><?php echo $err ?></li>
 	<?php endforeach;  ?>
@@ -13,6 +13,6 @@
 		</li>
 	</ul>
 <?php else:
-	echo '<p id="a11yc_errors" class="a11yc_hide_if_fixedheader">'.A11YC_LANG_CHECKLIST_NOT_FOUND_ERR.'</p>';
+	echo '<p class="a11yc_hide_if_fixedheader">'.A11YC_LANG_CHECKLIST_NOT_FOUND_ERR.'</p>';
 endif; ?>
 <!-- /#a11yc_errors -->
