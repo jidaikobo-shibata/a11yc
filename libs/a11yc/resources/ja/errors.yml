@@ -68,6 +68,6 @@ errors:
     criterion: 2-4-9
     code: 2-4-9a
   duplicated_attributes:
-    message: 属性値が重複しています
+    message: 属性値が重複している可能性があります
     criterion: 4-1-1
     code: 4-1-1a

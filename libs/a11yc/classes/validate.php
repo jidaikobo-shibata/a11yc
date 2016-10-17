@@ -123,7 +123,7 @@ class Validate
 		}
 
 		// occasionally JavaScript provides function by id or class.
-		if (strpos($str, 'javascript:void') !== false)
+		if (isset($attrs['href']) && strpos($attrs['href'], 'javascript') === 0)
 		{
 			return true;
 		}
@@ -312,8 +312,17 @@ class Validate
 			if (static::is_ignorable($ms[0][$k])) continue; // ignorable
 			if ( ! empty(trim(strip_tags($m)))) continue; // not image only
 			$attrs = static::get_attributes($m);
+			$alt = '';
+			foreach ($attrs as $kk => $vv)
+			{
+				if (strpos($kk, 'alt') !== false)
+				{
+					$alt.= $vv;
+				}
+			}
+			$alt = trim($alt);
 
-			if ( ! isset($attrs['alt']) || empty($attrs['alt']))
+			if ( ! $alt)
 			{
 				static::$error_ids['is_not_empty_alt_attr_of_img_inside_a'][$k]['id'] = Util::s($ms[0][$k]);
 				static::$error_ids['is_not_empty_alt_attr_of_img_inside_a'][$k]['str'] = Util::s(@basename(@$attrs['src']));
@@ -386,6 +395,7 @@ class Validate
 		{
 			if (substr($m, 0, 6) !== '<input') continue;
 			$attrs = static::get_attributes($m);
+			if ( ! isset($attrs['type'])) continue; // unless type it is recognized as a text
 			if (isset($attrs['type']) && $attrs['type'] != 'image') continue;
 
 			if ( ! isset($attrs['alt']) || empty($attrs['alt']))
@@ -442,7 +452,9 @@ class Validate
 		preg_match_all("/\<([^\> ]+)/i", $body_html, $tags);
 
 		// ignore elements
-		$ignores = array('img', 'br', 'hr', 'base', 'input', 'param', 'area', 'embed', '!doctype', 'meta', 'link', 'html', '/html', '![if', '![endif]', '?xml', 'track', 'source');
+		$endless = array('img', 'wbr', 'br', 'hr', 'base', 'input', 'param', 'area', 'embed', 'meta', 'link', 'track', 'source', 'col', 'command');
+		$ignores = array('!doctype', 'html', '/html', '![if', '![endif]', '?xml');
+		$ignores = array_merge($ignores, $endless);
 
 		// tag suspicious elements
 		$suspicious_opens = array();
@@ -473,6 +485,16 @@ class Validate
 			$suspicious_ends_results,
 			$suspicious_opens_results);
 
+		// endless
+		foreach ($endless as $v)
+		{
+			if (strpos($body_html, '</'.$v) !== false)
+			{
+				$suspicious[] = '</'.$v;
+			}
+		}
+
+		// add errors
 		if ($suspicious)
 		{
 			foreach ($suspicious as $k => $v)
@@ -756,12 +778,16 @@ class Validate
 			// strip m except for alt
 			// do I have to care about title attribute or plural imgs?
 			$text = $ms[2][$k];
-			preg_match("/\<\w+ +?[^\>]*?alt *?= *?[\"']([^\"']*?)[\"'][^\>]*?\>/", $text, $mms);
+			preg_match_all("/\<\w+ +?[^\>]*?alt *?= *?[\"']([^\"']*?)[\"'][^\>]*?\>/", $text, $mms);
 			if ($mms)
 			{
-				$text = str_replace($mms[0], $mms[1], $text);
+				foreach ($mms[0] as $kk => $vv)
+				{
+					$text = str_replace($mms[0][$kk], $mms[1][$kk], $text);
+				}
 			}
 			$text = strip_tags($text);
+			$text = trim($text);
 
 			// check
 			if ( ! array_key_exists($url, $urls))
