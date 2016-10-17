@@ -12,7 +12,8 @@
 namespace A11yc;
 class Validate
 {
-	protected static $root_path;
+	protected static $base_path;
+	protected static $target_path;
 	protected static $error_ids = array();
 	protected static $errors = array();
 
@@ -27,15 +28,16 @@ class Validate
 	);
 
 	/**
-	 * set_root_path
+	 * set_base_path
 	 *
-	 * @param   strings     $url
+	 * param string $target_path
 	 * @return  void
 	 */
-	public static function set_root_path($url)
+	public static function set_base_path($target_path)
 	{
-		$paths = explode('/', $url);
-		static::$root_path = join('/', array_slice($paths, 0, 3));
+		$setup = Controller_Setup::fetch_setup();
+		static::$base_path = rtrim($setup['base_path'], '/');
+		static::$target_path = rtrim($target_path, '/');
 	}
 
 	/**
@@ -135,6 +137,10 @@ class Validate
 	 */
 	public static function correct_url($str)
 	{
+		// base path
+		$maybe_base_pathes = explode("/", \A11yc\Validate::$target_path);
+		static::$base_path = static::$base_path ?: join("/", array_slice($maybe_base_pathes, 0, 3));
+
 		// care with start with '//'
 		if (substr($str, 0, 2) == '//')
 		{
@@ -145,7 +151,15 @@ class Validate
 			// root relative path.
 			if ($str[0] == '/' && $str[1] != '/')
 			{
-				$str = $str[0] == '/' ? \A11yc\Validate::$root_path.$str : $str;
+				$str = $str[0] == '/' ? \A11yc\Validate::$base_path.$str : $str;
+			}
+			elseif(substr($str, 0, 2) == './')
+			{
+				$str = \A11yc\Validate::$target_path.'/'.substr($str, 2);
+			}
+			elseif(substr($str, 0, 3) == '../')
+			{
+				$str = dirname(dirname(\A11yc\Validate::$target_path)).'/'.substr($str, 3);
 			}
 
 			// scheme
@@ -158,7 +172,7 @@ class Validate
 			else if ($str[0] != '#')
 			{
 				$ds = $str[0] != '/' ? '/' : '';
-				$str = \A11yc\Validate::$root_path.$ds.$str;
+				$str = \A11yc\Validate::$base_path.$ds.$str;
 			}
 			// maybe fragment
 			else
@@ -640,6 +654,7 @@ class Validate
 			{
 				$text = str_replace($mms[0], $mms[1], $text);
 			}
+			$text = strip_tags($text);
 
 			// check
 			if ( ! array_key_exists($url, $urls))

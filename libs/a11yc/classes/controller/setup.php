@@ -65,6 +65,7 @@ class Controller_Setup
 				$sql.= '`contact` = ?, ';
 				$sql.= '`policy` = ?, ';
 				$sql.= '`report` = ?,';
+				$sql.= '`base_path` = ?,';
 				$sql.= '`checklist_behaviour` = ?;';
 				$r = Db::execute($sql, array(
 						$target_level,
@@ -76,6 +77,7 @@ class Controller_Setup
 						$post['contact'],
 						$post['policy'],
 						$post['report'],
+						$post['base_path'],
 						$checklist_behaviour
 					));
 			}
@@ -91,6 +93,7 @@ class Controller_Setup
 				$sql.= '`contact`, ';
 				$sql.= '`policy`, ';
 				$sql.= '`report`, ';
+				$sql.= '`base_path`, ';
 				$sql.= '`checklist_behaviour`)';
 				$sql.= ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
 				$r = Db::execute($sql, array(
@@ -103,6 +106,7 @@ class Controller_Setup
 						$post['contact'],
 						$post['policy'],
 						$post['report'],
+						$post['base_path'],
 						$checklist_behaviour
 					));
 			}

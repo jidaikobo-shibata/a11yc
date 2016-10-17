@@ -92,4 +92,9 @@
 <?php
 	$checked = $setup['checklist_behaviour'] ? ' checked="checked"' : '';
 ?>
-<label for="a11yc_checklist_behaviour"><input type="checkbox" name="checklist_behaviour" id="a11yc_checklist_behaviour" value="1"<?php echo $checked ?> /><?php echo A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR_DISAPPEAR ?></label>
+<div><label for="a11yc_checklist_behaviour"><input type="checkbox" name="checklist_behaviour" id="a11yc_checklist_behaviour" value="1"<?php echo $checked ?> /><?php echo A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR_DISAPPEAR ?></label></div>
+
+<dl>
+<dt><label for="a11yc_base_path"><?php echo A11YC_LANG_SETUP_LINKCHECK_BASE_PATH ?></label></dt>
+	<dd>(<?php echo A11YC_LANG_SETUP_LINKCHECK_BASE_PATH_EXP ?>)<br /><input type="text" name="base_path" id="a11yc_base_path" size="40" value="<?php echo s(@$setup['base_path']) ?>" /></dd>
+</dl>

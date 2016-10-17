@@ -83,6 +83,9 @@ define('A11YC_LANG_SETUP_TITLE', '設定');
 define('A11YC_LANG_SETUP_TITLE_ETC', 'その他の設定');
 define('A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR', 'チェックリストの振る舞い');
 define('A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR_DISAPPEAR', 'チェック時にパスした項目は表示しない');
+define('A11YC_LANG_SETUP_LINKCHECK_BASE_PATH', 'サイトの起点のURL');
+define('A11YC_LANG_SETUP_LINKCHECK_BASE_PATH_EXP', 'リンクチェック時に用います');
+
 define('A11YC_LANG_DECLARE_DATE', '表明日');
 define('A11YC_LANG_STANDARD', '規格の種類');
 define('A11YC_LANG_DEPENDENCIES', '依存したウェブコンテンツ技術のリスト');

@@ -53,7 +53,7 @@ class Controller_Checklist
 		$content = Util::fetch_html($url);
 		if ( ! $content) return array();
 		$all_errs = array();
-		Validate::set_root_path($url);
+		Validate::set_base_path($url);
 
 		$codes = array(
 			'is_exist_alt_attr_of_img',

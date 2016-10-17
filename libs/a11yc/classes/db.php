@@ -94,6 +94,12 @@ class Db extends \Kontiki\Db
 				$sql.= ');';
 				static::execute($sql);
 			}
+
+			if ( ! static::is_fields_exist(A11YC_TABLE_SETUP, array('base_path')))
+			{
+				$sql = 'ALTER TABLE '.A11YC_TABLE_SETUP.' ADD `base_path` text;';
+				static::execute($sql);
+			}
 		}
 	}
 }
