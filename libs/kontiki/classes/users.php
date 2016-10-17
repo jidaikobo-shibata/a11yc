@@ -43,8 +43,8 @@ class Users
 	 */
 	public static function fetch_current_user()
 	{
-		if ( ! isset($_SESSION['auth']['uid'][0])) return array();
-		$uid = $_SESSION['auth']['uid'][0];
+		if ( ! Session::show('auth', 'uid')[0]) return array();
+		$uid = Session::show('auth', 'uid')[0];
 		$users = static::fetch_users();
 		foreach ($users as $k => $v)
 		{
