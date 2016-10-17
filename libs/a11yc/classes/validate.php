@@ -111,10 +111,12 @@ class Validate
 	 */
 	public static function is_ignorable($str)
 	{
+		$attrs = static::get_attributes($str);
+
 		// Strictly this is not so correct. but it seems be considered.
 		if (
-			preg_match("/ tabindex *?= *?[\"']-1[\"']/i", $str) ||
-			preg_match("/ aria-hidden *?= *?[\"']true[\"']/i", $str)
+			isset($attrs['tabindex']) && $attrs['tabindex'] = -1 ||
+			isset($attrs['aria-hidden']) && $attrs['tabindex'] = 'true'
 		)
 		{
 			return true;
@@ -122,6 +124,12 @@ class Validate
 
 		// occasionally JavaScript provides function by id or class.
 		if (strpos($str, 'javascript:void') !== false)
+		{
+			return true;
+		}
+
+		// occasionally JavaScript use #.
+		if (isset($attrs['href']) && $attrs['href'] == '#')
 		{
 			return true;
 		}
@@ -138,8 +146,9 @@ class Validate
 	public static function correct_url($str)
 	{
 		// base path
-		$maybe_base_pathes = explode("/", \A11yc\Validate::$target_path);
+		$maybe_base_pathes = explode("/", static::$target_path);
 		static::$base_path = static::$base_path ?: join("/", array_slice($maybe_base_pathes, 0, 3));
+		if (empty($str)) return static::$target_path;
 
 		// care with start with '//'
 		if (substr($str, 0, 2) == '//')
@@ -151,15 +160,15 @@ class Validate
 			// root relative path.
 			if ($str[0] == '/' && $str[1] != '/')
 			{
-				$str = $str[0] == '/' ? \A11yc\Validate::$base_path.$str : $str;
+				$str = $str[0] == '/' ? static::$base_path.$str : $str;
 			}
 			elseif(substr($str, 0, 2) == './')
 			{
-				$str = \A11yc\Validate::$target_path.'/'.substr($str, 2);
+				$str = static::$target_path.'/'.substr($str, 2);
 			}
 			elseif(substr($str, 0, 3) == '../')
 			{
-				$str = dirname(dirname(\A11yc\Validate::$target_path)).'/'.substr($str, 3);
+				$str = dirname(dirname(static::$target_path)).'/'.substr($str, 3);
 			}
 
 			// scheme
@@ -172,7 +181,7 @@ class Validate
 			else if ($str[0] != '#')
 			{
 				$ds = $str[0] != '/' ? '/' : '';
-				$str = \A11yc\Validate::$base_path.$ds.$str;
+				$str = static::$base_path.$ds.$str;
 			}
 			// maybe fragment
 			else
@@ -181,6 +190,85 @@ class Validate
 			}
 		}
 		return $str;
+	}
+
+	/**
+	 * get_attributes
+	 *
+	 * @param   strings $attrs
+	 * @return  array()
+	 */
+	public static function get_attributes($str)
+	{
+		static $retvals = array();
+		if (isset($retvals[$str])) return $retvals[$str];
+
+		$str = preg_replace("/ +/", " ", $str); // remove plural spaces
+		$str = str_replace('"', "'", $str); // integration quote
+		$str = str_replace("= '", "='", $str); // integration delimiter
+		$str = str_replace('<', " <", $str); // divide tags
+		$attrs = array();
+
+		foreach (explode(' ', $str) as $k => $v)
+		{
+			if (empty($v)) continue;
+			if ($v[0] == '<') continue;
+			if (strpos($v, "='") === false) continue;
+			list($key, $val) = explode("='", $v);
+			$val = rtrim($val, ">");
+			// suspicious
+			if (array_key_exists($key, $attrs))
+			{
+				$key = $key.'_'.$k;
+				$attrs['suspicious'] = TRUE;
+			}
+			$attrs[$key] = trim($val, "'");
+		}
+		$retvals[$str] = $attrs;
+
+		return $retvals[$str];
+	}
+
+	/**
+	 * get_elements_by_re
+	 *
+	 * @param   strings $str
+	 * @param   strings $type (anchors|anchors_and_values|imgs|tags)
+	 * @return  void
+	 */
+	public static function get_elements_by_re($str, $type = 'tags')
+	{
+		static $retvals = array();
+		if (isset($retvals[$type])) return $retvals[$type];
+
+		switch ($type)
+		{
+			case 'anchors':
+				if (preg_match_all("/\<a([^\>]+)\>/i", $str, $ms))
+				{
+					$retvals[$type] = $ms;
+				}
+				break;
+			case 'anchors_and_values':
+				if (preg_match_all("/\<a([^\>]+)\>(.*?)\<\/a\>/si", $str, $ms))
+				{
+					$retvals[$type] = $ms;
+				}
+				break;
+			case 'imgs':
+				if (preg_match_all("/\<img([^\>]+)\>/i", $str, $ms))
+				{
+					$retvals[$type] = $ms;
+				}
+				break;
+			default:
+				if (preg_match_all("/(?:\<[a-zA-Z1-6]+? +?([^\>]*?)[\/]*\>|\<[a-zA-Z1-6]+?[\/]*\>)/i", $str, $ms))
+				{
+					$retvals[$type] = $ms;
+				}
+				break;
+		}
+		return $retvals[$type];
 	}
 
 	/**
@@ -193,14 +281,14 @@ class Validate
 	{
 		$str = static::ignore_elements($str);
 
-		preg_match_all("/\<img([^\>]+)\>/i", $str, $ms);
+		$ms = static::get_elements_by_re($str, 'imgs');
 		foreach ($ms[1] as $k => $m)
 		{
-			if ( ! preg_match("/ alt *?= *?[\"']/i", $m))
+			$attrs = static::get_attributes($m);
+			if ( ! array_key_exists('alt', $attrs))
 			{
-				preg_match("/ src *?= *?[\"']([^\"']+?)[\"']/i", $m, $im);
 				static::$error_ids['is_exist_alt_attr_of_img'][$k]['id'] = Util::s($ms[0][$k]);
-				static::$error_ids['is_exist_alt_attr_of_img'][$k]['str'] = Util::s(@basename($im[1]));
+				static::$error_ids['is_exist_alt_attr_of_img'][$k]['str'] = Util::s(@basename(@$attrs['src']));
 				static::$errors[] = Util::s($ms[0][$k]);
 			}
 		}
@@ -216,24 +304,19 @@ class Validate
 	{
 		$str = static::ignore_elements($str);
 
-		preg_match_all("/\<a[^\>]+?\>\<img ([^\>]+)\>\<\/a\>/i", $str, $ms);
-		foreach ($ms[1] as $k => $m)
-		{
-			if (static::is_ignorable($ms[0][$k])) continue;
+		$ms = static::get_elements_by_re($str, 'anchors_and_values');
 
-			if (preg_match("/ alt *?= *?[\"'] *?[\"']/i", $m))
+		foreach ($ms[2] as $k => $m)
+		{
+			if (strpos($m, '<img') === false) continue; // without image
+			if (static::is_ignorable($ms[0][$k])) continue; // ignorable
+			if ( ! empty(trim(strip_tags($m)))) continue; // not image only
+			$attrs = static::get_attributes($m);
+
+			if ( ! isset($attrs['alt']) || empty($attrs['alt']))
 			{
-				preg_match("/ src *?= *?[\"']([^\"']+?)[\"']/i", $m, $im);
-				if ($im)
-				{
-					static::$error_ids['is_not_empty_alt_attr_of_img_inside_a'][$k]['id'] = Util::s($ms[0][$k]);
-					static::$error_ids['is_not_empty_alt_attr_of_img_inside_a'][$k]['str'] = Util::s(@basename($im[1]));
-				}
-				else
-				{
-					static::$error_ids['is_not_empty_alt_attr_of_img_inside_a'][$k]['id'] = Util::s($ms[0][$k]);
-					static::$error_ids['is_not_empty_alt_attr_of_img_inside_a'][$k]['str'] = '" "';
-				}
+				static::$error_ids['is_not_empty_alt_attr_of_img_inside_a'][$k]['id'] = Util::s($ms[0][$k]);
+				static::$error_ids['is_not_empty_alt_attr_of_img_inside_a'][$k]['str'] = Util::s(@basename(@$attrs['src']));
 				static::$errors[] = Util::s($ms[0][$k]);
 			}
 		}
@@ -249,16 +332,17 @@ class Validate
 	{
 		$str = static::ignore_elements($str);
 
-		preg_match_all(
-			"/<a +[^>]*?href *?= *?['\"]([^\"']+?)['\"][^>]*?> *?".A11YC_LANG_HERE." *?<\/a>/i",
-			$str,
-			$ms);
+		$ms = static::get_elements_by_re($str, 'anchors_and_values');
 
-		foreach ($ms[1] as $k => $m)
+		foreach ($ms[2] as $k => $m)
 		{
-			static::$error_ids['is_not_here_link'][$k]['id'] = Util::s($ms[0][$k]);
-			static::$error_ids['is_not_here_link'][$k]['str'] = @Util::s($m);
-			static::$errors[] = Util::s($ms[0][$k]);
+			$m = trim($m);
+			if ($m == A11YC_LANG_HERE)
+			{
+				static::$error_ids['is_not_here_link'][$k]['id'] = Util::s($ms[0][$k]);
+				static::$error_ids['is_not_here_link'][$k]['str'] = @Util::s($m);
+				static::$errors[] = Util::s($ms[0][$k]);
+			}
 		}
 	}
 
@@ -272,14 +356,16 @@ class Validate
 	{
 		$str = static::ignore_elements($str);
 
-		preg_match_all("/\<area([^\>]+)\>/i", $str, $ms);
-		foreach ($ms[1] as $k => $m)
+		$ms = static::get_elements_by_re($str, 'tags');
+
+		foreach ($ms[0] as $k => $m)
 		{
-			if ( ! preg_match("/ alt *?= *?[\"']/i", $m) || preg_match("/ alt *?= *?[\"'] *?[\"']/i", $m))
+			if (substr($m, 0, 5) !== '<area') continue;
+			$attrs = static::get_attributes($m);
+			if ( ! isset($attrs['alt']) || empty($attrs['alt']))
 			{
-				preg_match("/ coords *?= *?[\"']([^\"']+?)[\"']/i", $m, $im);
 				static::$error_ids['is_are_has_alt'][$k]['id'] = Util::s($ms[0][$k]);
-				static::$error_ids['is_are_has_alt'][$k]['str'] = Util::s(@basename($im[1]));
+				static::$error_ids['is_are_has_alt'][$k]['str'] = Util::s(@basename(@$attrs['coords']));
 				static::$errors[] = Util::s($ms[0][$k]);
 			}
 		}
@@ -295,16 +381,17 @@ class Validate
 	{
 		$str = static::ignore_elements($str);
 
-		preg_match_all("/\<input([^\>]+?)\>/i", $str, $ms);
-		foreach($ms[1] as $k => $m){
-			if (
-				(strpos($m, 'image') && ! preg_match("/ alt *?= *?[\"']/i", $m)) ||
-				(strpos($m, 'image') && preg_match("/ alt *?= *?[\"'] *?[\"']/i", $m))
-			)
+		$ms = static::get_elements_by_re($str, 'tags');
+		foreach($ms[0] as $k => $m)
+		{
+			if (substr($m, 0, 6) !== '<input') continue;
+			$attrs = static::get_attributes($m);
+			if (isset($attrs['type']) && $attrs['type'] != 'image') continue;
+
+			if ( ! isset($attrs['alt']) || empty($attrs['alt']))
 			{
-				preg_match("/ src *?= *?[\"']([^\"']+?)[\"']/i", $m, $im);
 				static::$error_ids['is_img_input_has_alt'][$k]['id'] = Util::s($ms[0][$k]);
-				static::$error_ids['is_img_input_has_alt'][$k]['str'] = Util::s(@basename($im[1]));
+				static::$error_ids['is_img_input_has_alt'][$k]['str'] = Util::s(@basename(@$attrs['src']));
 				static::$errors[] = Util::s($ms[0][$k]);
 			}
 		}
@@ -388,7 +475,7 @@ class Validate
 
 		if ($suspicious)
 		{
-			foreach ($suspicious as $v)
+			foreach ($suspicious as $k => $v)
 			{
 				static::$error_ids['suspicious_elements'][$k]['id'] = Util::s('<'.$v);
 				static::$error_ids['suspicious_elements'][$k]['str'] = Util::s($v);
@@ -406,23 +493,21 @@ class Validate
 	public static function is_not_same_alt_and_filename_of_img($str)
 	{
 		$str = static::ignore_elements($str);
-
-		preg_match_all("/\<img([^\>]+)\>/i", $str, $ms);
+		$ms = static::get_elements_by_re($str, 'imgs');
 		foreach ($ms[1] as $k => $m)
 		{
-			if (preg_match("/ alt *?= *?[\"']([^\"']+?)[\"']/i", $m, $m_alt))
+			$attrs = static::get_attributes($m);
+			if ( ! isset($attrs['alt']) ||  ! isset($attrs['src'])) continue;
+
+			$filename = basename($attrs['src']);
+			if (
+				$attrs['alt'] == $filename || // within extension
+				$attrs['alt'] == substr($filename, 0, strrpos($filename, '.')) // without extension
+			)
 			{
-				preg_match("/ src *?= *?[\"']([^\"']+?)[\"']/i", $m, $m_src);
-				$filename = basename($m_src[1]);
-				if (
-					$filename == $m_alt[1] || // within extension
-					substr($filename, 0, strrpos($filename, '.')) == $m_alt[1] // without extension
-				)
-				{
-					static::$error_ids['is_not_same_alt_and_filename_of_img'][$k]['id'] = Util::s($ms[0][$k]);
-					static::$error_ids['is_not_same_alt_and_filename_of_img'][$k]['str'] = Util::s($filename);
-					static::$errors[] = Util::s($ms[0][$k]);
-				}
+				static::$error_ids['is_not_same_alt_and_filename_of_img'][$k]['id'] = Util::s($ms[0][$k]);
+				static::$error_ids['is_not_same_alt_and_filename_of_img'][$k]['str'] = Util::s($filename);
+				static::$errors[] = Util::s($ms[0][$k]);
 			}
 		}
 	}
@@ -459,24 +544,27 @@ class Validate
 		$body_html = static::ignore_elements($str, true);
 
 		$banneds = array(
-			'center',
-			'font',
-			'blink',
-			'marquee',
+			'<center',
+			'<font',
+			'<blink',
+			'<marquee',
 		);
 
-		preg_match_all("/\<([^\> ]+)/i", $body_html, $tags);
+		$ms = static::get_elements_by_re($body_html, 'tags');
 
-		foreach ($tags[1] as $k => $tag)
+		foreach ($ms[0] as $k => $m)
 		{
-			if (in_array($tag, $banneds))
+			foreach ($banneds as $banned)
 			{
-				static::$error_ids['is_not_exists_meanless_element'][$k]['id'] = Util::s('<'.$tag);
-				static::$error_ids['is_not_exists_meanless_element'][$k]['str'] = Util::s($tag);
-				static::$errors[] = Util::s('<'.$tag);
+				if (substr($m, 0, strlen($banned)) == $banned)
+				{
+					static::$error_ids['is_not_exists_meanless_element'][$k]['id'] = Util::s('<'.$m);
+					static::$error_ids['is_not_exists_meanless_element'][$k]['str'] = Util::s($m);
+					static::$errors[] = Util::s('<'.$m);
+					break;
+				}
 			}
 		}
-
 	}
 
 	/**
@@ -489,7 +577,7 @@ class Validate
 	{
 		$str = static::ignore_elements($str, true);
 
-		preg_match_all("/\<[a-zA-Z1-6]+? +?([^\>]+)\>/i", $str, $ms);
+		$ms = static::get_elements_by_re($str, 'tags');
 		foreach ($ms[1] as $k => $m)
 		{
 			if (
@@ -505,7 +593,29 @@ class Validate
 				static::$errors[] = Util::s($ms[0][$k]);
 			}
 		}
+	}
 
+	/**
+	 * duplicated attributes
+	 *
+	 * @param   strings     $str
+	 * @return  void
+	 */
+	public static function duplicated_attributes($str)
+	{
+		$str = static::ignore_elements($str, true);
+		$ms = static::get_elements_by_re($str, 'tags');
+
+		foreach ($ms[1] as $k => $m)
+		{
+			$attrs = static::get_attributes($m);
+			if (isset($attrs['suspicious']))
+			{
+				static::$error_ids['duplicated_attributes'][$k]['id'] = Util::s($ms[0][$k]);
+				static::$error_ids['duplicated_attributes'][$k]['str'] = Util::s($m);
+				static::$errors[] = Util::s($ms[0][$k]);
+			}
+		}
 	}
 
 	/**
@@ -517,8 +627,7 @@ class Validate
 	public static function tell_user_file_type($str)
 	{
 		$str = static::ignore_elements($str, true);
-
-		preg_match_all("/\<a[^\>]*href *?= *?[\"']([^\"|']+?)[\"'][^\>]*?\>([^\<|\>]+?)\<\/a\>/i", $str, $ms);
+		$ms = static::get_elements_by_re($str, 'anchors_and_values');
 		$suspicious = array(
 			'.pdf',
 			'.doc',
@@ -537,7 +646,8 @@ class Validate
 			{
 				if (strpos($m, $vv) !== false)
 				{
-					$val = $ms[2][$k];
+					$attrs = static::get_attributes($m);
+					$val = isset($attrs['href']) ? $attrs['href'] : '';
 
 					// allow application name
 					if (
@@ -562,7 +672,6 @@ class Validate
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -575,7 +684,7 @@ class Validate
 	{
 		$str = static::ignore_elements($str, true);
 
-		if ( ! preg_match("/\<title[^\>]*?\>/i", $str))
+		if (strpos(strtolower($str), '<title') === false)
 		{
 			static::$error_ids['titleless'][0]['id'] = '';
 			static::$error_ids['titleless'][0]['str'] = '';
@@ -618,16 +727,12 @@ class Validate
 			static::$error_ids['is_not_exist_same_page_title_in_same_site'][$k]['str'] = Util::s($title);
 			static::$errors[] = Util::s($title);
 		}
-
 	}
 
 	/**
 	 * same_urls_should_have_same_text
-
 			// some screen readers read anchor's title attribute.
 			// and user cannot understand that title is exist or not.
-
-
 	 *
 	 * @param   strings     $str
 	 * @return  void
@@ -637,17 +742,19 @@ class Validate
 		$str = static::ignore_comment_out($str, true);
 
 		// urls
-		preg_match_all("/\<a[^\>]*?href *?= *?[\"']([^\"']+?)[\"'].*?\>(.*?)\<\/a\>/si", $str, $ms);
+		$ms = static::get_elements_by_re($str, 'anchors_and_values');
 
 		$urls = array();
 		foreach ($ms[1] as $k => $v)
 		{
-			$url = static::correct_url($v);
-
 			if (static::is_ignorable($ms[0][$k])) continue;
 
-			// strip tag except for alt
-			// do I have to care about title attribute?
+			$attrs = static::get_attributes($v);
+			if ( ! isset($attrs['href'])) continue;
+			$url = static::correct_url($attrs['href']);
+
+			// strip m except for alt
+			// do I have to care about title attribute or plural imgs?
 			$text = $ms[2][$k];
 			preg_match("/\<\w+ +?[^\>]*?alt *?= *?[\"']([^\"']*?)[\"'][^\>]*?\>/", $text, $mms);
 			if ($mms)

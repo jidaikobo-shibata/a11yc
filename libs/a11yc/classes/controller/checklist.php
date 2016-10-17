@@ -67,6 +67,7 @@ class Controller_Checklist
 			'is_not_exists_ja_word_breaking_space',
 			'is_not_exists_meanless_element',
 			'is_not_style_for_structure',
+			'duplicated_attributes',
 			'tell_user_file_type',
 			'is_not_exist_same_page_title_in_same_site',
 			'titleless',
@@ -107,13 +108,10 @@ class Controller_Checklist
 		// page existence
 		if ($url != 'bulk' && ! Util::is_page_exist($url))
 		{
-			$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET ';
-			$sql.= '`trash` =1 WHERE `url` = ?;';
-			Db::execute($sql, array($url));
 			Session::add('messages', 'errors', A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR);
 			if ( ! headers_sent())
 			{
-				header('location:'.A11YC_PAGES_URL.'&list=trash');
+				header('location:'.A11YC_PAGES_URL.'&list=list&no_url='.urlencode($url));
 				exit();
 			}
 		}

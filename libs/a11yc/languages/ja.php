@@ -109,7 +109,7 @@ define('A11YC_LANG_CANDIDATES4', 'ウェブページ一式を代表するウェ�
 
 // checklist
 define('A11YC_LANG_CHECKLIST_TARGETPAGE', '対象ページ');
-define('A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR', 'チェック対象のページが存在しないため、対象のURLを削除しました。');
+define('A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR', 'チェック対象のページを見つけられませんでした');
 define('A11YC_LANG_CHECKLIST_NOT_FOUND_ERR', '自動チェックではエラーが見つかりませんでした');
 define('A11YC_LANG_CHECKLIST_TITLE', 'チェックリスト');
 define('A11YC_LANG_CHECKLIST_DONE', 'チェック終了');
