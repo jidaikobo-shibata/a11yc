@@ -175,7 +175,7 @@ class Controller_Pages
 		// order
 		if (
 			isset($_GET['order']) &&
-			in_array($_GET['order'], array('add_date_asc', 'add_date_desc', 'test_date_asc', 'test_date_desc', 'url_asc', 'url_desc', 'name_asc', 'name_desc'))
+			in_array($_GET['order'], array('add_date_asc', 'add_date_desc', 'date_asc', 'date_desc', 'url_asc', 'url_desc', 'name_asc', 'name_desc'))
 		)
 		{
 			$str = $_GET['order'];
@@ -184,8 +184,8 @@ class Controller_Pages
 		}
 		else
 		{
-			$order = 'ASC';
-			$by = 'url';
+			$order = 'DESC';
+			$by = 'add_date';
 		}
 		$sql.= 'order by '.$by.' '.$order.';';
 
@@ -201,7 +201,7 @@ class Controller_Pages
 
 		// pagination
 		$total = count($pages);
-		$num = isset($_GET['num']) ? intval($_GET['num']) : 5 ;
+		$num = isset($_GET['num']) ? intval($_GET['num']) : 25 ;
 		$page = isset($_GET['page']) ? intval($_GET['page']) : 1 ;
 
 		// offset

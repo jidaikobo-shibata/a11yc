@@ -35,6 +35,7 @@ define('A11YC_LANG_CTRL_SEARCH', '検索する');
 define('A11YC_LANG_CTRL_SEND', '送信');
 define('A11YC_LANG_CTRL_PREV', '前へ');
 define('A11YC_LANG_CTRL_NEXT', '次へ');
+define('A11YC_LANG_CTRL_NUM', '表示件数');
 
 // login
 define('A11YC_LANG_AUTH_TITLE', 'A11YC ログイン');
