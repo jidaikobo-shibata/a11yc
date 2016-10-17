@@ -11,7 +11,7 @@
 		<select name="num" id="a11yc_num">
 			<?php
 				foreach (array(25, 50, 100, 250, 500) as $v):
-				$checked = isset($_GET['num']) && $_GET['num'] == $v ? ' checked="checked"' : '';
+				$checked = isset($_GET['num']) && $_GET['num'] == $v ? ' selected="selected"' : '';
 			?>
 				<option value="<?php echo $v ?>"<?php echo $checked ?>><?php echo $v ?></option>
 			<?php endforeach; ?>
