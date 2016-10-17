@@ -86,7 +86,7 @@ function a11yc_fixed_header(e){
 		$a11yc_content.css('paddingTop', top_padding);
 		$('#a11yc_header').css('paddingTop', menu_height);
 		//この移動量をもう少し考える
-		$(scrollable_element).scrollTop($(window).scrollTop()-header_height+$('#a11yc_header').outerHeight()-$('#a11yc_menu_principles').outerHeight()+1);
+		$(scrollable_element).scrollTop(scroll-header_height+$('#a11yc_header').outerHeight()-$('#a11yc_menu_principles').outerHeight()+1);
 	}
 	
 //	remove
