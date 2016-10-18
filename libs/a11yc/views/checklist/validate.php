@@ -1,17 +1,23 @@
 <?php if ($errs):
 	// error
-?>
-	<ul class="a11yc_hide_if_fixedheader">
-	<?php foreach ($errs as $err):  ?>
-		<li><?php echo $err ?></li>
-	<?php endforeach;  ?>
-		<li class="a11yc_disclosure_parent">
-			<a role="button" class="a11yc_disclosure" tabindex="0"><?php echo A11YC_LANG_CHECKLIST_VIEW_SOURCE ?></a>
-			<div class="a11yc_disclosure_target a11yc_source" style="display: block;">
-				<table><?php echo $raw ?></table>
-			</div><!-- /.a11yc_disclosure_target -->
-		</li>
-	</ul>
+?><h1 class="a11yc_disclosure a11yc_resetstyle">error_check</h1>
+	<div class="a11yc_disclosure_target show">
+		<dl id="a11yc_validation_errors" class="a11yc_hide_if_fixedheader">
+		<?php foreach ($errs as $err):  ?>
+			<?php echo $err ?>
+		<?php endforeach;  ?>
+		</dl><!-- /.a11yc_validation_errors -->
+		<dl id="a11yc_validation_code" class="a11yc_hide_if_fixedheader">
+			<dt>
+				<a role="button" class="a11yc_disclosure a11yc_resetstyle" tabindex="0"><?php echo A11YC_LANG_CHECKLIST_VIEW_SOURCE ?></a>
+			</dt>
+			<dd>
+				<div class="a11yc_disclosure_target a11yc_source show">
+					<table><?php echo $raw ?></table>
+				</div><!-- /.a11yc_disclosure_target -->
+			</dd>
+		</dl>
+</div><!-- /.a11yc_disclosure_target -->
 <?php else:
 	echo '<p class="a11yc_hide_if_fixedheader">'.A11YC_LANG_CHECKLIST_NOT_FOUND_ERR.'</p>';
 endif; ?>

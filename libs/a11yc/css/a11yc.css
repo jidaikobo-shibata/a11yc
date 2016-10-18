@@ -9,18 +9,32 @@
 [lang=ja] .a11yc_sansserif {
 	font-family: helvetica, arial, "hiragino kaku gothic pro",meiryo,"ms pgothic",sans-serif;
 }
+.a11yc .a11yc_resetstyle {
+	font-size: 1em;
+	border: none;
+	margin: 0;
+	padding: 0;
+}
 a:link {
 	color: #006ab6;
+}
+a.a11yc_hasicon {
+	text-decoration: none;
 }
 .a11yc_icon_fa {
 	font-family: FontAwesome;
 	-webkit-font-smoothing: antialiased;
+	vertical-align: middle;
+}
+a:hover .a11yc_icon_fa,
+a:focus .a11yc_icon_fa {
+	opacity: .65;
 }
 .a11yc_loading {
 	min-height: 60px;
 	background-image: url('../img/mark_loading_m.gif');
 	background-repeat: no-repeat;
-	background-position: center top;
+	background-position: center center;
 }
 .a11yc_cmt {
 	margin-top: 40px;
@@ -520,13 +534,47 @@ table#a11yc_rest {
 #a11yc_menu_principles {
 	clear: both;
 }
-#a11yc_errors ul,
+#a11yc_errors dl,
 #a11yc_errors p {
 	margin: 1em 0;
 }
-#a11yc_errors ul {
-	padding: 10px 5px 10px 40px;
+#a11yc_validation_errors,
+#a11yc_validation_code .a11yc_disclosure_target.active  {
+	max-height: 200px;
+	overflow: auto;
+}
+dl#a11yc_validation_errors {
+	margin-bottom: 0;
+	padding: 10px 5px;
 	background-color: #fee;
+}
+dl#a11yc_validation_code {
+	margin-top: 0;
+	padding: 10px 0 0;
+	background-color: #fff;
+}
+#a11yc_validation_code .a11yc_disclosure_target.active {
+}
+#a11yc_validation_errors dt,
+#a11yc_validation_errors dd {
+	border-color:#aaa;
+	border-style: solid;
+	padding: 2px 5px;
+}
+#a11yc_validation_errors dt {
+	border-width: 1px;
+}
+#a11yc_validation_errors dd+dt {
+	border-top-width: 0;
+}
+#a11yc_validation_errors dd {
+	border-width: 0 1px 1px 1px;
+}
+#a11yc_errors dl dt {
+	font-weight: bold;
+}
+#a11yc_errors dd {
+	margin-left: 0;
 }
 #a11yc_menu_principles {
 	margin: 0;
@@ -837,6 +885,33 @@ input:focus+.a11yc_icon_checkbox:before {
 .a11yc_hide_passed_item .a11yc_table_check tr.off td * {
 	opacity: 1;
 }
+
+span.a11yc_icon_view:before {
+	content: '\f06e';
+	margin-left: 5px;
+	display: inline-block;
+	font-size: 1.1em;
+	padding: .05;
+	color: #333;
+}
+span.a11yc_icon_code:before {
+	content: '\f121';
+	margin-left: 5px;
+	display: inline-block;
+	font-size: 1.125em;
+	padding: .025;
+	color: #333;
+}
+span.a11yc_icon_arrow_r:before {
+	content: '\f0a9';
+	margin-left: 10px;
+	display: inline-block;
+	font-size: 1.1em;
+	padding: .05;
+	color: #333;
+}
+
+
 /* setup */
 #a11yc_setup {
 	padding-bottom: 6em;

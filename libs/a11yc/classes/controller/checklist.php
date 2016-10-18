@@ -277,16 +277,16 @@ class Controller_Checklist
 		if (isset($yml['errors'][$code_str]))
 		{
 
-			$ret = $yml['errors'][$code_str]['message'];
+			$ret = '<dt>'.$yml['errors'][$code_str]['message'];
 			$criterion_code = $yml['errors'][$code_str]['criterion'];
 			$code = $yml['errors'][$code_str]['code'];
 			$level = $yml['checks'][$criterion_code][$code]['criterion']['level']['name'];
 
 			$criterion = $yml['checks'][$criterion_code][$code]['criterion'];
 			$ret.= ' (<a href="'.$criterion['url'].'"'.A11YC_TARGET.' title="'.$criterion['name'].'">'.Util::key2code($criterion['code']).'</a>, ';
-			$ret.= '<a href="'.A11YC_DOC_URL.$code.'&amp;criterion='.$yml['errors'][$code_str]['criterion'].'"'.A11YC_TARGET.'>Doc</a>)';
+			$ret.= '<a href="'.A11YC_DOC_URL.$code.'&amp;criterion='.$yml['errors'][$code_str]['criterion'].'"'.A11YC_TARGET.'>Doc</a>)</dt>';
 
-			$ret.= ': <strong data-level="'.$level.'" data-place="'.$place['id'].'">'.$place['str'].'</strong>';
+			$ret.= '<dd class="a11yc_validation_error_str" data-level="'.$level.'" data-place="'.$place['id'].'">'.$place['str'].'</dd>';
 			return $ret;
 		}
 		return FALSE;
