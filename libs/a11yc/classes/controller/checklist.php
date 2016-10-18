@@ -276,14 +276,17 @@ class Controller_Checklist
 		$yml = Yaml::fetch();
 		if (isset($yml['errors'][$code_str]))
 		{
+
 			$ret = $yml['errors'][$code_str]['message'];
-			$criterion = $yml['errors'][$code_str]['criterion'];
+			$criterion_code = $yml['errors'][$code_str]['criterion'];
 			$code = $yml['errors'][$code_str]['code'];
-			$criterion = $yml['checks'][$criterion][$code]['criterion'];
+			$level = $yml['checks'][$criterion_code][$code]['criterion']['level']['name'];
+
+			$criterion = $yml['checks'][$criterion_code][$code]['criterion'];
 			$ret.= ' (<a href="'.$criterion['url'].'"'.A11YC_TARGET.' title="'.$criterion['name'].'">'.Util::key2code($criterion['code']).'</a>, ';
 			$ret.= '<a href="'.A11YC_DOC_URL.$code.'&amp;criterion='.$yml['errors'][$code_str]['criterion'].'"'.A11YC_TARGET.'>Doc</a>)';
 
-			$ret.= ': <strong data-place="'.$place['id'].'">'.$place['str'].'</strong>';
+			$ret.= ': <strong data-level="'.$level.'" data-place="'.$place['id'].'">'.$place['str'].'</strong>';
 			return $ret;
 		}
 		return FALSE;
