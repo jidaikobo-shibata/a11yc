@@ -641,6 +641,40 @@ class Validate
 	}
 
 	/**
+	 * invalid tag
+	 *
+	 * @param   strings     $str
+	 * @return  void
+	 */
+	public static function invalid_tag($str)
+	{
+		$str = static::ignore_elements($str, true);
+		$ms = static::get_elements_by_re($str, 'tags');
+
+		foreach ($ms[1] as $k => $m)
+		{
+			// unbalanced_quotation
+			$tag = str_replace(array("\\'", '\\"'), '', $m);
+			if ((substr_count($tag, '"') + substr_count($tag, "'")) % 2 !== 0)
+			{
+				static::$error_ids['unbalanced_quotation'][$k]['id'] = Util::s($ms[0][$k]);
+				static::$error_ids['unbalanced_quotation'][$k]['str'] = Util::s($m);
+				static::$errors[] = Util::s($ms[0][$k]);
+			}
+
+			if (A11YC_LANG != 'ja') continue;
+			// multi-byte space
+			$tag = preg_replace("/(\".+?\"|'.+?')/", '', $tag);
+			if (strpos($tag, '　') !== false)
+			{
+				static::$error_ids['cannot_contain_multibyte_space'][$k]['id'] = Util::s($ms[0][$k]);
+				static::$error_ids['cannot_contain_multibyte_space'][$k]['str'] = Util::s($m);
+				static::$errors[] = Util::s($ms[0][$k]);
+			}
+		}
+	}
+
+	/**
 	 * tell user file type
 	 *
 	 * @param   strings     $str
@@ -776,7 +810,6 @@ class Validate
 			$url = static::correct_url($attrs['href']);
 
 			// strip m except for alt
-			// do I have to care about title attribute or plural imgs?
 			$text = $ms[2][$k];
 			preg_match_all("/\<\w+ +?[^\>]*?alt *?= *?[\"']([^\"']*?)[\"'][^\>]*?\>/", $text, $mms);
 			if ($mms)

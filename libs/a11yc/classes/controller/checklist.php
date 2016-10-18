@@ -67,6 +67,7 @@ class Controller_Checklist
 			'is_not_exists_ja_word_breaking_space',
 			'is_not_exists_meanless_element',
 			'is_not_style_for_structure',
+			'invalid_tag',
 			'duplicated_attributes',
 			'tell_user_file_type',
 			'is_not_exist_same_page_title_in_same_site',

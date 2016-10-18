@@ -71,3 +71,11 @@ errors:
     message: 属性値が重複している可能性があります
     criterion: 4-1-1
     code: 4-1-1a
+  unbalanced_quotation:
+    message: 引用符の数が一致していないようです
+    criterion: 4-1-1
+    code: 4-1-1a
+  cannot_contain_multibyte_space:
+    message: タグの中に全角スペースが存在します
+    criterion: 4-1-1
+    code: 4-1-1a
