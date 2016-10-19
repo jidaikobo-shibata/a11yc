@@ -316,6 +316,8 @@ tr.a11yc_flash {
 	top: 0;
 	padding: 26px 8px 0;
 	z-index: 90;
+	max-height: calc( 100vh - 3em);
+	overflow: auto;
 }
 .a11yc_fixed_header > h1 {
 	clip: rect(1px 1px 1px 1px);
@@ -541,6 +543,8 @@ table#a11yc_rest {
 #a11yc_validation_errors,
 #a11yc_validation_code .a11yc_disclosure_target.active  {
 	max-height: 200px;
+	max-height: calc(50vh - 7em);
+	min-height: 2em;
 	overflow: auto;
 }
 dl#a11yc_validation_errors {

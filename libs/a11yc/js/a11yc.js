@@ -85,7 +85,8 @@ function a11yc_add_fixed() {
 		$a11yc_content.css('paddingTop', top_padding);
 		$('#a11yc_header').css('paddingTop', menu_height);
 		//この移動量をもう少し考える
-		var position = scroll-header_height+$('#a11yc_header').outerHeight()-$('#a11yc_menu_principles').outerHeight()+1;
+		var position = scroll-header_height+$('#a11yc_header').outerHeight()-$('#a11yc_menu_principles').outerHeight();
+		position = position < 1 ? 1 : position;
 		$(scrollable_element).scrollTop(position);
 	console.log(scroll);
 	console.log(header_height);
@@ -351,11 +352,12 @@ function format_validation_error(){
 		});
 		$error_elms.each(function(index){
 			// add link to error place
-			if(error_texts.indexOf($(this).data('place'))!=-1)
+/*			if(error_texts.indexOf($(this).data('place'))!=-1)
 			{
 				var index = error_texts.indexOf($(this).data('place'));
-				var $link = $('<dd class="a11yc_validate_link"><a href="#'+$error_codes[index].id+'" class="a11yc_hasicon"><span class="a11yc_icon_fa a11yc_icon_view" role="presentation" aria-hidden="true"></span><span class="a11yc_skip">view</span></a></dd>').insertAfter(this);
+//				var $link = $('<dd class="a11yc_validate_link"><a href="#'+$error_codes[index].id+'" class="a11yc_hasicon"><span class="a11yc_icon_fa a11yc_icon_view" role="presentation" aria-hidden="true"></span><span class="a11yc_skip">view</span></a></dd>').insertAfter(this);
 			}
+*/
 		});
 		$(document).on('click', '.a11yc_validate_link a', function(e){
 			var e = e ? e : event;
@@ -482,7 +484,6 @@ function a11yc_smooth_scroll($t) {
 	position = position.top-$(window).scrollTop()-a11yc_headerheight;
 	if($('#a11yc_header')[0])
 	{
-	console.log($t);
 		a11yc_add_fixed();
 	}
 	$(scrollable_element).animate({scrollTop: $t.offset().top-a11yc_headerheight-margin},500);
@@ -499,7 +500,10 @@ function a11yc_adjust_position($obj) {
 	setTimeout(function(){
 		var a11yc_position_header_bottom = $('#a11yc_header')[0] ? $('#a11yc_header').offset().top+$('#a11yc_header').outerHeight() : 0;
 		if($obj.offset().top >= a11yc_position_header_bottom) return;
-		$('body').scrollTop($(window).scrollTop()-(a11yc_position_header_bottom-$obj.offset().top)-30);
+		var position = $(window).scrollTop()-(a11yc_position_header_bottom-$obj.offset().top)-30;
+		position = position < 1 ? 1 : position;
+		console.log('scroll to: '+position);
+		$(scrollable_element).scrollTop(position);
 	},100);
 }
 
