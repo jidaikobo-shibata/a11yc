@@ -16,6 +16,8 @@ class Validate
 	protected static $target_path;
 	protected static $error_ids = array();
 	protected static $errors = array();
+	protected static $html = '';
+	protected static $hl_html = ''; // HighLighted
 
 	public static $ignores = array(
 		"/\<script.+?\<\/script\>/si",
@@ -61,6 +63,38 @@ class Validate
 	}
 
 	/**
+	 * set_html
+	 *
+	 * @param   strings     $str
+	 * @return  void
+	 */
+	public static function set_html($str)
+	{
+		static::$html = $str;
+		static::$hl_html = $str;
+	}
+
+	/**
+	 * get_html
+	 *
+	 * @return  array
+	 */
+	public static function get_html()
+	{
+		return static::$html;
+	}
+
+	/**
+	 * get_hl_html
+	 *
+	 * @return  array
+	 */
+	public static function get_hl_html()
+	{
+		return static::$hl_html;
+	}
+
+	/**
 	 * ignore_elements
 	 *
 	 * @param   strings     $str
@@ -101,7 +135,6 @@ class Validate
 
 		return $str;
 	}
-
 
 	/**
 	 * is_ignorable
@@ -230,7 +263,7 @@ class Validate
 	}
 
 	/**
-	 * get_elements_by_re
+	 * get elements by regular expression
 	 *
 	 * @param   strings $str
 	 * @param   strings $type (anchors|anchors_and_values|imgs|tags)
@@ -272,625 +305,88 @@ class Validate
 	}
 
 	/**
-	 * is exist alt attr of img
+	 * add error to html
 	 *
-	 * @param   strings     $str
+	 * @param   strings  $error_id
+	 * @param   array    $errors
 	 * @return  void
 	 */
-	public static function is_exist_alt_attr_of_img($str)
+	public static function add_error_to_html($error_id, $errors, $ignore_vals = '')
 	{
-		$str = static::ignore_elements($str);
+		$html = static::$hl_html;
 
-		$ms = static::get_elements_by_re($str, 'imgs');
-		foreach ($ms[1] as $k => $m)
+		// ignore elements or comments
+		$replaces_ignores = array();
+		if ($ignore_vals)
 		{
-			$attrs = static::get_attributes($m);
-			if ( ! array_key_exists('alt', $attrs))
+			$ignores = static::$$ignore_vals;
+
+			foreach ($ignores as $k => $ignore)
 			{
-				static::$error_ids['is_exist_alt_attr_of_img'][$k]['id'] = Util::s($ms[0][$k]);
-				static::$error_ids['is_exist_alt_attr_of_img'][$k]['str'] = Util::s(@basename(@$attrs['src']));
-				static::$errors[] = Util::s($ms[0][$k]);
-			}
-		}
-	}
-
-	/**
-	 * is not empty alt attr of img inside a
-	 *
-	 * @param   strings     $str
-	 * @return  void
-	 */
-	public static function is_not_empty_alt_attr_of_img_inside_a($str)
-	{
-		$str = static::ignore_elements($str);
-
-		$ms = static::get_elements_by_re($str, 'anchors_and_values');
-
-		foreach ($ms[2] as $k => $m)
-		{
-			if (strpos($m, '<img') === false) continue; // without image
-			if (static::is_ignorable($ms[0][$k])) continue; // ignorable
-			if ( ! empty(trim(strip_tags($m)))) continue; // not image only
-			$attrs = static::get_attributes($m);
-			$alt = '';
-			foreach ($attrs as $kk => $vv)
-			{
-				if (strpos($kk, 'alt') !== false)
+				preg_match_all($ignore, $html, $ms);
+				if ($ms)
 				{
-					$alt.= $vv;
-				}
-			}
-			$alt = trim($alt);
-
-			if ( ! $alt)
-			{
-				static::$error_ids['is_not_empty_alt_attr_of_img_inside_a'][$k]['id'] = Util::s($ms[0][$k]);
-				static::$error_ids['is_not_empty_alt_attr_of_img_inside_a'][$k]['str'] = Util::s(@basename(@$attrs['src']));
-				static::$errors[] = Util::s($ms[0][$k]);
-			}
-		}
-	}
-
-	/**
-	 * is not here link
-	 *
-	 * @param   strings     $str
-	 * @return  bool
-	 */
-	public static function is_not_here_link($str)
-	{
-		$str = static::ignore_elements($str);
-
-		$ms = static::get_elements_by_re($str, 'anchors_and_values');
-
-		foreach ($ms[2] as $k => $m)
-		{
-			$m = trim($m);
-			if ($m == A11YC_LANG_HERE)
-			{
-				static::$error_ids['is_not_here_link'][$k]['id'] = Util::s($ms[0][$k]);
-				static::$error_ids['is_not_here_link'][$k]['str'] = @Util::s($m);
-				static::$errors[] = Util::s($ms[0][$k]);
-			}
-		}
-	}
-
-	/**
-	 * is area has alt
-	 *
-	 * @param   strings     $str
-	 * @return  bool
-	 */
-	public static function is_are_has_alt($str)
-	{
-		$str = static::ignore_elements($str);
-
-		$ms = static::get_elements_by_re($str, 'tags');
-
-		foreach ($ms[0] as $k => $m)
-		{
-			if (substr($m, 0, 5) !== '<area') continue;
-			$attrs = static::get_attributes($m);
-			if ( ! isset($attrs['alt']) || empty($attrs['alt']))
-			{
-				static::$error_ids['is_are_has_alt'][$k]['id'] = Util::s($ms[0][$k]);
-				static::$error_ids['is_are_has_alt'][$k]['str'] = Util::s(@basename(@$attrs['coords']));
-				static::$errors[] = Util::s($ms[0][$k]);
-			}
-		}
-	}
-
-	/**
-	 * is img input has alt
-	 *
-	 * @param   strings     $str
-	 * @return  bool
-	 */
-	public static function is_img_input_has_alt($str)
-	{
-		$str = static::ignore_elements($str);
-
-		$ms = static::get_elements_by_re($str, 'tags');
-		foreach($ms[0] as $k => $m)
-		{
-			if (substr($m, 0, 6) !== '<input') continue;
-			$attrs = static::get_attributes($m);
-			if ( ! isset($attrs['type'])) continue; // unless type it is recognized as a text
-			if (isset($attrs['type']) && $attrs['type'] != 'image') continue;
-
-			if ( ! isset($attrs['alt']) || empty($attrs['alt']))
-			{
-				static::$error_ids['is_img_input_has_alt'][$k]['id'] = Util::s($ms[0][$k]);
-				static::$error_ids['is_img_input_has_alt'][$k]['str'] = Util::s(@basename(@$attrs['src']));
-				static::$errors[] = Util::s($ms[0][$k]);
-			}
-		}
-	}
-
-	/**
-	 * appropriate heading descending
-	 *
-	 * @param   strings     $str
-	 * @return  bool
-	 */
-	public static function appropriate_heading_descending($str)
-	{
-		$str = static::ignore_elements($str);
-
-		$secs = preg_split("/(\<h\d)[^\>]*\>(.+?)\<\/h\d/", $str, -1, PREG_SPLIT_DELIM_CAPTURE);
-
-		$prev = 1;
-		foreach ($secs as $k => $v)
-		{
-			if (strlen($v) != 3) continue; // skip non heading
-			if (substr($v, 0, 2) != '<h') continue; // skip non heading
-			$current_level = intval($v[2]);
-
-			if ($current_level - $prev >= 2)
-			{
-				$str = isset($secs[$k + 1]) ? Util::s($secs[$k + 1]) : Util::s($v);
-				static::$error_ids['appropriate_heading_descending'][$k]['id'] = $str;
-				static::$error_ids['appropriate_heading_descending'][$k]['str'] = $str;
-				static::$errors[] = $str;
-			}
-			$prev = $current_level;
-		}
-
-	}
-
-	/**
-	 * suspicious_elements
-	 *
-	 * @param   strings     $str
-	 * @return  bool
-	 */
-	public static function suspicious_elements($str)
-	{
-		$body_html = static::ignore_elements($str);
-
-		// tags
-		preg_match_all("/\<([^\> ]+)/i", $body_html, $tags);
-
-		// ignore elements
-		$endless = array('img', 'wbr', 'br', 'hr', 'base', 'input', 'param', 'area', 'embed', 'meta', 'link', 'track', 'source', 'col', 'command');
-		$ignores = array('!doctype', 'html', '/html', '![if', '![endif]', '?xml');
-		$ignores = array_merge($ignores, $endless);
-
-		// tag suspicious elements
-		$suspicious_opens = array();
-		$suspicious_ends = array();
-		foreach ($tags[1] as $tag)
-		{
-			if (in_array(strtolower($tag), $ignores)) continue; // ignore
-
-			// collect tags
-			if (substr($tag, 0, 1) =='/')
-			{
-				$suspicious_ends[] = substr($tag, 1);
-			}
-			else
-			{
-				$suspicious_opens[] = $tag;
-			}
-		}
-
-		$suspicious_ends_results = array_diff($suspicious_ends, $suspicious_opens);
-		$suspicious_opens_results = array_diff($suspicious_opens, $suspicious_ends);
-
-		// add slash to end tags
-		$suspicious_ends_results = array_map(function($s){return '/'.$s;} , $suspicious_ends_results);
-
-		// suspicious
-		$suspicious = array_merge(
-			$suspicious_ends_results,
-			$suspicious_opens_results);
-
-		// endless
-		foreach ($endless as $v)
-		{
-			if (strpos($body_html, '</'.$v) !== false)
-			{
-				$suspicious[] = '</'.$v;
-			}
-		}
-
-		// add errors
-		if ($suspicious)
-		{
-			foreach ($suspicious as $k => $v)
-			{
-				static::$error_ids['suspicious_elements'][$k]['id'] = Util::s('<'.$v);
-				static::$error_ids['suspicious_elements'][$k]['str'] = Util::s($v);
-				static::$errors[] = Util::s('<'.$v);
-			}
-		}
-	}
-
-	/**
-	 * is not same alt and filename of img
-	 *
-	 * @param   strings     $str
-	 * @return  void
-	 */
-	public static function is_not_same_alt_and_filename_of_img($str)
-	{
-		$str = static::ignore_elements($str);
-		$ms = static::get_elements_by_re($str, 'imgs');
-		foreach ($ms[1] as $k => $m)
-		{
-			$attrs = static::get_attributes($m);
-			if ( ! isset($attrs['alt']) ||  ! isset($attrs['src'])) continue;
-
-			$filename = basename($attrs['src']);
-			if (
-				$attrs['alt'] == $filename || // within extension
-				$attrs['alt'] == substr($filename, 0, strrpos($filename, '.')) // without extension
-			)
-			{
-				static::$error_ids['is_not_same_alt_and_filename_of_img'][$k]['id'] = Util::s($ms[0][$k]);
-				static::$error_ids['is_not_same_alt_and_filename_of_img'][$k]['str'] = Util::s($filename);
-				static::$errors[] = Util::s($ms[0][$k]);
-			}
-		}
-	}
-
-	/**
-	 * is not exists ja word breaking space
-	 *
-	 * @param   strings     $str
-	 * @return  void
-	 */
-	public static function is_not_exists_ja_word_breaking_space($str)
-	{
-		if (A11YC_LANG != 'ja') return false;
-		$str = str_replace(array("\n", "\r"), '', $str);
-		$str = static::ignore_elements($str, true);
-
-		preg_match_all("/([^\x01-\x7E][ 　][ 　]+[^\x01-\x7E])/iu", $str, $ms);
-		foreach ($ms[1] as $k => $m)
-		{
-			static::$error_ids['is_not_exists_ja_word_breaking_space'][$k]['id'] = Util::s($ms[0][$k]);
-			static::$error_ids['is_not_exists_ja_word_breaking_space'][$k]['str'] = Util::s($m);
-			static::$errors[] = Util::s($ms[0][$k]);
-		}
-	}
-
-	/**
-	 * is not exists meanless element
-	 *
-	 * @param   strings     $str
-	 * @return  void
-	 */
-	public static function is_not_exists_meanless_element($str)
-	{
-		$body_html = static::ignore_elements($str, true);
-
-		$banneds = array(
-			'<center',
-			'<font',
-			'<blink',
-			'<marquee',
-		);
-
-		$ms = static::get_elements_by_re($body_html, 'tags');
-
-		foreach ($ms[0] as $k => $m)
-		{
-			foreach ($banneds as $banned)
-			{
-				if (substr($m, 0, strlen($banned)) == $banned)
-				{
-					static::$error_ids['is_not_exists_meanless_element'][$k]['id'] = Util::s('<'.$m);
-					static::$error_ids['is_not_exists_meanless_element'][$k]['str'] = Util::s($m);
-					static::$errors[] = Util::s('<'.$m);
-					break;
-				}
-			}
-		}
-	}
-
-	/**
-	 * is not style for structure
-	 *
-	 * @param   strings     $str
-	 * @return  void
-	 */
-	public static function is_not_style_for_structure($str)
-	{
-		$str = static::ignore_elements($str, true);
-
-		$ms = static::get_elements_by_re($str, 'tags');
-		foreach ($ms[1] as $k => $m)
-		{
-			if (
-				strpos($m, 'style=') !== false &&
-				(
-					strpos($m, 'size') !== false ||
-					strpos($m, 'color') !== false
-				)
-			)
-			{
-				static::$error_ids['is_not_style_for_structure'][$k]['id'] = Util::s($ms[0][$k]);
-				static::$error_ids['is_not_style_for_structure'][$k]['str'] = Util::s($m);
-				static::$errors[] = Util::s($ms[0][$k]);
-			}
-		}
-	}
-
-	/**
-	 * duplicated attributes
-	 *
-	 * @param   strings     $str
-	 * @return  void
-	 */
-	public static function duplicated_attributes($str)
-	{
-		$str = static::ignore_elements($str, true);
-		$ms = static::get_elements_by_re($str, 'tags');
-
-		foreach ($ms[1] as $k => $m)
-		{
-			$attrs = static::get_attributes($m);
-			if (isset($attrs['suspicious']))
-			{
-				static::$error_ids['duplicated_attributes'][$k]['id'] = Util::s($ms[0][$k]);
-				static::$error_ids['duplicated_attributes'][$k]['str'] = Util::s($m);
-				static::$errors[] = Util::s($ms[0][$k]);
-			}
-		}
-	}
-
-	/**
-	 * invalid tag
-	 *
-	 * @param   strings     $str
-	 * @return  void
-	 */
-	public static function invalid_tag($str)
-	{
-		$str = static::ignore_elements($str, true);
-		$ms = static::get_elements_by_re($str, 'tags');
-
-		foreach ($ms[1] as $k => $m)
-		{
-			// unbalanced_quotation
-			$tag = str_replace(array("\\'", '\\"'), '', $m);
-			if ((substr_count($tag, '"') + substr_count($tag, "'")) % 2 !== 0)
-			{
-				static::$error_ids['unbalanced_quotation'][$k]['id'] = Util::s($ms[0][$k]);
-				static::$error_ids['unbalanced_quotation'][$k]['str'] = Util::s($m);
-				static::$errors[] = Util::s($ms[0][$k]);
-			}
-
-			if (A11YC_LANG != 'ja') continue;
-			// multi-byte space
-			$tag = preg_replace("/(\".+?\"|'.+?')/", '', $tag);
-			if (strpos($tag, '　') !== false)
-			{
-				static::$error_ids['cannot_contain_multibyte_space'][$k]['id'] = Util::s($ms[0][$k]);
-				static::$error_ids['cannot_contain_multibyte_space'][$k]['str'] = Util::s($m);
-				static::$errors[] = Util::s($ms[0][$k]);
-			}
-		}
-	}
-
-	/**
-	 * tell user file type
-	 *
-	 * @param   strings     $str
-	 * @return  void
-	 */
-	public static function tell_user_file_type($str)
-	{
-		$str = static::ignore_elements($str, true);
-		$ms = static::get_elements_by_re($str, 'anchors_and_values');
-		$suspicious = array(
-			'.pdf',
-			'.doc',
-			'.docx',
-			'.xls',
-			'.xlsx',
-			'.ppt',
-			'.pptx',
-			'.zip',
-			'.tar',
-		);
-
-		foreach ($ms[1] as $k => $m)
-		{
-			foreach ($suspicious as $kk => $vv)
-			{
-				if (strpos($m, $vv) !== false)
-				{
-					$attrs = static::get_attributes($m);
-					$val = isset($attrs['href']) ? $attrs['href'] : '';
-
-					// allow application name
-					if (
-						(($vv == '.doc' || $vv == '.docx') && strpos($val, 'word') !== false) ||
-						(($vv == '.xls' || $vv == '.xlsx') && strpos($val, 'excel') !== false) ||
-						(($vv == '.ppt' || $vv == '.pptx') && strpos($val, 'power') !== false)
-					)
+					foreach ($ms[0] as $kk => $vv)
 					{
-						$val.= 'doc,docx,xls,xlsx,ppt,pptx';
+						$original = $vv;
+						$replaced = hash("sha256", $vv);
+						$replaces_ignores[$k][$kk] = array(
+							'original' => $original,
+							'replaced' => $replaced,
+						);
+						$html = str_replace($original, $replaced, $html);
 					}
-
-					if (
-						strpos($val, substr($vv, 1)) === false ||
-						preg_match("/\d/", $val) == false
-					)
-					{
-						static::$error_ids['tell_user_file_type'][$kk]['id'] = Util::s($ms[0][$k]);
-						static::$error_ids['tell_user_file_type'][$kk]['str'] = Util::s($val);
-						static::$errors[] = Util::s($ms[0][$k]);
-					}
-
 				}
 			}
 		}
-	}
 
-	/**
-	 * titleless
-	 *
-	 * @param   strings     $str
-	 * @return  void
-	 */
-	public static function titleless($str)
-	{
-		$str = static::ignore_elements($str, true);
-
-		if (strpos(strtolower($str), '<title') === false)
+		// replace errors
+		$results = array();
+		$replaces = array();
+		foreach ($errors as $k => $error)
 		{
-			static::$error_ids['titleless'][0]['id'] = '';
-			static::$error_ids['titleless'][0]['str'] = '';
-			static::$errors[] = '';
-		}
-	}
+			$offset = 0;
 
-	/**
-	 * langless
-	 *
-	 * @param   strings     $str
-	 * @return  void
-	 */
-	public static function langless($str)
-	{
-		// do not use static::ignore_elements() in case it is in comment out
+			// hash strgings to avoid wrong replace
+			$original = '[===a11yc_rplc==='.$error_id.'_'.$k.'===a11yc_rplc===]';
+			$replaced = '===a11yc_rplc==='.hash("sha256", $original).'===a11yc_rplc===';
+			$replaces[$k] = array(
+				'original' => $original,
+				'replaced' => $replaced,
+			);
+			$err_span_length = strlen($replaced);
 
-		if ( ! preg_match("/\<html[^\>]*?lang *?= *?[^\>]*?\>/i", $str))
-		{
-			static::$error_ids['langless'][0]['id'] = Util::s('<html');
-			static::$error_ids['langless'][0]['str'] = '';
-			static::$errors[] = Util::s('<html');
-		}
-	}
+			// first search
+			$pos = mb_strpos($html, $error, $offset);
 
-	/**
-	 * is not exist same page title in same site
-	 *
-	 * @param   strings     $str
-	 * @return  void
-	 */
-	public static function is_not_exist_same_page_title_in_same_site($str)
-	{
-		$title = Util::fetch_page_title_from_html($str);
-		$sql = 'SELECT count(*) as num FROM '.A11YC_TABLE_PAGES.' WHERE `page_title` = ?;';
-		$results = Db::fetch($sql, array($title));
-		if (intval($results['num']) >= 2)
-		{
-			static::$error_ids['is_not_exist_same_page_title_in_same_site'][$k]['id'] = Util::s($title);
-			static::$error_ids['is_not_exist_same_page_title_in_same_site'][$k]['str'] = Util::s($title);
-			static::$errors[] = Util::s($title);
-		}
-	}
-
-	/**
-	 * same_urls_should_have_same_text
-			// some screen readers read anchor's title attribute.
-			// and user cannot understand that title is exist or not.
-	 *
-	 * @param   strings     $str
-	 * @return  void
-	 */
-	public static function same_urls_should_have_same_text($str)
-	{
-		$str = static::ignore_comment_out($str, true);
-
-		// urls
-		$ms = static::get_elements_by_re($str, 'anchors_and_values');
-
-		$urls = array();
-		foreach ($ms[1] as $k => $v)
-		{
-			if (static::is_ignorable($ms[0][$k])) continue;
-
-			$attrs = static::get_attributes($v);
-			if ( ! isset($attrs['href'])) continue;
-			$url = static::correct_url($attrs['href']);
-
-			// strip m except for alt
-			$text = $ms[2][$k];
-			preg_match_all("/\<\w+ +?[^\>]*?alt *?= *?[\"']([^\"']*?)[\"'][^\>]*?\>/", $text, $mms);
-			if ($mms)
+			// is already replaced?
+			if (in_array($pos, $results))
 			{
-				foreach ($mms[0] as $kk => $vv)
-				{
-					$text = str_replace($mms[0][$kk], $mms[1][$kk], $text);
-				}
-			}
-			$text = strip_tags($text);
-			$text = trim($text);
-
-			// check
-			if ( ! array_key_exists($url, $urls))
-			{
-				$urls[$url] = $text;
-			}
-			// ouch! same text
-			else if ($urls[$url] != $text)
-			{
-				static::$error_ids['same_urls_should_have_same_text'][$k]['id'] = Util::s($ms[0][$k]);
-				static::$error_ids['same_urls_should_have_same_text'][$k]['str'] = Util::s($url).': "'.Util::s($urls[$url]).'" OR "'.Util::s($text).'"';
-				static::$errors[] = Util::s($ms[0][$k]);
-			}
-		}
-	}
-
-	/**
-	 * link_check
-	 *
-	 * @param   strings     $str
-	 * @return  void
-	 */
-	public static function link_check($str)
-	{
-		$str = static::ignore_comment_out($str, true);
-
-		// urls
-		preg_match_all("/ (?:href|src|cite|data|poster|action) *?= *?[\"']([^\"']+?)[\"']/i", $str, $ms);
-		$urls = array();
-		foreach ($ms[1] as $k => $v)
-		{
-			if (static::is_ignorable($ms[0][$k])) continue;
-			$urls[] = static::correct_url($v);
-		}
-		$urls = array_unique($urls);
-
-		// fragments
-		preg_match_all("/ (?:id|name) *?= *?[\"']([^\"']+?)[\"']/i", $str, $fragments);
-
-		// check
-		foreach ($urls as $k => $url)
-		{
-			if ($url[0] == '#')
-			{
-				if ( ! in_array(substr($url, 1), $fragments[1]))
-				{
-					static::$error_ids['link_check'][$k]['id'] = Util::s($url);
-					static::$error_ids['link_check'][$k]['str'] = 'Fragment Not Found: '.Util::s($url);
-					static::$errors[] = Util::s($url);
-				}
-				continue;
+				//  search next
+				$offset = max($results) + 1;
+				$pos = mb_strpos($html, $error, $offset);
 			}
 
-			$headers = @get_headers($url);
-			if ($headers !== false)
-			{
-				// OK TODO: think about redirection
-				if (strpos($headers[0], ' 20') !== false || strpos($headers[0], ' 30') !== false) continue;
+			// add error
+			$html = mb_substr($html, 0, $pos).$replaced.mb_substr($html, $pos);
+			$results[] = $pos + $err_span_length;
+		}
 
-				// not OK
-				static::$error_ids['link_check'][$k]['id'] = Util::s($url);
-				static::$error_ids['link_check'][$k]['str'] = Util::s(substr($headers[0], strpos($headers[0], ' '))).': '.Util::s($url);
-				static::$errors[] = Util::s($url);
-			}
-			else
+		// hash to error
+		foreach ($replaces as $v)
+		{
+			$html = str_replace($v['replaced'], $v['original'], $html);
+		}
+
+		// recover ignores
+		foreach ($replaces_ignores as $v)
+		{
+			foreach ($v as $vv)
 			{
-				static::$error_ids['link_check'][$k]['id'] = 'Not Found: '.Util::s($url);
-				static::$error_ids['link_check'][$k]['str'] = 'Not Found: '.Util::s($url);
-				static::$errors[] = Util::s($url);
+				$html = str_replace($vv['replaced'], $vv['original'], $html);
 			}
 		}
+
+		static::$hl_html = $html;
 	}
 }

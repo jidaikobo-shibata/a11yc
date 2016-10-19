@@ -54,6 +54,7 @@ class Controller_Checklist
 		if ( ! $content) return array();
 		$all_errs = array();
 		Validate::set_base_path($url);
+		Validate::set_html($content);
 
 		$codes = array(
 			'is_exist_alt_attr_of_img',
@@ -83,7 +84,7 @@ class Controller_Checklist
 
 		foreach ($codes as $code)
 		{
-			Validate::$code($content);
+			Validate_Validation::$code();
 		}
 		if (Validate::get_error_ids())
 		{

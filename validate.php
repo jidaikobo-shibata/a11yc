@@ -33,6 +33,24 @@ if ( ! $url) die('invalid access');
 $errs = \A11yc\Controller_Checklist::validate_page($url, $link_check);
 \A11yc\View::assign('errs', $errs, false);
 
+
+$raw = \A11yc\Util::s(\A11yc\Validate::get_hl_html());
+$raw = str_replace(
+	array('[===a11yc_rplc===', '===a11yc_rplc===]'),
+	array('<span id="', '"><strong>ERR!</strong></span>'),
+	$raw);
+
+$lines = explode("\n", $raw);
+$lines = array_map(function($v){return $v.'<br>';}, $lines);
+$raw = join("\n", $lines);
+
+\A11yc\View::assign('raw', $raw, false);
+
+\A11yc\View::display(array('checklist/validate.php'));
+
+exit();
+
+
 // assign html source code
 $raw = '';
 if ($errs)
