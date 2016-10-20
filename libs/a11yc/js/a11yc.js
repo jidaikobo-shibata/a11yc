@@ -344,27 +344,33 @@ function format_validation_error(){
 	{
 		var $error_lists = $error_wrapper.find('dt');
 		var $error_elms = $error_wrapper.find('.a11yc_validation_error_str');
-		var $error_codes = $('#a11yc_validation_code').find('.a11yc_source strong');
-		var error_texts = [];
+		var $error_anchors = $('#a11yc_validation_code').find('.a11yc_source span');
 		var $disclosure = $error_wrapper.find('.a11yc_disclosure');
+
+
+/*
+		var error_texts = [];
 		$error_codes.each(function(){
 			error_texts.push($(this).text());
 		});
+
 		$error_elms.each(function(index){
 			// add link to error place
-/*			if(error_texts.indexOf($(this).data('place'))!=-1)
+			if(error_texts.indexOf($(this).data('place'))!=-1)
 			{
 				var index = error_texts.indexOf($(this).data('place'));
 //				var $link = $('<dd class="a11yc_validate_link"><a href="#'+$error_codes[index].id+'" class="a11yc_hasicon"><span class="a11yc_icon_fa a11yc_icon_view" role="presentation" aria-hidden="true"></span><span class="a11yc_skip">view</span></a></dd>').insertAfter(this);
 			}
-*/
 		});
+*/
+		// click validate_link
 		$(document).on('click', '.a11yc_validate_link a', function(e){
 			var e = e ? e : event;
 			console.log($(e.currentTarget));
 			var $t = $($(e.currentTarget).attr('href'));
 			e.stopPropagation();
 			e.preventDefault();
+			// open disclosure
 			if($disclosure.hasClass('hide'))
 			{
 			 $.when(a11yc_disclosure_toggle($disclosure, $(e.currentTarget)))

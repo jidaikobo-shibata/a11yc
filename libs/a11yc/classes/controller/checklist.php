@@ -277,9 +277,6 @@ class Controller_Checklist
 		$yml = Yaml::fetch();
 		if (isset($yml['errors'][$code_str]))
 		{
-
-echo '#'.$code_str.'_'.$place['name'].'<br>' ;
-
 			$ret = '<dt>'.$yml['errors'][$code_str]['message'];
 			$criterion_code = $yml['errors'][$code_str]['criterion'];
 			$code = $yml['errors'][$code_str]['code'];
