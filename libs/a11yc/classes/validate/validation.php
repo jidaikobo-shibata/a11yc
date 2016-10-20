@@ -89,7 +89,6 @@ class Validate_Validation extends Validate
 		$str = static::ignore_elements(static::$hl_html);
 
 		$ms = static::get_elements_by_re($str, 'anchors_and_values');
-
 		$errs = array();
 		foreach ($ms[2] as $k => $m)
 		{
@@ -97,7 +96,7 @@ class Validate_Validation extends Validate
 			if ($m == A11YC_LANG_HERE)
 			{
 				static::$error_ids['is_not_here_link'][$k]['id'] = Util::s($ms[0][$k]);
-				static::$error_ids['is_not_here_link'][$k]['str'] = @Util::s($m);
+				static::$error_ids['is_not_here_link'][$k]['str'] = @Util::s($ms[1][$k]);
 				$errs[$k] = $ms[0][$k];
 			}
 		}
@@ -307,7 +306,7 @@ class Validate_Validation extends Validate
 			)
 			{
 				static::$error_ids['is_not_same_alt_and_filename_of_img'][$k]['id'] = Util::s($ms[0][$k]);
-				static::$error_ids['is_not_same_alt_and_filename_of_img'][$k]['str'] = Util::s($filename);
+				static::$error_ids['is_not_same_alt_and_filename_of_img'][$k]['str'] = '"'.Util::s($filename).'"';
 				$errs[$k] = $ms[0][$k];
 			}
 		}
@@ -446,7 +445,10 @@ class Validate_Validation extends Validate
 		{
 			// unbalanced_quotation
 			$tag = str_replace(array("\\'", '\\"'), '', $m);
-			if ((substr_count($tag, '"') + substr_count($tag, "'")) % 2 !== 0)
+
+			// TODO: in Englsih, single quote is frequent on grammar
+			// if ((substr_count($tag, '"') + substr_count($tag, "'")) % 2 !== 0)
+			if (substr_count($tag, '"') % 2 !== 0)
 			{
 				static::$error_ids['unbalanced_quotation'][$k]['id'] = Util::s($ms[0][$k]);
 				static::$error_ids['unbalanced_quotation'][$k]['str'] = Util::s($m);
