@@ -97,6 +97,7 @@
 					<th scope="col" class="a11yc_rest_label_lv">AAA</th>
 					<th scope="col"><?php echo A11YC_LANG_CHECKLIST_TOTAL ?></th>
 				</tr>
+			</thead>
 			<tbody>
 		<?php foreach ($yml['principles'] as $v): ?>
 				<tr id="a11yc_rest_<?php echo $v['code'] ?>">

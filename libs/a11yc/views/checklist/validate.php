@@ -13,7 +13,7 @@
 			</dt>
 			<dd>
 				<div class="a11yc_disclosure_target a11yc_source show">
-					<table><?php echo $raw ?></table>
+					<?php echo $raw ?>
 				</div><!-- /.a11yc_disclosure_target -->
 			</dd>
 		</dl>
