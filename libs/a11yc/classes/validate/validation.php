@@ -32,7 +32,6 @@ class Validate_Validation extends Validate
 			{
 				static::$error_ids['is_exist_alt_attr_of_img'][$k]['id'] = Util::s($ms[0][$k]);
 				static::$error_ids['is_exist_alt_attr_of_img'][$k]['str'] = Util::s(@basename(@$attrs['src']));
-				static::$error_ids['is_exist_alt_attr_of_img'][$k]['name'] = max(array_flip($errs))===false ? 0 : max(array_flip($errs))+1;
 				static::$errors[] = Util::s($ms[0][$k]);
 				$errs[] = $ms[0][$k];
 			}
@@ -74,7 +73,6 @@ class Validate_Validation extends Validate
 			{
 				static::$error_ids['is_not_empty_alt_attr_of_img_inside_a'][$k]['id'] = Util::s($ms[0][$k]);
 				static::$error_ids['is_not_empty_alt_attr_of_img_inside_a'][$k]['str'] = Util::s(@basename(@$attrs['src']));
-				static::$error_ids['is_not_empty_alt_attr_of_img_inside_a'][$k]['name'] = max(array_flip($errs))===false ? 0 : max(array_flip($errs))+1;
 				static::$errors[] = Util::s($ms[0][$k]);
 				$errs[] = $ms[0][$k];
 			}
@@ -130,7 +128,6 @@ class Validate_Validation extends Validate
 			{
 				static::$error_ids['is_are_has_alt'][$k]['id'] = Util::s($ms[0][$k]);
 				static::$error_ids['is_are_has_alt'][$k]['str'] = Util::s(@basename(@$attrs['coords']));
-				static::$error_ids['is_are_has_alt'][$k]['name'] = max(array_flip($errs))===false ? 0 : max(array_flip($errs))+1;
 				static::$errors[] = Util::s($ms[0][$k]);
 				$errs[] = $ms[0][$k];
 			}
@@ -162,7 +159,6 @@ class Validate_Validation extends Validate
 			{
 				static::$error_ids['is_img_input_has_alt'][$k]['id'] = Util::s($ms[0][$k]);
 				static::$error_ids['is_img_input_has_alt'][$k]['str'] = Util::s(@basename(@$attrs['src']));
-				static::$error_ids['is_img_input_has_alt'][$k]['name'] = max(array_flip($errs))===false ? 0 : max(array_flip($errs))+1;
 				static::$errors[] = Util::s($ms[0][$k]);
 				$errs[] = $ms[0][$k];
 			}
@@ -195,7 +191,6 @@ class Validate_Validation extends Validate
 				$str = isset($secs[$k + 1]) ? Util::s($secs[$k + 1]) : Util::s($v);
 				static::$error_ids['appropriate_heading_descending'][$k]['id'] = $str;
 				static::$error_ids['appropriate_heading_descending'][$k]['str'] = $str;
-				static::$error_ids['appropriate_heading_descending'][$k]['name'] = max(array_flip($errs))===false ? 0 : max(array_flip($errs))+1;
 				static::$errors[] = $str;
 				$errs[] = $str;
 			}
@@ -217,46 +212,66 @@ class Validate_Validation extends Validate
 		// tags
 		preg_match_all("/\<([^\> ]+)/i", $body_html, $tags);
 
-		// ignore elements
+		// elements
 		$endless = array('img', 'wbr', 'br', 'hr', 'base', 'input', 'param', 'area', 'embed', 'meta', 'link', 'track', 'source', 'col', 'command');
-		$ignores = array('!doctype', 'html', '/html', '![if', '![endif]', '?xml');
-		$ignores = array_merge($ignores, $endless);
+		$ignores = array('!doctype', 'html', '![if', '![endif]', '?xml');
+		$omissionables = array('li', 'dt', 'dd', 'p', 'rt', 'rp', 'optgroup', 'option', 'tr', 'td', 'th', 'thead', 'tfoot', 'tbody', 'colgroup');
+		$ignores = array_merge($ignores, $endless, $omissionables);
 
-		// tag suspicious elements
-		$suspicious_opens = array();
-		$suspicious_ends = array();
+		// tags
+		$opens = array();
+		$ends = array();
 		foreach ($tags[1] as $tag)
 		{
-			if (in_array(strtolower($tag), $ignores)) continue; // ignore
+			$tag = strtolower($tag);
+			if (in_array($tag, $ignores)) continue; // ignore
+			if (in_array(substr($tag, 1), $ignores)) continue; // ignore
 
 			// collect tags
-			if (substr($tag, 0, 1) =='/')
+			if ($tag[0] =='/')
 			{
-				$suspicious_ends[] = substr($tag, 1);
+				$ends[] = substr($tag, 1);
 			}
 			else
+			{
+				$opens[] = $tag;
+			}
+		}
+
+		// count tags
+		$opens_cnt = array_count_values($opens);
+		$ends_cnt = array_count_values($ends);
+
+		// check nums
+		$suspicious_opens = array();
+		foreach ($opens_cnt as $tag => $num)
+		{
+			if ( ! isset($ends_cnt[$tag]) || $opens_cnt[$tag] != $ends_cnt[$tag])
 			{
 				$suspicious_opens[] = $tag;
 			}
 		}
 
-		$suspicious_ends_results = array_diff($suspicious_ends, $suspicious_opens);
-		$suspicious_opens_results = array_diff($suspicious_opens, $suspicious_ends);
-
-		// add slash to end tags
-		$suspicious_ends_results = array_map(function($s){return '/'.$s;} , $suspicious_ends_results);
+		// check nums
+		$suspicious_ends = array();
+		foreach ($ends_cnt as $tag => $num)
+		{
+			if ( ! isset($opens_cnt[$tag]) || $opens_cnt[$tag] != $ends_cnt[$tag])
+			{
+				$suspicious_ends[] = $tag;
+			}
+		}
 
 		// suspicious
-		$suspicious = array_merge(
-			$suspicious_ends_results,
-			$suspicious_opens_results);
+		$suspicious = array_merge($suspicious_opens, $suspicious_ends);
+		$suspicious = array_unique($suspicious);
 
 		// endless
 		foreach ($endless as $v)
 		{
-			if (strpos($body_html, '</'.$v) !== false)
+			if (strpos($body_html, '</'.$v) !== false && ! in_array('/'.$v, $suspicious))
 			{
-				$suspicious[] = '</'.$v;
+				$suspicious[] = '/'.$v;
 			}
 		}
 
@@ -268,7 +283,6 @@ class Validate_Validation extends Validate
 			{
 				static::$error_ids['suspicious_elements'][$k]['id'] = Util::s('<'.$v);
 				static::$error_ids['suspicious_elements'][$k]['str'] = Util::s($v);
-				static::$error_ids['suspicious_elements'][$k]['name'] = max(array_flip($errs))===false ? 0 : max(array_flip($errs))+1;
 				static::$errors[] = Util::s('<'.$v);
 				$errs[] = '<'.$v;
 			}
@@ -301,7 +315,6 @@ class Validate_Validation extends Validate
 			{
 				static::$error_ids['is_not_same_alt_and_filename_of_img'][$k]['id'] = Util::s($ms[0][$k]);
 				static::$error_ids['is_not_same_alt_and_filename_of_img'][$k]['str'] = Util::s($filename);
-				static::$error_ids['is_not_same_alt_and_filename_of_img'][$k]['name'] = max(array_flip($errs))===false ? 0 : max(array_flip($errs))+1;
 				static::$errors[] = Util::s($ms[0][$k]);
 				$errs[] = $ms[0][$k];
 			}
@@ -327,7 +340,6 @@ class Validate_Validation extends Validate
 		{
 			static::$error_ids['is_not_exists_ja_word_breaking_space'][$k]['id'] = Util::s($ms[0][$k]);
 			static::$error_ids['is_not_exists_ja_word_breaking_space'][$k]['str'] = Util::s($m);
-			static::$error_ids['is_not_exists_ja_word_breaking_space'][$k]['name'] = max(array_flip($errs))===false ? 0 : max(array_flip($errs))+1;
 			static::$errors[] = Util::s($ms[0][$k]);
 			$errs[] = $ms[0][$k];
 		}
@@ -362,7 +374,6 @@ class Validate_Validation extends Validate
 				{
 					static::$error_ids['is_not_exists_meanless_element'][$k]['id'] = Util::s('<'.$m);
 					static::$error_ids['is_not_exists_meanless_element'][$k]['str'] = Util::s($m);
-					static::$error_ids['is_not_exists_meanless_element'][$k]['name'] = max(array_flip($errs))===false ? 0 : max(array_flip($errs))+1;
 					static::$errors[] = Util::s('<'.$m);
 					$errs[] = '<'.$m;
 					break;
@@ -396,7 +407,6 @@ class Validate_Validation extends Validate
 			{
 				static::$error_ids['is_not_style_for_structure'][$k]['id'] = Util::s($ms[0][$k]);
 				static::$error_ids['is_not_style_for_structure'][$k]['str'] = Util::s($m);
-				static::$error_ids['is_not_style_for_structure'][$k]['name'] = max(array_flip($errs))===false ? 0 : max(array_flip($errs))+1;
 				static::$errors[] = Util::s($ms[0][$k]);
 				$errs[] = $ms[0][$k];
 			}
@@ -424,7 +434,6 @@ class Validate_Validation extends Validate
 			{
 				static::$error_ids['duplicated_attributes'][$k]['id'] = Util::s($ms[0][$k]);
 				static::$error_ids['duplicated_attributes'][$k]['str'] = Util::s($m);
-				static::$error_ids['duplicated_attributes'][$k]['name'] = max(array_flip($errs))===false ? 0 : max(array_flip($errs))+1;
 				static::$errors[] = Util::s($ms[0][$k]);
 				$errs[] = $ms[0][$k];
 			}
@@ -453,7 +462,6 @@ class Validate_Validation extends Validate
 			{
 				static::$error_ids['unbalanced_quotation'][$k]['id'] = Util::s($ms[0][$k]);
 				static::$error_ids['unbalanced_quotation'][$k]['str'] = Util::s($m);
-				static::$error_ids['unbalanced_quotation'][$k]['name'] = max(array_flip($errs1))===false ? 0 : max(array_flip($errs1))+1;
 				static::$errors[] = Util::s($ms[0][$k]);
 				$errs1[] = $ms[0][$k];
 			}
@@ -465,7 +473,6 @@ class Validate_Validation extends Validate
 			{
 				static::$error_ids['cannot_contain_multibyte_space'][$k]['id'] = Util::s($ms[0][$k]);
 				static::$error_ids['cannot_contain_multibyte_space'][$k]['str'] = Util::s($m);
-				static::$error_ids['cannot_contain_multibyte_space'][$k]['name'] = max(array_flip($errs2))===false ? 0 : max(array_flip($errs2))+1;
 				static::$errors[] = Util::s($ms[0][$k]);
 				$errs2[] = $ms[0][$k];
 			}
@@ -523,7 +530,6 @@ class Validate_Validation extends Validate
 					{
 						static::$error_ids['tell_user_file_type'][$kk]['id'] = Util::s($ms[0][$k]);
 						static::$error_ids['tell_user_file_type'][$kk]['str'] = Util::s($val);
-						static::$error_ids['tell_user_file_type'][$kk]['name'] = max(array_flip($errs))===false ? 0 : max(array_flip($errs))+1;
 						static::$errors[] = Util::s($ms[0][$k]);
 						$errs[] = $ms[0][$k];
 					}
@@ -548,7 +554,6 @@ class Validate_Validation extends Validate
 		{
 			static::$error_ids['titleless'][0]['id'] = '';
 			static::$error_ids['titleless'][0]['str'] = '';
-			static::$error_ids['titleless'][0]['name'] = 0;
 			static::$errors[] = '';
 			$errs[] = '';
 		}
@@ -570,7 +575,6 @@ class Validate_Validation extends Validate
 		{
 			static::$error_ids['langless'][0]['id'] = Util::s('<html');
 			static::$error_ids['langless'][0]['str'] = '';
-			static::$error_ids['langless'][0]['name'] = 0;
 			static::$errors[] = Util::s('<html');
 			$errs[] = '<html';
 		}
@@ -594,7 +598,6 @@ class Validate_Validation extends Validate
 		{
 			static::$error_ids['is_not_exist_same_page_title_in_same_site'][$k]['id'] = Util::s($title);
 			static::$error_ids['is_not_exist_same_page_title_in_same_site'][$k]['str'] = Util::s($title);
-			static::$error_ids['is_not_exist_same_page_title_in_same_site'][$k]['name'] = max(array_flip($errs))===false ? 0 : max(array_flip($errs))+1;
 			static::$errors[] = Util::s($title);
 			$errs[] = '<title>'.$title;
 		}
@@ -649,7 +652,6 @@ class Validate_Validation extends Validate
 			{
 				static::$error_ids['same_urls_should_have_same_text'][$k]['id'] = Util::s($ms[0][$k]);
 				static::$error_ids['same_urls_should_have_same_text'][$k]['str'] = Util::s($url).': "'.Util::s($urls[$url]).'" OR "'.Util::s($text).'"';
-				static::$error_ids['same_urls_should_have_same_text'][$k]['name'] = max(array_flip($errs))===false ? 0 : max(array_flip($errs))+1;
 				static::$errors[] = Util::s($ms[0][$k]);
 				$errs[] = $ms[0][$k];
 			}
@@ -690,7 +692,6 @@ class Validate_Validation extends Validate
 				{
 					static::$error_ids['link_check'][$k]['id'] = Util::s($url);
 					static::$error_ids['link_check'][$k]['str'] = 'Fragment Not Found: '.Util::s($url);
-					static::$error_ids['link_check'][$k]['name'] = max(array_flip($errs))===false ? 0 : max(array_flip($errs))+1;
 					static::$errors[] = Util::s($url);
 					$errs[] = $url;
 				}
@@ -706,7 +707,6 @@ class Validate_Validation extends Validate
 				// not OK
 				static::$error_ids['link_check'][$k]['id'] = Util::s($url);
 				static::$error_ids['link_check'][$k]['str'] = Util::s(substr($headers[0], strpos($headers[0], ' '))).': '.Util::s($url);
-				static::$error_ids['link_check'][$k]['name'] = max(array_flip($errs))===false ? 0 : max(array_flip($errs))+1;
 				static::$errors[] = Util::s($url);
 				$errs[] = $url;
 			}
@@ -714,7 +714,6 @@ class Validate_Validation extends Validate
 			{
 				static::$error_ids['link_check'][$k]['id'] = 'Not Found: '.Util::s($url);
 				static::$error_ids['link_check'][$k]['str'] = 'Not Found: '.Util::s($url);
-				static::$error_ids['link_check'][$k]['name'] = max(array_flip($errs))===false ? 0 : max(array_flip($errs))+1;
 				static::$errors[] = Util::s($url);
 				$errs[] = $url;
 			}

@@ -90,9 +90,9 @@ class Controller_Checklist
 		{
 			foreach (Validate::get_error_ids() as $code => $errs)
 			{
-				foreach ($errs as $err)
+				foreach ($errs as $key => $err)
 				{
-					$all_errs[] = static::message($code, $err);
+					$all_errs[] = static::message($code, $err, $key);
 				}
 			}
 		}
@@ -272,13 +272,13 @@ class Controller_Checklist
 	 *
 	 * @return  str
 	 */
-	public static function message($code_str, $place = array())
+	public static function message($code_str, $place, $key)
 	{
 		$yml = Yaml::fetch();
 		if (isset($yml['errors'][$code_str]))
 		{
 
-echo '#'.$code_str.'_'.$place['name'].'<br>' ;
+			echo '#'.$code_str.'_'.$key.'<br>' ;
 
 			$ret = '<dt>'.$yml['errors'][$code_str]['message'];
 			$criterion_code = $yml['errors'][$code_str]['criterion'];
@@ -290,7 +290,7 @@ echo '#'.$code_str.'_'.$place['name'].'<br>' ;
 			$ret.= '<a href="'.A11YC_DOC_URL.$code.'&amp;criterion='.$yml['errors'][$code_str]['criterion'].'"'.A11YC_TARGET.'>Doc</a>)</dt>';
 
 			$ret.= '<dd class="a11yc_validation_error_str" data-level="'.$level.'" data-place="'.$place['id'].'">'.$place['str'].'</dd>';
-			$ret.= '<dd class="a11yc_validation_error_link"><a href="#'.$code_str.'_'.$place['name'] .'" class="a11yc_hasicon">Code</a></dd>';
+			$ret.= '<dd class="a11yc_validation_error_link"><a href="#'.$code_str.'_'.$key .'" class="a11yc_hasicon">Code</a></dd>';
 			return $ret;
 		}
 		return FALSE;
