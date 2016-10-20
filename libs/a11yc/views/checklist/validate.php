@@ -1,6 +1,12 @@
 <?php if ($errs):
 	// error
-?><h1 class="a11yc_disclosure a11yc_resetstyle">error_check</h1>
+?><h1 class="a11yc_disclosure a11yc_resetstyle"><?php echo A11YC_LANG_CHECKLIST_MACHINE_CHECK ?>
+	<?php
+		foreach ($errs_cnts as $lv => $errs_cnt):
+			echo '<span>'.strtoupper($lv).': '.intval($errs_cnt).'</span> ';
+		endforeach;
+	?>
+	</h1>
 	<div class="a11yc_disclosure_target show">
 		<dl id="a11yc_validation_errors" class="a11yc_hide_if_fixedheader">
 		<?php foreach ($errs as $err):  ?>

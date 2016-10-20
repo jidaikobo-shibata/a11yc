@@ -41,17 +41,17 @@ class Util extends \Kontiki\Util
 	 */
 	public static function key2link($text)
 	{
-		// Yaml makes slow...
-//		$yml = Yaml::fetch();
+		$yml = Yaml::fetch();
 
 		preg_match_all("/\d-\d-\d+?\w/", $text, $ms);
 
 		$replaces = array();
-		if ($ms)
+		if (isset($ms[0][0]) && $ms[0][0])
 		{
 			foreach ($ms[0] as $m)
 			{
-//				if ( ! isset($yml['checks'][$criterion][$m])) continue;
+				$criterion = static::get_criterion_from_code($m);
+				if ( ! isset($yml['checks'][$criterion][$m])) continue;
 				$original = $m;
 				$replaced = hash("sha256", $m);
 				$replaces[] = array(
@@ -66,7 +66,7 @@ class Util extends \Kontiki\Util
 				$criterion = static::get_criterion_from_code($v['original']);
 				$text = str_replace(
 					$v['replaced'],
-					'<a href="'.A11YC_DOC_URL.$v['original'].'&criterion='.$criterion.'"'.A11YC_TARGET.'>'.static::key2code($v['original']).'</a>',
+					'<a href="'.A11YC_DOC_URL.$v['original'].'&criterion='.$criterion.'"'.A11YC_TARGET.' title="'.$yml['checks'][$criterion][$v['original']]['name'].' ('.$yml['checks'][$criterion][$v['original']]['level']['name'].')">'.static::key2code($criterion).'</a>',
 					$text);
 			}
 		}

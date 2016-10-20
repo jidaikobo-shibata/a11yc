@@ -12,6 +12,8 @@
 namespace A11yc;
 class Controller_Checklist
 {
+	static public $err_cnts = array('a' => 0, 'aa' => 0, 'aaa' => 0);
+
 	/**
 	 * action index
 	 *
@@ -53,7 +55,7 @@ class Controller_Checklist
 		$content = Util::fetch_html($url);
 		if ( ! $content) return array();
 		$all_errs = array();
-		Validate::set_base_path($url);
+		Validate::set_target_path($url);
 		Validate::set_html($content);
 
 		$codes = array();
@@ -92,6 +94,7 @@ class Controller_Checklist
 		{
 			Validate_Validation::$code();
 		}
+
 		if (Validate::get_error_ids())
 		{
 			foreach (Validate::get_error_ids() as $code => $errs)
@@ -285,7 +288,14 @@ class Controller_Checklist
 		{
 			$anchor = $code_str.'_'.$key;
 
-			$ret = '<dt id="index_'.$anchor.'" tabindex="-1">'.$yml['errors'][$code_str]['message'];
+			// level
+			$lv = strtolower($yml['criterions'][$yml['errors'][$code_str]['criterion']]['level']['name']);
+
+			// count errors
+			static::$err_cnts[$lv]++;
+
+			// html
+			$ret = '<dt id="index_'.$anchor.'" tabindex="-1" class="a11yc_lv_'.$lv.'">'.$yml['errors'][$code_str]['message'];
 			$criterion_code = $yml['errors'][$code_str]['criterion'];
 			$code = $yml['errors'][$code_str]['code'];
 			$level = $yml['checks'][$criterion_code][$code]['criterion']['level']['name'];
@@ -294,8 +304,8 @@ class Controller_Checklist
 			$ret.= ' (<a href="'.$criterion['url'].'"'.A11YC_TARGET.' title="'.$criterion['name'].'">'.Util::key2code($criterion['code']).'</a>, ';
 			$ret.= '<a href="'.A11YC_DOC_URL.$code.'&amp;criterion='.$yml['errors'][$code_str]['criterion'].'"'.A11YC_TARGET.'>Doc</a>)</dt>';
 
-			$ret.= '<dd class="a11yc_validation_error_str" data-level="'.$level.'" data-place="'.$place['id'].'">'.$place['str'].'</dd>';
-			$ret.= '<dd class="a11yc_validation_error_link"><a href="#'.$anchor .'" class="a11yc_hasicon">Code</a></dd>';
+			$ret.= '<dd class="a11yc_validation_error_str a11yc_lv_'.$lv.'" data-level="'.$level.'" data-place="'.$place['id'].'">'.$place['str'].'</dd>';
+			$ret.= '<dd class="a11yc_validation_error_link a11yc_lv_'.$lv.'"><a href="#'.$anchor .'" class="a11yc_hasicon">Code</a></dd>';
 			return $ret;
 		}
 		return FALSE;

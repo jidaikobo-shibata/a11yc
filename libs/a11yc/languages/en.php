@@ -84,8 +84,6 @@ define('A11YC_LANG_SETUP_TITLE', 'Setup');
 define('A11YC_LANG_SETUP_TITLE_ETC', 'etc.');
 define('A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR', 'Checklist Behaviour');
 define('A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR_DISAPPEAR', 'Disappear when check');
-define('A11YC_LANG_SETUP_LINKCHECK_BASE_PATH', 'サイトの起点のURL');
-define('A11YC_LANG_SETUP_LINKCHECK_BASE_PATH_EXP', 'リンクチェック時に用います');
 
 define('A11YC_LANG_DECLARE_DATE', 'Declare Date');
 define('A11YC_LANG_STANDARD', 'Standard');
@@ -122,6 +120,7 @@ define('A11YC_LANG_CHECKLIST_CONFORMANCE_ADDITIONAL', 'Additional Conformance');
 define('A11YC_LANG_CHECKLIST_NON_INTERFERENCE', 'Non interference');
 define('A11YC_LANG_CHECKLIST_DO_LINK_CHECK', 'Do link check');
 define('A11YC_LANG_CHECKLIST_VIEW_SOURCE', 'View source code');
+define('A11YC_LANG_CHECKLIST_MACHINE_CHECK', 'Automatic Check');
 
 // bulk
 define('A11YC_LANG_BULK_TITLE', 'Batch');

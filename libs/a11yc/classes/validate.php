@@ -12,7 +12,6 @@
 namespace A11yc;
 class Validate
 {
-	protected static $base_path;
 	protected static $target_path;
 	protected static $error_ids = array();
 	protected static $html = '';
@@ -29,16 +28,44 @@ class Validate
 	);
 
 	/**
-	 * set_base_path
+	 * set_target_path
 	 *
 	 * param string $target_path
 	 * @return  void
 	 */
-	public static function set_base_path($target_path)
+	public static function set_target_path($target_path)
 	{
-		$setup = Controller_Setup::fetch_setup();
-		static::$base_path = rtrim($setup['base_path'], '/');
 		static::$target_path = rtrim($target_path, '/');
+	}
+
+	/**
+	 * upper_path
+	 *
+	 * param string $str
+	 * @return  string
+	 */
+	public static function upper_path($str)
+	{
+		$num = substr_count($str, '../');
+		$ret = '';
+		for ($n = 1; $n <= $num; $n++)
+		{
+			$ret = dirname(static::$target_path);
+		}
+
+		$headers = @get_headers($ret);
+		if (
+			$headers !== false &&
+			(
+				strpos($headers[0], ' 20') !== false ||
+				strpos($headers[0], ' 30') !== false
+			)
+		)
+		{
+			return $ret;
+		}
+
+		return static::$target_path;
 	}
 
 	/**
@@ -166,6 +193,12 @@ class Validate
 			return true;
 		}
 
+		// mailto
+		if (isset($attrs['href']) && substr($attrs['href'], 0, 7) == 'mailto:')
+		{
+			return true;
+		}
+
 		return false;
 	}
 
@@ -178,8 +211,7 @@ class Validate
 	public static function correct_url($str)
 	{
 		// base path
-		$maybe_base_pathes = explode("/", static::$target_path);
-		static::$base_path = static::$base_path ?: join("/", array_slice($maybe_base_pathes, 0, 3));
+		$root_path = join("/", array_slice(explode("/", static::$target_path), 0, 3));
 		if (empty($str)) return static::$target_path;
 
 		// care with start with '//'
@@ -192,28 +224,27 @@ class Validate
 			// root relative path.
 			if ($str[0] == '/' && $str[1] != '/')
 			{
-				$str = $str[0] == '/' ? static::$base_path.$str : $str;
+				$str = $root_path.$str;
 			}
-			elseif(substr($str, 0, 2) == './')
+			else if(substr($str, 0, 2) == './')
 			{
 				$str = static::$target_path.'/'.substr($str, 2);
 			}
-			elseif(substr($str, 0, 3) == '../')
+			else if(substr($str, 0, 3) == '../')
 			{
-				$str = dirname(dirname(static::$target_path)).'/'.substr($str, 3);
+				$str = static::upper_path($str).'/'.substr($str, 3);
 			}
 
 			// scheme
 			$scheme = substr($str, 0, strpos($str, ':'));
-			if (in_array($scheme, array('http', 'https', 'file', 'mailto', 'gopher', 'news', 'nntp', 'telnet', 'wais', 'prospero', 'javascript')))
+			if (in_array($scheme, array('http', 'https', 'file', 'ftp', 'gopher', 'news', 'nntp', 'telnet', 'wais', 'prospero'))) // do not contain "mailto" because mailto doesn't return header.
 			{
 				$str = $str;
 			}
 			// maybe link to file
 			else if ($str[0] != '#')
 			{
-				$ds = $str[0] != '/' ? '/' : '';
-				$str = static::$base_path.$ds.$str;
+				$str = static::$target_path.'/'.$str;
 			}
 			// maybe fragment
 			else
@@ -221,6 +252,7 @@ class Validate
 				$str = $str;
 			}
 		}
+
 		return $str;
 	}
 
@@ -341,6 +373,8 @@ class Validate
 			}
 		}
 
+		$lv = strtolower($yml['criterions'][$yml['errors'][$error_id]['criterion']]['level']['name']);
+
 		// replace errors
 		$results = array();
 		$replaces = array();
@@ -350,10 +384,10 @@ class Validate
 			$error_len = mb_strlen($error, "UTF-8");
 
 			// hash strgings to avoid wrong replace
-			$original = '[===a11yc_rplc==='.$error_id.'_'.$k.'===a11yc_rplc_title==='.$yml['errors'][$error_id]['message'].'===a11yc_rplc===]';
+			$original = '[===a11yc_rplc==='.$error_id.'_'.$k.'===a11yc_rplc_title==='.$yml['errors'][$error_id]['message'].'===a11yc_rplc_class==='.$lv.'===a11yc_rplc===][===a11yc_rplc_strong_class==='.$lv.'===a11yc_rplc_strong===]';
 			$replaced = '===a11yc_rplc==='.hash("sha256", $original).'===a11yc_rplc===';
 
-			$end_original = '[===end_a11yc_rplc==='.$error_id.'_'.$k.'===end_a11yc_rplc===]';
+			$end_original = '[===end_a11yc_rplc==='.$error_id.'_'.$k.'===a11yc_rplc_back_class==='.$lv.'===end_a11yc_rplc===]';
 			$end_replaced = '===aend_11yc_rplc==='.hash("sha256", $end_original).'===end_a11yc_rplc===';
 			$replaces[$k] = array(
 				'original' => $original,
@@ -363,7 +397,6 @@ class Validate
 				'end_replaced' => $end_replaced,
 			);
 			$err_rep_len = strlen($replaced);
-
 
 			// first search
 			$pos = mb_strpos($html, $error, $offset, "UTF-8");

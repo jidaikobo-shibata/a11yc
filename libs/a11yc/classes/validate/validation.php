@@ -362,9 +362,9 @@ class Validate_Validation extends Validate
 			{
 				if (substr($m, 0, strlen($banned)) == $banned)
 				{
-					static::$error_ids['is_not_exists_meanless_element'][$k]['id'] = Util::s('<'.$m);
+					static::$error_ids['is_not_exists_meanless_element'][$k]['id'] = Util::s($m);
 					static::$error_ids['is_not_exists_meanless_element'][$k]['str'] = Util::s($m);
-					$errs[$k] = '<'.$m;
+					$errs[$k] = $m;
 					break;
 				}
 			}
@@ -560,7 +560,7 @@ class Validate_Validation extends Validate
 		if ( ! preg_match("/\<html[^\>]*?lang *?= *?[^\>]*?\>/i", static::$hl_html))
 		{
 			static::$error_ids['langless'][0]['id'] = Util::s('<html');
-			static::$error_ids['langless'][0]['str'] = '';
+			static::$error_ids['langless'][0]['str'] = Util::s('<html');
 			$errs[0] = '<html';
 		}
 		static::add_error_to_html('langless', $errs);
@@ -658,24 +658,24 @@ class Validate_Validation extends Validate
 		foreach ($ms[1] as $k => $v)
 		{
 			if (static::is_ignorable($ms[0][$k])) continue;
-			$urls[] = static::correct_url($v);
+			$urls[$v] = static::correct_url($v);
 		}
-		$urls = array_unique($urls);
 
 		// fragments
 		preg_match_all("/ (?:id|name) *?= *?[\"']([^\"']+?)[\"']/i", $str, $fragments);
 
 		// check
 		$errs = array();
-		foreach ($urls as $k => $url)
+		$k = 0;
+		foreach ($urls as $original => $url)
 		{
 			if ($url[0] == '#')
 			{
 				if ( ! in_array(substr($url, 1), $fragments[1]))
 				{
-					static::$error_ids['link_check'][$k]['id'] = Util::s($url);
-					static::$error_ids['link_check'][$k]['str'] = 'Fragment Not Found: '.Util::s($url);
-					$errs[$k] = $url;
+					static::$error_ids['link_check'][$k]['id'] = Util::s($original);
+					static::$error_ids['link_check'][$k]['str'] = 'Fragment Not Found: '.Util::s($original);
+					$errs[$k] = $original;
 				}
 				continue;
 			}
@@ -687,16 +687,17 @@ class Validate_Validation extends Validate
 				if (strpos($headers[0], ' 20') !== false || strpos($headers[0], ' 30') !== false) continue;
 
 				// not OK
-				static::$error_ids['link_check'][$k]['id'] = Util::s($url);
-				static::$error_ids['link_check'][$k]['str'] = Util::s(substr($headers[0], strpos($headers[0], ' '))).': '.Util::s($url);
-				$errs[$k] = $url;
+				static::$error_ids['link_check'][$k]['id'] = Util::s($original);
+				static::$error_ids['link_check'][$k]['str'] = Util::s(substr($headers[0], strpos($headers[0], ' '))).': '.Util::s($original);
+				$errs[$k] = $original;
 			}
 			else
 			{
-				static::$error_ids['link_check'][$k]['id'] = 'Not Found: '.Util::s($url);
-				static::$error_ids['link_check'][$k]['str'] = 'Not Found: '.Util::s($url);
-				$errs[$k] = $url;
+				static::$error_ids['link_check'][$k]['id'] = 'Not Found: '.Util::s($original);
+				static::$error_ids['link_check'][$k]['str'] = 'Not Found: '.Util::s($original);
+				$errs[$k] = $original;
 			}
+			$k++;
 		}
 		static::add_error_to_html('link_check', $errs, 'ignores_comment_out');
 	}

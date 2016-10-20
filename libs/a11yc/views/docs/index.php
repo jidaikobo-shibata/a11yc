@@ -6,11 +6,9 @@ $html = '';
 foreach ($test['tests'] as $code => $v):
 	if ($word && ! in_array($code, $results['tests'])) continue;
 	\A11yc\View::assign('doc', $v, false);
-	\A11yc\View::assign('is_index', true);
-//	$html.= '<li><a'.A11YC_TARGET.' href="'.A11YC_DOC_URL.$code.'">'.$v['name'].'</a></li>';
 	$html.= '<li class="a11yc_disclosure_parent"><a role="button" class="a11yc_disclosure">'.$v['name'].'</a>';
 	$html.= '<div class="a11yc_disclosure_target">';
-	$html.= \A11yc\Util::key2link(\A11yc\View::fetch_tpl('docs/each.php'));
+	$html.= \A11yc\View::fetch_tpl('docs/each.php');
 	$html.= '</div>';
 	$html.= '</li>';
 endforeach;
@@ -73,7 +71,6 @@ $msg = '';
 				<div class="a11yc_section_each_docs a11yc_disclosure_target">
 					<?php
 						\A11yc\View::assign('doc', $val, false);
-						\A11yc\View::assign('is_index', true);
 						echo \A11yc\View::fetch_tpl('docs/each.php');
 					?>
 				</div>
