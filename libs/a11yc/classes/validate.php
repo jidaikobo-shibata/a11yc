@@ -15,7 +15,6 @@ class Validate
 	protected static $base_path;
 	protected static $target_path;
 	protected static $error_ids = array();
-	protected static $errors = array();
 	protected static $html = '';
 	protected static $hl_html = ''; // HighLighted
 
@@ -346,36 +345,50 @@ class Validate
 		foreach ($errors as $k => $error)
 		{
 			$offset = 0;
+			$error_len = mb_strlen($error, "UTF-8");
 
 			// hash strgings to avoid wrong replace
 			$original = '[===a11yc_rplc==='.$error_id.'_'.$k.'===a11yc_rplc===]';
 			$replaced = '===a11yc_rplc==='.hash("sha256", $original).'===a11yc_rplc===';
+
+			$end_original = '[===end_a11yc_rplc==='.$error_id.'_'.$k.'===end_a11yc_rplc===]';
+			$end_replaced = '===aend_11yc_rplc==='.hash("sha256", $end_original).'===end_a11yc_rplc===';
 			$replaces[$k] = array(
 				'original' => $original,
 				'replaced' => $replaced,
+
+				'end_original' => $end_original,
+				'end_replaced' => $end_replaced,
 			);
-			$err_span_length = strlen($replaced);
+			$err_rep_len = strlen($replaced);
+
 
 			// first search
-			$pos = mb_strpos($html, $error, $offset);
+			$pos = mb_strpos($html, $error, $offset, "UTF-8");
 
 			// is already replaced?
 			if (in_array($pos, $results))
 			{
 				//  search next
 				$offset = max($results) + 1;
-				$pos = mb_strpos($html, $error, $offset);
+				$pos = mb_strpos($html, $error, $offset, "UTF-8");
 			}
 
 			// add error
-			$html = mb_substr($html, 0, $pos).$replaced.mb_substr($html, $pos);
-			$results[] = $pos + $err_span_length;
+			$html = mb_substr($html, 0, $pos, "UTF-8").$replaced.mb_substr($html, $pos, NULL, "UTF-8");
+
+			// and end point
+			$end_pos = $pos + $err_rep_len + $error_len;
+			$html = mb_substr($html, 0, $end_pos, "UTF-8").$end_replaced.mb_substr($html, $end_pos, NULL, "UTF-8");
+
+			$results[] = $pos + $err_rep_len;
 		}
 
-		// hash to error
+		// recover error html
 		foreach ($replaces as $v)
 		{
 			$html = str_replace($v['replaced'], $v['original'], $html);
+			$html = str_replace($v['end_replaced'], $v['end_original'], $html);
 		}
 
 		// recover ignores

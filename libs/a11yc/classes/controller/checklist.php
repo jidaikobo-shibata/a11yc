@@ -56,31 +56,37 @@ class Controller_Checklist
 		Validate::set_base_path($url);
 		Validate::set_html($content);
 
-		$codes = array(
-			'is_exist_alt_attr_of_img',
+		$codes = array();
+		if ($link_check)
+		{
+			$codes = array('link_check');
+		}
+
+		$codes = array_merge($codes, array(
+			// elements
 			'is_not_empty_alt_attr_of_img_inside_a',
 			'is_not_here_link',
+			'tell_user_file_type',
+			'same_urls_should_have_same_text',
+
+			// single tags
+			'is_exist_alt_attr_of_img',
 			'is_img_input_has_alt',
-			'is_are_has_alt',
+			'is_area_has_alt',
 			'suspicious_elements',
 			'appropriate_heading_descending',
 			'is_not_same_alt_and_filename_of_img',
-			'is_not_exists_ja_word_breaking_space',
 			'is_not_exists_meanless_element',
 			'is_not_style_for_structure',
 			'invalid_tag',
 			'duplicated_attributes',
-			'tell_user_file_type',
-			'is_not_exist_same_page_title_in_same_site',
 			'titleless',
 			'langless',
-			'same_urls_should_have_same_text',
-		);
 
-		if ($link_check)
-		{
-			$codes[] = 'link_check';
-		}
+			// non tag
+			'is_not_exists_ja_word_breaking_space',
+			'is_not_exist_same_page_title_in_same_site',
+		));
 
 		foreach ($codes as $code)
 		{
@@ -90,9 +96,9 @@ class Controller_Checklist
 		{
 			foreach (Validate::get_error_ids() as $code => $errs)
 			{
-				foreach ($errs as $err)
+				foreach ($errs as $key => $err)
 				{
-					$all_errs[] = static::message($code, $err);
+					$all_errs[] = static::message($code, $err, $key);
 				}
 			}
 		}
@@ -272,12 +278,15 @@ class Controller_Checklist
 	 *
 	 * @return  str
 	 */
-	public static function message($code_str, $place = array())
+	public static function message($code_str, $place, $key)
 	{
 		$yml = Yaml::fetch();
 		if (isset($yml['errors'][$code_str]))
 		{
-			$ret = '<dt>'.$yml['errors'][$code_str]['message'];
+			echo '#'.$code_str.'_'.$key.'<br>' ;
+			$anchor = $code_str.'_'.$key;
+
+			$ret = '<dt><span id="index_'.$anchor.'"></span>'.$yml['errors'][$code_str]['message'];
 			$criterion_code = $yml['errors'][$code_str]['criterion'];
 			$code = $yml['errors'][$code_str]['code'];
 			$level = $yml['checks'][$criterion_code][$code]['criterion']['level']['name'];
@@ -287,7 +296,7 @@ class Controller_Checklist
 			$ret.= '<a href="'.A11YC_DOC_URL.$code.'&amp;criterion='.$yml['errors'][$code_str]['criterion'].'"'.A11YC_TARGET.'>Doc</a>)</dt>';
 
 			$ret.= '<dd class="a11yc_validation_error_str" data-level="'.$level.'" data-place="'.$place['id'].'">'.$place['str'].'</dd>';
-			$ret.= '<dd class="a11yc_validation_error_link"><a href="#'.$code_str.'_'.$place['name'] .'" class="a11yc_hasicon">Code</a></dd>';
+			$ret.= '<dd class="a11yc_validation_error_link"><a href="#'.$anchor .'" class="a11yc_hasicon">Code</a></dd>';
 			return $ret;
 		}
 		return FALSE;
