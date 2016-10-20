@@ -33,88 +33,26 @@ if ( ! $url) die('invalid access');
 $errs = \A11yc\Controller_Checklist::validate_page($url, $link_check);
 \A11yc\View::assign('errs', $errs, false);
 
-
 $raw = \A11yc\Util::s(\A11yc\Validate::get_hl_html());
 $raw = str_replace(
-	array('[===a11yc_rplc===', '===a11yc_rplc===]'),
-	array('<span id="', '"><strong>ERR!</strong></span>'),
+	array(
+		'[===a11yc_rplc===',
+		'===a11yc_rplc===]',
+		'[===end_a11yc_rplc===',
+		'===end_a11yc_rplc===]'
+	),
+	array(
+		'<span id="',
+		'"></span><strong>',
+		'</strong><a class="a11yc_back_link" href="#index_',
+		'">back</a>',
+	),
 	$raw);
 
 $lines = explode("\n", $raw);
 $lines = array_map(function($v){return $v.'<br>';}, $lines);
 $raw = join("\n", $lines);
 
-\A11yc\View::assign('raw', $raw, false);
-
-\A11yc\View::display(array('checklist/validate.php'));
-
-exit();
-
-
-// assign html source code
-$raw = '';
-if ($errs)
-{
-	$html = \A11yc\Util::fetch_html($url);
-	$html = \A11yc\Util::s($html);
-	$yml = \A11yc\Yaml::fetch();
-
-	$replaces = array();
-	$ignores = array_merge(\A11yc\Validate::$ignores, \A11yc\Validate::$ignores_comment_out);
-	foreach ($ignores as $k => $ignore)
-	{
-		preg_match_all(\A11yc\Util::s($ignore), $html, $ms);
-		if ($ms)
-		{
-			foreach ($ms[0] as $kk => $vv)
-			{
-				$original = $vv;
-				$replaced = hash("sha256", $vv);
-				$replaces[$k][$kk] = array(
-					'original' => $original,
-					'replaced' => $replaced,
-				);
-				$html = str_replace($original, $replaced, $html);
-			}
-		}
-	}
-
-	foreach (\A11yc\Validate::get_error_ids() as $eid => $v)
-	{
-		foreach($v as $id => $vv)
-		{
-			$html = str_replace(
-				$vv['id'],
-				'<strong id="a11yc_validate_'.$id.'" title="'.$yml['errors'][$eid]['message'].'('.str_replace( '-', '.', $yml['errors'][$eid]['criterion'] ).' '.$yml['criterions'][$yml['errors'][$eid]['criterion']]['level']['name'].')" tabindex="0">'.$vv['id'].'</strong>',
-				$html);
-		}
-	}
-
-
-/*
-	foreach (\A11yc\Validate::get_errors() as $id => $v)
-	{
-		$html = str_replace(
-			$v,
-			'<strong id="a11yc_validate_'.$id.'">'.$v.'</strong>',
-			$html);
-	}
-*/
-	foreach ($replaces as $v)
-	{
-		foreach ($v as $vv)
-		{
-			$html = str_replace(
-				$vv['replaced'],
-				'<span style="color:#900">'.$vv['original'].'</span>',
-				$html);
-		}
-	}
-
-	$lines = explode("\n", $html);
-	$lines = array_map(function($v){return $v.'<br>';}, $lines);
-	$raw = join("\n", $lines);
-}
 \A11yc\View::assign('raw', $raw, false);
 
 \A11yc\View::display(array('checklist/validate.php'));
