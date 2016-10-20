@@ -344,9 +344,11 @@ function format_validation_error(){
 	{
 		var $error_lists = $error_wrapper.find('dt');
 		var $error_elms = $error_wrapper.find('.a11yc_validation_error_str');
+		
 		var $error_anchors = $('#a11yc_validation_code').find('.a11yc_source span');
 		var $disclosure = $error_wrapper.find('.a11yc_disclosure');
-
+		var $error_places = $();
+		
 
 /*
 		var error_texts = [];
@@ -498,7 +500,10 @@ function a11yc_smooth_scroll($t) {
 $('.a11yc').on('keydown', function(e){
 	if( e.which!=9 ) return;
 	setTimeout(function(){
-		a11yc_adjust_position($(':focus'));
+		if($(':focus')[0])
+		{
+			a11yc_adjust_position($(':focus'));
+		}
 	},0);
 });
 function a11yc_adjust_position($obj) {

@@ -37,15 +37,17 @@ $raw = \A11yc\Util::s(\A11yc\Validate::get_hl_html());
 $raw = str_replace(
 	array(
 		'[===a11yc_rplc===',
+		'===a11yc_rplc_title===',
 		'===a11yc_rplc===]',
 		'[===end_a11yc_rplc===',
 		'===end_a11yc_rplc===]'
 	),
 	array(
 		'<span id="',
-		'"></span><strong>',
-		'</strong><a class="a11yc_back_link" href="#index_',
-		'">back</a>',
+		'" title="',
+		'" tabindex="0" class="a11yc_validation_code_error">ERROR!</span><strong>',
+		'</strong><a class="a11yc_back_link a11yc_hasicon" href="#index_',
+		'" title="back to error"><span class="a11yc_icon_fa a11yc_icon_arrow_u" role="presentation" aria-hidden="true"></span><span class="a11yc_skip">back</span></a>',
 	),
 	$raw);
 

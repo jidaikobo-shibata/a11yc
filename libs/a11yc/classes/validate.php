@@ -312,6 +312,8 @@ class Validate
 	 */
 	public static function add_error_to_html($error_id, $errors, $ignore_vals = '')
 	{
+		$yml = Yaml::fetch();
+
 		$html = static::$hl_html;
 
 		// ignore elements or comments
@@ -348,7 +350,7 @@ class Validate
 			$error_len = mb_strlen($error, "UTF-8");
 
 			// hash strgings to avoid wrong replace
-			$original = '[===a11yc_rplc==='.$error_id.'_'.$k.'===a11yc_rplc===]';
+			$original = '[===a11yc_rplc==='.$error_id.'_'.$k.'===a11yc_rplc_title==='.$yml['errors'][$error_id]['message'].'===a11yc_rplc===]';
 			$replaced = '===a11yc_rplc==='.hash("sha256", $original).'===a11yc_rplc===';
 
 			$end_original = '[===end_a11yc_rplc==='.$error_id.'_'.$k.'===end_a11yc_rplc===]';
