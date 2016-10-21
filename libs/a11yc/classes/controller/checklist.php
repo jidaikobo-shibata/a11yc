@@ -301,8 +301,9 @@ class Controller_Checklist
 			$level = $yml['checks'][$criterion_code][$code]['criterion']['level']['name'];
 
 			$criterion = $yml['checks'][$criterion_code][$code]['criterion'];
-			$ret.= ' (<a href="'.$criterion['url'].'"'.A11YC_TARGET.' title="'.$criterion['name'].'">'.Util::key2code($criterion['code']).'</a>, ';
-			$ret.= '<a href="'.A11YC_DOC_URL.$code.'&amp;criterion='.$yml['errors'][$code_str]['criterion'].'"'.A11YC_TARGET.'>Doc</a>)</dt>';
+			$ret.= ' ('.strtoupper($lv).' ';
+			$ret.= '<a href="'.A11YC_DOC_URL.$code.'&amp;criterion='.$yml['errors'][$code_str]['criterion'].'"'.A11YC_TARGET.'>Doc</a> ';
+			$ret.= '<a href="'.$criterion['url'].'"'.A11YC_TARGET.' title="'.$criterion['name'].'">'.Util::key2code($criterion['code']).'</a>)</dt>';
 
 			$ret.= '<dd class="a11yc_validation_error_str a11yc_lv_'.$lv.'" data-level="'.$level.'" data-place="'.$place['id'].'">'.$place['str'].'</dd>';
 			$ret.= '<dd class="a11yc_validation_error_link a11yc_lv_'.$lv.'"><a href="#'.$anchor .'" class="a11yc_hasicon">Code</a></dd>';
