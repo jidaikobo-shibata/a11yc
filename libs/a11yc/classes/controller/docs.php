@@ -81,7 +81,7 @@ class Controller_Docs
 						strpos($vv['criterion']['code'], $word) !== false ||
 //						strpos($vv['criterion']['url'], $word) !== false ||
 						strpos($vv['criterion']['summary'], $word) !== false ||
-						strpos($vv['tech'], $word) !== false ||
+						strpos(@$vv['tech'], $word) !== false ||
 						strpos($vv['name'], $word) !== false
 					)
 					{

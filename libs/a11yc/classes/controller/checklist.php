@@ -77,6 +77,7 @@ class Controller_Checklist
 			'invalid_tag',
 			'duplicated_attributes',
 			'duplicated_ids',
+			'form_and_labels',
 			'titleless',
 			'langless',
 
@@ -84,6 +85,9 @@ class Controller_Checklist
 			'is_not_exists_ja_word_breaking_space',
 			'is_not_exist_same_page_title_in_same_site',
 		);
+
+
+
 
 		if ($link_check)
 		{

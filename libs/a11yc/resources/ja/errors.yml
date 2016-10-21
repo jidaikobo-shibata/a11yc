@@ -87,3 +87,19 @@ errors:
     message: タグの中に全角スペースが存在します
     criterion: 4-1-1
     code: 4-1-1a
+  label_miss_maches:
+    message: form要素の中のforとidの関係が一致していないようです
+    criterion: 4-1-1
+    code: 4-1-1a
+  labelless:
+    message: form要素を使う時には、labelを使いましょう
+    criterion: 1-3-1
+    code: 1-3-1a
+  lackness_of_form_ends:
+    message: きちんと閉じられていないform要素があるようです
+    criterion: 4-1-1
+    code: 4-1-1a
+  unique_label:
+    message: labelの文字列に重複があり、識別性が損なわれている可能性があります
+    criterion: 2-4-6
+    code: 2-4-6a

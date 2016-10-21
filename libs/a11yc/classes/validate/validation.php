@@ -404,6 +404,138 @@ class Validate_Validation extends Validate
 	}
 
 	/**
+	 * form and labels
+	 *
+	 * @return  void
+	 */
+	public static function form_and_labels()
+	{
+		$str = static::ignore_elements(static::$hl_html);
+
+		$ms = static::get_elements_by_re($str, 'tags');
+		if ( ! $ms[1]) return;
+
+		// is form exists?
+		$tags = array_map(function($v){return substr($v, 0, 6);}, $ms[0]);
+		if ( ! in_array('<form ', $tags)) return;
+
+		// collect form items
+		$form_items = array('<form ', '<label', '<input', '<select', '<texta', '<butto');
+		$forms = array();
+		$target = '';
+		$n = 0;
+		foreach ($ms[0] as $k => $m)
+		{
+			if ( ! in_array(substr($m, 0, 6), $form_items)) continue;
+
+			// target
+			if (substr($m, 0, 6) == '<form ')
+			{
+				$n++;
+				$forms[$n]['form'] = $m;
+				continue;
+			}
+
+			// label, for, id, type
+			if (substr($m, 0, 6) == '<label')
+			{
+				$forms[$n]['labels'][] = $m;
+			}
+			$attrs = static::get_attributes($m);
+			if (isset($attrs['for']))
+			{
+				$forms[$n]['fors'][] = $attrs['for'];
+			}
+			if (isset($attrs['id']))
+			{
+				$forms[$n]['ids'][] = $attrs['id'];
+			}
+			if (isset($attrs['type']))
+			{
+				$forms[$n]['types'][] = $attrs['type'];
+			}
+		}
+
+		// errors
+		$errs = array();
+		$errs2 = array();
+		$errs3 = array();
+		$errs4 = array();
+		$n = 0;
+		foreach ($forms as $k => $v)
+		{
+			if ( ! isset($v['types'])) continue;
+
+			// ignore hidden only
+			$each_types = array_unique($v['types']);
+			if (
+				isset($each_types[0]) &&
+				count($each_types) == 1 &&
+				$each_types[0] == 'hidden'
+			)
+			{
+				continue;
+			}
+
+			// to get action attribute
+			$attrs = static::get_attributes($v['form']);
+			$action = isset($attrs['action']) ? Util::s($attrs['action']) : $k;
+
+			// labelless
+			if ( ! isset($v['labels']))
+			{
+				static::$error_ids['labelless'][$n]['id'] = Util::s($v['form']);
+				static::$error_ids['labelless'][$n]['str'] = $action;
+				$errs[$n] = $v['form'];
+			}
+
+			// miss match for and id
+			if (isset($v['fors']) && isset($v['ids']))
+			{
+				$miss_maches_ids = array_diff($v['ids'], $v['fors']);
+				$miss_maches_fors = array_diff($v['fors'], $v['ids']);
+				$miss_maches = array_merge($miss_maches_ids, $miss_maches_fors);
+				if ($miss_maches)
+				{
+					static::$error_ids['label_miss_maches'][$n]['id'] = Util::s($v['form']);
+					static::$error_ids['label_miss_maches'][$n]['str'] = $action.': '.join(', ', Util::s($miss_maches));
+					$errs2[$n] = $v['form'];
+				}
+			}
+
+			// lackness_of_form_ends
+			// this error is critical. so, if this error exists continue.
+			if (empty($errs3) && substr_count($str, '</form') != count($forms))
+			{
+				static::$error_ids['lackness_of_form_ends'][$k]['id'] = Util::s($v['form']);
+				static::$error_ids['lackness_of_form_ends'][$k]['str'] = $action;
+				$errs3[$n] = $v['form'];
+
+				// after here, use '</form'. so lackness of form ends is critical.
+				continue;
+			}
+
+			// whole form
+			$form_begin = strpos($str, $v['form']);
+			$whole_form = substr($str, $form_begin, strpos($str, '</form', $form_begin + 1) - $form_begin);
+
+			preg_match_all("/\<label[^\>].*?\>(.+?)\<\/label/is", $whole_form, $ms);
+			if ( ! isset($ms[1])) continue;
+			if (count($ms[1]) != count(array_unique($ms[1])))
+			{
+				static::$error_ids['unique_label'][$k]['id'] = Util::s($v['form']);
+				static::$error_ids['unique_label'][$k]['str'] = $action;
+				$errs4[$n] = $v['form'];
+			}
+			$n++;
+		}
+		static::add_error_to_html('labelless', $errs, 'ignores');
+		static::add_error_to_html('label_miss_maches', $errs2, 'ignores');
+		static::add_error_to_html('lackness_of_form_ends', $errs3, 'ignores');
+		static::add_error_to_html('unique_label', $errs4, 'ignores');
+	}
+
+	/**
 	 * duplicated attributes
 	 *
 	 * @return  void

@@ -384,6 +384,7 @@ class Validate
 		// replace errors
 		$results = array();
 		$replaces = array();
+
 		foreach ($errors as $k => $error)
 		{
 			$offset = 0;
