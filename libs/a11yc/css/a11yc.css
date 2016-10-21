@@ -18,18 +18,6 @@
 a:link {
 	color: #006ab6;
 }
-a.a11yc_hasicon {
-	text-decoration: none;
-}
-.a11yc_icon_fa {
-	font-family: FontAwesome;
-	-webkit-font-smoothing: antialiased;
-	vertical-align: middle;
-}
-a:hover .a11yc_icon_fa,
-a:focus .a11yc_icon_fa {
-	opacity: .65;
-}
 .a11yc_loading {
 	min-height: 60px;
 	background-image: url('../img/mark_loading_m.gif');
@@ -41,6 +29,11 @@ a:focus .a11yc_icon_fa {
 	padding: 20px;
 	background-color: #fff;
 	border: 1px solid #999;
+}
+.a11yc_controller {
+	position: relative;
+	text-align: right;
+	font-weight: normal;
 }
 .a11yc_source {
 	margin-top: 40px;
@@ -97,13 +90,14 @@ a:focus .a11yc_icon_fa {
 .a11yc_source .a11yc_validation_code_error {
 	display: inline-block;
 	border: 1px solid #900;
-	color: #900;
-	background-color: #fee;
+	border-radius: 2px;
 	margin: 0 .25em;
 	padding: 0 2px;
+	font-weight: normal;
+	color: #900;
+	background-color: #fee;
 	font-size: .9em;
 	white-space: nowrap;
-	border-radius: 2px;
 }
 
 div.a11yc_disclosure_target {
@@ -479,21 +473,21 @@ tr.a11yc_flash {
 	right: 0;
 }
 #a11yc_select_standard,
-#a11yc_narrow_level {
+.a11yc_narrow_level {
 	display: inline-block;
 	margin-left: 5px;
 }
 .a11yc_fixed_header #a11yc_select_standard {
 	display: none;
 }
-#a11yc_narrow_level a {
+.a11yc_narrow_level a {
 	font-size: 1.25em;
 	cursor: pointer;
 	padding: 0 5px;
 	-moz-border-radius: 2px;
 	border-radius: 2px;
 }
-#a11yc_narrow_level a.current {
+.a11yc_narrow_level a.current {
 	background-color: #0073aa;
 	color: #fff;
 }
@@ -569,14 +563,18 @@ table#a11yc_rest {
 	margin: 1em 0;
 }
 #a11yc_validation_errors,
-#a11yc_validation_code .a11yc_disclosure_target.active  {
+#a11yc_validation_code .a11yc_disclosure_target.active {
 	max-height: 200px;
 	max-height: calc(50vh - 7em);
 	min-height: 2em;
 	overflow: auto;
 }
+#a11yc_validation_errors.expand,
+#a11yc_validation_code .a11yc_disclosure_target.expand {
+	max-height: initial;
+}
 dl#a11yc_validation_errors {
-	margin-bottom: 0;
+	margin: 0;
 	padding: 10px 5px;
 	background-color: #fee;
 }
@@ -842,12 +840,40 @@ td.a11yc_table_check_howto {
 	top: calc( 50% - .5em - 2px );
 }
 */
-.a11yc_icon_checkbox {
-	position: absolute;
-	left: 7px;
-	top: calc( 50% - .5em );
-	font-size: 1.75em;
+.a11yc_table_check tr:hover th,
+.a11yc_table_check tr:hover td {
+	background-color: #fefedd;
 }
+.a11yc_hide_passed_item .a11yc_table_check tr.off {
+	display: none;
+}
+.a11yc_table_check tr.off:hover th,
+.a11yc_table_check tr.off:hover td {
+	background-color: transparent;
+}
+.a11yc_table_check tr.off th *,
+.a11yc_table_check tr.off td * {
+	opacity: .5;
+}
+.a11yc_hide_passed_item .a11yc_table_check tr.off th *,
+.a11yc_hide_passed_item .a11yc_table_check tr.off td * {
+	opacity: 1;
+}
+
+/* === a11yc_icon_fa === */
+a.a11yc_hasicon {
+	text-decoration: none;
+}
+.a11yc_icon_fa {
+	font-family: FontAwesome;
+	-webkit-font-smoothing: antialiased;
+	vertical-align: middle;
+}
+a:hover .a11yc_icon_fa,
+a:focus .a11yc_icon_fa {
+	opacity: .65;
+}
+
 .a11yc_icon_checkbox:before {
 	content: "\f1db";
 	font-weight: normal;
@@ -885,6 +911,12 @@ input:focus+.a11yc_icon_checkbox:before {
 .wp-admin :checked+.a11yc_icon_checkbox:after {
 	top: 0;
 }
+.a11yc_icon_checkbox {
+	position: absolute;
+	left: 7px;
+	top: calc( 50% - .5em );
+	font-size: 1.75em;
+}
 .a11yc_link_howto {
 	text-decoration: none;
 }
@@ -898,25 +930,8 @@ input:focus+.a11yc_icon_checkbox:before {
 	color: #000;
 	font-size: 1.5em;
 }
-.a11yc_table_check tr:hover th,
-.a11yc_table_check tr:hover td {
-	background-color: #fefedd;
-}
-.a11yc_hide_passed_item .a11yc_table_check tr.off {
-	display: none;
-}
-.a11yc_table_check tr.off:hover th,
-.a11yc_table_check tr.off:hover td {
-	background-color: transparent;
-}
-.a11yc_table_check tr.off th *,
-.a11yc_table_check tr.off td * {
-	opacity: .5;
-}
-.a11yc_hide_passed_item .a11yc_table_check tr.off th *,
-.a11yc_hide_passed_item .a11yc_table_check tr.off td * {
-	opacity: 1;
-}
+
+
 
 span.a11yc_icon_view:before {
 	content: '\f06e';
@@ -953,6 +968,21 @@ span.a11yc_icon_arrow_u:before {
 	padding: .05em;
 	color: #333;
 	font-weight: normal;
+}
+span.a11yc_icon_expand:before {
+	content: '\f065';
+	margin: 0 .125em;
+	display: inline-block;
+	font-size: 1em;
+	padding: .075em .15em;
+	border-radius: 3px;
+	color: #333;
+	font-weight: normal;
+	border: .1em solid #666;
+	vertical-align: bottom;
+}
+.a11yc_expand.on span.a11yc_icon_expand:before {
+	content: '\f066';
 }
 
 

@@ -1,4 +1,4 @@
-<div id="a11yc_checks" data-a11yc-current-user="<?php echo $current_user_id ?>" data-a11yc-conformance="<?php echo A11YC_LANG_CHECKLIST_CONFORMANCE.','.A11YC_LANG_CHECKLIST_CONFORMANCE_PARTIAL ?>" <?php if($checklist_behaviour) echo ' class="a11yc_hide_passed_item"' ?>>
+<div id="a11yc_checks" data-a11yc-current-user="<?php echo $current_user_id ?>" data-a11yc-lang='{"expand":"<?php echo A11YC_LANG_CTRL_EXPAND ?>", "compress": "<?php echo A11YC_LANG_CTRL_COMPRESS ?>", "conformance": "<?php echo A11YC_LANG_CHECKLIST_CONFORMANCE.','.A11YC_LANG_CHECKLIST_CONFORMANCE_PARTIAL ?>"}' <?php if($checklist_behaviour) echo ' class="a11yc_hide_passed_item"' ?>>
 <!-- header -->
 <div id="a11yc_header">
 	<div id="a11yc_header_top">
@@ -15,7 +15,7 @@
 		</select></p>
 	<?php endif; ?>
 	<!-- narrow level -->
-		<p id="a11yc_narrow_level" class="a11yc_hide_if_no_js">Level:
+		<p class="a11yc_narrow_level a11yc_hide_if_no_js" data-a11yc-narrow-target=".a11yc_section_principle">Level:
 	<?php
 		for ($i=1; $i<=3; $i++)
 		{
@@ -59,7 +59,18 @@
 		});
 	});
 	</script>
-	<div id="a11yc_errors"></div>
+	<div id="a11yc_errors">
+	<!-- narrow level -->
+		<p class="a11yc_narrow_level a11yc_hide_if_no_js" data-a11yc-narrow-target="#a11yc_validation_errors">Level:
+	<?php
+		for ($i=1; $i<=3; $i++)
+		{
+			$class_str = $i == 2 ? ' class="current"' : '';
+			echo '<a role="button" tabindex="0" data-narrow-level="'.implode(',', array_slice(array('l_a', 'l_aa', 'l_aaa'), 0, $i)).'"'.$class_str.'>'.\A11yc\Util::num2str($i).'</a>';
+		}
+	?>
+		</p>
+	</div>
 
 	</div><!-- /#a11yc_targetpage_data -->
 	<?php else:  ?>
@@ -145,9 +156,10 @@
 			$non_interference = isset($vvv['non-interference']) ? '&nbsp;'.A11YC_LANG_CHECKLIST_NON_INTERFERENCE :'';
 			$skip_non_interference = isset($vvv['non-interference']) ? '<span class="a11yc_skip">&nbsp;('.A11YC_LANG_CHECKLIST_NON_INTERFERENCE.')</span>' : '';
 			$class_str = isset($vvv['non-interference']) ? ' non_interference' : '';
-			$class_str.= ' a11yc_criterion_l_'.strtolower($vvv['level']['name']);
+			$class_str.= ' a11yc_level_'.strtolower($vvv['level']['name']);
+
 		?>
-			<div id="a11yc_c_<?php echo $kkk ?>" class="a11yc_section_criterion<?php echo $class_str ?>" data-a11yc-level="l_<?php echo strtolower($vvv['level']['name']) ?>">
+			<div id="a11yc_c_<?php echo $kkk ?>" class="a11yc_section_criterion<?php echo $class_str ?>">
 			<h4 class="a11yc_header_criterion"><?php echo \A11yc\Util::key2code($vvv['code']).' '.$vvv['name'].' <span class="a11yc_header_criterion_level">('.$vvv['level']['name'].$non_interference.')</span>' ?></h4>
 			<ul class="a11yc_outlink">
 			<?php if (isset($vvv['url_as'])):  ?>

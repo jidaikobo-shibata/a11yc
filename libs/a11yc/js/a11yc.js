@@ -124,25 +124,39 @@ if($('.a11yc_table_check')[0])
 {
 	$info = $('#a11yc_rest');
 
-	// nallow level
-	a11yc_nallow_level();
-	$('#a11yc_narrow_level a').on('click keydown', a11yc_nallow_level);
-	function a11yc_nallow_level(e){
+	// narrow level
+	$('.a11yc_narrow_level').each(function(index){
+		a11yc_narrow_level($(this).data('a11ycNarrowTarget'), index);
+	});
+	$('.a11yc_narrow_level a').on('click keydown', function(e){
+		var index = $('.a11yc_narrow_level').index($(this).parent());
+		a11yc_narrow_level($(this).parent().data('a11ycNarrowTarget'), index, e);
+	});
+	//eがないときは、読み込み時のeachの実行
+	function a11yc_narrow_level(target_narrow, index, e){
 		if(e && e.type=='keydown' && e.keyCode!=13) return;
-		var $target = e ? $(e.target) : $('#a11yc_narrow_level .current');
-		if(!$target[0]) $target = $('#a11yc_narrow_level a').eq(-1);
+		//クリックした相手、もしくは自動実行したときのデフォると
+		var $target = e ? $(e.target) : $('.a11yc_narrow_level').eq(index).find('.current');
+		var $target_narrow = $(target_narrow);
+		//全体絞り込みは、レベルが設定されていなければ最高レベルをあてる
+		if(!$target[0]) $target = $('.a11yc_narrow_level').eq(index).find('a').eq(-1);
 		$current_level = $target.text();
 		var data_levels = $target.data('narrowLevel') ? $target.data('narrowLevel').split(',') : [];
 		var $show_levels = $();
+		//現在のレベルハイライト
 		$target.parent().find('a').removeClass('current');
 		$target.addClass('current');
 		for (var k in data_levels)
 		{
-			$show_levels = $show_levels.add($('[data-a11yc-level ='+data_levels[k]+']'));
+//			$show_levels = $show_levels.add($('[data-a11yc-level ='+data_levels[k]+']'));
+			$show_levels = $show_levels.add($target_narrow.find('.a11yc_leve'+data_levels[k]));
 		}
-		$('.a11yc_section_criterion').addClass('a11yc_dn');
+//		$target_narrow.find('.a11yc_section_criterion').addClass('a11yc_dn');
+		$target_narrow.find('.a11yc_level_a,.a11yc_level_aa,.a11yc_level_aaa').addClass('a11yc_dn');
 		$show_levels.removeClass('a11yc_dn');
 
+		//checklist only
+		if(target_narrow!='.a11yc_section_principle') return;
 		//table display
 		a11yc_table_display();
 		//count
@@ -267,7 +281,7 @@ if($('.a11yc_table_check')[0])
 				if(!$(this).is('.a11yc_rest_subtotal')){
 					var l_str = '';
 					for(var i=0; i<=index; i++) l_str= l_str+'a';
-					n_str = $(pid).find('[data-a11yc-level=l_'+l_str+'] th input').filter(':not(:disabled,:checked)').length;
+					n_str = $(pid).find('.a11yc_level_'+l_str+' th input').filter(':not(:disabled,:checked)').length;
 
 					if (index+1 <= $current_level.length)
 					{
@@ -344,11 +358,26 @@ function format_validation_error(){
 	{
 		var $error_lists = $error_wrapper.find('dt');
 		var $error_elms = $error_wrapper.find('.a11yc_validation_error_str');
-		
 		var $error_anchors = $('#a11yc_validation_code').find('.a11yc_source span');
-		var $disclosure = $error_wrapper.find('.a11yc_disclosure');
+		var $disclosure = $('#a11yc_validation_code').find('.a11yc_source');
 		var $error_places = $();
-		
+	
+		var $controller = $('#a11yc_errors .a11yc_controller');
+		//expand contents
+		var icon_labels = [$('#a11yc_checks').data('a11ycLang').expand, $('#a11yc_checks').data('a11ycLang').compress];
+		$expand_icon = $('<a role="button" class="a11yc_expand a11yc_hasicon" tabindex="0"><span role="presentation" aria-hidden="true" class="a11yc_icon_fa a11yc_icon_expand"></span><span class="a11yc_skip">'+icon_labels[0]+'</span></a>');
+		$expands = $error_wrapper.add($disclosure);
+		$controller.prepend($expand_icon.clone());
+		$(document).on('click', '.a11yc_expand', function(){
+			var index = $('.a11yc_expand').index(this);
+			$(this).toggleClass('on');
+			$expands.eq(index).toggleClass('expand');
+			if($(this).hasClass('on')){
+				$(this).find('.a11yc_skip').text(icon_labels[1]);
+			}else{
+				$(this).find('.a11yc_skip').text(icon_labels[0]);	
+			}
+		});
 
 /*
 		var error_texts = [];
@@ -543,6 +572,7 @@ function a11yc_tooltip(){
 
 	$('.a11yc').on({
 		'mouseenter focus': function(e){
+			if(!$(this).is('a, span, :input, strong')) return;
 			setTimeout(function($obj){
 				var title_str = $obj.attr('title');
 				var position = $obj.offset();

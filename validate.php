@@ -56,15 +56,15 @@ $raw = str_replace(
 		// span
 		'<span id="',
 		'" title="',
-		'" class="a11yc_validation_code_error a11yc_lv_',
+		'" class="a11yc_validation_code_error a11yc_level_',
 
 		// span to strong
-		'" tabindex="0">ERROR!</span><strong class="a11yc_lv_',
+		'" tabindex="0">ERROR!</span><strong class="a11yc_level_',
 		'">',
 
 		// strong to end
 		'</strong><a href="#index_',
-		'" class="a11yc_back_link a11yc_hasicon a11yc_lv_',
+		'" class="a11yc_back_link a11yc_hasicon a11yc_level_',
 		'" title="back to error"><span class="a11yc_icon_fa a11yc_icon_arrow_u" role="presentation" aria-hidden="true"></span><span class="a11yc_skip">back</span></a>',
 	),
 	$raw);

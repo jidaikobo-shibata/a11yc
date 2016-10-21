@@ -36,6 +36,9 @@ define('A11YC_LANG_CTRL_SEND', 'Send');
 define('A11YC_LANG_CTRL_PREV', 'Previous');
 define('A11YC_LANG_CTRL_NEXT', 'Next');
 define('A11YC_LANG_CTRL_NUM', 'Number');
+define('A11YC_LANG_CTRL_EXPAND', 'Expand');
+define('A11YC_LANG_CTRL_COMPRESS', 'Compress');
+
 
 // login
 define('A11YC_LANG_AUTH_TITLE', 'A11YC Login');
