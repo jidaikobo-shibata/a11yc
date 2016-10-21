@@ -86,9 +86,6 @@ class Controller_Checklist
 			'is_not_exist_same_page_title_in_same_site',
 		);
 
-
-
-
 		if ($link_check)
 		{
 			$codes[] = 'link_check';

@@ -812,8 +812,30 @@ class Validate_Validation extends Validate
 	{
 		$str = static::ignore_comment_out(static::$hl_html);
 
-		// urls
+		// ordinary urls
 		preg_match_all("/ (?:href|src|cite|data|poster|action) *?= *?[\"']([^\"']+?)[\"']/i", $str, $ms);
+
+		// og
+		$mms = static::get_elements_by_re($str, 'tags');
+		if (isset($mms[0]))
+		{
+			foreach ($mms[0] as $m)
+			{
+				if (strpos($m, '<meta') === false) continue;
+				$attrs = static::get_attributes($m);
+				if ( ! isset($attrs['property'])) continue;
+
+				if ($attrs['property'] == 'og:url' && isset($attrs['content']))
+				{
+					$ms[1][] = $attrs['content'];
+				}
+				if ($attrs['property'] == 'og:image' && isset($attrs['content']))
+				{
+					$ms[1][] = $attrs['content'];
+				}
+			}
+		}
+
 		$urls = array();
 		foreach ($ms[1] as $k => $v)
 		{
