@@ -69,8 +69,8 @@ errors:
     code: 2-4-4a
   same_urls_should_have_same_text:
     message: 同じURLなのにリンク文字列が異なります
-    criterion: 2-4-9
-    code: 2-4-9a
+    criterion: 3-2-4
+    code: 3-2-4a
   duplicated_attributes:
     message: 属性値が重複している可能性があります
     criterion: 4-1-1
