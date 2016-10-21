@@ -58,13 +58,7 @@ class Controller_Checklist
 		Validate::set_target_path($url);
 		Validate::set_html($content);
 
-		$codes = array();
-		if ($link_check)
-		{
-			$codes = array('link_check');
-		}
-
-		$codes = array_merge($codes, array(
+		$codes = array(
 			// elements
 			'is_not_empty_alt_attr_of_img_inside_a',
 			'is_not_here_link',
@@ -82,13 +76,19 @@ class Controller_Checklist
 			'is_not_style_for_structure',
 			'invalid_tag',
 			'duplicated_attributes',
+			'duplicated_ids',
 			'titleless',
 			'langless',
 
 			// non tag
 			'is_not_exists_ja_word_breaking_space',
 			'is_not_exist_same_page_title_in_same_site',
-		));
+		);
+
+		if ($link_check)
+		{
+			$codes[] = 'link_check';
+		}
 
 		foreach ($codes as $code)
 		{

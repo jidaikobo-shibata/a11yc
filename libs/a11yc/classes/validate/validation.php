@@ -15,7 +15,6 @@ class Validate_Validation extends Validate
 	/**
 	 * is exist alt attr of img
 	 *
-	 * @param   strings     $str
 	 * @return  void
 	 */
 	public static function is_exist_alt_attr_of_img()
@@ -23,6 +22,7 @@ class Validate_Validation extends Validate
 		$str = static::ignore_elements(static::$hl_html);
 
 		$ms = static::get_elements_by_re($str, 'imgs');
+		if ( ! $ms[1]) return;
 
 		$errs = array();
 		foreach ($ms[1] as $k => $m)
@@ -41,7 +41,6 @@ class Validate_Validation extends Validate
 	/**
 	 * is not empty alt attr of img inside a
 	 *
-	 * @param   strings     $str
 	 * @return  void
 	 */
 	public static function is_not_empty_alt_attr_of_img_inside_a()
@@ -49,6 +48,7 @@ class Validate_Validation extends Validate
 		$str = static::ignore_elements(static::$hl_html);
 
 		$ms = static::get_elements_by_re($str, 'anchors_and_values');
+		if ( ! $ms[2]) return;
 
 		$errs = array();
 		foreach ($ms[2] as $k => $m)
@@ -81,7 +81,6 @@ class Validate_Validation extends Validate
 	/**
 	 * is not here link
 	 *
-	 * @param   strings     $str
 	 * @return  bool
 	 */
 	public static function is_not_here_link()
@@ -89,6 +88,8 @@ class Validate_Validation extends Validate
 		$str = static::ignore_elements(static::$hl_html);
 
 		$ms = static::get_elements_by_re($str, 'anchors_and_values');
+		if ( ! $ms[2]) return;
+
 		$errs = array();
 		foreach ($ms[2] as $k => $m)
 		{
@@ -106,7 +107,6 @@ class Validate_Validation extends Validate
 	/**
 	 * is area has alt
 	 *
-	 * @param   strings     $str
 	 * @return  bool
 	 */
 	public static function is_area_has_alt()
@@ -114,6 +114,7 @@ class Validate_Validation extends Validate
 		$str = static::ignore_elements(static::$hl_html);
 
 		$ms = static::get_elements_by_re($str, 'tags');
+		if ( ! $ms[0]) return;
 
 		$errs = array();
 		foreach ($ms[0] as $k => $m)
@@ -123,7 +124,7 @@ class Validate_Validation extends Validate
 			if ( ! isset($attrs['alt']) || empty($attrs['alt']))
 			{
 				static::$error_ids['is_area_has_alt'][$k]['id'] = Util::s($ms[0][$k]);
-				static::$error_ids['is_area_has_alt'][$k]['str'] = Util::s(@basename(@$attrs['coords']));
+				static::$error_ids['is_area_has_alt'][$k]['str'] = Util::s(@basename(@$attrs['href']));
 				$errs[$k] = $ms[0][$k];
 			}
 		}
@@ -133,7 +134,6 @@ class Validate_Validation extends Validate
 	/**
 	 * is img input has alt
 	 *
-	 * @param   strings     $str
 	 * @return  bool
 	 */
 	public static function is_img_input_has_alt()
@@ -141,6 +141,7 @@ class Validate_Validation extends Validate
 		$str = static::ignore_elements(static::$hl_html);
 
 		$ms = static::get_elements_by_re($str, 'tags');
+		if ( ! $ms[0]) return;
 
 		$errs = array();
 		foreach($ms[0] as $k => $m)
@@ -163,7 +164,6 @@ class Validate_Validation extends Validate
 	/**
 	 * appropriate heading descending
 	 *
-	 * @param   strings     $str
 	 * @return  bool
 	 */
 	public static function appropriate_heading_descending()
@@ -195,7 +195,6 @@ class Validate_Validation extends Validate
 	/**
 	 * suspicious_elements
 	 *
-	 * @param   strings     $str
 	 * @return  bool
 	 */
 	public static function suspicious_elements()
@@ -255,37 +254,38 @@ class Validate_Validation extends Validate
 			}
 		}
 
-		// suspicious
-		$suspicious = array_merge($suspicious_opens, $suspicious_ends);
-		$suspicious = array_unique($suspicious);
-
 		// endless
 		foreach ($endless as $v)
 		{
-			if (strpos($body_html, '</'.$v) !== false && ! in_array('/'.$v, $suspicious))
+			if (strpos($body_html, '</'.$v) !== false && ! in_array('/'.$v, $suspicious_ends))
 			{
-				$suspicious[] = '/'.$v;
+				$suspicious_ends[] = '/'.$v;
 			}
 		}
 
 		// add errors
-		if ($suspicious)
+		$errs = array();
+		foreach ($suspicious_opens as $k => $v)
 		{
-			$errs = array();
-			foreach ($suspicious as $k => $v)
-			{
-				static::$error_ids['suspicious_elements'][$k]['id'] = Util::s('<'.$v);
-				static::$error_ids['suspicious_elements'][$k]['str'] = Util::s($v);
-				$errs[$k] = '<'.$v;
-			}
-			static::add_error_to_html('suspicious_elements', $errs, 'ignores');
+			static::$error_ids['suspicious_opens'][$k]['id'] = Util::s('<'.$v);
+			static::$error_ids['suspicious_opens'][$k]['str'] = Util::s($v);
+			$errs[$k] = '<'.$v;
 		}
+		static::add_error_to_html('suspicious_opens', $errs, 'ignores');
+
+		$errs = array();
+		foreach ($suspicious_ends as $k => $v)
+		{
+			static::$error_ids['suspicious_ends'][$k]['id'] = Util::s('<'.$v);
+			static::$error_ids['suspicious_ends'][$k]['str'] = Util::s($v);
+			$errs[$k] = '<'.$v;
+		}
+		static::add_error_to_html('suspicious_ends', $errs, 'ignores');
 	}
 
 	/**
 	 * is not same alt and filename of img
 	 *
-	 * @param   strings     $str
 	 * @return  void
 	 */
 	public static function is_not_same_alt_and_filename_of_img()
@@ -293,6 +293,8 @@ class Validate_Validation extends Validate
 		$str = static::ignore_elements(static::$hl_html);
 
 		$ms = static::get_elements_by_re($str, 'imgs');
+		if ( ! $ms[1]) return;
+
 		$errs = array();
 		foreach ($ms[1] as $k => $m)
 		{
@@ -316,7 +318,6 @@ class Validate_Validation extends Validate
 	/**
 	 * is not exists ja word breaking space
 	 *
-	 * @param   strings     $str
 	 * @return  void
 	 */
 	public static function is_not_exists_ja_word_breaking_space()
@@ -339,7 +340,6 @@ class Validate_Validation extends Validate
 	/**
 	 * is not exists meanless element
 	 *
-	 * @param   strings     $str
 	 * @return  void
 	 */
 	public static function is_not_exists_meanless_element()
@@ -354,6 +354,7 @@ class Validate_Validation extends Validate
 		);
 
 		$ms = static::get_elements_by_re($body_html, 'tags');
+		if ( ! $ms[0]) return;
 
 		$errs = array();
 		foreach ($ms[0] as $k => $m)
@@ -375,7 +376,6 @@ class Validate_Validation extends Validate
 	/**
 	 * is not style for structure
 	 *
-	 * @param   strings     $str
 	 * @return  void
 	 */
 	public static function is_not_style_for_structure()
@@ -383,6 +383,7 @@ class Validate_Validation extends Validate
 		$str = static::ignore_elements(static::$hl_html);
 
 		$ms = static::get_elements_by_re($str, 'tags');
+		if ( ! $ms[1]) return;
 		$errs = array();
 		foreach ($ms[1] as $k => $m)
 		{
@@ -405,7 +406,6 @@ class Validate_Validation extends Validate
 	/**
 	 * duplicated attributes
 	 *
-	 * @param   strings     $str
 	 * @return  void
 	 */
 	public static function duplicated_attributes()
@@ -413,6 +413,7 @@ class Validate_Validation extends Validate
 		$str = static::ignore_elements(static::$hl_html);
 
 		$ms = static::get_elements_by_re($str, 'tags');
+		if ( ! $ms[1]) return;
 
 		$errs = array();
 		foreach ($ms[1] as $k => $m)
@@ -429,15 +430,45 @@ class Validate_Validation extends Validate
 	}
 
 	/**
+	 * duplicated ids
+	 *
+	 * @return  void
+	 */
+	public static function duplicated_ids()
+	{
+		$str = static::ignore_elements(static::$hl_html);
+
+		$ms = static::get_elements_by_re($str, 'tags');
+		if ( ! $ms[1]) return;
+
+		$ids = array();
+		$errs = array();
+		foreach ($ms[1] as $k => $m)
+		{
+			$attrs = static::get_attributes($m);
+			if ( ! isset($attrs['id'])) continue;
+
+			if (in_array($attrs['id'], $ids))
+			{
+				static::$error_ids['duplicated_ids'][$k]['id'] = Util::s($ms[0][$k]);
+				static::$error_ids['duplicated_ids'][$k]['str'] = Util::s($attrs['id']);
+				$errs[$k] = $ms[0][$k];
+			}
+			$ids[] = $attrs['id'];
+		}
+		static::add_error_to_html('duplicated_ids', $errs, 'ignores');
+	}
+
+	/**
 	 * invalid tag
 	 *
-	 * @param   strings     $str
 	 * @return  void
 	 */
 	public static function invalid_tag()
 	{
 		$str = static::ignore_elements(static::$hl_html);
 		$ms = static::get_elements_by_re($str, 'tags');
+		if ( ! $ms[1]) return;
 
 		$errs1 = array();
 		$errs2 = array();
@@ -472,13 +503,14 @@ class Validate_Validation extends Validate
 	/**
 	 * tell user file type
 	 *
-	 * @param   strings     $str
 	 * @return  void
 	 */
 	public static function tell_user_file_type()
 	{
 		$str = static::ignore_elements(static::$hl_html);
 		$ms = static::get_elements_by_re($str, 'anchors_and_values');
+		if ( ! $ms[1]) return;
+
 		$suspicious = array(
 			'.pdf',
 			'.doc',
@@ -529,7 +561,6 @@ class Validate_Validation extends Validate
 	/**
 	 * titleless
 	 *
-	 * @param   strings     $str
 	 * @return  void
 	 */
 	public static function titleless()
@@ -549,7 +580,6 @@ class Validate_Validation extends Validate
 	/**
 	 * langless
 	 *
-	 * @param   strings     $str
 	 * @return  void
 	 */
 	public static function langless()
@@ -569,7 +599,6 @@ class Validate_Validation extends Validate
 	/**
 	 * is not exist same page title in same site
 	 *
-	 * @param   strings     $str
 	 * @return  void
 	 */
 	public static function is_not_exist_same_page_title_in_same_site()
@@ -593,7 +622,6 @@ class Validate_Validation extends Validate
 			// some screen readers read anchor's title attribute.
 			// and user cannot understand that title is exist or not.
 	 *
-	 * @param   strings     $str
 	 * @return  void
 	 */
 	public static function same_urls_should_have_same_text()
@@ -602,6 +630,7 @@ class Validate_Validation extends Validate
 
 		// urls
 		$ms = static::get_elements_by_re($str, 'anchors_and_values');
+		if ( ! $ms[1]) return;
 
 		$urls = array();
 		$errs = array();
@@ -645,7 +674,6 @@ class Validate_Validation extends Validate
 	/**
 	 * link_check
 	 *
-	 * @param   strings     $str
 	 * @return  void
 	 */
 	public static function link_check()
@@ -684,7 +712,8 @@ class Validate_Validation extends Validate
 			if ($headers !== false)
 			{
 				// OK TODO: think about redirection
-				if (strpos($headers[0], ' 20') !== false || strpos($headers[0], ' 30') !== false) continue;
+//				if (strpos($headers[0], ' 20') !== false || strpos($headers[0], ' 30') !== false) continue;
+				if (strpos($headers[0], ' 20') !== false) continue;
 
 				// not OK
 				static::$error_ids['link_check'][$k]['id'] = Util::s($original);

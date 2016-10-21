@@ -214,6 +214,9 @@ class Validate
 		$root_path = join("/", array_slice(explode("/", static::$target_path), 0, 3));
 		if (empty($str)) return static::$target_path;
 
+		// do not contain "mailto" because mailto doesn't return header.
+		$schemes = array('http', 'https', 'file', 'ftp', 'gopher', 'news', 'nntp', 'telnet', 'wais', 'prospero');
+
 		// care with start with '//'
 		if (substr($str, 0, 2) == '//')
 		{
@@ -237,7 +240,10 @@ class Validate
 
 			// scheme
 			$scheme = substr($str, 0, strpos($str, ':'));
-			if (in_array($scheme, array('http', 'https', 'file', 'ftp', 'gopher', 'news', 'nntp', 'telnet', 'wais', 'prospero'))) // do not contain "mailto" because mailto doesn't return header.
+			if (
+				in_array($scheme, $schemes) ||
+				(strpos($str, ':') !== false && ! in_array($scheme, $schemes))
+			)
 			{
 				$str = $str;
 			}
