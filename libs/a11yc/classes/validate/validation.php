@@ -461,6 +461,7 @@ class Validate_Validation extends Validate
 		$errs2 = array();
 		$errs3 = array();
 		$errs4 = array();
+		$errs5 = array();
 		$n = 0;
 		foreach ($forms as $k => $v)
 		{
@@ -489,20 +490,6 @@ class Validate_Validation extends Validate
 				$errs[$n] = $v['form'];
 			}
 
-			// miss match for and id
-			if (isset($v['fors']) && isset($v['ids']))
-			{
-				$miss_maches_ids = array_diff($v['ids'], $v['fors']);
-				$miss_maches_fors = array_diff($v['fors'], $v['ids']);
-				$miss_maches = array_merge($miss_maches_ids, $miss_maches_fors);
-				if ($miss_maches)
-				{
-					static::$error_ids['label_miss_maches'][$n]['id'] = Util::s($v['form']);
-					static::$error_ids['label_miss_maches'][$n]['str'] = $action.': '.join(', ', Util::s($miss_maches));
-					$errs2[$n] = $v['form'];
-				}
-			}
-
 			// lackness_of_form_ends
 			// this error is critical. so, if this error exists continue.
 			if (empty($errs3) && substr_count($str, '</form') != count($forms))
@@ -516,23 +503,86 @@ class Validate_Validation extends Validate
 			}
 
 			// whole form
-			$form_begin = strpos($str, $v['form']);
-			$whole_form = substr($str, $form_begin, strpos($str, '</form', $form_begin + 1) - $form_begin);
+			$form_begin = mb_strpos($str, $v['form'], false, "UTF-8");
+			$length = mb_strpos($str, '</form', $form_begin + 1, "UTF-8") - $form_begin + strlen('</form>');
+			$whole_form = mb_substr($str, $form_begin, $length, "UTF-8");
 
-			preg_match_all("/\<label[^\>].*?\>(.+?)\<\/label/is", $whole_form, $ms);
-			if ( ! isset($ms[1])) continue;
-			if (count($ms[1]) != count(array_unique($ms[1])))
+			// unique_label
+			preg_match_all("/\<label[^\>]*?\>(.+?)\<\/label\>/is", $whole_form, $ms);
+			if (isset($ms[1]) && count($ms[1]) != count(array_unique($ms[1])))
 			{
 				static::$error_ids['unique_label'][$k]['id'] = Util::s($v['form']);
 				static::$error_ids['unique_label'][$k]['str'] = $action;
 				$errs4[$n] = $v['form'];
 			}
+
+			// miss match for and id
+			if (isset($ms[1]))
+			{
+				foreach ($ms[0] as $k => $m)
+				{
+					// check tacit label
+					preg_match_all("/\<(?:input|select|textarea) .+?\>/si", $m, $mmms);
+					if ($mmms[0])
+					{
+						// tacit label can contain single for element
+						if (count($mmms[0]) >= 2)
+						{
+							static::$error_ids['contain_plural_form_elements'][$n]['id'] = Util::s($m);
+							static::$error_ids['contain_plural_form_elements'][$n]['str'] = Util::s($m);
+							$errs6[$n] = Util::s($m);
+						}
+
+						// is for and id are valid?
+						$inner_attrs_label = static::get_attributes($m);
+						$for = isset($inner_attrs_label['for']) ? $inner_attrs_label['for'] : false;
+
+						// exclude id in tacit label
+						$inner_attrs_form = static::get_attributes($mmms[0][0]);
+						$id = isset($inner_attrs_form['id']) ? $inner_attrs_form['id'] : false;
+
+						// if for exists compare with for and id
+						if ($for)
+						{
+							if ($id != $for)
+							{
+								static::$error_ids['tacit_label_miss_maches'][$n]['id'] = Util::s($v['form']);
+								static::$error_ids['tacit_label_miss_maches'][$n]['str'] = $action.': '.Util::s($inner_attrs_form['id']).', '.$for;
+								$errs5[$n] = $v['form'];
+							}
+						}
+						// for is not exist, therefore this element's id is ignorable
+						else if ($id && in_array($id, $v['ids']))
+						{
+							$v['ids'] = array_flip($v['ids']);
+							unset($v['ids'][$id]);
+							$v['ids'] = array_flip($v['ids']);
+						}
+					}
+				}
+			}
+
+			if (isset($v['fors']) && isset($v['ids']))
+			{
+				$miss_maches_ids = array_diff($v['ids'], $v['fors']);
+				$miss_maches_fors = array_diff($v['fors'], $v['ids']);
+				$miss_maches = array_merge($miss_maches_ids, $miss_maches_fors);
+				if ($miss_maches)
+				{
+					static::$error_ids['label_miss_maches'][$n]['id'] = Util::s($v['form']);
+					static::$error_ids['label_miss_maches'][$n]['str'] = $action.': '.join(', ', Util::s($miss_maches));
+					$errs2[$n] = $v['form'];
+				}
+
+			}
+
 			$n++;
 		}
 		static::add_error_to_html('labelless', $errs, 'ignores');
 		static::add_error_to_html('label_miss_maches', $errs2, 'ignores');
 		static::add_error_to_html('lackness_of_form_ends', $errs3, 'ignores');
 		static::add_error_to_html('unique_label', $errs4, 'ignores');
+		static::add_error_to_html('tacit_label_miss_maches', $errs5, 'ignores');
 	}
 
 	/**

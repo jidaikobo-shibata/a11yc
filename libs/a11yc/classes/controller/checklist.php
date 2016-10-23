@@ -64,6 +64,7 @@ class Controller_Checklist
 			'is_not_here_link',
 			'tell_user_file_type',
 			'same_urls_should_have_same_text',
+			'form_and_labels',
 
 			// single tags
 			'is_exist_alt_attr_of_img',
@@ -75,13 +76,12 @@ class Controller_Checklist
 			'is_not_exists_meanless_element',
 			'is_not_style_for_structure',
 			'invalid_tag',
-			'duplicated_attributes',
-			'duplicated_ids',
-			'form_and_labels',
 			'titleless',
 			'langless',
 
 			// non tag
+			'duplicated_attributes',
+			'duplicated_ids',
 			'is_not_exists_ja_word_breaking_space',
 			'is_not_exist_same_page_title_in_same_site',
 		);

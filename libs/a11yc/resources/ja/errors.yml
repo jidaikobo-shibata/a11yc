@@ -91,6 +91,14 @@ errors:
     message: form要素の中のforとidの関係が一致していないようです
     criterion: 4-1-1
     code: 4-1-1a
+  tacit_label_miss_maches:
+    message: 暗黙的なlabelのforとidが一致していません
+    criterion: 2-4-6
+    code: 2-4-6a
+  contain_plural_form_elements:
+    message: 暗黙的なlabelは、複数のform要素を内包できません
+    criterion: 2-4-6
+    code: 2-4-6a
   labelless:
     message: form要素を使う時には、labelを使いましょう
     criterion: 1-3-1
