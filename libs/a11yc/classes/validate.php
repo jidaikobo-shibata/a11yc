@@ -338,7 +338,7 @@ class Validate
 				}
 				break;
 		}
-		return $retvals[$type];
+		return isset($retvals[$type]) ? $retvals[$type] : false;
 	}
 
 	/**
