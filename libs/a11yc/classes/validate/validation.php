@@ -528,9 +528,9 @@ class Validate_Validation extends Validate
 						// tacit label can contain single for element
 						if (count($mmms[0]) >= 2)
 						{
-							static::$error_ids['contain_plural_form_elements'][$n]['id'] = Util::s($m);
-							static::$error_ids['contain_plural_form_elements'][$n]['str'] = Util::s($m);
-							$errs6[$n] = Util::s($m);
+							static::$error_ids['contain_plural_form_elements'][$n]['id'] = Util::s($mmms[0][0]);
+							static::$error_ids['contain_plural_form_elements'][$n]['str'] = Util::s($mmms[0][0]);
+							$errs6[$n] = Util::s($mmms[0][0]);
 						}
 
 						// is for and id are valid?
