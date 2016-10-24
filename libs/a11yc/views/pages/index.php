@@ -81,9 +81,11 @@ else:
 <p><?php echo A11YC_LANG_PAGES_URL_FOR_EACH_LINE ?></p>
 
 <textarea id="a11yc_pages" name="pages" rows="7" style="width: 100%;"><?php
+if ($crawled):
 foreach ($crawled as $v):
 echo $v."\n";
 endforeach;
+endif;
 ?></textarea>
 <input type="submit" value="<?php echo A11YC_LANG_PAGES_URLS_ADD ?>" />
 </form>
