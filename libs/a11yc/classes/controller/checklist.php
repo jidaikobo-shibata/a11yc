@@ -60,21 +60,21 @@ class Controller_Checklist
 
 		$codes = array(
 			// elements
-			'is_not_empty_alt_attr_of_img_inside_a',
-			'is_not_here_link',
+			'empty_alt_attr_of_img_inside_a',
+			'here_link',
 			'tell_user_file_type',
 			'same_urls_should_have_same_text',
 			'form_and_labels',
 
 			// single tags
-			'is_exist_alt_attr_of_img',
-			'is_img_input_has_alt',
-			'is_area_has_alt',
+			'alt_attr_of_img',
+			'img_input_has_alt',
+			'area_has_alt',
 			'suspicious_elements',
 			'appropriate_heading_descending',
-			'is_not_same_alt_and_filename_of_img',
-			'is_not_exists_meanless_element',
-			'is_not_style_for_structure',
+			'same_alt_and_filename_of_img',
+			'meanless_element',
+			'style_for_structure',
 			'invalid_tag',
 			'titleless',
 			'langless',
@@ -82,8 +82,8 @@ class Controller_Checklist
 			// non tag
 			'duplicated_attributes',
 			'duplicated_ids',
-			'is_not_exists_ja_word_breaking_space',
-			'is_not_exist_same_page_title_in_same_site',
+			'ja_word_breaking_space',
+			'same_page_title_in_same_site',
 		);
 
 		if ($link_check)
@@ -295,18 +295,20 @@ class Controller_Checklist
 			// count errors
 			static::$err_cnts[$lv]++;
 
-			// html
+			// dt
 			$ret = '<dt id="index_'.$anchor.'" tabindex="-1" class="a11yc_level_'.$lv.'">'.$yml['errors'][$code_str]['message'];
+
+			// dt - information
 			$criterion_code = $yml['errors'][$code_str]['criterion'];
 			$code = $yml['errors'][$code_str]['code'];
 			$level = $yml['checks'][$criterion_code][$code]['criterion']['level']['name'];
-
 			$criterion = $yml['checks'][$criterion_code][$code]['criterion'];
 			$ret.= ' ('.strtoupper($lv).' ';
 			$ret.= '<a href="'.A11YC_DOC_URL.$code.'&amp;criterion='.$yml['errors'][$code_str]['criterion'].'"'.A11YC_TARGET.'>Doc</a> ';
 			$ret.= '<a href="'.$criterion['url'].'"'.A11YC_TARGET.' title="'.$criterion['name'].'">'.Util::key2code($criterion['code']).'</a>)</dt>';
 
-			$ret.= '<dd class="a11yc_validation_error_str a11yc_level_'.$lv.'" data-level="'.$level.'" data-place="'.$place['id'].'">'.$place['str'].'</dd>';
+			// dd
+			$ret.= '<dd class="a11yc_validation_error_str a11yc_level_'.$lv.'" data-level="'.$level.'" data-place="'.Util::s($place['id']).'">'.Util::s($place['str']).'</dd>';
 			$ret.= '<dd class="a11yc_validation_error_link a11yc_level_'.$lv.'"><a href="#'.$anchor .'" class="a11yc_hasicon">Code</a></dd>';
 			return $ret;
 		}

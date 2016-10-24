@@ -314,19 +314,19 @@ class Validate
 		switch ($type)
 		{
 			case 'anchors':
-				if (preg_match_all("/\<a([^\>]+)\>/i", $str, $ms))
+				if (preg_match_all("/\<(?:a|area) ([^\>]+?)\>/i", $str, $ms))
 				{
 					$retvals[$type] = $ms;
 				}
 				break;
 			case 'anchors_and_values':
-				if (preg_match_all("/\<a([^\>]+)\>(.*?)\<\/a\>/si", $str, $ms))
+				if (preg_match_all("/\<a ([^\>]+)\>(.*?)\<\/a\>|\<area ([^\>]+?)\/\>/si", $str, $ms))
 				{
 					$retvals[$type] = $ms;
 				}
 				break;
 			case 'imgs':
-				if (preg_match_all("/\<img([^\>]+)\>/i", $str, $ms))
+				if (preg_match_all("/\<img ([^\>]+?)\>/i", $str, $ms))
 				{
 					$retvals[$type] = $ms;
 				}
@@ -348,11 +348,19 @@ class Validate
 	 * @param   array    $errors
 	 * @return  void
 	 */
-	public static function add_error_to_html($error_id, $errors, $ignore_vals = '')
+	public static function add_error_to_html($error_id, $s_errors, $ignore_vals = '')
 	{
+		// values
 		$yml = Yaml::fetch();
-
 		$html = static::$hl_html;
+
+		// errors
+		if ( ! isset($s_errors[$error_id])) return;
+		$errors = array();
+		foreach ($s_errors[$error_id] as $k => $v)
+		{
+			$errors[$k] = $v['id'];
+		}
 
 		// ignore elements or comments
 		$replaces_ignores = array();
