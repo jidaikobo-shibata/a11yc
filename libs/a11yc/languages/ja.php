@@ -80,6 +80,9 @@ define('A11YC_LANG_PAGES_URL_FOR_EACH_LINE', '各行に一つのURLを入力し�
 define('A11YC_LANG_PAGES_ALL', 'すべて');
 define('A11YC_LANG_PAGES_YET', '未チェック');
 define('A11YC_LANG_PAGES_TRASH', '削除済み');
+define('A11YC_LANG_PAGES_GET_URLS', 'URLを取得する');
+define('A11YC_LANG_PAGES_GET_URLS_EXP', '対象のページのa要素からURLの一覧を生成します。サイト構造の再帰的な走査は未対応です。');
+define('A11YC_LANG_PAGES_GET_URLS_BTN', A11YC_LANG_PAGES_GET_URLS);
 
 // setup
 define('A11YC_LANG_SETUP_TITLE', '設定');

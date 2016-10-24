@@ -129,6 +129,75 @@ class Controller_Pages
 	}
 
 	/**
+	 * crawler
+	 *
+	 * param string $url
+	 * @return  array
+	 */
+	public static function crawler($url, $recursive = false)
+	{
+		static $urls = array();
+
+		// excludes
+		static $excludes = array('css', 'jpg', 'jpeg', 'png', 'gif', 'zip', 'tar.gz', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'ico');
+
+		// fetch attributes
+		Validate::set_target_path($url);
+		$html = Util::fetch_html($url);
+		$html = Validate::ignore_elements($html);
+		preg_match_all("/ (?:href|action) *?= *?[\"']([^\"']+?)[\"']/i", $html, $ms);
+
+		// collect url
+		if ( ! isset($ms[1])) return false;
+		$urls = array();
+		foreach ($ms[1] as $k => $v)
+		{
+			if (Validate::is_ignorable($ms[0][$k])) continue;
+			$urls[$v] = Validate::correct_url($v);
+			if (
+				substr($urls[$v], 0, 1) == '#' ||
+				substr($urls[$v], 0, strlen($url)) != $url ||
+				in_array(substr($urls[$v], strrpos($urls[$v], '.') + 1), $excludes)
+			)
+			{
+				unset($urls[$v]);
+			}
+		}
+
+		// get urls recursive
+		// if ( ! $recursive)
+		// {
+		// 	foreach ($urls as $k => $v)
+		// 	{
+		// 		if ($retvals = static::crawler($v, true))
+		// 		{
+		// 			$urls[] = array_merge($urls, $retvals);
+		// 		}
+		// 	}
+		// }
+		// $urls = array_unique($urls);
+
+		return $urls;
+	}
+
+	/**
+	 * get_urls
+	 *
+	 * @return  string
+	 */
+	public static function get_urls()
+	{
+		if ( ! isset($_POST['get_urls'])) return false;
+		$url = $_POST['get_urls'];
+
+		// html
+		$urls = static::crawler($url);
+		sort($urls);
+
+		return $urls;
+	}
+
+	/**
 	 * Manage Target Pages
 	 *
 	 * @return  string
@@ -221,6 +290,8 @@ class Controller_Pages
 		$pages = array_slice($pages, $offset, $num);
 
 		// assign
+		View::assign('get_urls', isset($_POST['get_urls']) ? $_POST['get_urls'] : '');
+		View::assign('crawled', static::get_urls());
 		View::assign('pages', $pages);
 		View::assign('prev', $prev_qs ? A11YC_PAGES_URL.$qs.$prev_qs : false);
 		View::assign('next', $next_qs ? A11YC_PAGES_URL.$qs.$next_qs : false);

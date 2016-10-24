@@ -81,6 +81,9 @@ define('A11YC_LANG_PAGES_ALL', 'All');
 define('A11YC_LANG_PAGES_YET', 'Yet');
 define('A11YC_LANG_PAGES_DONE', 'Done');
 define('A11YC_LANG_PAGES_TRASH', 'Trash');
+define('A11YC_LANG_PAGES_GET_URLS', 'Get Urls');
+define('A11YC_LANG_PAGES_GET_URLS_EXP', 'To generate a list of URL from a element of the target page. Recursive scan of the site structure is not supported.');
+define('A11YC_LANG_PAGES_GET_URLS_BTN', A11YC_LANG_PAGES_GET_URLS);
 
 // setup
 define('A11YC_LANG_SETUP_TITLE', 'Setup');

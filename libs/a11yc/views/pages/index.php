@@ -75,12 +75,24 @@ else:
 	<p><?php echo A11YC_LANG_PAGES_NOT_FOUND ?></p>
 <?php endif; ?>
 
-<!-- form -->
+<!-- add pages form -->
 <form action="" method="POST">
 <h2><label for="a11yc_pages"><?php echo A11YC_LANG_PAGES_URLS ?></label></h2>
 <p><?php echo A11YC_LANG_PAGES_URL_FOR_EACH_LINE ?></p>
 
-<textarea id="a11yc_pages" name="pages" rows="7" style="width: 100%;">
-</textarea>
+<textarea id="a11yc_pages" name="pages" rows="7" style="width: 100%;"><?php
+foreach ($crawled as $v):
+echo $v."\n";
+endforeach;
+?></textarea>
 <input type="submit" value="<?php echo A11YC_LANG_PAGES_URLS_ADD ?>" />
+</form>
+
+<!-- get site urls -->
+<form action="" method="POST">
+<h2><label for="a11yc_get_urls"><?php echo A11YC_LANG_PAGES_GET_URLS ?></label></h2>
+<p><?php echo A11YC_LANG_PAGES_GET_URLS_EXP ?></p>
+
+<input type="text" name="get_urls" id="a11yc_get_urls" size="20" value="<?php echo $get_urls ?>" />
+<input type="submit" value="<?php echo A11YC_LANG_PAGES_GET_URLS_BTN ?>" />
 </form>
