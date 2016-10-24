@@ -396,13 +396,19 @@ class Validate_Validation extends Validate
 		if ( ! in_array('<form ', $tags)) return;
 
 		// collect form items
-		$form_items = array('<form ', '<label', '<input', '<select', '<texta', '<butto');
+		$form_items = array('<form ', '</form' ,'<label', '<input', '<select', '<texta', '<butto');
 		$forms = array();
 		$target = '';
 		$n = 0;
 		foreach ($ms[0] as $k => $m)
 		{
 			if ( ! in_array(substr($m, 0, 6), $form_items)) continue;
+
+			if (substr($m, 0, 6) == '</form')
+			{
+				$n++;
+				continue;
+			}
 
 			// target
 			if (substr($m, 0, 6) == '<form ')
@@ -430,6 +436,12 @@ class Validate_Validation extends Validate
 			{
 				$forms[$n]['types'][] = $attrs['type'];
 			}
+		}
+
+		// formless form elements TODO
+		foreach ($forms as $k => $v)
+		{
+			if ( ! isset($v['form'])) unset($forms[$k]);
 		}
 
 		// errors
@@ -484,70 +496,74 @@ class Validate_Validation extends Validate
 				static::$error_ids['unique_label'][$k]['str'] = $action;
 			}
 
+			// NOTE: this was not invalid. tacit label can contain plural elements.
+			// NOTE: label's for can be related with plural ids.
+			// thx http://www.kanzaki.com/docs/html/htminfo33.html
 			// miss match for and id
-			if (isset($ms[1]))
-			{
-				foreach ($ms[0] as $k => $m)
-				{
-					// check tacit label
-					preg_match_all("/\<(?:input|select|textarea) .+?\>/si", $m, $mmms);
-					if ($mmms[0])
-					{
-						// tacit label can contain single for element
-						if (count($mmms[0]) >= 2)
-						{
-							static::$error_ids['contain_plural_form_elements'][$n]['id'] = $mmms[0][0];
-							static::$error_ids['contain_plural_form_elements'][$n]['str'] = $mmms[0][0];
-						}
+			// if (isset($ms[1]))
+			// {
+			// 	foreach ($ms[0] as $k => $m)
+			// 	{
+			// 		// check tacit label
+			// 		preg_match_all("/\<(?:input|select|textarea) .+?\>/si", $m, $mmms);
+			// 		if ($mmms[0])
+			// 		{
+			// 			// tacit label can contain single for element
+			// 			if (count($mmms[0]) >= 2)
+			// 			{
+			// 				static::$error_ids['contain_plural_form_elements'][$n]['id'] = $mmms[0][0];
+			// 				static::$error_ids['contain_plural_form_elements'][$n]['str'] = $mmms[0][0];
+			// 			}
 
-						// is for and id are valid?
-						$inner_attrs_label = static::get_attributes($m);
-						$for = isset($inner_attrs_label['for']) ? $inner_attrs_label['for'] : false;
+			// 			// is for and id are valid?
+			// 			$inner_attrs_label = static::get_attributes($m);
+			// 			$for = isset($inner_attrs_label['for']) ? $inner_attrs_label['for'] : false;
 
-						// exclude id in tacit label
-						$inner_attrs_form = static::get_attributes($mmms[0][0]);
-						$id = isset($inner_attrs_form['id']) ? $inner_attrs_form['id'] : false;
+			// 			// exclude id in tacit label
+			// 			$inner_attrs_form = static::get_attributes($mmms[0][0]);
+			// 			$id = isset($inner_attrs_form['id']) ? $inner_attrs_form['id'] : false;
 
-						// if for exists compare with for and id
-						if ($for)
-						{
-							if ($id != $for)
-							{
-								static::$error_ids['tacit_label_miss_maches'][$n]['id'] = $v['form'];
-								static::$error_ids['tacit_label_miss_maches'][$n]['str'] = $action.': '.$inner_attrs_form['id'].', '.$for;
-							}
-						}
-						// for is not exist, therefore this element's id is ignorable
-						else if ($id && in_array($id, $v['ids']))
-						{
-							$v['ids'] = array_flip($v['ids']);
-							unset($v['ids'][$id]);
-							$v['ids'] = array_flip($v['ids']);
-						}
-					}
-				}
-			}
+			// 			// if for exists compare with for and id
+			// 			if ($for)
+			// 			{
+			// 				if ($id != $for)
+			// 				{
+			// 					static::$error_ids['tacit_label_miss_maches'][$n]['id'] = $v['form'];
+			// 					static::$error_ids['tacit_label_miss_maches'][$n]['str'] = $action.': '.$inner_attrs_form['id'].', '.$for;
+			// 				}
+			// 			}
+			// 			// for is not exist, therefore this element's id is ignorable
+			// 			else if ($id && in_array($id, $v['ids']))
+			// 			{
+			// 				$v['ids'] = array_flip($v['ids']);
+			// 				unset($v['ids'][$id]);
+			// 				$v['ids'] = array_flip($v['ids']);
+			// 			}
+			// 		}
+			// 	}
+			// }
 
-			if (isset($v['fors']) && isset($v['ids']))
-			{
-				// id can exist without for...
-				// $miss_maches_fors = array_diff($v['fors'], $v['ids']);
-				// $miss_maches_ids = array_diff($v['ids'], $v['fors']);
-				// $miss_maches = array_merge($miss_maches_ids, $miss_maches_fors);
-				$miss_maches = array_diff($v['fors'], $v['ids']);
-				if ($miss_maches)
-				{
-					static::$error_ids['label_miss_maches'][$n]['id'] = $v['form'];
-					static::$error_ids['label_miss_maches'][$n]['str'] = $action.': '.join(', ', $miss_maches);
-				}
-			}
+			// if (isset($v['fors']) && isset($v['ids']))
+			// {
+			// 	// id can exist without for...
+			// 	// $miss_maches_fors = array_diff($v['fors'], $v['ids']);
+			// 	// $miss_maches_ids = array_diff($v['ids'], $v['fors']);
+			// 	// $miss_maches = array_merge($miss_maches_ids, $miss_maches_fors);
+			// 	$miss_maches = array_diff($v['fors'], $v['ids']);
+			// 	if ($miss_maches)
+			// 	{
+			// 		static::$error_ids['label_miss_maches'][$n]['id'] = $v['form'];
+			// 		static::$error_ids['label_miss_maches'][$n]['str'] = $action.': '.join(', ', $miss_maches);
+			// 	}
+			// }
 			$n++;
 		}
 		static::add_error_to_html('labelless', static::$error_ids, 'ignores');
-		static::add_error_to_html('label_miss_maches', static::$error_ids, 'ignores');
 		static::add_error_to_html('lackness_of_form_ends', static::$error_ids, 'ignores');
 		static::add_error_to_html('unique_label', static::$error_ids, 'ignores');
-		static::add_error_to_html('tacit_label_miss_maches', static::$error_ids, 'ignores');
+		// static::add_error_to_html('contain_plural_form_elements', static::$error_ids, 'ignores');
+		// static::add_error_to_html('label_miss_maches', static::$error_ids, 'ignores');
+		// static::add_error_to_html('tacit_label_miss_maches', static::$error_ids, 'ignores');
 	}
 
 	/**

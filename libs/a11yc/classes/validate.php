@@ -292,7 +292,7 @@ class Validate
 			'type', 'usemap', 'value', 'width', 'wrap',
 
 			// header
-			'xmlns', 'rev', 'profile',
+			'xmlns', 'rev', 'profile', 'property', 'role',
 		);
 
 		$str = preg_replace("/ +/", " ", $str); // remove plural spaces
