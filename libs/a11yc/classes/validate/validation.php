@@ -530,9 +530,11 @@ class Validate_Validation extends Validate
 
 			if (isset($v['fors']) && isset($v['ids']))
 			{
-				$miss_maches_ids = array_diff($v['ids'], $v['fors']);
-				$miss_maches_fors = array_diff($v['fors'], $v['ids']);
-				$miss_maches = array_merge($miss_maches_ids, $miss_maches_fors);
+				// id can exist without for...
+				// $miss_maches_fors = array_diff($v['fors'], $v['ids']);
+				// $miss_maches_ids = array_diff($v['ids'], $v['fors']);
+				// $miss_maches = array_merge($miss_maches_ids, $miss_maches_fors);
+				$miss_maches = array_diff($v['fors'], $v['ids']);
 				if ($miss_maches)
 				{
 					static::$error_ids['label_miss_maches'][$n]['id'] = $v['form'];
