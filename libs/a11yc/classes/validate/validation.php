@@ -540,9 +540,7 @@ class Validate_Validation extends Validate
 					static::$error_ids['label_miss_maches'][$n]['id'] = $v['form'];
 					static::$error_ids['label_miss_maches'][$n]['str'] = $action.': '.join(', ', $miss_maches);
 				}
-
 			}
-
 			$n++;
 		}
 		static::add_error_to_html('labelless', static::$error_ids, 'ignores');
@@ -553,11 +551,11 @@ class Validate_Validation extends Validate
 	}
 
 	/**
-	 * duplicated attributes
+	 * suspicious attributes
 	 *
 	 * @return  void
 	 */
-	public static function duplicated_attributes()
+	public static function suspicious_attributes()
 	{
 		$str = static::ignore_elements(static::$hl_html);
 
@@ -567,12 +565,22 @@ class Validate_Validation extends Validate
 		foreach ($ms[1] as $k => $m)
 		{
 			$attrs = static::get_attributes($m);
+
+			// suspicious attributes
 			if (isset($attrs['suspicious']))
+			{
+				static::$error_ids['suspicious_attributes'][$k]['id'] = $ms[0][$k];
+				static::$error_ids['suspicious_attributes'][$k]['str'] = join(', ', $attrs['suspicious']);
+			}
+
+			// duplicated_attributes
+			if (isset($attrs['plural']))
 			{
 				static::$error_ids['duplicated_attributes'][$k]['id'] = $ms[0][$k];
 				static::$error_ids['duplicated_attributes'][$k]['str'] = $m;
 			}
 		}
+		static::add_error_to_html('suspicious_attributes', static::$error_ids, 'ignores');
 		static::add_error_to_html('duplicated_attributes', static::$error_ids, 'ignores');
 	}
 

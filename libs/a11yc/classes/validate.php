@@ -273,9 +273,32 @@ class Validate
 		static $retvals = array();
 		if (isset($retvals[$str])) return $retvals[$str];
 
+		static $ruled_attrs = array(
+			'accept', 'accept-charset', 'accesskey', 'action', 'align', 'alt',
+			'async', 'autocomplete', 'autofocus', 'autoplay', 'bgcolor', 'border',
+			'buffered', 'challenge', 'charset', 'checked', 'cite', 'class', 'code',
+			'codebase', 'color', 'cols', 'colspan', 'content', 'contenteditable',
+			'contextmenu', 'controls', 'coords', 'data', 'datetime', 'default',
+			'defer', 'dir', 'dirname', 'disabled', 'draggable', 'dropzone', 'enctype',
+			'for', 'form', 'headers', 'height', 'hidden', 'high', 'href', 'hreflang',
+			'http-equiv', 'icon', 'id', 'ismap', 'itemprop', 'keytype', 'kind',
+			'label', 'lang', 'language', 'list', 'loop', 'low', 'manifest', 'max',
+			'maxlength', 'media', 'method', 'min', 'multiple', 'name', 'novalidate',
+			'open', 'optimum', 'pattern', 'ping', 'placeholder', 'poster', 'preload',
+			'pubdate', 'radiogroup', 'readonly', 'rel', 'required', 'reversed',
+			'rows', 'rowspan', 'sandbox', 'spellcheck', 'scope', 'scoped', 'seamless',
+			'selected', 'shape', 'size', 'sizes', 'span', 'src', 'srcdoc', 'srclang',
+			'start', 'step', 'style', 'summary', 'tabindex', 'target', 'title',
+			'type', 'usemap', 'value', 'width', 'wrap',
+
+			// header
+			'xmlns', 'rev', 'profile',
+		);
+
 		$str = preg_replace("/ +/", " ", $str); // remove plural spaces
 		$str = str_replace('"', "'", $str); // integration quote
 		$str = str_replace("= '", "='", $str); // integration delimiter
+		$str = str_replace(": ", ":", $str); // css
 		$str = str_replace('<', " <", $str); // divide tags
 		$attrs = array();
 
@@ -286,13 +309,23 @@ class Validate
 			if (strpos($v, "='") === false) continue;
 			list($key, $val) = explode("='", $v);
 			$val = rtrim($val, ">");
-			// suspicious
-			if (array_key_exists($key, $attrs))
+
+			// valid attributes
+			if (in_array($key, $ruled_attrs) || substr($k, 0, 5) == 'data-')
 			{
-				$key = $key.'_'.$k;
-				$attrs['suspicious'] = TRUE;
+				// plural
+				if (array_key_exists($key, $attrs))
+				{
+					$key = $key.'_'.$k;
+					$attrs['plural'] = TRUE;
+				}
+				$attrs[$key] = trim($val, "'");
 			}
-			$attrs[$key] = trim($val, "'");
+			// exclude JavaScript TODO
+			else if( ! substr($k, 0, 5) == 'this.')
+			{
+				$attrs['suspicious'][$k] = trim($key, "'");
+			}
 		}
 		$retvals[$str] = $attrs;
 

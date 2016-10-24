@@ -75,6 +75,10 @@ errors:
     message: 属性値が重複している可能性があります
     criterion: 4-1-1
     code: 4-1-1a
+  suspicious_attributes:
+    message: 疑わしい属性値があります
+    criterion: 4-1-1
+    code: 4-1-1a
   duplicated_ids:
     message: idが重複しています
     criterion: 4-1-1

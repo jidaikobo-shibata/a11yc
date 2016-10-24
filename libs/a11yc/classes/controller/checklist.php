@@ -80,7 +80,7 @@ class Controller_Checklist
 			'langless',
 
 			// non tag
-			'duplicated_attributes',
+			'suspicious_attributes',
 			'duplicated_ids',
 			'ja_word_breaking_space',
 			'same_page_title_in_same_site',
