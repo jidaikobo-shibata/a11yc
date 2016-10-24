@@ -298,7 +298,7 @@ class Validate_Validation extends Validate
 	}
 
 	/**
-	 * exists ja word breaking space
+	 * ja word breaking space
 	 *
 	 * @return  void
 	 */
@@ -318,7 +318,7 @@ class Validate_Validation extends Validate
 	}
 
 	/**
-	 * exists meanless element
+	 * meanless element
 	 *
 	 * @return  void
 	 */
