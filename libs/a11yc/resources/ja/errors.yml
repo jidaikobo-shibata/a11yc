@@ -100,10 +100,10 @@ errors:
   #   message: 暗黙的なlabelのforとidが一致していません
   #   criterion: 2-4-6
   #   code: 2-4-6a
-  # contain_plural_form_elements:
-  #   message: 暗黙的なlabelは、複数のform要素を内包できません
-  #   criterion: 2-4-6
-  #   code: 2-4-6a
+  contain_plural_form_elements:
+    message: labelは、複数のラベル付け可能な要素を含まないほうが良いです
+    criterion: 2-4-6
+    code: 2-4-6a
   labelless:
     message: form要素を使う時には、labelを使いましょう
     criterion: 1-3-1

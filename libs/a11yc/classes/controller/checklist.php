@@ -130,11 +130,11 @@ class Controller_Checklist
 
 		if ($_POST)
 		{
-			// delete all
+			// delete all from checks
 			$sql = 'DELETE FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = ?;';
 			Db::execute($sql, array($url));
 
-			// insert
+			// insert checks
 			foreach ($_POST['chk'] as $code => $v)
 			{
 				// if ( ! isset($v['on']) && empty($v['memo'])) continue;
@@ -144,7 +144,7 @@ class Controller_Checklist
 				Db::execute($sql, array($url, $code, $v['uid'], $v['memo']));
 			}
 
-			// leveling
+			// leveling page
 			list($results, $checked, $passed_flat) = Evaluate::evaluate_url($url);
 			$result = Evaluate::check_result($passed_flat);
 
@@ -165,9 +165,9 @@ class Controller_Checklist
 			else
 			{
 				$sql = 'INSERT INTO '.A11YC_TABLE_PAGES;
-				$sql.= ' (`url`, `date`, `level`, `done`, `standard`, `trash`, `page_title`)';
-				$sql.= ' VALUES (?, ?, ?, ?, ?, 0, ?);';
-				$r = Db::execute($sql, array($url, $date, $result, $done, $standard, $page_title));
+				$sql.= ' (`url`, `date`, `level`, `done`, `standard`, `trash`, `page_title`, `add_date`)';
+				$sql.= ' VALUES (?, ?, ?, ?, ?, 0, ?, ?);';
+				$r = Db::execute($sql, array($url, $date, $result, $done, $standard, $page_title, date('Y-m-d H:i:s')));
 			}
 
 			if ($r)

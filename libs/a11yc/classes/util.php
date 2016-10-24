@@ -160,7 +160,7 @@ class Util extends \Kontiki\Util
 	 */
 	public static function fetch_page_title_from_html($html)
 	{
-		preg_match("/<title.*?>(.+?)<\/title>/s", strtolower($html), $m);
+		preg_match("/<title.*?>(.+?)<\/title>/si", $html, $m);
 		$tmp = isset($m[1]) ? $m[1] : '';
 		$title = str_replace(array("\n", "\r"), '', $tmp);
 		return $title;

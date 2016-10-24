@@ -500,20 +500,20 @@ class Validate_Validation extends Validate
 			// NOTE: label's for can be related with plural ids.
 			// thx http://www.kanzaki.com/docs/html/htminfo33.html
 			// miss match for and id
-			// if (isset($ms[1]))
-			// {
-			// 	foreach ($ms[0] as $k => $m)
-			// 	{
-			// 		// check tacit label
-			// 		preg_match_all("/\<(?:input|select|textarea) .+?\>/si", $m, $mmms);
-			// 		if ($mmms[0])
-			// 		{
-			// 			// tacit label can contain single for element
-			// 			if (count($mmms[0]) >= 2)
-			// 			{
-			// 				static::$error_ids['contain_plural_form_elements'][$n]['id'] = $mmms[0][0];
-			// 				static::$error_ids['contain_plural_form_elements'][$n]['str'] = $mmms[0][0];
-			// 			}
+			if (isset($ms[1]))
+			{
+				foreach ($ms[0] as $k => $m)
+				{
+					// check tacit label
+					preg_match_all("/\<(?:input|select|textarea) .+?\>/si", $m, $mmms);
+					if ($mmms[0])
+					{
+						// tacit label can contain single for element
+						if (count($mmms[0]) >= 2)
+						{
+							static::$error_ids['contain_plural_form_elements'][$n]['id'] = $mmms[0][0];
+							static::$error_ids['contain_plural_form_elements'][$n]['str'] = $mmms[0][0];
+						}
 
 			// 			// is for and id are valid?
 			// 			$inner_attrs_label = static::get_attributes($m);
@@ -539,9 +539,9 @@ class Validate_Validation extends Validate
 			// 				unset($v['ids'][$id]);
 			// 				$v['ids'] = array_flip($v['ids']);
 			// 			}
-			// 		}
-			// 	}
-			// }
+					}
+				}
+			}
 
 			// if (isset($v['fors']) && isset($v['ids']))
 			// {
@@ -561,7 +561,7 @@ class Validate_Validation extends Validate
 		static::add_error_to_html('labelless', static::$error_ids, 'ignores');
 		static::add_error_to_html('lackness_of_form_ends', static::$error_ids, 'ignores');
 		static::add_error_to_html('unique_label', static::$error_ids, 'ignores');
-		// static::add_error_to_html('contain_plural_form_elements', static::$error_ids, 'ignores');
+		static::add_error_to_html('contain_plural_form_elements', static::$error_ids, 'ignores');
 		// static::add_error_to_html('label_miss_maches', static::$error_ids, 'ignores');
 		// static::add_error_to_html('tacit_label_miss_maches', static::$error_ids, 'ignores');
 	}

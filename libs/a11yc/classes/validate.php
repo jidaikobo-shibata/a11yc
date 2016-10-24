@@ -293,6 +293,12 @@ class Validate
 
 			// header
 			'xmlns', 'rev', 'profile', 'property', 'role',
+			
+			// JavaScript
+			'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown',
+			'onmouseup', 'onmouseover', 'onmouseout', 'onmousemove', 'onload', 'onunload',
+			'onfocus', 'onblur', 'onsubmit', 'onreset', 'onchange', 'onresize', 'onmove',
+			'ondragdrop', 'onabort', 'onerror', 'onselect',
 		);
 
 		$str = preg_replace("/ +/", " ", $str); // remove plural spaces
@@ -311,7 +317,7 @@ class Validate
 			$val = rtrim($val, ">");
 
 			// valid attributes
-			if (in_array($key, $ruled_attrs) || substr($k, 0, 5) == 'data-')
+			if (in_array(strtolower($key), $ruled_attrs) || substr(strtolower($key), 0, 5) == 'data-')
 			{
 				// plural
 				if (array_key_exists($key, $attrs))

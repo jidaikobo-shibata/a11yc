@@ -61,7 +61,7 @@ if ($pages):
 		<?php else: ?>
 			<td class="a11yc_result"><a href="<?php echo A11YC_PAGES_URL ?>&amp;del=1&amp;url=<?php echo urlencode($url) ?>"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_DELETE ?></span><span class="a11yc_icon_delete" role="presentation" aria-hidden="true"></span></a></td>
 		<?php endif; ?>
-		<td><?php echo date('Y-m-d', strtotime($page['add_date'])) ?></td>
+		<td><?php echo $page['add_date'] ? date('Y-m-d', strtotime($page['add_date'])) : '-' ?></td>
 		<td><?php echo $page['date'] ?></td>
 	</tr>
 	<?php endforeach; ?>
