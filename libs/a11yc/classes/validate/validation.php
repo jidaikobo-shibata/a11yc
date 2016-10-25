@@ -308,7 +308,7 @@ class Validate_Validation extends Validate
 		$str = str_replace(array("\n", "\r"), '', static::$hl_html);
 		$str = static::ignore_elements(static::$hl_html);
 
-		preg_match_all("/([^\x01-\x7E][ 　]{1}[ 　]+[^\x01-\x7E])/iu", $str, $ms);
+		preg_match_all("/([^\x01-\x7E][ 　]{2,}[^\x01-\x7E])/iu", $str, $ms);
 		foreach ($ms[1] as $k => $m)
 		{
 			static::$error_ids['ja_word_breaking_space'][$k]['id'] = $ms[0][$k];
@@ -395,6 +395,16 @@ class Validate_Validation extends Validate
 		$tags = array_map(function($v){return substr($v, 0, 6);}, $ms[0]);
 		if ( ! in_array('<form ', $tags)) return;
 
+		// lackness_of_form_ends
+		// this error is critical. so, if this error exists continue.
+		if (substr_count($str, '<form') != substr_count($str, '</form'))
+		{
+			static::$error_ids['lackness_of_form_ends'][0]['id'] = $v['form'];
+			static::$error_ids['lackness_of_form_ends'][0]['str'] = $action;
+			static::add_error_to_html('lackness_of_form_ends', static::$error_ids, 'ignores');
+			return;
+		}
+
 		// collect form items
 		$form_items = array('<form ', '</form' ,'<label', '<input', '<select', '<texta', '<butto');
 		$forms = array();
@@ -410,11 +420,16 @@ class Validate_Validation extends Validate
 				continue;
 			}
 
-			// target
+			// prepare
 			if (substr($m, 0, 6) == '<form ')
 			{
 				$n++;
 				$forms[$n]['form'] = $m;
+				$forms[$n]['labels'] = array();
+				$forms[$n]['eles'] = array();
+				$forms[$n]['fors'] = array();
+				$forms[$n]['ids'] = array();
+				$forms[$n]['types'] = array();
 				continue;
 			}
 
@@ -434,7 +449,7 @@ class Validate_Validation extends Validate
 			if (isset($attrs['type'])) $forms[$n]['types'][] = $attrs['type'];
 		}
 
-		// formless form elements TODO
+		// formless form elements.  maybe JavaScript?
 		foreach ($forms as $k => $v)
 		{
 			if ( ! isset($v['form'])) unset($forms[$k]);
@@ -444,25 +459,16 @@ class Validate_Validation extends Validate
 		$n = 0;
 		foreach ($forms as $k => $v)
 		{
-/*
-typesが存在しない場合はあるので、要一考。
-
-type text, checkbox, radio
-ele select textarea
-があるのに、labelがないときにエラーを出すように変更
-
-*/
-
-			if ( ! isset($v['types'])) continue;
-
-			// ignore hidden only
+			// ignore form
 			$uniqued_types = array_unique($v['types']);
 			$uniqued_eles = array_unique($v['eles']);
 			if (
-				isset($uniqued_types[0]) &&
-				count($uniqued_types) == 1 &&
-				$uniqued_types[0] == 'hidden' &&
-				array_diff($uniqued_eles, array('texta', 'butto', 'selec'))
+				$uniqued_eles == array('butto') || // button only
+				array_diff($uniqued_types, array('submit', 'hidden')) == array() || // submit and hidden
+				(
+				$uniqued_eles == array('butto') &&
+				array_diff($uniqued_types, array('submit', 'hidden')) == array()
+				) // button, submit and hidden
 			)
 			{
 				continue;
@@ -473,34 +479,10 @@ ele select textarea
 			$action = isset($attrs['action']) ? $attrs['action'] : $k;
 
 			// labelless
-			// are there any labelable element?
-			$types_diff = array_diff($uniqued_types, array('hidden', 'submit'));
-			$eles_diff = array_diff($uniqued_eles, array('butto'));
-
-
-// echo '<textarea style="width:100%;height:200px;background-color:#fff;color:#111;font-size:90%;font-family:monospace;position:relative;z-index:9999">';
-// var_dump($v);
-// var_dump($uniqued_types);
-// var_dump($types_diff);
-// echo '</textarea>';
-
-
-
-			if ( ! isset($v['labels']))
+			if ( ! $v['labels'])
 			{
 				static::$error_ids['labelless'][$n]['id'] = $v['form'];
 				static::$error_ids['labelless'][$n]['str'] = $action;
-			}
-
-			// lackness_of_form_ends
-			// this error is critical. so, if this error exists continue.
-			if (empty($errs3) && substr_count($str, '</form') != count($forms))
-			{
-				static::$error_ids['lackness_of_form_ends'][$k]['id'] = $v['form'];
-				static::$error_ids['lackness_of_form_ends'][$k]['str'] = $action;
-
-				// after here, use '</form'. so lackness of form ends is critical.
-				continue;
 			}
 
 			// whole form
@@ -516,9 +498,6 @@ ele select textarea
 				static::$error_ids['unique_label'][$k]['str'] = $action;
 			}
 
-			// NOTE: this was not invalid. tacit label can contain plural elements.
-			// NOTE: label's for can be related with plural ids.
-			// thx http://www.kanzaki.com/docs/html/htminfo33.html
 			// miss match for and id
 			if (isset($ms[1]))
 			{
@@ -588,7 +567,6 @@ ele select textarea
 			$n++;
 		}
 		static::add_error_to_html('labelless', static::$error_ids, 'ignores');
-		static::add_error_to_html('lackness_of_form_ends', static::$error_ids, 'ignores');
 		static::add_error_to_html('unique_label', static::$error_ids, 'ignores');
 		static::add_error_to_html('contain_plural_form_elements', static::$error_ids, 'ignores');
 		// static::add_error_to_html('label_miss_maches', static::$error_ids, 'ignores');
