@@ -291,6 +291,9 @@ class Validate
 			'start', 'step', 'style', 'summary', 'tabindex', 'target', 'title',
 			'type', 'usemap', 'value', 'width', 'wrap',
 
+			// ?
+			'cellspacing', 'cellpadding',
+
 			// header
 			'xmlns', 'rev', 'profile', 'property', 'role', 'prefix', 'itemscope',
 
@@ -315,9 +318,10 @@ class Validate
 			if (strpos($v, "='") === false) continue;
 			list($key, $val) = explode("='", $v);
 			$val = rtrim($val, ">");
+			$key = trim(strtolower($key));
 
 			// valid attributes
-			if (in_array(strtolower($key), $ruled_attrs) || substr(strtolower($key), 0, 5) == 'data-')
+			if (in_array($key, $ruled_attrs) || substr($key, 0, 5) == 'data-')
 			{
 				// plural
 				if (array_key_exists($key, $attrs))
@@ -455,6 +459,12 @@ class Validate
 			// first search
 			$pos = mb_strpos($html, $error, $offset, "UTF-8");
 
+// if ($error_id == 'tell_user_file_type'){
+// echo '<textarea style="width:100%;height:200px;background-color:#fff;color:#111;font-size:90%;font-family:monospace;position:relative;z-index:9999">';
+// var_dump($pos);
+// var_dump($results);
+// }
+
 			// is already replaced?
 			if (in_array($pos, $results))
 			{
@@ -471,8 +481,19 @@ class Validate
 			$html = mb_substr($html, 0, $end_pos, "UTF-8").$end_replaced.mb_substr($html, $end_pos, NULL, "UTF-8");
 
 			$results[] = $pos + $err_rep_len;
+
+// if ($error_id == 'tell_user_file_type'){
+// var_dump($pos);
+// var_dump($error);
+// echo '</textarea>';
+// }
 		}
 
+// if ($error_id == 'tell_user_file_type'){
+// echo '<textarea style="width:100%;height:200px;background-color:#fff;color:#111;font-size:90%;font-family:monospace;position:relative;z-index:9999">';
+// var_dump($replaces);
+// echo '</textarea>';
+// }
 		// recover error html
 		foreach ($replaces as $v)
 		{

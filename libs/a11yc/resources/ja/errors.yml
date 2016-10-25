@@ -19,8 +19,12 @@ errors:
     message: 「こちら」をリンクにしないでください
     criterion: 2-4-4
     code: 2-4-4a
-  suspicious_opens:
-    message: 疑わしい開始タグがあります
+  too_much_opens:
+    message: 開始タグが多すぎるようです。このエラーは場所の特定に失敗するので、ブラウザのDOM閲覧などで構造を確認してください。
+    criterion: 4-1-1
+    code: 4-1-1a
+  too_much_ends:
+    message: 終了タグが多すぎるようです。このエラーは場所の特定に失敗するので、ブラウザのDOM閲覧などで構造を確認してください。
     criterion: 4-1-1
     code: 4-1-1a
   suspicious_ends:

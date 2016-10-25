@@ -97,6 +97,30 @@ class Util extends \Kontiki\Util
 	}
 
 	/**
+	 * is html
+	 *
+	 * @param   string     $url
+	 * @return  bool
+	 */
+	public static function is_html($url)
+	{
+		$headers = @get_headers($url);
+		$is_html = false;
+		if ($headers)
+		{
+			foreach ($headers as $v)
+			{
+				if (strpos($v, 'text/html') !== false)
+				{
+					$is_html = true;
+					break;
+				}
+			}
+		}
+		return $is_html;
+	}
+
+	/**
 	 * fetch html
 	 *
 	 * @param   string     $url
@@ -106,6 +130,7 @@ class Util extends \Kontiki\Util
 	{
 		static $htmls = array();
 		if (isset($htmls[$url])) return $htmls[$url];
+		if ( ! static::is_html($url)) return;
 
 		// Browser
 		$ua = isset($_SERVER['HTTP_USER_AGENT']) ? Util::s($_SERVER['HTTP_USER_AGENT']) : false;

@@ -75,7 +75,7 @@ define('A11YC_LANG_PAGES_ORDER_URL_DESC', 'URL Desc.');
 define('A11YC_LANG_PAGES_ORDER_PAGE_NAME_ASC', 'Page name Asc.');
 define('A11YC_LANG_PAGES_ORDER_PAGE_NAME_DESC', 'Page name Desc.');
 define('A11YC_LANG_PAGES_CTRL', 'Action');
-define('A11YC_LANG_PAGES_URL_FOR_EACH_LINE', 'Enter one URL to each line, please press the "'.A11YC_LANG_PAGES_URLS_ADD.'".  Please once the registration is in the order of ten. The program may
+define('A11YC_LANG_PAGES_URL_FOR_EACH_LINE', 'Enter one URL to each line, please press the "'.A11YC_LANG_PAGES_URLS_ADD.'".  Please once the registration is in the order of twenty. The program may
 be stopped at the registration process and too many.');
 define('A11YC_LANG_PAGES_ALL', 'All');
 define('A11YC_LANG_PAGES_YET', 'Yet');

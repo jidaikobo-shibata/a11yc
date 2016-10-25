@@ -138,14 +138,11 @@ class Controller_Pages
 	{
 		static $urls = array();
 
-		// excludes
-		static $excludes = array('css', 'jpg', 'jpeg', 'png', 'gif', 'zip', 'tar.gz', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'ico');
-
 		// fetch attributes
 		Validate::set_target_path($url);
 		$html = Util::fetch_html($url);
 		$html = Validate::ignore_elements($html);
-		preg_match_all("/ (?:href|action) *?= *?[\"']([^\"']+?)[\"']/i", $html, $ms);
+		preg_match_all("/[ \n](?:href|action) *?= *?[\"']([^\"']+?)[\"']/i", $html, $ms);
 
 		// collect url
 		if ( ! isset($ms[1])) return false;
@@ -155,9 +152,9 @@ class Controller_Pages
 			if (Validate::is_ignorable($ms[0][$k])) continue;
 			$urls[$v] = Validate::correct_url($v);
 			if (
-				substr($urls[$v], 0, 1) == '#' ||
+				strpos($val, '#') !== false ||
 				substr($urls[$v], 0, strlen($url)) != $url ||
-				in_array(substr($urls[$v], strrpos($urls[$v], '.') + 1), $excludes)
+				! static::is_html($urls[$v])
 			)
 			{
 				unset($urls[$v]);

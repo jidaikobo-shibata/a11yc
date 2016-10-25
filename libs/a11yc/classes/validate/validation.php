@@ -190,7 +190,7 @@ class Validate_Validation extends Validate
 		$body_html = static::ignore_elements(static::$hl_html);
 
 		// tags
-		preg_match_all("/\<([^\> ]+)/i", $body_html, $tags);
+		preg_match_all("/\<([^\> \n]+)/i", $body_html, $tags);
 
 		// elements
 		$endless = array('img', 'wbr', 'br', 'hr', 'base', 'input', 'param', 'area', 'embed', 'meta', 'link', 'track', 'source', 'col', 'command');
@@ -222,46 +222,52 @@ class Validate_Validation extends Validate
 		$opens_cnt = array_count_values($opens);
 		$ends_cnt = array_count_values($ends);
 
-		// check nums
-		$suspicious_opens = array();
+		// check nums of opens
+		$too_much_opens = array();
+		$too_much_ends = array();
 		foreach ($opens_cnt as $tag => $num)
 		{
-			if ( ! isset($ends_cnt[$tag]) || $opens_cnt[$tag] != $ends_cnt[$tag])
+			if ( ! isset($ends_cnt[$tag]) || $opens_cnt[$tag] > $ends_cnt[$tag])
 			{
-				$suspicious_opens[] = $tag;
+				$too_much_opens[] = $tag;
 			}
-		}
-
-		// check nums
-		$suspicious_ends = array();
-		foreach ($ends_cnt as $tag => $num)
-		{
-			if ( ! isset($opens_cnt[$tag]) || $opens_cnt[$tag] != $ends_cnt[$tag])
+			elseif ($opens_cnt[$tag] < $ends_cnt[$tag])
 			{
-				$suspicious_ends[] = $tag;
+				$too_much_ends[] = $tag;
 			}
 		}
 
 		// endless
+		$suspicious_ends = array();
 		foreach ($endless as $v)
 		{
-			if (strpos($body_html, '</'.$v) !== false && ! in_array('/'.$v, $suspicious_ends))
+			if (strpos($body_html, '</'.$v) !== false)
 			{
 				$suspicious_ends[] = '/'.$v;
 			}
 		}
 
 		// add errors
-		foreach ($suspicious_opens as $k => $v)
+		foreach ($too_much_opens as $k => $v)
 		{
-			static::$error_ids['suspicious_opens'][$k]['id'] = '<'.$v;
-			static::$error_ids['suspicious_opens'][$k]['str'] = $v;
+			// place - untrustable...
+			preg_match("/\<".$v." [^\>]+?\>|\<".$v."\>/is", $body_html, $m);
+			static::$error_ids['too_much_opens'][$k]['id'] = $m[0];
+			static::$error_ids['too_much_opens'][$k]['str'] = $v;
 		}
-		static::add_error_to_html('suspicious_opens', static::$error_ids, 'ignores');
+		static::add_error_to_html('too_much_opens', static::$error_ids, 'ignores');
+
+		foreach ($too_much_ends as $k => $v)
+		{
+			// place - untrustable...
+			static::$error_ids['too_much_ends'][$k]['id'] = '</'.$v.'>';
+			static::$error_ids['too_much_ends'][$k]['str'] = $v;
+		}
+		static::add_error_to_html('too_much_ends', static::$error_ids, 'ignores');
 
 		foreach ($suspicious_ends as $k => $v)
 		{
-			static::$error_ids['suspicious_ends'][$k]['id'] = '<'.$v;
+			static::$error_ids['suspicious_ends'][$k]['id'] = '</'.$v.'>';
 			static::$error_ids['suspicious_ends'][$k]['str'] = $v;
 		}
 		static::add_error_to_html('suspicious_ends', static::$error_ids, 'ignores');
@@ -282,7 +288,8 @@ class Validate_Validation extends Validate
 		foreach ($ms[1] as $k => $m)
 		{
 			$attrs = static::get_attributes($m);
-			if ( ! isset($attrs['alt']) ||  ! isset($attrs['src'])) continue;
+			if ( ! isset($attrs['alt']) || ! isset($attrs['src'])) continue;
+			if (empty($attrs['alt'])) continue;
 
 			$filename = basename($attrs['src']);
 			if (
@@ -508,6 +515,8 @@ class Validate_Validation extends Validate
 					if ($mmms[0])
 					{
 						// is exists plural labelable elements?
+						// submit seems labelable...
+						// see https://www.w3.org/TR/html/sec-forms.html and search "labelable"
 						$ele_types = array();
 						foreach ($mmms[0] as $ele)
 						{
@@ -516,11 +525,14 @@ class Validate_Validation extends Validate
 							$ele_types[] = $ele_attrs['type'];
 						}
 
+						// place
+						preg_match('/\<label[^\>]*?\>/is', $m, $label_m);
+
 						// tacit label can contain single for element
 						if (count($ele_types) >= 2)
 						{
-							static::$error_ids['contain_plural_form_elements'][$n]['id'] = $mmms[0][0];
-							static::$error_ids['contain_plural_form_elements'][$n]['str'] = $mmms[0][0];
+							static::$error_ids['contain_plural_form_elements'][$n]['id'] = $label_m[0];
+							static::$error_ids['contain_plural_form_elements'][$n]['str'] = $label_m[0];
 						}
 
 			// 			// is for and id are valid?
@@ -686,44 +698,49 @@ class Validate_Validation extends Validate
 		if ( ! $ms[1]) return;
 
 		$suspicious = array(
-			'.pdf',
-			'.doc',
-			'.docx',
-			'.xls',
-			'.xlsx',
-			'.ppt',
-			'.pptx',
-			'.zip',
-			'.tar',
+			'pdf',
+			'doc',
+			'docx',
+			'xls',
+			'xlsx',
+			'ppt',
+			'pptx',
+			'zip',
+			'tar',
 		);
 
 		foreach ($ms[1] as $k => $m)
 		{
 			foreach ($suspicious as $kk => $vv)
 			{
-				if (strpos($m, $vv) !== false)
+				$m = str_replace("'", '"', $m);
+				if (strpos($m, '.'.$vv.'"') !== false)
 				{
 					$attrs = static::get_attributes($m);
-					$val = isset($attrs['href']) ? $attrs['href'] : '';
+
+					if ( ! isset($attrs['href'])) continue;
+					$href = strtolower($attrs['href']);
+					$inner = substr($ms[0][$k], strpos($ms[0][$k], '>') + 1);
+					$inner = str_replace('</a>', '', $inner);
+					$f_inner = $inner;
 
 					// allow application name
 					if (
-						(($vv == '.doc' || $vv == '.docx') && strpos($val, 'word') !== false) ||
-						(($vv == '.xls' || $vv == '.xlsx') && strpos($val, 'excel') !== false) ||
-						(($vv == '.ppt' || $vv == '.pptx') && strpos($val, 'power') !== false)
+						(($vv == 'doc' || $vv == 'docx') && strpos($href, 'word')  !== false) ||
+						(($vv == 'xls' || $vv == 'xlsx') && strpos($href, 'excel') !== false) ||
+						(($vv == 'ppt' || $vv == 'pptx') && strpos($href, 'power') !== false)
 					)
 					{
-						$val.= 'doc,docx,xls,xlsx,ppt,pptx';
+						$f_inner.= 'doc,docx,xls,xlsx,ppt,pptx';
 					}
 
 					if (
-						strpos($val, substr($vv, 1)) === false ||
-						preg_match("/\d/", $val) == false
+						strpos($f_inner, $vv) === false || // lacknesss of file type
+						preg_match("/\d/", $f_inner) == false // lacknesss of filesize?
 					)
 					{
-						static::$error_ids['tell_user_file_type'][$kk]['id'] = $ms[0][$k];
-						static::$error_ids['tell_user_file_type'][$kk]['str'] = $val;
-//						$errs[$k] = $ms[0][$k]; $k?
+						static::$error_ids['tell_user_file_type'][$k]['id'] = $ms[0][$k];
+						static::$error_ids['tell_user_file_type'][$k]['str'] = $href.': '.$inner;
 					}
 				}
 			}
@@ -778,8 +795,8 @@ class Validate_Validation extends Validate
 
 		if (intval($results['num']) >= 2)
 		{
-			static::$error_ids['same_page_title_in_same_site'][$k]['id'] = $title;
-			static::$error_ids['same_page_title_in_same_site'][$k]['str'] = $title;
+			static::$error_ids['same_page_title_in_same_site'][0]['id'] = $title;
+			static::$error_ids['same_page_title_in_same_site'][0]['str'] = $title;
 		}
 		static::add_error_to_html('same_page_title_in_same_site', static::$error_ids);
 	}
