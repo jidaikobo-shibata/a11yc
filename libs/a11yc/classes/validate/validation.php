@@ -308,7 +308,7 @@ class Validate_Validation extends Validate
 		$str = str_replace(array("\n", "\r"), '', static::$hl_html);
 		$str = static::ignore_elements(static::$hl_html);
 
-		preg_match_all("/([^\x01-\x7E][ 　][ 　]+[^\x01-\x7E])/iu", $str, $ms);
+		preg_match_all("/([^\x01-\x7E][ 　]{1}[ 　]+[^\x01-\x7E])/iu", $str, $ms);
 		foreach ($ms[1] as $k => $m)
 		{
 			static::$error_ids['ja_word_breaking_space'][$k]['id'] = $ms[0][$k];
@@ -423,19 +423,15 @@ class Validate_Validation extends Validate
 			{
 				$forms[$n]['labels'][] = $m;
 			}
+			else
+			{
+				$forms[$n]['eles'][] = trim(substr($m, 0, 6), '<');
+			}
+
 			$attrs = static::get_attributes($m);
-			if (isset($attrs['for']))
-			{
-				$forms[$n]['fors'][] = $attrs['for'];
-			}
-			if (isset($attrs['id']))
-			{
-				$forms[$n]['ids'][] = $attrs['id'];
-			}
-			if (isset($attrs['type']))
-			{
-				$forms[$n]['types'][] = $attrs['type'];
-			}
+			if (isset($attrs['for']))  $forms[$n]['fors'][] = $attrs['for'];
+			if (isset($attrs['id']))   $forms[$n]['ids'][] = $attrs['id'];
+			if (isset($attrs['type'])) $forms[$n]['types'][] = $attrs['type'];
 		}
 
 		// formless form elements TODO
@@ -448,14 +444,25 @@ class Validate_Validation extends Validate
 		$n = 0;
 		foreach ($forms as $k => $v)
 		{
+/*
+typesが存在しない場合はあるので、要一考。
+
+type text, checkbox, radio
+ele select textarea
+があるのに、labelがないときにエラーを出すように変更
+
+*/
+
 			if ( ! isset($v['types'])) continue;
 
 			// ignore hidden only
-			$each_types = array_unique($v['types']);
+			$uniqued_types = array_unique($v['types']);
+			$uniqued_eles = array_unique($v['eles']);
 			if (
-				isset($each_types[0]) &&
-				count($each_types) == 1 &&
-				$each_types[0] == 'hidden'
+				isset($uniqued_types[0]) &&
+				count($uniqued_types) == 1 &&
+				$uniqued_types[0] == 'hidden' &&
+				array_diff($uniqued_eles, array('texta', 'butto', 'selec'))
 			)
 			{
 				continue;
@@ -466,6 +473,19 @@ class Validate_Validation extends Validate
 			$action = isset($attrs['action']) ? $attrs['action'] : $k;
 
 			// labelless
+			// are there any labelable element?
+			$types_diff = array_diff($uniqued_types, array('hidden', 'submit'));
+			$eles_diff = array_diff($uniqued_eles, array('butto'));
+
+
+// echo '<textarea style="width:100%;height:200px;background-color:#fff;color:#111;font-size:90%;font-family:monospace;position:relative;z-index:9999">';
+// var_dump($v);
+// var_dump($uniqued_types);
+// var_dump($types_diff);
+// echo '</textarea>';
+
+
+
 			if ( ! isset($v['labels']))
 			{
 				static::$error_ids['labelless'][$n]['id'] = $v['form'];
@@ -508,8 +528,17 @@ class Validate_Validation extends Validate
 					preg_match_all("/\<(?:input|select|textarea) .+?\>/si", $m, $mmms);
 					if ($mmms[0])
 					{
+						// is exists plural labelable elements?
+						$ele_types = array();
+						foreach ($mmms[0] as $ele)
+						{
+							$ele_attrs = static::get_attributes($ele);
+							if (strtolower($ele_attrs['type']) == 'hidden') continue;
+							$ele_types[] = $ele_attrs['type'];
+						}
+
 						// tacit label can contain single for element
-						if (count($mmms[0]) >= 2)
+						if (count($ele_types) >= 2)
 						{
 							static::$error_ids['contain_plural_form_elements'][$n]['id'] = $mmms[0][0];
 							static::$error_ids['contain_plural_form_elements'][$n]['str'] = $mmms[0][0];

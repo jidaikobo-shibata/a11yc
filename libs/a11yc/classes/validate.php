@@ -292,8 +292,8 @@ class Validate
 			'type', 'usemap', 'value', 'width', 'wrap',
 
 			// header
-			'xmlns', 'rev', 'profile', 'property', 'role',
-			
+			'xmlns', 'rev', 'profile', 'property', 'role', 'prefix', 'itemscope',
+
 			// JavaScript
 			'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown',
 			'onmouseup', 'onmouseover', 'onmouseout', 'onmousemove', 'onload', 'onunload',
