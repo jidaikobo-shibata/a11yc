@@ -305,6 +305,7 @@ class Validate
 		);
 
 		$str = preg_replace("/ +/", " ", $str); // remove plural spaces
+		$str = preg_replace("/=[ ]*?(\d)+? /", "='\1'", $str); // quotation is not must at numeric
 		$str = str_replace('"', "'", $str); // integration quote
 		$str = str_replace("= '", "='", $str); // integration delimiter
 		$str = str_replace(": ", ":", $str); // css
@@ -321,7 +322,11 @@ class Validate
 			$key = trim(strtolower($key));
 
 			// valid attributes
-			if (in_array($key, $ruled_attrs) || substr($key, 0, 5) == 'data-')
+			if (
+				in_array($key, $ruled_attrs) ||
+				substr($key, 0, 5) == 'data-' ||
+				substr($key, 0, 4) == 'xml:'
+			)
 			{
 				// plural
 				if (array_key_exists($key, $attrs))
@@ -375,9 +380,20 @@ class Validate
 				}
 				break;
 			default:
-				if (preg_match_all("/(?:\<[a-zA-Z1-6]+? +?([^\>]*?)[\/]*\>|\<[a-zA-Z1-6]+?[\/]*\>)/i", $str, $ms))
+				if (preg_match_all("/\<([a-zA-Z1-6]+?) +?([^\>]*?)[\/]*?\>|\<([a-zA-Z1-6]+?)[ \/]*?\>/i", $str, $ms))
 				{
-					$retvals[$type] = $ms;
+					foreach ($ms[1] as $k => $v)
+					{
+						if(empty($v)) unset($ms[1][$k]);
+					}
+					$tags = $ms[1] + $ms[3];
+					ksort($tags);
+					$ret = array(
+						$ms[0],
+						$tags,
+						$ms[2],
+					);
+					$retvals[$type] = $ret;
 				}
 				break;
 		}
