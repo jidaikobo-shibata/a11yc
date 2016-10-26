@@ -54,10 +54,11 @@ jQuery(function($){
 
 // resize
 $(window).on('resize', function(){
+	if(!$('.a11yc_fixed_header')[0]) return;
 	menu_height = $menu.outerHeight();
 	header_height = $('#a11yc_header').outerHeight();
 	set_pagemenu_top();
-	if($('.a11yc_fixed_header')[0]) pagemenu_top = pagemenu_top - $(window).scrollTop();
+	pagemenu_top = pagemenu_top - $(window).scrollTop();
 	a11yc_fixed_header();
 });
 
@@ -72,7 +73,8 @@ function a11yc_add_fixed() {
 		var scroll = $(window).scrollTop();
 	console.log('scroll');
 		if($('.a11yc_fixed_header')[0]) return;
-		header_height = $('#a11yc_header').outerHeight(true)+$('#a11yc_header').offset().top;
+		//ここで#a11yc_headerがないばあいのふるまいもちゃんとすること
+		header_height = header_height!=0 ? $('#a11yc_header').outerHeight(true)+$('#a11yc_header').offset().top : 0;
 		$a11yc_content.addClass('a11yc_fixed_header');
 		if(!$('.wp-admin')[0])
 		{

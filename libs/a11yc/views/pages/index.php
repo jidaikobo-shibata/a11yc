@@ -1,9 +1,12 @@
 <!-- list -->
-<h2><?php echo A11YC_LANG_PAGES_TITLE ?></h2>
-<p><a href="<?php echo A11YC_PAGES_URL ?>"><?php echo A11YC_LANG_PAGES_ALL ?></a> |
-<a href="<?php echo A11YC_PAGES_URL ?>&amp;list=yet"><?php echo A11YC_LANG_PAGES_YET ?></a> |
-<a href="<?php echo A11YC_PAGES_URL ?>&amp;list=done"><?php echo A11YC_LANG_PAGES_DONE ?></a> |
-<a href="<?php echo A11YC_PAGES_URL ?>&amp;list=trash"><?php echo A11YC_LANG_PAGES_TRASH ?></a></a></p>
+<h2 id="a11yc_checklist_index_title"><?php echo A11YC_LANG_PAGES_INDEX ?></h2>
+<ul class="a11yc_checklist_pages">
+	<li><a href="<?php echo A11YC_PAGES_URL ?>"><?php echo A11YC_LANG_PAGES_ALL ?></a></li>
+	<li><a href="<?php echo A11YC_PAGES_URL ?>&amp;list=yet"><?php echo A11YC_LANG_PAGES_YET ?></a></li>
+	<li><a href="<?php echo A11YC_PAGES_URL ?>&amp;list=done"><?php echo A11YC_LANG_PAGES_DONE ?></a></li>
+	<li><a href="<?php echo A11YC_PAGES_URL ?>&amp;list=trash"><?php echo A11YC_LANG_PAGES_TRASH ?></a></li>
+</ul>
+<!-- /.a11yc_checklist_pages -->
 
 <?php
 if ($pages):
@@ -13,12 +16,14 @@ if ($pages):
 	// pagination
 	$pagination = '';
 	if ($prev || $next):
+		$pagination.= '<ul class="a11yc_pagenation">';
 	if ($prev):
-		$pagination.= '<a href="'.$prev.'">'.A11YC_LANG_CTRL_PREV.'</a>';
+		$pagination.= '<li class="a11yc_pagenation_prev"><a href="'.$prev.'" class="a11yc_hasicon"><span class="a11yc_icon_tr_l a11yc_icon_fa" role="presentation" aria-hidden="true"></span><span>'.A11YC_LANG_CTRL_PREV.'</span></a></li>';
 	endif;
 	if ($next):
-		$pagination.= '<a href="'.$next.'">'.A11YC_LANG_CTRL_NEXT.'</a>';
+		$pagination.= '<li class="a11yc_pagenation_next"><a href="'.$next.'" class="a11yc_hasicon"><span>'.A11YC_LANG_CTRL_NEXT.'</span><span class="a11yc_icon_tr_r a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></li>';
 	endif;
+		$pagination.= '</ul><!-- /.a11yc_pagenation -->';
 	endif;
 	echo $pagination;
 ?>
@@ -51,7 +56,7 @@ if ($pages):
 		<td class="a11yc_result"><?php echo \A11yc\Util::num2str($page['level']) ?></td>
 		<?php $done = @$page['done'] == 1 ? A11YC_LANG_PAGES_DONE : '' ; ?>
 		<td class="a11yc_result"><?php echo $done ?></td>
-		<td class="a11yc_result"><a href="<?php echo A11YC_CHECKLIST_URL.urlencode($url) ?>"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_CHECK ?></span><span class="a11yc_icon_check" role="presentation" aria-hidden="true"></span></a></td>
+		<td class="a11yc_result"><a href="<?php echo A11YC_CHECKLIST_URL.urlencode($url) ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_CHECK ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
 		<?php if ($list == 'trash'): ?>
 			<td class="a11yc_result">
 				<a href="<?php echo A11YC_PAGES_URL ?>&amp;undel=1&amp;url=<?php echo urlencode($url) ?>"><?php echo A11YC_LANG_PAGES_UNDELETE ?></a>
@@ -59,7 +64,7 @@ if ($pages):
 			</td>
 
 		<?php else: ?>
-			<td class="a11yc_result"><a href="<?php echo A11YC_PAGES_URL ?>&amp;del=1&amp;url=<?php echo urlencode($url) ?>"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_DELETE ?></span><span class="a11yc_icon_delete" role="presentation" aria-hidden="true"></span></a></td>
+			<td class="a11yc_result"><a href="<?php echo A11YC_PAGES_URL ?>&amp;del=1&amp;url=<?php echo urlencode($url) ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_DELETE ?></span><span class="a11yc_icon_delete a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
 		<?php endif; ?>
 		<td><?php echo $page['add_date'] ? date('Y-m-d', strtotime($page['add_date'])) : '-' ?></td>
 		<td><?php echo $page['date'] ?></td>

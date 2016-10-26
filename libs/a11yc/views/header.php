@@ -29,7 +29,7 @@
 <ul>
 	<li class="a11yc_menu_item a11yc_center"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><a href="?c=center&amp;a=index"><?php echo A11YC_LANG_CENTER_TITLE ?></a></li>
 	<li class="a11yc_menu_item a11yc_setup"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><a href="?c=setup&amp;a=index"><?php echo A11YC_LANG_SETUP_TITLE ?></a></li>
-	<li class="a11yc_menu_item a11yc_pages"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><a href="?c=pages&amp;a=index"><?php echo A11YC_LANG_PAGES_CHECK ?></a></li>
+	<li class="a11yc_menu_item a11yc_pages"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><a href="?c=pages&amp;a=index"><?php echo A11YC_LANG_PAGES_TITLE ?></a></li>
 	<li class="a11yc_menu_item a11yc_bulk"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><a href="?c=bulk&amp;a=index"><?php echo A11YC_LANG_BULK_TITLE ?></a></li>
 	<li class="a11yc_menu_item a11yc_docs"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><a href="?c=docs&amp;a=index"><?php echo A11YC_LANG_DOCS_TITLE ?></a></li>
 	<li class="a11yc_menu_item a11yc_logout a11yc_fr"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><a href="?c=auth&amp;a=logout"><?php echo \A11yc\Users::fetch_current_user()[0].'&nbsp;:&nbsp;'.A11YC_LANG_LOGOUT ?></a></li>
@@ -39,9 +39,11 @@
 </nav>
 <?php
 	$h1 = constant('A11YC_LANG_'.strtoupper($mode).'_TITLE');
+	$titile_attr_str = in_array($mode , array('docs')) ? ' class="a11yc_hasctrl"' : '';
+	$titile_attr_str = in_array($mode , array('checklist')) ? ' class="a11yc_noborder"' : '';
 	if($mode == 'docs_each'):
 		$h1 .= isset($doc['criterion']) ? ':&nbsp;'.\A11yc\Util::key2code($doc['criterion']['code']).'&nbsp;'.$doc['criterion']['name'].'&nbsp;('.$doc['criterion']['level']['name'].')' : ':&nbsp;'.$doc['name'];
 	endif;
 ?>
 <a href="javascript:void(0);" id="a11yc_content" class="a11yc_skip a11yc_show_if_focus"><?php echo A11YC_LANG_BEGINNING_OF_THE_CONTENT ?></a>
-<h1><?php echo $h1 ?></h1>
+<h1<?php echo $titile_attr_str ?>><?php echo $h1 ?></h1>

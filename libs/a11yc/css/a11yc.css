@@ -1,7 +1,7 @@
 .a11yc,
 .a11yc_sansserif {
 	margin: auto;
-	padding-top: 2em;
+	padding: 2em 0;
 	max-width: 960px;
 	font-family: "'Helvetica Neue'",Helvetica,Arial,Verdana,Geneva,sans-serif;
 }
@@ -15,8 +15,15 @@
 	margin: 0;
 	padding: 0;
 }
+.a11yc .a11yc_noborder,
+.a11yc .a11yc_hasctrl {
+	border: none;
+}
 a:link {
 	color: #006ab6;
+}
+a:hover {
+	text-decoration: none;
 }
 .a11yc_loading {
 	min-height: 60px;
@@ -177,6 +184,21 @@ tr.a11yc_flash {
 	border-bottom: 2px solid #68baef;
 	margin: .25em 0 .5em;
 }
+.a11yc h1.a11yc_hasctrl {
+	float: left;
+	margin-bottom: 0;
+}
+.a11yc h1.a11yc_hasctrl+* {
+	position: relative;
+	float: right;
+}
+.a11yc h1.a11yc_hasctrl+*+.a11yc_presentation {
+	width: 100%;
+	height: 2px;
+	background-color: #68baef;
+	clear: both;
+	margin-bottom: 1em;
+}
 .a11yc h2 {
 	position: relative;
 	padding-left: 1.25em;
@@ -196,7 +218,8 @@ tr.a11yc_flash {
 	top: .25em;
 }
 .a11yc h1+h2,
-.a11yc h1+form h2:first-of-type {
+.a11yc h1+form h2:first-of-type,
+.a11yc h1.a11yc_hasctrl+form+.a11yc_presentation+h2 {
 	margin-top: 1em;
 }
 .a11yc p {
@@ -377,6 +400,7 @@ tr.a11yc_flash {
 .a11yc textarea {
 	max-width: 100%;
 	padding: 3px;
+	border: 1px solid #999;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -389,9 +413,8 @@ tr.a11yc_flash {
 	-moz-appearance: none;
 	appearance: none;
 }
-.a11yc input,
-.a11yc textarea {
-	border: 1px solid #999;
+.a11yc select {
+	height: 2em;
 }
 .a11yc textarea {
 	resize: vertical;
@@ -487,7 +510,7 @@ tr.a11yc_flash {
 	-moz-border-radius: 2px;
 	border-radius: 2px;
 }
-.a11yc_narrow_level a.current {
+.a11yc a.current {
 	background-color: #0073aa;
 	color: #fff;
 }
@@ -861,8 +884,17 @@ td.a11yc_table_check_howto {
 }
 
 /* === a11yc_icon_fa === */
-a.a11yc_hasicon {
+a.a11yc_hasicon,
+a.a11yc_hasicon span.a11yc_icon_fa,
+a.a11yc_hasicon:focus span  {
 	text-decoration: none;
+}
+a.a11yc_hasicon span {
+	text-decoration: underline;
+}
+a.a11yc_hasicon:hover .a11yc_icon_fa,
+a.a11yc_hasicon:focus .a11yc_icon_fa {
+	opacity: .5;
 }
 .a11yc_icon_fa {
 	font-family: FontAwesome;
@@ -933,6 +965,18 @@ input:focus+.a11yc_icon_checkbox:before {
 
 
 
+span.a11yc_icon_delete:before {
+	font-family: FontAwesome;
+	content: '\f1f8';
+	font-size: 1.5em;
+	color: #333;
+}
+span.a11yc_icon_check:before {
+	font-family: FontAwesome;
+	content: '\f044';
+	font-size: 1.5em;
+	color: #333;
+}
 span.a11yc_icon_view:before {
 	content: '\f06e';
 	margin-left: 5px;
@@ -991,29 +1035,44 @@ span.a11yc_icon_expand:before {
 	padding-bottom: 6em;
 }
 /* pages */
-#a11yc_pages .a11yc_result a {
-	text-decoration: none;
+#a11yc_checklist_index_title,
+.a11yc_checklist_pages {
+	display: inline-block;
+}
+.a11yc_checklist_pages,
+.a11yc_pagenation {
+	padding-left: 0;
+	list-style-type: none;
+	margin: 5px;
+}
+.a11yc_pagenation {
+	text-align: right;
+}
+.a11yc_checklist_pages li,
+.a11yc_pagenation li {
+	display: inline-block;
+	padding: 0 ;
+	line-height: 1;
+}
+.a11yc_checklist_pages li + li,
+.a11yc_pagenation li + li {
+	border-left: 1px solid #aaa;
+	margin-left: 5px;
+	padding-left: 5px;
+}
+.a11yc_checklist_pages a,
+.a11yc_pagenation a {
+	display: block;
+	padding: 2px 5px;
+	border-radius: 2px;
 }
 #a11yc_pages .a11yc_result {
 	vertical-align: middle;
 }
-#a11yc_pages .a11yc_result a:hover {
-	opacity: .5;
+#a11yc_pages .a11yc_table th a {
+	font-weight: normal;
+	font-size: .95em;
 }
-span.a11yc_icon_delete:before {
-	font-family: FontAwesome;
-	content: '\f1f8';
-	font-size: 1.5em;
-	color: #333;
-}
-span.a11yc_icon_check:before {
-	font-family: FontAwesome;
-	content: '\f044';
-	font-size: 1.5em;
-	color: #333;
-}
-
-
 /* center */
 #a11yc_center_about {
 	position: relative;
@@ -1027,12 +1086,16 @@ span.a11yc_icon_check:before {
 	width: 120px;
 }
 /* docs */
-#a11yc_docs_search {
+#a11yc_search {
 	text-align: right;
 	white-space: nowrap;
-	margin-top: -4.25em;
-	margin-left: 10em;
 }
+#a11yc_search [type="submit"] {
+	display: inline-block;
+	margin-top: .75em;
+	padding: 5px 15px;
+}
+
 #a11yc_docs .a11yc_section_principle {
 	margin-bottom: 60px;
 }

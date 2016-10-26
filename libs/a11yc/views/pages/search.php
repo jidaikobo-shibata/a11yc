@@ -1,4 +1,4 @@
-<form id="a11yc_docs_search" action="<?php echo A11YC_URL ?>" method="GET">
+<form id="a11yc_search" action="<?php echo A11YC_URL ?>" method="GET">
 	<input type="hidden" name="c" value="pages">
 	<input type="hidden" name="a" value="index">
 	<input type="hidden" name="list" value="<?php echo $list ?>">
@@ -17,7 +17,7 @@
 			<?php endforeach; ?>
 		</select>
 
-		<label for="a11yc_order"><?php echo A11YC_LANG_CTRL_ORDER_TITLE ?></label>
+		<label for="a11yc_order" class="a11yc_skip"><?php echo A11YC_LANG_CTRL_ORDER_TITLE ?></label>
 		<?php
 		$opts = array(
 			"add_date_desc" => constant('A11YC_LANG_PAGES_ORDER_ADD_DATE_DESC'),
@@ -26,14 +26,14 @@
 			"date_asc" => constant('A11YC_LANG_PAGES_ORDER_TEST_DATE_ASC'),
 			"url_desc" => constant('A11YC_LANG_PAGES_ORDER_URL_DESC'),
 			"url_asc" => constant('A11YC_LANG_PAGES_ORDER_URL_ASC'),
-			"name_desc" => constant('A11YC_LANG_PAGES_ORDER_PAGE_NAME_DESC'),
-			"name_asc" => constant('A11YC_LANG_PAGES_ORDER_PAGE_NAME_ASC'),
+			"page_title_desc" => constant('A11YC_LANG_PAGES_ORDER_PAGE_NAME_DESC'),
+			"page_title_asc" => constant('A11YC_LANG_PAGES_ORDER_PAGE_NAME_ASC'),
 		);
 		?>
 		<select name="order" id="a11yc_order">
 		<?php
 		foreach ($opts as $k => $v):
-			$checked = isset($_GET['order']) && $_GET['order'] == $k ? ' checked="checked"' : '';
+			$checked = isset($_GET['order']) && $_GET['order'] == $k ? ' selected="selected"' : '';
 		?>
 			<option value="<?php echo $k ?>"<?php echo $checked ?>><?php echo $v ?></option>
 		<?php endforeach; ?>

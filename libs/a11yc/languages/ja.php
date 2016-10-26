@@ -56,7 +56,8 @@ define('A11YC_LANG_CENTER_ABOUT_CONTENT', 'A11ycは、有限会社時代工房�
 
 
 // pages
-define('A11YC_LANG_PAGES_TITLE', '対象ページ一覧');
+define('A11YC_LANG_PAGES_TITLE', 'チェック');
+define('A11YC_LANG_PAGES_INDEX', '対象ページ一覧');
 define('A11YC_LANG_PAGES_PAGETITLE', '対象ページのtitle');
 define('A11YC_LANG_PAGES_URLS', '対象ページのURL');
 define('A11YC_LANG_PAGES_URLS_ADD', 'URLを追加する');

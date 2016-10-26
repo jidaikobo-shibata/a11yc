@@ -241,7 +241,7 @@ class Controller_Pages
 		// order
 		if (
 			isset($_GET['order']) &&
-			in_array($_GET['order'], array('add_date_asc', 'add_date_desc', 'date_asc', 'date_desc', 'url_asc', 'url_desc', 'name_asc', 'name_desc'))
+			in_array($_GET['order'], array('add_date_asc', 'add_date_desc', 'date_asc', 'date_desc', 'url_asc', 'url_desc', 'page_title_asc', 'page_title_desc'))
 		)
 		{
 			$str = $_GET['order'];
