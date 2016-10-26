@@ -67,6 +67,7 @@ class Controller_Checklist
 			'form_and_labels',
 
 			// single tags
+			'check_doctype',
 			'alt_attr_of_img',
 			'img_input_has_alt',
 			'area_has_alt',
@@ -76,12 +77,14 @@ class Controller_Checklist
 			'meanless_element',
 			'style_for_structure',
 			'invalid_tag',
+			'titleless_frame',
+			'meta_refresh',
 			'titleless',
 			'langless',
 
 			// non tag
 			'suspicious_attributes',
-			'duplicated_ids',
+			'duplicated_ids_and_accesskey',
 			'ja_word_breaking_space',
 			'same_page_title_in_same_site',
 		);

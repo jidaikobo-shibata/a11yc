@@ -6,6 +6,9 @@
  */
 
 // general
+define('A11YC_LANG_PRINCIPLE', '原則');
+define('A11YC_LANG_GUIDELINE', 'ガイドライン');
+
 define('A11YC_LANG_LEVEL', 'レベル');
 define('A11YC_LANG_EXIST', '適用');
 define('A11YC_LANG_EXIST_NON', '適用なし');

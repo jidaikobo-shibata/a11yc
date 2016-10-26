@@ -4,7 +4,28 @@ if (isset($doc['criterion'])):
 else:
 	echo isset($doc['name']) ? '<h2>'.sprintf(A11YC_LANG_DOCS_EACH_SUBTITLE, $doc['name']).'</h2>' : '';
 endif;
+?>
+<table id="a11yc_info">
+<tr>
+	<th><?php echo A11YC_LANG_PRINCIPLE ?></th>
+	<td><?php echo $doc['criterion']['guideline']['principle']['name'] ?></td>
+	<td><?php echo $doc['criterion']['guideline']['principle']['summary'] ?></td>
+</tr>
 
+<tr>
+	<th><?php echo A11YC_LANG_GUIDELINE ?></th>
+	<td><?php echo $doc['criterion']['guideline']['name'] ?></td>
+	<td><?php echo $doc['criterion']['guideline']['summary'] ?></td>
+</tr>
+
+<tr>
+	<th><?php echo A11YC_LANG_CRITERION ?></th>
+	<td><?php echo $doc['criterion']['code'].' '.$doc['criterion']['name'] ?></td>
+	<td><?php echo $doc['criterion']['summary'] ?></td>
+</tr>
+</table>
+
+<?php
 $lines = isset($doc['tech']) ? explode("\n", stripslashes(\A11YC\Util::key2link($doc['tech']))) : false;
 
 if ($lines): ?>

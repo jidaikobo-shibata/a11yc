@@ -1,6 +1,18 @@
 errors:
+  check_doctype:
+    message: DOCTYPE宣言を使用してDTDを指定してください
+    criterion: 4-1-1
+    code: 4-1-1a
   alt_attr_of_img:
     message: img要素のalt属性がありません。装飾目的の画像であってもalt属性値そのものを省略しないでください
+    criterion: 1-1-1
+    code: 1-1-1b
+  alt_attr_of_blank_only:
+    message: 装飾目的の画像の場合、altは空白文字でなく、空にしてください
+    criterion: 1-1-1
+    code: 1-1-1b
+  alt_attr_of_empty:
+    message: 空のaltですが、意味を持たない画像ですか？
     criterion: 1-1-1
     code: 1-1-1b
   empty_alt_attr_of_img_inside_a:
@@ -47,6 +59,10 @@ errors:
     message: 意味づけのないHTML要素を使っています
     criterion: 1-3-1
     code: 1-3-1a
+  meanless_element_timing:
+    message: 動き、点滅をHTMLでマークアップしないでください
+    criterion: 2-2-2
+    code: 2-2-2b
   style_for_structure:
     message: 色や大きさに依存した情報提供の可能性があります
     criterion: 1-3-1
@@ -56,13 +72,25 @@ errors:
     criterion: 2-4-4
     code: 2-4-4a
   titleless:
-    message: title要素は必須です
+    message: title要素が存在しないか、title要素の中身が空（あるいは空文字）です
     criterion: 2-4-2
     code: 2-4-2a
   langless:
     message: html要素で文書の初期設定言語を特定してください
     criterion: 3-1-1
     code: 3-1-1a
+  different_lang:
+    message: langの値が矛盾しています
+    criterion: 4-1-1
+    code: 4-1-1a
+  invalid_page_lang:
+    message: ページの基本的な言語指定におけるlangの値が妥当でありません
+    criterion: 3-1-1
+    code: 3-1-1a
+  invalid_partial_lang:
+    message: 一部分の言語指定におけるlangの値が妥当でありません
+    criterion: 3-1-2
+    code: 3-1-2a
   same_page_title_in_same_site:
     message: チェック対象のサイトに同じtitle要素のページが存在します
     criterion: 2-4-2
@@ -85,6 +113,10 @@ errors:
     code: 4-1-1a
   duplicated_ids:
     message: idが重複しています
+    criterion: 4-1-1
+    code: 4-1-1a
+  duplicated_accesskeys:
+    message: accesskeyが重複しています
     criterion: 4-1-1
     code: 4-1-1a
   unbalanced_quotation:
@@ -113,10 +145,26 @@ errors:
     criterion: 1-3-1
     code: 1-3-1a
   lackness_of_form_ends:
-    message: きちんと閉じられていないform要素があるようです
+    message: きちんとネストしていないform要素があるようです
     criterion: 4-1-1
     code: 4-1-1a
   unique_label:
     message: labelの文字列に重複があり、識別性が損なわれている可能性があります
     criterion: 2-4-6
     code: 2-4-6a
+  submitless:
+    message: formに送信ボタンがありません。予告なしに状況が変化する状態になっていませんか？
+    criterion: 3-2-2
+    code: 3-2-2a
+  duplicated_names:
+    message: ひとつのform内でcheckboxやradio以外の要素について、name属性値に重複があるようです
+    criterion: 4-1-1
+    code: 4-1-1a
+  meta_refresh:
+    message: meta要素のrefreshによる自動更新は避けてください
+    criterion: 2-2-1
+    code: 2-2-1b
+  titleless_frame:
+    message: frame/iframe要素にtitle属性がありません。
+    criterion: 2-4-1
+    code: 2-4-1a

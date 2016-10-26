@@ -305,6 +305,7 @@ class Validate
 		);
 
 		$str = preg_replace("/ +/", " ", $str); // remove plural spaces
+		$str = preg_replace("/=[ ]*?(\d)+? /", "='\1'", $str); // quotation is not must at numeric
 		$str = str_replace('"', "'", $str); // integration quote
 		$str = str_replace("= '", "='", $str); // integration delimiter
 		$str = str_replace(": ", ":", $str); // css
@@ -321,7 +322,11 @@ class Validate
 			$key = trim(strtolower($key));
 
 			// valid attributes
-			if (in_array($key, $ruled_attrs) || substr($key, 0, 5) == 'data-')
+			if (
+				in_array($key, $ruled_attrs) ||
+				substr($key, 0, 5) == 'data-' ||
+				substr($key, 0, 4) == 'xml:'
+			)
 			{
 				// plural
 				if (array_key_exists($key, $attrs))
@@ -375,9 +380,20 @@ class Validate
 				}
 				break;
 			default:
-				if (preg_match_all("/(?:\<[a-zA-Z1-6]+? +?([^\>]*?)[\/]*\>|\<[a-zA-Z1-6]+?[\/]*\>)/i", $str, $ms))
+				if (preg_match_all("/\<([a-zA-Z1-6]+?) +?([^\>]*?)[\/]*?\>|\<([a-zA-Z1-6]+?)[ \/]*?\>/i", $str, $ms))
 				{
-					$retvals[$type] = $ms;
+					foreach ($ms[1] as $k => $v)
+					{
+						if(empty($v)) unset($ms[1][$k]);
+					}
+					$tags = $ms[1] + $ms[3];
+					ksort($tags);
+					$ret = array(
+						$ms[0],
+						$tags,
+						$ms[2],
+					);
+					$retvals[$type] = $ret;
 				}
 				break;
 		}
@@ -385,10 +401,46 @@ class Validate
 	}
 
 	/**
+	 * get_doctype
+	 *
+	 * @return  mixed
+	 */
+	public static function get_doctype()
+	{
+		if (empty(static::$hl_html)) die('invalid access at A11yc\Validate::get_doctype().');
+
+		preg_match("/\<!DOCTYPE [^\>]+?\>/", static::$hl_html, $ms);
+
+		if ( ! isset($ms[0])) return false; // doctypeless
+
+		// doctype
+		$doctype = false;
+
+		// html5
+		if($ms[0] == '<!DOCTYPE html>')
+		{
+			$doctype = 'html5';
+		}
+		// HTML4
+		else if (strpos($ms[0], 'DTD HTML 4.01') !== false)
+		{
+			$doctype = 'html4';
+		}
+		// xhtml1
+		else if(strpos($ms[0], 'DTD XHTML 1.0 ') !== false)
+		{
+			$doctype = 'xhtml1';
+		}
+
+		return $doctype;
+	}
+
+	/**
 	 * add error to html
 	 *
 	 * @param   strings  $error_id
 	 * @param   array    $errors
+	 * @param   str      $ignore_vals
 	 * @return  void
 	 */
 	public static function add_error_to_html($error_id, $s_errors, $ignore_vals = '')
