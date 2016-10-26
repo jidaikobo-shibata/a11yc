@@ -156,3 +156,7 @@ errors:
     message: meta要素のrefreshによる自動更新は避けてください
     criterion: 2-2-1
     code: 2-2-1b
+  titleless_frame:
+    message: frame/iframe要素にtitle属性がありません。
+    criterion: 2-4-1
+    code: 2-4-1a

@@ -77,6 +77,7 @@ class Controller_Checklist
 			'meanless_element',
 			'style_for_structure',
 			'invalid_tag',
+			'titleless_frame',
 			'meta_refresh',
 			'titleless',
 			'langless',

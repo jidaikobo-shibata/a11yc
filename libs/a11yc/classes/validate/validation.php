@@ -211,7 +211,7 @@ class Validate_Validation extends Validate
 		preg_match_all("/\<([^\> \n]+)/i", $str, $tags);
 
 		// elements
-		$endless = array('img', 'wbr', 'br', 'hr', 'base', 'input', 'param', 'area', 'embed', 'meta', 'link', 'track', 'source', 'col', 'command');
+		$endless = array('img', 'wbr', 'br', 'hr', 'base', 'input', 'param', 'area', 'embed', 'meta', 'link', 'track', 'source', 'col', 'command', 'frame');
 		$ignores = array('!doctype', 'html', '![if', '![endif]', '?xml');
 		$omissionables = array('li', 'dt', 'dd', 'p', 'rt', 'rp', 'optgroup', 'option', 'tr', 'td', 'th', 'thead', 'tfoot', 'tbody', 'colgroup');
 		$ignores = array_merge($ignores, $endless, $omissionables);
@@ -847,6 +847,34 @@ class Validate_Validation extends Validate
 			}
 		}
 		static::add_error_to_html('tell_user_file_type', static::$error_ids, 'ignores');
+	}
+
+	/**
+	 * titleless_frame
+	 *
+	 * @return  void
+	 */
+	public static function titleless_frame()
+	{
+		$str = static::ignore_elements(static::$hl_html);
+		$ms = static::get_elements_by_re($str, 'tags');
+		if ( ! $ms[0]) return;
+
+		foreach ($ms[0] as $k => $v)
+		{
+			if ($ms[1][$k] != 'frame' && $ms[1][$k] != 'iframe') continue;
+			$attrs = static::get_attributes($v);
+
+			if (
+				! isset($attrs['title']) ||
+				(isset($attrs['title']) && empty(trim($attrs['title'])))
+			)
+			{
+				static::$error_ids['titleless_frame'][0]['id'] = $ms[0][$k];
+				static::$error_ids['titleless_frame'][0]['str'] = $ms[0][$k];
+			}
+		}
+		static::add_error_to_html('titleless_frame', static::$error_ids, 'ignores');
 	}
 
 	/**

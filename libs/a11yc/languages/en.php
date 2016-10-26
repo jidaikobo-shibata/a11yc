@@ -6,6 +6,9 @@
  */
 
 // general
+define('A11YC_LANG_PRINCIPLE', 'Principle');
+define('A11YC_LANG_GUIDELINE', 'Guideline');
+
 define('A11YC_LANG_LEVEL', 'Level');
 define('A11YC_LANG_EXIST', 'Exist');
 define('A11YC_LANG_EXIST_NON', 'Not Exist');
