@@ -473,6 +473,7 @@ class Validate_Validation extends Validate
 				$forms[$n]['fors'] = array();
 				$forms[$n]['ids'] = array();
 				$forms[$n]['types'] = array();
+				$forms[$n]['names'] = array();
 				continue;
 			}
 
@@ -492,7 +493,7 @@ class Validate_Validation extends Validate
 			if (isset($attrs['type'])) $forms[$n]['types'][] = $attrs['type'];
 		}
 
-		// formless form elements.  maybe JavaScript?
+			// formless form elements.  maybe JavaScript?
 		// there might be plural forms. so do not remove this.
 		foreach ($forms as $k => $v)
 		{
@@ -530,6 +531,16 @@ class Validate_Validation extends Validate
 				static::$error_ids['labelless'][$n]['str'] = $action;
 			}
 
+			// submitless
+			if (
+				( ! in_array('input', $uniqued_eles) && ! in_array('button', $uniqued_eles)) ||
+				( ! in_array('submit', $uniqued_types) && ! in_array('image', $uniqued_types))
+			)
+			{
+				static::$error_ids['submitless'][$n]['id'] = $v['form'];
+				static::$error_ids['submitless'][$n]['str'] = $action;
+			}
+
 			// whole form
 			$replace = str_replace(
 				array('<', '>', '/', '.', '[', ']'),
@@ -551,6 +562,25 @@ class Validate_Validation extends Validate
 			{
 				static::$error_ids['unique_label'][$k]['id'] = $v['form'];
 				static::$error_ids['unique_label'][$k]['str'] = $action;
+			}
+
+			// duplicated_names
+			preg_match_all("/\<(?:input|select|textarea) .+?\>/si", $whole_form, $names);
+			if (isset($names[0]))
+			{
+				$name_arrs = array();
+				foreach ($names[0] as $tag)
+				{
+					$attrs = static::get_attributes($tag);
+					if ( ! isset($attrs['name'])) continue;
+					if (strpos($tag, 'checkbox') !== false || strpos($tag, 'radio') !== false) continue;
+					if (in_array($attrs['name'], $name_arrs))
+					{
+						static::$error_ids['duplicated_names'][$k]['id'] = $v['form'];
+						static::$error_ids['duplicated_names'][$k]['str'] = $action;
+					}
+					$name_arrs[] = $attrs['name'];
+				}
 			}
 
 			// miss match "for" and "id"
@@ -628,6 +658,8 @@ class Validate_Validation extends Validate
 			$n++;
 		}
 		static::add_error_to_html('labelless', static::$error_ids, 'ignores');
+		static::add_error_to_html('submitless', static::$error_ids, 'ignores');
+		static::add_error_to_html('duplicated_names', static::$error_ids, 'ignores');
 		static::add_error_to_html('unique_label', static::$error_ids, 'ignores');
 		static::add_error_to_html('contain_plural_form_elements', static::$error_ids, 'ignores');
 		// static::add_error_to_html('label_miss_maches', static::$error_ids, 'ignores');

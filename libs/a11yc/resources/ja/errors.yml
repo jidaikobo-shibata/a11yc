@@ -144,6 +144,14 @@ errors:
     message: labelの文字列に重複があり、識別性が損なわれている可能性があります
     criterion: 2-4-6
     code: 2-4-6a
+  submitless:
+    message: formに送信ボタンがありません。予告なしに状況が変化する状態になっていませんか？
+    criterion: 3-2-2
+    code: 3-2-2a
+  duplicated_names:
+    message: ひとつのform内でcheckboxやradio以外の要素について、name属性値に重複があるようです
+    criterion: 4-1-1
+    code: 4-1-1a
   meta_refresh:
     message: meta要素のrefreshによる自動更新は避けてください
     criterion: 2-2-1
