@@ -44,14 +44,40 @@ class Validate_Validation extends Validate
 
 		foreach ($ms[1] as $k => $m)
 		{
+			// alt_attr_of_img
 			$attrs = static::get_attributes($m);
 			if ( ! array_key_exists('alt', $attrs))
 			{
 				static::$error_ids['alt_attr_of_img'][$k]['id'] = $ms[0][$k];
 				static::$error_ids['alt_attr_of_img'][$k]['str'] = @basename(@$attrs['src']);
 			}
+
+			// role presentation
+			if (isset($attrs['role']) && $attrs['role'] == 'presentation') continue;
+
+			// alt_attr_of_blank_only
+			if (
+				array_key_exists('alt', $attrs) &&
+				preg_match('/^[ 　]*?$/', $attrs['alt'])
+			)
+			{
+				static::$error_ids['alt_attr_of_blank_only'][$k]['id'] = $ms[0][$k];
+				static::$error_ids['alt_attr_of_blank_only'][$k]['str'] = @basename(@$attrs['src']);
+			}
+
+			// alt_attr_of_empty
+			if (
+				array_key_exists('alt', $attrs) &&
+				empty($attrs['alt'])
+			)
+			{
+				static::$error_ids['alt_attr_of_empty'][$k]['id'] = $ms[0][$k];
+				static::$error_ids['alt_attr_of_empty'][$k]['str'] = @basename(@$attrs['src']);
+			}
 		}
+		static::add_error_to_html('alt_attr_of_empty', static::$error_ids, 'ignores');
 		static::add_error_to_html('alt_attr_of_img', static::$error_ids, 'ignores');
+		static::add_error_to_html('alt_attr_of_blank_only', static::$error_ids, 'ignores');
 	}
 
 	/**

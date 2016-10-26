@@ -7,6 +7,14 @@ errors:
     message: img要素のalt属性がありません。装飾目的の画像であってもalt属性値そのものを省略しないでください
     criterion: 1-1-1
     code: 1-1-1b
+  alt_attr_of_blank_only:
+    message: 装飾目的の画像の場合、altは空白文字でなく、空にしてください
+    criterion: 1-1-1
+    code: 1-1-1b
+  alt_attr_of_empty:
+    message: 空のaltですが、意味を持たない画像ですか？
+    criterion: 1-1-1
+    code: 1-1-1b
   empty_alt_attr_of_img_inside_a:
     message: a要素の中にimg要素しかない場合、img要素のalt属性値は空文字でなくリンクの目的を表す文字を入れてください
     criterion: 1-1-1
