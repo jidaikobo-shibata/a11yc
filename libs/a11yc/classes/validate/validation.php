@@ -13,6 +13,24 @@ namespace A11yc;
 class Validate_Validation extends Validate
 {
 	/**
+	 * check doctype
+	 *
+	 * @return  void
+	 */
+	public static function check_doctype()
+	{
+		$ms = static::get_elements_by_re(static::$hl_html, 'tags');
+		if ( ! $ms[0]) return;
+
+		if ( ! static::get_doctype())
+		{
+			static::$error_ids['check_doctype'][0]['id'] = $ms[0][0];
+			static::$error_ids['check_doctype'][0]['str'] = $ms[0][0];
+		}
+		static::add_error_to_html('check_doctype', static::$error_ids);
+	}
+
+	/**
 	 * alt attr of img
 	 *
 	 * @return  void

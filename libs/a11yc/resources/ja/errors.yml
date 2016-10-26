@@ -1,4 +1,8 @@
 errors:
+  check_doctype:
+    message: DOCTYPE宣言を使用してDTDを指定してください
+    criterion: 4-1-1
+    code: 4-1-1a
   alt_attr_of_img:
     message: img要素のalt属性がありません。装飾目的の画像であってもalt属性値そのものを省略しないでください
     criterion: 1-1-1

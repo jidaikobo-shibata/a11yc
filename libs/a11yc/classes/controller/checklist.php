@@ -67,6 +67,7 @@ class Controller_Checklist
 			'form_and_labels',
 
 			// single tags
+			'check_doctype',
 			'alt_attr_of_img',
 			'img_input_has_alt',
 			'area_has_alt',

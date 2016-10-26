@@ -401,10 +401,46 @@ class Validate
 	}
 
 	/**
+	 * get_doctype
+	 *
+	 * @return  mixed
+	 */
+	public static function get_doctype()
+	{
+		if (empty(static::$hl_html)) die('invalid access at A11yc\Validate::get_doctype().');
+
+		preg_match("/\<!DOCTYPE [^\>]+?\>/", static::$hl_html, $ms);
+
+		if ( ! isset($ms[0])) return false; // doctypeless
+
+		// doctype
+		$doctype = false;
+
+		// html5
+		if($ms[0] == '<!DOCTYPE html>')
+		{
+			$doctype = 'html5';
+		}
+		// HTML4
+		else if (strpos($ms[0], 'DTD HTML 4.01') !== false)
+		{
+			$doctype = 'html4';
+		}
+		// xhtml1
+		else if(strpos($ms[0], 'DTD XHTML 1.0 ') !== false)
+		{
+			$doctype = 'xhtml1';
+		}
+
+		return $doctype;
+	}
+
+	/**
 	 * add error to html
 	 *
 	 * @param   strings  $error_id
 	 * @param   array    $errors
+	 * @param   str      $ignore_vals
 	 * @return  void
 	 */
 	public static function add_error_to_html($error_id, $s_errors, $ignore_vals = '')
