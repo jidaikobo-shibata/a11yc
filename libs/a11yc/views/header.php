@@ -40,7 +40,6 @@
 <?php
 	$h1 = constant('A11YC_LANG_'.strtoupper($mode).'_TITLE');
 	$titile_attr_str = in_array($mode , array('docs')) ? ' class="a11yc_hasctrl"' : '';
-	$titile_attr_str = in_array($mode , array('checklist')) ? ' class="a11yc_noborder"' : '';
 	if($mode == 'docs_each'):
 		$h1 .= isset($doc['criterion']) ? ':&nbsp;'.\A11yc\Util::key2code($doc['criterion']['code']).'&nbsp;'.$doc['criterion']['name'].'&nbsp;('.$doc['criterion']['level']['name'].')' : ':&nbsp;'.$doc['name'];
 	endif;

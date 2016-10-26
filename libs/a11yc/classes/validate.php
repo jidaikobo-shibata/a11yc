@@ -225,7 +225,7 @@ class Validate
 		else
 		{
 			// root relative path.
-			if ($str[0] == '/' && $str[1] != '/')
+			if ($str[0] == '/' && isset($str[1]) && $str[1] != '/')
 			{
 				$str = $root_path.$str;
 			}
@@ -511,12 +511,12 @@ class Validate
 			// first search
 			$pos = mb_strpos($html, $error, $offset, "UTF-8");
 
-// if ($error_id == 'tell_user_file_type'){
-// echo '<textarea style="width:100%;height:200px;background-color:#fff;color:#111;font-size:90%;font-family:monospace;position:relative;z-index:9999">';
-// var_dump($pos);
-// var_dump($results);
-// }
-
+ if ($error == '<html>'){
+ echo '<textarea style="width:100%;height:200px;background-color:#fff;color:#111;font-size:90%;font-family:monospace;position:relative;z-index:9999">';
+ var_dump($error);
+ var_dump($html);
+	echo '</textarea>';
+ }
 			// is already replaced?
 			if (in_array($pos, $results))
 			{

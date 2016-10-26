@@ -76,6 +76,7 @@ function a11yc_add_fixed() {
 		//ここで#a11yc_headerがないばあいのふるまいもちゃんとすること
 		header_height = header_height!=0 ? $('#a11yc_header').outerHeight(true)+$('#a11yc_header').offset().top : 0;
 		$a11yc_content.addClass('a11yc_fixed_header');
+		$('#a11yc_header_ctrl').prependTo('#a11yc_header');
 		if(!$('.wp-admin')[0])
 		{
 			var top_padding = $('#a11yc_header').outerHeight()+(parseInt($('#a11yc_header_p_1').css('margin-top'), 10))*2;
@@ -107,6 +108,7 @@ function a11yc_fixed_header(e){
 	{
 		if(!$('.a11yc_fixed_header')[0]) return;
 		$a11yc_content.removeClass('a11yc_fixed_header');
+		$('#a11yc_header_ctrl').prependTo('#a11yc_form_checklist');
 		if(!$('.wp-admin')[0])
 		{
 			$a11yc_content.css('paddingTop', menu_height);

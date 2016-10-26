@@ -1,5 +1,6 @@
 .a11yc,
 .a11yc_sansserif {
+	position: relative;
 	margin: auto;
 	padding: 2em 0;
 	max-width: 960px;
@@ -21,6 +22,9 @@
 }
 a:link {
 	color: #006ab6;
+}
+a:active {
+	color: #68baef;
 }
 a:hover {
 	text-decoration: none;
@@ -476,24 +480,23 @@ tr.a11yc_flash {
 #a11yc_header #a11yc_update_done {
 	width: 22em;
 }
-#a11yc_header_top {
-	text-align: right;
+#a11yc_header_ctrl {
+/*	text-align: right;
 	margin-top: -3.25em;
-	margin-bottom: .25em;
-}
-.a11yc_msg+form #a11yc_header_top {
-	margin-top: -7em;
-	margin-bottom: 4.25em;
-}
-.wp-admin #a11yc_header_top {
-	text-align: right;
-	margin-top: -3.65em;
-	margin-bottom: .5em;
-}
-.a11yc_fixed_header #a11yc_header_top {
-	margin-top: 0;
+	margin-bottom: .25em;*/
 	position: absolute;
+	top: 2.75em;
 	right: 0;
+}
+.wp-admin #a11yc_header_ctrl {
+	top: -4em;
+	right: 12px;
+}
+.a11yc_fixed_header #a11yc_header_ctrl {
+	position: relative;
+	top: 0;
+	right: 0;
+	float: right;
 }
 #a11yc_select_standard,
 .a11yc_narrow_level {
@@ -507,12 +510,14 @@ tr.a11yc_flash {
 	font-size: 1.25em;
 	cursor: pointer;
 	padding: 0 5px;
+	min-height: 2em;
 	-moz-border-radius: 2px;
 	border-radius: 2px;
 }
 .a11yc a.current {
 	background-color: #0073aa;
 	color: #fff;
+	text-decoration: none;
 }
 #a11yc_header_left {
 	width: calc( 100% - 20em );
@@ -521,11 +526,13 @@ tr.a11yc_flash {
 	text-align: right;
 	width: 20em;
 }
+#a11yc_back_to_target_page th {
+	text-align: left;
+	padding-right: 5px;
+}
+
 #a11yc_header_right a.a11yc_disclosure {
 	display: inline-block;
-}
-.a11yc_fixed_header #a11yc_header_right {
-	margin-top: 1.8em;
 }
 #a11yc_rest_total {
 	display: inline-block;
@@ -864,7 +871,9 @@ td.a11yc_table_check_howto {
 }
 */
 .a11yc_table_check tr:hover th,
-.a11yc_table_check tr:hover td {
+.a11yc_table_check tr:hover td,
+#a11yc_pages .a11yc_table tr:hover th,
+#a11yc_pages .a11yc_table tr:hover td  {
 	background-color: #fefedd;
 }
 .a11yc_hide_passed_item .a11yc_table_check tr.off {
@@ -886,6 +895,7 @@ td.a11yc_table_check_howto {
 /* === a11yc_icon_fa === */
 a.a11yc_hasicon,
 a.a11yc_hasicon span.a11yc_icon_fa,
+a.a11yc_hasicon:hover span,
 a.a11yc_hasicon:focus span  {
 	text-decoration: none;
 }
@@ -1013,6 +1023,16 @@ span.a11yc_icon_arrow_u:before {
 	color: #333;
 	font-weight: normal;
 }
+span.a11yc_icon_tr_l:before {
+	content: '\f0d9';
+	color: #333;
+	margin-right: 5px;
+}
+span.a11yc_icon_tr_r:before {
+	content: '\f0da';
+	color: #333;
+	margin-left: 5px;
+}
 span.a11yc_icon_expand:before {
 	content: '\f065';
 	margin: 0 .125em;
@@ -1029,11 +1049,11 @@ span.a11yc_icon_expand:before {
 	content: '\f066';
 }
 
-
 /* setup */
 #a11yc_setup {
 	padding-bottom: 6em;
 }
+
 /* pages */
 #a11yc_checklist_index_title,
 .a11yc_checklist_pages {
@@ -1048,21 +1068,21 @@ span.a11yc_icon_expand:before {
 .a11yc_pagenation {
 	text-align: right;
 }
-.a11yc_checklist_pages li,
-.a11yc_pagenation li {
+ul.a11yc_checklist_pages li,
+ul.a11yc_pagenation li {
 	display: inline-block;
 	padding: 0 ;
+	margin-top: 0;
 	line-height: 1;
 }
-.a11yc_checklist_pages li + li,
-.a11yc_pagenation li + li {
+.a11yc_checklist_pages li+li,
+.a11yc_pagenation li+li {
 	border-left: 1px solid #aaa;
 	margin-left: 5px;
 	padding-left: 5px;
 }
 .a11yc_checklist_pages a,
 .a11yc_pagenation a {
-	display: block;
 	padding: 2px 5px;
 	border-radius: 2px;
 }
@@ -1073,6 +1093,11 @@ span.a11yc_icon_expand:before {
 	font-weight: normal;
 	font-size: .95em;
 }
+.a11yc_table .not_found_url th,
+.a11yc_table .not_found_url td {
+	background-color: #faeaea;
+}
+
 /* center */
 #a11yc_center_about {
 	position: relative;

@@ -984,7 +984,7 @@ class Validate_Validation extends Validate
 		}
 
 		// is lang exists?
-		if ( ! in_array('html', $has_langs[1]))
+		if ( ! isset($has_langs[1]) || ! in_array('html', $has_langs[1]))
 		{
 			static::$error_ids['langless'][0]['id'] = $ms[0][0];
 			static::$error_ids['langless'][0]['str'] = $ms[0][0];

@@ -1,7 +1,7 @@
 <?php if ($url == 'bulk'): ?>
-	<form action="<?php echo A11YC_BULK_URL ?>" method="POST">
+	<form action="<?php echo A11YC_BULK_URL ?>" method="POST" id="a11yc_form_checklist">
 <?php else: ?>
-	<form action="<?php echo A11YC_CHECKLIST_URL ?>&amp;url=<?php echo urlencode($url) ?>" method="POST">
+	<form action="<?php echo A11YC_CHECKLIST_URL ?>&amp;url=<?php echo urlencode($url) ?>" method="POST" id="a11yc_form_checklist">
 <?php endif; ?>
 
 <?php echo $form ?>

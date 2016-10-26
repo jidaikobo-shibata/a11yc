@@ -1,10 +1,19 @@
 <!-- list -->
 <h2 id="a11yc_checklist_index_title"><?php echo A11YC_LANG_PAGES_INDEX ?></h2>
 <ul class="a11yc_checklist_pages">
-	<li><a href="<?php echo A11YC_PAGES_URL ?>"><?php echo A11YC_LANG_PAGES_ALL ?></a></li>
-	<li><a href="<?php echo A11YC_PAGES_URL ?>&amp;list=yet"><?php echo A11YC_LANG_PAGES_YET ?></a></li>
-	<li><a href="<?php echo A11YC_PAGES_URL ?>&amp;list=done"><?php echo A11YC_LANG_PAGES_DONE ?></a></li>
-	<li><a href="<?php echo A11YC_PAGES_URL ?>&amp;list=trash"><?php echo A11YC_LANG_PAGES_TRASH ?></a></li>
+<?php
+	$index_lists = array('all', 'yet', 'done', 'trash');
+	foreach($index_lists as $index_list):
+		if($index_list=='all'):
+			$class_str = !$list ? ' class="current"' : '' ;
+			$q = '';
+		else:
+			$class_str = $index_list==$list ? ' class="current"' : '' ;
+			$q = '&amp;list='.$index_list;
+		endif;
+		echo "\t".'<li><a href="'.A11YC_PAGES_URL.$q.'"'.$class_str.'>'.constant('A11YC_LANG_PAGES_'.strtoupper($index_list)).'</a></li>';
+	endforeach;
+?>
 </ul>
 <!-- /.a11yc_checklist_pages -->
 
@@ -66,8 +75,8 @@ if ($pages):
 		<?php else: ?>
 			<td class="a11yc_result"><a href="<?php echo A11YC_PAGES_URL ?>&amp;del=1&amp;url=<?php echo urlencode($url) ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_DELETE ?></span><span class="a11yc_icon_delete a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
 		<?php endif; ?>
-		<td><?php echo $page['add_date'] ? date('Y-m-d', strtotime($page['add_date'])) : '-' ?></td>
-		<td><?php echo $page['date'] ?></td>
+		<td class="a11yc_result"><?php echo $page['add_date'] ? date('Y-m-d', strtotime($page['add_date'])) : '-' ?></td>
+		<td class="a11yc_result"><?php echo $page['date'] ?></td>
 	</tr>
 	<?php endforeach; ?>
 	</tbody>

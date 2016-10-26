@@ -1,36 +1,45 @@
+<div id="a11yc_header_ctrl">
+<?php if ($url != 'bulk'):  ?>
+	<!-- standard -->
+	<p id="a11yc_select_standard" class="a11yc_hide_if_fixedheader"><label for="a11yc_standard"><?php echo A11YC_LANG_STANDARD ?></label>
+	<select name="standard" id="a11yc_standard">
+	<?php
+	foreach ($standards['standards'] as $k => $v):
+		$selected = $k == @$page['standard'] ? ' selected="selected"' : '';
+	?>
+		<option<?php echo $selected ?> value="<?php echo $k ?>"><?php echo $v ?></option>
+	<?php endforeach;  ?>
+	</select></p>
+<?php endif; ?>
+<!-- narrow level -->
+	<p class="a11yc_narrow_level a11yc_hide_if_no_js" data-a11yc-narrow-target=".a11yc_section_principle">Level:
+<?php
+	for ($i=1; $i<=3; $i++)
+	{
+		$class_str = $i == $target_level ? ' class="current"' : '';
+		echo '<a role="button" tabindex="0" data-narrow-level="'.implode(',', array_slice(array('l_a', 'l_aa', 'l_aaa'), 0, $i)).'"'.$class_str.'>'.\A11yc\Util::num2str($i).'</a>';
+	}
+?>
+	</p>
+</div><!-- /#a11yc_header_ctrl -->
 <div id="a11yc_checks" data-a11yc-current-user="<?php echo $current_user_id ?>" data-a11yc-lang='{"expand":"<?php echo A11YC_LANG_CTRL_EXPAND ?>", "compress": "<?php echo A11YC_LANG_CTRL_COMPRESS ?>", "conformance": "<?php echo A11YC_LANG_CHECKLIST_CONFORMANCE.','.A11YC_LANG_CHECKLIST_CONFORMANCE_PARTIAL ?>"}' <?php if($checklist_behaviour) echo ' class="a11yc_hide_passed_item"' ?>>
 <!-- header -->
 <div id="a11yc_header">
-	<div id="a11yc_header_top">
-	<?php if ($url != 'bulk'):  ?>
-		<!-- standard -->
-		<p id="a11yc_select_standard" class="a11yc_hide_if_fixedheader"><label for="a11yc_standard"><?php echo A11YC_LANG_STANDARD ?></label>
-		<select name="standard" id="a11yc_standard">
-		<?php
-		foreach ($standards['standards'] as $k => $v):
-			$selected = $k == @$page['standard'] ? ' selected="selected"' : '';
-		?>
-			<option<?php echo $selected ?> value="<?php echo $k ?>"><?php echo $v ?></option>
-		<?php endforeach;  ?>
-		</select></p>
-	<?php endif; ?>
-	<!-- narrow level -->
-		<p class="a11yc_narrow_level a11yc_hide_if_no_js" data-a11yc-narrow-target=".a11yc_section_principle">Level:
-	<?php
-		for ($i=1; $i<=3; $i++)
-		{
-			$class_str = $i == $target_level ? ' class="current"' : '';
-			echo '<a role="button" tabindex="0" data-narrow-level="'.implode(',', array_slice(array('l_a', 'l_aa', 'l_aaa'), 0, $i)).'"'.$class_str.'>'.\A11yc\Util::num2str($i).'</a>';
-		}
-	?>
-		</p>
-	</div><!-- /#a11yc_header_top -->
 	<div id="a11yc_header_left" class="a11yc_fl">
 		<!-- not for bulk -->
 	<?php if ($url != 'bulk'):  ?>
 		<div id="a11yc_targetpage_data">
 		<!-- target page -->
-			<p id="a11yc_back_to_target_page"><?php echo A11YC_LANG_CHECKLIST_TARGETPAGE ?>:&nbsp;<?php echo $target_title ?><br><?php echo A11YC_LANG_PAGES_URLS ?>:&nbsp;<a href="<?php echo urldecode($url) ?>"><?php echo urldecode($url) ?></a></p>
+<table id="a11yc_back_to_target_page">
+<tr>
+	<th><?php echo A11YC_LANG_CHECKLIST_TARGETPAGE ?></th>
+	<td><?php echo $target_title ?></td>
+</tr>
+<tr>
+	<th><?php echo A11YC_LANG_PAGES_URLS ?></th>
+	<td><a href="<?php echo urldecode($url) ?>"><?php echo urldecode($url) ?></a></td>
+</tr>
+</table>
 
 	<!-- #a11yc_errors -->
 	<script type="text/javascript">
