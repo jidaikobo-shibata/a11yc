@@ -106,7 +106,7 @@ class Controller_Bulk extends Controller_Checklist
 				$result = Evaluate::check_result($passed_flat);
 
 				$update_done = intval($_POST['update_done']);
-				$date = Db::escape(date('Y-m-d'));
+				$date = date('Y-m-d');
 
 				// update/create page
 				// do not update standard of each page

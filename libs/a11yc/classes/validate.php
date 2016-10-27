@@ -295,7 +295,7 @@ class Validate
 			'cellspacing', 'cellpadding',
 
 			// header
-			'xmlns', 'rev', 'profile', 'property', 'role', 'prefix', 'itemscope',
+			'xmlns', 'rev', 'profile', 'property', 'role', 'prefix', 'itemscope', 'xml:lang',
 
 			// JavaScript
 			'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown',
@@ -417,11 +417,21 @@ class Validate
 
 		foreach (explode(' ', $str) as $k => $v)
 		{
-			if (empty($v)) continue;
+			$v = trim($v, '>');
+			if ($v =='/') continue;
 			if ($v[0] == '<') continue;
-			list($key, $val) = explode("=", $v);
-			$val = rtrim($val, ">");
-			$key = trim(strtolower($key));
+			if (empty($v)) continue;
+			if (strpos($v, '=') !== false)
+			{
+				list($key, $val) = explode("=", $v);
+				$key = trim(strtolower($key));
+			}
+			else
+			{
+				// boolean attribute
+				$key = $v;
+				$val = $v;
+			}
 
 			$val = str_replace(
 				array(
@@ -462,7 +472,7 @@ class Validate
 					$key = $key.'_'.$k;
 					$attrs['plural'] = TRUE;
 				}
-				$attrs[$key] = $val ?: $key; // boolean attribute
+				$attrs[$key] = $val;
 			}
 			// exclude JavaScript TODO
 			else if( ! substr($k, 0, 5) == 'this.')
