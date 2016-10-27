@@ -418,9 +418,9 @@ class Validate
 		foreach (explode(' ', $str) as $k => $v)
 		{
 			$v = trim($v, '>');
+			if (empty($v)) continue;
 			if ($v =='/') continue;
 			if ($v[0] == '<') continue;
-			if (empty($v)) continue;
 			if (strpos($v, '=') !== false)
 			{
 				list($key, $val) = explode("=", $v);
