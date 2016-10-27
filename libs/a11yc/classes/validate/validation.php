@@ -24,7 +24,7 @@ class Validate_Validation extends Validate
 
 		if ( ! static::get_doctype())
 		{
-			static::$error_ids['check_doctype'][0]['id'] = $ms[0][0];
+			static::$error_ids['check_doctype'][0]['id'] = false;
 			static::$error_ids['check_doctype'][0]['str'] = $ms[0][0];
 		}
 		static::add_error_to_html('check_doctype', static::$error_ids);
@@ -58,7 +58,7 @@ class Validate_Validation extends Validate
 			// alt_attr_of_blank_only
 			if (
 				array_key_exists('alt', $attrs) &&
-				preg_match('/^[ 　]*?$/', $attrs['alt'])
+				preg_match('/^[ 　]+?$/', $attrs['alt'])
 			)
 			{
 				static::$error_ids['alt_attr_of_blank_only'][$k]['id'] = $ms[0][$k];
@@ -297,21 +297,21 @@ class Validate_Validation extends Validate
 		// add errors
 		foreach ($too_much_opens as $k => $v)
 		{
-			static::$error_ids['too_much_opens'][$k]['id'] = $ms[0][0];
+			static::$error_ids['too_much_opens'][$k]['id'] = false;
 			static::$error_ids['too_much_opens'][$k]['str'] = $v;
 		}
 		static::add_error_to_html('too_much_opens', static::$error_ids, 'ignores');
 
 		foreach ($too_much_ends as $k => $v)
 		{
-			static::$error_ids['too_much_ends'][$k]['id'] = $ms[0][0];
+			static::$error_ids['too_much_ends'][$k]['id'] = false;
 			static::$error_ids['too_much_ends'][$k]['str'] = $v;
 		}
 		static::add_error_to_html('too_much_ends', static::$error_ids, 'ignores');
 
 		foreach ($suspicious_ends as $k => $v)
 		{
-			static::$error_ids['suspicious_ends'][$k]['id'] = $ms[0][0];
+			static::$error_ids['suspicious_ends'][$k]['id'] = false;
 			static::$error_ids['suspicious_ends'][$k]['str'] = $v;
 		}
 		static::add_error_to_html('suspicious_ends', static::$error_ids, 'ignores');
@@ -955,7 +955,7 @@ class Validate_Validation extends Validate
 			preg_match("/\<title[^\>]*?\>[ 　]*?\<\/title/si", $str) // lacknesss of title
 		)
 		{
-			static::$error_ids['titleless'][0]['id'] = $ms[0][0];
+			static::$error_ids['titleless'][0]['id'] = false;
 			static::$error_ids['titleless'][0]['str'] = $ms[0][0];
 		}
 		static::add_error_to_html('titleless', static::$error_ids, 'ignores');
@@ -986,7 +986,7 @@ class Validate_Validation extends Validate
 		// is lang exists?
 		if ( ! isset($has_langs[1]) || ! in_array('html', $has_langs[1]))
 		{
-			static::$error_ids['langless'][0]['id'] = $ms[0][0];
+			static::$error_ids['langless'][0]['id'] = false;
 			static::$error_ids['langless'][0]['str'] = $ms[0][0];
 			static::add_error_to_html('langless', static::$error_ids);
 			return;

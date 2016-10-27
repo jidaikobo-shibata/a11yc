@@ -304,22 +304,150 @@ class Validate
 			'ondragdrop', 'onabort', 'onerror', 'onselect',
 		);
 
-		$str = preg_replace("/ +/", " ", $str); // remove plural spaces
-		$str = preg_replace("/=[ ]*?(\d)+? /", "='\1'", $str); // quotation is not must at numeric
-		$str = str_replace('"', "'", $str); // integration quote
-		$str = str_replace("= '", "='", $str); // integration delimiter
-		$str = str_replace(": ", ":", $str); // css
-		$str = str_replace('<', " <", $str); // divide tags
+		// first tag only
+		$str = trim($str);
+		if (strpos($str, '<') !== false)
+		{
+			preg_match('/\<[^\>]+?\>/is', $str, $ms);
+			$str = $ms[0];
+		}
+		$str = ' '.$str;
+
+		//
+		$double = '"';
+		$single = "'";
+		$quoted_double = '[---a11yc_quoted_double---]';
+		$quoted_single = '[---a11yc_quoted_open---]';
+		$open_double   = '[---a11yc_open_double---]';
+		$close_double  = '[---a11yc_close_double---]';
+		$open_single   = '[---a11yc_open_single---]';
+		$close_single  = '[---a11yc_close_single---]';
+		$inner_double  = '[---a11yc_inner_double---]';
+		$inner_single  = '[---a11yc_inner_single---]';
+		$inner_space   = '[---a11yc_innerspace---]';
+
+		// escaped quote
+		$str = str_replace(
+			array("\\'", '\\"'),
+			array($quoted_single, $quoted_double),
+			$str);
+
+		// start with which?
+		$d_offset = mb_strpos($str, '"', 0, 'UTF-8');
+		$s_offset = mb_strpos($str, "'", 0, 'UTF-8');
+
+		$ex_order = array();
+		if ($d_offset && $s_offset)
+		{
+			$ex_order = $d_offset < $s_offset ? array('"', "'") : array("'", '"');
+		}
+		else if($d_offset)
+		{
+			$ex_order = array('"');
+		}
+		else if($s_offset)
+		{
+			$ex_order = array("'");
+		}
+
+		$suspicious_end_quote = false;
+
+		$qoutes = array();
+		$loop = true;
+		while($loop)
+		{
+			// start with which?
+			$d_offset = mb_strpos($str, '"', 0, 'UTF-8');
+			$s_offset = mb_strpos($str, "'", 0, 'UTF-8');
+
+			$target = '';
+			if ($d_offset && $s_offset)
+			{
+				$target = $d_offset < $s_offset ? $double : $single;
+			}
+			else if($d_offset)
+			{
+				$target = $double;
+			}
+			else if($s_offset)
+			{
+				$target = $single;
+			}
+			else
+			{
+				$loop = false;
+				break;
+			}
+			$opp = $target == $double ? $single : $double;
+
+			// quote
+			$open = $target == $double ? $open_double : $open_single;
+			$close = $target == $double ? $close_double : $close_single;
+			$inner = $target == $double ? $inner_single : $inner_double;
+
+			// search open quote
+			if ($open_pos = mb_strpos($str, $target, 0, 'UTF-8'))
+			{
+				// search close quote
+				$close_pos = mb_strpos($str, $target, $open_pos + 1, 'UTF-8');
+
+				// close quote was not found. this tag is not beautiful.
+				if ( ! $close_pos)
+				{
+					$str.= $close;
+					$suspicious_end_quote = TRUE;
+				}
+
+				// replaces
+				$search = mb_substr($str, $open_pos, $close_pos - $open_pos + 1, 'UTF-8');
+				$replace = str_replace(
+					array($target, $opp, ' '),
+					array('', $inner, $inner_space),
+					$search);
+				$replace = $open.$replace.$close;
+				// replace value
+				$str = str_replace($search, $replace, $str);
+			}
+		}
+
+		$str = preg_replace("/  +/", " ", $str); // remove plural spaces
+		$str = str_replace(" = ", "=", $str); // remove plural spaces
 		$attrs = array();
+		$strs = explode(' ', $str);
 
 		foreach (explode(' ', $str) as $k => $v)
 		{
 			if (empty($v)) continue;
 			if ($v[0] == '<') continue;
-			if (strpos($v, "='") === false) continue;
-			list($key, $val) = explode("='", $v);
+			list($key, $val) = explode("=", $v);
 			$val = rtrim($val, ">");
 			$key = trim(strtolower($key));
+
+			$val = str_replace(
+				array(
+					$quoted_double,
+					$quoted_single,
+					$open_double,
+					$close_double,
+					$open_single,
+					$close_single,
+					$inner_double,
+					$inner_single,
+					$inner_space
+				),
+				array(
+					'\\"',
+					"\\'",
+					'',
+					'',
+					"",
+					"",
+					'"',
+					"'",
+					" "
+				),
+				$val
+			);
 
 			// valid attributes
 			if (
@@ -334,7 +462,7 @@ class Validate
 					$key = $key.'_'.$k;
 					$attrs['plural'] = TRUE;
 				}
-				$attrs[$key] = trim($val, "'");
+				$attrs[$key] = $val ?: $key; // boolean attribute
 			}
 			// exclude JavaScript TODO
 			else if( ! substr($k, 0, 5) == 'this.')
@@ -342,6 +470,7 @@ class Validate
 				$attrs['suspicious'][$k] = trim($key, "'");
 			}
 		}
+		$attrs['suspicious_end_quote'] = $suspicious_end_quote;
 		$retvals[$str] = $attrs;
 
 		return $retvals[$str];
@@ -482,6 +611,10 @@ class Validate
 			}
 		}
 
+		// first tag
+		$first_tags = static::get_elements_by_re(static::$hl_html, 'tags');
+		$first_tag = $first_tags[0][0];
+
 		$lv = strtolower($yml['criterions'][$yml['errors'][$error_id]['criterion']]['level']['name']);
 
 		// replace errors
@@ -508,21 +641,24 @@ class Validate
 			);
 			$err_rep_len = strlen($replaced);
 
-			// first search
-			$pos = mb_strpos($html, $error, $offset, "UTF-8");
-
- if ($error == '<html>'){
- echo '<textarea style="width:100%;height:200px;background-color:#fff;color:#111;font-size:90%;font-family:monospace;position:relative;z-index:9999">';
- var_dump($error);
- var_dump($html);
-	echo '</textarea>';
- }
-			// is already replaced?
-			if (in_array($pos, $results))
+			// normal search
+			if ($error)
 			{
-				//  search next
-				$offset = max($results) + 1;
+				// first search
 				$pos = mb_strpos($html, $error, $offset, "UTF-8");
+
+				// is already replaced?
+				if (in_array($pos, $results))
+				{
+					//  search next
+					$offset = max($results) + 1;
+					$pos = mb_strpos($html, $error, $offset, "UTF-8");
+				}
+			}
+			else
+			{
+				// always search first tag
+				$pos = mb_strpos($html, $first_tag, 0, "UTF-8");
 			}
 
 			// add error
@@ -533,19 +669,8 @@ class Validate
 			$html = mb_substr($html, 0, $end_pos, "UTF-8").$end_replaced.mb_substr($html, $end_pos, NULL, "UTF-8");
 
 			$results[] = $pos + $err_rep_len;
-
-// if ($error_id == 'tell_user_file_type'){
-// var_dump($pos);
-// var_dump($error);
-// echo '</textarea>';
-// }
 		}
 
-// if ($error_id == 'tell_user_file_type'){
-// echo '<textarea style="width:100%;height:200px;background-color:#fff;color:#111;font-size:90%;font-family:monospace;position:relative;z-index:9999">';
-// var_dump($replaces);
-// echo '</textarea>';
-// }
 		// recover error html
 		foreach ($replaces as $v)
 		{
