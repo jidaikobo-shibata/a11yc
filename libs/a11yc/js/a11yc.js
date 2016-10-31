@@ -346,8 +346,32 @@ $('#a11yc_update_all').on('change', function(){
 });
 
 /* === validation error_message === */
-if($('#a11yc_checklist')[0]){
-	$(document).ajaxStop(function() {
+if($('#a11yc_errors')[0]){
+		$(document).ajax({
+			type: 'GET',
+			url: $(this).data('a11ycAjaxUrl'),
+			dataType: 'html',
+			data: {
+				url: $(this).data('a11ycUrl'),
+				link_check: $(this).data('a11ycLinkCheck')
+			},
+			success: function(data) {
+					$('#a11yc_errors').append(data);
+			},
+			error:function() {
+					alert('failed');
+			}
+		});
+		 $(document)
+			 .ajaxStart(function() {
+				 $('#a11yc_errors').addClass('a11yc_loading');
+			 })
+			 .ajaxStop(function() {
+				 $('#a11yc_errors').removeClass('a11yc_loading');
+			 });
+
+
+	$('#a11yc_errors').ajaxStop(function() {
 		a11yc_disclosure();
 		if(!$('.a11yc_fixed_header')[0])
 		{

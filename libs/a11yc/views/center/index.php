@@ -89,10 +89,10 @@
 
 <p><a href='javascript:(function(){var%20a11yc_pass,url;a11yc_pass="<?php echo A11YC_CHECKLIST_URL; ?>";url=encodeURI(location.href);window.document.location=a11yc_pass+url;})();'>A11yc checker</a></p>
 
-<textarea style="width:100%;height:8em;">
+<textarea style="width:100%;height:8.25em;">
 javascript:(function(){
 	var a11yc_pass,url;
-	a11yc_pass=<?php echo A11YC_CHECKLIST_URL; ?>;
+	a11yc_pass="<?php echo A11YC_CHECKLIST_URL; ?>";
 	url=encodeURI(location.href);
 	window.document.location=a11yc_pass+url;
 })();

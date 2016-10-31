@@ -39,9 +39,13 @@
 </nav>
 <?php
 	$h1 = constant('A11YC_LANG_'.strtoupper($mode).'_TITLE');
-	$titile_attr_str = in_array($mode , array('docs')) ? ' class="a11yc_hasctrl"' : '';
-	if($mode == 'docs_each'):
-		$h1 .= isset($doc['criterion']) ? ':&nbsp;'.\A11yc\Util::key2code($doc['criterion']['code']).'&nbsp;'.$doc['criterion']['name'].'&nbsp;('.$doc['criterion']['level']['name'].')' : ':&nbsp;'.$doc['name'];
+	$titile_attr_str ='';
+	if($mode == 'docs'):
+		if(!(isset($_GET['a']) && $_GET['a']=='each')):
+			$titile_attr_str = ' class="a11yc_hasctrl"';
+		else:
+			$h1 .= ':&nbsp;'.$doc['name'];
+		endif;
 	endif;
 ?>
 <a href="javascript:void(0);" id="a11yc_content" class="a11yc_skip a11yc_show_if_focus"><?php echo A11YC_LANG_BEGINNING_OF_THE_CONTENT ?></a>
