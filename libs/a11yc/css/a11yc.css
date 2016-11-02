@@ -54,6 +54,9 @@
 	text-align: right;
 	font-weight: normal;
 }
+#a11yc_errors .a11yc_controller p {
+	margin: 0;
+}
 .a11yc_source {
 	margin-top: 40px;
 	padding: 5px 10px 5px 0;
@@ -548,6 +551,7 @@ table#a11yc_table_info {
 #a11yc_back_to_target_page th {
 	text-align: left;
 	padding-right: 5px;
+	vertical-align: top;
 	white-space: nowrap;
 }
 
@@ -1203,8 +1207,9 @@ table .a11yc_result {
 	font-family: FontAwesome;
 	position: absolute;
 	left: 6px;
-	top: 0;
-	bottom: 0;
+	top: calc( 50% - .5em );
+	bottom: auto;
+	line-height: 1em;
 	height: 1em;
 	margin: auto;
 }

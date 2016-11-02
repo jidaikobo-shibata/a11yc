@@ -385,7 +385,7 @@ function format_validation_error(){
 		var icon_labels = [$('#a11yc_checks').data('a11ycLang').expand, $('#a11yc_checks').data('a11ycLang').compress];
 		$expand_icon = $('<a role="button" class="a11yc_expand a11yc_hasicon" tabindex="0"><span role="presentation" aria-hidden="true" class="a11yc_icon_fa a11yc_icon_expand"></span><span class="a11yc_skip">'+icon_labels[0]+'</span></a>');
 		$expands = $error_wrapper.add($disclosure);
-		$controller.prepend($expand_icon.clone());
+		$controller.append($expand_icon.clone());
 		$(document).on('click', '.a11yc_expand', function(){
 			var index = $('.a11yc_expand').index(this);
 			$(this).toggleClass('on');
