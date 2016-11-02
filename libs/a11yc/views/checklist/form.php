@@ -42,7 +42,8 @@
 	</table>
 
 	<!-- #a11yc_errors -->
-	<div id="a11yc_errors" data-a11yc-ajax-url="<?php echo A11YC_VALIDATE_URL.'/validate.php' ?>" data-a11yc-url="'<?php echo $url ?>'" data-a11yc-link-check="<?php echo $link_check ?>">
+	<div id="a11yc_errors" data-a11yc-ajax-url="<?php echo A11YC_VALIDATE_URL.'/validate.php' ?>" data-a11yc-url="<?php echo $url ?>" data-a11yc-link-check="<?php echo $link_check ?>">
+	
 	<!-- narrow level -->
 		<p class="a11yc_narrow_level a11yc_hide_if_no_js" data-a11yc-narrow-target="#a11yc_validation_errors">Level:
 	<?php

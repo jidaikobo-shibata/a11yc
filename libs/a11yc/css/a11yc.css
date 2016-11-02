@@ -919,6 +919,7 @@ a.a11yc_hasicon span.a11yc_icon_fa,
 a.a11yc_hasicon:hover span,
 a.a11yc_hasicon:focus span  {
 	text-decoration: none;
+	line-height: 1em;
 }
 a.a11yc_hasicon span {
 	text-decoration: underline;
@@ -994,8 +995,6 @@ input:focus+.a11yc_icon_checkbox:before {
 	font-size: 1.5em;
 }
 
-
-
 span.a11yc_icon_delete:before {
 	font-family: FontAwesome;
 	content: '\f1f8';
@@ -1053,6 +1052,9 @@ span.a11yc_icon_tr_r:before {
 	content: '\f0da';
 	color: #333;
 	margin-left: 5px;
+}
+span.a11yc_icon_expand {
+	line-height: 1em;
 }
 span.a11yc_icon_expand:before {
 	content: '\f065';
