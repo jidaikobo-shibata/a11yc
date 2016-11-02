@@ -2,12 +2,14 @@
 echo $search_form;
 
 $msg = A11YC_LANG_DOCS_SEARCH_RESULT_NONE;
+$class_str_show = $word && $word!='' ? ' show' : '';
+
 $html = '';
 foreach ($test['tests'] as $code => $v):
 	if ($word && ! in_array($code, $results['tests'])) continue;
 	\A11yc\View::assign('doc', $v, false);
 	$html.= '<li class="a11yc_disclosure_parent"><a role="button" class="a11yc_disclosure">'.$v['name'].'</a>';
-	$html.= '<div class="a11yc_disclosure_target">';
+	$html.= '<div class="a11yc_disclosure_target'.$class_str_show.'">';
 	$html.= \A11yc\View::fetch_tpl('docs/each.php');
 	$html.= '</div>';
 	$html.= '</li>';
@@ -40,14 +42,12 @@ $msg = '';
 		<div id="a11yc_g_<?php echo $vv['code'] ?>" class="a11yc_section_guideline"><h3 class="a11yc_header_guideline a11yc_disclosure"><?php echo \A11yc\Util::key2code($vv['code']).' '.$vv['name'] ?></h3>
 
 		<!-- criterions -->
-		<?php $class_str = $word ? ' show' : ''; ?>
-		<div class="a11yc_section_criterions a11yc_disclosure_target<?php echo $class_str ?>">
+		<div class="a11yc_section_criterions a11yc_disclosure_target<?php echo $class_str_show ?>">
 		<?php foreach ($yml['criterions'] as $kkk => $vvv):
 		if ($word && ! in_array($kkk, $results['chks']['criterions'])) continue;
 			if (substr($kkk, 0, 3) != $kk) continue;
 
 			$non_interference = isset($vvv['non-interference']) ? '&nbsp;'.A11YC_LANG_CHECKLIST_NON_INTERFERENCE :'';
-//			$skip_non_interference = isset($vvv['non-interference']) ? '<span class="a11yc_skip">&nbsp;('.A11YC_LANG_CHECKLIST_NON_INTERFERENCE.')</span>' : '';
 			$class_str = isset($vvv['non-interference']) ? ' non_interference' : '';
 			$class_str.= ' a11yc_criterion_l_'.strtolower($vvv['level']['name']);
 			 ?>
@@ -68,7 +68,7 @@ $msg = '';
 				$non_interference = isset($vvvv['non-interference']) ? ' non_interference" title="non interference"' : ''; ?>
 				<li  class="a11yc_disclosure_parent<?php echo $non_interference ?>">
 				<a role="button" class="a11yc_disclosure" <?php /* echo A11YC_TARGET ?> href="<?php echo A11YC_DOC_URL.$code ?>&amp;criterion=<?php echo $kkk ?>"<?php */ ?>><?php echo $val['name'] ?></a>
-				<div class="a11yc_section_each_docs a11yc_disclosure_target">
+				<div class="a11yc_section_each_docs a11yc_disclosure_target<?php echo $class_str_show ?>">
 					<?php
 						\A11yc\View::assign('doc', $val, false);
 						echo \A11yc\View::fetch_tpl('docs/each.php');
