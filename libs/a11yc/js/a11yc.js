@@ -346,16 +346,30 @@ $('#a11yc_update_all').on('change', function(){
 });
 
 /* === validation error_message === */
-if($('#a11yc_checklist')[0]){
-	$(document).ajaxStop(function() {
-		a11yc_disclosure();
-		if(!$('.a11yc_fixed_header')[0])
-		{
-			set_pagemenu_top();
+if($('#a11yc_errors')[0]){
+	$.ajax({
+		type: 'GET',
+		url: $('#a11yc_errors').data('a11ycAjaxUrl'),
+		dataType: 'html',
+		data: {
+			url: $('#a11yc_errors').data('a11ycUrl'),
+			link_check: $('#a11yc_errors').data('a11ycLinkCheck')
+		},
+		beforeSend: function() {
+			$('#a11yc_errors').addClass('a11yc_loading');
+		},
+		success: function(data) {
+			$('#a11yc_errors').removeClass('a11yc_loading').append(data);
+			a11yc_disclosure();
+			if(!$('.a11yc_fixed_header')[0]) set_pagemenu_top();
+			format_validation_error();
+		},
+		error:function() {
+			$('#a11yc_errors').removeClass('a11yc_loading').text('failed');
 		}
-		format_validation_error();
 	});
 }
+
 function format_validation_error(){
 	var $error_wrapper = $('#a11yc_validation_errors');
 	if ($error_wrapper[0])
@@ -371,7 +385,7 @@ function format_validation_error(){
 		var icon_labels = [$('#a11yc_checks').data('a11ycLang').expand, $('#a11yc_checks').data('a11ycLang').compress];
 		$expand_icon = $('<a role="button" class="a11yc_expand a11yc_hasicon" tabindex="0"><span role="presentation" aria-hidden="true" class="a11yc_icon_fa a11yc_icon_expand"></span><span class="a11yc_skip">'+icon_labels[0]+'</span></a>');
 		$expands = $error_wrapper.add($disclosure);
-		$controller.prepend($expand_icon.clone());
+		$controller.append($expand_icon.clone());
 		$(document).on('click', '.a11yc_expand', function(){
 			var index = $('.a11yc_expand').index(this);
 			$(this).toggleClass('on');

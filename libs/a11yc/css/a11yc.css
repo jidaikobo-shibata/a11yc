@@ -20,14 +20,22 @@
 .a11yc .a11yc_hasctrl {
 	border: none;
 }
-a:link {
+.a11yc .a11yc_inlineblock {
+	display: inline-block;
+}
+.a11yc a:link {
 	color: #006ab6;
 }
-a:active {
+.a11yc a:active {
 	color: #68baef;
 }
-a:hover {
+.a11yc a:hover {
 	text-decoration: none;
+}
+.a11yc code {
+	background-color: #ededed;
+	border: 1px solid #aaa;
+	padding: 1px 2px;
 }
 .a11yc_loading {
 	min-height: 60px;
@@ -45,6 +53,9 @@ a:hover {
 	position: relative;
 	text-align: right;
 	font-weight: normal;
+}
+#a11yc_errors .a11yc_controller p {
+	margin: 0;
 }
 .a11yc_source {
 	margin-top: 40px;
@@ -133,7 +144,6 @@ p.a11yc_fr {
 	margin-top: .75em;
 }
 #jwp_a11y_error ul li,
-.inside ul li
 {
 	list-style: disc;
 	margin-left: 2em;
@@ -259,6 +269,18 @@ tr.a11yc_flash {
 .a11yc_table p {
 	margin-top: 0;
 	margin-bottom: .5em;
+}
+
+table#a11yc_table_info {
+	font-size: .9em;
+	margin: 1em 0;
+}
+#a11yc_table_info th {
+	white-space: nowrap;
+	background: #eee;
+}
+#a11yc_table_info th+td {
+	min-width: 13em;
 }
 
 /* === menu === */
@@ -529,6 +551,8 @@ tr.a11yc_flash {
 #a11yc_back_to_target_page th {
 	text-align: left;
 	padding-right: 5px;
+	vertical-align: top;
+	white-space: nowrap;
 }
 
 #a11yc_header_right a.a11yc_disclosure {
@@ -898,6 +922,7 @@ a.a11yc_hasicon span.a11yc_icon_fa,
 a.a11yc_hasicon:hover span,
 a.a11yc_hasicon:focus span  {
 	text-decoration: none;
+	line-height: 1em;
 }
 a.a11yc_hasicon span {
 	text-decoration: underline;
@@ -973,8 +998,6 @@ input:focus+.a11yc_icon_checkbox:before {
 	font-size: 1.5em;
 }
 
-
-
 span.a11yc_icon_delete:before {
 	font-family: FontAwesome;
 	content: '\f1f8';
@@ -1032,6 +1055,9 @@ span.a11yc_icon_tr_r:before {
 	content: '\f0da';
 	color: #333;
 	margin-left: 5px;
+}
+span.a11yc_icon_expand {
+	line-height: 1em;
 }
 span.a11yc_icon_expand:before {
 	content: '\f065';
@@ -1181,8 +1207,9 @@ table .a11yc_result {
 	font-family: FontAwesome;
 	position: absolute;
 	left: 6px;
-	top: 0;
-	bottom: 0;
+	top: calc( 50% - .5em );
+	bottom: auto;
+	line-height: 1em;
 	height: 1em;
 	margin: auto;
 }

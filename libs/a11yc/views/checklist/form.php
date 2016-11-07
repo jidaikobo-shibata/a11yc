@@ -30,45 +30,20 @@
 	<?php if ($url != 'bulk'):  ?>
 		<div id="a11yc_targetpage_data">
 		<!-- target page -->
-<table id="a11yc_back_to_target_page">
-<tr>
-	<th><?php echo A11YC_LANG_CHECKLIST_TARGETPAGE ?></th>
-	<td><?php echo $target_title ?></td>
-</tr>
-<tr>
-	<th><?php echo A11YC_LANG_PAGES_URLS ?></th>
-	<td><a href="<?php echo urldecode($url) ?>"><?php echo urldecode($url) ?></a></td>
-</tr>
-</table>
+	<table id="a11yc_back_to_target_page">
+	<tr>
+		<th><?php echo A11YC_LANG_CHECKLIST_TARGETPAGE ?></th>
+		<td><?php echo $target_title ?></td>
+	</tr>
+	<tr>
+		<th><?php echo A11YC_LANG_PAGES_URLS ?></th>
+		<td><a href="<?php echo urldecode($url) ?>"><?php echo urldecode($url) ?></a></td>
+	</tr>
+	</table>
 
 	<!-- #a11yc_errors -->
-	<script type="text/javascript">
-	jQuery(function() {
-		 jQuery(document)
-			 .ajaxStart(function() {
-				 jQuery('#a11yc_errors').addClass('a11yc_loading');
-			 })
-			 .ajaxStop(function() {
-				 jQuery('#a11yc_errors').removeClass('a11yc_loading');
-			 });
-		jQuery.ajax({
-			type: 'GET',
-			url: '<?php echo A11YC_VALIDATE_URL.'/validate.php' ?>',
-			dataType: 'html',
-			data: {
-				url: '<?php echo $url ?>',
-				link_check: '<?php echo $link_check ?>'
-			},
-			success: function(data) {
-					jQuery('#a11yc_errors').append(data);
-			},
-			error:function() {
-					alert('failed');
-			}
-		});
-	});
-	</script>
-	<div id="a11yc_errors">
+	<div id="a11yc_errors" data-a11yc-ajax-url="<?php echo A11YC_VALIDATE_URL.'/validate.php' ?>" data-a11yc-url="<?php echo $url ?>" data-a11yc-link-check="<?php echo $link_check ?>">
+	<?php /* ?>
 	<!-- narrow level -->
 		<p class="a11yc_narrow_level a11yc_hide_if_no_js" data-a11yc-narrow-target="#a11yc_validation_errors">Level:
 	<?php
@@ -79,6 +54,7 @@
 		}
 	?>
 		</p>
+	<?php */ ?>
 	</div>
 
 	</div><!-- /#a11yc_targetpage_data -->
