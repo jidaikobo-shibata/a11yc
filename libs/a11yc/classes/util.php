@@ -129,6 +129,8 @@ class Util extends \Kontiki\Util
 	 */
 	public static function fetch_html($url)
 	{
+		$url = str_replace('&amp;', '&', $url);
+
 		static $htmls = array();
 		if (isset($htmls[$url])) return $htmls[$url];
 		if ( ! static::is_html($url)) return;
@@ -145,6 +147,7 @@ class Util extends \Kontiki\Util
 			);
 			$context = stream_context_create($options);
 			$html = @file_get_contents($url, false, $context);
+
 		}
 		else
 		{

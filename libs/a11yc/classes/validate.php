@@ -259,6 +259,9 @@ class Validate
 			}
 		}
 
+		// remove tailing slash
+		$str = rtrim($str, '/');
+
 		return $str;
 	}
 
@@ -325,6 +328,7 @@ class Validate
 		$inner_double  = '[---a11yc_inner_double---]';
 		$inner_single  = '[---a11yc_inner_single---]';
 		$inner_space   = '[---a11yc_innerspace---]';
+		$inner_equal   = '[---a11yc_innerequal---]';
 
 		// escaped quote
 		$str = str_replace(
@@ -401,8 +405,8 @@ class Validate
 				// replaces
 				$search = mb_substr($str, $open_pos, $close_pos - $open_pos + 1, 'UTF-8');
 				$replace = str_replace(
-					array($target, $opp, ' '),
-					array('', $inner, $inner_space),
+					array($target, $opp, ' ', '='),
+					array('', $inner, $inner_space, $inner_equal),
 					$search);
 				$replace = $open.$replace.$close;
 				// replace value
@@ -443,7 +447,8 @@ class Validate
 					$close_single,
 					$inner_double,
 					$inner_single,
-					$inner_space
+					$inner_space,
+					$inner_equal
 				),
 				array(
 					'\\"',
@@ -454,7 +459,8 @@ class Validate
 					"",
 					'"',
 					"'",
-					" "
+					" ",
+					"="
 				),
 				$val
 			);

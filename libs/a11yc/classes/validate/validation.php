@@ -786,6 +786,18 @@ class Validate_Validation extends Validate
 		$errs2 = array();
 		foreach ($ms[0] as $k => $m)
 		{
+			// newline character must not exists in attr
+			$attrs = static::get_attributes($m);
+			foreach ($attrs as $key => $val)
+			{
+				if (strpos($val, "\n") !== false)
+				{
+					static::$error_ids['cannot_contain_newline'][$k]['id'] = $ms[0][$k];
+					static::$error_ids['cannot_contain_newline'][$k]['str'] = $m;
+					break;
+				}
+			}
+
 			// unbalanced_quotation
 			// delete qouted quotation
 			$tag = str_replace(array("\\'", '\\"'), '', $m);
@@ -802,7 +814,8 @@ class Validate_Validation extends Validate
 
 			// multi-byte space
 			// ignore values of attributes
-			$tag = preg_replace("/(\".+?\"|'.+?')/", '', $tag);
+			$tag = preg_replace("/(\".+?\"|'.+?')/is", '', $tag);
+
 			if (strpos($tag, '　') !== false)
 			{
 				static::$error_ids['cannot_contain_multibyte_space'][$k]['id'] = $ms[0][$k];
@@ -811,6 +824,7 @@ class Validate_Validation extends Validate
 		}
 		static::add_error_to_html('unbalanced_quotation', static::$error_ids, 'ignores');
 		static::add_error_to_html('cannot_contain_multibyte_space', static::$error_ids, 'ignores');
+		static::add_error_to_html('cannot_contain_newline', static::$error_ids, 'ignores');
 	}
 
 	/**
@@ -862,7 +876,7 @@ class Validate_Validation extends Validate
 					}
 
 					if (
-						strpos($f_inner, $vv) === false || // lacknesss of file type
+						strpos(strtolower($f_inner), $vv) === false || // lacknesss of file type
 						preg_match("/\d/", $f_inner) == false // lacknesss of filesize?
 					)
 					{
@@ -1111,6 +1125,7 @@ class Validate_Validation extends Validate
 			if (static::is_ignorable($ms[0][$k])) continue;
 
 			$attrs = static::get_attributes($v);
+
 			if ( ! isset($attrs['href'])) continue;
 			$url = static::correct_url($attrs['href']);
 

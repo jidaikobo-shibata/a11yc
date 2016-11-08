@@ -1123,6 +1123,11 @@ ul.a11yc_pagenation li {
 .a11yc_table .not_found_url td {
 	background-color: #faeaea;
 }
+#a11yc_add_pages_progress {
+	height: 200px;
+	overflow: auto;
+	border: 1px #aaa solid;
+}
 
 /* center */
 #a11yc_center_about {

@@ -168,3 +168,7 @@ errors:
     message: frame/iframe要素にtitle属性がありません。
     criterion: 2-4-1
     code: 2-4-1a
+  cannot_contain_newline:
+    message: 属性値の中に改行コードを含めることはできません。
+    criterion: 4-1-1
+    code: 4-1-1a

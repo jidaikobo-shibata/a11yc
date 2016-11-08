@@ -38,13 +38,35 @@ class Controller_Pages
 		if (isset($_POST['pages']))
 		{
 			$pages = explode("\n", trim($_POST['pages']));
-			foreach ($pages as $page)
+			$page_exists = false;
+
+			ob_end_flush();
+			ob_start('mb_output_handler');
+
+			foreach ($pages as $k => $page)
 			{
 				$page = trim($page);
 				if ( ! $page) continue;
 
 				// is page exist?
 				if ( ! Util::is_page_exist($page)) continue;
+				if (Validate::is_ignorable($page)) continue;
+				$page = Validate::correct_url($page);
+
+				// do not check host.
+				if (
+					strpos($page, '#') !== false || // fragment
+					! Util::is_html($page) // non html
+				)
+				{
+					continue;
+				}
+
+				if ($k == 0)
+				{
+					$page_exists = true;
+					echo '<div id="a11yc_add_pages_progress">'."\n";
+				}
 
 				// page title
 				$pagetitle = Util::fetch_page_title($page);
@@ -57,6 +79,17 @@ class Controller_Pages
 					$sql.= '(`url`, `trash`, `add_date`, `page_title`) VALUES (?, 0, ?, ?);';
 					$r = Db::execute($sql, array($page, date('Y-m-d H:i:s'), $pagetitle));
 				}
+
+				echo Util::s($page).' ('.$k.'/'.count($pages).')<br />';
+				echo Util::s($pagetitle).'<br />';
+
+				ob_flush();
+				flush();
+			}
+
+			if ($page_exists)
+			{
+				echo '</div>';
 			}
 		}
 
@@ -74,7 +107,7 @@ class Controller_Pages
 			}
 			else
 			{
-				header('location:'.A11YC_PAGES_URL);
+				if ( ! headers_sent()) header('location:'.A11YC_PAGES_URL);
 			}
 		}
 
@@ -144,6 +177,17 @@ class Controller_Pages
 		$html = Validate::ignore_elements($html);
 		preg_match_all("/[ \n](?:href|action) *?= *?[\"']([^\"']+?)[\"']/i", $html, $ms);
 
+		// host check
+		if (substr_count($url, '/') >= 3)
+		{
+			$hosts = explode('/', $url);
+			$host = $hosts[0].$hosts[1].'//'.$hosts[2];
+		}
+		else
+		{
+			$host = $url;
+		}
+
 		// collect url
 		if ( ! isset($ms[1])) return false;
 
@@ -154,26 +198,42 @@ class Controller_Pages
 		foreach ($ms[1] as $k => $v)
 		{
 			if (Validate::is_ignorable($ms[0][$k])) continue;
-			$urls[$v] = Validate::correct_url($v);
+			$url = Validate::correct_url($v);
 
-			echo Util::s($urls[$v])."\n";
+			$exist = Db::fetch('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;', array($url));
+			if ($exist) continue;
+
+			if (in_array($url, $urls)) continue;
+			$urls[$v] = $url;
+
+			if ($k == 0)
+			{
+				echo '<div id="a11yc_add_pages_progress">'."\n";
+			}
+
+			echo Util::s($urls[$v]).' ('.$k.'/'.count($ms[1]).")<br />\n";
 
 			if (
-				$urls[$v][0] == '#' || // fragment
-				strpos($urls[$v], $_SERVER['HTTP_HOST']) === false || // out of host
+				strpos($urls[$v], '#') !== false || // fragment
+				strpos($urls[$v], $host) === false || // out of host
 				! Util::is_html($urls[$v]) // non html
 			)
 			{
-				echo "ignored.\n";
+				echo "ignored.<br />\n";
 				unset($urls[$v]);
 			}
 			else
 			{
-				echo "<strong>added</strong>.\n";
+				echo "<strong>added</strong>.<br />\n";
 			}
 
 			ob_flush();
 			flush();
+		}
+
+		if ($urls)
+		{
+			echo '</div>';
 		}
 
 		// get urls recursive
