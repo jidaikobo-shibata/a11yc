@@ -4,3 +4,4 @@ views/
 db/db.sqlite
 jwp_*
 jwp-*
+constants.php
