@@ -45,10 +45,11 @@ class Db
 		}
 
 		// exists
-		if (static::instance($name)) die('already exists');
-
-		// instance
-		static::$_instances[$name] = new static($name, $cons);
+		if ( ! static::instance($name))
+		{
+			// instance
+			static::$_instances[$name] = new static($name, $cons);
+		}
 	}
 
 	/**

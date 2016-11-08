@@ -11,9 +11,23 @@
  */
 
 // kontiki and a11yc
-require (__DIR__.'/config/config.php');
+if (file_exists(__DIR__.'/constants.php'))
+{
+	require (__DIR__.'/constants.php');
+}
+elseif(file_exists(__DIR__.'/config/config.php'))
+{
+	require (__DIR__.'/config/config.php');
+}
+else
+{
+	die('set constants first. by constants.php or config/config.php');
+}
 require (__DIR__.'/libs/kontiki/main.php');
 require (A11YC_PATH.'/main.php');
+
+header("HTTP/1.1 200 OK");
+header('Content-Type: text/html; charset=utf-8');
 
 // database
 \A11yc\Db::forge(array(
