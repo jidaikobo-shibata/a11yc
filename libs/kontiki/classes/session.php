@@ -25,7 +25,7 @@ class Session
 		{
 			die('couldn\'t start session.');
 		}
-		else if (session_status() === PHP_SESSION_NONE)
+		else if (session_status() === PHP_SESSION_NONE && ! headers_sent())
 		{
 			if (Util::is_ssl())
 			{

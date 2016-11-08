@@ -146,19 +146,34 @@ class Controller_Pages
 
 		// collect url
 		if ( ! isset($ms[1])) return false;
+
+		ob_end_flush();
+		ob_start('mb_output_handler');
+
 		$urls = array();
 		foreach ($ms[1] as $k => $v)
 		{
 			if (Validate::is_ignorable($ms[0][$k])) continue;
 			$urls[$v] = Validate::correct_url($v);
+
+			echo Util::s($urls[$v])."\n";
+
 			if (
-				strpos($val, '#') !== false ||
-				substr($urls[$v], 0, strlen($url)) != $url ||
-				! static::is_html($urls[$v])
+				$urls[$v][0] == '#' || // fragment
+				strpos($urls[$v], $_SERVER['HTTP_HOST']) === false || // out of host
+				! Util::is_html($urls[$v]) // non html
 			)
 			{
+				echo "ignored.\n";
 				unset($urls[$v]);
 			}
+			else
+			{
+				echo "<strong>added</strong>.\n";
+			}
+
+			ob_flush();
+			flush();
 		}
 
 		// get urls recursive

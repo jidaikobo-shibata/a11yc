@@ -31,7 +31,7 @@ defined('A11YC_DOC_URL') or define('A11YC_DOC_URL', A11YC_URL.'?c=docs&amp;a=eac
 include A11YC_PATH.'/languages/'.A11YC_LANG.'.php';
 
 // include
-include dirname(dirname(__DIR__)).'/libs/spyc/spyc.php';
+include dirname(dirname(__DIR__)).'/libs/spyc/Spyc.php';
 
 // Autoloader
 \Kontiki\Util::add_autoloader_path(__DIR__.'/classes/', 'a11yc');

@@ -106,6 +106,7 @@ class Util extends \Kontiki\Util
 	{
 		$headers = @get_headers($url);
 		$is_html = false;
+
 		if ($headers)
 		{
 			foreach ($headers as $v)
