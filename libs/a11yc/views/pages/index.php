@@ -3,24 +3,41 @@
 <ul class="a11yc_checklist_pages">
 <?php
 	$index_lists = array('all', 'yet', 'done', 'trash');
-	foreach($index_lists as $index_list):
-		if($index_list=='all'):
-			$class_str = !$list ? ' class="current"' : '' ;
+	foreach ($index_lists as $index_list):
+		if ($index_list == 'all'):
+			$class_str = ! $list ? ' class="current"' : '' ;
 			$q = '';
 		else:
-			$class_str = $index_list==$list ? ' class="current"' : '' ;
+			$class_str = $index_list == $list ? ' class="current"' : '' ;
 			$q = '&amp;list='.$index_list;
 		endif;
-		echo "\t".'<li><a href="'.A11YC_PAGES_URL.$q.'"'.$class_str.'>'.constant('A11YC_LANG_PAGES_'.strtoupper($index_list)).'</a></li>';
+		switch ($index_list):
+			case 'yet':
+				$cnt = $yetcnt['num'];
+				break;
+			case 'done':
+				$cnt = $donecnt['num'];
+				break;
+			case 'trash':
+				$cnt = $trashcnt['num'];
+				break;
+			default:
+				$cnt = $allcnt['num'];
+				break;
+		endswitch;
+
+		echo "\t".'<li><a href="'.A11YC_PAGES_URL.$q.'"'.$class_str.'>'.constant('A11YC_LANG_PAGES_'.strtoupper($index_list)).'('.$cnt.')</a></li>';
 	endforeach;
 ?>
 </ul>
 <!-- /.a11yc_checklist_pages -->
 
 <?php
+
+// show search and order form
+echo $search_form;
+
 if ($pages):
-	// show search and order form
-	echo $search_form;
 
 	// pagination
 	$pagination = '';

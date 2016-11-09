@@ -283,22 +283,26 @@ class Controller_Pages
 		$qs = '';
 		$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE ';
 		$list = isset($_GET['list']) ? $_GET['list'] : false;
+		$yetwhr   = '`done` = 0 and `trash` = 0 ';
+		$donewhr  = '`done` = 1 and `trash` = 0 ';
+		$trashwhr = '`trash` = 1 ';
+		$allwhr   = '`trash` = 0 ';
 		switch ($list)
 		{
 			case 'yet':
-				$sql.= '`done` = 0 and `trash` = 0 ';
+				$sql.= $yetwhr;
 				$qs = '&amp;list=yet';
 				break;
 			case 'done':
-				$sql.= '`done` = 1 and `trash` = 0 ';
+				$sql.= $donewhr;
 				$qs = '&amp;list=done';
 				break;
 			case 'trash':
-				$sql.= '`trash` = 1 ';
+				$sql.= $trashwhr;
 				$qs = '&amp;list=trash';
 				break;
 			default:
-				$sql.= '`trash` = 0 ';
+				$sql.= $allwhr;
 				break;
 		}
 
@@ -361,7 +365,15 @@ class Controller_Pages
 		// $pages
 		$pages = array_slice($pages, $offset, $num);
 
+		// count
+		$cntsql = 'SELECT count(url) AS num FROM '.A11YC_TABLE_PAGES.' WHERE ';
+
 		// assign
+		View::assign('yetcnt', Db::fetch($cntsql.$yetwhr));
+		View::assign('donecnt', Db::fetch($cntsql.$donewhr));
+		View::assign('trashcnt', Db::fetch($cntsql.$trashwhr));
+		View::assign('allcnt', Db::fetch($cntsql.$allwhr));
+
 		View::assign('get_urls', isset($_POST['get_urls']) ? $_POST['get_urls'] : '');
 		View::assign('crawled', static::get_urls());
 		View::assign('pages', $pages);
