@@ -125,6 +125,7 @@ class Controller_Pages
 		if (isset($_GET['url']))
 		{
 			$url = urldecode(trim($_GET['url']));
+			$url = str_replace('&amp;', '&', $url);
 			$exist = Db::fetch('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;', array($url));
 			if ($exist)
 			{
@@ -138,6 +139,7 @@ class Controller_Pages
 			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES;
 			$sql.= ' WHERE `url` = ? and `trash` = 0;';
 			$exist = Db::fetch($sql, array($url));
+
 			if ($exist)
 			{
 				$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET `trash` = 1 WHERE `url` = ?;';
@@ -392,20 +394,20 @@ class Controller_Pages
 		// pagination
 		$total = count($pages);
 		$num = isset($_GET['num']) ? intval($_GET['num']) : 25 ;
-		$page = isset($_GET['page']) ? intval($_GET['page']) : 1 ;
+		$paged = isset($_GET['paged']) ? intval($_GET['paged']) : 1 ;
 
 		// offset
-		$offset = ($page - 1) * $num;
+		$offset = ($paged - 1) * $num;
 		$offset = $offset <= 0 ? 0 : $offset;
 
 		// prev
-		$prev = $page > 1 ? $page - 1 : false;
-		$prev_qs = $prev ? '&amp;page='.$prev : '';
+		$prev = $paged > 1 ? $paged - 1 : false;
+		$prev_qs = $prev ? '&amp;paged='.$prev : '';
 
 		// next
 		$result = $offset + $num;
-		$next = $total > $result ? $page + 1 : false;
-		$next_qs = $next ? '&amp;page='.$next : '';
+		$next = $total > $result ? $paged + 1 : false;
+		$next_qs = $next ? '&amp;paged='.$next : '';
 
 		// $pages
 		$pages = array_slice($pages, $offset, $num);
@@ -433,7 +435,7 @@ class Controller_Pages
 		View::assign('get_urls', isset($_POST['get_urls']) ? $_POST['get_urls'] : '');
 		View::assign('crawled', static::get_urls());
 		View::assign('pages', $pages);
-		View::assign('current_qs', $qs.'&amp;page='.$page);
+		View::assign('current_qs', $qs.'&amp;paged='.$paged.'&amp;s='.$word);
 		View::assign('prev', $prev_qs ? A11YC_PAGES_URL.$qs.$prev_qs : false);
 		View::assign('next', $next_qs ? A11YC_PAGES_URL.$qs.$next_qs : false);
 		View::assign('list', $list);

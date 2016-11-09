@@ -1,6 +1,6 @@
 <?php
 /**
- * A11yc\Validate
+ * A11yc\Validation
  *
  * @package    part of A11yc
  * @version    1.0
@@ -204,14 +204,23 @@ class Validate_Validation extends Validate
 	{
 		$str = static::ignore_elements(static::$hl_html);
 
-		$secs = preg_split("/(\<h\d)[^\>]*\>(.+?)\<\/h\d/", $str, -1, PREG_SPLIT_DELIM_CAPTURE);
+		$secs = preg_split("/\<h([1-6])[^\>]*\>(.+?)\<\/h\d/", $str, -1, PREG_SPLIT_DELIM_CAPTURE);
+		if ( ! $secs) return;
 
 		$prev = 1;
+		foreach ($secs as $sec)
+		{
+			if (is_numeric($sec))
+			{
+				$prev = $sec;
+				break;
+			}
+		}
+
 		foreach ($secs as $k => $v)
 		{
-			if (strlen($v) != 3) continue; // skip non heading
-			if (substr($v, 0, 2) != '<h') continue; // skip non heading
-			$current_level = intval($v[2]);
+			if ( ! is_numeric($v)) continue; // skip non heading
+			$current_level = $v;
 
 			if ($current_level - $prev >= 2)
 			{
