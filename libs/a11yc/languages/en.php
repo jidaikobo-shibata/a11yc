@@ -63,6 +63,9 @@ define('A11YC_LANG_PAGES_PAGETITLE', 'Target Page\'s title');
 define('A11YC_LANG_PAGES_URLS', 'Target Page\'s URL');
 define('A11YC_LANG_PAGES_URLS_ADD', 'Add URL');
 define('A11YC_LANG_PAGES_NOT_FOUND', 'No pages to check found');
+define('A11YC_LANG_PAGES_ALREADY_EXISTS', 'Already exists');
+define('A11YC_LANG_PAGES_ADDED_NORMALLY', 'Add');
+define('A11YC_LANG_PAGES_ADD_FAILED', '登録に失敗しました');
 define('A11YC_LANG_PAGES_DONE', 'Done');
 define('A11YC_LANG_PAGES_CHECK', 'Check');
 define('A11YC_LANG_PAGES_DELETE', 'Delete');
@@ -87,6 +90,13 @@ define('A11YC_LANG_PAGES_TRASH', 'Trash');
 define('A11YC_LANG_PAGES_GET_URLS', 'Get Urls');
 define('A11YC_LANG_PAGES_GET_URLS_EXP', 'To generate a list of URL from a element of the target page. Recursive scan of the site structure is not supported.');
 define('A11YC_LANG_PAGES_GET_URLS_BTN', A11YC_LANG_PAGES_GET_URLS);
+define('A11YC_LANG_PAGES_INDEX_INFORMATION', '%s/%d Displayed from %d to %d');
+define('A11YC_LANG_PAGES_DELETE_DONE', 'delete %s');
+define('A11YC_LANG_PAGES_PURGE_DONE', 'purge %s');
+define('A11YC_LANG_PAGES_UNDELETE_DONE', 'undelete %s');
+define('A11YC_LANG_PAGES_DELETE_FAILED', 'Failed to delete %s');
+define('A11YC_LANG_PAGES_PURGE_FAILED', 'Failed to purge %s');
+define('A11YC_LANG_PAGES_UNDELETE_FAILED', 'Failed to undelete %s');
 
 // setup
 define('A11YC_LANG_SETUP_TITLE', 'Setup');
@@ -113,6 +123,14 @@ define('A11YC_LANG_CANDIDATES1', 'Select all of the web page');
 define('A11YC_LANG_CANDIDATES2', 'Randomly selected');
 define('A11YC_LANG_CANDIDATES3', 'Select a web page to represent the set of web pages');
 define('A11YC_LANG_CANDIDATES4', 'Selected in accordance with a web page that you selected in web pages and random to represent the set of web pages');
+
+define('A11YC_LANG_CANDIDATES_REASON', 'Page selection reason');
+define('A11YC_LANG_CANDIDATES_ALL', 'All pages are subject');
+define('A11YC_LANG_CANDIDATES_IMPORTANT', 'Representative pages');
+define('A11YC_LANG_CANDIDATES_RANDOM', 'Randomly selected pages');
+define('A11YC_LANG_CANDIDATES_PAGEVIEW', 'Pages with many accesses');
+define('A11YC_LANG_CANDIDATES_NEW', 'New pages');
+define('A11YC_LANG_CANDIDATES_ETC', 'Pages selected based on other criteria');
 
 // checklist
 define('A11YC_LANG_CHECKLIST_TARGETPAGE', 'Target Page');

@@ -47,6 +47,12 @@ class Db extends \Kontiki\Db
 				$sql = 'ALTER TABLE '.A11YC_TABLE_PAGES.' ADD `page_title` text;';
 				static::execute($sql);
 			}
+
+			if ( ! static::is_fields_exist(A11YC_TABLE_PAGES, array('selection_reason')))
+			{
+				$sql = 'ALTER TABLE '.A11YC_TABLE_PAGES.' ADD `selection_reason` INTEGER;';
+				static::execute($sql);
+			}
 		}
 
 		if (defined('A11YC_TABLE_CHECKS'))

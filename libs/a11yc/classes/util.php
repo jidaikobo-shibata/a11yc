@@ -168,6 +168,7 @@ class Util extends \Kontiki\Util
 
 	/**
 	 * fetch page title
+	 * do not use DB. because page title is possible to be changed.
 	 *
 	 * @param   string     $url
 	 * @return  string

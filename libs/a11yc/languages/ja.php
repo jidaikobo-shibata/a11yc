@@ -57,7 +57,6 @@ define('A11YC_LANG_CENTER_ABOUT', 'A11ycについて');
 define('A11YC_LANG_CENTER_LOGO', 'ロゴマーク');
 define('A11YC_LANG_CENTER_ABOUT_CONTENT', 'A11ycは、有限会社時代工房が作成したWCAG2.0対応のウェブアクセシビリティチェッカーです。');
 
-
 // pages
 define('A11YC_LANG_PAGES_TITLE', 'チェック');
 define('A11YC_LANG_PAGES_INDEX', '対象ページ一覧');
@@ -65,6 +64,9 @@ define('A11YC_LANG_PAGES_PAGETITLE', '対象ページのtitle');
 define('A11YC_LANG_PAGES_URLS', '対象ページのURL');
 define('A11YC_LANG_PAGES_URLS_ADD', 'URLを追加する');
 define('A11YC_LANG_PAGES_NOT_FOUND', '対象となるページが存在しません');
+define('A11YC_LANG_PAGES_ALREADY_EXISTS', 'すでに登録されています');
+define('A11YC_LANG_PAGES_ADDED_NORMALLY', '登録しました');
+define('A11YC_LANG_PAGES_ADD_FAILED', '登録に失敗しました');
 define('A11YC_LANG_PAGES_DONE', '終了');
 define('A11YC_LANG_PAGES_CHECK', 'チェック');
 define('A11YC_LANG_PAGES_DELETE', '削除');
@@ -87,6 +89,13 @@ define('A11YC_LANG_PAGES_TRASH', '削除済み');
 define('A11YC_LANG_PAGES_GET_URLS', 'URLを取得する');
 define('A11YC_LANG_PAGES_GET_URLS_EXP', '対象のページのa要素からURLの一覧を生成します。サイト構造の再帰的な走査は未対応です。');
 define('A11YC_LANG_PAGES_GET_URLS_BTN', A11YC_LANG_PAGES_GET_URLS);
+define('A11YC_LANG_PAGES_INDEX_INFORMATION', '%s/%d %d件〜%d件を表示中');
+define('A11YC_LANG_PAGES_DELETE_DONE', '%sを削除しました');
+define('A11YC_LANG_PAGES_PURGE_DONE', '%sを完全に削除しました');
+define('A11YC_LANG_PAGES_UNDELETE_DONE', '%sを復活しました');
+define('A11YC_LANG_PAGES_DELETE_FAILED', '%sの削除に失敗しました');
+define('A11YC_LANG_PAGES_PURGE_FAILED', '%sの完全な削除に失敗しました');
+define('A11YC_LANG_PAGES_UNDELETE_FAILED', '%sの復活に失敗しました');
 
 // setup
 define('A11YC_LANG_SETUP_TITLE', '設定');
@@ -113,6 +122,15 @@ define('A11YC_LANG_CANDIDATES1', 'すべてのウェブページを選択');
 define('A11YC_LANG_CANDIDATES2', 'ランダムに選択');
 define('A11YC_LANG_CANDIDATES3', 'ウェブページ一式を代表するウェブページを選択');
 define('A11YC_LANG_CANDIDATES4', 'ウェブページ一式を代表するウェブページとランダムに選択したウェブページとを合わせて選択');
+
+define('A11YC_LANG_CANDIDATES_REASON', 'ページ選出理由');
+define('A11YC_LANG_CANDIDATES_ALL', 'すべてのページが対象のため');
+define('A11YC_LANG_CANDIDATES_IMPORTANT', '代表的なページ');
+define('A11YC_LANG_CANDIDATES_RANDOM', 'ランダムに選出したページ');
+define('A11YC_LANG_CANDIDATES_PAGEVIEW', 'アクセス数の多いページ');
+define('A11YC_LANG_CANDIDATES_NEW', '新しいページ');
+define('A11YC_LANG_CANDIDATES_ETC', 'その他の基準で選出');
+
 
 // checklist
 define('A11YC_LANG_CHECKLIST_TARGETPAGE', '対象ページ');

@@ -34,7 +34,7 @@ class Controller_Pages
 	 */
 	public static function dbio()
 	{
-		// update
+		// update add pages
 		if (isset($_POST['pages']))
 		{
 			$pages = explode("\n", trim($_POST['pages']));
@@ -43,20 +43,27 @@ class Controller_Pages
 			ob_end_flush();
 			ob_start('mb_output_handler');
 
-			foreach ($pages as $k => $page)
+			foreach ($pages as $k => $url)
 			{
-				$page = trim($page);
-				if ( ! $page) continue;
+				$url = trim($url);
+				if ( ! $url) continue;
 
 				// is page exist?
-				if ( ! Util::is_page_exist($page)) continue;
-				if (Validate::is_ignorable($page)) continue;
-				$page = Validate::correct_url($page);
+				if ( ! Util::is_page_exist($url))
+				{
+					Session::add(
+						'messages',
+						'errors',
+						A11YC_LANG_PAGES_NOT_FOUND.': '. Util::s($page_title.' ('.$url.') '));
+					continue;
+				}
+				if (Validate::is_ignorable($url)) continue;
+				$url = Validate::correct_url($url);
 
 				// do not check host.
 				if (
-					strpos($page, '#') !== false || // fragment
-					! Util::is_html($page) // non html
+					strpos($url, '#') !== false || // fragment
+					! Util::is_html($url) // non html
 				)
 				{
 					continue;
@@ -69,19 +76,40 @@ class Controller_Pages
 				}
 
 				// page title
-				$pagetitle = Util::fetch_page_title($page);
+				$page_title = Util::fetch_page_title($url);
 
-				$page = urldecode($page);
-				$exist = Db::fetch('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;', array($page));
+				$url = urldecode($url);
+				$exist = Db::fetch('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;', array($url));
 				if ( ! $exist)
 				{
 					$sql = 'INSERT INTO '.A11YC_TABLE_PAGES;
 					$sql.= '(`url`, `trash`, `add_date`, `page_title`) VALUES (?, 0, ?, ?);';
-					$r = Db::execute($sql, array($page, date('Y-m-d H:i:s'), $pagetitle));
+					$success = Db::execute($sql, array($url, date('Y-m-d H:i:s'), $page_title));
+					if ($success)
+					{
+						Session::add(
+							'messages',
+							'messages',
+							A11YC_LANG_PAGES_ADDED_NORMALLY.': '. Util::s($page_title.' ('.$url.') '));
+					}
+					else
+					{
+						Session::add(
+							'messages',
+							'errors',
+							A11YC_LANG_PAGES_ADD_FAILED.': '. Util::s($page_title.' ('.$url.') '));
+					}
+				}
+				else
+				{
+					Session::add(
+						'messages',
+						'errors',
+						A11YC_LANG_PAGES_ALREADY_EXISTS.': '. Util::s($page_title.' ('.$url.') '));
 				}
 
 				echo Util::s($page).' ('.$k.'/'.count($pages).')<br />';
-				echo Util::s($pagetitle).'<br />';
+				echo Util::s($page_title).'<br />';
 
 				ob_flush();
 				flush();
@@ -93,70 +121,87 @@ class Controller_Pages
 			}
 		}
 
+		// page_title and urldecode
+		if (isset($_GET['url']))
+		{
+			$url = urldecode(trim($_GET['url']));
+			$exist = Db::fetch('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;', array($url));
+			if ($exist)
+			{
+				$page_title = $exist['page_title'];
+			}
+		}
+
 		// delete
 		if (isset($_GET['del']))
 		{
-			$page = urldecode(trim($_GET['url']));
 			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES;
 			$sql.= ' WHERE `url` = ? and `trash` = 0;';
-			$exist = Db::fetch($sql, array($page));
+			$exist = Db::fetch($sql, array($url));
 			if ($exist)
 			{
 				$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET `trash` = 1 WHERE `url` = ?;';
-				$r = Db::execute($sql, array($page));
+				Db::execute($sql, array($url));
+				Session::add(
+					'messages',
+					'messages',
+					sprintf(A11YC_LANG_PAGES_DELETE_DONE, Util::s($page_title.' ('.$url.') ')));
 			}
 			else
 			{
-				if ( ! headers_sent()) header('location:'.A11YC_PAGES_URL);
+				Session::add(
+					'messages',
+					'errors',
+					sprintf(A11YC_LANG_PAGES_DELETE_FAILED, Util::s($page_title.' ('.$url.') ')));
 			}
 		}
 
 		// undelete
 		if (isset($_GET['undel']))
 		{
-			$page = urldecode(trim($_GET['url']));
 			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES;
 			$sql.= ' WHERE `url` = ? and `trash` = 1;';
-			$exist = Db::fetch($sql, array($page));
+			$exist = Db::fetch($sql, array($url));
 			if ($exist)
 			{
 				$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET `trash` = 0 WHERE `url` = ?;';
-				$r = Db::execute($sql, array($page));
+				Db::execute($sql, array($url));
+				Session::add(
+					'messages',
+					'messages',
+					sprintf(A11YC_LANG_PAGES_UNDELETE_DONE, Util::s($page_title.' ('.$url.') ')));
 			}
 			else
 			{
-				header('location:'.A11YC_PAGES_URL);
+				Session::add(
+					'messages',
+					'errors',
+					sprintf(A11YC_LANG_PAGES_UNDELETE_FAILED, Util::s($page_title.' ('.$url.') ')));
 			}
 		}
 
 		// purge
 		if (isset($_GET['purge']))
 		{
-			$page = urldecode(trim($_GET['url']));
 			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES;
 			$sql.= ' WHERE `url` = ? and `trash` = 1;';
-			$exist = Db::fetch($sql, array($page));
+			$exist = Db::fetch($sql, array($url));
 			if ($exist)
 			{
-				$page = urldecode(trim($_GET['url']));
 				$sql = 'DELETE FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;';
-				$r = Db::execute($sql, array($page));
+				Db::execute($sql, array($url));
+				Session::add(
+					'messages',
+					'messages',
+					sprintf(A11YC_LANG_PAGES_PURGE_DONE, Util::s($page_title.' ('.$url.') ')));
 			}
 			else
 			{
-				header('location:'.A11YC_PAGES_URL);
-			}
-		}
-
-		if (isset($r))
-		{
-			if ($r)
-			{
-				Session::add('messages', 'messages', A11YC_LANG_UPDATE_SUCCEED);
-			}
-			else
-			{
-				Session::add('messages', 'errors', A11YC_LANG_UPDATE_FAILED);
+//				header('location:'.A11YC_PAGES_URL);
+				Session::add(
+					'messages',
+					'errors',
+					sprintf(A11YC_LANG_PAGES_PURGE_FAILED, Util::s($page_title.' ('.$url.') ')));
 			}
 		}
 	}
@@ -365,18 +410,30 @@ class Controller_Pages
 		// $pages
 		$pages = array_slice($pages, $offset, $num);
 
+		// consists num by query string
+		$qs.= '&amp;num='.$num; // done with intval()
+
 		// count
 		$cntsql = 'SELECT count(url) AS num FROM '.A11YC_TABLE_PAGES.' WHERE ';
 
-		// assign
+		// assign index information
+		$end_num = $total > $result ? $offset + $num : $total;
+		View::assign(
+			'index_information',
+			sprintf(A11YC_LANG_PAGES_INDEX_INFORMATION, count($pages), $total, $offset + 1, $end_num)
+		);
+
+		// assign nums
 		View::assign('yetcnt', Db::fetch($cntsql.$yetwhr));
 		View::assign('donecnt', Db::fetch($cntsql.$donewhr));
 		View::assign('trashcnt', Db::fetch($cntsql.$trashwhr));
 		View::assign('allcnt', Db::fetch($cntsql.$allwhr));
 
+		// assign
 		View::assign('get_urls', isset($_POST['get_urls']) ? $_POST['get_urls'] : '');
 		View::assign('crawled', static::get_urls());
 		View::assign('pages', $pages);
+		View::assign('current_qs', $qs.'&amp;page='.$page);
 		View::assign('prev', $prev_qs ? A11YC_PAGES_URL.$qs.$prev_qs : false);
 		View::assign('next', $next_qs ? A11YC_PAGES_URL.$qs.$next_qs : false);
 		View::assign('list', $list);

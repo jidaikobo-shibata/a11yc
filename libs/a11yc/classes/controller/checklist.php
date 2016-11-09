@@ -156,21 +156,22 @@ class Controller_Checklist
 			$date = date('Y-m-d');
 			$page_title = $_POST['page_title'];
 			$standard = intval($_POST['standard']);
+			$selection_reason = intval($_POST['selection_reason']);
 			$r = false;
 
 			if (static::fetch_page($url))
 			{
 				$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET ';
-				$sql.= '`date` = ?, `level` = ?, `done` = ?, `standard` = ?, `page_title` =?';
+				$sql.= '`date` = ?, `level` = ?, `done` = ?, `standard` = ?, `page_title` =?, `selection_reason` =?';
 				$sql.= ' WHERE `url` = ?;';
-				$r = Db::execute($sql, array($date, $result, $done, $standard, $page_title, $url));
+				$r = Db::execute($sql, array($date, $result, $done, $standard, $page_title, $selection_reason, $url));
 			}
 			else
 			{
 				$sql = 'INSERT INTO '.A11YC_TABLE_PAGES;
-				$sql.= ' (`url`, `date`, `level`, `done`, `standard`, `trash`, `page_title`, `add_date`)';
-				$sql.= ' VALUES (?, ?, ?, ?, ?, 0, ?, ?);';
-				$r = Db::execute($sql, array($url, $date, $result, $done, $standard, $page_title, date('Y-m-d H:i:s')));
+				$sql.= ' (`url`, `date`, `level`, `done`, `standard`, `trash`, `page_title`, `add_date`, `selection_reason`)';
+				$sql.= ' VALUES (?, ?, ?, ?, ?, 0, ?, ?, ?);';
+				$r = Db::execute($sql, array($url, $date, $result, $done, $standard, $page_title, date('Y-m-d H:i:s'), $selection_reason));
 			}
 
 			if ($r)
@@ -239,7 +240,18 @@ class Controller_Checklist
 		// dbio
 		static::dbio($url);
 
+		// selection reason
+		$selection_reasons = array(
+			A11YC_LANG_CANDIDATES_ALL,
+			A11YC_LANG_CANDIDATES_IMPORTANT,
+			A11YC_LANG_CANDIDATES_RANDOM,
+			A11YC_LANG_CANDIDATES_PAGEVIEW,
+			A11YC_LANG_CANDIDATES_NEW,
+			A11YC_LANG_CANDIDATES_ETC,
+		);
+
 		// assign
+		View::assign('selection_reasons', $selection_reasons);
 		View::assign('url', $url);
 		View::assign('target_title', Util::fetch_page_title($url));
 		View::assign('users', $users);

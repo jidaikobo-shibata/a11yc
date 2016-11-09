@@ -10,7 +10,19 @@
 		<option<?php echo $selected ?> value="<?php echo $k ?>"><?php echo $v ?></option>
 	<?php endforeach;  ?>
 	</select></p>
+
+	<!-- selection reason -->
+	<p id="a11yc_selection_reason" class="a11yc_hide_if_fixedheader"><label for="a11yc_selection_reason"><?php echo A11YC_LANG_CANDIDATES_REASON ?></label>
+	<select name="selection_reason" id="a11yc_selection_reason">
+	<?php
+	foreach ($selection_reasons as $k => $v):
+		$selected = $k == @$page['selection_reason'] ? ' selected="selected"' : '';
+	?>
+		<option<?php echo $selected ?> value="<?php echo $k ?>"><?php echo $v ?></option>
+	<?php endforeach;  ?>
+	</select></p>
 <?php endif; ?>
+
 <!-- narrow level -->
 	<p class="a11yc_narrow_level a11yc_hide_if_no_js" data-a11yc-narrow-target=".a11yc_section_principle">Level:
 <?php
