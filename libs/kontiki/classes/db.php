@@ -108,7 +108,7 @@ class Db
 	 * @param   string  $table
 	 * @return  array
 	 */
-	public function get_fields($table, $name = 'default')
+	public static function get_fields($table, $name = 'default')
 	{
 		$table = ucfirst($table);
 		$instance = static::instance($name);
@@ -187,7 +187,7 @@ class Db
 	 * @param   array   $fields
 	 * @return  bool
 	 */
-	public function is_fields_exist($table, $fields = array(), $name = 'default')
+	public static function is_fields_exist($table, $fields = array(), $name = 'default')
 	{
 		foreach ($fields as $field)
 		{
