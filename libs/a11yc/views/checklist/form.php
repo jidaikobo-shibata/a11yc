@@ -49,7 +49,7 @@
 	</tr>
 	<tr>
 		<th><?php echo A11YC_LANG_PAGES_URLS ?></th>
-		<td><a href="<?php echo urldecode($url) ?>"><?php echo urldecode($url) ?></a></td>
+		<td><a href="<?php echo \A11yc\Util::urldec($url) ?>"><?php echo \A11yc\Util::urldec($url) ?></a></td>
 	</tr>
 	</table>
 

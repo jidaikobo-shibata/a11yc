@@ -47,6 +47,7 @@ class Controller_Pages
 			{
 				$url = trim($url);
 				if ( ! $url) continue;
+				$url = Util::urldec($url);
 
 				// is page exist?
 				if ( ! Util::is_page_exist($url))
@@ -59,6 +60,9 @@ class Controller_Pages
 				}
 				if (Validate::is_ignorable($url)) continue;
 				$url = Validate::correct_url($url);
+				$url = Util::is_page_exist($url);
+				$url = Util::is_page_exist($url);
+				$url = Util::urldec($url); // in case redirect url
 
 				// do not check host.
 				if (
@@ -78,7 +82,6 @@ class Controller_Pages
 				// page title
 				$page_title = Util::fetch_page_title($url);
 
-				$url = urldecode($url);
 				$exist = Db::fetch('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;', array($url));
 				if ( ! $exist)
 				{
@@ -124,8 +127,7 @@ class Controller_Pages
 		// page_title and urldecode
 		if (isset($_GET['url']))
 		{
-			$url = urldecode(trim($_GET['url']));
-			$url = str_replace('&amp;', '&', $url);
+			$url = Util::urldec($_GET['url']);
 			$exist = Db::fetch('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;', array($url));
 			if ($exist)
 			{

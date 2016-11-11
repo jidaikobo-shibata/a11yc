@@ -147,7 +147,6 @@ class Util extends \Kontiki\Util
 			);
 			$context = stream_context_create($options);
 			$html = @file_get_contents($url, false, $context);
-
 		}
 		else
 		{
@@ -200,10 +199,33 @@ class Util extends \Kontiki\Util
 	 * is page exist
 	 *
 	 * @param   string     $url
-	 * @return  bool
+	 * @return  mixed
 	 */
 	public static function is_page_exist($url)
 	{
-		return (static::fetch_html($url));
+		$url = Util::urldec($url);
+
+		// not exists
+		$headers = @get_headers($url, 1);
+		if ($headers === false) return false;
+
+		// exists
+		if (strpos($headers[0], ' 20') !== false)
+		{
+			return $url;
+		}
+
+		// redirect - depth 1 times
+		if (
+			strpos($headers[0], ' 30') !== false &&
+			isset($headers['Location'])
+		)
+		{
+			$redirect_headers = @get_headers($headers['Location']);
+			if (strpos($redirect_headers[0], ' 20') !== false)
+			{
+				return $headers['Location'];
+			}
+		}
 	}
 }

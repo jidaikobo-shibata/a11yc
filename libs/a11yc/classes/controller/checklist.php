@@ -27,8 +27,9 @@ class Controller_Checklist
 			Session::add('messages', 'errors', array(A11YC_LANG_ERROR_NON_TARGET_LEVEL));
 		}
 
-		$url = isset($_GET['url']) ? urldecode($_GET['url']) : '';
-		$url = empty($url) && isset($_POST['url']) ? urldecode($_POST['url']) : $url;
+		$url = isset($_GET['url']) ? Util::urldec($_GET['url']) : '';
+		$url = empty($url) && isset($_POST['url']) ? Util::urldec($_POST['url']) : $url;
+
 		static::checklist($url);
 	}
 
@@ -120,13 +121,15 @@ class Controller_Checklist
 	 */
 	public static function dbio($url)
 	{
+		$url = Util::urldec($url);
+
 		// page existence
 		if ($url != 'bulk' && ! Util::is_page_exist($url))
 		{
 			Session::add('messages', 'errors', A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR);
 			if ( ! headers_sent())
 			{
-				header('location:'.A11YC_PAGES_URL.'&list=list&no_url='.urlencode($url));
+				header('location:'.A11YC_PAGES_URL.'&list=list&no_url='.Util::urlenc($url));
 				exit();
 			}
 		}

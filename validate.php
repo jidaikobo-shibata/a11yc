@@ -41,7 +41,7 @@ header('Content-Type: text/html; charset=utf-8');
 
 // assign
 //\A11yc\Controller_Disclosure::total();
-$url = isset($_GET['url']) ? urldecode($_GET['url']) : '';
+$url = isset($_GET['url']) ? \A11yc\Util::urldec($_GET['url']) : '';
 $link_check = isset($_GET['link_check']) ? intval($_GET['link_check']) : '';
 if ( ! $url) die('invalid access');
 $errs = \A11yc\Controller_Checklist::validate_page($url, $link_check);

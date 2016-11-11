@@ -12,7 +12,7 @@
 <?php
 foreach ($pages as $v):
 $url = \A11yc\Util::s($v['url']);
-$chk = \A11yc\Util::add_query_strings(\A11yc\Util::uri(), array(array('url', urlencode($url))));
+$chk = \A11yc\Util::add_query_strings(\A11yc\Util::uri(), array(array('url', \A11yc\Util::urlenc($url))));
 $chk = \A11yc\Util::remove_query_strings($chk, array('a11yc_pages'));
 ?>
 <tr>

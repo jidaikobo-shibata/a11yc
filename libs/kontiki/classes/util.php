@@ -127,7 +127,47 @@ class Util
 	public static function s($str)
 	{
 		if (is_array($str)) return array_map(array('\Kontiki\Util', 's'), $str);
-		return htmlspecialchars($str, ENT_QUOTES, 'UTF-8', false);
+		return htmlentities($str, ENT_QUOTES, 'UTF-8', false);
+	}
+
+	/**
+	 * urlenc
+	 *
+	 * @param   string     $url
+	 * @return  bool
+	 */
+	public static function urlenc($url)
+	{
+		$url = static::s($url); // & to &amp;
+		$url = str_replace(' ', '%20', $url);
+		if (strpos($url, '%') === false)
+		{
+			$url = urlencode($url);
+		}
+		else
+		{
+			$url = str_replace(
+				'://',
+				'%3A%2F%2F',
+				$url);
+		}
+//http://kyoto-soudan.jp/emergency/%e3%80%8c%e3%83%9d%e3%82%b1%e3%83%a2%e3%83%b3%ef%bd%87%ef%bd%8f%e3%80%8d%e3%81%ae%e9%85%8d%e4%bf%a1%e9%96%8b%e5%a7%8b%e3%81%ab%e3%81%a4%e3%81%84%e3%81%a6/
+		return $url;
+	}
+
+	/**
+	 * urldec
+	 *
+	 * @param   string     $url
+	 * @return  bool
+	 */
+	public static function urldec($url)
+	{
+		$url = trim($url);
+		$url = rtrim($url, '/');
+		$url = static::urlenc($url);
+		$url = urldecode($url);
+		return $url;
 	}
 
 	/**
