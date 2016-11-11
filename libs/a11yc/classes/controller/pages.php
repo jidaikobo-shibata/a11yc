@@ -111,7 +111,7 @@ class Controller_Pages
 						A11YC_LANG_PAGES_ALREADY_EXISTS.': '. Util::s($page_title.' ('.$url.') '));
 				}
 
-				echo Util::s($page).' ('.$k.'/'.count($pages).')<br />';
+				echo Util::s($url).' ('.$k.'/'.count($pages).')<br />';
 				echo Util::s($page_title).'<br />';
 
 				ob_flush();
