@@ -31,6 +31,27 @@ class Validate_Validation extends Validate
 	}
 
 	/**
+	 * viewport
+	 *
+	 * @return  void
+	 */
+	public static function viewport()
+	{
+		$ms = static::get_elements_by_re(static::$hl_html, 'tags');
+		if ( ! $ms[0]) return;
+
+		foreach ($ms[1] as $k => $tag)
+		{
+			if ($tag == 'meta' && strpos($ms[2][$k], 'user-scalable=no') !== false)
+			{
+				static::$error_ids['user_scalable_no'][0]['id'] = $ms[0][$k];
+				static::$error_ids['user_scalable_no'][0]['str'] = 'user-scalable=no';
+			}
+		}
+		static::add_error_to_html('user_scalable_no', static::$error_ids);
+	}
+
+	/**
 	 * alt attr of img
 	 *
 	 * @return  void

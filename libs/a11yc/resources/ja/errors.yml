@@ -32,11 +32,11 @@ errors:
     criterion: 2-4-4
     code: 2-4-4a
   too_much_opens:
-    message: 開始タグが多すぎるようです。このエラーは場所の特定に失敗するので、ブラウザのDOM閲覧などで構造を確認してください。
+    message: 開始タグが多すぎるようです。このエラーは場所の特定に失敗するので、ブラウザのDOM閲覧などで構造を確認してください
     criterion: 4-1-1
     code: 4-1-1a
   too_much_ends:
-    message: 終了タグが多すぎるようです。このエラーは場所の特定に失敗するので、ブラウザのDOM閲覧などで構造を確認してください。
+    message: 終了タグが多すぎるようです。このエラーは場所の特定に失敗するので、ブラウザのDOM閲覧などで構造を確認してください
     criterion: 4-1-1
     code: 4-1-1a
   suspicious_ends:
@@ -48,7 +48,7 @@ errors:
     criterion: 1-3-1
     code: 1-3-1a
   same_alt_and_filename_of_img:
-    message: img要素のalt属性値がファイル名と同一です。問題でない場合もあります。
+    message: img要素のalt属性値がファイル名と同一です。問題でない場合もあります
     criterion: 1-1-1
     code: 1-1-1b
   ja_word_breaking_space:
@@ -165,10 +165,14 @@ errors:
     criterion: 2-2-1
     code: 2-2-1b
   titleless_frame:
-    message: frame/iframe要素にtitle属性がありません。
+    message: frame/iframe要素にtitle属性がありません
     criterion: 2-4-1
     code: 2-4-1a
   cannot_contain_newline:
-    message: 属性値の中に改行コードを含めることはできません。
+    message: 属性値の中に改行コードを含めることはできません
     criterion: 4-1-1
     code: 4-1-1a
+  user_scalable_no:
+    message: viewport設定でuser-scalable=noを設定すると、好みの大きさに変更できないので、避けましょう
+    criterion: 1-4-4
+    code: 1-4-4a

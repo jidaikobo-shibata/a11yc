@@ -82,6 +82,7 @@ class Controller_Checklist
 			'meta_refresh',
 			'titleless',
 			'langless',
+			'viewport',
 
 			// non tag
 			'suspicious_attributes',
