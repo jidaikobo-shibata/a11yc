@@ -5,6 +5,7 @@
 			<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_LEVEL ?></th>
 			<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_EXIST ?></th>
 			<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PASS ?></th>
+			<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_CHECKLIST_MEMO ?></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -25,6 +26,9 @@
 			</td>
 			<td class="a11yc_result">
 			<?php echo $results[$k]['pass'] ? A11YC_LANG_PASS : '-' ?>
+			</td>
+			<td class="a11yc_result">
+			<?php echo \A11yc\Util::s($results[$k]['memo']) ?>
 			</td>
 		</tr>
 <?php

@@ -27,7 +27,7 @@ class Controller_Disclosure
 
 		if (isset($_GET['a11yc_pages']))
 		{
-			$pages = Db::fetch_all('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `trash` = 0 ORDER BY `url` ASC;');
+			$pages = Db::fetch_all('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `trash` = 0 AND `done` = 1 ORDER BY `url` ASC;');
 			View::assign('pages', $pages);
 			View::assign('title', A11YC_LANG_CHECKED_PAGES);
 			View::assign('body', View::fetch_tpl('disclosure/pages.php'), false);
@@ -60,8 +60,12 @@ class Controller_Disclosure
 	{
 		// page
 		$page = Controller_Checklist::fetch_page($url);
-		if ( ! $page) return;
-		if ( ! $page['done']) return;
+		if ( ! $page || ! $page['done'])
+		{
+			Session::add('messages', 'errors', array(A11YC_LANG_PAGES_NOT_FOUND));
+			header("location:javascript://history.go(-1)");
+			exit();
+		}
 		View::assign('page', Controller_Checklist::fetch_page($url));
 
 		// setup
