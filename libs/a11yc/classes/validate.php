@@ -222,6 +222,10 @@ class Validate
 		{
 			$str = $str;
 		}
+		elseif ($str == '/')
+		{
+			$str = $str;
+		}
 		else
 		{
 			// root relative path.
@@ -260,7 +264,7 @@ class Validate
 		}
 
 		// remove tailing slash
-		$str = rtrim($str, '/');
+		$str = $str != '/' ? rtrim($str, '/') : $str;
 
 		return $str;
 	}
