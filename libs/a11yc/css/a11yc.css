@@ -330,8 +330,8 @@ table#a11yc_table_info {
 #a11yc_menu li {
 	position: relative;
 	display: inline-block;
-	margin-top: 0;
-	margin-left: 1.65em;
+	margin: 0 auto 0 1.65em;
+	line-height: inherit;
 	color: #fff;
 }
 #a11yc_menu li span:after {
@@ -508,12 +508,16 @@ table#a11yc_table_info {
 #a11yc_header #a11yc_update_done {
 	width: 22em;
 }
+#a11yc_form_checklist {
+	position: relative;
+	margin-top: 2.75em;
+}
 #a11yc_header_ctrl {
 /*	text-align: right;
 	margin-top: -3.25em;
 	margin-bottom: .25em;*/
 	position: absolute;
-	top: 2.75em;
+	top: -2.75em;
 	right: 0;
 }
 .wp-admin #a11yc_header_ctrl {
