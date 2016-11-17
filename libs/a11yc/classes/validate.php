@@ -7,7 +7,7 @@
  * @author     Jidaikobo Inc.
  * @license    WTFPL2.0
  * @copyright  Jidaikobo Inc.
- * @link       http:/www.jidaikobo.com
+ * @link       http://www.jidaikobo.com
  */
 namespace A11yc;
 class Validate

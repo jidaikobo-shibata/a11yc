@@ -7,7 +7,7 @@
  * @author     Jidaikobo Inc.
  * @license    WTFPL2.0
  * @copyright  Jidaikobo Inc.
- * @link       http:/www.jidaikobo.com
+ * @link       http://www.jidaikobo.com
  */
 namespace A11yc;
 class Controller_Disclosure
@@ -32,10 +32,13 @@ class Controller_Disclosure
 			View::assign('title', A11YC_LANG_CHECKED_PAGES);
 			View::assign('body', View::fetch_tpl('disclosure/pages.php'), false);
 		}
-		else if (isset($_GET['a11yc_policy']))
+		else if (isset($_GET['a11yc_report']))
 		{
-			View::assign('title', A11YC_LANG_POLICY);
-			View::assign('body', $setup['policy'], false);
+			// assign common values for total report
+			Controller_Center::index();
+			View::assign('is_total', TRUE);
+			View::assign('title', A11YC_LANG_TEST_RESULT);
+			View::assign('body', View::fetch_tpl('disclosure/index.php'), false);
 		}
 		else if (isset($_GET['url']))
 		{
@@ -43,11 +46,20 @@ class Controller_Disclosure
 		}
 		else
 		{
-			// assign common values for total report
-			Controller_Center::index();
-			View::assign('is_total', TRUE);
-			View::assign('title', A11YC_LANG_TEST_RESULT);
-			View::assign('body', View::fetch_tpl('disclosure/index.php'), false);
+			View::assign('title', A11YC_LANG_POLICY);
+			$url = \A11yc\Util::remove_query_strings(
+				\A11yc\Util::uri(),
+				array('a11yc_policy')
+			);
+			$url = \A11yc\Util::add_query_strings(
+				$url,
+				array(
+					array('a11yc_report', 1)
+				));
+			$policy = $setup['policy'];
+			$policy.= '<h2>'.A11YC_LANG_REPORT."</h2>\n";
+			$policy.= '<p class="a11yc_link"><a href="'.$url.'">'.A11YC_LANG_REPORT."</a></p>";
+			View::assign('body', $policy, false);
 		}
 	}
 

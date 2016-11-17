@@ -16,7 +16,8 @@ foreach ($pages as $v):
 	$chk = \A11yc\Util::add_query_strings(
 		\A11yc\Util::uri(),
 		array(
-			array('url', \A11yc\Util::urlenc($url))
+			array('url', \A11yc\Util::urlenc($url)),
+			array('a11yc_checklist', 1)
 		));
 	$chk = \A11yc\Util::remove_query_strings($chk, array('a11yc_pages'));
 ?>
@@ -32,5 +33,7 @@ foreach ($pages as $v):
 else:
 echo A11YC_LANG_PAGES_NOT_FOUND;
 endif;
-echo '<p class="a11yc_link"><a href="'.\A11yc\Util::remove_query_strings(\A11yc\Util::uri(), array('a11yc_pages')).'">'.A11YC_LANG_REPORT.'</a></p>'
 ?>
+
+<h2><?php echo A11YC_LANG_REPORT ?></h2>
+<p class="a11yc_link"><a href="<?php echo \A11yc\Util::remove_query_strings(\A11yc\Util::uri(), array('a11yc_pages')) ?>"><?php echo A11YC_LANG_REPORT ?></a></p>

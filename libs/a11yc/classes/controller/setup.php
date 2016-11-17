@@ -7,7 +7,7 @@
  * @author     Jidaikobo Inc.
  * @license    WTFPL2.0
  * @copyright  Jidaikobo Inc.
- * @link       http:/www.jidaikobo.com
+ * @link       http://www.jidaikobo.com
  */
 namespace A11yc;
 class Controller_Setup
@@ -50,6 +50,7 @@ class Controller_Setup
 			$selected_method = intval($post['selected_method']);
 			$checklist_behaviour = intval(@$post['checklist_behaviour']);
 			$standard = intval($post['standard']);
+			$policy = stripslashes($post['policy']);
 
 			$setup = static::fetch_setup();
 
@@ -74,7 +75,7 @@ class Controller_Setup
 						$post['test_period'],
 						$post['dependencies'],
 						$post['contact'],
-						$post['policy'],
+						$policy,
 						$post['report'],
 						$checklist_behaviour
 					));
@@ -101,7 +102,7 @@ class Controller_Setup
 						$post['test_period'],
 						$post['dependencies'],
 						$post['contact'],
-						$post['policy'],
+						$policy,
 						$post['report'],
 						$checklist_behaviour
 					));
@@ -125,6 +126,8 @@ class Controller_Setup
 	public static function form()
 	{
 		static::dbio();
+
+		$setup = static::fetch_setup();
 
 		// assign
 		View::assign('title', A11YC_LANG_SETUP_TITLE);
