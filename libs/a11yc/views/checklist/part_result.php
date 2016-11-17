@@ -5,6 +5,7 @@
 			<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_LEVEL ?></th>
 			<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_EXIST ?></th>
 			<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PASS ?></th>
+			<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_CHECKLIST_MEMO ?></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -20,11 +21,14 @@
 			<th><?php echo \A11yc\Util::key2code($k) ?></th>
 			<td><?php echo $v['name'] ?></td>
 			<td class="a11yc_result"><?php echo $v['level']['name'] ?></td>
-			<td class="a11yc_result">
-			<?php echo isset($results[$k]['non_exist']) ? A11YC_LANG_EXIST_NON : '-' ?>
+			<td class="a11yc_result a11yc_result_exist">
+			<?php echo isset($results[$k]['non_exist']) ? A11YC_LANG_EXIST_NON : A11YC_LANG_EXIST ?>
 			</td>
 			<td class="a11yc_result">
 			<?php echo $results[$k]['pass'] ? A11YC_LANG_PASS : '-' ?>
+			</td>
+			<td>
+			<?php echo \A11yc\Util::s($results[$k]['memo']) ?>
 			</td>
 		</tr>
 <?php

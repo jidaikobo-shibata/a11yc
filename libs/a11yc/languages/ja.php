@@ -131,7 +131,6 @@ define('A11YC_LANG_CANDIDATES_PAGEVIEW', 'アクセス数の多いページ');
 define('A11YC_LANG_CANDIDATES_NEW', '新しいページ');
 define('A11YC_LANG_CANDIDATES_ETC', 'その他の基準で選出');
 
-
 // checklist
 define('A11YC_LANG_CHECKLIST_TARGETPAGE', '対象ページ');
 define('A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR', 'チェック対象のページを見つけられませんでした');
@@ -148,6 +147,7 @@ define('A11YC_LANG_CHECKLIST_NON_INTERFERENCE', '非干渉');
 define('A11YC_LANG_CHECKLIST_DO_LINK_CHECK', 'リンク切れをチェック');
 define('A11YC_LANG_CHECKLIST_VIEW_SOURCE', 'ソースコードを見る');
 define('A11YC_LANG_CHECKLIST_MACHINE_CHECK', '自動チェック');
+define('A11YC_LANG_CHECKLIST_MEMO', '備考');
 
 // bulk
 define('A11YC_LANG_BULK_TITLE', '一括処理');

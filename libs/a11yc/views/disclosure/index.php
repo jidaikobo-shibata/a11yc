@@ -3,11 +3,27 @@
 <?php
 // report
 if ($is_total):
-echo $setup['report'];
+	echo $setup['report'];
 endif;
 ?>
 
 <table class="a11yc_table">
+
+	<!-- Accessibility Policy -->
+	<tr>
+		<th><?php echo A11YC_LANG_POLICY ?></th>
+		<td><?php echo '<p class="a11yc_link"><a href="'.\A11yc\Util::add_query_strings(\A11yc\Util::uri(), array(array('a11yc_policy', 1))).'">'.A11YC_LANG_POLICY.'</a></p>'; ?></td>
+	</tr>
+	<!-- /Accessibility Policy -->
+
+	<?php if ($setup['selected_method'] !== 0 && $is_total == FALSE):  ?>
+	<!-- link to report -->
+	<tr>
+		<th><?php echo A11YC_LANG_REPORT ?></th>
+		<td><?php echo '<p class="a11yc_link"><a href="'.\A11yc\Util::remove_query_strings(\A11yc\Util::uri(), array('url', 'a11yc_pages')).'">'.A11YC_LANG_REPORT.'</a></p>'; ?></td>
+	</tr>
+	<!-- /link to report -->
+	<?php endif;  ?>
 
 	<!-- target level -->
 	<tr>
@@ -137,10 +153,3 @@ endif;
 <h2><?php echo A11YC_LANG_CHECKLIST_CONFORMANCE_ADDITIONAL ?></h2>
 <?php echo $additional ?>
 <?php endif; ?>
-
-<?php
-if ($setup['selected_method'] !== 0 && $is_total == FALSE):
-	echo '<p class="a11yc_link"><a href="'.\A11yc\Util::remove_query_strings(\A11yc\Util::uri(), array('url', 'a11yc_pages')).'">'.A11YC_LANG_REPORT.'</a></p>';
-endif;
-echo '<p class="a11yc_link"><a href="'.\A11yc\Util::add_query_strings(\A11yc\Util::uri(), array(array('a11yc_policy', 1))).'">'.A11YC_LANG_POLICY.'</a></p>';
-?>

@@ -11,14 +11,19 @@
 </thead>
 <?php
 foreach ($pages as $v):
-$url = \A11yc\Util::s($v['url']);
-$chk = \A11yc\Util::add_query_strings(\A11yc\Util::uri(), array(array('url', \A11yc\Util::urlenc($url))));
-$chk = \A11yc\Util::remove_query_strings($chk, array('a11yc_pages'));
+	$url = \A11yc\Util::urldec($v['url']);
+	$page_title = \A11yc\Util::s($v['page_title']);
+	$chk = \A11yc\Util::add_query_strings(
+		\A11yc\Util::uri(),
+		array(
+			array('url', \A11yc\Util::urlenc($url))
+		));
+	$chk = \A11yc\Util::remove_query_strings($chk, array('a11yc_pages'));
 ?>
 <tr>
-	<td style="word-break: break-all;"><?php echo '<a href="'.$url.'">'.$url.'</a>' ?></td>
+	<td style="word-break: break-all;"><?php echo $page_title.'<br /><a href="'.$url.'">'.$url.'</a>' ?></td>
 	<td style="text-align: center;"><?php echo \A11yc\Util::num2str($v['level']) ?></td>
-	<td style="text-align: center;"><?php echo '<a href="'.$chk.'">'.A11YC_LANG_CHECKLIST_TITLE.'</a>' ?></td>
+	<td style="text-align: center;"><a href="<?php echo $chk ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_CHECK ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
 	<td style="white-space: nowrap;"><?php echo \A11yc\Util::s($v['date']) ?></td>
 </tr>
 <?php endforeach; ?>

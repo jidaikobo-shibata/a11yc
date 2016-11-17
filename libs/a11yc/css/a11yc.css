@@ -1145,6 +1145,9 @@ ul.a11yc_pagenation li {
 	overflow: auto;
 	border: 1px #aaa solid;
 }
+.a11yc_table .a11yc_result_exist {
+	white-space: nowrap;
+}
 
 /* center */
 #a11yc_center_about {

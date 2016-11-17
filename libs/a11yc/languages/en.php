@@ -148,6 +148,7 @@ define('A11YC_LANG_CHECKLIST_NON_INTERFERENCE', 'Non interference');
 define('A11YC_LANG_CHECKLIST_DO_LINK_CHECK', 'Do link check');
 define('A11YC_LANG_CHECKLIST_VIEW_SOURCE', 'View source code');
 define('A11YC_LANG_CHECKLIST_MACHINE_CHECK', 'Automatic Check');
+define('A11YC_LANG_CHECKLIST_MEMO', 'Note');
 
 // bulk
 define('A11YC_LANG_BULK_TITLE', 'Batch');
