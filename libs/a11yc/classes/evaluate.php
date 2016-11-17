@@ -7,7 +7,7 @@
  * @author     Jidaikobo Inc.
  * @license    WTFPL2.0
  * @copyright  Jidaikobo Inc.
- * @link       http:/www.jidaikobo.com
+ * @link       http://www.jidaikobo.com
  */
 namespace A11yc;
 class Evaluate
@@ -51,6 +51,7 @@ class Evaluate
 	public static function evaluate($cs)
 	{
 		$yml = Yaml::fetch();
+		$memos = array();
 
 		// prepare conditions and given value
 		$checked = array();
@@ -58,6 +59,7 @@ class Evaluate
 		$pass_codes = array();
 		foreach ($yml['checks'] as $k => $v)
 		{
+			$memos[$k] = '';
 			foreach ($v as $kk => $vv)
 			{
 				foreach ($vv['pass'] as $kkk => $vvv)
@@ -73,9 +75,17 @@ class Evaluate
 						$pass_codes[$kkk] = array_merge($pass_codes[$kkk], $vvv);
 						$checked[] = $kk;
 					}
+					if (
+						isset($cs[$kk]['memo']) &&
+						! empty($cs[$kk]['memo']) &&
+						mb_strpos($memos[$k], $cs[$kk]['memo']) === false)
+					{
+						$memos[$k] = $memos[$k]."\n".$cs[$kk]['memo'];
+					}
 				}
 			}
 		}
+
 		foreach ($pass_conds as $k => $v)
 		{
 			$pass_conds[$k] = array_unique($v);
@@ -91,11 +101,13 @@ class Evaluate
 
 		// evaluate
 		$results = array();
+		$criterion_keys = array_keys($cs);
 		foreach ($yml['checks'] as $k => $v)
 		{
 			$results[$k] = array();
 			$err = array_diff($pass_conds[$k], $pass_codes[$k]);
 			$results[$k]['pass'] = $err ? false : TRUE;
+			$results[$k]['memo'] = trim($memos[$k]);
 		}
 
 		// non exist
@@ -220,38 +232,18 @@ class Evaluate
 	{
 		$ps = Db::fetch_all('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `done` = 1;');
 		$css = array();
+
 		foreach ($ps as $k => $p)
 		{
 			$url = Db::escape($p['url']);
 			$cs = Db::fetch_all('SELECT * FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = '.$url.';');
 			foreach ($cs as $v)
 			{
-				$css[$k][] = $v['code'];
+				$css[] = $v['code'];
 			}
 		}
 
-		// intersects
-		$intersects = array();
-		foreach ($css as $v)
-		{
-			$exist = TRUE;
-			foreach ($v as $vv)
-			{
-				foreach ($css as $vvv)
-				{
-					if ( ! in_array($vv, $vvv))
-					{
-						$exist = false;
-						break;
-					}
-					if ($exist)
-					{
-						$intersects[] = $vv;
-					}
-				}
-			}
-		}
-		return array_flip(array_unique($intersects));
+		return array_flip(array_unique($css));
 	}
 
 	/**
