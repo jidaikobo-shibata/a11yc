@@ -24,7 +24,7 @@ class Controller_Checklist
 		$setup = Controller_Setup::fetch_setup();
 		if ( ! $setup['target_level'])
 		{
-			Session::add('messages', 'errors', array(A11YC_LANG_ERROR_NON_TARGET_LEVEL));
+			Session::add('messages', 'errors', A11YC_LANG_ERROR_NON_TARGET_LEVEL);
 		}
 
 		$url = isset($_GET['url']) ? Util::urldec($_GET['url']) : '';
