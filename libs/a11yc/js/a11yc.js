@@ -71,7 +71,6 @@ if ($('#a11yc_header')[0])
 
 function a11yc_add_fixed() {
 		var scroll = $(window).scrollTop();
-	console.log('scroll');
 		if($('.a11yc_fixed_header')[0]) return;
 		//ここで#a11yc_headerがないばあいのふるまいもちゃんとすること
 		header_height = header_height!=0 ? $('#a11yc_header').outerHeight(true)+$('#a11yc_header').offset().top : 0;
@@ -91,11 +90,6 @@ function a11yc_add_fixed() {
 		var position = scroll-header_height+$('#a11yc_header').outerHeight()-$('#a11yc_menu_principles').outerHeight();
 		position = position < 1 ? 1 : position;
 		$(scrollable_element).scrollTop(position);
-	console.log(scroll);
-	console.log(header_height);
-	console.log($('#a11yc_header').outerHeight());
-	console.log(position);
-
 }
 function a11yc_fixed_header(e){
 	if ($(window).scrollTop() >= pagemenu_top)
@@ -123,50 +117,60 @@ function a11yc_fixed_header(e){
 }
 
 
-// checklists, bulk
+// a11yc_table_check -- checklists, bulk
 if($('.a11yc_table_check')[0])
 {
-	$info = $('#a11yc_rest');
-
 	// narrow level
 	$('.a11yc_narrow_level').each(function(index){
 		a11yc_narrow_level($(this).data('a11ycNarrowTarget'), index);
 	});
-	$('.a11yc_narrow_level a').on('click keydown', function(e){
+	$(document).on('click keydown', '.a11yc_narrow_level a', function(e){
 		var index = $('.a11yc_narrow_level').index($(this).parent());
 		a11yc_narrow_level($(this).parent().data('a11ycNarrowTarget'), index, e);
 	});
-	//eがないときは、読み込み時のeachの実行
+
+	//eがないときは、ページ読み込み時
 	function a11yc_narrow_level(target_narrow, index, e){
 		if(e && e.type=='keydown' && e.keyCode!=13) return;
-		//クリックした相手、もしくは自動実行したときのデフォると
+		if(e && $(e.target).parent().hasClass('show')) e.stopPropagation();
 		var $target = e ? $(e.target) : $('.a11yc_narrow_level').eq(index).find('.current');
 		var $target_narrow = $(target_narrow);
-		//全体絞り込みは、レベルが設定されていなければ最高レベルをあてる
-		if(!$target[0]) $target = $('.a11yc_narrow_level').eq(index).find('a').eq(-1);
 		$current_level = $target.text();
 		var data_levels = $target.data('narrowLevel') ? $target.data('narrowLevel').split(',') : [];
 		var $show_levels = $();
-		//現在のレベルハイライト
 		$target.parent().find('a').removeClass('current');
 		$target.addClass('current');
+		
 		for (var k in data_levels)
 		{
-//			$show_levels = $show_levels.add($('[data-a11yc-level ='+data_levels[k]+']'));
 			$show_levels = $show_levels.add($target_narrow.find('.a11yc_leve'+data_levels[k]));
 		}
-//		$target_narrow.find('.a11yc_section_criterion').addClass('a11yc_dn');
 		$target_narrow.find('.a11yc_level_a,.a11yc_level_aa,.a11yc_level_aaa').addClass('a11yc_dn');
 		$show_levels.removeClass('a11yc_dn');
-
+		
+		//validation_list only
+		if(target_narrow=='#a11yc_validation_list')
+		{
+			a11yc_validation_code_display(data_levels);
+		}
 		//checklist only
-		if(target_narrow!='.a11yc_section_principle') return;
-		//table display
-		a11yc_table_display();
-		//count
-		a11yc_count_checkbox();
+		if(target_narrow=='.a11yc_section_principle')
+		{
+			//table display
+			a11yc_table_display();
+			//count
+			a11yc_count_checkbox();
+		}
 	}
-
+	function a11yc_validation_code_display(data_levels){
+		var $code = $('#a11yc_validation_code_raw');
+		var $show_levels = $();
+		for( var k in data_levels ){
+			$show_levels = $show_levels.add($code.find('.a11yc_leve'+data_levels[k]));
+		}
+		$code.find('.a11yc_validation_code_error, strong, a').addClass('a11yc_dn').attr('role', 'presentation');
+		$show_levels.removeClass('a11yc_dn').removeAttr('role');
+	}
 	// toggle check items
 	a11yc_toggle_item();
 	$('.a11yc_table_check input[type="checkbox"]').on('click', a11yc_toggle_item);
@@ -363,15 +367,27 @@ if($('#a11yc_errors')[0]){
 			a11yc_disclosure();
 			if(!$('.a11yc_fixed_header')[0]) set_pagemenu_top();
 			format_validation_error();
+			set_validation_code_txt();
 		},
 		error:function() {
 			$('#a11yc_errors').removeClass('a11yc_loading').text('failed');
 		}
 	});
 }
+function set_validation_code_txt(){
+	var $txt = $('#a11yc_validation_code_txt');
+	$txt.find(':not(br)').remove();
+}
+function select_validation_code_txt(){
+	var $code = $('#a11yc_validation_code_raw');
+	var $txt = $('#a11yc_validation_code_txt');
+	var range = document.createRange();
+	range.selectNodeContents($txt[0]);
+	window.getSelection().addRange(range);
+}
 
 function format_validation_error(){
-	var $error_wrapper = $('#a11yc_validation_errors');
+	var $error_wrapper = $('#a11yc_validation_list');
 	if ($error_wrapper[0])
 	{
 		var $error_lists = $error_wrapper.find('dt');
@@ -379,13 +395,15 @@ function format_validation_error(){
 		var $error_anchors = $('#a11yc_validation_code').find('.a11yc_source span');
 		var $disclosure = $('#a11yc_validation_code').find('.a11yc_source');
 		var $error_places = $();
-	
 		var $controller = $('#a11yc_errors .a11yc_controller');
+		
 		//expand contents
 		var icon_labels = [$('#a11yc_checks').data('a11ycLang').expand, $('#a11yc_checks').data('a11ycLang').compress];
 		$expand_icon = $('<a role="button" class="a11yc_expand a11yc_hasicon" tabindex="0"><span role="presentation" aria-hidden="true" class="a11yc_icon_fa a11yc_icon_expand"></span><span class="a11yc_skip">'+icon_labels[0]+'</span></a>');
+
 		$expands = $error_wrapper.add($disclosure);
 		$controller.append($expand_icon.clone());
+		
 		$(document).on('click', '.a11yc_expand', function(){
 			var index = $('.a11yc_expand').index(this);
 			$(this).toggleClass('on');
@@ -415,7 +433,6 @@ function format_validation_error(){
 		// click validate_link
 		$(document).on('click', '.a11yc_validate_link a', function(e){
 			var e = e ? e : event;
-			console.log($(e.currentTarget));
 			var $t = $($(e.currentTarget).attr('href'));
 			e.stopPropagation();
 			e.preventDefault();
@@ -429,7 +446,6 @@ function format_validation_error(){
 			}
 			else
 			{
-				console.log($t);
 				a11yc_smooth_scroll($t);
 				$t.focus();
 			}
@@ -439,8 +455,9 @@ function format_validation_error(){
 		// narrow level
 		
 	}
-
 }
+
+
 
 /* query request */
 query_arr = window.location.search.substring(1).split('&');
@@ -503,7 +520,6 @@ function a11yc_disclosure_toggle($obj, $t){
 function set_pagemenu_top(){
 	pagemenu_top = $pagemenu[0] ? $pagemenu.offset().top - menu_height : 0;
 	header_height = $('#a11yc_header')[0] ? $('#a11yc_header').outerHeight() : 0;
-//	console.log("set: "+pagemenu_top);
 }
 
 
@@ -560,7 +576,6 @@ function a11yc_adjust_position($obj) {
 		if($obj.offset().top >= a11yc_position_header_bottom) return;
 		var position = $(window).scrollTop()-(a11yc_position_header_bottom-$obj.offset().top)-30;
 		position = position < 1 ? 1 : position;
-		console.log('scroll to: '+position);
 		$(scrollable_element).scrollTop(position);
 	},100);
 }

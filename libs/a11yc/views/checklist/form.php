@@ -28,7 +28,7 @@
 <?php
 	for ($i=1; $i<=3; $i++)
 	{
-		$class_str = $i == $target_level ? ' class="current"' : '';
+		$class_str = ($i == $target_level) || ($target_level == 0 && $i == 3) ? ' class="current"' : '';
 		echo '<a role="button" tabindex="0" data-narrow-level="'.implode(',', array_slice(array('l_a', 'l_aa', 'l_aaa'), 0, $i)).'"'.$class_str.'>'.\A11yc\Util::num2str($i).'</a>';
 	}
 ?>
@@ -91,7 +91,7 @@
 	<?php if ($url != 'bulk'):  ?>
 		<!-- level -->
 		<p id="a11yc_target_level"><?php echo A11YC_LANG_TARGET_LEVEL ?>: <?php echo \A11yc\Util::num2str($target_level) ?>
-		<?php $current_level = $target_level ? \A11yc\Evaluate::result_str(@$page['level'], $target_level) : '-';  ?><br><?php echo A11YC_LANG_CURRENT_LEVEL ?>: <span id="a11yc_conformance_level"><?php echo $current_level ?></span></p>
+<?php $current_level = $target_level ? \A11yc\Evaluate::result_str(@$page['level'], $target_level) : '-'; ?><br><?php echo A11YC_LANG_CURRENT_LEVEL ?>: <span id="a11yc_conformance_level"><?php echo $current_level ?></span></p>
 	<?php endif ?>
 		<!-- rest of num -->
 		<p class="a11yc_hide_if_no_js"><a role="button" class="a11yc_disclosure"><?php echo A11YC_LANG_CHECKLIST_RESTOFNUM ?>&nbsp;:&nbsp;<span id="a11yc_rest_total">&nbsp;-&nbsp;</span></a></p>
