@@ -11,7 +11,7 @@ endif;
 
 	<!-- Accessibility Policy -->
 	<tr>
-		<th><?php echo A11YC_LANG_POLICY ?></th>
+		<th scope="row"><?php echo A11YC_LANG_POLICY ?></th>
 		<td><?php echo '<p class="a11yc_link"><a href="'.\A11yc\Util::add_query_strings(\A11yc\Util::uri(), array(array('a11yc_policy', 1))).'">'.A11YC_LANG_POLICY.'</a></p>'; ?></td>
 	</tr>
 	<!-- /Accessibility Policy -->
@@ -19,7 +19,7 @@ endif;
 	<?php if ($setup['selected_method'] !== 0 && $is_total == FALSE):  ?>
 	<!-- link to report -->
 	<tr>
-		<th><?php echo A11YC_LANG_REPORT ?></th>
+		<th scope="row"><?php echo A11YC_LANG_REPORT ?></th>
 		<td><?php echo '<p class="a11yc_link"><a href="'.\A11yc\Util::remove_query_strings(\A11yc\Util::uri(), array('url', 'a11yc_pages')).'">'.A11YC_LANG_REPORT.'</a></p>'; ?></td>
 	</tr>
 	<!-- /link to report -->
@@ -27,14 +27,14 @@ endif;
 
 	<!-- target level -->
 	<tr>
-		<th><?php echo A11YC_LANG_TARGET_LEVEL ?></th>
+		<th scope="row"><?php echo A11YC_LANG_TARGET_LEVEL ?></th>
 		<td><?php echo \A11YC\Util::num2str($target_level) ?></td>
 	</tr>
 	<!-- /target level -->
 
 	<!-- current level -->
 	<tr>
-		<th><?php echo A11YC_LANG_CURRENT_LEVEL_WEBPAGES ?></th>
+		<th scope="row"><?php echo A11YC_LANG_CURRENT_LEVEL_WEBPAGES ?></th>
 		<td>
 		<?php
 		$site_level = \A11YC\Evaluate::check_site_level();
@@ -47,14 +47,14 @@ endif;
 	<?php if ($is_total): ?>
 	<!-- dependencies -->
 	<tr>
-		<th><?php echo A11YC_LANG_DEPENDENCIES ?></th>
+		<th scope="row"><?php echo A11YC_LANG_DEPENDENCIES ?></th>
 		<td><?php echo $setup['dependencies']; ?></td>
 	</tr>
 	<!-- /dependencies -->
 
 	<!-- selected method -->
 	<tr>
-		<th><?php echo A11YC_LANG_CANDIDATES_TITLE ?></th>
+		<th scope="row"><?php echo A11YC_LANG_CANDIDATES_TITLE ?></th>
 		<td>
 		<?php
 		$arr = array(
@@ -74,7 +74,7 @@ endif;
 
 	<!-- target page -->
 	<tr>
-		<th><?php echo A11YC_LANG_PAGES_URLS ?></th>
+		<th scope="row"><?php echo A11YC_LANG_PAGES_URLS ?></th>
 		<td><?php echo '<a href="'.$page['url'].'">'.$page['url'].'</a>' ?></td>
 	</tr>
 	<!-- /target page -->
@@ -84,10 +84,10 @@ endif;
 	<!-- period or date -->
 	<tr>
 	<?php if ($is_total): ?>
-		<th><?php echo A11YC_LANG_TEST_PERIOD ?></th>
+		<th scope="row"><?php echo A11YC_LANG_TEST_PERIOD ?></th>
 		<td><?php echo $setup['test_period'] ?></td>
 	<?php else: ?>
-		<th><?php echo A11YC_LANG_TEST_DATE ?></th>
+		<th scope="row"><?php echo A11YC_LANG_TEST_DATE ?></th>
 		<td><?php echo $page['date'] ?></td>
 	<?php endif; ?>
 	</tr>
@@ -96,7 +96,7 @@ endif;
 	<!-- number of checked -->
 	<?php if (isset($done) && $is_total): ?>
 	<tr>
-		<th><?php echo A11YC_LANG_NUM_OF_CHECKED ?></th>
+		<th scope="row"><?php echo A11YC_LANG_NUM_OF_CHECKED ?></th>
 		<td><?php echo $done['done'].' / '.$total['total'] ?></td>
 	</tr>
 	<?php endif; ?>
@@ -105,7 +105,7 @@ endif;
 	<!-- unpassed pages -->
 	<?php if (isset($unpassed_pages) && $is_total): ?>
 	<tr>
-		<th><?php echo A11YC_LANG_UNPASSED_PAGES ?></th>
+		<th scope="row"><?php echo A11YC_LANG_UNPASSED_PAGES ?></th>
 		<td>
 		<?php if ($unpassed_pages): ?>
 			<ul>
@@ -135,7 +135,7 @@ endif;
 	<!-- contact -->
 	<?php if ($setup['contact']): ?>
 	<tr>
-		<th><?php echo A11YC_LANG_CONTACT ?></th>
+		<th scope="row"><?php echo A11YC_LANG_CONTACT ?></th>
 		<td><?php echo $setup['contact']; ?></td>
 	</tr>
 	<?php endif; ?>

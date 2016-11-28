@@ -3,10 +3,10 @@
 <table class="a11yc_table">
 <thead>
 <tr>
-	<th><?php echo A11YC_LANG_CHECKLIST_TARGETPAGE ?></th>
-	<th><?php echo A11YC_LANG_CURRENT_LEVEL ?></th>
-	<th><?php echo A11YC_LANG_CHECKLIST_TITLE ?></th>
-	<th><?php echo A11YC_LANG_TEST_DATE ?></th>
+	<th scope="col"><?php echo A11YC_LANG_CHECKLIST_TARGETPAGE ?></th>
+	<th scope="col"><?php echo A11YC_LANG_CURRENT_LEVEL ?></th>
+	<th scope="col"><?php echo A11YC_LANG_CHECKLIST_TITLE ?></th>
+	<th scope="col"><?php echo A11YC_LANG_TEST_DATE ?></th>
 </tr>
 </thead>
 <?php

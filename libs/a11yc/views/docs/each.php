@@ -15,19 +15,19 @@ if ($lines): ?>
 <?php if (isset($doc['criterion'])): ?>
 	<table id="a11yc_table_info" class="a11yc_table">
 	<tr>
-		<th><?php echo A11YC_LANG_PRINCIPLE ?></th>
+		<th scope="row"><?php echo A11YC_LANG_PRINCIPLE ?></th>
 		<td><?php echo $doc['criterion']['guideline']['principle']['name'] ?></td>
 		<td><?php echo $doc['criterion']['guideline']['principle']['summary'] ?></td>
 	</tr>
 	
 	<tr>
-		<th><?php echo A11YC_LANG_GUIDELINE ?></th>
+		<th scope="row"><?php echo A11YC_LANG_GUIDELINE ?></th>
 		<td><?php echo $doc['criterion']['guideline']['name'] ?></td>
 		<td><?php echo $doc['criterion']['guideline']['summary'] ?></td>
 	</tr>
 	
 	<tr>
-		<th><?php echo A11YC_LANG_CRITERION ?></th>
+		<th scope="row"><?php echo A11YC_LANG_CRITERION ?></th>
 		<td><?php echo $doc['criterion']['name'].'<br><span class="a11yc_inlineblock">('.\A11yc\Util::key2code($doc['criterion']['code']).' '.$doc['criterion']['level']['name'].')</span>' ?></td>
 		<td><?php echo $doc['criterion']['summary'] ?></td>
 	</tr>

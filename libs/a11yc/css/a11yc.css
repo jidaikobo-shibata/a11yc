@@ -295,13 +295,13 @@ table#a11yc_table_info {
 }
 
 /* === menu === */
-#a11yc_menu ul {
+#a11yc_menu_wrapper {
 	background-color: #333;
 	position: fixed;
 	z-index: 100;
 	width: 100%;
 	margin: 0;
-	padding: 3px 3px 3px 3em;
+	padding: 3px 3px 3px calc( 3.25em + 5px );
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
@@ -310,6 +310,26 @@ table#a11yc_table_info {
 	top: 0;
 	font-size: .9em;
 }
+#a11yc_menu ul {
+	margin: 0 0 0 -15px;
+	padding: 0;
+}
+#a11yc_menu h1#a11yc_title {
+	border: none;
+	color: #aaa;
+	font-family: cursive;
+	letter-spacing: -1px;
+	position: absolute;
+	font-size: 1.25em;
+	top: -.25em;
+	left: 5px;
+}
+#a11yc_menu h1#a11yc_title span {
+	color: #68baef;
+	margin-left: .05em;
+	font-size: .75em;
+}
+/*
 #a11yc_menu ul:before {
 	content: 'A11y';
 	color: #68baef;
@@ -332,6 +352,7 @@ table#a11yc_table_info {
 	left: 3.35em;
 	top: 6px;
 }
+*/
 #a11yc_menu li {
 	position: relative;
 	display: inline-block;
@@ -1305,4 +1326,5 @@ table .a11yc_result {
 	position: absolute;
 	overflow: auto;
 	clip: auto;
+	z-index: 9999;
 }

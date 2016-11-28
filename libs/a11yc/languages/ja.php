@@ -84,7 +84,7 @@ define('A11YC_LANG_PAGES_ORDER_PAGE_NAME_DESC', 'ページ名降順');
 define('A11YC_LANG_PAGES_CTRL', '操作');
 define('A11YC_LANG_PAGES_URL_FOR_EACH_LINE', '各行に一つのURLを入力して、「'.A11YC_LANG_PAGES_URLS_ADD.'」を押してください。一度の登録は20個程度にしてください。あまり多いと登録処理でプログラムが停止することがあります');
 define('A11YC_LANG_PAGES_ALL', 'すべて');
-define('A11YC_LANG_PAGES_YET', '未チェック');
+define('A11YC_LANG_PAGES_YET', 'チェック中');
 define('A11YC_LANG_PAGES_TRASH', '削除済み');
 define('A11YC_LANG_PAGES_GET_URLS', 'URLを取得する');
 define('A11YC_LANG_PAGES_GET_URLS_EXP', '対象のページのa要素からURLの一覧を生成します。サイト構造の再帰的な走査は未対応です。');

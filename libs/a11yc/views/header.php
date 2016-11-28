@@ -23,20 +23,23 @@
 
 <!-- #a11yc -->
 <div id="<?php echo 'a11yc_'.$mode ?>" class="a11yc">
-<nav id="a11yc_menu">
 <?php if (\Kontiki\Auth::auth()): ?>
-<a href="#a11yc_content" class="a11yc_skip a11yc_show_if_focus"><?php echo A11YC_LANG_JUMP_TO_CONTENT ?></a>
-<ul>
-	<li class="a11yc_menu_item a11yc_center"><a href="?c=center&amp;a=index" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_CENTER_TITLE ?></a></li>
-	<li class="a11yc_menu_item a11yc_setup"><a href="?c=setup&amp;a=index" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_SETUP_TITLE ?></a></li>
-	<li class="a11yc_menu_item a11yc_pages"><a href="?c=pages&amp;a=index" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_PAGES_TITLE ?></a></li>
-	<li class="a11yc_menu_item a11yc_bulk"><a href="?c=bulk&amp;a=index" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_BULK_TITLE ?></a></li>
-	<li class="a11yc_menu_item a11yc_docs"><a href="?c=docs&amp;a=index" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_DOCS_TITLE ?></a></li>
-	<li class="a11yc_menu_item a11yc_logout a11yc_fr"><a href="?c=auth&amp;a=logout" class="a11yc_hasicon"><?php echo \A11yc\Users::fetch_current_user()[0].'&nbsp;:&nbsp;'.A11YC_LANG_LOGOUT ?><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span></a></li>
-	<li class="a11yc_menu_item a11yc_dev_info a11yc_fr"><a href=""><?php echo \Kontiki\Performance::calc_time().' '.\Kontiki\Performance::calc_memory() ?></a></li>
-</ul>
+	<div id="a11yc_menu_wrapper">
+		<nav id="a11yc_menu">
+		<h1 id="a11yc_title">A11y<span>C</span></h1>
+		<a href="#a11yc_content" class="a11yc_skip a11yc_show_if_focus"><?php echo A11YC_LANG_JUMP_TO_CONTENT ?></a>
+		<ul>
+			<li class="a11yc_menu_item a11yc_center"><a href="?c=center&amp;a=index" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_CENTER_TITLE ?></a></li>
+			<li class="a11yc_menu_item a11yc_setup"><a href="?c=setup&amp;a=index" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_SETUP_TITLE ?></a></li>
+			<li class="a11yc_menu_item a11yc_pages"><a href="?c=pages&amp;a=index" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_PAGES_TITLE ?></a></li>
+			<li class="a11yc_menu_item a11yc_bulk"><a href="?c=bulk&amp;a=index" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_BULK_TITLE ?></a></li>
+			<li class="a11yc_menu_item a11yc_docs"><a href="?c=docs&amp;a=index" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_DOCS_TITLE ?></a></li>
+			<li class="a11yc_menu_item a11yc_logout a11yc_fr"><a href="?c=auth&amp;a=logout" class="a11yc_hasicon"><?php echo \A11yc\Users::fetch_current_user()[0].'&nbsp;:&nbsp;'.A11YC_LANG_LOGOUT ?><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span></a></li>
+			<li class="a11yc_menu_item a11yc_dev_info a11yc_fr"><span role="presentation"><?php echo \Kontiki\Performance::calc_time().' '.\Kontiki\Performance::calc_memory() ?></span></li>
+		</ul>
+		</nav><!--#a11yc_menu-->
+	</div><!--#a11yc_menu_wrapper-->
 <?php endif; ?>
-</nav>
 <?php
 	$h1 = constant('A11YC_LANG_'.strtoupper($mode).'_TITLE');
 	$titile_attr_str ='';
@@ -48,5 +51,4 @@
 		endif;
 	endif;
 ?>
-<a href="javascript:void(0);" id="a11yc_content" class="a11yc_skip a11yc_show_if_focus"><?php echo A11YC_LANG_BEGINNING_OF_THE_CONTENT ?></a>
 <h1<?php echo $titile_attr_str ?>><?php echo $h1 ?></h1>

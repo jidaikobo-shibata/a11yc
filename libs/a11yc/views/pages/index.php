@@ -56,16 +56,15 @@ if ($pages):
 	endif;
 	echo $pagination;
 ?>
-
 	<table class="a11yc_table">
 	<thead>
 	<th>URL</th>
-	<th class="a11yc_result"><?php echo A11YC_LANG_LEVEL ?></th>
-	<th class="a11yc_result"><?php echo A11YC_LANG_CHECKLIST_DONE ?></th>
-	<th class="a11yc_result"><?php echo A11YC_LANG_PAGES_CHECK ?></th>
-	<th class="a11yc_result"><?php echo A11YC_LANG_PAGES_CTRL ?></th>
-	<th class="a11yc_result"><?php echo A11YC_LANG_PAGES_ADD_DATE ?></th>
-	<th class="a11yc_result"><?php echo A11YC_LANG_TEST_DATE ?></th>
+	<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_LEVEL ?></th>
+	<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_CHECKLIST_DONE ?></th>
+	<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGES_CHECK ?></th>
+	<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGES_CTRL ?></th>
+	<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGES_ADD_DATE ?></th>
+	<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_TEST_DATE ?></th>
 	</thead>
 	<tbody>
 	<?php
@@ -78,8 +77,7 @@ if ($pages):
 	$class_str = ++$i%2==0 ? ' class="even'.$not_found_class.'"' : ' class="odd'.$not_found_class.'"';
 	?>
 	<tr<?php echo $class_str ?>>
-
-		<th>
+		<th scope="row">
 			<?php echo $no_url == $url ? '<div><strong>'.A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR.'</strong></div>' : '' ?>
 			<?php echo $page_title.'<br /><a href="'.$url.'">'.$url ?></a>
 		</th>

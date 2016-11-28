@@ -191,8 +191,7 @@
 			?>
 
 				<tr<?php echo $class_str ?>>
-
-				<th>
+				<th scope="row">
 				<label for="<?php echo $code ?>"><input type="checkbox"<?php echo $checked ?> id="<?php echo $code ?>" name="chk[<?php echo $code ?>][on]" value="1" <?php echo $data ?> class="<?php echo $vvv['level']['name'] ?> a11yc_skip"/><span class="a11yc_icon_fa a11yc_icon_checkbox" role="presentation" aria-hidden="true"></span><?php echo $skip_non_interference.$val['name'] ?></label>
 				</th>
 

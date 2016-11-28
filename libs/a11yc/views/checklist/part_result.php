@@ -20,7 +20,7 @@
 		if ( ! $results[$k]['pass']) continue;
 ?>
 		<tr>
-			<th><?php echo \A11yc\Util::key2code($k) ?></th>
+			<th scope="row"><?php echo \A11yc\Util::key2code($k) ?></th>
 			<td><?php echo $v['name'] ?></td>
 			<td class="a11yc_result"><?php echo $v['level']['name'] ?></td>
 			<td class="a11yc_result a11yc_result_exist">

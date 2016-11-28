@@ -1,17 +1,16 @@
 <h2><?php echo A11YC_LANG_TEST_RESULT ?></h2>
 <table class="a11yc_table">
 <tbody>
-
 	<!-- target level -->
 	<tr>
-		<th><?php echo A11YC_LANG_TARGET_LEVEL ?></th>
+		<th scope="row"><?php echo A11YC_LANG_TARGET_LEVEL ?></th>
 		<td><?php echo \A11YC\Util::num2str($target_level) ?></td>
 	</tr>
 	<!-- /target level -->
 
 	<!-- current level -->
 	<tr>
-		<th><?php echo A11YC_LANG_CURRENT_LEVEL_WEBPAGES ?></th>
+		<th scope="row"><?php echo A11YC_LANG_CURRENT_LEVEL_WEBPAGES ?></th>
 		<td>
 		<?php
 		$site_level = \A11YC\Evaluate::check_site_level();
@@ -23,7 +22,7 @@
 
 	<!-- selected method -->
 	<tr>
-		<th><?php echo A11YC_LANG_CANDIDATES_TITLE ?></th>
+		<th scope="row"><?php echo A11YC_LANG_CANDIDATES_TITLE ?></th>
 		<td>
 		<?php
 		$arr = array(
@@ -41,7 +40,7 @@
 	<!-- number of checked -->
 	<?php if (isset($done)): ?>
 	<tr>
-		<th><?php echo A11YC_LANG_NUM_OF_CHECKED ?></th>
+		<th scope="row"><?php echo A11YC_LANG_NUM_OF_CHECKED ?></th>
 		<td><?php echo $done['done'].' / '.$total['total'] ?></td>
 	</tr>
 	<?php endif; ?>
@@ -50,7 +49,7 @@
 	<!-- unpassed pages -->
 	<?php if (isset($unpassed_pages)): ?>
 	<tr>
-		<th><?php echo A11YC_LANG_UNPASSED_PAGES ?></th>
+		<th scope="row"><?php echo A11YC_LANG_UNPASSED_PAGES ?></th>
 		<td>
 		<?php if ($unpassed_pages): ?>
 			<ul>
