@@ -38,6 +38,10 @@
 	line-height: 1.5;
 	margin-bottom: .6em;
 }
+#a11yc_docs li:last-child,
+#a11yc_checklist li:last-child {
+	margin-bottom: 0;
+}
 .a11yc code {
 	background-color: #ededed;
 	border: 1px solid #aaa;
