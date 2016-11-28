@@ -1181,7 +1181,7 @@ ul.a11yc_pagenation li {
 	padding: 2px 5px;
 	border-radius: 2px;
 }
-.a11yc_pagenation li[role=presentation] span{
+.a11yc_pagenation li[role=presentation] span {
 	opacity: .3;
 }
 #a11yc_pages .a11yc_result {
