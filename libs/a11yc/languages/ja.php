@@ -89,7 +89,7 @@ define('A11YC_LANG_PAGES_TRASH', '削除済み');
 define('A11YC_LANG_PAGES_GET_URLS', 'URLを取得する');
 define('A11YC_LANG_PAGES_GET_URLS_EXP', '対象のページのa要素からURLの一覧を生成します。サイト構造の再帰的な走査は未対応です。');
 define('A11YC_LANG_PAGES_GET_URLS_BTN', A11YC_LANG_PAGES_GET_URLS);
-define('A11YC_LANG_PAGES_INDEX_INFORMATION', '%s/%d %d件〜%d件を表示中');
+define('A11YC_LANG_PAGES_INDEX_INFORMATION', '%s/%d %d件〜%d件目を表示中');
 define('A11YC_LANG_PAGES_DELETE_DONE', '%sを削除しました');
 define('A11YC_LANG_PAGES_PURGE_DONE', '%sを完全に削除しました');
 define('A11YC_LANG_PAGES_UNDELETE_DONE', '%sを復活しました');

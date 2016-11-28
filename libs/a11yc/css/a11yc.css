@@ -1151,6 +1151,10 @@ span.a11yc_icon_expand:before {
 .a11yc_checklist_pages {
 	display: inline-block;
 }
+#a11yc_pagenate_info {
+	float: left;
+	margin: 0 5px;
+}
 .a11yc_checklist_pages,
 .a11yc_pagenation {
 	padding-left: 0;
@@ -1173,10 +1177,12 @@ ul.a11yc_pagenation li {
 	margin-left: 5px;
 	padding-left: 5px;
 }
-.a11yc_checklist_pages a,
-.a11yc_pagenation a {
+.a11yc_checklist_pages a {
 	padding: 2px 5px;
 	border-radius: 2px;
+}
+.a11yc_pagenation li[role=presentation] span{
+	opacity: .3;
 }
 #a11yc_pages .a11yc_result {
 	vertical-align: middle;

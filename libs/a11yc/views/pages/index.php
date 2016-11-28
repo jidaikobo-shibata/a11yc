@@ -31,26 +31,27 @@
 ?>
 </ul>
 <!-- /.a11yc_checklist_pages -->
-
 <?php
-
-// index information
-echo $index_information;
 
 // show search and order form
 echo $search_form;
 
 if ($pages):
-
+	// index information
+	echo '<p id="a11yc_pagenate_info">'.$index_information.'</p>';
 	// pagination
 	$pagination = '';
 	if ($prev || $next):
 		$pagination.= '<ul class="a11yc_pagenation">';
 	if ($prev):
 		$pagination.= '<li class="a11yc_pagenation_prev"><a href="'.$prev.'" class="a11yc_hasicon"><span class="a11yc_icon_tr_l a11yc_icon_fa" role="presentation" aria-hidden="true"></span><span>'.A11YC_LANG_CTRL_PREV.'</span></a></li>';
+	else:
+		$pagination.= '<li class="a11yc_pagenation_prev" role="presentation" aria-hidden="true"><span class="a11yc_icon_tr_l a11yc_icon_fa" role="presentation" aria-hidden="true"></span><span>'.A11YC_LANG_CTRL_PREV.'</span></li>';
 	endif;
 	if ($next):
 		$pagination.= '<li class="a11yc_pagenation_next"><a href="'.$next.'" class="a11yc_hasicon"><span>'.A11YC_LANG_CTRL_NEXT.'</span><span class="a11yc_icon_tr_r a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></li>';
+	else:
+		$pagination.= '<li class="a11yc_pagenation_next" role="presentation" aria-hidden="true"><span>'.A11YC_LANG_CTRL_NEXT.'</span><span class="a11yc_icon_tr_r a11yc_icon_fa" role="presentation" aria-hidden="true"></span></li>';
 	endif;
 		$pagination.= '</ul><!-- /.a11yc_pagenation -->';
 	endif;
