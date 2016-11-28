@@ -824,14 +824,6 @@ class Validate_Validation extends Validate
 			{
 				if (strpos($val, "\n") !== false)
 				{
-
-
-
-echo '<textarea style="width:100%;height:200px;background-color:#fff;color:#111;font-size:90%;font-family:monospace;position:relative;z-index:9999">';
-var_dump($ms[0][$k]);
-var_dump($attrs);
-echo '</textarea>';
-
 					static::$error_ids['cannot_contain_newline'][$k]['id'] = $ms[0][$k];
 					static::$error_ids['cannot_contain_newline'][$k]['str'] = $m;
 					break;

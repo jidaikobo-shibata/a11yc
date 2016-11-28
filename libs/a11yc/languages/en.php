@@ -97,6 +97,8 @@ define('A11YC_LANG_PAGES_UNDELETE_DONE', 'undelete %s');
 define('A11YC_LANG_PAGES_DELETE_FAILED', 'Failed to delete %s');
 define('A11YC_LANG_PAGES_PURGE_FAILED', 'Failed to purge %s');
 define('A11YC_LANG_PAGES_UNDELETE_FAILED', 'Failed to undelete %s');
+define('A11YC_LANG_PAGES_RETURN_TO_PAGES', 'A list of linked pages is found. please click this link and go back to "'.A11YC_LANG_PAGES_INDEX.'" to register.');
+define('A11YC_LANG_PAGES_PRESS_ADD_BUTTON', 'A list of linked pages is found. After checking the contents of the list, please press "'.A11YC_LANG_PAGES_URLS_ADD.'" to register.');
 
 // setup
 define('A11YC_LANG_SETUP_TITLE', 'Setup');

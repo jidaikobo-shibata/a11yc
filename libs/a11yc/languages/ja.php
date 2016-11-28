@@ -96,6 +96,8 @@ define('A11YC_LANG_PAGES_UNDELETE_DONE', '%sを復活しました');
 define('A11YC_LANG_PAGES_DELETE_FAILED', '%sの削除に失敗しました');
 define('A11YC_LANG_PAGES_PURGE_FAILED', '%sの完全な削除に失敗しました');
 define('A11YC_LANG_PAGES_UNDELETE_FAILED', '%sの復活に失敗しました');
+define('A11YC_LANG_PAGES_RETURN_TO_PAGES', 'リンクされているページの一覧を取得しました。ここをクリックして'.A11YC_LANG_PAGES_INDEX.'に戻って、登録をしてください。');
+define('A11YC_LANG_PAGES_PRESS_ADD_BUTTON', 'リンクされているページの一覧を取得しました。一覧の内容を確認の上、「'.A11YC_LANG_PAGES_URLS_ADD.'」を押して、登録してください。');
 
 // setup
 define('A11YC_LANG_SETUP_TITLE', '設定');

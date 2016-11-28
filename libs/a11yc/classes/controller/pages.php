@@ -76,11 +76,22 @@ class Controller_Pages
 				if ($k == 0)
 				{
 					$page_exists = true;
-					echo '<div id="a11yc_add_pages_progress">'."\n";
+					if ( ! headers_sent())
+					{
+						echo '<!DOCTYPE html><html lang="'.A11YC_LANG.'"><head>';
+						echo '<meta charset="utf-8">';
+						echo '<title>'.A11YC_LANG_PAGES_URLS_ADD.' - A11YC</title></head><body>';
+					}
+					echo '<script>setInterval(function(){if(!!document.getElementById("a11yc_back_to_pages")) return ;window.scrollTo(0,document.body.scrollHeight);}, 100)</script>'."\n";
+					echo '<div style="word-break: break-all;">'."\n";
 				}
 
 				// page title
 				$page_title = Util::fetch_page_title($url);
+
+				$current = $k + 1;
+				echo '<p>'.Util::s($url).' ('.$current.'/'.count($pages).')<br />';
+				echo Util::s($page_title).'<br />';
 
 				$exist = Db::fetch('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;', array($url));
 				if ( ! $exist)
@@ -94,6 +105,7 @@ class Controller_Pages
 							'messages',
 							'messages',
 							A11YC_LANG_PAGES_ADDED_NORMALLY.': '. Util::s($page_title.' ('.$url.') '));
+						echo "<strong style=\"border-radius: 5px; padding: 5px; color: #fff;background-color:#408000;\">Added</strong>\n";
 					}
 					else
 					{
@@ -101,6 +113,7 @@ class Controller_Pages
 							'messages',
 							'errors',
 							A11YC_LANG_PAGES_ADD_FAILED.': '. Util::s($page_title.' ('.$url.') '));
+						echo 'Failed.';
 					}
 				}
 				else
@@ -109,10 +122,9 @@ class Controller_Pages
 						'messages',
 						'errors',
 						A11YC_LANG_PAGES_ALREADY_EXISTS.': '. Util::s($page_title.' ('.$url.') '));
+					echo 'Already exists.';
 				}
-
-				echo Util::s($url).' ('.$k.'/'.count($pages).')<br />';
-				echo Util::s($page_title).'<br />';
+				echo '</p>';
 
 				ob_flush();
 				flush();
@@ -121,6 +133,13 @@ class Controller_Pages
 			if ($page_exists)
 			{
 				echo '</div>';
+				// done
+				echo '<p><a id="a11yc_back_to_pages" href="'.A11YC_PAGES_URL.'">'.A11YC_LANG_PAGES_ADDED_NORMALLY.'</a></p>';
+				if ( ! headers_sent())
+				{
+					echo '</body>';
+				}
+				exit();
 			}
 		}
 
@@ -257,10 +276,18 @@ class Controller_Pages
 
 			if ($k == 0)
 			{
-				echo '<div id="a11yc_add_pages_progress">'."\n";
+				if ( ! headers_sent())
+				{
+					echo '<!DOCTYPE html><html lang="'.A11YC_LANG.'"><head>';
+					echo '<meta charset="utf-8">';
+					echo '<title>'.A11YC_LANG_PAGES_GET_URLS.' - A11YC</title></head><body>';
+				}
+				echo '<script>setInterval(function(){if(!!document.getElementById("a11yc_back_to_pages")) return ;window.scrollTo(0,document.body.scrollHeight);}, 100)</script>'."\n";
+				echo '<div style="word-break: break-all;">'."\n";
 			}
 
-			echo Util::s($urls[$v]).' ('.$k.'/'.count($ms[1]).")<br />\n";
+			$current = $k + 1;
+			echo '<p>'.Util::s($urls[$v]).' ('.$current.'/'.count($ms[1]).")<br />\n";
 
 			if (
 				strpos($urls[$v], '#') !== false || // fragment
@@ -268,13 +295,14 @@ class Controller_Pages
 				! Util::is_html($urls[$v]) // non html
 			)
 			{
-				echo "ignored.<br />\n";
+				echo "Ignored\n";
 				unset($urls[$v]);
 			}
 			else
 			{
-				echo "<strong>added</strong>.<br />\n";
+				echo "<strong style=\"border-radius: 5px; padding: 5px; color: #fff;background-color:#408000;\">Added</strong>\n";
 			}
+			echo '</p>';
 
 			ob_flush();
 			flush();
@@ -283,6 +311,18 @@ class Controller_Pages
 		if ($urls)
 		{
 			echo '</div>';
+
+			// add to session
+			sort($urls);
+			Session::add('values', 'urls', $urls);
+
+			// done
+			echo '<p><a id="a11yc_back_to_pages" href="'.A11YC_PAGES_URL.'">'.A11YC_LANG_PAGES_RETURN_TO_PAGES.'</a></p>';
+			if ( ! headers_sent())
+			{
+				echo '</body>';
+			}
+			exit();
 		}
 
 		// get urls recursive
@@ -297,8 +337,6 @@ class Controller_Pages
 		// 	}
 		// }
 		// $urls = array_unique($urls);
-
-		return $urls;
 	}
 
 	/**
@@ -310,12 +348,7 @@ class Controller_Pages
 	{
 		if ( ! isset($_POST['get_urls'])) return false;
 		$url = $_POST['get_urls'];
-
-		// html
-		$urls = static::crawler($url);
-		sort($urls);
-
-		return $urls;
+		static::crawler($url);
 	}
 
 	/**
@@ -433,9 +466,20 @@ class Controller_Pages
 		View::assign('trashcnt', Db::fetch($cntsql.$trashwhr));
 		View::assign('allcnt', Db::fetch($cntsql.$allwhr));
 
+		// crawled urls
+		$from_session = Session::fetch('values', 'urls');
+		if (isset($from_session[0]))
+		{
+			$crawled = $from_session[0];
+			Session::add('messages', 'message', A11YC_LANG_PAGES_PRESS_ADD_BUTTON);
+		}
+		else
+		{
+			static::get_urls();
+		}
+
 		// assign
-		View::assign('get_urls', isset($_POST['get_urls']) ? $_POST['get_urls'] : '');
-		View::assign('crawled', static::get_urls());
+		View::assign('crawled', $crawled);
 		View::assign('pages', $pages);
 		View::assign('current_qs', $qs.'&amp;paged='.$paged.'&amp;s='.$word);
 		View::assign('prev', $prev_qs ? A11YC_PAGES_URL.$qs.$prev_qs : false);
