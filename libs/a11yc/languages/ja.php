@@ -164,6 +164,7 @@ define('A11YC_LANG_BULK_DONE3', '既存のページをすべて未チェック�
 // documents
 define('A11YC_LANG_DOCS_TITLE', '参考資料');
 define('A11YC_LANG_DOCS_EACH_TITLE', '参考資料');
+define('A11YC_LANG_DOCS_ALL', 'すべて');
 define('A11YC_LANG_DOCS_EACH_SUBTITLE', '「%s」について');
 define('A11YC_LANG_DOCS_EACH_SUBTITLE_HOWTO', '「%s」の解説');
 define('A11YC_LANG_DOCS_TEST', '試験方法について');

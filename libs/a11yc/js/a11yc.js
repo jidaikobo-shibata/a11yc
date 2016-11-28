@@ -116,6 +116,10 @@ function a11yc_fixed_header(e){
 	set_pagemenu_top();
 }
 
+// docs narrow level
+if($('#a11yc_docs')[0])
+{
+}
 
 // a11yc_table_check -- checklists, bulk
 if($('.a11yc_table_check')[0])
