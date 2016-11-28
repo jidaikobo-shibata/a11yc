@@ -25,6 +25,7 @@ class Controller_Disclosure
 		$target_level = intval(@$setup['target_level']);
 		if ( ! $target_level) die('Error. Set target level first');
 
+		// page list
 		if (isset($_GET['a11yc_pages']))
 		{
 			$pages = Db::fetch_all('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `trash` = 0 AND `done` = 1 ORDER BY `url` ASC;');
@@ -32,6 +33,8 @@ class Controller_Disclosure
 			View::assign('title', A11YC_LANG_CHECKED_PAGES);
 			View::assign('body', View::fetch_tpl('disclosure/pages.php'), false);
 		}
+
+		// report
 		else if (isset($_GET['a11yc_report']))
 		{
 			// assign common values for total report
@@ -40,10 +43,14 @@ class Controller_Disclosure
 			View::assign('title', A11YC_LANG_TEST_RESULT);
 			View::assign('body', View::fetch_tpl('disclosure/index.php'), false);
 		}
+
+		// each report
 		else if (isset($_GET['url']))
 		{
 			static::each($_GET['url']);
 		}
+
+		// policy
 		else
 		{
 			View::assign('title', A11YC_LANG_POLICY);

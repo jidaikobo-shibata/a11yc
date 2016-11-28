@@ -320,7 +320,7 @@ class Validate
 		}
 		$str = ' '.$str;
 
-		//
+		// variables
 		$double = '"';
 		$single = "'";
 		$quoted_double = '[---a11yc_quoted_double---]';
@@ -331,8 +331,9 @@ class Validate
 		$close_single  = '[---a11yc_close_single---]';
 		$inner_double  = '[---a11yc_inner_double---]';
 		$inner_single  = '[---a11yc_inner_single---]';
-		$inner_space   = '[---a11yc_innerspace---]';
-		$inner_equal   = '[---a11yc_innerequal---]';
+		$inner_space   = '[---a11yc_inner_space---]';
+		$inner_equal   = '[---a11yc_inner_equal---]';
+		$inner_newline = '[---a11yc_inner_newline---]';
 
 		// escaped quote
 		$str = str_replace(
@@ -409,8 +410,8 @@ class Validate
 				// replaces
 				$search = mb_substr($str, $open_pos, $close_pos - $open_pos + 1, 'UTF-8');
 				$replace = str_replace(
-					array($target, $opp, ' ', '='),
-					array('', $inner, $inner_space, $inner_equal),
+					array($target, $opp, ' ', '=', "\n", "\r"),
+					array('', $inner, $inner_space, $inner_equal, $inner_newline, $inner_newline),
 					$search);
 				$replace = $open.$replace.$close;
 				// replace value
@@ -420,6 +421,7 @@ class Validate
 
 		$str = preg_replace("/  +/", " ", $str); // remove plural spaces
 		$str = str_replace(" = ", "=", $str); // remove plural spaces
+		$str = str_replace(array("\n", "\r"), " ", $str); // newline to blank
 		$attrs = array();
 		$strs = explode(' ', $str);
 
@@ -452,7 +454,8 @@ class Validate
 					$inner_double,
 					$inner_single,
 					$inner_space,
-					$inner_equal
+					$inner_equal,
+					$inner_newline
 				),
 				array(
 					'\\"',
@@ -464,7 +467,8 @@ class Validate
 					'"',
 					"'",
 					" ",
-					"="
+					"=",
+					"\n"
 				),
 				$val
 			);

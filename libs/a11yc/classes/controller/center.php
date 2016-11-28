@@ -38,7 +38,7 @@ class Controller_Center
 		// setup
 		$setup = Controller_Setup::fetch_setup();
 		$target_level = intval(@$setup['target_level']);
-		View::assign('setup', $setup);
+		View::assign('setup', $setup, false);
 		View::assign('target_level', $target_level);
 		View::assign('selected_method', intval(@$setup['selected_method']));
 
