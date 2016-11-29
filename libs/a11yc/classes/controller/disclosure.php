@@ -26,7 +26,7 @@ class Controller_Disclosure
 		if ( ! $target_level) die('Error. Set target level first');
 
 		// page list
-		if (isset($_GET['a11yc_pages']))
+		if (Input::get('a11yc_pages'))
 		{
 			$pages = Db::fetch_all('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `trash` = 0 AND `done` = 1 ORDER BY `url` ASC;');
 			View::assign('pages', $pages);
@@ -35,7 +35,7 @@ class Controller_Disclosure
 		}
 
 		// report
-		else if (isset($_GET['a11yc_report']))
+		else if (Input::get('a11yc_report'))
 		{
 			// assign common values for total report
 			Controller_Center::index();
@@ -45,9 +45,9 @@ class Controller_Disclosure
 		}
 
 		// each report
-		else if (isset($_GET['url']))
+		else if (Input::get('url'))
 		{
-			static::each($_GET['url']);
+			static::each(Input::get('url'));
 		}
 
 		// policy

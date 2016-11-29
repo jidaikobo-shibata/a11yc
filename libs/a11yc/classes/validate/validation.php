@@ -321,9 +321,6 @@ class Validate_Validation extends Validate
 			}
 		}
 
-		// to locate first element at error
-		$ms = static::get_elements_by_re($str, 'tags');
-
 		// add errors
 		foreach ($too_much_opens as $k => $v)
 		{
@@ -426,7 +423,7 @@ class Validate_Validation extends Validate
 		if ( ! $ms[0]) return;
 
 		$n = 0;
-		foreach ($ms[0] as $k => $m)
+		foreach ($ms[0] as $m)
 		{
 			foreach ($banneds as $banned)
 			{
@@ -506,7 +503,6 @@ class Validate_Validation extends Validate
 		// collect form items
 		$form_items = array('<form ', '</form' ,'<label', '<input', '<select', '<texta', '<butto');
 		$forms = array();
-		$target = '';
 		$n = 0;
 		foreach ($ms[0] as $k => $m)
 		{
@@ -812,15 +808,12 @@ class Validate_Validation extends Validate
 		$ms = static::get_elements_by_re($str, 'tags');
 		if ( ! $ms[0]) return;
 
-		$errs1 = array();
-		$errs2 = array();
 		foreach ($ms[0] as $k => $m)
 		{
 			// newline character must not exists in attr
 			$attrs = static::get_attributes($m);
 
-
-			foreach ($attrs as $key => $val)
+			foreach ($attrs as $val)
 			{
 				if (strpos($val, "\n") !== false)
 				{
@@ -884,7 +877,7 @@ class Validate_Validation extends Validate
 
 		foreach ($ms[1] as $k => $m)
 		{
-			foreach ($suspicious as $kk => $vv)
+			foreach ($suspicious as $vv)
 			{
 				$m = str_replace("'", '"', $m);
 				if (strpos($m, '.'.$vv.'"') !== false)

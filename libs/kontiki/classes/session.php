@@ -57,7 +57,7 @@ class Session
 	public static function destroy()
 	{
 		$_SESSION = array();
-		if (isset($_COOKIE[session_name()]))
+		if (Input::cookie(session_name()))
 		{
 			setcookie(session_name(), '', time()-42000, '/');
 		}

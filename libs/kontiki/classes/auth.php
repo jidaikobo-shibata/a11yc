@@ -33,8 +33,8 @@ class Auth
 	{
 		if (Session::show('auth', 'uid')) return TRUE;
 
-		$username = isset($_POST['username']) ? $_POST['username'] : false;
-		$password = isset($_POST['password']) ? $_POST['password'] : false;
+		$username = Input::post('username', false);
+		$password = Input::post('password', false);
 
 		if ( ! $username && ! $username ) return false;
 
