@@ -35,9 +35,9 @@ class Controller_Pages
 	public static function dbio()
 	{
 		// update add pages
-		if (isset($_POST['pages']))
+		if (Input::post('pages'))
 		{
-			$pages = explode("\n", trim($_POST['pages']));
+			$pages = explode("\n", trim(Input::post('pages')));
 			$page_exists = false;
 
 			ob_end_flush();
@@ -144,9 +144,9 @@ class Controller_Pages
 		}
 
 		// page_title and urldecode
-		if (isset($_GET['url']))
+		if (Input::get('url'))
 		{
-			$url = Util::urldec($_GET['url']);
+			$url = Util::urldec(Input::get('url'));
 			$exist = Db::fetch('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;', array($url));
 			if ($exist)
 			{
@@ -155,7 +155,7 @@ class Controller_Pages
 		}
 
 		// delete
-		if (isset($_GET['del']))
+		if (Input::get('del'))
 		{
 			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES;
 			$sql.= ' WHERE `url` = ? and `trash` = 0;';
@@ -180,7 +180,7 @@ class Controller_Pages
 		}
 
 		// undelete
-		if (isset($_GET['undel']))
+		if (Input::get('undel'))
 		{
 			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES;
 			$sql.= ' WHERE `url` = ? and `trash` = 1;';
@@ -204,7 +204,7 @@ class Controller_Pages
 		}
 
 		// purge
-		if (isset($_GET['purge']))
+		if (Input::get('purge'))
 		{
 			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES;
 			$sql.= ' WHERE `url` = ? and `trash` = 1;';
@@ -346,8 +346,8 @@ class Controller_Pages
 	 */
 	public static function get_urls()
 	{
-		if ( ! isset($_POST['get_urls'])) return false;
-		$url = $_POST['get_urls'];
+		if ( ! Input::post('get_urls')) return false;
+		$url = Input::post('get_urls');
 		static::crawler($url);
 	}
 
@@ -364,7 +364,7 @@ class Controller_Pages
 		// pages
 		$qs = '';
 		$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE ';
-		$list = isset($_GET['list']) ? $_GET['list'] : false;
+		$list = Input::get('list') ? Input::get('list') : false;
 		$yetwhr   = '`done` = 0 and `trash` = 0 ';
 		$donewhr  = '`done` = 1 and `trash` = 0 ';
 		$trashwhr = '`trash` = 1 ';
@@ -390,9 +390,9 @@ class Controller_Pages
 
 		// search
 		$word = '';
-		if (isset($_GET['s']))
+		if (Input::get('s'))
 		{
-			$word = mb_convert_kana(trim($_GET['s']), "as");
+			$word = mb_convert_kana(trim(Input::get('s')), "as");
 			if ($word)
 			{
 				$sql.= 'and (`url` LIKE ? OR `page_title` LIKE ?) ';
@@ -401,11 +401,11 @@ class Controller_Pages
 
 		// order
 		if (
-			isset($_GET['order']) &&
-			in_array($_GET['order'], array('add_date_asc', 'add_date_desc', 'date_asc', 'date_desc', 'url_asc', 'url_desc', 'page_title_asc', 'page_title_desc'))
+			Input::get('order') &&
+			in_array(Input::get('order'), array('add_date_asc', 'add_date_desc', 'date_asc', 'date_desc', 'url_asc', 'url_desc', 'page_title_asc', 'page_title_desc'))
 		)
 		{
-			$str = $_GET['order'];
+			$str = Input::get('order');
 			$order = strtoupper(substr($str, strrpos($str, '_') + 1));
 			$by = strtolower(substr($str, 0, strrpos($str, '_')));
 		}
@@ -428,8 +428,8 @@ class Controller_Pages
 
 		// pagination
 		$total = count($pages);
-		$num = isset($_GET['num']) ? intval($_GET['num']) : 25 ;
-		$paged = isset($_GET['paged']) ? intval($_GET['paged']) : 1 ;
+		$num = Input::get('num') ? intval(Input::get('num')) : 25 ;
+		$paged = Input::get('paged') ? intval(Input::get('paged')) : 1 ;
 
 		// offset
 		$offset = ($paged - 1) * $num;

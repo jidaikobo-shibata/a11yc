@@ -136,7 +136,7 @@ class Util extends \Kontiki\Util
 		if ( ! static::is_html($url)) return;
 
 		// Browser
-		$ua = isset($_SERVER['HTTP_USER_AGENT']) ? Util::s($_SERVER['HTTP_USER_AGENT']) : false;
+		$ua = Util::s(Input::user_agent());
 		if ($ua)
 		{
 			$options = array(

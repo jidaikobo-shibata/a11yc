@@ -43,7 +43,7 @@ class Controller_Setup
 	 */
 	public static function dbio()
 	{
-		if (isset($_POST) && $_POST)
+		if (Input::post())
 		{
 			$post = $_POST;
 			$target_level = intval($post['target_level']);

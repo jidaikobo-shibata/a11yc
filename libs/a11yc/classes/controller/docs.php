@@ -43,8 +43,8 @@ class Controller_Docs
 	 */
 	public static function Action_Each()
 	{
-		$criterion = isset($_GET['criterion']) ? $_GET['criterion'] : '';
-		$code = isset($_GET['code']) ? $_GET['code'] : '';
+		$criterion = Input::get('criterion', '');
+		$code = Input::get('code', '');
 		static::each($criterion, $code);
 	}
 
@@ -58,12 +58,12 @@ class Controller_Docs
 		// search
 		$r = array();
 		$word = '';
-		if (isset($_GET['s']))
+		if (Input::get('s'))
 		{
 			$yaml = Yaml::fetch();
 			$test = Yaml::each('test');
 
-			$word = mb_convert_kana(trim($_GET['s']), "as");
+			$word = mb_convert_kana(trim(Input::get('s')), "as");
 
 			$r['chks'] = array();
 			$r['tests'] = array();

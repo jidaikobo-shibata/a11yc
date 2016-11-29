@@ -54,7 +54,7 @@ class Controller_Bulk extends Controller_Checklist
 	{
 		if ($_POST)
 		{
-			$cs = $_POST['chk'];
+			$cs = Input::post('chk');
 
 			// delete all
 			$sql = 'DELETE FROM '.A11YC_TABLE_BULK.';';
@@ -76,7 +76,7 @@ class Controller_Bulk extends Controller_Checklist
 				}
 			}
 
-			if ($_POST['update_all'] == 1) return;
+			if (Input::post('update_all') == 1) return;
 
 			// update all
 			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.';';
@@ -94,7 +94,7 @@ class Controller_Bulk extends Controller_Checklist
 					}
 
 					// uncheck
-					if ($_POST['update_all'] == 3 && Db::fetch($code_sql, array($v['url'], $code)) && ! isset($vv['on']))
+					if (Input::post('update_all') == 3 && Db::fetch($code_sql, array($v['url'], $code)) && ! isset($vv['on']))
 					{
 						$sql = 'DELETE FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = ? and `code` = ?;';
 						Db::execute($sql, array($v['url'], $code));
@@ -105,7 +105,7 @@ class Controller_Bulk extends Controller_Checklist
 				list($results, $checked, $passed_flat) = Evaluate::evaluate_url($v['url']);
 				$result = Evaluate::check_result($passed_flat);
 
-				$update_done = intval($_POST['update_done']);
+				$update_done = intval(Input::post('update_done'));
 				$date = date('Y-m-d');
 
 				// update/create page
