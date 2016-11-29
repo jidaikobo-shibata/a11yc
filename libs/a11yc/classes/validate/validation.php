@@ -71,26 +71,23 @@ class Validate_Validation extends Validate
 			{
 				static::$error_ids['alt_attr_of_img'][$k]['id'] = $ms[0][$k];
 				static::$error_ids['alt_attr_of_img'][$k]['str'] = @basename(@$attrs['src']);
+
+				// below here alt attribute has to exist.
+				continue;
 			}
 
 			// role presentation
 			if (isset($attrs['role']) && $attrs['role'] == 'presentation') continue;
 
 			// alt_attr_of_blank_only
-			if (
-				array_key_exists('alt', $attrs) &&
-				preg_match('/^[ 　]+?$/', $attrs['alt'])
-			)
+			if (preg_match('/^[ 　]+?$/', $attrs['alt']))
 			{
 				static::$error_ids['alt_attr_of_blank_only'][$k]['id'] = $ms[0][$k];
 				static::$error_ids['alt_attr_of_blank_only'][$k]['str'] = @basename(@$attrs['src']);
 			}
 
 			// alt_attr_of_empty
-			if (
-				array_key_exists('alt', $attrs) &&
-				empty($attrs['alt'])
-			)
+			if (empty($attrs['alt']))
 			{
 				static::$error_ids['alt_attr_of_empty'][$k]['id'] = $ms[0][$k];
 				static::$error_ids['alt_attr_of_empty'][$k]['str'] = @basename(@$attrs['src']);
@@ -958,16 +955,16 @@ class Validate_Validation extends Validate
 			if ($ms[1][$k] != 'meta') continue;
 			$attrs = static::get_attributes($v);
 
+			if ( ! array_key_exists('http-equiv', $attrs)) continue;
+			if ( ! array_key_exists('content', $attrs)) continue;
+			if ( $attrs['http-equiv'] !== 'refresh') continue;
+
 			// ignore zero refresh
 			// see http://www.ciaj.or.jp/access/web/docs/WCAG-TECHS/H76.html
-			if (
-				array_key_exists('http-equiv', $attrs) &&
-				array_key_exists('content', $attrs) &&
-				$attrs['http-equiv'] == 'refresh' &&
-				(
-					trim(substr($attrs['content'], 0, strpos($attrs['content'], ';'))) != '0' ||
-					(strpos($attrs['content'], ';') === false && trim($attrs['content']) != '0')
-				)
+			$content = $attrs['content'];
+		if (
+				trim(substr($content, 0, strpos($content, ';'))) != '0' ||
+				(strpos($content, ';') === false && trim($content) != '0')
 			)
 			{
 				static::$error_ids['meta_refresh'][0]['id'] = $ms[0][$k];
