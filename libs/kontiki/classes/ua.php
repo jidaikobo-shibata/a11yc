@@ -7,6 +7,20 @@ namespace Kontiki;
  */
 class Ua
 {
+	protected static $ua;
+	protected static $accept;
+
+	/**
+	 * _init
+	 *
+	 * @return  void
+	 */
+	public static function _init()
+	{
+		static::$ua = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : null;
+		static::$accept = isset($_SERVER['HTTP_ACCEPT']) ? $_SERVER['HTTP_ACCEPT'] : null;
+	}
+
 	/**
 	 * get IE version by numeric
 	 * IE: <=1
@@ -15,14 +29,14 @@ class Ua
 	 */
 	public static function get_ie_version()
 	{
-		if (stristr(@$_SERVER['HTTP_USER_AGENT'], "MSIE"))
+		if (stristr(static::$ua, "MSIE"))
 		{
-			preg_match('/MSIE\s([\d.]+)/i', @$_SERVER['HTTP_USER_AGENT'], $ver);
+			preg_match('/MSIE\s([\d.]+)/i', static::$ua, $ver);
 			$ver = @floor($ver[1]);
 		}
-		elseif (stristr(@$_SERVER['HTTP_USER_AGENT'], "Trident"))
+		elseif (stristr(static::$ua, "Trident"))
 		{
-			preg_match('/rv\:([\d.]+)/i', @$_SERVER['HTTP_USER_AGENT'], $ver);
+			preg_match('/rv\:([\d.]+)/i', static::$ua, $ver);
 			$ver = $ver[1];
 		}
 		else
@@ -42,34 +56,34 @@ class Ua
 	{
 		$type = 'legacy';
 
-		if (isset($_SERVER['HTTP_USER_AGENT']))
+		if (isset(static::$ua))
 		{
 			if (self::getIEVersion() >= 10)
 			{
 				$type = 'modern';
 			}
-			else if (strpos($_SERVER['HTTP_USER_AGENT'], 'Mobile') !== false
-			       || strpos($_SERVER['HTTP_USER_AGENT'], 'Android') !== false
-			       || strpos($_SERVER['HTTP_USER_AGENT'], 'Silk/') !== false
-			       || strpos($_SERVER['HTTP_USER_AGENT'], 'Kindle') !== false
-			       || strpos($_SERVER['HTTP_USER_AGENT'], 'BlackBerry') !== false
-			       || strpos($_SERVER['HTTP_USER_AGENT'], 'Opera Mini') !== false
-			       || strpos($_SERVER['HTTP_USER_AGENT'], 'Opera Mobi') !== false)
+			else if (strpos(static::$ua, 'Mobile') !== false
+			       || strpos(static::$ua, 'Android') !== false
+			       || strpos(static::$ua, 'Silk/') !== false
+			       || strpos(static::$ua, 'Kindle') !== false
+			       || strpos(static::$ua, 'BlackBerry') !== false
+			       || strpos(static::$ua, 'Opera Mini') !== false
+			       || strpos(static::$ua, 'Opera Mobi') !== false)
 			{
 				$type = 'mobile';
 			}
-			else if (strpos($_SERVER['HTTP_USER_AGENT'], 'bot') !== false
-			       || strpos($_SERVER['HTTP_USER_AGENT'], 'spider') !== false
-			       || strpos($_SERVER['HTTP_USER_AGENT'], 'archiver') !== false
-			       || strpos($_SERVER['HTTP_USER_AGENT'], 'Google') !== false
-			       || strpos($_SERVER['HTTP_USER_AGENT'], 'Yahoo') !== false)
+			else if (strpos(static::$ua, 'bot') !== false
+			       || strpos(static::$ua, 'spider') !== false
+			       || strpos(static::$ua, 'archiver') !== false
+			       || strpos(static::$ua, 'Google') !== false
+			       || strpos(static::$ua, 'Yahoo') !== false)
 			{
 				$type = 'robot';
 			}
-			else if (isset($_SERVER['HTTP_ACCEPT']))
+			else if (isset(static::$accept))
 			{
-				if (strpos($_SERVER['HTTP_ACCEPT'], 'application/xml') !== false
-						|| strpos($_SERVER['HTTP_ACCEPT'], 'application/xhtml+xml') !== false)
+				if (strpos(static::$accept, 'application/xml') !== false
+						|| strpos(static::$accept, 'application/xhtml+xml') !== false)
 				{
 					$type = 'modern';
 				}
