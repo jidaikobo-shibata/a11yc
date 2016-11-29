@@ -19,9 +19,11 @@ engines:
     checks:
       CleanCode/StaticAccess:
         enabled: false
-      Controversial/CamelCasePropertyName:
-        enabled: false
       Controversial/CamelCaseClassName:
+        enabled: false
+      Controversial/CamelCaseMethodName:
+        enabled: false
+      Controversial/CamelCasePropertyName:
         enabled: false
       Controversial/CamelCaseVariableName:
         enabled: false

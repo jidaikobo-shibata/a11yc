@@ -174,11 +174,31 @@ class Util extends \Kontiki\Util
 	 */
 	public static function fetch_page_title($url)
 	{
-		static $title = array();
-		if (isset($title[$url])) return $title[$url];
+		static $titles = array();
+		if (isset($titles[$url])) return $titles[$url];
 		$html = static::fetch_html($url);
-		$title[$url] = static::fetch_page_title_from_html($html);
-		return $title[$url];
+		$titles[$url] = static::fetch_page_title_from_html($html);
+		return $titles[$url];
+	}
+
+	/**
+	 * fetch page title from DB
+	 *
+	 * @param   string     $url
+	 * @return  string
+	 */
+	public static function fetch_page_title_from_db($url)
+	{
+		static $titles = array();
+		if (isset($titles[$url])) return $titles[$url];
+		$url = Util::urldec(Input::get('url'));
+		$exist = Db::fetch('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;', array($url));
+		if ($exist)
+		{
+			$titles[$url] = $exist['page_title'];
+			return $titles[$url];
+		}
+		$titles[$url] = false;
 	}
 
 	/**

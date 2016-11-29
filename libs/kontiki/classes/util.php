@@ -151,7 +151,6 @@ class Util
 				'%3A%2F%2F',
 				$url);
 		}
-//http://kyoto-soudan.jp/emergency/%e3%80%8c%e3%83%9d%e3%82%b1%e3%83%a2%e3%83%b3%ef%bd%87%ef%bd%8f%e3%80%8d%e3%81%ae%e9%85%8d%e4%bf%a1%e9%96%8b%e5%a7%8b%e3%81%ab%e3%81%a4%e3%81%84%e3%81%a6/
 		return $url;
 	}
 

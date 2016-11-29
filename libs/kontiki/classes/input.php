@@ -42,15 +42,17 @@ class Input
 	 */
 	public static function get($index = null, $default = null)
 	{
-		if (isset($_GET[$index]))
+		if (func_num_args() === 0)
+		{
+			return $_GET;
+		}
+
+		if ($index && isset($_GET[$index]))
 		{
 			return $_GET[$index];
 		}
-		elseif ( ! is_null($default))
-		{
-			return $default;
-		}
-		return $_GET;
+
+		return $default;
 	}
 
 	/**
@@ -62,15 +64,17 @@ class Input
 	 */
 	public static function post($index = null, $default = null)
 	{
-		if (isset($_POST[$index]))
+		if (func_num_args() === 0)
+		{
+			return $_POST;
+		}
+
+		if ($index && isset($_POST[$index]))
 		{
 			return $_POST[$index];
 		}
-		elseif ( ! is_null($default))
-		{
-			return $default;
-		}
-		return $_POST;
+
+		return $default;
 	}
 
 	/**
@@ -82,15 +86,17 @@ class Input
 	 */
 	public static function file($index = null, $default = null)
 	{
-		if (isset($_FILES[$index]))
+		if (func_num_args() === 0)
+		{
+			return $_FILES;
+		}
+
+		if ($index && isset($_FILES[$index]))
 		{
 			return $_FILES[$index];
 		}
-		elseif ( ! is_null($default))
-		{
-			return $default;
-		}
-		return $_FILES;
+
+		return $default;
 	}
 
 	/**
@@ -102,15 +108,17 @@ class Input
 	 */
 	public static function cookie($index = null, $default = null)
 	{
-		if (isset($_COOKIE[$index]))
+		if (func_num_args() === 0)
 		{
-			return $_COOKIE[$index];
+			return $_COOKIES;
 		}
-		elseif ( ! is_null($default))
+
+		if ($index && isset($_COOKIES[$index]))
 		{
-			return $default;
+			return $_COOKIES[$index];
 		}
-		return $_COOKIE;
+
+		return $default;
 	}
 
 	/**
@@ -122,14 +130,16 @@ class Input
 	 */
 	public static function server($index = null, $default = null)
 	{
-		if (isset($_SERVER[$index]))
+		if (func_num_args() === 0)
+		{
+			return $_SERVER;
+		}
+
+		if ($index && isset($_SERVER[$index]))
 		{
 			return $_SERVER[$index];
 		}
-		elseif ( ! is_null($default))
-		{
-			return $default;
-		}
-		return $_SERVER;
+
+		return $default;
 	}
 }

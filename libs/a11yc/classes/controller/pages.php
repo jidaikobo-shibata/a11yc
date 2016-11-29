@@ -34,6 +34,121 @@ class Controller_Pages
 	 */
 	public static function dbio()
 	{
+		// purge, undelete, delete
+		if (Input::get('url'))
+		{
+			$url = Util::urldec(Input::get('url', ''));
+			$page_title = Util::fetch_page_title_from_db($url);
+
+			// purge
+			static::dbio_purge($url, $page_title);
+
+			// undelete
+			static::dbio_undelete($url, $page_title);
+
+			// delete
+			static::dbio_delete($url, $page_title);
+		}
+
+		// update_pages
+		static::dbio_update_pages();
+	}
+
+	/**
+	 * dbio_delete
+	 *
+	 * @return  void
+	 */
+	private static function dbio_delete($url, $page_title)
+	{
+		// delete
+		if (Input::get('del'))
+		{
+			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ? and `trash` = 0;';
+			if (Db::fetch($sql, array($url)))
+			{
+				$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET `trash` = 1 WHERE `url` = ?;';
+				Db::execute($sql, array($url));
+				Session::add(
+					'messages',
+					'messages',
+					sprintf(A11YC_LANG_PAGES_DELETE_DONE, Util::s($page_title.' ('.$url.') ')));
+			}
+			else
+			{
+				Session::add(
+					'messages',
+					'errors',
+					sprintf(A11YC_LANG_PAGES_DELETE_FAILED, Util::s($page_title.' ('.$url.') ')));
+			}
+		}
+	}
+
+	/**
+	 * dbio_undelete
+	 *
+	 * @return  void
+	 */
+	private static function dbio_undelete($url, $page_title)
+	{
+		if (Input::get('undel'))
+		{
+			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ? and `trash` = 1;';
+			if (Db::fetch($sql, array($url)))
+			{
+				$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET `trash` = 0 WHERE `url` = ?;';
+				Db::execute($sql, array($url));
+				Session::add(
+					'messages',
+					'messages',
+					sprintf(A11YC_LANG_PAGES_UNDELETE_DONE, Util::s($page_title.' ('.$url.') ')));
+			}
+			else
+			{
+				Session::add(
+					'messages',
+					'errors',
+					sprintf(A11YC_LANG_PAGES_UNDELETE_FAILED, Util::s($page_title.' ('.$url.') ')));
+			}
+		}
+	}
+
+	/**
+	 * dbio_purge
+	 *
+	 * @return  void
+	 */
+	private static function dbio_purge($url, $page_title)
+	{
+		if (Input::get('purge'))
+		{
+			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ? and `trash` = 1;';
+			if (Db::fetch($sql, array($url)))
+			{
+				$sql = 'DELETE FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;';
+				Db::execute($sql, array($url));
+				Session::add(
+					'messages',
+					'messages',
+					sprintf(A11YC_LANG_PAGES_PURGE_DONE, Util::s($page_title.' ('.$url.') ')));
+			}
+			else
+			{
+				Session::add(
+					'messages',
+					'errors',
+					sprintf(A11YC_LANG_PAGES_PURGE_FAILED, Util::s($page_title.' ('.$url.') ')));
+			}
+		}
+	}
+
+	/**
+	 * dbio_update_pages
+	 *
+	 * @return  void
+	 */
+	private static function dbio_update_pages()
+	{
 		// update add pages
 		if (Input::post('pages'))
 		{
@@ -60,7 +175,6 @@ class Controller_Pages
 				}
 				if (Validate::is_ignorable($url)) continue;
 				$url = Validate::correct_url($url);
-				$url = Util::is_page_exist($url);
 				$url = Util::is_page_exist($url);
 				$url = Util::urldec($url); // in case redirect url
 
@@ -142,92 +256,8 @@ class Controller_Pages
 				exit();
 			}
 		}
-
-		// page_title and urldecode
-		if (Input::get('url'))
-		{
-			$url = Util::urldec(Input::get('url'));
-			$exist = Db::fetch('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;', array($url));
-			if ($exist)
-			{
-				$page_title = $exist['page_title'];
-			}
-		}
-
-		// delete
-		if (Input::get('del'))
-		{
-			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES;
-			$sql.= ' WHERE `url` = ? and `trash` = 0;';
-			$exist = Db::fetch($sql, array($url));
-
-			if ($exist)
-			{
-				$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET `trash` = 1 WHERE `url` = ?;';
-				Db::execute($sql, array($url));
-				Session::add(
-					'messages',
-					'messages',
-					sprintf(A11YC_LANG_PAGES_DELETE_DONE, Util::s($page_title.' ('.$url.') ')));
-			}
-			else
-			{
-				Session::add(
-					'messages',
-					'errors',
-					sprintf(A11YC_LANG_PAGES_DELETE_FAILED, Util::s($page_title.' ('.$url.') ')));
-			}
-		}
-
-		// undelete
-		if (Input::get('undel'))
-		{
-			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES;
-			$sql.= ' WHERE `url` = ? and `trash` = 1;';
-			$exist = Db::fetch($sql, array($url));
-			if ($exist)
-			{
-				$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET `trash` = 0 WHERE `url` = ?;';
-				Db::execute($sql, array($url));
-				Session::add(
-					'messages',
-					'messages',
-					sprintf(A11YC_LANG_PAGES_UNDELETE_DONE, Util::s($page_title.' ('.$url.') ')));
-			}
-			else
-			{
-				Session::add(
-					'messages',
-					'errors',
-					sprintf(A11YC_LANG_PAGES_UNDELETE_FAILED, Util::s($page_title.' ('.$url.') ')));
-			}
-		}
-
-		// purge
-		if (Input::get('purge'))
-		{
-			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES;
-			$sql.= ' WHERE `url` = ? and `trash` = 1;';
-			$exist = Db::fetch($sql, array($url));
-			if ($exist)
-			{
-				$sql = 'DELETE FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;';
-				Db::execute($sql, array($url));
-				Session::add(
-					'messages',
-					'messages',
-					sprintf(A11YC_LANG_PAGES_PURGE_DONE, Util::s($page_title.' ('.$url.') ')));
-			}
-			else
-			{
-//				header('location:'.A11YC_PAGES_URL);
-				Session::add(
-					'messages',
-					'errors',
-					sprintf(A11YC_LANG_PAGES_PURGE_FAILED, Util::s($page_title.' ('.$url.') ')));
-			}
-		}
 	}
+
 
 	/**
 	 * crawler
@@ -348,6 +378,7 @@ class Controller_Pages
 	{
 		if ( ! Input::post('get_urls')) return false;
 		$url = Input::post('get_urls');
+		Session::add('param', 'get_urls', $url);
 		static::crawler($url);
 	}
 
@@ -472,6 +503,8 @@ class Controller_Pages
 		{
 			$crawled = $from_session[0];
 			Session::add('messages', 'message', A11YC_LANG_PAGES_PRESS_ADD_BUTTON);
+			$from_session = Session::fetch('param', 'get_urls');
+			$get_urls = isset($from_session[0]) ? $from_session : '';
 		}
 		else
 		{
@@ -479,7 +512,8 @@ class Controller_Pages
 		}
 
 		// assign
-		View::assign('crawled', $crawled);
+		View::assign('crawled', isset($crawled) ? $crawled : '');
+		View::assign('get_urls', isset($get_urls) ? $get_urls : '');
 		View::assign('pages', $pages);
 		View::assign('current_qs', $qs.'&amp;paged='.$paged.'&amp;s='.$word);
 		View::assign('prev', $prev_qs ? A11YC_PAGES_URL.$qs.$prev_qs : false);
