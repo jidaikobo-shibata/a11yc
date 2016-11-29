@@ -21,7 +21,7 @@ jQuery(function($){
 			param_arr = [];
 
 	$a11yc_content = $('.a11yc').eq(0);
-	var scrollable_element = function(){
+	var scrollable_element = (function(){
 		var $html, $el, rs, top;
 		$html = $('html');
 		top = $html.scrollTop();
@@ -31,7 +31,7 @@ jQuery(function($){
 		$html.scrollTop(top);
 		$el.remove();
 		return rs;
-	}();
+	}());
 	$menu = $('#wpadminbar')[0] ? $('#wpadminbar') : $('#a11yc_menu ul');
 	$pagemenu = $('#a11yc_menu_principles')[0] ? $('#a11yc_menu_principles') : $pagemenu;
 	set_pagemenu_top();
@@ -124,75 +124,105 @@ if($('#a11yc_docs')[0])
 }
 */
 // a11yc_table_check -- checklists, bulk
-if($('.a11yc_table_check')[0])
-{
-	// narrow level
-	$('.a11yc_narrow_level').each(function(index){
-		a11yc_narrow_level($(this).data('a11ycNarrowTarget'), index);
-	});
-	$(document).on('click keydown', '.a11yc_narrow_level a', function(e){
-		var index = $('.a11yc_narrow_level').index($(this).parent());
-		a11yc_narrow_level($(this).parent().data('a11ycNarrowTarget'), index, e);
-	});
-
-	//eがないときは、ページ読み込み時
-	function a11yc_narrow_level(target_narrow, index, e){
-		if(e && e.type==='keydown' && e.keyCode!==13) return;
-		if(e && $(e.target).parent().hasClass('show')) e.stopPropagation();
-		var $target = e ? $(e.target) : $('.a11yc_narrow_level').eq(index).find('.current');
-		var $target_narrow = $(target_narrow);
-		$current_level = $target.text();
-		var data_levels = $target.data('narrowLevel') ? $target.data('narrowLevel').split(',') : [];
-		var $show_levels = $();
-		$target.parent().find('a').removeClass('current');
-		$target.addClass('current');
-		
-		for(var k in data_levels)
-		{
-			if({}.hasOwnProperty.call(data_levels, k)){
-				$show_levels = $show_levels.add($target_narrow.find('.a11yc_leve'+data_levels[k]));
-			}
-		}
-		$target_narrow.find('.a11yc_level_a,.a11yc_level_aa,.a11yc_level_aaa').addClass('a11yc_dn');
-		$show_levels.removeClass('a11yc_dn');
-		
-		//validation_list only
-		if(target_narrow==='#a11yc_validation_list')
-		{
-			a11yc_validation_code_display(data_levels);
-		}
-		//checklist only
-		if(target_narrow==='.a11yc_section_principle')
-		{
-			//table display
-			a11yc_table_display();
-			//count
-			a11yc_count_checkbox();
+//eがないときは、ページ読み込み時
+function a11yc_narrow_level(target_narrow, index, e){
+	if(e && e.type==='keydown' && e.keyCode!==13) return;
+	if(e && $(e.target).parent().hasClass('show')) e.stopPropagation();
+	var $target = e ? $(e.target) : $('.a11yc_narrow_level').eq(index).find('.current');
+	var $target_narrow = $(target_narrow);
+	$current_level = $target.text();
+	var data_levels = $target.data('narrowLevel') ? $target.data('narrowLevel').split(',') : [];
+	var $show_levels = $();
+	$target.parent().find('a').removeClass('current');
+	$target.addClass('current');
+	
+	for(var k in data_levels)
+	{
+		if({}.hasOwnProperty.call(data_levels, k)){
+			$show_levels = $show_levels.add($target_narrow.find('.a11yc_leve'+data_levels[k]));
 		}
 	}
-	function a11yc_validation_code_display(data_levels){
-		var $code = $('#a11yc_validation_code_raw');
-		var $show_levels = $();
-		for( var k in data_levels )
+	$target_narrow.find('.a11yc_level_a,.a11yc_level_aa,.a11yc_level_aaa').addClass('a11yc_dn');
+	$show_levels.removeClass('a11yc_dn');
+	
+	//validation_list only
+	if(target_narrow==='#a11yc_validation_list')
+	{
+		a11yc_validation_code_display(data_levels);
+	}
+	//checklist only
+	if(target_narrow==='.a11yc_section_principle')
+	{
+		//table display
+		a11yc_table_display();
+		//count
+		a11yc_count_checkbox();
+	}
+}
+function a11yc_validation_code_display(data_levels){
+	var $code = $('#a11yc_validation_code_raw');
+	var $show_levels = $();
+	for( var k in data_levels )
+	{
+		if({}.hasOwnProperty.call(data_levels, k))
 		{
-			if({}.hasOwnProperty.call(data_levels, k))
+			$show_levels = $show_levels.add($code.find('.a11yc_leve'+data_levels[k]));
+		}
+	}
+	$code.find('.a11yc_validation_code_error, strong, a').addClass('a11yc_dn').attr('role', 'presentation');
+	$show_levels.removeClass('a11yc_dn').removeAttr('role');
+}
+
+function a11yc_toggle_item(e){
+	var input = e ? $(e.target) : '';
+	$checked = $('.a11yc_table_check th :checked');
+
+	if(!input) //ページ読み込み時
+	{
+		$checked.each(function(){
+			data_pass_arr = $(this).data('pass') ? $(this).data('pass').split(',') : [];
+			for(var k in data_pass_arr)
 			{
-				$show_levels = $show_levels.add($code.find('.a11yc_leve'+data_levels[k]));
+				if({}.hasOwnProperty.call(data_pass_arr, k))
+				{
+					if(data_pass_arr[k]===this.id) continue; //自分自身は相手にしない？
+					$pass_items = $pass_items.add('#'+data_pass_arr[k]);
+				}
 			}
-		}
-		$code.find('.a11yc_validation_code_error, strong, a').addClass('a11yc_dn').attr('role', 'presentation');
-		$show_levels.removeClass('a11yc_dn').removeAttr('role');
+		});
+		$pass_items.closest('tr').addClass('off').find(':input').prop("disabled", true);
 	}
-	// toggle check items
-	a11yc_toggle_item();
-	$('.a11yc_table_check input[type="checkbox"]').on('click', a11yc_toggle_item);
-
-	function a11yc_toggle_item(e){
-		var input = e ? $(e.target) : '';
-		$checked = $('.a11yc_table_check th :checked');
-
-		if(!input) //ページ読み込み時
+	else
+	{
+		//位置調整用。チェックした行の表示がずれないように位置を取得しておく
+		current_position = input.offset().top;
+		if(input.prop('checked'))
 		{
+			data_pass_arr = input.data('pass') ? input.data('pass').split(',') : [];
+			for(var k in data_pass_arr)
+			{
+				if({}.hasOwnProperty.call(data_pass_arr, k))
+				{
+					if(data_pass_arr[k]===this.id) continue; //自分自身は相手にしない？
+					$pass_items = $pass_items.add('#'+data_pass_arr[k]);
+				}
+			}
+			$pass_items.closest('tr').addClass('off').find(':input').prop("disabled", true);
+		}
+		else //チェックが外されたとき
+		{
+			data_pass_arr = input.data('pass') ? input.data('pass').split(',') : [];
+			$show_items = $();
+			$pass_items = $();
+			$show_items2 = $();
+			for(var k in data_pass_arr)
+			{
+				if({}.hasOwnProperty.call(data_pass_arr, k))
+				{
+					if(data_pass_arr[k]===this.id) continue; //自分自身は相手にしない
+					$show_items = $show_items.add('#'+data_pass_arr[k]);
+				}
+			}
 			$checked.each(function(){
 				data_pass_arr = $(this).data('pass') ? $(this).data('pass').split(',') : [];
 				for(var k in data_pass_arr)
@@ -204,137 +234,108 @@ if($('.a11yc_table_check')[0])
 					}
 				}
 			});
-			$pass_items.closest('tr').addClass('off').find(':input').prop("disabled", true);
+
+			$show_items.each(function(){
+				// 閉じるべきものの中にないものだけ開く
+				if($pass_items[0] && $pass_items.index(this) !== -1 ) return;
+				$show_items2 = $show_items2.add(this);
+			});
+			$show_items2 = $pass_items[0] ? $show_items2 : $show_items;
+			$show_items2.closest('tr').removeClass('off').find(':input').prop("disabled", false);
+
+		}
+	}
+	// table display
+	a11yc_table_display();
+	// count items
+	a11yc_count_checkbox();
+}
+
+//table display
+function a11yc_table_display(){
+	if(!$('.a11yc_hide_passed_item')[0]) return;
+	// hide disuse items
+	$('.a11yc form').find('.a11yc_section_guideline, .a11yc_table_check').each(function(){
+		var $t = !$(this).is('table') ? $(this) : $(this).closest('.a11yc_section_criterion');
+
+		if (!$(this).find('tr:not(.off)')[0]) // 見えているものがない場合
+		{
+				$t.hide();
 		}
 		else
 		{
-			//位置調整用。チェックした行の表示がずれないように位置を取得しておく
-			current_position = input.offset().top;
-			if(input.prop('checked'))
-			{
-				data_pass_arr = input.data('pass') ? input.data('pass').split(',') : [];
-				for(var k in data_pass_arr)
-				{
-					if({}.hasOwnProperty.call(data_pass_arr, k))
-					{
-						if(data_pass_arr[k]===this.id) continue; //自分自身は相手にしない？
-						$pass_items = $pass_items.add('#'+data_pass_arr[k]);
-					}
-				}
-				$pass_items.closest('tr').addClass('off').find(':input').prop("disabled", true);
-			}
-			else //チェックが外されたとき
-			{
-				data_pass_arr = input.data('pass') ? input.data('pass').split(',') : [];
-				$show_items = $();
-				$pass_items = $();
-				$show_items2 = $();
-				for(var k in data_pass_arr)
-				{
-					if({}.hasOwnProperty.call(data_pass_arr, k))
-					{
-						if(data_pass_arr[k]===this.id) continue; //自分自身は相手にしない
-						$show_items = $show_items.add('#'+data_pass_arr[k]);
-					}
-				}
-				$checked.each(function(){
-					data_pass_arr = $(this).data('pass') ? $(this).data('pass').split(',') : [];
-					for(var k in data_pass_arr)
-					{
-						if({}.hasOwnProperty.call(data_pass_arr, k))
-						{
-							if(data_pass_arr[k]===this.id) continue; //自分自身は相手にしない？
-							$pass_items = $pass_items.add('#'+data_pass_arr[k]);
-						}
-					}
-				});
-
-				$show_items.each(function(){
-					// 閉じるべきものの中にないものだけ開く
-					if($pass_items[0] && $pass_items.index(this) !== -1 ) return;
-					$show_items2 = $show_items2.add(this);
-				});
-				$show_items2 = $pass_items[0] ? $show_items2 : $show_items;
-				$show_items2.closest('tr').removeClass('off').find(':input').prop("disabled", false);
-
-			}
+			if(!$t.hasClass('a11yc_dn')) $t.show();
 		}
-		// table display
-		a11yc_table_display();
-		// count items
-		a11yc_count_checkbox();
-	}
+	});
 
-	//table display
-	function a11yc_table_display(){
-		if(!$('.a11yc_hide_passed_item')[0]) return;
-		// hide disuse items
-		$('.a11yc form').find('.a11yc_section_guideline, .a11yc_table_check').each(function(){
-			var $t = !$(this).is('table') ? $(this) : $(this).closest('.a11yc_section_criterion');
-
-			if (!$(this).find('tr:not(.off)')[0]) // 見えているものがない場合
-			{
-					$t.hide();
-			}
-			else
-			{
-				if(!$t.hasClass('a11yc_dn')) $t.show();
-			}
-		});
-
-		// addclass even/odd to visible tr
-		if ($('.a11yc_hide_passed_item')[0])
-		{
-			$('.a11yc_table_check').each(function(){
-				if (!$(this).find('tr:not(.off)')[0]) return;
-				$(this).find('tr:not(.off)').each(function(index){
-					$(this).removeClass('even odd');
-					if (index%2===0){
-						$(this).addClass('odd');
-					}
-					else
-					{
-						$(this).addClass('even');
-					}
-				});
-			});
-		}
-	}
-
-	//count checkbox
-	function a11yc_count_checkbox(){
-		num = $('.a11yc_table_check tr:visible th input:not(:checked)').length;
-		$info.find('thead td').text(num);
-		var n = 0, subtotal = 0, total = 0, n_str = '', num_arr = [];
-		$('#a11yc_rest tbody tr').each(function(index){
-			subtotal = 0;
-			var pid = '#a11yc_p_'+(index+1);
-			$(this).find('td').each(function(index){
-				if(!$(this).is('.a11yc_rest_subtotal')){
-					var l_str = '';
-					for(var i=0; i<=index; i++) l_str= l_str+'a';
-					n_str = $(pid).find('.a11yc_level_'+l_str+' th input').filter(':not(:disabled,:checked)').length;
-
-					if (index+1 <= $current_level.length)
-					{
-						subtotal = subtotal+n_str;
-					}
-					else
-					{
-							n_str = '-';
-					}
-					$(this).text(n_str);
+	// addclass even/odd to visible tr
+	if ($('.a11yc_hide_passed_item')[0])
+	{
+		$('.a11yc_table_check').each(function(){
+			if (!$(this).find('tr:not(.off)')[0]) return;
+			$(this).find('tr:not(.off)').each(function(index){
+				$(this).removeClass('even odd');
+				if (index%2===0){
+					$(this).addClass('odd');
 				}
 				else
 				{
-					$(this).text(subtotal);
+					$(this).addClass('even');
 				}
 			});
-			total = total+subtotal;
-			$pagemenu_count.eq(index).text('('+subtotal+')');
 		});
-		$('#a11yc_rest_total').text(total);
 	}
+}
+
+//count checkbox
+function a11yc_count_checkbox(){
+	num = $('.a11yc_table_check tr:visible th input:not(:checked)').length;
+	$info.find('thead td').text(num);
+	var n = 0, subtotal = 0, total = 0, n_str = '', num_arr = [];
+	$('#a11yc_rest tbody tr').each(function(index){
+		subtotal = 0;
+		var pid = '#a11yc_p_'+(index+1);
+		$(this).find('td').each(function(index){
+			if(!$(this).is('.a11yc_rest_subtotal')){
+				var l_str = '';
+				for(var i=0; i<=index; i++) l_str= l_str+'a';
+				n_str = $(pid).find('.a11yc_level_'+l_str+' th input').filter(':not(:disabled,:checked)').length;
+
+				if (index+1 <= $current_level.length)
+				{
+					subtotal = subtotal+n_str;
+				}
+				else
+				{
+						n_str = '-';
+				}
+				$(this).text(n_str);
+			}
+			else
+			{
+				$(this).text(subtotal);
+			}
+		});
+		total = total+subtotal;
+		$pagemenu_count.eq(index).text('('+subtotal+')');
+	});
+	$('#a11yc_rest_total').text(total);
+}
+
+if($('.a11yc_table_check')[0])
+{
+	// narrow level
+	$('.a11yc_narrow_level').each(function(index){
+		a11yc_narrow_level($(this).data('a11ycNarrowTarget'), index);
+	});
+	$(document).on('click keydown', '.a11yc_narrow_level a', function(e){
+		var index = $('.a11yc_narrow_level').index($(this).parent());
+		a11yc_narrow_level($(this).parent().data('a11ycNarrowTarget'), index, e);
+	});
+
+	// toggle check items
+	a11yc_toggle_item();
+	$('.a11yc_table_check input[type="checkbox"]').on('click', a11yc_toggle_item);
 
 	// reflect current login user
 	var c_id = $('#a11yc_checks').data('a11ycCurrentUser');
@@ -352,12 +353,13 @@ if($('.a11yc_table_check')[0])
 // 何かのタイミングで、（ヘッダの高さが変わった時に）移動する場所が補正されないといけない
 		$('body').scrollTop($(window).scrollTop()-movement_distance);
 	});
-}
-// show/hide passed items
-$('#a11yc_checklist_behaviour').on('click',function(){
-	if($('#a11yc_checks')[0]) $('#a11yc_checks').toggleClass('a11yc_hide_passed_item');
-});
 
+	// show/hide passed items
+	$('#a11yc_checklist_behaviour').on('click',function(){
+		if($('#a11yc_checks')[0]) $('#a11yc_checks').toggleClass('a11yc_hide_passed_item');
+	});
+
+}
 
 /* === bulk === */
 // a11yc_update_done
