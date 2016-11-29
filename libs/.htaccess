@@ -1,0 +1,5 @@
+<Files ~ "\.(php|yml)$">
+  Deny from all
+</Files>
+
+
