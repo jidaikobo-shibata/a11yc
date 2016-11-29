@@ -78,17 +78,17 @@ class Controller_Checklist
 			array('\A11yc\Validate_Validation', 'style_for_structure'),
 			array('\A11yc\Validate_Validation', 'invalid_tag'),
 			array('\A11yc\Validate_Validation', 'titleless_frame'),
-			array('\A11yc\Validate_Validation', 'check_doctype'),
-			array('\A11yc\Validate_Validation', 'meta_refresh'),
-			array('\A11yc\Validate_Validation', 'titleless'),
-			array('\A11yc\Validate_Validation', 'langless'),
-			array('\A11yc\Validate_Validation', 'viewport'),
+			array('\A11yc\Validate_Head', 'check_doctype'),
+			array('\A11yc\Validate_Head', 'meta_refresh'),
+			array('\A11yc\Validate_Head', 'titleless'),
+			array('\A11yc\Validate_Head', 'langless'),
+			array('\A11yc\Validate_Head', 'viewport'),
 
 			// non tag
 			array('\A11yc\Validate_Validation', 'suspicious_attributes'),
 			array('\A11yc\Validate_Validation', 'duplicated_ids_and_accesskey'),
 			array('\A11yc\Validate_Validation', 'ja_word_breaking_space'),
-			array('\A11yc\Validate_Validation', 'same_page_title_in_same_site'),
+			array('\A11yc\Validate_Head', 'same_page_title_in_same_site'),
 		);
 
 		if ($link_check)
