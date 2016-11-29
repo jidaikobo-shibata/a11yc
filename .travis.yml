@@ -10,3 +10,5 @@ script:
 addons:
     code_climate:
         repo_token: bfbcb1fbe6a2f54fe1895ae185b1d5405ed8ad4cdb88da9250fbe5e30f8ad6b5
+after_script:
+  - php vendor/bin/coveralls -v -c .coveralls.yml
