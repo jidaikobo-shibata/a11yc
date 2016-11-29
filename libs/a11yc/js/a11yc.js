@@ -21,7 +21,7 @@ jQuery(function($){
 			param_arr = [];
 
 	$a11yc_content = $('.a11yc').eq(0);
-	var scrollable_element = (function(){
+	var scrollable_element = function(){
 		var $html, $el, rs, top;
 		$html = $('html');
 		top = $html.scrollTop();
@@ -31,7 +31,7 @@ jQuery(function($){
 		$html.scrollTop(top);
 		$el.remove();
 		return rs;
-	})();
+	}();
 	$menu = $('#wpadminbar')[0] ? $('#wpadminbar') : $('#a11yc_menu ul');
 	$pagemenu = $('#a11yc_menu_principles')[0] ? $('#a11yc_menu_principles') : $pagemenu;
 	set_pagemenu_top();
@@ -147,9 +147,11 @@ if($('.a11yc_table_check')[0])
 		$target.parent().find('a').removeClass('current');
 		$target.addClass('current');
 		
-		for (var k in data_levels)
+		for(var k in data_levels)
 		{
-			$show_levels = $show_levels.add($target_narrow.find('.a11yc_leve'+data_levels[k]));
+			if({}.hasOwnProperty.call(data_levels, k)){
+				$show_levels = $show_levels.add($target_narrow.find('.a11yc_leve'+data_levels[k]));
+			}
 		}
 		$target_narrow.find('.a11yc_level_a,.a11yc_level_aa,.a11yc_level_aaa').addClass('a11yc_dn');
 		$show_levels.removeClass('a11yc_dn');
@@ -477,9 +479,6 @@ function format_validation_error(){
 		
 	}
 }
-
-
-
 /* query request */
 query_arr = window.location.search.substring(1).split('&');
 for(var k in query_arr)
@@ -491,10 +490,19 @@ for(var k in query_arr)
 	}
 }
 
-/* disclosure */
-var $disclosure = $(document).find('.a11yc_disclosure');
-var $disclosure_target = $(document).find('.a11yc_disclosure_target');
+function set_pagemenu_top(){
+	pagemenu_top = $pagemenu[0] ? $pagemenu.offset().top - menu_height : 0;
+	header_height = $('#a11yc_header')[0] ? $('#a11yc_header').outerHeight() : 0;
+}
+
+/* === disclosure === */
+
+var $disclosure = $(),
+		$disclosure_target = $();
+$disclosure = $(document).find('.a11yc_disclosure');
+$disclosure_target = $(document).find('.a11yc_disclosure_target');
 a11yc_disclosure();
+
 function a11yc_disclosure(){
 	$disclosure = $(document).find('.a11yc_disclosure');
 	$disclosure_target = $(document).find('.a11yc_disclosure_target');
@@ -521,6 +529,7 @@ $(document).on('click keydown', '.a11yc_disclosure',  function(e){
 	if(e && e.type==='keydown' && e.keyCode!==13) return;
 	a11yc_disclosure_toggle($(this));
 });
+
 function a11yc_disclosure_toggle($obj, $t){
 	if(!$obj) return;
 	var index = $obj.index('.a11yc_disclosure');
@@ -539,14 +548,12 @@ function a11yc_disclosure_toggle($obj, $t){
 
 }
 
-
-function set_pagemenu_top(){
-	pagemenu_top = $pagemenu[0] ? $pagemenu.offset().top - menu_height : 0;
-	header_height = $('#a11yc_header')[0] ? $('#a11yc_header').outerHeight() : 0;
-}
+});
 
 
-/* === 動作補助 === */
+
+/* === assist === */
+jQuery(function($){
 
 // smooth scroll
 // links on the same page
@@ -554,7 +561,9 @@ function set_pagemenu_top(){
 $(document).on('click', 'a[href^=#]', function(e){
 	e = e ? e : event;
 	e.preventDefault();
- 	var href, $t, position;
+ 	var href,
+			$t,
+			position;
 	href= $(this).attr("href");
 	if (href!=='#')
 	{
@@ -568,9 +577,13 @@ $(document).on('click', 'a[href^=#]', function(e){
 			return false;
 		},50);
 	}
-});1
+});
+
 function a11yc_smooth_scroll($t) {
-	var position, margin, a11yc_headerheight;
+	var position,
+			margin,
+			a11yc_headerheight;
+
 	if($t.closest($('#a11yc_menu, #a11yc_header'))[0]) return;
 	position = $t.offset();
 	if(typeof position === 'undefined') return;
@@ -585,7 +598,7 @@ function a11yc_smooth_scroll($t) {
 }
 
 $('.a11yc').on('keydown', function(e){
-	if( e.which!=9 ) return;
+	if( e.which!==9 ) return;
 	setTimeout(function(){
 		if($(':focus')[0])
 		{
@@ -593,6 +606,7 @@ $('.a11yc').on('keydown', function(e){
 		}
 	},0);
 });
+
 function a11yc_adjust_position($obj) {
 	if($obj.closest('#a11yc_menu , #a11yc_header')[0] ) return;
 	setTimeout(function(){
@@ -616,7 +630,6 @@ $('#a11yc_checks th').on('click', function(e){
 	$(this).find(':checkbox').click();
 });
 
-
 // display when javascript is active
 	$('.a11yc_hide_if_no_js').removeClass('a11yc_hide_if_no_js').addClass('a11yc_show_if_js');
 	$('.a11yc_hide_if_no_js').find(':disabled').prop("disabled", false);
@@ -625,25 +638,33 @@ $('#a11yc_checks th').on('click', function(e){
 // replace title attr to aria-label.when element is link, screen reader speach out inner skip str.
 a11yc_tooltip();
 function a11yc_tooltip(){
-	var $a11yc_tooltip = $('<span id="a11yc_tooltip" aria-hidden="true" role="presentation"></span>').hide().appendTo('body');
+	var $a11yc_tooltip = $(),
+			title_str = '',
+			position = 0,
+			top = 0,
+			left = 0,
+			right = 0;
+
+	$a11yc_tooltip = $('<span id="a11yc_tooltip" aria-hidden="true" role="presentation"></span>').hide().appendTo('body');
 
 	$('.a11yc').on({
 		'mouseenter focus': function(e){
 			if(!$(this).is('a, span, :input, strong')) return;
 			setTimeout(function($obj){
-				var title_str = $obj.attr('title');
-				var position = $obj.offset();
+				title_str = $obj.attr('title');
+				position = $obj.offset();
 				$a11yc_tooltip.text(title_str).stop(true, true).show();
 				$obj.data('a11ycTitle', title_str).attr('ariaLabel', title_str).removeAttr('title');
+
 				//position
 				$a11yc_tooltip.css('top', position.top-5-$a11yc_tooltip.outerHeight()+'px');
 				$a11yc_tooltip.css('left', position.left-$a11yc_tooltip.outerWidth()/2+'px');
-				var top = position.top-5-$a11yc_tooltip.outerHeight();
+				top = position.top-5-$a11yc_tooltip.outerHeight();
 				top = top-$(window).scrollTop()<0 ? position.top+$obj.outerHeight()+5 : top;
-				var left = $a11yc_tooltip.offset().left;
-				left = left<0 ? 0 : left;
-				var right = $(window).outerWidth()-left-$a11yc_tooltip.outerWidth();
-				left = right<0 ? left + right : left;
+				left = $a11yc_tooltip.offset().left;
+				left = left < 0 ? 0 : left;
+				right = $(window).outerWidth()-left-$a11yc_tooltip.outerWidth();
+				left = right < 0 ? left + right : left;
 
 				$a11yc_tooltip.css({'top': top+'px', 'left': left+'px'});
 			}
