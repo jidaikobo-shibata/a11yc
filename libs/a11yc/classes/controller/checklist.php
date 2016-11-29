@@ -62,9 +62,9 @@ class Controller_Checklist
 		$codes = array(
 			// elements
 			array('\A11yc\Validate_Alt', 'empty_alt_attr_of_img_inside_a'),
-			array('\A11yc\Validate_Validation', 'here_link'),
-			array('\A11yc\Validate_Validation', 'tell_user_file_type'),
-			array('\A11yc\Validate_Validation', 'same_urls_should_have_same_text'),
+			array('\A11yc\Validate_Link', 'here_link'),
+			array('\A11yc\Validate_Link', 'tell_user_file_type'),
+			array('\A11yc\Validate_Link', 'same_urls_should_have_same_text'),
 			array('\A11yc\Validate_Form', 'form_and_labels'),
 
 			// single tags
