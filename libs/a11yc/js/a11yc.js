@@ -12,11 +12,6 @@ jQuery(function($){
 			$info = $(),
 			$current_level = '',
 			num = 0,
-			$checked = $(),
-			data_pass_arr = [],
-			$pass_items = $(),
-			$show_items = $(),
-			$show_items2 = $(),
 			query_arr = [],
 			param_arr = [];
 
@@ -172,25 +167,32 @@ function a11yc_validation_code_display(data_levels){
 	$code.find('.a11yc_validation_code_error, strong, a').addClass('a11yc_dn').attr('role', 'presentation');
 	$show_levels.removeClass('a11yc_dn').removeAttr('role');
 }
-
+function a11yc_set_passes($target){
+	var $items = $();
+	$target.each(function(){
+		data_pass_arr = $(this).data('pass') ? $(this).data('pass').split(',') : [];
+		for(var k in data_pass_arr)
+		{
+			if({}.hasOwnProperty.call(data_pass_arr, k))
+			{
+				if(data_pass_arr[k]===this.id) continue; //自分自身は相手にしない？
+				$items = $items.add('#'+data_pass_arr[k]);
+			}
+		}
+	});
+	return $items;
+}
 function a11yc_toggle_item(e){
+	var $checked = $(),
+			data_pass_arr = [],
+			$show_items = $(),
+			$show_items2 = $();
 	var input = e ? $(e.target) : '';
 	$checked = $('.a11yc_table_check th :checked');
 
 	if(!input) //ページ読み込み時
 	{
-		$checked.each(function(){
-			data_pass_arr = $(this).data('pass') ? $(this).data('pass').split(',') : [];
-			for(var k in data_pass_arr)
-			{
-				if({}.hasOwnProperty.call(data_pass_arr, k))
-				{
-					if(data_pass_arr[k]===this.id) continue; //自分自身は相手にしない？
-					$pass_items = $pass_items.add('#'+data_pass_arr[k]);
-				}
-			}
-		});
-		$pass_items.closest('tr').addClass('off').find(':input').prop("disabled", true);
+		a11yc_set_pass_items($checked);
 	}
 	else
 	{
@@ -198,59 +200,35 @@ function a11yc_toggle_item(e){
 		current_position = input.offset().top;
 		if(input.prop('checked'))
 		{
-			data_pass_arr = input.data('pass') ? input.data('pass').split(',') : [];
-			for(var k in data_pass_arr)
-			{
-				if({}.hasOwnProperty.call(data_pass_arr, k))
-				{
-					if(data_pass_arr[k]===this.id) continue; //自分自身は相手にしない？
-					$pass_items = $pass_items.add('#'+data_pass_arr[k]);
-				}
-			}
-			$pass_items.closest('tr').addClass('off').find(':input').prop("disabled", true);
+			a11yc_set_pass_items(input);
 		}
 		else //チェックが外されたとき
 		{
-			data_pass_arr = input.data('pass') ? input.data('pass').split(',') : [];
-			$show_items = $();
-			$pass_items = $();
-			$show_items2 = $();
-			for(var k in data_pass_arr)
-			{
-				if({}.hasOwnProperty.call(data_pass_arr, k))
-				{
-					if(data_pass_arr[k]===this.id) continue; //自分自身は相手にしない
-					$show_items = $show_items.add('#'+data_pass_arr[k]);
-				}
-			}
-			$checked.each(function(){
-				data_pass_arr = $(this).data('pass') ? $(this).data('pass').split(',') : [];
-				for(var k in data_pass_arr)
-				{
-					if({}.hasOwnProperty.call(data_pass_arr, k))
-					{
-						if(data_pass_arr[k]===this.id) continue; //自分自身は相手にしない？
-						$pass_items = $pass_items.add('#'+data_pass_arr[k]);
-					}
-				}
-			});
-
-			$show_items.each(function(){
-				// 閉じるべきものの中にないものだけ開く
-				if($pass_items[0] && $pass_items.index(this) !== -1 ) return;
-				$show_items2 = $show_items2.add(this);
-			});
-			$show_items2 = $pass_items[0] ? $show_items2 : $show_items;
-			$show_items2.closest('tr').removeClass('off').find(':input').prop("disabled", false);
-
+			a11yc_set_pass_items($checked, input);
 		}
 	}
-	// table display
 	a11yc_table_display();
-	// count items
 	a11yc_count_checkbox();
 }
-
+function a11yc_set_pass_items($target, $passed){
+	var $show_items = $();
+	$pass_items = a11yc_set_passes($target);
+	//$passedがなければ、passする処理
+	if(!$passed){
+		$pass_items.closest('tr').addClass('off').find(':input').prop("disabled", true);
+		return;
+	}else{
+	//$passed があれば、パスしなくなったものを表示して終了
+		$not_pass_items = a11yc_set_passes($passed);
+		$not_pass_items.each(function(){
+			// パスするものの中にあれば除外
+			if($pass_items[0] && $pass_items.index(this) !== -1 ) return;
+			$show_items = $show_items.add(this);
+		});
+		$show_items = $pass_items[0] ? $show_items : $not_pass_items;
+		$show_items.closest('tr').removeClass('off').find(':input').prop("disabled", false);
+	}
+}
 //table display
 function a11yc_table_display(){
 	if(!$('.a11yc_hide_passed_item')[0]) return;
@@ -358,7 +336,6 @@ if($('.a11yc_table_check')[0])
 	$('#a11yc_checklist_behaviour').on('click',function(){
 		if($('#a11yc_checks')[0]) $('#a11yc_checks').toggleClass('a11yc_hide_passed_item');
 	});
-
 }
 
 /* === bulk === */
