@@ -2,6 +2,7 @@ jQuery(function($){
 	var $a11yc_content = $(),
 			menu_height = 0,
 			header_height = 0,
+			top_padding = 0,
 			$menu = $(),
 			$pagemenu = $(),
 			$pagemenu_count =$(),
@@ -73,16 +74,16 @@ function a11yc_add_fixed() {
 		var scroll = $(window).scrollTop();
 		if($('.a11yc_fixed_header')[0]) return;
 		//ここで#a11yc_headerがないばあいのふるまいもちゃんとすること
-		header_height = header_height!=0 ? $('#a11yc_header').outerHeight(true)+$('#a11yc_header').offset().top : 0;
+		header_height = header_height!==0 ? $('#a11yc_header').outerHeight(true)+$('#a11yc_header').offset().top : 0;
 		$a11yc_content.addClass('a11yc_fixed_header');
 		$('#a11yc_header_ctrl').prependTo('#a11yc_header');
 		if(!$('.wp-admin')[0])
 		{
-			var top_padding = $('#a11yc_header').outerHeight()+(parseInt($('#a11yc_header_p_1').css('margin-top'), 10))*2;
+			top_padding = $('#a11yc_header').outerHeight()+(parseInt($('#a11yc_header_p_1').css('margin-top'), 10))*2;
 		}
 		else
 		{
-			var top_padding = 0;
+			top_padding = 0;
 		}
 		$a11yc_content.css('paddingTop', top_padding);
 		$('#a11yc_header').css('paddingTop', menu_height);
@@ -98,7 +99,7 @@ function a11yc_fixed_header(e){
 	}
 	
 //	remove
-	if($(window).scrollTop() == 0)
+	if($(window).scrollTop() === 0)
 	{
 		if(!$('.a11yc_fixed_header')[0]) return;
 		$a11yc_content.removeClass('a11yc_fixed_header');
@@ -117,10 +118,11 @@ function a11yc_fixed_header(e){
 }
 
 // docs narrow level
+/*
 if($('#a11yc_docs')[0])
 {
 }
-
+*/
 // a11yc_table_check -- checklists, bulk
 if($('.a11yc_table_check')[0])
 {
@@ -135,7 +137,7 @@ if($('.a11yc_table_check')[0])
 
 	//eがないときは、ページ読み込み時
 	function a11yc_narrow_level(target_narrow, index, e){
-		if(e && e.type=='keydown' && e.keyCode!=13) return;
+		if(e && e.type==='keydown' && e.keyCode!==13) return;
 		if(e && $(e.target).parent().hasClass('show')) e.stopPropagation();
 		var $target = e ? $(e.target) : $('.a11yc_narrow_level').eq(index).find('.current');
 		var $target_narrow = $(target_narrow);
@@ -153,12 +155,12 @@ if($('.a11yc_table_check')[0])
 		$show_levels.removeClass('a11yc_dn');
 		
 		//validation_list only
-		if(target_narrow=='#a11yc_validation_list')
+		if(target_narrow==='#a11yc_validation_list')
 		{
 			a11yc_validation_code_display(data_levels);
 		}
 		//checklist only
-		if(target_narrow=='.a11yc_section_principle')
+		if(target_narrow==='.a11yc_section_principle')
 		{
 			//table display
 			a11yc_table_display();
@@ -169,8 +171,12 @@ if($('.a11yc_table_check')[0])
 	function a11yc_validation_code_display(data_levels){
 		var $code = $('#a11yc_validation_code_raw');
 		var $show_levels = $();
-		for( var k in data_levels ){
-			$show_levels = $show_levels.add($code.find('.a11yc_leve'+data_levels[k]));
+		for( var k in data_levels )
+		{
+			if({}.hasOwnProperty.call(data_levels, k))
+			{
+				$show_levels = $show_levels.add($code.find('.a11yc_leve'+data_levels[k]));
+			}
 		}
 		$code.find('.a11yc_validation_code_error, strong, a').addClass('a11yc_dn').attr('role', 'presentation');
 		$show_levels.removeClass('a11yc_dn').removeAttr('role');
@@ -189,8 +195,11 @@ if($('.a11yc_table_check')[0])
 				data_pass_arr = $(this).data('pass') ? $(this).data('pass').split(',') : [];
 				for(var k in data_pass_arr)
 				{
-					if(data_pass_arr[k]==this.id) continue; //自分自身は相手にしない？
-					$pass_items = $pass_items.add('#'+data_pass_arr[k]);
+					if({}.hasOwnProperty.call(data_pass_arr, k))
+					{
+						if(data_pass_arr[k]===this.id) continue; //自分自身は相手にしない？
+						$pass_items = $pass_items.add('#'+data_pass_arr[k]);
+					}
 				}
 			});
 			$pass_items.closest('tr').addClass('off').find(':input').prop("disabled", true);
@@ -204,8 +213,11 @@ if($('.a11yc_table_check')[0])
 				data_pass_arr = input.data('pass') ? input.data('pass').split(',') : [];
 				for(var k in data_pass_arr)
 				{
-					if(data_pass_arr[k]==this.id) continue; //自分自身は相手にしない？
-					$pass_items = $pass_items.add('#'+data_pass_arr[k]);
+					if({}.hasOwnProperty.call(data_pass_arr, k))
+					{
+						if(data_pass_arr[k]===this.id) continue; //自分自身は相手にしない？
+						$pass_items = $pass_items.add('#'+data_pass_arr[k]);
+					}
 				}
 				$pass_items.closest('tr').addClass('off').find(':input').prop("disabled", true);
 			}
@@ -217,21 +229,27 @@ if($('.a11yc_table_check')[0])
 				$show_items2 = $();
 				for(var k in data_pass_arr)
 				{
-					if(data_pass_arr[k]==this.id) continue; //自分自身は相手にしない
-					$show_items = $show_items.add('#'+data_pass_arr[k]);
+					if({}.hasOwnProperty.call(data_pass_arr, k))
+					{
+						if(data_pass_arr[k]===this.id) continue; //自分自身は相手にしない
+						$show_items = $show_items.add('#'+data_pass_arr[k]);
+					}
 				}
 				$checked.each(function(){
 					data_pass_arr = $(this).data('pass') ? $(this).data('pass').split(',') : [];
 					for(var k in data_pass_arr)
 					{
-						if(data_pass_arr[k]==this.id) continue; //自分自身は相手にしない？
-						$pass_items = $pass_items.add('#'+data_pass_arr[k]);
+						if({}.hasOwnProperty.call(data_pass_arr, k))
+						{
+							if(data_pass_arr[k]===this.id) continue; //自分自身は相手にしない？
+							$pass_items = $pass_items.add('#'+data_pass_arr[k]);
+						}
 					}
 				});
 
 				$show_items.each(function(){
 					// 閉じるべきものの中にないものだけ開く
-					if($pass_items[0] && $pass_items.index(this) != -1 ) return;
+					if($pass_items[0] && $pass_items.index(this) !== -1 ) return;
 					$show_items2 = $show_items2.add(this);
 				});
 				$show_items2 = $pass_items[0] ? $show_items2 : $show_items;
@@ -269,7 +287,7 @@ if($('.a11yc_table_check')[0])
 				if (!$(this).find('tr:not(.off)')[0]) return;
 				$(this).find('tr:not(.off)').each(function(index){
 					$(this).removeClass('even odd');
-					if (index%2==0){
+					if (index%2===0){
 						$(this).addClass('odd');
 					}
 					else
@@ -320,13 +338,13 @@ if($('.a11yc_table_check')[0])
 	var c_id = $('#a11yc_checks').data('a11ycCurrentUser');
 	$('#a11yc_checks :checkbox').on('click', function(){
 		var select = $(this).closest('tr').find('select');
-		if(c_id!=select.val()) select.val(c_id).a11yc_flash();
+		if(c_id !== select.val()) select.val(c_id).a11yc_flash();
 	});
 	// highlight/adjust position when checkbox is clicked
 	$('#a11yc_checks :checkbox').on('click', function(){
 		$(this).closest('tr').a11yc_flash();
 
-		if (!$('.a11yc_hide_passed_item')[0] || $(window).scrollTop()==0) return;
+		if (!$('.a11yc_hide_passed_item')[0] || $(window).scrollTop() === 0) return;
 		var movement_distance = current_position - $(this).offset().top;
 //		current_position = $(this).offset().top;
 // 何かのタイミングで、（ヘッダの高さが変わった時に）移動する場所が補正されないといけない
@@ -436,7 +454,6 @@ function format_validation_error(){
 */
 		// click validate_link
 		$(document).on('click', '.a11yc_validate_link a', function(e){
-			var e = e ? e : event;
 			var $t = $($(e.currentTarget).attr('href'));
 			e.stopPropagation();
 			e.preventDefault();
@@ -467,8 +484,11 @@ function format_validation_error(){
 query_arr = window.location.search.substring(1).split('&');
 for(var k in query_arr)
 {
-	var arr = query_arr[k].split('=');
-	param_arr[decodeURIComponent(arr[0])] = decodeURIComponent(arr[1]);
+	if({}.hasOwnProperty.call(query_arr, k))
+	{
+		var arr = query_arr[k].split('=');
+		param_arr[decodeURIComponent(arr[0])] = decodeURIComponent(arr[1]);
+	}
 }
 
 /* disclosure */
@@ -498,7 +518,7 @@ function a11yc_disclosure(){
 }
 
 $(document).on('click keydown', '.a11yc_disclosure',  function(e){
-	if(e && e.type=='keydown' && e.keyCode!=13) return;
+	if(e && e.type==='keydown' && e.keyCode!==13) return;
 	a11yc_disclosure_toggle($(this));
 });
 function a11yc_disclosure_toggle($obj, $t){
@@ -520,7 +540,6 @@ function a11yc_disclosure_toggle($obj, $t){
 }
 
 
-
 function set_pagemenu_top(){
 	pagemenu_top = $pagemenu[0] ? $pagemenu.offset().top - menu_height : 0;
 	header_height = $('#a11yc_header')[0] ? $('#a11yc_header').outerHeight() : 0;
@@ -537,8 +556,9 @@ $(document).on('click', 'a[href^=#]', function(e){
 	e.preventDefault();
  	var href, $t, position;
 	href= $(this).attr("href");
-	if (href!='#')
+	if (href!=='#')
 	{
+		//ない時の判定を確認する
 		$t = href != '' ? $(href) : $('html');
 		// add tabindex -1
 		if( !$t.is(':input') && !$t.is('a') && !$t.attr('tabindex')) $t.attr('tabindex', '-1');
@@ -592,7 +612,7 @@ $.fn.a11yc_flash = function(){
 
 // propagates click event from th to child checkbox
 $('#a11yc_checks th').on('click', function(e){
-	if(e.target!=this) return;
+	if(e.target!==this) return;
 	$(this).find(':checkbox').click();
 });
 
