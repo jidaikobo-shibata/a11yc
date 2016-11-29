@@ -93,7 +93,7 @@ class Controller_Checklist
 
 		if ($link_check)
 		{
-			$codes[] = array('\A11yc\Validate_Validation', 'link_check');
+			$codes[] = array('\A11yc\Validate_Link', 'link_check');
 		}
 
 		foreach ($codes as $code)
