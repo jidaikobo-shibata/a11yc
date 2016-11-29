@@ -27,8 +27,8 @@ class Controller_Checklist
 			Session::add('messages', 'errors', A11YC_LANG_ERROR_NON_TARGET_LEVEL);
 		}
 
-		$url = isset($_GET['url']) ? Util::urldec($_GET['url']) : '';
-		$url = empty($url) && isset($_POST['url']) ? Util::urldec($_POST['url']) : $url;
+		$url = Input::get('url') ? Util::urldec(Input::get('url')) : '';
+		$url = empty($url) && Input::post('url') ? Util::urldec(Input::post('url')) : $url;
 
 		static::checklist($url);
 	}
@@ -135,14 +135,14 @@ class Controller_Checklist
 			}
 		}
 
-		if ($_POST)
+		if (Input::post())
 		{
 			// delete all from checks
 			$sql = 'DELETE FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = ?;';
 			Db::execute($sql, array($url));
 
 			// insert checks
-			foreach ($_POST['chk'] as $code => $v)
+			foreach (Input::post('chk') as $code => $v)
 			{
 				// if ( ! isset($v['on']) && empty($v['memo'])) continue;
 				if ( ! isset($v['on'])) continue;
@@ -156,11 +156,11 @@ class Controller_Checklist
 			$result = Evaluate::check_result($passed_flat);
 
 			// update/create page
-			$done = isset($_POST['done']) ? 1 : 0;
+			$done = Input::post('done') ? 1 : 0;
 			$date = date('Y-m-d');
-			$page_title = $_POST['page_title'];
-			$standard = intval($_POST['standard']);
-			$selection_reason = intval($_POST['selection_reason']);
+			$page_title = Input::post('page_title');
+			$standard = intval(Input::post('standard'));
+			$selection_reason = intval(Input::post('selection_reason'));
 			$r = false;
 
 			if (static::fetch_page($url))
@@ -267,7 +267,7 @@ class Controller_Checklist
 		View::assign('checklist_behaviour', intval(@$setup['checklist_behaviour']));
 		View::assign('target_level', intval(@$setup['target_level']));
 		View::assign('page', static::fetch_page($url));
-		View::assign('link_check', isset($_POST['do_link_check']));
+		View::assign('link_check', Input::post('do_link_check', false));
 
 		// cs
 		$bulk = Controller_Bulk::fetch_results();

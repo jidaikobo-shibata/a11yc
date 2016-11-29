@@ -7,20 +7,6 @@ namespace Kontiki;
  */
 class Ua
 {
-	protected static $ua;
-	protected static $accept;
-
-	/**
-	 * _init
-	 *
-	 * @return  void
-	 */
-	public static function _init()
-	{
-		static::$ua = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : null;
-		static::$accept = isset($_SERVER['HTTP_ACCEPT']) ? $_SERVER['HTTP_ACCEPT'] : null;
-	}
-
 	/**
 	 * get IE version by numeric
 	 * IE: <=1
@@ -29,14 +15,14 @@ class Ua
 	 */
 	public static function get_ie_version()
 	{
-		if (stristr(static::$ua, "MSIE"))
+		if (stristr(Input::user_agent(), "MSIE"))
 		{
-			preg_match('/MSIE\s([\d.]+)/i', static::$ua, $ver);
+			preg_match('/MSIE\s([\d.]+)/i', Input::user_agent(), $ver);
 			$ver = @floor($ver[1]);
 		}
-		elseif (stristr(static::$ua, "Trident"))
+		elseif (stristr(Input::user_agent(), "Trident"))
 		{
-			preg_match('/rv\:([\d.]+)/i', static::$ua, $ver);
+			preg_match('/rv\:([\d.]+)/i', Input::user_agent(), $ver);
 			$ver = $ver[1];
 		}
 		else
@@ -56,27 +42,27 @@ class Ua
 	{
 		$type = 'legacy';
 
-		if (isset(static::$ua))
+		if (Input::user_agent())
 		{
 			if (self::getIEVersion() >= 10)
 			{
 				$type = 'modern';
 			}
-			else if (strpos(static::$ua, 'Mobile') !== false
-			       || strpos(static::$ua, 'Android') !== false
-			       || strpos(static::$ua, 'Silk/') !== false
-			       || strpos(static::$ua, 'Kindle') !== false
-			       || strpos(static::$ua, 'BlackBerry') !== false
-			       || strpos(static::$ua, 'Opera Mini') !== false
-			       || strpos(static::$ua, 'Opera Mobi') !== false)
+			else if (strpos(Input::user_agent(), 'Mobile') !== false
+			       || strpos(Input::user_agent(), 'Android') !== false
+			       || strpos(Input::user_agent(), 'Silk/') !== false
+			       || strpos(Input::user_agent(), 'Kindle') !== false
+			       || strpos(Input::user_agent(), 'BlackBerry') !== false
+			       || strpos(Input::user_agent(), 'Opera Mini') !== false
+			       || strpos(Input::user_agent(), 'Opera Mobi') !== false)
 			{
 				$type = 'mobile';
 			}
-			else if (strpos(static::$ua, 'bot') !== false
-			       || strpos(static::$ua, 'spider') !== false
-			       || strpos(static::$ua, 'archiver') !== false
-			       || strpos(static::$ua, 'Google') !== false
-			       || strpos(static::$ua, 'Yahoo') !== false)
+			else if (strpos(Input::user_agent(), 'bot') !== false
+			       || strpos(Input::user_agent(), 'spider') !== false
+			       || strpos(Input::user_agent(), 'archiver') !== false
+			       || strpos(Input::user_agent(), 'Google') !== false
+			       || strpos(Input::user_agent(), 'Yahoo') !== false)
 			{
 				$type = 'robot';
 			}
