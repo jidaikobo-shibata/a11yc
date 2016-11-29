@@ -21,7 +21,7 @@ jQuery(function($){
 			param_arr = [];
 
 	$a11yc_content = $('.a11yc').eq(0);
-	var scrollable_element = function(){
+	var scrollable_element = (function(){
 		var $html, $el, rs, top;
 		$html = $('html');
 		top = $html.scrollTop();
@@ -31,7 +31,7 @@ jQuery(function($){
 		$html.scrollTop(top);
 		$el.remove();
 		return rs;
-	}();
+	}());
 	$menu = $('#wpadminbar')[0] ? $('#wpadminbar') : $('#a11yc_menu ul');
 	$pagemenu = $('#a11yc_menu_principles')[0] ? $('#a11yc_menu_principles') : $pagemenu;
 	set_pagemenu_top();
