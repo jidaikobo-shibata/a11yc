@@ -61,44 +61,44 @@ class Controller_Checklist
 
 		$codes = array(
 			// elements
-			'empty_alt_attr_of_img_inside_a',
-			'here_link',
-			'tell_user_file_type',
-			'same_urls_should_have_same_text',
-			'form_and_labels',
+			array('\A11yc\Validate_Alt', 'empty_alt_attr_of_img_inside_a'),
+			array('\A11yc\Validate_Validation', 'here_link'),
+			array('\A11yc\Validate_Validation', 'tell_user_file_type'),
+			array('\A11yc\Validate_Validation', 'same_urls_should_have_same_text'),
+			array('\A11yc\Validate_Form', 'form_and_labels'),
 
 			// single tags
-			'check_doctype',
-			'alt_attr_of_img',
-			'img_input_has_alt',
-			'area_has_alt',
-			'suspicious_elements',
-			'appropriate_heading_descending',
-			'same_alt_and_filename_of_img',
-			'meanless_element',
-			'style_for_structure',
-			'invalid_tag',
-			'titleless_frame',
-			'meta_refresh',
-			'titleless',
-			'langless',
-			'viewport',
+			array('\A11yc\Validate_Alt', 'alt_attr_of_img'),
+			array('\A11yc\Validate_Alt', 'img_input_has_alt'),
+			array('\A11yc\Validate_Alt', 'area_has_alt'),
+			array('\A11yc\Validate_Alt', 'same_alt_and_filename_of_img'),
+			array('\A11yc\Validate_Validation', 'suspicious_elements'),
+			array('\A11yc\Validate_Validation', 'appropriate_heading_descending'),
+			array('\A11yc\Validate_Validation', 'meanless_element'),
+			array('\A11yc\Validate_Validation', 'style_for_structure'),
+			array('\A11yc\Validate_Validation', 'invalid_tag'),
+			array('\A11yc\Validate_Validation', 'titleless_frame'),
+			array('\A11yc\Validate_Validation', 'check_doctype'),
+			array('\A11yc\Validate_Validation', 'meta_refresh'),
+			array('\A11yc\Validate_Validation', 'titleless'),
+			array('\A11yc\Validate_Validation', 'langless'),
+			array('\A11yc\Validate_Validation', 'viewport'),
 
 			// non tag
-			'suspicious_attributes',
-			'duplicated_ids_and_accesskey',
-			'ja_word_breaking_space',
-			'same_page_title_in_same_site',
+			array('\A11yc\Validate_Validation', 'suspicious_attributes'),
+			array('\A11yc\Validate_Validation', 'duplicated_ids_and_accesskey'),
+			array('\A11yc\Validate_Validation', 'ja_word_breaking_space'),
+			array('\A11yc\Validate_Validation', 'same_page_title_in_same_site'),
 		);
 
 		if ($link_check)
 		{
-			$codes[] = 'link_check';
+			$codes[] = array('\A11yc\Validate_Validation', 'link_check');
 		}
 
 		foreach ($codes as $code)
 		{
-			Validate_Validation::$code();
+			$code[0]::$code[1]();
 		}
 
 		if (Validate::get_error_ids())
