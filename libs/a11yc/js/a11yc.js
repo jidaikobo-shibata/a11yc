@@ -319,7 +319,7 @@ if($('.a11yc_table_check')[0])
 	var c_id = $('#a11yc_checks').data('a11ycCurrentUser');
 	$('#a11yc_checks :checkbox').on('click', function(){
 		var select = $(this).closest('tr').find('select');
-		if(c_id !== select.val()) select.val(c_id).a11yc_flash();
+		if(String(c_id) !== select.val()) select.val(c_id).a11yc_flash();
 	});
 	// highlight/adjust position when checkbox is clicked
 	$('#a11yc_checks :checkbox').on('click', function(){
