@@ -161,7 +161,7 @@ define('A11YC_LANG_BULK_UPDATE3', 'すべての項目を既存の試験結果に
 define('A11YC_LANG_BULK_DONE', 'チェック終了');
 define('A11YC_LANG_BULK_DONE1', '既存のページのチェックフラグを変更しない');
 define('A11YC_LANG_BULK_DONE2', '既存のページをすべてチェック終了にする');
-define('A11YC_LANG_BULK_DONE3', '既存のページをすべて未チェックにする');
+define('A11YC_LANG_BULK_DONE3', '既存のページをすべてチェック中にする');
 
 // documents
 define('A11YC_LANG_DOCS_TITLE', '参考資料');
