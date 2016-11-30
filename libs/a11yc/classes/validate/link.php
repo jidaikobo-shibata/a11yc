@@ -187,38 +187,57 @@ class Validate_Link extends Validate
 				! isset($attrs['property'])
 			) continue;
 
-			// a
-			if ($ele == 'a')
+			switch ($ele)
 			{
-				$url = $attrs['href'];
+				case 'a':
+					$url = $attrs['href'];
+					break;
+				case 'img':
+					$url = $attrs['src'];
+					break;
+				case 'form':
+					$url = $attrs['action'];
+					break;
+				case 'meta':
+					if ($attrs['property'] == 'og:url' || $attrs['property'] == 'og:image')
+					{
+						$url = $attrs['content'];
+					}
+					break;
+				default:
+					continue;
 			}
 
-			// img
-			if ($ele == 'img')
-			{
-				$url = $attrs['src'];
-			}
 
-			// form
-			if ($ele == 'form')
-			{
-				$url = $attrs['action'];
-			}
+			// // a
+			// if ($ele == 'a')
+			// {
+			// 	$url = $attrs['href'];
+			// }
+
+			// // img
+			// if ($ele == 'img')
+			// {
+			// 	$url = $attrs['src'];
+			// }
+
+			// // form
+			// if ($ele == 'form')
+			// {
+			// 	$url = $attrs['action'];
+			// }
 
 			// og
-			if (
-				$ele == 'meta' &&
-				($attrs['property'] == 'og:url' || $attrs['property'] == 'og:image')
-			)
-			{
-				// if ($attrs['property'] == 'og:url' || $attrs['property'] == 'og:image')
-				// {
-					$url = $attrs['content'];
-				// }
-			}
+			// if ($ele == 'meta')
+			// {
+			// 	if ($attrs['property'] == 'og:url' || $attrs['property'] == 'og:image')
+			// 	{
+			// 		$url = $attrs['content'];
+			// 	}
+			// }
 
 			// correct url
-			if (empty($url)) continue;
+			// if (empty($url)) continue;
 			if (static::is_ignorable($tag)) continue;
 			$url = static::correct_url($url);
 
