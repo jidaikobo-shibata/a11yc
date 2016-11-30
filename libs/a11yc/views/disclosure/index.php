@@ -12,7 +12,7 @@ endif;
 	<!-- Accessibility Policy -->
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_POLICY ?></th>
-		<td><?php echo '<p class="a11yc_link"><a href="'.\A11yc\Util::add_query_strings(\A11yc\Util::uri(), array(array('a11yc_policy', 1))).'">'.A11YC_LANG_POLICY.'</a></p>'; ?></td>
+		<td><?php echo '<p class="a11yc_link"><a href="'.$policy_link.'">'.A11YC_LANG_POLICY.'</a></p>'; ?></td>
 	</tr>
 	<!-- /Accessibility Policy -->
 
@@ -20,7 +20,7 @@ endif;
 	<!-- link to report -->
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_REPORT ?></th>
-		<td><?php echo '<p class="a11yc_link"><a href="'.\A11yc\Util::remove_query_strings(\A11yc\Util::uri(), array('url', 'a11yc_pages')).'">'.A11YC_LANG_REPORT.'</a></p>'; ?></td>
+		<td><?php echo '<p class="a11yc_link"><a href="'.$report_link.'">'.A11YC_LANG_REPORT.'</a></p>'; ?></td>
 	</tr>
 	<!-- /link to report -->
 	<?php endif;  ?>
@@ -65,7 +65,7 @@ endif;
 			A11YC_LANG_CANDIDATES4,
 		);
 		echo $arr[$selected_method];
-		echo ' (<a href="'.\A11yc\Util::add_query_strings(\A11yc\Util::uri(), array(array('a11yc_pages', 1))).'">'.A11YC_LANG_CHECKED_PAGES.'</a>)'
+		echo ' (<a href="'.$pages_link.'">'.A11YC_LANG_CHECKED_PAGES.'</a>)'
 		?>
 		</td>
 	</tr>
@@ -115,7 +115,9 @@ endif;
 			?>
 				<li>
 					<a href="<?php echo $url ?>"<?php echo A11YC_TARGET ?>><?php echo $url ?></a>
+					<?php if (\Kontiki\Auth::auth()): ?>
 					(<a href="<?php echo A11YC_CHECKLIST_URL.$url ?>"<?php echo A11YC_TARGET ?>>check</a>)
+					<?php endif; ?>
 				</li>
 			<?php endforeach; ?>
 			</ul>

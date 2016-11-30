@@ -25,6 +25,32 @@ class Controller_Disclosure
 		$target_level = intval(@$setup['target_level']);
 		if ( ! $target_level) die('Error. Set target level first');
 
+		// links
+		$url = \A11yc\Util::remove_query_strings(
+			\A11yc\Util::uri(),
+			array('a11yc_policy', 'a11yc_report', 'a11yc_pages')
+		);
+
+		$policy_link = \A11yc\Util::add_query_strings(
+			$url,
+			array(
+				array('a11yc_policy', 1)
+			));
+		$report_link = \A11yc\Util::add_query_strings(
+			$url,
+			array(
+				array('a11yc_report', 1)
+			));
+		$pages_link = \A11yc\Util::add_query_strings(
+			$url,
+			array(
+				array('a11yc_pages', 1)
+			));
+
+		View::assign('policy_link', $policy_link);
+		View::assign('report_link', $report_link);
+		View::assign('pages_link', $pages_link);
+
 		// page list
 		if (Input::get('a11yc_pages'))
 		{
@@ -54,18 +80,9 @@ class Controller_Disclosure
 		else
 		{
 			View::assign('title', A11YC_LANG_POLICY);
-			$url = \A11yc\Util::remove_query_strings(
-				\A11yc\Util::uri(),
-				array('a11yc_policy')
-			);
-			$url = \A11yc\Util::add_query_strings(
-				$url,
-				array(
-					array('a11yc_report', 1)
-				));
 			$policy = $setup['policy'];
 			$policy.= '<h2>'.A11YC_LANG_REPORT."</h2>\n";
-			$policy.= '<p class="a11yc_link"><a href="'.$url.'">'.A11YC_LANG_REPORT."</a></p>";
+			$policy.= '<p class="a11yc_link"><a href="'.$report_link.'">'.A11YC_LANG_REPORT."</a></p>";
 			View::assign('body', $policy, false);
 		}
 	}
