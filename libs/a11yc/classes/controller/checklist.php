@@ -67,7 +67,7 @@ class Controller_Checklist
 			array('\A11yc\Validate_Link', 'same_urls_should_have_same_text'),
 			array('\A11yc\Validate_Form', 'form_and_labels'),
 
-			// single tags
+			// single tag
 			array('\A11yc\Validate_Alt', 'alt_attr_of_img'),
 			array('\A11yc\Validate_Alt', 'img_input_has_alt'),
 			array('\A11yc\Validate_Alt', 'area_has_alt'),
@@ -83,18 +83,19 @@ class Controller_Checklist
 			array('\A11yc\Validate_Head', 'titleless'),
 			array('\A11yc\Validate_Head', 'langless'),
 			array('\A11yc\Validate_Head', 'viewport'),
-
-			// non tag
-			array('\A11yc\Validate_Validation', 'suspicious_attributes'),
-			array('\A11yc\Validate_Validation', 'duplicated_ids_and_accesskey'),
-			array('\A11yc\Validate_Validation', 'ja_word_breaking_space'),
-			array('\A11yc\Validate_Head', 'same_page_title_in_same_site'),
 		);
 
+		// single tag
 		if ($link_check)
 		{
 			$codes[] = array('\A11yc\Validate_Link', 'link_check');
 		}
+
+		// non tag
+		$codes[] = array('\A11yc\Validate_Validation', 'suspicious_attributes');
+		$codes[] = array('\A11yc\Validate_Validation', 'duplicated_ids_and_accesskey');
+		$codes[] = array('\A11yc\Validate_Validation', 'ja_word_breaking_space');
+		$codes[] = array('\A11yc\Validate_Head', 'same_page_title_in_same_site');
 
 		foreach ($codes as $code)
 		{

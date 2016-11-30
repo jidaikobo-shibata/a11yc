@@ -62,7 +62,9 @@ if ($pages):
 	<th>URL</th>
 	<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_LEVEL ?></th>
 	<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_CHECKLIST_DONE ?></th>
+	<?php if ($list != 'trash'): ?>
 	<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGES_CHECK ?></th>
+	<?php endif; ?>
 	<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGES_CTRL ?></th>
 	<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGES_ADD_DATE ?></th>
 	<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_TEST_DATE ?></th>
@@ -88,7 +90,9 @@ if ($pages):
 			$done = @$page['done'] == 1 ? A11YC_LANG_PAGES_DONE : '' ;
 		?>
 		<td class="a11yc_result"><?php echo $done ?></td>
+		<?php if ($list != 'trash'): ?>
 		<td class="a11yc_result"><a href="<?php echo A11YC_CHECKLIST_URL.\A11yc\Util::urlenc($url) ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_CHECK ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
+		<?php endif; ?>
 		<?php if ($list == 'trash'): ?>
 			<td class="a11yc_result">
 				<a href="<?php echo A11YC_PAGES_URL ?>&amp;undel=1&amp;url=<?php echo \A11yc\Util::urlenc($url).$current_qs ?>"><?php echo A11YC_LANG_PAGES_UNDELETE ?></a>

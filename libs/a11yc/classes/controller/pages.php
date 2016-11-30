@@ -260,7 +260,7 @@ class Controller_Pages
 			{
 				echo '</div>';
 				// done
-				echo '<p><a id="a11yc_back_to_pages" href="'.A11YC_PAGES_URL.'">'.A11YC_LANG_PAGES_ADDED_NORMALLY.'</a></p>';
+				echo '<p><a id="a11yc_back_to_pages" href="'.A11YC_PAGES_URL.'">'.A11YC_LANG_PAGES_DONE.'</a></p>';
 				echo '<script>a11yc_stop_scroll()</script>'."\n";
 				if ( ! headers_sent())
 				{
@@ -362,37 +362,21 @@ class Controller_Pages
 			flush();
 		}
 
-		if ($urls)
+		echo '</div>';
+
+		// add to session
+		sort($urls);
+		Session::add('values', 'urls', $urls);
+
+		// done
+		echo '<p><a id="a11yc_back_to_pages" href="'.A11YC_PAGES_URL.'">'.A11YC_LANG_PAGES_RETURN_TO_PAGES.'</a></p>';
+		echo '<script>a11yc_stop_scroll()</script>'."\n";
+
+		if ( ! headers_sent())
 		{
-			echo '</div>';
-
-			// add to session
-			sort($urls);
-			Session::add('values', 'urls', $urls);
-
-			// done
-			echo '<p><a id="a11yc_back_to_pages" href="'.A11YC_PAGES_URL.'">'.A11YC_LANG_PAGES_RETURN_TO_PAGES.'</a></p>';
-			echo '<script>a11yc_stop_scroll()</script>'."\n";
-
-			if ( ! headers_sent())
-			{
-				echo '</body>';
-			}
-			exit();
+			echo '</body>';
 		}
-
-		// get urls recursive
-		// if ( ! $recursive)
-		// {
-		// 	foreach ($urls as $k => $v)
-		// 	{
-		// 		if ($retvals = static::crawler($v, true))
-		// 		{
-		// 			$urls[] = array_merge($urls, $retvals);
-		// 		}
-		// 	}
-		// }
-		// $urls = array_unique($urls);
+		exit();
 	}
 
 	/**
@@ -533,7 +517,7 @@ class Controller_Pages
 			$crawled = $from_session[0];
 			Session::add('messages', 'message', A11YC_LANG_PAGES_PRESS_ADD_BUTTON);
 			$from_session = Session::fetch('param', 'get_urls');
-			$get_urls = isset($from_session[0]) ? $from_session : '';
+			$get_urls = isset($from_session[0]) ? $from_session[0] : '';
 		}
 		else
 		{

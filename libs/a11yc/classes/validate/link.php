@@ -160,71 +160,97 @@ class Validate_Link extends Validate
 	{
 		$str = static::ignore_comment_out(static::$hl_html);
 
-		// ordinary urls
-		preg_match_all("/ (?:href|src|cite|data|poster|action) *?= *?[\"']([^\"']+?)[\"']/i", $str, $ms);
+		$ms = static::get_elements_by_re($str, 'tags');
+		if ( ! $ms[0]) return;
 
-		// og
-		$mms = static::get_elements_by_re($str, 'tags');
-		if (isset($mms[0]))
-		{
-			foreach ($mms[0] as $m)
-			{
-				if (strpos($m, '<meta') === false) continue;
-				$attrs = static::get_attributes($m);
-				if ( ! isset($attrs['property'])) continue;
-
-				if ($attrs['property'] == 'og:url' && isset($attrs['content']))
-				{
-					$ms[1][] = $attrs['content'];
-				}
-				if ($attrs['property'] == 'og:image' && isset($attrs['content']))
-				{
-					$ms[1][] = $attrs['content'];
-				}
-			}
-		}
-
-		$urls = array();
-		foreach ($ms[1] as $k => $v)
-		{
-			if (static::is_ignorable($ms[0][$k])) continue;
-			$urls[$v] = static::correct_url($v);
-		}
+		// candidates
+		$checks = array(
+			'a',
+			'img',
+			'form',
+			'meta',
+		);
 
 		// fragments
 		preg_match_all("/ (?:id|name) *?= *?[\"']([^\"']+?)[\"']/i", $str, $fragments);
 
-		// check
-		$k = 0;
-		foreach ($urls as $original => $url)
+		foreach ($ms[0] as $k => $v)
 		{
+			$url = '';
+
+			if ( ! in_array($ms[1][$k], $checks)) continue;
+			$attrs = static::get_attributes($v);
+
+			// a
+			if ($ms[1][$k] == 'a')
+			{
+				if ( ! isset($attrs['href'])) continue;
+				$url = $attrs['href'];
+			}
+
+			// img
+			if ($ms[1][$k] == 'img')
+			{
+				if ( ! isset($attrs['src'])) continue;
+				$url = $attrs['src'];
+			}
+
+			// form
+			if ($ms[1][$k] == 'form')
+			{
+				if ( ! isset($attrs['action'])) continue;
+				$url = $attrs['action'];
+			}
+
+			// og
+			if ($ms[1][$k] == 'meta')
+			{
+				if ( ! isset($attrs['property'])) continue;
+				if ($attrs['property'] == 'og:url' && isset($attrs['content']))
+				{
+					$url = $attrs['content'];
+				}
+				if ($attrs['property'] == 'og:image' && isset($attrs['content']))
+				{
+					$url = $attrs['content'];
+				}
+			}
+
+			// correct url
+			if (empty($url)) continue;
+			if (static::is_ignorable($v)) continue;
+			$url = static::correct_url($url);
+
+			// fragments
 			if ($url[0] == '#')
 			{
 				if ( ! in_array(substr($url, 1), $fragments[1]))
 				{
-					static::$error_ids['link_check'][$k]['id'] = $original;
+					static::$error_ids['link_check'][$k]['id'] = $v;
 					static::$error_ids['link_check'][$k]['str'] = 'Fragment Not Found: '.$original;
 				}
 				continue;
 			}
 
 			$headers = @get_headers($url);
+
+			// links
 			if ($headers !== false)
 			{
-				// OK TODO: think about redirection
-//				if (strpos($headers[0], ' 20') !== false || strpos($headers[0], ' 30') !== false) continue;
-				if (strpos($headers[0], ' 20') !== false) continue;
+				if (
+					strpos($headers[0], ' 20') !== false ||
+					strpos($headers[0], ' 30') !== false
+				) continue;
+				//if (strpos($headers[0], ' 20') !== false) continue;
 
-				// not OK
-				static::$error_ids['link_check'][$k]['id'] = $original;
+				static::$error_ids['link_check'][$k]['id'] = $v;
 				static::$error_ids['link_check'][$k]['str'] = substr($headers[0], strpos($headers[0], ' ')).': '.$original;
 			}
 			else
 			{
-				static::$error_ids['link_check'][$k]['id'] = 'Not Found: '.$original;
-				static::$error_ids['link_check'][$k]['str'] = 'Not Found: '.$original;
+				static::$error_ids['link_check'][$k]['id'] = $v;
+				static::$error_ids['link_check'][$k]['str'] = 'Not Found: '.$v;
 			}
-			$k++;
 		}
 		static::add_error_to_html('link_check', static::$error_ids, 'ignores_comment_out');
 	}
