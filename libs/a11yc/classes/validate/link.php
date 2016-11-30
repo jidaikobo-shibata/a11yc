@@ -208,70 +208,41 @@ class Validate_Link extends Validate
 					continue;
 			}
 
-
-			// // a
-			// if ($ele == 'a')
-			// {
-			// 	$url = $attrs['href'];
-			// }
-
-			// // img
-			// if ($ele == 'img')
-			// {
-			// 	$url = $attrs['src'];
-			// }
-
-			// // form
-			// if ($ele == 'form')
-			// {
-			// 	$url = $attrs['action'];
-			// }
-
-			// og
-			// if ($ele == 'meta')
-			// {
-			// 	if ($attrs['property'] == 'og:url' || $attrs['property'] == 'og:image')
-			// 	{
-			// 		$url = $attrs['content'];
-			// 	}
-			// }
-
 			// correct url
-			// if (empty($url)) continue;
 			if (static::is_ignorable($tag)) continue;
 			$url = static::correct_url($url);
 
-			// fragments
-			if ($url[0] == '#')
-			{
-				if ( ! in_array(substr($url, 1), $fragments[1]))
-				{
-					static::$error_ids['link_check'][$k]['id'] = $tag;
-					static::$error_ids['link_check'][$k]['str'] = 'Fragment Not Found: '.$original;
-				}
-				continue;
-			}
+			// // fragments
+			// if ($url[0] == '#')
+			// {
+			// 	if ( ! in_array(substr($url, 1), $fragments[1]))
+			// 	{
+			// 		static::$error_ids['link_check'][$k]['id'] = $tag;
+			// 		static::$error_ids['link_check'][$k]['str'] = 'Fragment Not Found: '.$original;
+			// 	}
+			// 	continue;
+			// }
 
-			$headers = @get_headers($url);
+			// $headers = @get_headers($url);
 
-			// links
-			if ($headers === false)
-			{
-				static::$error_ids['link_check'][$k]['id'] = $tag;
-				static::$error_ids['link_check'][$k]['str'] = 'Not Found: '.$tag;
-			}
-			else
-			{
-				if (
-					strpos($headers[0], ' 20') !== false ||
-					strpos($headers[0], ' 30') !== false
-				) continue;
-				//if (strpos($headers[0], ' 20') !== false) continue;
+			// // links
+			// if ($headers === false)
+			// {
+			// 	static::$error_ids['link_check'][$k]['id'] = $tag;
+			// 	static::$error_ids['link_check'][$k]['str'] = 'Not Found: '.$tag;
+			// }
+			// else
+			// {
+			// 	if (
+			// 		strpos($headers[0], ' 20') !== false ||
+			// 		strpos($headers[0], ' 30') !== false
+			// 	) continue;
+			// 	//if (strpos($headers[0], ' 20') !== false) continue;
 
-				static::$error_ids['link_check'][$k]['id'] = $tag;
-				static::$error_ids['link_check'][$k]['str'] = substr($headers[0], strpos($headers[0], ' ')).': '.$original;
-			}
+			// 	static::$error_ids['link_check'][$k]['id'] = $tag;
+			// 	static::$error_ids['link_check'][$k]['str'] = substr($headers[0], strpos($headers[0], ' ')).': '.$original;
+			// }
 		}
-		static::add_error_to_html('link_check', static::$error_ids, 'ignores_comment_out');
+		// static::add_error_to_html('link_check', static::$error_ids, 'ignores_comment_out');
 	}
 }
