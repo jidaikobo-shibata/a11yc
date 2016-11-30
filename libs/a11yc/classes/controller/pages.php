@@ -373,7 +373,7 @@ class Controller_Pages
 			// done
 			echo '<p><a id="a11yc_back_to_pages" href="'.A11YC_PAGES_URL.'">'.A11YC_LANG_PAGES_RETURN_TO_PAGES.'</a></p>';
 			echo '<script>a11yc_stop_scroll()</script>'."\n";
-			
+
 			if ( ! headers_sent())
 			{
 				echo '</body>';
@@ -464,7 +464,7 @@ class Controller_Pages
 			'page_title_asc',
 			'page_title_desc');
 		$orderby = Input::get('order', false);
-		if (in_array($order, $order_whitelist))
+		if (in_array($orderby, $order_whitelist))
 		{
 			$order = strtoupper(substr($orderby, strrpos($orderby, '_') + 1));
 			$by    = strtolower(substr($orderby, 0, strrpos($orderby, '_')));

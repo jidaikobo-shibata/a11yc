@@ -115,7 +115,9 @@ endif;
 			?>
 				<li>
 					<a href="<?php echo $url ?>"<?php echo A11YC_TARGET ?>><?php echo $url ?></a>
+					<?php if (\Kontiki\Auth::auth()): ?>
 					(<a href="<?php echo A11YC_CHECKLIST_URL.$url ?>"<?php echo A11YC_TARGET ?>>check</a>)
+					<?php endif; ?>
 				</li>
 			<?php endforeach; ?>
 			</ul>
