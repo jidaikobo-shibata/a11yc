@@ -12,7 +12,7 @@ define('A11YC_URL', 'http://example.com/a11yc/index.php');
 // array must be started with 1 (not 0)
 // array(1 => array(username, password, display_name, memo))
 define('A11YC_USERS', serialize(array(
-	1 => array('root', 'password', 'root', ''),
+	1 => array('root', 'password', 'administrator', ''),
 )));
 
 // for css and js
