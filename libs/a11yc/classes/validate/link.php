@@ -214,7 +214,7 @@ class Validate_Link extends Validate
 			// correct url
 			if (empty($url)) continue;
 			if (static::is_ignorable($tag)) continue;
-			$url = static::correct_url($url);
+//			$url = static::correct_url($url);
 
 			// fragments
 			if ($url[0] == '#')
