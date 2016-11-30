@@ -39,6 +39,7 @@
 		</ul>
 		</nav><!--#a11yc_menu-->
 	</div><!--#a11yc_menu_wrapper-->
+	<a id="a11yc_content" tabindex="0" class="a11yc_skip a11yc_show_if_focus"><?php echo A11YC_LANG_BEGINNING_OF_THE_CONTENT ?></a>
 <?php endif; ?>
 <?php
 	$h1 = constant('A11YC_LANG_'.strtoupper($mode).'_TITLE');

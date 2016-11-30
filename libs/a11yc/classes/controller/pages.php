@@ -196,8 +196,20 @@ class Controller_Pages
 						echo '<meta charset="utf-8">';
 						echo '<title>'.A11YC_LANG_PAGES_URLS_ADD.' - A11YC</title></head><body>';
 					}
-					echo '<script>setInterval(function(){if(!!document.getElementById("a11yc_back_to_pages")) return ;window.scrollTo(0,document.body.scrollHeight);}, 100)</script>'."\n";
-					echo '<div style="word-break: break-all;">'."\n";
+					echo '<script>
+					var a11yc_load_url;
+					function a11yc_auto_scroll(){
+						a11yc_load_url = setInterval(function(){
+							window.scrollTo(0,document.body.scrollHeight);
+						}, 100);
+					}
+					function a11yc_stop_scroll(){
+						window.scrollTo(0,document.body.scrollHeight);
+						clearInterval(a11yc_load_url);
+					}
+					</script>'."\n";
+				echo '<div style="word-break: break-all;">'."\n";
+				echo '<script>a11yc_auto_scroll()</script>'."\n";
 				}
 
 				// page title
@@ -249,6 +261,7 @@ class Controller_Pages
 				echo '</div>';
 				// done
 				echo '<p><a id="a11yc_back_to_pages" href="'.A11YC_PAGES_URL.'">'.A11YC_LANG_PAGES_ADDED_NORMALLY.'</a></p>';
+				echo '<script>a11yc_stop_scroll()</script>'."\n";
 				if ( ! headers_sent())
 				{
 					echo '</body>';
@@ -311,8 +324,20 @@ class Controller_Pages
 					echo '<meta charset="utf-8">';
 					echo '<title>'.A11YC_LANG_PAGES_GET_URLS.' - A11YC</title></head><body>';
 				}
-				echo '<script>setInterval(function(){if(!!document.getElementById("a11yc_back_to_pages")) return ;window.scrollTo(0,document.body.scrollHeight);}, 100)</script>'."\n";
+					echo '<script>
+					var a11yc_load_url;
+					function a11yc_auto_scroll(){
+						a11yc_load_url = setInterval(function(){
+							window.scrollTo(0,document.body.scrollHeight);
+						}, 100);
+					}
+					function a11yc_stop_scroll(){
+						window.scrollTo(0,document.body.scrollHeight);
+						clearInterval(a11yc_load_url);
+					}
+					</script>'."\n";
 				echo '<div style="word-break: break-all;">'."\n";
+					echo '<script>a11yc_auto_scroll()</script>'."\n";
 			}
 
 			$current = $k + 1;
@@ -347,6 +372,8 @@ class Controller_Pages
 
 			// done
 			echo '<p><a id="a11yc_back_to_pages" href="'.A11YC_PAGES_URL.'">'.A11YC_LANG_PAGES_RETURN_TO_PAGES.'</a></p>';
+			echo '<script>a11yc_stop_scroll()</script>'."\n";
+			
 			if ( ! headers_sent())
 			{
 				echo '</body>';
