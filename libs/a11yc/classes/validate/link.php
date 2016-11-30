@@ -179,32 +179,40 @@ class Validate_Link extends Validate
 			if ( ! in_array($ele, $checks)) continue;
 			$attrs = static::get_attributes($tag);
 
+			if (
+				! isset($attrs['href']) ||
+				! isset($attrs['src']) ||
+				! isset($attrs['action']) ||
+				! isset($attrs['content']) ||
+				! isset($attrs['property'])
+			) continue;
+
 			// a
 			if ($ele == 'a')
 			{
-				if ( ! isset($attrs['href'])) continue;
+//				if ( ! isset($attrs['href'])) continue;
 				$url = $attrs['href'];
 			}
 
 			// img
-			// if ($ele == 'img')
-			// {
-			// 	if ( ! isset($attrs['src'])) continue;
-			// 	$url = $attrs['src'];
-			// }
+			if ($ele == 'img')
+			{
+				// if ( ! isset($attrs['src'])) continue;
+				$url = $attrs['src'];
+			}
 
 			// form
 			if ($ele == 'form')
 			{
-				if ( ! isset($attrs['action'])) continue;
+				// if ( ! isset($attrs['action'])) continue;
 				$url = $attrs['action'];
 			}
 
 			// og
 			if ($ele == 'meta')
 			{
-				if ( ! isset($attrs['property'])) continue;
-				if ( ! isset($attrs['content'])) continue;
+				// if ( ! isset($attrs['property'])) continue;
+				// if ( ! isset($attrs['content'])) continue;
 				if ($attrs['property'] == 'og:url' || $attrs['property'] == 'og:image')
 				{
 					$url = $attrs['content'];
