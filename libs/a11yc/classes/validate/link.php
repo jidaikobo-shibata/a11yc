@@ -174,33 +174,34 @@ class Validate_Link extends Validate
 		foreach ($ms[0] as $k => $tag)
 		{
 			$url = '';
+			$ele = $ms[1][$k];
 
-			if ( ! in_array($ms[1][$k], $checks)) continue;
+			if ( ! in_array($ele, $checks)) continue;
 			$attrs = static::get_attributes($tag);
 
 			// a
-			if ($ms[1][$k] == 'a')
+			if ($ele == 'a')
 			{
 				if ( ! isset($attrs['href'])) continue;
 				$url = $attrs['href'];
 			}
 
 			// img
-			if ($ms[1][$k] == 'img')
+			if ($ele == 'img')
 			{
 				if ( ! isset($attrs['src'])) continue;
 				$url = $attrs['src'];
 			}
 
 			// form
-			if ($ms[1][$k] == 'form')
+			if ($ele == 'form')
 			{
 				if ( ! isset($attrs['action'])) continue;
 				$url = $attrs['action'];
 			}
 
 			// og
-			if ($ms[1][$k] == 'meta')
+			if ($ele == 'meta')
 			{
 				if ( ! isset($attrs['property'])) continue;
 				if ( ! isset($attrs['content'])) continue;
