@@ -229,7 +229,12 @@ class Validate_Link extends Validate
 			$headers = @get_headers($url);
 
 			// links
-			if ($headers !== false)
+			if ($headers === false)
+			{
+				static::$error_ids['link_check'][$k]['id'] = $v;
+				static::$error_ids['link_check'][$k]['str'] = 'Not Found: '.$v;
+			}
+			else
 			{
 				if (
 					strpos($headers[0], ' 20') !== false ||
@@ -239,11 +244,6 @@ class Validate_Link extends Validate
 
 				static::$error_ids['link_check'][$k]['id'] = $v;
 				static::$error_ids['link_check'][$k]['str'] = substr($headers[0], strpos($headers[0], ' ')).': '.$original;
-			}
-			else
-			{
-				static::$error_ids['link_check'][$k]['id'] = $v;
-				static::$error_ids['link_check'][$k]['str'] = 'Not Found: '.$v;
 			}
 		}
 		static::add_error_to_html('link_check', static::$error_ids, 'ignores_comment_out');
