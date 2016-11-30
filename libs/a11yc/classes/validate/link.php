@@ -171,12 +171,12 @@ class Validate_Link extends Validate
 		// fragments
 		preg_match_all("/ (?:id|name) *?= *?[\"']([^\"']+?)[\"']/i", $str, $fragments);
 
-		foreach ($ms[0] as $k => $v)
+		foreach ($ms[0] as $k => $tag)
 		{
 			$url = '';
 
 			if ( ! in_array($ms[1][$k], $checks)) continue;
-			$attrs = static::get_attributes($v);
+			$attrs = static::get_attributes($tag);
 
 			// a
 			if ($ms[1][$k] == 'a')
@@ -212,7 +212,7 @@ class Validate_Link extends Validate
 
 			// correct url
 			if (empty($url)) continue;
-			if (static::is_ignorable($v)) continue;
+			if (static::is_ignorable($tag)) continue;
 			$url = static::correct_url($url);
 
 			// fragments
@@ -220,7 +220,7 @@ class Validate_Link extends Validate
 			{
 				if ( ! in_array(substr($url, 1), $fragments[1]))
 				{
-					static::$error_ids['link_check'][$k]['id'] = $v;
+					static::$error_ids['link_check'][$k]['id'] = $tag;
 					static::$error_ids['link_check'][$k]['str'] = 'Fragment Not Found: '.$original;
 				}
 				continue;
@@ -231,8 +231,8 @@ class Validate_Link extends Validate
 			// links
 			if ($headers === false)
 			{
-				static::$error_ids['link_check'][$k]['id'] = $v;
-				static::$error_ids['link_check'][$k]['str'] = 'Not Found: '.$v;
+				static::$error_ids['link_check'][$k]['id'] = $tag;
+				static::$error_ids['link_check'][$k]['str'] = 'Not Found: '.$tag;
 			}
 			else
 			{
@@ -242,7 +242,7 @@ class Validate_Link extends Validate
 				) continue;
 				//if (strpos($headers[0], ' 20') !== false) continue;
 
-				static::$error_ids['link_check'][$k]['id'] = $v;
+				static::$error_ids['link_check'][$k]['id'] = $tag;
 				static::$error_ids['link_check'][$k]['str'] = substr($headers[0], strpos($headers[0], ' ')).': '.$original;
 			}
 		}
