@@ -25,11 +25,11 @@ JIS X 8341-3:2016 (WCAG 2.0) に基づいたアクセシビリティ報告書と
 
 サーバにファイル一式をアップしたのち、
 
-config/config.dist.php
+ config/config.dist.php
 
 を複製して、
 
-config/config.php
+ config/config.php
 
 を作り、環境設定してください。ほとんどの場合、A11YC_URL (ファイルを設置したアドレス) とA11YC_USERS (管理者情報) を設定したら大丈夫だと思います。
 
@@ -41,11 +41,11 @@ config/config.php
 
 ### 報告書と方針
 
-report.dist.php
+ report.dist.php
 
 を適当なファイル名に変更します。PHPがわかる方なら、適当にパスをいじって好きなところにおいてください。わからない場合でも、HTMLはいじっても大丈夫ですので、
 
-report.php
+ report.php
 
 あたりにrenameしてください。
 
