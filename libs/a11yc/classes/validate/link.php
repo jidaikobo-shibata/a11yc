@@ -190,33 +190,31 @@ class Validate_Link extends Validate
 			// a
 			if ($ele == 'a')
 			{
-//				if ( ! isset($attrs['href'])) continue;
 				$url = $attrs['href'];
 			}
 
 			// img
 			if ($ele == 'img')
 			{
-				// if ( ! isset($attrs['src'])) continue;
 				$url = $attrs['src'];
 			}
 
 			// form
 			if ($ele == 'form')
 			{
-				// if ( ! isset($attrs['action'])) continue;
 				$url = $attrs['action'];
 			}
 
 			// og
-			if ($ele == 'meta')
+			if (
+				$ele == 'meta' &&
+				($attrs['property'] == 'og:url' || $attrs['property'] == 'og:image')
+			)
 			{
-				// if ( ! isset($attrs['property'])) continue;
-				// if ( ! isset($attrs['content'])) continue;
-				if ($attrs['property'] == 'og:url' || $attrs['property'] == 'og:image')
-				{
+				// if ($attrs['property'] == 'og:url' || $attrs['property'] == 'og:image')
+				// {
 					$url = $attrs['content'];
-				}
+				// }
 			}
 
 			// correct url
