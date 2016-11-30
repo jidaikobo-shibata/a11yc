@@ -527,18 +527,13 @@ function a11yc_disclosure_toggle($obj, $t){
 
 }
 
-});
-
-
 
 /* === assist === */
-jQuery(function($){
 
 // smooth scroll
 // links on the same page
 // prepare
 $(document).on('click', 'a[href^=#]', function(e){
-	e = e ? e : event;
 	e.preventDefault();
  	var href,
 			$t,

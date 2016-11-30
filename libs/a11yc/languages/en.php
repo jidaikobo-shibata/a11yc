@@ -27,7 +27,7 @@ define('A11YC_LANG_AS', 'Accessibility Supported');
 define('A11YC_LANG_UNDERSTANDING', 'Understanding WCAG2.0');
 define('A11YC_LANG_NO_DOC', 'There is no document');
 define('A11YC_LANG_JUMP_TO_CONTENT', 'Jump to content');
-define('A11YC_LANG_BEGINNING_OF_THE_CONTENT', '');
+define('A11YC_LANG_BEGINNING_OF_THE_CONTENT', 'Start of main content');
 define('A11YC_LANG_UPDATE_SUCCEED', 'Update Succeed');
 define('A11YC_LANG_UPDATE_FAILED', 'Update Failed');
 define('A11YC_LANG_ERROR_NON_TARGET_LEVEL', 'Please perform the check from select "Target Level" in setting.');
