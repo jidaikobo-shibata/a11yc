@@ -19,13 +19,10 @@ class Validate_Head extends Validate
 	 */
 	public static function check_doctype()
 	{
-		$ms = static::get_elements_by_re(static::$hl_html, 'tags');
-		if ( ! $ms[0]) return;
-
 		if ( ! static::get_doctype())
 		{
 			static::$error_ids['check_doctype'][0]['id'] = false;
-			static::$error_ids['check_doctype'][0]['str'] = $ms[0][0];
+			static::$error_ids['check_doctype'][0]['str'] = 'doctype not found';
 		}
 		static::add_error_to_html('check_doctype', static::$error_ids);
 	}
@@ -37,7 +34,8 @@ class Validate_Head extends Validate
 	 */
 	public static function viewport()
 	{
-		$ms = static::get_elements_by_re(static::$hl_html, 'tags');
+		$str = static::ignore_elements(static::$hl_html);
+		$ms = static::get_elements_by_re($str, 'tags');
 		if ( ! $ms[0]) return;
 
 		foreach ($ms[1] as $k => $tag)

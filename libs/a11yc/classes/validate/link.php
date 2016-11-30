@@ -83,10 +83,8 @@ class Validate_Link extends Validate
 	 */
 	public static function same_urls_should_have_same_text()
 	{
-		$str = static::ignore_comment_out(static::$hl_html);
-
 		// urls
-		$ms = static::get_elements_by_re($str, 'anchors_and_values');
+		$ms = static::get_elements_by_re(static::$hl_html, 'anchors_and_values');
 		if ( ! $ms[1]) return;
 
 		$urls = array();
@@ -158,8 +156,7 @@ class Validate_Link extends Validate
 	 */
 	public static function link_check()
 	{
-		$str = static::ignore_comment_out(static::$hl_html);
-
+		$str = static::ignore_elements(static::$hl_html);
 		$ms = static::get_elements_by_re($str, 'tags');
 		if ( ! $ms[0]) return;
 
@@ -206,11 +203,8 @@ class Validate_Link extends Validate
 			if ($ms[1][$k] == 'meta')
 			{
 				if ( ! isset($attrs['property'])) continue;
-				if ($attrs['property'] == 'og:url' && isset($attrs['content']))
-				{
-					$url = $attrs['content'];
-				}
-				if ($attrs['property'] == 'og:image' && isset($attrs['content']))
+				if ( ! isset($attrs['content'])) continue;
+				if ($attrs['property'] == 'og:url' || $attrs['property'] == 'og:image')
 				{
 					$url = $attrs['content'];
 				}
