@@ -83,10 +83,8 @@ class Validate_Link extends Validate
 	 */
 	public static function same_urls_should_have_same_text()
 	{
-		$str = static::ignore_comment_out(static::$hl_html);
-
 		// urls
-		$ms = static::get_elements_by_re($str, 'anchors_and_values');
+		$ms = static::get_elements_by_re(static::$hl_html, 'anchors_and_values');
 		if ( ! $ms[1]) return;
 
 		$urls = array();
@@ -158,8 +156,7 @@ class Validate_Link extends Validate
 	 */
 	public static function link_check()
 	{
-		$str = static::ignore_comment_out(static::$hl_html);
-
+		$str = static::ignore_elements(static::$hl_html);
 		$ms = static::get_elements_by_re($str, 'tags');
 		if ( ! $ms[0]) return;
 
@@ -174,51 +171,45 @@ class Validate_Link extends Validate
 		// fragments
 		preg_match_all("/ (?:id|name) *?= *?[\"']([^\"']+?)[\"']/i", $str, $fragments);
 
-		foreach ($ms[0] as $k => $v)
+		foreach ($ms[0] as $k => $tag)
 		{
 			$url = '';
+			$ele = $ms[1][$k];
 
-			if ( ! in_array($ms[1][$k], $checks)) continue;
-			$attrs = static::get_attributes($v);
+			if ( ! in_array($ele, $checks)) continue;
+			$attrs = static::get_attributes($tag);
 
-			// a
-			if ($ms[1][$k] == 'a')
+			if (
+				! isset($attrs['href']) ||
+				! isset($attrs['src']) ||
+				! isset($attrs['action']) ||
+				! isset($attrs['content']) ||
+				! isset($attrs['property'])
+			) continue;
+
+			switch ($ele)
 			{
-				if ( ! isset($attrs['href'])) continue;
-				$url = $attrs['href'];
-			}
-
-			// img
-			if ($ms[1][$k] == 'img')
-			{
-				if ( ! isset($attrs['src'])) continue;
-				$url = $attrs['src'];
-			}
-
-			// form
-			if ($ms[1][$k] == 'form')
-			{
-				if ( ! isset($attrs['action'])) continue;
-				$url = $attrs['action'];
-			}
-
-			// og
-			if ($ms[1][$k] == 'meta')
-			{
-				if ( ! isset($attrs['property'])) continue;
-				if ($attrs['property'] == 'og:url' && isset($attrs['content']))
-				{
-					$url = $attrs['content'];
-				}
-				if ($attrs['property'] == 'og:image' && isset($attrs['content']))
-				{
-					$url = $attrs['content'];
-				}
+				case 'a':
+					$url = $attrs['href'];
+					break;
+				case 'img':
+					$url = $attrs['src'];
+					break;
+				case 'form':
+					$url = $attrs['action'];
+					break;
+				case 'meta':
+					if ($attrs['property'] == 'og:url' || $attrs['property'] == 'og:image')
+					{
+						$url = $attrs['content'];
+					}
+					break;
+				default:
+					continue;
 			}
 
 			// correct url
-			if (empty($url)) continue;
-			if (static::is_ignorable($v)) continue;
+			if (static::is_ignorable($tag)) continue;
 			$url = static::correct_url($url);
 
 			// fragments
@@ -226,7 +217,7 @@ class Validate_Link extends Validate
 			{
 				if ( ! in_array(substr($url, 1), $fragments[1]))
 				{
-					static::$error_ids['link_check'][$k]['id'] = $v;
+					static::$error_ids['link_check'][$k]['id'] = $tag;
 					static::$error_ids['link_check'][$k]['str'] = 'Fragment Not Found: '.$original;
 				}
 				continue;
@@ -235,7 +226,12 @@ class Validate_Link extends Validate
 			$headers = @get_headers($url);
 
 			// links
-			if ($headers !== false)
+			if ($headers === false)
+			{
+				static::$error_ids['link_check'][$k]['id'] = $tag;
+				static::$error_ids['link_check'][$k]['str'] = 'Not Found: '.$tag;
+			}
+			else
 			{
 				if (
 					strpos($headers[0], ' 20') !== false ||
@@ -243,13 +239,8 @@ class Validate_Link extends Validate
 				) continue;
 				//if (strpos($headers[0], ' 20') !== false) continue;
 
-				static::$error_ids['link_check'][$k]['id'] = $v;
+				static::$error_ids['link_check'][$k]['id'] = $tag;
 				static::$error_ids['link_check'][$k]['str'] = substr($headers[0], strpos($headers[0], ' ')).': '.$original;
-			}
-			else
-			{
-				static::$error_ids['link_check'][$k]['id'] = $v;
-				static::$error_ids['link_check'][$k]['str'] = 'Not Found: '.$v;
 			}
 		}
 		static::add_error_to_html('link_check', static::$error_ids, 'ignores_comment_out');
