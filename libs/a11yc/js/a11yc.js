@@ -22,7 +22,8 @@ jQuery(function($){
 		top = $html.scrollTop();
 		$el = $('<div>').height(10000).prependTo('body');
 		$html.scrollTop(10000);
-		rs = !!$html.scrollTop() ? 'html' : 'body';
+		rs = !!$html.scrollTop();
+		rs = rs ? 'html' : 'body';
 		$html.scrollTop(top);
 		$el.remove();
 		return rs;
