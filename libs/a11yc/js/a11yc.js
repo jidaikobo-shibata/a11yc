@@ -539,19 +539,17 @@ $(document).on('click', 'a[href^=#]', function(e){
  	var href,
 			$t,
 			position;
-	href= $(this).attr("href");
-	if (href!=='#')
-	{
-		//ない時の判定を確認する
-		$t = href != '' ? $(href) : $('html');
-		// add tabindex -1
-		if( !$t.is(':input') && !$t.is('a') && !$t.attr('tabindex')) $t.attr('tabindex', '-1');
-		setTimeout(function(){
-			a11yc_smooth_scroll($t);
-			$t.focus();
-			return false;
-		},50);
-	}
+	href = $(this).attr("href");
+	if(href === '#') return;
+	$t = $(href);
+	// add tabindex -1
+	if( !$t.is(':input') && !$t.is('a') && !$t.attr('tabindex')) $t.attr('tabindex', '-1');
+	
+	setTimeout(function(){
+		a11yc_smooth_scroll($t);
+		$t.focus();
+		return false; //要検討
+	},50);
 });
 
 function a11yc_smooth_scroll($t) {
