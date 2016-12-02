@@ -22,7 +22,7 @@ class Controller_Checklist
 	public static function Action_Index()
 	{
 		$setup = Controller_Setup::fetch_setup();
-		if ( ! $setup['target_level'])
+		if ( ! isset($setup['target_level']))
 		{
 			Session::add('messages', 'errors', A11YC_LANG_ERROR_NON_TARGET_LEVEL);
 		}
