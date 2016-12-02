@@ -2,6 +2,9 @@
 engines:
   csslint:
     enabled: true
+    checks:
+      overqualified-elements:
+        enabled: false
   duplication:
     enabled: true
     config:

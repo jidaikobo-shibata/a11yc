@@ -154,7 +154,7 @@ p.a11yc_fr {
 .a11yc li+li {
 	margin-top: .75em;
 }
-#jwp-a11y_error ul li,
+#jwp-a11y_error ul li
 {
 	list-style: disc;
 	margin-left: 2em;
@@ -369,9 +369,10 @@ table#a11yc_table_info {
 #a11yc_menu li a.a11yc_hasicon span {
 	text-decoration: none;
 }
+/*
 [lang="ja"] #a11yc_menu li span:after {
 }
-
+*/
 #a11yc_menu .a11yc_center span:after {
 	content: "\f015";
 }
@@ -614,7 +615,7 @@ table#a11yc_rest {
 	-webkit-box-sizing : border-box ;
 	-moz-box-sizing : border-box ;
 	box-sizing : border-box ;
-	border-spacing: 0px;
+	border-spacing: 0;
 	border: 1px solid #aaa;
 	font-size: 1em;
 }
@@ -684,13 +685,15 @@ dl#a11yc_validation_code {
 	padding: 10px 0 0;
 	background-color: #fff;
 }
+/*
 #a11yc_validation_code .a11yc_disclosure_target.active {
 }
+*/
 #a11yc_validation_errors dt,
 #a11yc_validation_errors dd {
 	border-color:#aaa;
 	border-style: solid;
-	word-break: break-word;
+	word-break: normal;
 	padding: 2px 5px;
 }
 #a11yc_validation_errors dt {
@@ -893,7 +896,7 @@ ul.a11yc_outlink li {
 	-webkit-box-sizing : border-box ;
 	-moz-box-sizing : border-box ;
 	box-sizing : border-box ;
-	border-spacing: 0px;
+	border-spacing: 0;
 	border-top: 1px #bbb solid;
 	border-right: 1px #bbb solid;
 	background-color: #fff;
