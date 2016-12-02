@@ -12,7 +12,11 @@ engines:
       - php
     exclude_fingerprints:
       # Identical code found in 1 other location libs/a11yc/classes/validate/alt.php:116…119
+      # reason: Necessity
       - 9fa587d72a53239e117c5c7c6b063d93
+      # Similar code found in 1 other location libs/a11yc/classes/controller/docs.php:75…82
+      # reason: Maybe False detection
+      - d3a8a3207356cb3666f66f66328a8dac
   eslint:
     enabled: true
   fixme:
