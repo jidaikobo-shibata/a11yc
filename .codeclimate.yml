@@ -10,6 +10,9 @@ engines:
       - javascript
       - python
       - php
+    exclude_fingerprints:
+      # Identical code found in 1 other location libs/a11yc/classes/validate/alt.php:116…119
+      - 9fa587d72a53239e117c5c7c6b063d93
   eslint:
     enabled: true
   fixme:
@@ -33,9 +36,6 @@ engines:
         enabled: false
       CleanCode/ElseExpression:
         enabled: false
-    exclude_fingerprints:
-    	# Identical code found in 1 other location libs/a11yc/classes/validate/alt.php:116…119
-    	- 9fa587d72a53239e117c5c7c6b063d93
 ratings:
   paths:
   - "**.css"
