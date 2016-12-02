@@ -510,6 +510,8 @@ class Controller_Pages
 
 		// crawled urls
 		$from_session = Session::fetch('values', 'urls');
+		$crawled = '';
+		$get_urls = '';
 		if (isset($from_session[0]))
 		{
 			$crawled = $from_session[0];
@@ -523,8 +525,8 @@ class Controller_Pages
 		}
 
 		// assign
-		View::assign('crawled', isset($crawled) ? $crawled : '');
-		View::assign('get_urls', isset($get_urls) ? $get_urls : '');
+		View::assign('crawled', $crawled);
+		View::assign('get_urls', $get_urls);
 		View::assign('pages', $pages);
 		View::assign('current_qs', $qs.'&amp;paged='.$paged.'&amp;s='.$word);
 		View::assign('prev', $prev_qs ? A11YC_PAGES_URL.$qs.$prev_qs : false);
