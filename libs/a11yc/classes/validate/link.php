@@ -180,10 +180,10 @@ class Validate_Link extends Validate
 			$attrs = static::get_attributes($tag);
 
 			if (
-				! isset($attrs['href']) ||
-				! isset($attrs['src']) ||
-				! isset($attrs['action']) ||
-				! isset($attrs['content']) ||
+				! isset($attrs['href']) &&
+				! isset($attrs['src']) &&
+				! isset($attrs['action']) &&
+				! isset($attrs['content']) &&
 				! isset($attrs['property'])
 			) continue;
 
@@ -230,19 +230,19 @@ class Validate_Link extends Validate
 			{
 				static::$error_ids['link_check'][$k]['id'] = $tag;
 				static::$error_ids['link_check'][$k]['str'] = 'Not Found: '.$tag;
+				continue;
 			}
-			else
-			{
-				if (
-					strpos($headers[0], ' 20') !== false ||
-					strpos($headers[0], ' 30') !== false
-				) continue;
-				//if (strpos($headers[0], ' 20') !== false) continue;
 
-				static::$error_ids['link_check'][$k]['id'] = $tag;
-				static::$error_ids['link_check'][$k]['str'] = substr($headers[0], strpos($headers[0], ' ')).': '.$original;
-			}
+			if (
+				strpos($headers[0], ' 20') !== false ||
+				strpos($headers[0], ' 30') !== false
+			) continue;
+			//if (strpos($headers[0], ' 20') !== false) continue;
+
+			static::$error_ids['link_check'][$k]['id'] = $tag;
+			static::$error_ids['link_check'][$k]['str'] = substr($headers[0], strpos($headers[0], ' ')).': '.$original;
 		}
+
 		static::add_error_to_html('link_check', static::$error_ids, 'ignores_comment_out');
 	}
 }
