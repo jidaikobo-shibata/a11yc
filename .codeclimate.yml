@@ -33,6 +33,8 @@ engines:
         enabled: false
       CleanCode/ElseExpression:
         enabled: false
+    exclude_fingerprints:
+    - 9fa587d72a53239e117c5c7c6b063d93
 ratings:
   paths:
   - "**.css"

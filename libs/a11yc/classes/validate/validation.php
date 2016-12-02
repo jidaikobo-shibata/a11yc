@@ -81,9 +81,11 @@ class Validate_Validation extends Validate
 			if ($tag[0] =='/')
 			{
 				$ends[] = substr($tag, 1);
-				continue;
 			}
-			$opens[] = $tag;
+			else
+			{
+				$opens[] = $tag;
+			}
 		}
 
 		// count tags
