@@ -19,6 +19,11 @@ engines:
       # reason: Maybe False detection
       - d3a8a3207356cb3666f66f66328a8dac
       - 30001ee64809e30f83511f043d45ae03
+      # Identical code found in 1 other location libs/a11yc/classes/validate/validation.php:291…301
+      # Identical code found in 1 other location libs/a11yc/classes/validate/validation.php:307…317
+      # reason: Maybe False detection
+      - f96b75d1e4620a3fbfa335ff99194b39
+      - f96b75d1e4620a3fbfa335ff99194b39
   eslint:
     enabled: true
   fixme:
