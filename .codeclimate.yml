@@ -15,8 +15,10 @@ engines:
       # reason: Necessity
       - 9fa587d72a53239e117c5c7c6b063d93
       # Similar code found in 1 other location libs/a11yc/classes/controller/docs.php:75…82
+      # Similar code found in 1 other location libs/kontiki/classes/ua.php:51…57
       # reason: Maybe False detection
       - d3a8a3207356cb3666f66f66328a8dac
+      - 30001ee64809e30f83511f043d45ae03
   eslint:
     enabled: true
   fixme:
