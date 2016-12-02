@@ -429,14 +429,6 @@ class Controller_Pages
 				break;
 		}
 
-		// search
-		$word = '';
-		if (Input::get('s'))
-		{
-			$word = mb_convert_kana(trim(Input::get('s')), "as");
-			$sql.= $word ? 'and (`url` LIKE ? OR `page_title` LIKE ?) ' : '';
-		}
-
 		// order
 		$order = 'DESC';
 		$by    = 'add_date';
@@ -456,16 +448,19 @@ class Controller_Pages
 			$order = strtoupper(substr($orderby, strrpos($orderby, '_') + 1));
 			$by    = strtolower(substr($orderby, 0, strrpos($orderby, '_')));
 		}
-		$sql.= 'order by '.$by.' '.$order.';';
+		$sql_odr = 'order by '.$by.' '.$order.';';
 
 		// fetch
-		if ($word)
+		$word = '';
+		if (Input::get('s'))
 		{
-			$pages = Db::fetch_all($sql, array('%'.$word.'%', '%'.$word.'%'));
+			$word = mb_convert_kana(trim(Input::get('s')), "as");
+			$sql.= $word ? 'and (`url` LIKE ? OR `page_title` LIKE ?) ' : '';
+			$pages = Db::fetch_all($sql.$sql_odr, array('%'.$word.'%', '%'.$word.'%'));
 		}
 		else
 		{
-			$pages = Db::fetch_all($sql);
+			$pages = Db::fetch_all($sql.$sql_odr);
 		}
 
 		// pagination
