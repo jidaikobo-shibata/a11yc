@@ -438,6 +438,9 @@ class Controller_Pages
 		}
 
 		// order
+		$order = 'DESC';
+		$by    = 'add_date';
+
 		$order_whitelist = array(
 			'add_date_asc',
 			'add_date_desc',
@@ -452,11 +455,6 @@ class Controller_Pages
 		{
 			$order = strtoupper(substr($orderby, strrpos($orderby, '_') + 1));
 			$by    = strtolower(substr($orderby, 0, strrpos($orderby, '_')));
-		}
-		else
-		{
-			$order = 'DESC';
-			$by    = 'add_date';
 		}
 		$sql.= 'order by '.$by.' '.$order.';';
 

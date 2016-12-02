@@ -233,12 +233,14 @@ class Validate_Link extends Validate
 				continue;
 			}
 
+			// page found
 			if (
 				strpos($headers[0], ' 20') !== false ||
 				strpos($headers[0], ' 30') !== false
 			) continue;
 			//if (strpos($headers[0], ' 20') !== false) continue;
 
+			// 40x 50x
 			static::$error_ids['link_check'][$k]['id'] = $tag;
 			static::$error_ids['link_check'][$k]['str'] = substr($headers[0], strpos($headers[0], ' ')).': '.$original;
 		}
