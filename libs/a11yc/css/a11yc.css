@@ -690,6 +690,7 @@ dl#a11yc_validation_code {
 #a11yc_validation_errors dd {
 	border-color:#aaa;
 	border-style: solid;
+	word-break: break-word;
 	padding: 2px 5px;
 }
 #a11yc_validation_errors dt {
