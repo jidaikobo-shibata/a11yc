@@ -19,13 +19,13 @@ if ($lines): ?>
 		<td><?php echo $doc['criterion']['guideline']['principle']['name'] ?></td>
 		<td><?php echo $doc['criterion']['guideline']['principle']['summary'] ?></td>
 	</tr>
-	
+
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_GUIDELINE ?></th>
 		<td><?php echo $doc['criterion']['guideline']['name'] ?></td>
 		<td><?php echo $doc['criterion']['guideline']['summary'] ?></td>
 	</tr>
-	
+
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_CRITERION ?></th>
 		<td><?php echo $doc['criterion']['name'].'<br><span class="a11yc_inlineblock">('.\A11yc\Util::key2code($doc['criterion']['code']).' '.$doc['criterion']['level']['name'].')</span>' ?></td>
@@ -33,7 +33,6 @@ if ($lines): ?>
 	</tr>
 	</table>
 <?php endif; ?>
-
 
 		<!-- relation -->
 <?php
