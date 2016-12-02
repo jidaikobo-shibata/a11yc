@@ -34,7 +34,8 @@ engines:
       CleanCode/ElseExpression:
         enabled: false
     exclude_fingerprints:
-    - 9fa587d72a53239e117c5c7c6b063d93
+    	# Identical code found in 1 other location libs/a11yc/classes/validate/alt.php:116…119
+    	- 9fa587d72a53239e117c5c7c6b063d93
 ratings:
   paths:
   - "**.css"
