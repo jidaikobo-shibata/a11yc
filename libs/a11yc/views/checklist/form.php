@@ -33,7 +33,7 @@
 	}
 
 $additional_criterions = array();
-if(isset($setup['additional_criterions']))
+if(isset($setup['additional_criterions']) && $setup['additional_criterions'])
 {
 	$str = str_replace('&quot;', '"', $setup['additional_criterions']);
 	$additional_criterions = unserialize($str);
