@@ -100,6 +100,12 @@ class Db extends \Kontiki\Db
 				$sql.= ');';
 				static::execute($sql);
 			}
+
+			if ( ! static::is_fields_exist(A11YC_TABLE_SETUP, array('additional_criterions')))
+			{
+				$sql = 'ALTER TABLE '.A11YC_TABLE_SETUP.' ADD `additional_criterions` text;';
+				static::execute($sql);
+			}
 		}
 	}
 }

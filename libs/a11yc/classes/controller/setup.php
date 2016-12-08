@@ -45,12 +45,21 @@ class Controller_Setup
 	{
 		if (Input::post())
 		{
-			$post = $_POST;
+			$post = Input::post();
 			$target_level = intval($post['target_level']);
 			$selected_method = intval($post['selected_method']);
 			$checklist_behaviour = intval(@$post['checklist_behaviour']);
 			$standard = intval($post['standard']);
 			$policy = stripslashes($post['policy']);
+
+			$additional_criterions = array();
+			if (Input::post('additional_criterions'))
+			{
+				foreach ($post['additional_criterions'] as $code => $v)
+				{
+					$additional_criterions[] = $code;
+				}
+			}
 
 			$setup = static::fetch_setup();
 
@@ -66,6 +75,7 @@ class Controller_Setup
 				$sql.= '`contact` = ?, ';
 				$sql.= '`policy` = ?, ';
 				$sql.= '`report` = ?,';
+				$sql.= '`additional_criterions` = ?,';
 				$sql.= '`checklist_behaviour` = ?;';
 				$r = Db::execute($sql, array(
 						$target_level,
@@ -77,6 +87,7 @@ class Controller_Setup
 						$post['contact'],
 						$policy,
 						$post['report'],
+						serialize($additional_criterions),
 						$checklist_behaviour
 					));
 			}
@@ -92,8 +103,9 @@ class Controller_Setup
 				$sql.= '`contact`, ';
 				$sql.= '`policy`, ';
 				$sql.= '`report`, ';
+				$sql.= '`additional_criterions`, ';
 				$sql.= '`checklist_behaviour`)';
-				$sql.= ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+				$sql.= ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
 				$r = Db::execute($sql, array(
 						$target_level,
 						$selected_method,
@@ -104,6 +116,7 @@ class Controller_Setup
 						$post['contact'],
 						$policy,
 						$post['report'],
+						serialize($additional_criterions),
 						$checklist_behaviour
 					));
 			}
@@ -133,6 +146,7 @@ class Controller_Setup
 		View::assign('title', A11YC_LANG_SETUP_TITLE);
 		View::assign('setup', static::fetch_setup());
 		View::assign('standards', Yaml::each('standards'));
+		View::assign('yml', Yaml::fetch());
 		View::assign('form', View::fetch_tpl('setup/form.php'), FALSE);
 	}
 }

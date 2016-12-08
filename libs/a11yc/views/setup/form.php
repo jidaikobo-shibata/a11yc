@@ -2,12 +2,14 @@
 
 <table class="a11yc_table">
 	<tbody>
+
 	<tr>
 		<th scope="row"><label for="a11yc_declare_date"><?php echo A11YC_LANG_DECLARE_DATE ?></label></th>
 		<td>
 			<input type="text" name="declare_date" id="a11yc_declare_date" size="10" value="<?php echo @$setup['declare_date'] ?>">
 		</td>
 	</tr>
+
 	<tr>
 		<th scope="row"><label for="a11yc_standard"><?php echo A11YC_LANG_STANDARD ?></label></th>
 		<td>
@@ -21,6 +23,7 @@
 			</select>
 		</td>
 	</tr>
+
 	<tr>
 		<th scope="row"><label for="a11yc_target_level"><?php echo A11YC_LANG_TARGET_LEVEL ?></label></th>
 		<td><select name="target_level" id="a11yc_target_level">
@@ -32,6 +35,7 @@
 <?php endforeach; ?>
 		</select></td>
 	</tr>
+
 	<tr>
 		<th scope="row"><label for="a11yc_selected_method"><?php echo A11YC_LANG_CANDIDATES_TITLE ?></label></th>
 		<td>
@@ -52,18 +56,21 @@
 			</select>
 		</td>
 	</tr>
+
 	<tr>
 		<th scope="row"><label for="a11yc_test_period"><?php echo A11YC_LANG_TEST_PERIOD ?></label></th>
 		<td>
 			<input type="text" name="test_period" id="a11yc_test_period" size="30" value="<?php echo s(@$setup['test_period']) ?>">
 		</td>
 	</tr>
+
 	<tr>
 		<th scope="row"><label for="a11yc_dependencies"><?php echo A11YC_LANG_DEPENDENCIES ?></label></th>
 		<td>
 			<textarea name="dependencies" id="a11yc_dependencies" style="width:100%;" rows="7"><?php echo s(@$setup['dependencies']) ?></textarea>
 		</td>
 	</tr>
+
 	<tr>
 		<th scope="row"><label for="a11yc_policy"><?php echo A11YC_LANG_POLICY ?></label></th>
 		<td>
@@ -71,6 +78,7 @@
 			<textarea name="policy" id="a11yc_policy" style="width:100%;" rows="7"><?php echo s(@$setup['policy']) ?></textarea>
 		</td>
 	</tr>
+
 	<tr>
 		<th scope="row"><label for="a11yc_report"><?php echo A11YC_LANG_REPORT ?></label></th>
 		<td>
@@ -78,6 +86,7 @@
 			<textarea name="report" id="a11yc_report" style="width:100%;" rows="7"><?php echo s(@$setup['report']) ?></textarea>
 		</td>
 	</tr>
+
 	<tr>
 		<th scope="row"><label for="a11yc_contact"><?php echo A11YC_LANG_CONTACT ?></label></th>
 		<td>
@@ -85,6 +94,39 @@
 			<textarea name="contact" id="a11yc_contact" style="width:100%;" rows="7"><?php echo s(@$setup['contact']) ?></textarea>
 		</td>
 	</tr>
+
+<?php if (@$setup['target_level'] && $setup['target_level'] != 3):  ?>
+	<tr>
+		<th scope="row"><?php echo A11YC_LANG_CHECKLIST_CONFORMANCE_ADDITIONAL ?></th>
+		<td>
+			<ul style="list-style: none;">
+			<?php
+
+				$levels = array(
+					'A' => 1,
+					'AA' => 2,
+					'AAA' => 3,
+				);
+				$n = 0;
+				$str = str_replace('&quot;', '"', $setup['additional_criterions']);
+				$additional_criterions = unserialize($str);
+				foreach ($yml['criterions'] as $code => $v):
+					if ($levels[$v['level']['name']] <= $setup['target_level']) continue;
+					if ($n % 2 === 0):
+						echo '<li style="float: left; width: 40%;">';
+					else:
+						echo '<li style="float: left; width: 40%;clear: left;">';
+					endif;
+					$checked = in_array($code, $additional_criterions) ? ' checked="checked"' : '';
+					echo '<label for="additional_criterions_'.$code.'"><input'.$checked.' type="checkbox" name="additional_criterions['.$code.']" id="additional_criterions_'.$code.'" value="1" /> '.$v['code'].' '.$v['name'].' ('.$v['level']['name'].')</label></li>';
+					$n++;
+				endforeach;
+			?>
+			</ul>
+		</td>
+	</tr>
+<?php endif;  ?>
+
 	</tbody>
 </table>
 <h2><?php echo A11YC_LANG_SETUP_TITLE_ETC ?></h2>

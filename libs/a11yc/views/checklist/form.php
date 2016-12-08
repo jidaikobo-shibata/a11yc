@@ -31,10 +31,18 @@
 		$class_str = ($i == $target_level) || ($target_level == 0 && $i == 3) ? ' class="current"' : '';
 		echo '<a role="button" tabindex="0" data-narrow-level="'.implode(',', array_slice(array('l_a', 'l_aa', 'l_aaa'), 0, $i)).'"'.$class_str.'>'.\A11yc\Util::num2str($i).'</a>';
 	}
+
+$additional_criterions = array();
+if(isset($setup['additional_criterions']))
+{
+	$str = str_replace('&quot;', '"', $setup['additional_criterions']);
+	$additional_criterions = unserialize($str);
+}
+$additional_criterion = join(',', $additional_criterions);
 ?>
 	</p>
 </div><!-- /#a11yc_header_ctrl -->
-<div id="a11yc_checks" data-a11yc-current-user="<?php echo $current_user_id ?>" data-a11yc-lang='{"expand":"<?php echo A11YC_LANG_CTRL_EXPAND ?>", "compress": "<?php echo A11YC_LANG_CTRL_COMPRESS ?>", "conformance": "<?php echo A11YC_LANG_CHECKLIST_CONFORMANCE.','.A11YC_LANG_CHECKLIST_CONFORMANCE_PARTIAL ?>"}' <?php if($checklist_behaviour) echo ' class="a11yc_hide_passed_item"' ?>>
+<div id="a11yc_checks" data-a11yc-additional_criterions="<?php echo $additional_criterion ?>" data-a11yc-current-user="<?php echo $current_user_id ?>" data-a11yc-lang='{"expand":"<?php echo A11YC_LANG_CTRL_EXPAND ?>", "compress": "<?php echo A11YC_LANG_CTRL_COMPRESS ?>", "conformance": "<?php echo A11YC_LANG_CHECKLIST_CONFORMANCE.','.A11YC_LANG_CHECKLIST_CONFORMANCE_PARTIAL ?>"}' <?php if($checklist_behaviour) echo ' class="a11yc_hide_passed_item"' ?>>
 <!-- header -->
 <div id="a11yc_header">
 	<div id="a11yc_header_left" class="a11yc_fl">
