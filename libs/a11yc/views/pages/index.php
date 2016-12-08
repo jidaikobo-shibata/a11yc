@@ -72,7 +72,7 @@ if ($pages):
 	<tbody>
 	<?php
 	$i = 0;
-	$no_url = isset($_GET['no_url']) ? \A11yc\Util::urldec($_GET['no_url']) : '';
+	$no_url = \A11yc\Util::urldec(\A11yc\Input::get('no_url', ''));
 	foreach ($pages as $page):
 	$url = \A11yc\Util::s($page['url']);
 	$not_found_class = $no_url == $url ? ' not_found_url' : '';
