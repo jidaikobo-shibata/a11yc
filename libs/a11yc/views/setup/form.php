@@ -99,7 +99,7 @@
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_CHECKLIST_CONFORMANCE_ADDITIONAL ?></th>
 		<td>
-			<ul style="list-style: none;">
+			<ul id="a11yc_additional_criterions_list">
 			<?php
 
 				$levels = array(
@@ -113,9 +113,9 @@
 				foreach ($yml['criterions'] as $code => $v):
 					if ($levels[$v['level']['name']] <= $setup['target_level']) continue;
 					if ($n % 2 === 0):
-						echo '<li style="float: left; width: 40%;">';
+						echo '<li class="odd">';
 					else:
-						echo '<li style="float: left; width: 40%;clear: left;">';
+						echo '<li class="even">';
 					endif;
 					$checked = in_array($code, $additional_criterions) ? ' checked="checked"' : '';
 					echo '<label for="additional_criterions_'.$code.'"><input'.$checked.' type="checkbox" name="additional_criterions['.$code.']" id="additional_criterions_'.$code.'" value="1" /> '.$v['code'].' '.$v['name'].' ('.$v['level']['name'].')</label></li>';
