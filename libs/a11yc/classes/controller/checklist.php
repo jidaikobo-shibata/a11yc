@@ -276,6 +276,9 @@ class Controller_Checklist
 		View::assign('bulk', $bulk);
 		View::assign('cs', $url == 'bulk' ? array() : $cs);
 
+		// validation
+		View::assign('ajax_validation', View::fetch_tpl('checklist/ajax.php'), false);
+
 		// form
 		View::assign('form', View::fetch_tpl('checklist/form.php'), false);
 	}

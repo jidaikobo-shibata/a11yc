@@ -93,7 +93,7 @@ function a11yc_fixed_header(e){
 	{
 		a11yc_add_fixed();
 	}
-	
+
 //	remove
 	if($(window).scrollTop() === 0)
 	{
@@ -131,7 +131,7 @@ function a11yc_narrow_level(target_narrow, index, e){
 	var $show_levels = $();
 	$target.parent().find('a').removeClass('current');
 	$target.addClass('current');
-	
+
 	for(var k in data_levels)
 	{
 		if({}.hasOwnProperty.call(data_levels, k)){
@@ -140,7 +140,7 @@ function a11yc_narrow_level(target_narrow, index, e){
 	}
 	$target_narrow.find('.a11yc_level_a,.a11yc_level_aa,.a11yc_level_aaa').addClass('a11yc_dn');
 	$show_levels.removeClass('a11yc_dn');
-	
+
 	//validation_list only
 	if(target_narrow==='#a11yc_validation_list')
 	{
@@ -356,7 +356,7 @@ $('#a11yc_update_all').on('change', function(){
 /* === validation error_message === */
 if($('#a11yc_errors')[0]){
 	$.ajax({
-		type: 'GET',
+		type: 'POST',
 		url: $('#a11yc_errors').data('a11ycAjaxUrl'),
 		dataType: 'html',
 		data: {
@@ -400,14 +400,14 @@ function format_validation_error(){
 		var $disclosure = $('#a11yc_validation_code').find('.a11yc_source');
 		var $error_places = $();
 		var $controller = $('#a11yc_errors .a11yc_controller');
-		
+
 		//expand contents
 		var icon_labels = [$('#a11yc_checks').data('a11ycLang').expand, $('#a11yc_checks').data('a11ycLang').compress];
 		$expand_icon = $('<a role="button" class="a11yc_expand a11yc_hasicon" tabindex="0"><span role="presentation" aria-hidden="true" class="a11yc_icon_fa a11yc_icon_expand"></span><span class="a11yc_skip">'+icon_labels[0]+'</span></a>');
 
 		$expands = $error_wrapper.add($disclosure);
 		$controller.append($expand_icon.clone());
-		
+
 		$(document).on('click', '.a11yc_expand', function(){
 			var index = $('.a11yc_expand').index(this);
 			$(this).toggleClass('on');
@@ -415,7 +415,7 @@ function format_validation_error(){
 			if($(this).hasClass('on')){
 				$(this).find('.a11yc_skip').text(icon_labels[1]);
 			}else{
-				$(this).find('.a11yc_skip').text(icon_labels[0]);	
+				$(this).find('.a11yc_skip').text(icon_labels[0]);
 			}
 		});
 
@@ -454,9 +454,9 @@ function format_validation_error(){
 			}
 			return false;
 		});
-		
+
 		// narrow level
-		
+
 	}
 }
 /* query request */
@@ -544,7 +544,7 @@ $(document).on('click', 'a[href^=#]', function(e){
 	$t = $(href);
 	// add tabindex -1
 	if( !$t.is(':input') && !$t.is('a') && !$t.attr('tabindex')) $t.attr('tabindex', '-1');
-	
+
 	setTimeout(function(){
 		a11yc_smooth_scroll($t);
 		$t.focus();

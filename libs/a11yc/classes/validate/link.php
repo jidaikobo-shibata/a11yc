@@ -240,7 +240,7 @@ class Validate_Link extends Validate
 			) continue;
 			//if (strpos($headers[0], ' 20') !== false) continue;
 
-			// 40x 50x
+			// 40x
 			static::$error_ids['link_check'][$k]['id'] = $tag;
 			static::$error_ids['link_check'][$k]['str'] = substr($headers[0], strpos($headers[0], ' ')).': '.$original;
 		}
