@@ -11,7 +11,7 @@
 		<select name="num" id="a11yc_num">
 			<?php
 				foreach (array(25, 50, 100, 250, 500) as $v):
-				$checked = isset($_GET['num']) && $_GET['num'] == $v ? ' selected="selected"' : '';
+				$checked = \A11yc\Input::get('num') == $v ? ' selected="selected"' : '';
 			?>
 				<option value="<?php echo $v ?>"<?php echo $checked ?>><?php echo $v ?></option>
 			<?php endforeach; ?>
@@ -33,7 +33,7 @@
 		<select name="order" id="a11yc_order">
 		<?php
 		foreach ($opts as $k => $v):
-			$checked = isset($_GET['order']) && $_GET['order'] == $k ? ' selected="selected"' : '';
+			$checked = \A11yc\Input::get('order') == $k ? ' selected="selected"' : '';
 		?>
 			<option value="<?php echo $k ?>"<?php echo $checked ?>><?php echo $v ?></option>
 		<?php endforeach; ?>

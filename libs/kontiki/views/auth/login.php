@@ -1,4 +1,4 @@
-<?php if (isset($_POST['username'])):  ?>
+<?php if (\A11yc\Input::post('username')):  ?>
   <p><strong>Error</strong></p>
 <?php endif; ?>
 

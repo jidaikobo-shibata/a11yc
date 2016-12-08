@@ -52,7 +52,7 @@ class Controller_Bulk extends Controller_Checklist
 	 */
 	public static function dbio($url)
 	{
-		if ($_POST)
+		if (Input::post())
 		{
 			$cs = Input::post('chk');
 

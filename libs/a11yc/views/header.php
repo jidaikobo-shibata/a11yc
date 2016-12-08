@@ -45,7 +45,7 @@
 	$h1 = constant('A11YC_LANG_'.strtoupper($mode).'_TITLE');
 	$titile_attr_str ='';
 	if($mode == 'docs'):
-		if(!(isset($_GET['a']) && $_GET['a']=='each')):
+		if( ! (\A11yc\Input::get('a') == 'each')):
 			$titile_attr_str = ' class="a11yc_hasctrl"';
 		else:
 			$h1 .= ':&nbsp;'.$doc['name'];

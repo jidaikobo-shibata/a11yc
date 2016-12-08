@@ -5,7 +5,7 @@
 			<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_LEVEL ?></th>
 			<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_EXIST ?></th>
 			<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PASS ?></th>
-			<?php if (isset($_GET['url'])): ?>
+			<?php if (\A11yc\Input::get('url')): ?>
 			<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_CHECKLIST_MEMO ?></th>
 			<?php endif; ?>
 		</tr>
@@ -29,7 +29,7 @@
 			<td class="a11yc_result">
 			<?php echo $results[$k]['pass'] ? A11YC_LANG_PASS : '-' ?>
 			</td>
-			<?php if (isset($_GET['url'])): ?>
+			<?php if (\A11yc\Input::get('url')): ?>
 			<td>
 			<?php echo \A11yc\Util::s($results[$k]['memo']) ?>
 			</td>

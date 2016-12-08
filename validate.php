@@ -42,8 +42,8 @@ header('Content-Type: text/html; charset=utf-8');
 // assign
 //\A11yc\Controller_Disclosure::total();
 
-$url = isset($_POST['url']) ? \A11yc\Util::urldec($_POST['url']) : '';
-$link_check = isset($_POST['link_check']) ? intval($_POST['link_check']) : '';
+$url = \A11yc\Util::urldec(\A11yc\Input::post('url', ''));
+$link_check = intval(\A11yc\Input::post('link_check', ''));
 if ( ! $url) die('invalid access');
 $errs = \A11yc\Controller_Checklist::validate_page($url, $link_check);
 \A11yc\View::assign('errs', $errs, false);
