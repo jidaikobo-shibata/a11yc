@@ -15,7 +15,6 @@ jQuery(function($){
 		num : 0,
 		query_arr : [],
 		param_arr : [],
-		is_checked: false,
 		is_wp : $('.wp-admin')[0] ? true : false
 	}
 });
