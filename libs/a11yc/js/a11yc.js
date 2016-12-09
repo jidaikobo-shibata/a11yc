@@ -13,8 +13,6 @@ jQuery(function($){
 		$info : $(),
 		$current_level : '',
 		$additional_criterions: $(),
-		query_arr : [],
-		param_arr : [],
 		is_wp : $('.wp-admin')[0] ? true : false
 	}
 });
@@ -506,17 +504,6 @@ function a11yc_select_validation_code_txt(){
 	var range = document.createRange();
 	range.selectNodeContents($txt[0]);
 	window.getSelection().addRange(range);
-}
-
-/* query request */
-a11yc_env.query_arr = window.location.search.substring(1).split('&');
-for(var k in a11yc_env.query_arr)
-{
-	if({}.hasOwnProperty.call(a11yc_env.query_arr, k))
-	{
-		var arr = a11yc_env.query_arr[k].split('=');
-		a11yc_env.param_arr[decodeURIComponent(arr[0])] = decodeURIComponent(arr[1]);
-	}
 }
 
 /* === disclosure === */
