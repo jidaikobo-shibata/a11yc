@@ -511,8 +511,8 @@ class Controller_Pages
 		{
 			$crawled = $from_session[0];
 			Session::add('messages', 'message', A11YC_LANG_PAGES_PRESS_ADD_BUTTON);
-			$from_session = Session::fetch('param', 'get_urls');
-			$get_urls = isset($from_session[0]) ? $from_session[0] : '';
+			$get_urls_session = Session::fetch('param', 'get_urls');
+			$get_urls = Arr::get($get_urls_session, 0, '');
 		}
 		else
 		{

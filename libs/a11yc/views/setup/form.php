@@ -109,7 +109,7 @@
 				);
 				$n = 0;
 				$str = str_replace('&quot;', '"', $setup['additional_criterions']);
-				$additional_criterions = unserialize($str);
+				$additional_criterions = $str ? unserialize($str) : array();
 				foreach ($yml['criterions'] as $code => $v):
 					if ($levels[$v['level']['name']] <= $setup['target_level']) continue;
 					if ($n % 2 === 0):
