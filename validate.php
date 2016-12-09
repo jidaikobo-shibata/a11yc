@@ -11,13 +11,13 @@
  */
 
 // kontiki and a11yc
-if (file_exists(__DIR__.'/constants.php'))
-{
-	require (__DIR__.'/constants.php');
-}
-elseif(file_exists(__DIR__.'/config/config.php'))
+if(file_exists(__DIR__.'/config/config.php'))
 {
 	require (__DIR__.'/config/config.php');
+}
+elseif (file_exists(__DIR__.'/constants.php'))
+{
+	require (__DIR__.'/constants.php');
 }
 else
 {
