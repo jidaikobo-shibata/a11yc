@@ -34,7 +34,7 @@
 			<li class="a11yc_menu_item a11yc_pages"><a href="?c=pages&amp;a=index" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_PAGES_TITLE ?></a></li>
 			<li class="a11yc_menu_item a11yc_bulk"><a href="?c=bulk&amp;a=index" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_BULK_TITLE ?></a></li>
 			<li class="a11yc_menu_item a11yc_docs"><a href="?c=docs&amp;a=index" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_DOCS_TITLE ?></a></li>
-			<li class="a11yc_menu_item a11yc_logout a11yc_fr"><a href="?c=auth&amp;a=logout" class="a11yc_hasicon"><?php echo \A11yc\Users::fetch_current_user()[2].'&nbsp;:&nbsp;'.A11YC_LANG_LOGOUT ?><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span></a></li>
+			<li class="a11yc_menu_item a11yc_logout a11yc_fr"><a href="?c=auth&amp;a=logout" class="a11yc_hasicon" title="<?php echo A11YC_LANG_LOGOUT ?>"><?php echo \A11yc\Users::fetch_current_user()[2].'&nbsp;' ?><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span></a></li>
 			<li class="a11yc_menu_item a11yc_dev_info a11yc_fr"><span role="presentation"><?php echo \Kontiki\Performance::calc_time().' '.\Kontiki\Performance::calc_memory() ?></span></li>
 		</ul>
 		</nav><!--#a11yc_menu-->

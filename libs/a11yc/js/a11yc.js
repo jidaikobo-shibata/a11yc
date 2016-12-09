@@ -12,7 +12,7 @@ jQuery(function($){
 		current_position : 0,
 		$info : $(),
 		$current_level : '',
-		num : 0,
+		$additional_criterions: $(),
 		query_arr : [],
 		param_arr : [],
 		is_wp : $('.wp-admin')[0] ? true : false
@@ -69,6 +69,7 @@ jQuery(function($){
 	}
 
 	$.fn.a11yc_format_validation_error = function(){
+
 		var $error_wrapper = $('#a11yc_validation_list');
 		if ($error_wrapper[0])
 		{
@@ -135,14 +136,13 @@ jQuery(function($){
 		$el.remove();
 		return rs;
 	}());
-	a11yc_env.$menu = $('#wpadminbar')[0] ? $('#wpadminbar') : $('#a11yc_menu ul');
+	a11yc_env.$menu = $('#wpadminbar')[0] ? $('#wpadminbar') : $('#a11yc_menu_wrapper');
 	a11yc_env.$pagemenu = $('#a11yc_menu_principles')[0] ? $('#a11yc_menu_principles') : a11yc_env.$pagemenu;
-	var $additional_criterions = $();
 	if($('#a11yc_checks')[0]){
 		var additional_arr = $('#a11yc_checks').data('a11ycAdditional_criterions').split(',');
 		for( var k in additional_arr ){
 			if(!{}.hasOwnProperty.call(additional_arr, k)) continue;
-			$additional_criterions = $additional_criterions.add('#a11yc_c_'+additional_arr[k]);
+			a11yc_env.$additional_criterions = a11yc_env.$additional_criterions.add('#a11yc_c_'+additional_arr[k]);
 		}
 	}
 	$.fn.a11yc_set_pagemenu_top ();
@@ -182,6 +182,7 @@ if ($('#a11yc_header')[0])
 }
 
 function a11yc_add_fixed() {
+
 		var scroll = $(window).scrollTop();
 		if($('.a11yc_fixed_header')[0]) return;
 		//ここで#a11yc_headerがないばあいがある？？
@@ -254,7 +255,7 @@ function a11yc_narrow_level(target_narrow, index, e){
 		}
 	}
 	$target_narrow.find('.a11yc_level_a,.a11yc_level_aa,.a11yc_level_aaa').addClass('a11yc_dn');
-	$show_levels.add($additional_criterions).removeClass('a11yc_dn');
+	$show_levels.add(a11yc_env.$additional_criterions).removeClass('a11yc_dn');
 	
 
 	//validation_list only
@@ -384,25 +385,29 @@ function a11yc_table_display(){
 
 //count checkbox
 function a11yc_count_checkbox(){
-	a11yc_env.num = $('.a11yc_table_check tr:visible th input:not(:checked)').length;
-	a11yc_env.$info.find('thead td').text(a11yc_env.num);
-	var n = 0, subtotal = 0, total = 0, n_str = '', num_arr = [];
+	var additional_num = 0, subtotal = 0, total = 0, l_str='', n_str = '', num_arr = [];
 	$('#a11yc_rest tbody tr').each(function(index){
 		subtotal = 0;
 		var pid = '#a11yc_p_'+(index+1);
-		$(this).find('td').each(function(index){
+		$(this).find('td').each(function(col_index){
 			if(!$(this).is('.a11yc_rest_subtotal')){
-				var l_str = '';
-				for(var i=0; i<=index; i++) l_str= l_str+'a';
+				additional_num = 0;
+				l_str = '';
+				for(var i=0; i<=col_index; i++) l_str= l_str+'a';
 				n_str = $(pid).find('.a11yc_level_'+l_str+' th input').filter(':not(:disabled,:checked)').length;
-
-				if (index+1 <= a11yc_env.$current_level.length)
+				if (col_index+1 <= a11yc_env.$current_level.length)
 				{
 					subtotal = subtotal+n_str;
 				}
 				else
 				{
-						n_str = '-';
+					n_str = '-';
+					additional_num = a11yc_env.$additional_criterions.filter('.a11yc_level_'+l_str+'.a11yc_p_'+(index+1)+'_criterion').length;
+					if(additional_num!==0)
+					{
+						n_str = additional_num;
+						subtotal = subtotal+n_str;
+					}
 				}
 				$(this).text(n_str);
 			}
