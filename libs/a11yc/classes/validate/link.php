@@ -179,33 +179,28 @@ class Validate_Link extends Validate
 			if ( ! in_array($ele, $checks)) continue;
 			$attrs = static::get_attributes($tag);
 
-			if (
-				! isset($attrs['href']) &&
-				! isset($attrs['src']) &&
-				! isset($attrs['action']) &&
-				! isset($attrs['content']) &&
-				! isset($attrs['property'])
-			) continue;
-
-			switch ($ele)
+			if (isset($attrs['href']))
 			{
-				case 'a':
-					$url = $attrs['href'];
-					break;
-				case 'img':
-					$url = $attrs['src'];
-					break;
-				case 'form':
-					$url = $attrs['action'];
-					break;
-				case 'meta':
-					if ($attrs['property'] == 'og:url' || $attrs['property'] == 'og:image')
-					{
-						$url = $attrs['content'];
-					}
-					break;
-				default:
-					continue;
+				$url = $attrs['href'];
+			}
+			elseif (isset($attrs['src']))
+			{
+				$url = $attrs['src'];
+			}
+			elseif (isset($attrs['action']))
+			{
+				$url = $attrs['action'];
+			}
+			elseif (isset($attrs['property']))
+			{
+				if ($attrs['property'] == 'og:url' || $attrs['property'] == 'og:image')
+				{
+					$url = $attrs['content'];
+				}
+			}
+			else
+			{
+				continue;
 			}
 
 			// correct url
