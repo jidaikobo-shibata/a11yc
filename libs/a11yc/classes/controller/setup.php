@@ -33,7 +33,7 @@ class Controller_Setup
 	{
 		$sql = 'SELECT * FROM '.A11YC_TABLE_SETUP.';';
 		$ret = Db::fetch_all($sql);
-		return isset($ret[0]) ? $ret[0] : array();
+		return Arr::get($ret, 0, array());
 	}
 
 	/**
