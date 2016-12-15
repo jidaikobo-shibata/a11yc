@@ -10,27 +10,19 @@
  * @link       http://www.jidaikobo.com
  */
 
-// path
-defined('A11YC_CLASSES_PATH')  or define('A11YC_CLASSES_PATH',  A11YC_PATH.'/classes');
-defined('A11YC_RESOURCE_PATH') or define('A11YC_RESOURCE_PATH', A11YC_PATH.'/resources/'.A11YC_LANG);
+// config
+$config_path = dirname(dirname(__DIR__)).'/config/config.php';
+if ( ! file_exists($config_path)) die('check config/config.php');
+require ($config_path);
 
-// tables
-defined('A11YC_TABLE_PAGES')  or define('A11YC_TABLE_PAGES',  'a11y_pages');
-defined('A11YC_TABLE_CHECKS') or define('A11YC_TABLE_CHECKS', 'a11y_checks');
-defined('A11YC_TABLE_SETUP')  or define('A11YC_TABLE_SETUP',  'a11y_setup');
-defined('A11YC_TABLE_BULK')   or define('A11YC_TABLE_BULK',   'a11y_bulk');
+// load kontiki
+define('KONTIKI_DEFAULT_LANG', A11YC_LANG);
+require (dirname(dirname(__DIR__)).'/libs/kontiki/main.php');
 
-// url
-define('A11YC_VALIDATE_URL', dirname(A11YC_URL));
-defined('A11YC_BULK_URL') or define('A11YC_BULK_URL', A11YC_URL.'?c=bulk&amp;a=index');
-defined('A11YC_PAGES_URL') or define('A11YC_PAGES_URL', A11YC_URL.'?c=pages&amp;a=index');
-defined('A11YC_CHECKLIST_URL') or define('A11YC_CHECKLIST_URL', A11YC_URL.'?c=checklist&amp;a=index&amp;url=');
-defined('A11YC_DOC_URL') or define('A11YC_DOC_URL', A11YC_URL.'?c=docs&amp;a=each&amp;code=');
-
-// languages
+// language
 include A11YC_PATH.'/languages/'.A11YC_LANG.'.php';
 
-// include
+// Spyc - YAML lib.
 include dirname(dirname(__DIR__)).'/libs/spyc/Spyc.php';
 
 // Autoloader

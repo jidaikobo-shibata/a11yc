@@ -10,22 +10,10 @@
  * @link       http://www.jidaikobo.com
  */
 
-// kontiki and a11yc
-if(file_exists(__DIR__.'/config/config.php'))
-{
-	require (__DIR__.'/config/config.php');
-}
-elseif (file_exists(__DIR__.'/constants.php'))
-{
-	require (__DIR__.'/constants.php');
-}
-else
-{
-	die('set constants first. by constants.php or config/config.php');
-}
-require (__DIR__.'/libs/kontiki/main.php');
-require (A11YC_PATH.'/main.php');
+// a11yc
+require (__DIR__.'/libs/a11yc/main.php');
 
+// header
 header("HTTP/1.1 200 OK");
 header('Content-Type: text/html; charset=utf-8');
 
@@ -39,12 +27,12 @@ header('Content-Type: text/html; charset=utf-8');
 // view
 \A11yc\View::forge(A11YC_PATH.'/views/');
 
-// assign
-//\A11yc\Controller_Disclosure::total();
-
+// action
 $url = \A11yc\Util::urldec(\A11yc\Input::post('url', ''));
 $link_check = intval(\A11yc\Input::post('link_check', ''));
 if ( ! $url) die('invalid access');
+
+// assign
 $errs = \A11yc\Controller_Checklist::validate_page($url, $link_check);
 \A11yc\View::assign('errs', $errs, false);
 \A11yc\View::assign('errs_cnts', array_merge(array('total' => count($errs)), \A11yc\Controller_Checklist::$err_cnts));
@@ -90,4 +78,5 @@ $raw = join("\n", $lines);
 
 \A11yc\View::assign('raw', $raw, false);
 
+// dispatch
 \A11yc\View::display(array('checklist/validate.php'));
