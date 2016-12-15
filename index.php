@@ -15,11 +15,8 @@
 //error_reporting(0);
 //date_default_timezone_set('Asia/Tokyo');
 
-// kontiki and a11yc
-if ( ! file_exists(__DIR__.'/config/config.php')) die('check config/config.php');
-require (__DIR__.'/config/config.php');
-require (__DIR__.'/libs/kontiki/main.php');
-require (A11YC_PATH.'/main.php');
+// a11yc
+require (__DIR__.'/libs/a11yc/main.php');
 
 // database
 \A11yc\Db::forge(array(
