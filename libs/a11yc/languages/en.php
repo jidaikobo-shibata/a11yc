@@ -10,9 +10,9 @@ define('A11YC_LANG_PRINCIPLE', 'Principle');
 define('A11YC_LANG_GUIDELINE', 'Guideline');
 
 define('A11YC_LANG_LEVEL', 'Level');
-define('A11YC_LANG_EXIST', 'Exist');
-define('A11YC_LANG_EXIST_NON', 'Not Exist');
-define('A11YC_LANG_PASS', 'Passed');
+define('A11YC_LANG_EXIST', 'Present');
+define('A11YC_LANG_EXIST_NON', 'Not Present');
+define('A11YC_LANG_PASS', 'Conformance ');
 define('A11YC_LANG_CRITERION', 'Criterion');
 define('A11YC_LANG_HERE', 'here');
 define('A11YC_LANG_TEST_RESULT', 'Test result');

@@ -11,7 +11,6 @@ define('A11YC_URL', 'http://example.com/a11yc/index.php');
 // language
 // en, ja
 define('A11YC_LANG', 'ja');
-define('KONTIKI_DEFAULT_LANG', 'ja');
 
 // users
 // array must be started with 1 (not 0)
