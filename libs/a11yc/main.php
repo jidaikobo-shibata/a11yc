@@ -10,6 +10,13 @@
  * @link       http://www.jidaikobo.com
  */
 
+// security check
+$htaccess_path = dirname(__DIR__).'/.htaccess';
+if ( ! file_exists($htaccess_path))
+{
+	die('Security Risk found. check '.$htaccess_path);
+}
+
 // config
 $config_path = dirname(dirname(__DIR__)).'/config/config.php';
 if ( ! file_exists($config_path)) die('check config/config.php');
