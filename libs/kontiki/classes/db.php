@@ -12,7 +12,7 @@
 namespace Kontiki;
 class Db
 {
-	protected $dbh;
+	public $dbh;
 	protected $name;
 	protected $dbtype;
 	protected static $_instances = array();
