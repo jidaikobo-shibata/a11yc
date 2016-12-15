@@ -11,10 +11,7 @@
  */
 
 // a11yc
-$config_path = __DIR__.'/config/config.php';
-if ( ! file_exists($config_path)) die('check config/config.php');
-require ($config_path);
-require (A11YC_PATH.'/main.php');
+require (__DIR__.'/libs/a11yc/main.php');
 
 // header
 header("HTTP/1.1 200 OK");
