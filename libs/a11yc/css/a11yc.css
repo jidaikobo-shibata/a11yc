@@ -391,9 +391,6 @@ table#a11yc_table_info {
 #a11yc_menu .a11yc_logout span:after {
 	content: "\f08b";
 }
-#a11yc_menu .a11yc_dev_info {
-	top: 3px;
-}
 #a11yc_menu a {
 	text-decoration: none;
 	color: #fff;
@@ -718,8 +715,9 @@ dl#a11yc_validation_code {
 	border-color: #aaa;
 	border-top-style: solid;
 }
-#a11yc_validation_errors dd+dt {
-	border-top-width: 0;
+#a11yc_validation_errors dt {
+	margin-top: -1px;
+	background-color: #ffdfdf;
 }
 #a11yc_validation_errors dd {
 	margin-left: 0;

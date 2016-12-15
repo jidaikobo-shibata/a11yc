@@ -151,7 +151,7 @@ $additional_criterion = join(',', $additional_criterions);
 			$skip_non_interference = isset($vvv['non-interference']) ? '<span class="a11yc_skip">&nbsp;('.A11YC_LANG_CHECKLIST_NON_INTERFERENCE.')</span>' : '';
 			$class_str = isset($vvv['non-interference']) ? ' non_interference' : '';
 			$class_str.= ' a11yc_level_'.strtolower($vvv['level']['name']);
-
+			$class_str.= ' a11yc_p_'.$k.'_criterion';
 		?>
 			<div id="a11yc_c_<?php echo $kkk ?>" class="a11yc_section_criterion<?php echo $class_str ?>">
 			<h4 class="a11yc_header_criterion"><?php echo \A11yc\Util::key2code($vvv['code']).' '.$vvv['name'].' <span class="a11yc_header_criterion_level">('.$vvv['level']['name'].$non_interference.')</span>' ?></h4>
