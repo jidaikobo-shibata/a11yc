@@ -59,13 +59,14 @@ define('A11YC_LANG_CENTER_LOGO', 'Logo');
 
 // pages
 define('A11YC_LANG_PAGES_TITLE', 'Target Pages');
+define('A11YC_LANG_PAGES_INDEX', 'Target Pages');
 define('A11YC_LANG_PAGES_PAGETITLE', 'Target Page\'s title');
 define('A11YC_LANG_PAGES_URLS', 'Target Page\'s URL');
 define('A11YC_LANG_PAGES_URLS_ADD', 'Add URL');
 define('A11YC_LANG_PAGES_NOT_FOUND', 'No pages to check found');
 define('A11YC_LANG_PAGES_ALREADY_EXISTS', 'Already exists');
 define('A11YC_LANG_PAGES_ADDED_NORMALLY', 'Add');
-define('A11YC_LANG_PAGES_ADD_FAILED', '登録に失敗しました');
+define('A11YC_LANG_PAGES_ADD_FAILED', 'Failed');
 define('A11YC_LANG_PAGES_DONE', 'Done');
 define('A11YC_LANG_PAGES_CHECK', 'Check');
 define('A11YC_LANG_PAGES_DELETE', 'Delete');
@@ -85,7 +86,6 @@ define('A11YC_LANG_PAGES_URL_FOR_EACH_LINE', 'Enter one URL to each line, please
 be stopped at the registration process and too many.');
 define('A11YC_LANG_PAGES_ALL', 'All');
 define('A11YC_LANG_PAGES_YET', 'Yet');
-define('A11YC_LANG_PAGES_DONE', 'Done');
 define('A11YC_LANG_PAGES_TRASH', 'Trash');
 define('A11YC_LANG_PAGES_GET_URLS', 'Get Urls');
 define('A11YC_LANG_PAGES_GET_URLS_EXP', 'To generate a list of URL from a element of the target page. Recursive scan of the site structure is not supported.');

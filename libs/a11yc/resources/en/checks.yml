@@ -673,9 +673,9 @@ checks:
           - 1-4-3b
           - 1-4-3c
       level: *lv2
-      name: The contrast is sufficiently secured (4.5: 1) at all places. Also consideration of combination of color weakness
+      name: The contrast is sufficiently secured (4.5:1) at all places. Also consideration of combination of color weakness
       tech: |
-        The contrast ratio between the foreground color and the background color needs to be kept as low as 4.5: 1. If the foreground color and background color are not distinctly different, you should pay attention. For delicate parts, measure the contrast ratio. In particular, pay attention to main content and menus.
+        The contrast ratio between the foreground color and the background color needs to be kept as low as 4.5:1. If the foreground color and background color are not distinctly different, you should pay attention. For delicate parts, measure the contrast ratio. In particular, pay attention to main content and menus.
         Among the check items, it is said that it is only necessary for the web page side to provide a mechanism to change the contrast, but users with weak sight also have black and white reversal at the OS level in the first place, and ideal is enough It will ensure contrast.
         For  color vision deficiencies, consideration is given to specific color combinations. It should be noted that red and green, orange and yellow green, green and brown, blue and purple, pink and white or gray, green and gray  black, red and black, pink and blue.
 
@@ -707,7 +707,7 @@ checks:
         In Understanding WCAG 2.0, "very large character" is about "18 point text or 14 point bold text", which is about 6 mm in size when printed, but in display, It is hard to handle such absolute values, so be careful. If it is a large character, the contrast ratio is supposed to be 3:1.
       urls:
         -
-          name: G18: Ensuring that a contrast ratio of at least 4.5:1 exists between text (and images of text) and background behind the text
+          name: G18:Ensuring that a contrast ratio of at least 4.5:1 exists between text (and images of text) and background behind the text
           url: https://www.w3.org/TR/WCAG20-TECHS/G18.html
 
   1-4-4:
@@ -798,7 +798,7 @@ checks:
         1-4-3:
           - 1-4-3a
       level: *lv3
-      name: Contrast is sufficient (7: 1). And also consideration of combination of color vision deficiencies
+      name: Contrast is sufficient (7:1). And also consideration of combination of color vision deficiencies
       tech: |
         Strict criteria for 1.4.3. Requires a contrast ratio of 7:1.
 
@@ -1137,7 +1137,6 @@ checks:
         Also be careful when you have movies and audios. There are users that also make it difficult to recognize these by setting a time limit.
         For movies, audios, carousels, it is difficult to think about measures to extend or adjust the time limit, but if you can pause and resume it, you will meet this success criterion (G4). As for carousel, please note that similar items are achieved in 2.2.2 and level A can not be acquired unless the user can stop.
         Please do not specify redirect etc. by refresh of meta element because it restricts time to read by user.
-      urls:
 
     2-2-1c:
       criterion: *c2-2-1
@@ -1189,7 +1188,6 @@ checks:
         Please do not use marquee to let the character scroll or blink to let the letters flash.
         Movie, audio, carousel, etc are moving contents.
         If content with motion or blinking is less than 5 seconds it will meet this success criterion, but "blinking" may sometimes cause the same harm as "flash", within 5 seconds Even "flashing" blinking is not allowed.
-      urls:
 
   2-2-3:
     2-2-3a:
@@ -1393,7 +1391,6 @@ checks:
         Please note that Accessibility Supported. Bypass blocks by "structured by heading" is not accessibility supporteded because it is often not available in visual browsers. So, we should consider the response to put the link for bypass blocks to be essential to satisfy 2.4.1 at present.
         Frame and iframe elements can be collectively targeted for bypass blocks. By properly providing information on what kind of frame / iframe, with the title attribute, it will help you decide bypass blocks.
         Links for bypass blocks are useful not only for global menus and advertising areas, but also for Facebook plugin-box which continues to read many links, for example.
-      urls:
 
   2-4-2:
     2-4-2a:
@@ -1437,7 +1434,7 @@ checks:
         In the first place, if the link is broken due to the loss of the link destination etc. (It may not be a question to be touched in the accessibility context), let's improve it because it is hard to use.
       urls:
         -
-          name: G53: Identifying the purpose of a link using link text combined with the text of the enclosing sentence
+          name: G53:Identifying the purpose of a link using link text combined with the text of the enclosing sentence
           url: https://www.w3.org/TR/WCAG20-TECHS/G53.html
 
   2-4-5:
@@ -1756,7 +1753,7 @@ checks:
         Links and buttons that provide the same function must be consistent in the set of web pages. This success criterion is easy to overlook. Even labels that seem almost self-evident, if they are not strictly consistent, can not meet this success criterion. In the case of nonconforming cases, the "find" button and the "search" button provide the same function, but this is not good because of different labels.
         Even when the link destination is the same and the link character string is different, it is also the target of attention (G 197). It seems that it is NG that the link destination of the inquiry page is "Contact" or "Contact Us page".
         Also, the link to the top page of a set of web pages may be "top", "to the top page", or the site name. Let's avoid notating the notation of these links within the content.
-        It is a relatively common implementation that the logo image with the site name alt at the top of the page is the top page link. Also, at the same time, the link to the top page of breadcrumbs is often not a site name. Although the interpretation may be shaking, it is guaranteed consistency of the function "go to the top page when you click the site name logo" and the consistency of the function "let's go to the top page with the top in breadcrumbs" It is considered that this string does not have to match if it is done. See "Example 3: Consistent references to other pages" of "Understanding SC 3.2.4".
+        It is a relatively common implementation that the logo image with the site name alt at the top of the page is the top page link. Also, at the same time, the link to the top page of breadcrumbs is often not a site name. Although the interpretation may be shaking, it is guaranteed consistency of the function "go to the top page when you click the site name logo" and the consistency of the function "let's go to the top page with the top in breadcrumbs" It is considered that this string does not have to match if it is done. See "Example 3:Consistent references to other pages" of "Understanding SC 3.2.4".
         By the way, please also check 2.4.9. In this "Contact" example, this item is not satisfied because the labels do not match, but in terms of "understanding the function of the link" required in 2.4.9, there is no problem I will.
         For example, it is dangerous from the point of view of 2.4.9 to think that the "link for reading article details" is a consistent label "here".
       urls:
@@ -1764,7 +1761,7 @@ checks:
           name: Understanding SC 3.2.4
           url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/consistent-behavior-consistent-functionality.html
         -
-          name: G197: Using labels, names, and text alternatives consistently for content that has the same functionality
+          name: G197:Using labels, names, and text alternatives consistently for content that has the same functionality
           url: https://www.w3.org/TR/WCAG20-TECHS/G197.html
 
   3-2-5:

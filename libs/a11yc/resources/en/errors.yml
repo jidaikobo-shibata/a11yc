@@ -1,0 +1,178 @@
+errors:
+  check_doctype:
+    message: Use Doctype Declarations to specify DTD
+    criterion: 4-1-1
+    code: 4-1-1a
+  alt_attr_of_img:
+    message: The alt attribute of the img element is missing. Please do not omit the alt attribute value itself even for images for decorative purposes
+    criterion: 1-1-1
+    code: 1-1-1b
+  alt_attr_of_blank_only:
+    message: For images for decorative purposes, alt should be empty, not white space
+    criterion: 1-1-1
+    code: 1-1-1b
+  alt_attr_of_empty:
+    message: Is it an empty alt, but does not have any meaning?
+    criterion: 1-1-1
+    code: 1-1-1b
+  empty_alt_attr_of_img_inside_a:
+    message: If there is only an img element in the a element, the alt attribute value of the img element is not an empty character but a character indicating the purpose of the link should be included
+    criterion: 1-1-1
+    code: 1-1-1c
+  area_has_alt:
+    message: The alt attribute of the area element does not exist or the alt attribute value is an empty string. Please enter the character representing the purpose of the area element
+    criterion: 1-1-1
+    code: 1-1-1c
+  img_input_has_alt:
+    message: The input element's alt attribute does not exist or the alt attribute value is null. When the type of the input element is image, please enter the character representing purpose
+    criterion: 1-1-1
+    code: 1-1-1c
+  here_link:
+    message: Do not link "here" as a link
+    criterion: 2-4-4
+    code: 2-4-4a
+  too_much_opens:
+    message: It seems there are too many opening tags. Since this error will fail to locate the location, check the structure by browsing the DOM of the browser etc.
+    criterion: 4-1-1
+    code: 4-1-1a
+  too_much_ends:
+    message: It seems there are too many closing tags. Since this error will fail to locate the location, check the structure by browsing the DOM of the browser etc.
+    criterion: 4-1-1
+    code: 4-1-1a
+  suspicious_ends:
+    message: There is a Suspicious closing tag
+    criterion: 4-1-1
+    code: 4-1-1a
+  appropriate_heading_descending:
+    message: The descending order of the heading is not valid
+    criterion: 1-3-1
+    code: 1-3-1a
+  same_alt_and_filename_of_img:
+    message: The alt attribute value of the img element is the same as the file name. Sometimes it is not a problem
+    criterion: 1-1-1
+    code: 1-1-1b
+  ja_word_breaking_space:
+    message: There is a possibility of formatting by blank
+    criterion: 1-3-2
+    code: 1-3-2b
+  meanless_element:
+    message: HTML element that are meaningless is used
+    criterion: 1-3-1
+    code: 1-3-1a
+  meanless_element_timing:
+    message: Do not mark up movement, flashing in HTML
+    criterion: 2-2-2
+    code: 2-2-2b
+  style_for_structure:
+    message: There is a possibility of providing information depending on color and size
+    criterion: 1-3-1
+    code: 1-3-1a
+  tell_user_file_type:
+    message: If the link destination is a file, it is more nice to specify the file format and file size
+    criterion: 2-4-4
+    code: 2-4-4a
+  titleless:
+    message: The title element does not exist or the content of the title element is empty (or blank)
+    criterion: 2-4-2
+    code: 2-4-2a
+  langless:
+    message: Please specify the default language of the document with the html element
+    criterion: 3-1-1
+    code: 3-1-1a
+  different_lang:
+    message: The value of lang is inconsistent
+    criterion: 4-1-1
+    code: 4-1-1a
+  invalid_page_lang:
+    message: The value of lang in the basic language specification of the page is invalid
+    criterion: 3-1-1
+    code: 3-1-1a
+  invalid_partial_lang:
+    message: The value of lang in partial language specification is not valid
+    criterion: 3-1-2
+    code: 3-1-2a
+  same_page_title_in_same_site:
+    message: A page with the same title element exists in the site to be checked
+    criterion: 2-4-2
+    code: 2-4-2a
+  link_check:
+    message: Suspected broken links
+    criterion: 2-4-4
+    code: 2-4-4a
+  same_urls_should_have_same_text:
+    message: The link string is different although it is the same URL
+    criterion: 3-2-4
+    code: 3-2-4a
+  duplicated_attributes:
+    message: There is a possibility that attributes are duplicated
+    criterion: 4-1-1
+    code: 4-1-1a
+  suspicious_attributes:
+    message: There are suspicious attribute values
+    criterion: 4-1-1
+    code: 4-1-1a
+  duplicated_ids:
+    message: Duplicate id
+    criterion: 4-1-1
+    code: 4-1-1a
+  duplicated_accesskeys:
+    message: Duplicate accesskey
+    criterion: 4-1-1
+    code: 4-1-1a
+  unbalanced_quotation:
+    message: The number of quotes does not seem to match
+    criterion: 4-1-1
+    code: 4-1-1a
+  cannot_contain_multibyte_space:
+    message: Full-width space exists in the tag
+    criterion: 4-1-1
+    code: 4-1-1a
+  # these are not invalid.
+  # label_miss_maches:
+  #   message: It seems that the relationship between for and id in the form element does not match
+  #   criterion: 4-1-1
+  #   code: 4-1-1a
+  # tacit_label_miss_maches:
+  #   message: Implicit label's for and id do not match
+  #   criterion: 2-4-6
+  #   code: 2-4-6a
+  contain_plural_form_elements:
+    message: Label should not contain more than one labelable element
+    criterion: 2-4-6
+    code: 2-4-6a
+  labelless:
+    message: Let's use label when using the form element
+    criterion: 1-3-1
+    code: 1-3-1a
+  lackness_of_form_ends:
+    message: It seems that there are form elements that are not properly nested
+    criterion: 4-1-1
+    code: 4-1-1a
+  unique_label:
+    message: There is a possibility that the character string of label has duplication and distinctiveness has been impaired
+    criterion: 2-4-6
+    code: 2-4-6a
+  submitless:
+    message: Form has no submit button. Does the situation change without notice?
+    criterion: 3-2-2
+    code: 3-2-2a
+  duplicated_names:
+    message: It seems there is a duplicate name attribute value for elements other than checkbox and radio in one form
+    criterion: 4-1-1
+    code: 4-1-1a
+  meta_refresh:
+    message: Avoid automatic updating by refreshing the meta element
+    criterion: 2-2-1
+    code: 2-2-1b
+  titleless_frame:
+    message: Frame / iframe element has no title attribute
+    criterion: 2-4-1
+    code: 2-4-1a
+  cannot_contain_newline:
+    message: A line feed code can not be included in an attribute value
+    criterion: 4-1-1
+    code: 4-1-1a
+  user_scalable_no:
+    message: If you set user-scalable=no in the viewport setting, users can not change it to the size they like, so avoid it.
+    criterion: 1-4-4
+    code: 1-4-4a
