@@ -247,7 +247,9 @@ class Validate_Link extends Validate
 		// message
 		if ( ! $is_error)
 		{
-			Session::add('messages', 'messages', A11YC_LANG_NO_BROKEN_LINK_FOUND);
+			static::$error_ids['no_broken_link_found'][0]['id'] = '';
+			static::$error_ids['no_broken_link_found'][0]['str'] = A11YC_LANG_NO_BROKEN_LINK_FOUND;
 		}
+		static::add_error_to_html('no_broken_link_found', static::$error_ids, 'ignores_comment_out');
 	}
 }

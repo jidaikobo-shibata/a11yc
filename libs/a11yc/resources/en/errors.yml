@@ -99,6 +99,10 @@ errors:
     message: Suspected broken links
     criterion: 2-4-4
     code: 2-4-4a
+  no_broken_link_found:
+    message: No broken link was found
+    criterion: 2-4-4
+    code: 2-4-4a
   same_urls_should_have_same_text:
     message: The link string is different although it is the same URL
     criterion: 3-2-4

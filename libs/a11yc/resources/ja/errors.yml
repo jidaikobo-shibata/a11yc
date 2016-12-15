@@ -99,6 +99,10 @@ errors:
     message: リンク切れの疑いがあります
     criterion: 2-4-4
     code: 2-4-4a
+  no_broken_link_found:
+    message: リンク切れは見つかりませんでした
+    criterion: 2-4-4
+    code: 2-4-4a
   same_urls_should_have_same_text:
     message: 同じURLなのにリンク文字列が異なります
     criterion: 3-2-4
