@@ -4,6 +4,7 @@
  *
  * @package    part of Kontiki
  * @forked     FuelPHP core/classes/arr.php
+ * @forked     FuelPHP core/classes/fuel.php
  * @version    1.0
  * @author     Jidaikobo Inc.
  * @license    The MIT License (MIT)
@@ -14,7 +15,20 @@ namespace Kontiki;
 class Arr
 {
 	/**
-	 * Gets a key from an array, with a default value if it does
+	 * Takes a value and checks if it is a Closure or not, if it is it
+	 * will return the result of the closure, if not, it will simply return the
+	 * value.
+	 *
+	 * @param   mixed  $var  The value to get
+	 * @return  mixed
+	 */
+	public static function value($var)
+	{
+		return ($var instanceof \Closure) ? $var() : $var;
+	}
+
+	/**
+	 * Gets a dot-notated key from an array, with a default value if it does
 	 * not exist.
 	 *
 	 * @param   array   $array    The search array
@@ -51,11 +65,24 @@ class Arr
 			return $array[$key];
 		}
 
+		foreach (explode('.', $key) as $key_part)
+		{
+			if (($array instanceof \ArrayAccess and isset($array[$key_part])) === false)
+			{
+				if ( ! is_array($array) or ! array_key_exists($key_part, $array))
+				{
+					return static::value($default);
+				}
+			}
+
+			$array = $array[$key_part];
+		}
+
 		return $array;
 	}
 
 	/**
-	 * Set an array item to the value.
+	 * Set an array item (dot-notated) to the value.
 	 *
 	 * @param   array   $array  The array to insert it into
 	 * @param   mixed   $key    The dot-notated key to set or array of keys
@@ -76,6 +103,24 @@ class Arr
 			{
 				static::set($array, $k, $v);
 			}
+		}
+		else
+		{
+			$keys = explode('.', $key);
+
+			while (count($keys) > 1)
+			{
+				$key = array_shift($keys);
+
+				if ( ! isset($array[$key]) or ! is_array($array[$key]))
+				{
+					$array[$key] = array();
+				}
+
+				$array =& $array[$key];
+			}
+
+			$array[array_shift($keys)] = $value;
 		}
 	}
 }
