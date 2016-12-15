@@ -23,7 +23,7 @@ class View
 	 */
 	public static function forge($tpl_path)
 	{
-		if ( ! file_exists($tpl_path)) die('template path not found: '. s($tpl_path));
+		if ( ! file_exists($tpl_path)) Util::error('template path not found: '. s($tpl_path));
 		static::$tpl_paths[] = rtrim($tpl_path, '/');
 	}
 
@@ -36,7 +36,7 @@ class View
 	 */
 	public static function add_tpl_path($tpl_path)
 	{
-		if ( ! file_exists($tpl_path)) die('template path not found: '. s($tpl_path));
+		if ( ! file_exists($tpl_path)) Util::error('template path not found: '. s($tpl_path));
 		array_unshift(static::$tpl_paths, rtrim($tpl_path, '/'));
 	}
 
@@ -87,7 +87,7 @@ class View
 	public static function fetch_tpl($tpl)
 	{
 		$tpl_path = static::tpl_path($tpl);
-		if ( ! $tpl_path) die('template not found: '. s($tpl));
+		if ( ! $tpl_path) Util::error('template not found: '. s($tpl));
 
 		// extract
 		extract (static::$vals);

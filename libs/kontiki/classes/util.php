@@ -170,16 +170,13 @@ class Util
 	}
 
 	/**
-	 * performance
+	 * error
 	 *
 	 * @return  void
 	 */
-	public static function performance($startTime, $startMemory)
+	public static function error($message = '')
 	{
-		$endTime = microtime(true);
-		View::assign('convert_time', number_format($endTime - $startTime, 2 ).' sec.');
-		$endMemory = memory_get_usage(false);
-		$ussage = ($endMemory - $startMemory) / 1048576;
-		View::assign('memory_get_usage', round($ussage, 2 ).' MB.');
+		header('Content-Type: text/plain; charset=UTF-8', true, 500);
+		die($message);
 	}
 }

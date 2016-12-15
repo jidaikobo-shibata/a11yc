@@ -30,7 +30,7 @@ header('Content-Type: text/html; charset=utf-8');
 // action
 $url = \A11yc\Util::urldec(\A11yc\Input::post('url', ''));
 $link_check = intval(\A11yc\Input::post('link_check', ''));
-if ( ! $url) die('invalid access');
+if ( ! $url) \A11yc\Util::error('invalid access');
 
 // assign
 $errs = \A11yc\Controller_Checklist::validate_page($url, $link_check);

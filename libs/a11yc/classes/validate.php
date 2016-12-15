@@ -561,7 +561,7 @@ class Validate
 	 */
 	public static function get_doctype()
 	{
-		if (empty(static::$hl_html)) die('invalid access at A11yc\Validate::get_doctype().');
+		if (empty(static::$hl_html)) Util::error('invalid access at A11yc\Validate::get_doctype().');
 
 		preg_match("/\<!DOCTYPE [^\>]+?\>/", static::$hl_html, $ms);
 

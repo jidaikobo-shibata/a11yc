@@ -143,13 +143,19 @@ class Controller_Checklist
 			Db::execute($sql, array($url));
 
 			// insert checks
-			foreach (Input::post('chk') as $code => $v)
-			{
-				// if ( ! isset($v['on']) && empty($v['memo'])) continue;
-				if ( ! isset($v['on'])) continue;
-				$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS.' (`url`, `code`, `uid`, `memo`)';
-				$sql.= ' VALUES (?, ?, ?, ?);';
-				Db::execute($sql, array($url, $code, $v['uid'], $v['memo']));
+			$pdo = Db::instance()->dbh;
+			$pdo->beginTransaction();
+			try {
+				foreach (Input::post('chk') as $code => $v)
+				{
+					// if ( ! isset($v['on']) && empty($v['memo'])) continue;
+					if ( ! isset($v['on'])) continue;
+					$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS.' (`url`, `code`, `uid`, `memo`)';
+					$sql.= ' VALUES (?, ?, ?, ?);';
+					Db::execute($sql, array($url, $code, $v['uid'], $v['memo']));
+				}
+			} catch (PDOException $e) {
+				$pdo->rollBack();
 			}
 
 			// leveling page
@@ -198,7 +204,7 @@ class Controller_Checklist
 	public static function checklist($url)
 	{
 		// url
-		if ( ! $url) die('Invalid Access');
+		if ( ! $url) Util::error('Invalid Access');
 
 		// users
 		$users = array();

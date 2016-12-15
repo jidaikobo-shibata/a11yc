@@ -70,7 +70,7 @@ class Db
 			}
 			catch (\PDOException $e)
 			{
-				die ('Connection failed : '.$e->getMessage());
+				Util::error('Connection failed : '.$e->getMessage());
 			}
 		}
 		// mysql
@@ -83,7 +83,7 @@ class Db
 			}
 			catch (\PDOException $e)
 			{
-				die('Error:'.$e->getMessage());
+				Util::error('Error:'.$e->getMessage());
 			}
 			$dbh->query('SET NAMES UTF8;');
 		}

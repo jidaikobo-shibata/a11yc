@@ -21,9 +21,9 @@ class Controller_Disclosure
 	{
 		// setup
 		$setup = Controller_Setup::fetch_setup();
-		if ( ! $setup['policy']) die('Error. Set policy first');
+		if ( ! $setup['policy']) Util::error('Error. Set policy first');
 		$target_level = intval(@$setup['target_level']);
-		if ( ! $target_level) die('Error. Set target level first');
+		if ( ! $target_level) Util::error('Error. Set target level first');
 
 		// links
 		$url = \A11yc\Util::remove_query_strings(
@@ -107,7 +107,7 @@ class Controller_Disclosure
 		// setup
 		$setup = Controller_Setup::fetch_setup();
 		$target_level = intval(@$setup['target_level']);
-		if ( ! $target_level) die('Error. Set target level first');
+		if ( ! $target_level) Util::error('Error. Set target level first');
 
 		View::assign('setup', $setup);
 		View::assign('target_level', $target_level);

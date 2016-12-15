@@ -135,7 +135,7 @@ class Controller_Docs
 		}
 		else
 		{
-			die('invalid access.');
+			Util::error('invalid access.');
 		}
 
 		View::assign('yml', $yml, FALSE);

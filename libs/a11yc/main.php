@@ -10,16 +10,13 @@
  * @link       http://www.jidaikobo.com
  */
 
-// security check
-$htaccess_path = dirname(__DIR__).'/.htaccess';
-if ( ! file_exists($htaccess_path))
-{
-	die('Security Risk found. check '.$htaccess_path);
-}
-
 // config
 $config_path = dirname(dirname(__DIR__)).'/config/config.php';
-if ( ! file_exists($config_path)) die('check config/config.php');
+if ( ! file_exists($config_path))
+{
+	header('Content-Type: text/plain; charset=UTF-8', true, 500);
+	die('check config/config.php');
+}
 require ($config_path);
 
 // load kontiki
@@ -34,3 +31,10 @@ include dirname(dirname(__DIR__)).'/libs/spyc/Spyc.php';
 
 // Autoloader
 \Kontiki\Util::add_autoloader_path(__DIR__.'/classes/', 'a11yc');
+
+// security check
+$htaccess_path = dirname(__DIR__).'/.htaccess';
+if ( ! file_exists($htaccess_path))
+{
+	\Kontiki\Util::error('Security Risk found. check '.$htaccess_path);
+}

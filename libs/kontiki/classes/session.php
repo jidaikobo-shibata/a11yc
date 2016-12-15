@@ -23,7 +23,7 @@ class Session
 	{
 		if (session_status() === PHP_SESSION_DISABLED)
 		{
-			die('couldn\'t start session.');
+			Util::error('couldn\'t start session.');
 		}
 		else if (session_status() === PHP_SESSION_NONE && ! headers_sent())
 		{

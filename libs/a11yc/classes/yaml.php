@@ -19,7 +19,7 @@ class Yaml
 	 */
 	public static function fetch()
 	{
-		if ( ! class_exists('Spyc')) die('Spyc is not found');
+		if ( ! class_exists('Spyc')) Util::error('Spyc is not found');
 		static $ret = '';
 		if ($ret) return $ret;
 
@@ -40,7 +40,7 @@ class Yaml
 	 */
 	public static function each($file)
 	{
-		if ( ! class_exists('Spyc')) die('Spyc is not found');
+		if ( ! class_exists('Spyc')) Util::error('Spyc is not found');
 		$file = basename($file);
 
 		static $rets = array();
