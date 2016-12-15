@@ -150,6 +150,7 @@ define('A11YC_LANG_CHECKLIST_DO_LINK_CHECK', 'リンク切れをチェック');
 define('A11YC_LANG_CHECKLIST_VIEW_SOURCE', 'ソースコードを見る');
 define('A11YC_LANG_CHECKLIST_MACHINE_CHECK', '自動チェック');
 define('A11YC_LANG_CHECKLIST_MEMO', '備考');
+define('A11YC_LANG_NO_BROKEN_LINK_FOUND', 'リンク切れは見つかりませんでした');
 
 // bulk
 define('A11YC_LANG_BULK_TITLE', '一括処理');

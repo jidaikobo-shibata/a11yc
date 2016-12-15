@@ -170,6 +170,7 @@ class Validate_Link extends Validate
 
 		// fragments
 		preg_match_all("/ (?:id|name) *?= *?[\"']([^\"']+?)[\"']/i", $str, $fragments);
+		$is_error = false;
 
 		foreach ($ms[0] as $k => $tag)
 		{
@@ -214,6 +215,7 @@ class Validate_Link extends Validate
 				{
 					static::$error_ids['link_check'][$k]['id'] = $tag;
 					static::$error_ids['link_check'][$k]['str'] = 'Fragment Not Found: '.$original;
+					$is_error = true;
 				}
 				continue;
 			}
@@ -225,6 +227,7 @@ class Validate_Link extends Validate
 			{
 				static::$error_ids['link_check'][$k]['id'] = $tag;
 				static::$error_ids['link_check'][$k]['str'] = 'Not Found: '.$tag;
+				$is_error = true;
 				continue;
 			}
 
@@ -233,13 +236,18 @@ class Validate_Link extends Validate
 				strpos($headers[0], ' 20') !== false ||
 				strpos($headers[0], ' 30') !== false
 			) continue;
-			//if (strpos($headers[0], ' 20') !== false) continue;
 
 			// 40x
 			static::$error_ids['link_check'][$k]['id'] = $tag;
 			static::$error_ids['link_check'][$k]['str'] = substr($headers[0], strpos($headers[0], ' ')).': '.$original;
+			$is_error = true;
 		}
-
 		static::add_error_to_html('link_check', static::$error_ids, 'ignores_comment_out');
+
+		// message
+		if ( ! $is_error)
+		{
+			Session::add('messages', 'messages', A11YC_LANG_NO_BROKEN_LINK_FOUND);
+		}
 	}
 }
