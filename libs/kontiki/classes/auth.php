@@ -16,6 +16,7 @@ class Auth
 
 	/**
 	 * _init
+	 * start session
 	 *
 	 * @return  void
 	 */
@@ -31,8 +32,10 @@ class Auth
 	 */
 	public static function auth ()
 	{
+		// check is already logged in?
 		if (Session::show('auth', 'uid')) return TRUE;
 
+		// is post exists?
 		$username = Input::post('username', false);
 		$password = Input::post('password', false);
 
@@ -48,6 +51,8 @@ class Auth
 				return TRUE;
 			}
 		}
+
+		// login failed
 		return FALSE;
 	}
 

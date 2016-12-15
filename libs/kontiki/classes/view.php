@@ -29,6 +29,7 @@ class View
 
 	/**
 	 * add template path
+	 * added template pathes is stronger than forged template path
 	 *
 	 * @param   string    path
 	 * @return  void

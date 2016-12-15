@@ -24,8 +24,14 @@ class Route extends \Kontiki\Route
 	{
 		$def_controller = '\A11yc\Controller_Center';
 		$def_action = 'Action_Index';
-		$controller = Input::get('c') ? '\A11yc\Controller_'.ucfirst(Input::get('c')) : $def_controller;
-		$action = Input::get('a') ? 'Action_'.Input::get('a') : 'Action_Index';
+
+		$controller = Input::get('c') ?
+								'\A11yc\Controller_'.ucfirst(Input::get('c')) :
+								$def_controller;
+		$action = Input::get('a') ?
+						'Action_'.Input::get('a') :
+						'Action_Index';
+
 		if (method_exists($controller, $action) and is_callable($controller.'::'.$action))
 		{
 			static::$controller = $def_controller;

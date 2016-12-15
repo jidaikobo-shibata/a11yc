@@ -13,7 +13,7 @@ namespace A11yc;
 class Util extends \Kontiki\Util
 {
 	/**
-	 * number to 'A'
+	 * number to 'A' or 'AA' or 'AAA'
 	 * to get conformance level string
 	 *
 	 * @return  string
@@ -76,6 +76,7 @@ class Util extends \Kontiki\Util
 
 	/**
 	 * get criterion from a11yc code
+	 * '1-3-1a' to '1-3-1'
 	 *
 	 * @return  string
 	 */
