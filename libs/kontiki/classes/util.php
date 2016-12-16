@@ -176,7 +176,10 @@ class Util
 	 */
 	public static function error($message = '')
 	{
-		header('Content-Type: text/plain; charset=UTF-8', true, 500);
+		if ( ! headers_sent())
+		{
+			header('Content-Type: text/plain; charset=UTF-8', true, 500);
+		}
 		die($message);
 	}
 }

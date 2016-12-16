@@ -125,17 +125,6 @@ class Controller_Checklist
 	{
 		$url = Util::urldec($url);
 
-		// page existence
-		if ($url != 'bulk' && ! Util::is_page_exist($url))
-		{
-			Session::add('messages', 'errors', A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR);
-			if ( ! headers_sent())
-			{
-				header('location:'.A11YC_PAGES_URL.'&list=list&no_url='.Util::urlenc($url));
-				exit();
-			}
-		}
-
 		if (Input::post())
 		{
 			// delete all from checks
@@ -197,7 +186,7 @@ class Controller_Checklist
 	}
 
 	/**
-	 * checklist html
+	 * checklist
 	 *
 	 * @return  string
 	 */
@@ -205,6 +194,17 @@ class Controller_Checklist
 	{
 		// url
 		if ( ! $url) Util::error('Invalid Access');
+
+		// page existence
+		if ($url != 'bulk' && ! Util::is_page_exist($url))
+		{
+			Session::add('messages', 'errors', A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR);
+			if ( ! headers_sent())
+			{
+				header('location:'.A11YC_PAGES_URL.'&list=list&no_url='.Util::urlenc($url));
+				exit();
+			}
+		}
 
 		// users
 		$users = array();
