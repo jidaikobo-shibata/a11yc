@@ -136,7 +136,7 @@ class Util extends \Kontiki\Util
 		if (isset($htmls[$url])) return $htmls[$url];
 		if ( ! static::is_html($url)) return;
 
-		// Browser
+		// try simple file_get_contents()
 		$ua = Util::s(Input::user_agent());
 		if ($ua)
 		{
@@ -145,6 +145,11 @@ class Util extends \Kontiki\Util
 					'method' => 'GET',
 					'header' => 'User-Agent: '.$ua,
 				),
+				'ssl' => array(
+					// bad know-how
+					'verify_peer' => false,
+					'verify_peer_name' => false,
+				)
 			);
 			$context = stream_context_create($options);
 			$html = @file_get_contents($url, false, $context);
