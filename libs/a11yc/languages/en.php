@@ -42,7 +42,6 @@ define('A11YC_LANG_CTRL_NUM', 'Number');
 define('A11YC_LANG_CTRL_EXPAND', 'Expand');
 define('A11YC_LANG_CTRL_COMPRESS', 'Compress');
 
-
 // login
 define('A11YC_LANG_AUTH_TITLE', 'A11YC Login');
 define('A11YC_LANG_LOGIN_USERNAME', 'Username');
@@ -105,6 +104,12 @@ define('A11YC_LANG_SETUP_TITLE', 'Setup');
 define('A11YC_LANG_SETUP_TITLE_ETC', 'etc.');
 define('A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR', 'Checklist Behaviour');
 define('A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR_DISAPPEAR', 'Disappear when check');
+define('A11YC_LANG_SETUP_BASIC_AUTH_TITLE', 'Basic Auth');
+define('A11YC_LANG_SETUP_BASIC_AUTH_EXP', 'If the site to be tested is protected by basic authentication, please enter the user name and password for basic authentication here.');
+define('A11YC_LANG_SETUP_BASIC_AUTH_USER', 'Basic Auth user');
+define('A11YC_LANG_SETUP_BASIC_AUTH_PASS', 'Basic Auth password');
+define('A11YC_LANG_SETUP_TRUST_SSL_TITLE', 'SSL');
+define('A11YC_LANG_SETUP_TRUST_SSL_EXP', 'When targeting SSL sites, please enter that domain here. Please do not enter URL of untrusted site. (ex: www.example.com)');
 
 define('A11YC_LANG_DECLARE_DATE', 'Declare Date');
 define('A11YC_LANG_STANDARD', 'Standard');
@@ -174,3 +179,8 @@ define('A11YC_LANG_DOCS_EACH_SUBTITLE_HOWTO', 'Document of "%s"');
 define('A11YC_LANG_DOCS_TEST', 'About Testing');
 define('A11YC_LANG_DOCS_UNDERSTANDING', 'Understanding SC&nbsp;%s');
 define('A11YC_LANG_DOCS_SEARCH_RESULT_NONE', 'Appropriate documentation was not found.');
+
+// errors
+define('A11YC_LANG_ERROR_COULD_NOT_GET_HTML', 'Acquisition of HTML failed: ');
+define('A11YC_LANG_ERROR_BASIC_AUTH', 'Access is not possible because it is protected by basic authentication. Please enter the information for Basic Authentication in "Setting".');
+define('A11YC_LANG_ERROR_SSL', 'When targeting SSL sites, please enter the target domain in "Settings".');

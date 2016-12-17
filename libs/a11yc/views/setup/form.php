@@ -131,7 +131,39 @@
 </table>
 <h2><?php echo A11YC_LANG_SETUP_TITLE_ETC ?></h2>
 
-<?php
-	$checked = isset($setup['checklist_behaviour']) && $setup['checklist_behaviour'] ? ' checked="checked"' : '';
-?>
-<div><label for="a11yc_checklist_behaviour"><input type="checkbox" name="checklist_behaviour" id="a11yc_checklist_behaviour" value="1"<?php echo $checked ?> /><?php echo A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR_DISAPPEAR ?></label></div>
+<table class="a11yc_table">
+	<tbody>
+	<tr>
+		<th><?php echo A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR ?></th>
+		<?php
+			$checked = isset($setup['checklist_behaviour']) && $setup['checklist_behaviour'] ? ' checked="checked"' : '';
+		?>
+		<td><label for="a11yc_checklist_behaviour"><input type="checkbox" name="checklist_behaviour" id="a11yc_checklist_behaviour" value="1"<?php echo $checked ?> /><?php echo A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR_DISAPPEAR ?></label></td>
+	</tr>
+
+	<tr>
+		<th scope="row"><?php echo A11YC_LANG_SETUP_BASIC_AUTH_TITLE ?></th>
+		<td>
+			<p><?php echo A11YC_LANG_SETUP_BASIC_AUTH_EXP ?></p>
+			<p>
+			<label for="a11yc_basic_user"><?php echo A11YC_LANG_SETUP_BASIC_AUTH_USER ?></label>
+			<input type="text" name="basic_user" id="a11yc_basic_user" size="10" value="<?php echo @$setup['basic_user'] ?>">
+			</p>
+
+			<p>
+			<label for="a11yc_basic_pass"><?php echo A11YC_LANG_SETUP_BASIC_AUTH_PASS ?></label>
+			<input type="text" name="basic_pass" id="a11yc_basic_pass" size="10" value="<?php echo @$setup['basic_pass'] ?>">
+			</p>
+		</td>
+	</tr>
+
+	<tr>
+		<th scope="row"><label for="a11yc_trust_ssl_url"><?php echo A11YC_LANG_SETUP_TRUST_SSL_TITLE ?></label></th>
+		<td>
+			<p><?php echo A11YC_LANG_SETUP_TRUST_SSL_EXP ?></p>
+			<input type="text" name="trust_ssl_url" id="a11yc_trust_ssl_url" size="30" value="<?php echo @$setup['trust_ssl_url'] ?>">
+		</td>
+	</tr>
+
+	</tbody>
+</table>

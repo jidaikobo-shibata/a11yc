@@ -65,6 +65,8 @@ class Controller_Setup
 
 			if (isset($setup['report']))
 			{
+				// update
+
 				$sql = 'UPDATE '.A11YC_TABLE_SETUP.' SET';
 				$sql.= '`target_level` = ?, ';
 				$sql.= '`standard` = ?, ';
@@ -75,6 +77,9 @@ class Controller_Setup
 				$sql.= '`contact` = ?, ';
 				$sql.= '`policy` = ?, ';
 				$sql.= '`report` = ?,';
+				$sql.= '`basic_user` = ?,';
+				$sql.= '`basic_pass` = ?,';
+				$sql.= '`trust_ssl_url` = ?,';
 				$sql.= '`additional_criterions` = ?,';
 				$sql.= '`checklist_behaviour` = ?;';
 				$r = Db::execute($sql, array(
@@ -87,12 +92,17 @@ class Controller_Setup
 						$post['contact'],
 						$policy,
 						$post['report'],
+						$post['basic_user'],
+						$post['basic_pass'],
+						$post['trust_ssl_url'],
 						serialize($additional_criterions),
 						$checklist_behaviour
 					));
 			}
 			else
 			{
+				// insert
+
 				$sql = 'INSERT INTO '.A11YC_TABLE_SETUP;
 				$sql.= ' (`target_level`, ';
 				$sql.= '`standard`, ';
@@ -103,9 +113,12 @@ class Controller_Setup
 				$sql.= '`contact`, ';
 				$sql.= '`policy`, ';
 				$sql.= '`report`, ';
+				$sql.= '`basic_user`, ';
+				$sql.= '`basic_pass`, ';
+				$sql.= '`trust_ssl_url`, ';
 				$sql.= '`additional_criterions`, ';
 				$sql.= '`checklist_behaviour`)';
-				$sql.= ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+				$sql.= ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
 				$r = Db::execute($sql, array(
 						$target_level,
 						$selected_method,
@@ -116,6 +129,9 @@ class Controller_Setup
 						$post['contact'],
 						$policy,
 						$post['report'],
+						$post['basic_user'],
+						$post['basic_pass'],
+						$post['trust_ssl_url'],
 						serialize($additional_criterions),
 						$checklist_behaviour
 					));

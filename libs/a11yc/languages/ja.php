@@ -104,6 +104,12 @@ define('A11YC_LANG_SETUP_TITLE', '設定');
 define('A11YC_LANG_SETUP_TITLE_ETC', 'その他の設定');
 define('A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR', 'チェックリストの振る舞い');
 define('A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR_DISAPPEAR', 'チェック時にパスした項目は表示しない');
+define('A11YC_LANG_SETUP_BASIC_AUTH_TITLE', '基本認証');
+define('A11YC_LANG_SETUP_BASIC_AUTH_EXP', '試験対象のサイトが基本認証で守られている場合、ここに基本認証用のユーザ名とパスワードを入力してください。');
+define('A11YC_LANG_SETUP_BASIC_AUTH_USER', '基本認証ユーザ名');
+define('A11YC_LANG_SETUP_BASIC_AUTH_PASS', '基本認証パスワード');
+define('A11YC_LANG_SETUP_TRUST_SSL_TITLE', 'SSL');
+define('A11YC_LANG_SETUP_TRUST_SSL_EXP', 'SSLのサイトを対象とするときには、ここにそのドメインを入力してください。信用できないサイトのURLは入力しないでください。（例：www.example.com）');
 
 define('A11YC_LANG_DECLARE_DATE', '表明日');
 define('A11YC_LANG_STANDARD', '規格の種類');
@@ -172,3 +178,8 @@ define('A11YC_LANG_DOCS_EACH_SUBTITLE_HOWTO', '「%s」の解説');
 define('A11YC_LANG_DOCS_TEST', '試験方法について');
 define('A11YC_LANG_DOCS_UNDERSTANDING', '達成基準&nbsp;%s&nbsp;を理解する');
 define('A11YC_LANG_DOCS_SEARCH_RESULT_NONE', '該当する資料が見つかりませんでした');
+
+// errors
+define('A11YC_LANG_ERROR_COULD_NOT_GET_HTML', 'HTMLの取得に失敗しました: ');
+define('A11YC_LANG_ERROR_BASIC_AUTH', '基本認証で守られているためアクセスできません。「設定」で基本認証用の情報を入力してください。');
+define('A11YC_LANG_ERROR_SSL', 'SSLのサイトを対象とするときには、「設定」で対象となるドメインを入力してください。');

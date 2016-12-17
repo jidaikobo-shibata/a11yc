@@ -97,10 +97,85 @@ class Util extends \Kontiki\Util
 		return false;
 	}
 
+
+/*
+is_url_exists()
+is_url_html()
+fetch_html()
+fetch_page_title_from_html
+URLかどうか
+//ignoreできるurlかどうか
+200が返るか？
+file_get_contents()で取得できるかどうか
+*/
+
 	/**
-	 * is html
+	 * headers
 	 *
 	 * @param   string     $url
+	 * @return  string
+	 */
+	public static function headers($url)
+	{
+		static $headers = array();
+		if (isset($headers[$url])) return $headers[$url];
+		$headers[$url] = @get_headers($url, 1);
+		return $headers[$url];
+	}
+
+	/**
+	 * real_url
+	 *
+	 * @param   string     $url
+	 * @return  string
+	 */
+	public static function real_url($url, $depth = 2)
+	{
+		static $target_url = '';
+		static $urls = array();
+		static $current_depth = 0;
+		if ($current_depth == 0)
+		{
+			$target_url = $url;
+		}
+		if (isset($urls[$target_url])) return $urls[$target_url];
+
+		$headers = static::headers($url);
+
+		$basic_auth = 'denki:key@';
+
+		// couldn't get headers or max depth
+		if (
+			$headers === false ||
+			$current_depth >= $depth
+		)
+		{
+			$current_depth = 0;
+			$urls[$target_url] = false;
+			return false;
+		}
+		// return url
+		else if (strpos($headers[0], ' 20') !== false)
+		{
+			$current_depth = 0;
+			$urls[$target_url] = $url;
+			return $url;
+		}
+		else if (
+			strpos($headers[0], ' 30') !== false &&
+			isset($headers['Location'])
+		)
+		{
+			$location = str_replace('://', '://'.$basic_auth, $headers['Location']);
+			$current_depth++;
+			return static::real_url($location, $depth);
+		}
+	}
+
+/**
+ * is html
+ *
+ * @param   string     $url
 	 * @return  bool
 	 */
 	public static function is_html($url)
@@ -122,6 +197,10 @@ class Util extends \Kontiki\Util
 		return $is_html;
 	}
 
+
+
+
+
 	/**
 	 * fetch html
 	 *
@@ -131,6 +210,17 @@ class Util extends \Kontiki\Util
 	public static function fetch_html($url)
 	{
 		$url = str_replace('&amp;', '&', $url);
+
+		$url = 'https://denki:key@denki.cwsnara.co.jp/?p=22&a=1&jwp-a11y=ssl';
+		$url = static::real_url($url);
+
+echo '<textarea style="width:100%;height:200px;background-color:#fff;color:#111;font-size:90%;font-family:monospace;position:relative;z-index:9999">1';
+var_dump($url);
+echo '</textarea>';
+die();
+//	$url = 'https://denki:key@denki.cwsnara.co.jp/points/points-22/?a=1&jwp-a11y=ssl';
+
+
 
 		static $htmls = array();
 		if (isset($htmls[$url])) return $htmls[$url];
@@ -159,6 +249,17 @@ class Util extends \Kontiki\Util
 			$html = @file_get_contents($url);
 		}
 
+		$headers = static::headers($url);
+
+
+echo '<textarea style="width:100%;height:200px;background-color:#fff;color:#111;font-size:90%;font-family:monospace;position:relative;z-index:9999">';
+var_dump($ua);
+var_dump($url);
+var_dump($headers);
+var_dump($html);
+echo '</textarea>';
+die();
+
 		if ( ! $html) return false;
 
 		$encodes = array("ASCII", "SJIS-win", "SJIS", "ISO-2022-JP", "EUC-JP");
@@ -170,6 +271,9 @@ class Util extends \Kontiki\Util
 		$htmls[$url] = $html;
 		return $html;
 	}
+
+
+
 
 	/**
 	 * fetch page title

@@ -26,25 +26,15 @@ class Db extends \Kontiki\Db
 			if ( ! static::is_table_exist(A11YC_TABLE_PAGES))
 			{
 				$sql = 'CREATE TABLE '.A11YC_TABLE_PAGES.' (';
-				$sql.= '`url`      text NOT NULL,';
-				$sql.= '`standard` INTEGER,';
-				$sql.= '`level`    INTEGER,';
-				$sql.= '`done`     bool,';
-				$sql.= '`date`     date,';
-				$sql.= '`trash`    bool NOT NULL';
+				$sql.= '`url`       text NOT NULL,';
+				$sql.= '`standard`  INTEGER,';
+				$sql.= '`level`     INTEGER,';
+				$sql.= '`done`      bool,';
+				$sql.= '`date`      date,';
+				$sql.= '`add_date`  datetime,';
+				$sql.= '`page_title` text,';
+				$sql.= '`trash`     bool NOT NULL';
 				$sql.= ');';
-				static::execute($sql);
-			}
-
-			if ( ! static::is_fields_exist(A11YC_TABLE_PAGES, array('add_date')))
-			{
-				$sql = 'ALTER TABLE '.A11YC_TABLE_PAGES.' ADD `add_date` datetime;';
-				static::execute($sql);
-			}
-
-			if ( ! static::is_fields_exist(A11YC_TABLE_PAGES, array('page_title')))
-			{
-				$sql = 'ALTER TABLE '.A11YC_TABLE_PAGES.' ADD `page_title` text;';
 				static::execute($sql);
 			}
 
@@ -96,6 +86,9 @@ class Db extends \Kontiki\Db
 				$sql.= '`contact`             text NOT NULL,';
 				$sql.= '`policy`              text NOT NULL,';
 				$sql.= '`report`              text NOT NULL,';
+				$sql.= '`basic_user`          text NOT NULL,';
+				$sql.= '`basic_pass`          text NOT NULL,';
+				$sql.= '`trust_ssl_url`       text NOT NULL,';
 				$sql.= '`checklist_behaviour` INTEGER NOT NULL';
 				$sql.= ');';
 				static::execute($sql);
