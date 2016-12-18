@@ -98,6 +98,61 @@ class Util extends \Kontiki\Util
 	}
 
 	/**
+	 * keep_url_unique
+	 *
+	 * @param   string     $url
+	 * @return  string
+	 */
+	public static function keep_url_unique($url)
+	{
+		$url = trim($url);
+		$url = rtrim($url, '/');
+		$url = Util::urldec($url);
+		$url  = str_replace(
+			array('/index.htm', '/index.html', '/index.php'),
+			'',
+			$url);
+		return $url;
+	}
+
+	/**
+	 * get_host_from_url
+	 *
+	 * @param   string     $url
+	 * @return  string|bool
+	 */
+	public static function get_host_from_url($url)
+	{
+		// cannot get host
+		if (substr($url, 0, 4) != 'http')
+		{
+			return false;
+		}
+		// plural /
+		else if (substr_count($url, '/') >= 3)
+		{
+			$hosts = explode('/', $url);
+			return $hosts[0].$hosts[1].'//'.$hosts[2];
+		}
+
+		// maybe host
+		return rtrim($url, '/');
+	}
+
+	/**
+	 * is_same_host
+	 *
+	 * @param   string     $url
+	 * @return  bool
+	 */
+	public static function is_same_host($base_url, $url)
+	{
+		$host = static::get_host_from_url($base_url);
+		if ($host === false) return false;
+		return (strpos($url, $host) !== false);
+	}
+
+	/**
 	 * is_basic_auth
 	 *
 	 * @param   string     $url
@@ -134,6 +189,21 @@ class Util extends \Kontiki\Util
 	}
 
 	/**
+	 * avoid_ssl_redirection_loop
+	 *
+	 * @param   string     $url
+	 * @return  string
+	 */
+	public static function avoid_ssl_redirection_loop($url)
+	{
+		if (strpos($url, 'https') !== false)
+		{
+			$url = Util::add_query_strings($url, array(array('jwp-a11y', 'ssl')));
+		}
+		return $url;
+	}
+
+	/**
 	 * headers
 	 *
 	 * @param   string     $url
@@ -146,9 +216,6 @@ class Util extends \Kontiki\Util
 
 		// setup
 		$setup = Controller_Setup::fetch_setup();
-
-		// frist try
-		$hs = @get_headers($url, 1);
 
 		// basic auth?
 		if (static::is_basic_auth($url))
@@ -167,6 +234,11 @@ class Util extends \Kontiki\Util
 				return false;
 			}
 		}
+		// non basic auth
+		else
+		{
+			$hs = @get_headers($url, 1);
+		}
 
 		$headers[$url] = $hs;
 		return $headers[$url];
@@ -174,9 +246,11 @@ class Util extends \Kontiki\Util
 
 	/**
 	 * real_url
+	 * if this function returns false, real url is not exists.
+	 * therefore if this returns sting (url), then target url returned 200.
 	 *
 	 * @param   string     $url
-	 * @return  string
+	 * @return  string|false
 	 */
 	public static function real_url($url, $depth = 2)
 	{
@@ -189,7 +263,9 @@ class Util extends \Kontiki\Util
 		}
 		if (isset($urls[$target_url])) return $urls[$target_url];
 
-		$headers = static::headers($url);
+		$tmp = static::avoid_ssl_redirection_loop($url);
+		$tmp = static::basic_auth_prefix($tmp);
+		$headers = static::headers($tmp);
 
 		// couldn't get headers or max depth
 		if (
@@ -208,13 +284,17 @@ class Util extends \Kontiki\Util
 			$urls[$target_url] = $url;
 			return $url;
 		}
+		// 30x and it has location
 		else if (
 			strpos($headers[0], ' 30') !== false &&
 			isset($headers['Location'])
 		)
 		{
+			// in case basic auth
 			$location = static::basic_auth_prefix($headers['Location']);
 			$current_depth++;
+
+			// recursive
 			return static::real_url($location, $depth);
 		}
 	}
@@ -243,10 +323,8 @@ class Util extends \Kontiki\Util
 		static $htmls = array();
 		if (isset($htmls[$url])) return $htmls[$url];
 
-		if (strpos($url, 'https') !== false)
-		{
-			$target_url = Util::add_query_strings($target_url, array(array('jwp-a11y', 'ssl')));
-		}
+		// ssl
+		$target_url = static::avoid_ssl_redirection_loop($target_url);
 
 		// check redirect
 		$headers = static::headers($target_url);
@@ -379,7 +457,7 @@ class Util extends \Kontiki\Util
 	 * is page exist
 	 *
 	 * @param   string     $url
-	 * @return  mixed
+	 * @return  bool
 	 */
 	public static function is_page_exist($url)
 	{
@@ -392,15 +470,14 @@ class Util extends \Kontiki\Util
 		// exists
 		if (strpos($headers[0], ' 20') !== false)
 		{
-			return $url;
+			return true;
 		}
-		// retry once
+		// re-try once
 		elseif (strpos($headers[0], ' 30') !== false)
 		{
-			$headers = static::headers(static::real_url($url));
-			if (strpos($headers[0], ' 20') !== false)
+			if (static::real_url($url))
 			{
-				return $url;
+				return true;
 			}
 		}
 

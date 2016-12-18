@@ -82,14 +82,14 @@ jQuery(function($){
 			var $disclosure = $('#a11yc_validation_code').find('.a11yc_source');
 			var $error_places = $();
 			var $controller = $('#a11yc_errors .a11yc_controller');
-	
+
 			//expand contents
 			var icon_labels = [$('#a11yc_checks').data('a11ycLang').expand, $('#a11yc_checks').data('a11ycLang').compress];
 			$expand_icon = $('<a role="button" class="a11yc_expand a11yc_hasicon" tabindex="0"><span role="presentation" aria-hidden="true" class="a11yc_icon_fa a11yc_icon_expand"></span><span class="a11yc_skip">'+icon_labels[0]+'</span></a>');
-	
+
 			$expands = $error_wrapper.add($disclosure);
 			$controller.append($expand_icon.clone());
-	
+
 			$(document).on('click', '.a11yc_expand', function(){
 				var index = $('.a11yc_expand').index(this);
 				$(this).toggleClass('on');
@@ -262,7 +262,7 @@ function a11yc_narrow_level(target_narrow, index, e){
 	}
 	$target_narrow.find('.a11yc_level_a,.a11yc_level_aa,.a11yc_level_aaa').addClass('a11yc_dn');
 	$show_levels.add(a11yc_env.$additional_criterions).removeClass('a11yc_dn');
-	
+
 
 	//validation_list only
 	if(target_narrow==='#a11yc_validation_list')
@@ -659,3 +659,15 @@ function a11yc_tooltip(){
 	},'[title], [ariaLabel]');
 }
 });
+
+// auto scroll for pages
+var a11yc_load_url;
+function a11yc_auto_scroll(){
+	a11yc_load_url = setInterval(function(){
+		window.scrollTo(0,document.body.scrollHeight);
+	}, 100);
+}
+function a11yc_stop_scroll(){
+	window.scrollTo(0,document.body.scrollHeight);
+	clearInterval(a11yc_load_url);
+}

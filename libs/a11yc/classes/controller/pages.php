@@ -153,29 +153,18 @@ class Controller_Pages
 		if (Input::post('pages'))
 		{
 			$pages = explode("\n", trim(Input::post('pages')));
-			$page_exists = false;
+			$pages = is_array($pages) ? $pages : array();
 
 			ob_end_flush();
 			ob_start('mb_output_handler');
 
 			foreach ($pages as $k => $url)
 			{
-				$url = trim($url);
-				if ( ! $url) continue;
-
-				// do not check fragments.
-				if (
-					strpos($url, '#') !== false || // fragment
-					! Util::is_html($url) // non html
-				)
-				{
-					continue;
-				}
-
 				// tidy url
-				$url = Util::urldec($url);
-				$url = Validate::correct_url($url);
-				if (Validate::is_ignorable($url)) continue;
+				$url = Util::keep_url_unique($url);
+
+				// fragment included
+				if (strpos($url, '#') !== false) continue;
 
 				// is page exist?
 				if ( ! Util::is_page_exist($url))
@@ -187,27 +176,23 @@ class Controller_Pages
 					continue;
 				}
 
+				// is html?
+				if ( ! Util::is_html($url)) continue;
+
+				// loop
 				if ($k == 0)
 				{
-					$page_exists = true;
 					if ( ! headers_sent())
 					{
 						echo '<!DOCTYPE html><html lang="'.A11YC_LANG.'"><head>';
 						echo '<meta charset="utf-8">';
 						echo '<title>'.A11YC_LANG_PAGES_URLS_ADD.' - A11YC</title></head><body>';
 					}
-					echo '<script>
-					var a11yc_load_url;
-					function a11yc_auto_scroll(){
-						a11yc_load_url = setInterval(function(){
-							window.scrollTo(0,document.body.scrollHeight);
-						}, 100);
-					}
-					function a11yc_stop_scroll(){
-						window.scrollTo(0,document.body.scrollHeight);
-						clearInterval(a11yc_load_url);
-					}
-					</script>'."\n";
+					echo '<script type="text/javascript" src="//code.jquery.com/jquery-1.11.1.min.js"></script>'."\n";
+					echo '<script type="text/javascript" src="'.A11YC_URL_DIR.'/js/a11yc.js"></script>'."\n";
+					echo '<link rel="stylesheet" type="text/css" media="all" href="'.A11YC_URL_DIR.'/css/a11yc.css" />'."\n";
+					echo '<h1>'.A11YC_LANG_PAGES_ADD_TO_DATABASE.'</h1>'."\n";
+					echo '<p>'.A11YC_LANG_PAGES_IT_TAKES_TIME.'</p><hr />'."\n";
 					echo '<div style="word-break: break-all;">'."\n";
 					echo '<script>a11yc_auto_scroll()</script>'."\n";
 				}
@@ -219,55 +204,51 @@ class Controller_Pages
 				echo '<p>'.Util::s($url).' ('.$current.'/'.count($pages).')<br />';
 				echo Util::s($page_title).'<br />';
 
-				$exist = Db::fetch('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;', array($url));
-				if ( ! $exist)
-				{
-					$sql = 'INSERT INTO '.A11YC_TABLE_PAGES;
-					$sql.= '(`url`, `trash`, `add_date`, `page_title`) VALUES (?, 0, ?, ?);';
-					$success = Db::execute($sql, array($url, date('Y-m-d H:i:s'), $page_title));
-					if ($success)
-					{
-						Session::add(
-							'messages',
-							'messages',
-							A11YC_LANG_PAGES_ADDED_NORMALLY.': '. Util::s($page_title.' ('.$url.') '));
-						echo "<strong style=\"border-radius: 5px; padding: 5px; color: #fff;background-color:#408000;\">Added</strong>\n";
-					}
-					else
-					{
-						Session::add(
-							'messages',
-							'errors',
-							A11YC_LANG_PAGES_ADD_FAILED.': '. Util::s($page_title.' ('.$url.') '));
-						echo 'Failed.';
-					}
-				}
-				else
+				if (Db::fetch('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;', array($url)))
 				{
 					Session::add(
 						'messages',
 						'errors',
 						A11YC_LANG_PAGES_ALREADY_EXISTS.': '. Util::s($page_title.' ('.$url.') '));
 					echo 'Already exists.';
+					continue;
 				}
-				echo '</p>';
 
-				ob_flush();
-				flush();
-			}
-
-			if ($page_exists)
-			{
-				echo '</div>';
-				// done
-				echo '<p><a id="a11yc_back_to_pages" href="'.A11YC_PAGES_URL.'">'.A11YC_LANG_PAGES_DONE.'</a></p>';
-				echo '<script>a11yc_stop_scroll()</script>'."\n";
-				if ( ! headers_sent())
+				$sql = 'INSERT INTO '.A11YC_TABLE_PAGES;
+				$sql.= '(`url`, `trash`, `add_date`, `page_title`) VALUES (?, 0, ?, ?);';
+				$success = Db::execute($sql, array($url, date('Y-m-d H:i:s'), $page_title));
+				if ($success)
 				{
-					echo '</body>';
+					Session::add(
+						'messages',
+						'messages',
+						A11YC_LANG_PAGES_ADDED_NORMALLY.': '. Util::s($page_title.' ('.$url.') '));
+					echo "<strong style=\"border-radius: 5px; padding: 5px; color: #fff;background-color:#408000;\">Added</strong>\n";
 				}
-				exit();
+				else
+				{
+					Session::add(
+						'messages',
+						'errors',
+						A11YC_LANG_PAGES_ADD_FAILED.': '. Util::s($page_title.' ('.$url.') '));
+					echo 'Failed.';
+				}
 			}
+
+			echo '</p>';
+
+			ob_flush();
+			flush();
+
+			echo '</div>';
+			// done
+			echo '<p><a id="a11yc_back_to_pages" href="'.A11YC_PAGES_URL.'">'.A11YC_LANG_PAGES_DONE.'</a></p>';
+			echo '<script>a11yc_stop_scroll()</script>'."\n";
+			if ( ! headers_sent())
+			{
+				echo '</body>';
+			}
+			exit();
 		}
 	}
 
@@ -277,34 +258,24 @@ class Controller_Pages
 	 * param string $url
 	 * @return  array
 	 */
-	public static function crawler($url)
+	public static function crawler($base_url)
 	{
 		static $urls = array();
 
 		// fetch attributes
-		$html = Util::fetch_html($url);
+		$html = Util::fetch_html($base_url);
 		$html = Validate::ignore_elements($html);
 		preg_match_all("/[ \n](?:href|action) *?= *?[\"']([^\"']+?)[\"']/i", $html, $ms);
-
-		// set host
-		if (substr_count($url, '/') >= 3)
-		{
-			$hosts = explode('/', $url);
-			$host = $hosts[0].$hosts[1].'//'.$hosts[2];
-		}
-		else
-		{
-			$host = $url;
-		}
 
 		// collect url
 		if ( ! isset($ms[1])) return false;
 
+		// draw
 		ob_end_flush();
 		ob_start('mb_output_handler');
 
 		$urls = array();
-		foreach ($ms[1] as $k => $v)
+		foreach ($ms[1] as $k => $url)
 		{
 			// new one
 			if ($k == 0)
@@ -315,51 +286,46 @@ class Controller_Pages
 					echo '<meta charset="utf-8">';
 					echo '<title>'.A11YC_LANG_PAGES_GET_URLS.' - A11YC</title></head><body>';
 				}
-					echo '<script>
-					var a11yc_load_url;
-					function a11yc_auto_scroll(){
-						a11yc_load_url = setInterval(function(){
-							window.scrollTo(0,document.body.scrollHeight);
-						}, 100);
-					}
-					function a11yc_stop_scroll(){
-						window.scrollTo(0,document.body.scrollHeight);
-						clearInterval(a11yc_load_url);
-					}
-					</script>'."\n";
+				echo '<script type="text/javascript" src="//code.jquery.com/jquery-1.11.1.min.js"></script>'."\n";
+				echo '<script type="text/javascript" src="'.A11YC_URL_DIR.'/js/a11yc.js"></script>'."\n";
+				echo '<link rel="stylesheet" type="text/css" media="all" href="'.A11YC_URL_DIR.'/css/a11yc.css" />'."\n";
+
 				echo '<div style="word-break: break-all;">'."\n";
-					echo '<script>a11yc_auto_scroll()</script>'."\n";
+				echo '<script>a11yc_auto_scroll()</script>'."\n";
+				echo '<h1>'.A11YC_LANG_PAGES_ADD_TO_CANDIDATE.'</h1>'."\n";
+				echo '<p>'.A11YC_LANG_PAGES_IT_TAKES_TIME.'</p><hr />'."\n";
 			}
 
-			// already exists
-			$target_url = Validate::correct_url($v);
-			$target_url = Util::urldec($target_url);
-			$exist = Db::fetch('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;', array($target_url));
-			$indexless  = str_replace(array('/index.htm', '/index.html', '/index.php'), '', $target_url);
+			// tidy url
+			$url = Util::keep_url_unique($url);
 
+			// results
 			$current = $k + 1;
-			echo '<p>'.Util::s($target_url).' ('.$current.'/'.count($ms[1]).")<br />\n";
+			echo '<p>'.Util::s($url).' ('.$current.'/'.count($ms[1]).")<br />\n";
 
+			// messages
 			if (
-				$exist || // already in db
-				in_array($target_url, $urls) || // already added
-				in_array($indexless, $urls) // index.xxx
+				// already added
+				in_array($url, $urls) ||
+				// already in db
+				Db::fetch('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;', array($url))
 			)
 			{
 				echo "<strong style=\"color: #408000\">Already exists</strong>\n";
 			}
 			else if (
-				strpos($target_url, '#') !== false || // fragment
-				strpos($target_url, $host) === false || // out of host
-				! Util::is_html($target_url) // non html
+				strpos($url, '#') !== false || // fragment included
+				! Util::is_same_host($base_url, $url) || // out of host
+				! Util::is_page_exist($url) || // page not exists
+				! Util::is_html($url) // non html
 			)
 			{
 				echo "<strong>Ignored</strong>\n";
 			}
 			else
 			{
-				$urls[] = $target_url;
-				echo "<strong style=\"border-radius: 5px; padding: 5px; color: #fff;background-color:#408000;\">Added</strong>\n";
+				$urls[] = $url;
+				echo "<strong style=\"border-radius: 5px; padding: 5px; color: #fff;background-color:#408000;\">Add to candidate</strong>\n";
 			}
 			echo '</p>';
 
@@ -374,7 +340,7 @@ class Controller_Pages
 		Session::add('values', 'urls', $urls);
 
 		// done
-		if (count($urls) == 0)
+		if (count($urls) === 0)
 		{
 			echo '<p><a id="a11yc_back_to_pages" href="'.A11YC_PAGES_URL.'">'.A11YC_LANG_PAGES_NOT_FOUND_ALL.'</a></p>';
 			if (strpos($url, 'https:') !== false)
