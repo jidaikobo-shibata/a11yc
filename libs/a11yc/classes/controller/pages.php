@@ -234,6 +234,7 @@ class Controller_Pages
 				}
 
 				echo '</p>';
+
 				ob_flush();
 				flush();
 			}
