@@ -155,6 +155,23 @@ class Controller_Pages
 			$pages = explode("\n", trim(Input::post('pages')));
 			$pages = is_array($pages) ? $pages : array();
 
+			// header
+			if ( ! headers_sent())
+			{
+				header("HTTP/1.1 200 OK");
+				header('Content-Type: text/html; charset=utf-8');
+				echo '<!DOCTYPE html><html lang="'.A11YC_LANG.'"><head>';
+				echo '<meta charset="utf-8">';
+				echo '<title>'.A11YC_LANG_PAGES_URLS_ADD.' - A11YC</title></head><body>';
+			}
+			echo '<script type="text/javascript" src="//code.jquery.com/jquery-1.11.1.min.js"></script>'."\n";
+			echo '<script type="text/javascript" src="'.A11YC_URL_DIR.'/js/a11yc.js"></script>'."\n";
+			echo '<link rel="stylesheet" type="text/css" media="all" href="'.A11YC_URL_DIR.'/css/a11yc.css" />'."\n";
+			echo '<h1>'.A11YC_LANG_PAGES_ADD_TO_DATABASE.'</h1>'."\n";
+			echo '<p>'.A11YC_LANG_PAGES_IT_TAKES_TIME.'</p><hr />'."\n";
+			echo '<div style="word-break: break-all;">'."\n";
+			echo '<script>a11yc_auto_scroll()</script>'."\n";
+
 			ob_end_flush();
 			ob_start('mb_output_handler');
 
@@ -178,24 +195,6 @@ class Controller_Pages
 
 				// is html?
 				if ( ! Util::is_html($url)) continue;
-
-				// loop
-				if ($k == 0)
-				{
-					if ( ! headers_sent())
-					{
-						echo '<!DOCTYPE html><html lang="'.A11YC_LANG.'"><head>';
-						echo '<meta charset="utf-8">';
-						echo '<title>'.A11YC_LANG_PAGES_URLS_ADD.' - A11YC</title></head><body>';
-					}
-					echo '<script type="text/javascript" src="//code.jquery.com/jquery-1.11.1.min.js"></script>'."\n";
-					echo '<script type="text/javascript" src="'.A11YC_URL_DIR.'/js/a11yc.js"></script>'."\n";
-					echo '<link rel="stylesheet" type="text/css" media="all" href="'.A11YC_URL_DIR.'/css/a11yc.css" />'."\n";
-					echo '<h1>'.A11YC_LANG_PAGES_ADD_TO_DATABASE.'</h1>'."\n";
-					echo '<p>'.A11YC_LANG_PAGES_IT_TAKES_TIME.'</p><hr />'."\n";
-					echo '<div style="word-break: break-all;">'."\n";
-					echo '<script>a11yc_auto_scroll()</script>'."\n";
-				}
 
 				// page title
 				$page_title = Util::fetch_page_title($url);
@@ -233,12 +232,11 @@ class Controller_Pages
 						A11YC_LANG_PAGES_ADD_FAILED.': '. Util::s($page_title.' ('.$url.') '));
 					echo 'Failed.';
 				}
+
+				echo '</p>';
+				ob_flush();
+				flush();
 			}
-
-			echo '</p>';
-
-			ob_flush();
-			flush();
 
 			echo '</div>';
 			// done
@@ -270,6 +268,24 @@ class Controller_Pages
 		// collect url
 		if ( ! isset($ms[1])) return false;
 
+		// header
+		if ( ! headers_sent())
+		{
+			header("HTTP/1.1 200 OK");
+			header('Content-Type: text/html; charset=utf-8');
+			echo '<!DOCTYPE html><html lang="'.A11YC_LANG.'"><head>';
+			echo '<meta charset="utf-8">';
+			echo '<title>'.A11YC_LANG_PAGES_GET_URLS.' - A11YC</title></head><body>';
+		}
+		echo '<script type="text/javascript" src="//code.jquery.com/jquery-1.11.1.min.js"></script>'."\n";
+		echo '<script type="text/javascript" src="'.A11YC_URL_DIR.'/js/a11yc.js"></script>'."\n";
+		echo '<link rel="stylesheet" type="text/css" media="all" href="'.A11YC_URL_DIR.'/css/a11yc.css" />'."\n";
+
+		echo '<div style="word-break: break-all;">'."\n";
+		echo '<script>a11yc_auto_scroll()</script>'."\n";
+		echo '<h1>'.A11YC_LANG_PAGES_ADD_TO_CANDIDATE.'</h1>'."\n";
+		echo '<p>'.A11YC_LANG_PAGES_IT_TAKES_TIME.'</p><hr />'."\n";
+
 		// draw
 		ob_end_flush();
 		ob_start('mb_output_handler');
@@ -277,25 +293,6 @@ class Controller_Pages
 		$urls = array();
 		foreach ($ms[1] as $k => $url)
 		{
-			// new one
-			if ($k == 0)
-			{
-				if ( ! headers_sent())
-				{
-					echo '<!DOCTYPE html><html lang="'.A11YC_LANG.'"><head>';
-					echo '<meta charset="utf-8">';
-					echo '<title>'.A11YC_LANG_PAGES_GET_URLS.' - A11YC</title></head><body>';
-				}
-				echo '<script type="text/javascript" src="//code.jquery.com/jquery-1.11.1.min.js"></script>'."\n";
-				echo '<script type="text/javascript" src="'.A11YC_URL_DIR.'/js/a11yc.js"></script>'."\n";
-				echo '<link rel="stylesheet" type="text/css" media="all" href="'.A11YC_URL_DIR.'/css/a11yc.css" />'."\n";
-
-				echo '<div style="word-break: break-all;">'."\n";
-				echo '<script>a11yc_auto_scroll()</script>'."\n";
-				echo '<h1>'.A11YC_LANG_PAGES_ADD_TO_CANDIDATE.'</h1>'."\n";
-				echo '<p>'.A11YC_LANG_PAGES_IT_TAKES_TIME.'</p><hr />'."\n";
-			}
-
 			// tidy url
 			$url = Util::keep_url_unique($url);
 
