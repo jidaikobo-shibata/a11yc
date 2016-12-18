@@ -162,7 +162,20 @@ class Controller_Pages
 			{
 				$url = trim($url);
 				if ( ! $url) continue;
+
+				// do not check fragments.
+				if (
+					strpos($url, '#') !== false || // fragment
+					! Util::is_html($url) // non html
+				)
+				{
+					continue;
+				}
+
+				// tidy url
 				$url = Util::urldec($url);
+				$url = Validate::correct_url($url);
+				if (Validate::is_ignorable($url)) continue;
 
 				// is page exist?
 				if ( ! Util::is_page_exist($url))
@@ -171,19 +184,6 @@ class Controller_Pages
 						'messages',
 						'errors',
 						A11YC_LANG_PAGES_NOT_FOUND.': '. Util::s($page_title.' ('.$url.') '));
-					continue;
-				}
-				if (Validate::is_ignorable($url)) continue;
-				$url = Validate::correct_url($url);
-				$url = Util::is_page_exist($url);
-				$url = Util::urldec($url); // in case redirect url
-
-				// do not check host.
-				if (
-					strpos($url, '#') !== false || // fragment
-					! Util::is_html($url) // non html
-				)
-				{
 					continue;
 				}
 
@@ -208,8 +208,8 @@ class Controller_Pages
 						clearInterval(a11yc_load_url);
 					}
 					</script>'."\n";
-				echo '<div style="word-break: break-all;">'."\n";
-				echo '<script>a11yc_auto_scroll()</script>'."\n";
+					echo '<div style="word-break: break-all;">'."\n";
+					echo '<script>a11yc_auto_scroll()</script>'."\n";
 				}
 
 				// page title
@@ -277,17 +277,16 @@ class Controller_Pages
 	 * param string $url
 	 * @return  array
 	 */
-	public static function crawler($url, $recursive = false)
+	public static function crawler($url)
 	{
 		static $urls = array();
 
 		// fetch attributes
-		Validate::set_target_path($url);
 		$html = Util::fetch_html($url);
 		$html = Validate::ignore_elements($html);
 		preg_match_all("/[ \n](?:href|action) *?= *?[\"']([^\"']+?)[\"']/i", $html, $ms);
 
-		// host check
+		// set host
 		if (substr_count($url, '/') >= 3)
 		{
 			$hosts = explode('/', $url);
@@ -307,15 +306,7 @@ class Controller_Pages
 		$urls = array();
 		foreach ($ms[1] as $k => $v)
 		{
-			if (Validate::is_ignorable($ms[0][$k])) continue;
-			$url = Validate::correct_url($v);
-
-			$exist = Db::fetch('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;', array($url));
-			if ($exist) continue;
-
-			if (in_array($url, $urls)) continue;
-			$urls[$v] = $url;
-
+			// new one
 			if ($k == 0)
 			{
 				if ( ! headers_sent())
@@ -340,20 +331,35 @@ class Controller_Pages
 					echo '<script>a11yc_auto_scroll()</script>'."\n";
 			}
 
+
+			// already exists
+			$url = Validate::correct_url($v);
+			$url = Util::urldec($url);
+			$exist = Db::fetch('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;', array($url));
+			$indexless  = str_replace(array('/index.htm', '/index.html', '/index.php'), '', $url);
+
 			$current = $k + 1;
-			echo '<p>'.Util::s($urls[$v]).' ('.$current.'/'.count($ms[1]).")<br />\n";
+			echo '<p>'.Util::s($url).' ('.$current.'/'.count($ms[1]).")<br />\n";
 
 			if (
-				strpos($urls[$v], '#') !== false || // fragment
-				strpos($urls[$v], $host) === false || // out of host
-				! Util::is_html($urls[$v]) // non html
+				$exist || // already in db
+				in_array($url, $urls) || // already added
+				in_array($indexless, $urls) // index.xxx
 			)
 			{
-				echo "Ignored\n";
-				unset($urls[$v]);
+				echo "<strong style=\"color: #408000\">Already exists</strong>\n";
+			}
+			else if (
+				strpos($url, '#') !== false || // fragment
+				strpos($url, $host) === false || // out of host
+				! Util::is_html($url) // non html
+			)
+			{
+				echo "<strong>Ignored</strong>\n";
 			}
 			else
 			{
+				$urls[] = $url;
 				echo "<strong style=\"border-radius: 5px; padding: 5px; color: #fff;background-color:#408000;\">Added</strong>\n";
 			}
 			echo '</p>';

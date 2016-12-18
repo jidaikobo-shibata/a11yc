@@ -166,6 +166,7 @@ class Util
 		$url = rtrim($url, '/');
 		$url = static::urlenc($url);
 		$url = urldecode($url);
+		$url = str_replace('&amp;', '&', $url);
 		return $url;
 	}
 

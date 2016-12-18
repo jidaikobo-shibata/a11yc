@@ -183,4 +183,5 @@ define('A11YC_LANG_DOCS_SEARCH_RESULT_NONE', 'Appropriate documentation was not 
 // errors
 define('A11YC_LANG_ERROR_COULD_NOT_GET_HTML', 'Acquisition of HTML failed: ');
 define('A11YC_LANG_ERROR_BASIC_AUTH', 'Access is not possible because it is protected by basic authentication. Please enter the information for Basic Authentication in "Setting".');
+define('A11YC_LANG_ERROR_BASIC_AUTH_WRONG', 'Information for basic authentication seems to be wrong. Please check "Setting".');
 define('A11YC_LANG_ERROR_SSL', 'When targeting SSL sites, please enter the target domain in "Settings".');

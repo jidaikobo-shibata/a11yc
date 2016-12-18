@@ -136,10 +136,10 @@ class Validate
 		$ignores = array_merge(static::$ignores, static::$ignores_comment_out);
 		foreach ($ignores as $ignore)
 		{
-			$str = preg_replace($ignore, '', $str);
+			$retval = preg_replace($ignore, '', $str);
 		}
 
-		return $str;
+		return $retval;
 	}
 
 	/**
@@ -156,10 +156,10 @@ class Validate
 		// ignore comment out only
 		foreach (static::$ignores_comment_out as $ignore)
 		{
-			$str = preg_replace($ignore, '', $str);
+			$retval = preg_replace($ignore, '', $str);
 		}
 
-		return $str;
+		return $retval;
 	}
 
 	/**

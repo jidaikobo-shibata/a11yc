@@ -31,9 +31,13 @@ class Controller_Setup
 	 */
 	public static function fetch_setup()
 	{
+		static $retvals = '';
+		if ($retvals) return $retvals;
+
 		$sql = 'SELECT * FROM '.A11YC_TABLE_SETUP.';';
 		$ret = Db::fetch_all($sql);
-		return Arr::get($ret, 0, array());
+		$retvals = Arr::get($ret, 0, array());
+		return $retvals;
 	}
 
 	/**

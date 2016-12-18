@@ -97,17 +97,41 @@ class Util extends \Kontiki\Util
 		return false;
 	}
 
+	/**
+	 * is_basic_auth
+	 *
+	 * @param   string     $url
+	 * @return  string
+	 */
+	public static function is_basic_auth($url)
+	{
+		$headers = @get_headers($url, 1);
+		return (strpos($headers[0], 'Authorization Required') !== false);
+	}
 
-/*
-is_url_exists()
-is_url_html()
-fetch_html()
-fetch_page_title_from_html
-URLかどうか
-//ignoreできるurlかどうか
-200が返るか？
-file_get_contents()で取得できるかどうか
-*/
+	/**
+	 * basic_auth_prefix
+	 *
+	 * @param   string     $url
+	 * @return  string
+	 */
+	public static function basic_auth_prefix($url)
+	{
+		$setup = Controller_Setup::fetch_setup();
+		$basic_user = Arr::get($setup, 'basic_user');
+		$basic_pass = Arr::get($setup, 'basic_pass');
+
+		if ( ! static::is_basic_auth($url)) return $url;
+
+		if ($basic_user && $basic_pass)
+		{
+			return str_replace( '://', '://'.$basic_user.':'.$basic_pass.'@', $url);
+		}
+		else
+		{
+			return false;
+		}
+	}
 
 	/**
 	 * headers
@@ -119,7 +143,32 @@ file_get_contents()で取得できるかどうか
 	{
 		static $headers = array();
 		if (isset($headers[$url])) return $headers[$url];
-		$headers[$url] = @get_headers($url, 1);
+
+		// setup
+		$setup = Controller_Setup::fetch_setup();
+
+		// frist try
+		$hs = @get_headers($url, 1);
+
+		// basic auth?
+		if (static::is_basic_auth($url))
+		{
+			$url = static::basic_auth_prefix($url);
+			$hs = @get_headers($url, 1);
+
+			if ($hs === false)
+			{
+				Session::add('messages', 'errors', A11YC_LANG_ERROR_BASIC_AUTH);
+				return false;
+			}
+			elseif (strpos($hs[0], 'Authorization Required') !== false)
+			{
+				Session::add('messages', 'errors', A11YC_LANG_ERROR_BASIC_AUTH_WRONG);
+				return false;
+			}
+		}
+
+		$headers[$url] = $hs;
 		return $headers[$url];
 	}
 
@@ -141,8 +190,6 @@ file_get_contents()で取得できるかどうか
 		if (isset($urls[$target_url])) return $urls[$target_url];
 
 		$headers = static::headers($url);
-
-		$basic_auth = 'denki:key@';
 
 		// couldn't get headers or max depth
 		if (
@@ -166,40 +213,22 @@ file_get_contents()で取得できるかどうか
 			isset($headers['Location'])
 		)
 		{
-			$location = str_replace('://', '://'.$basic_auth, $headers['Location']);
+			$location = static::basic_auth_prefix($headers['Location']);
 			$current_depth++;
 			return static::real_url($location, $depth);
 		}
 	}
 
-/**
- * is html
- *
- * @param   string     $url
+	/**
+	 * is html
+	 *
+	 * @param   string     $url
 	 * @return  bool
 	 */
 	public static function is_html($url)
 	{
-		$headers = @get_headers($url);
-		$is_html = false;
-
-		if ($headers)
-		{
-			foreach ($headers as $v)
-			{
-				if (strpos($v, 'text/html') !== false)
-				{
-					$is_html = true;
-					break;
-				}
-			}
-		}
-		return $is_html;
+		return static::fetch_html($url) ? true : false;
 	}
-
-
-
-
 
 	/**
 	 * fetch html
@@ -209,22 +238,61 @@ file_get_contents()で取得できるかどうか
 	 */
 	public static function fetch_html($url)
 	{
-		$url = str_replace('&amp;', '&', $url);
-
-		$url = 'https://denki:key@denki.cwsnara.co.jp/?p=22&a=1&jwp-a11y=ssl';
-		$url = static::real_url($url);
-
-echo '<textarea style="width:100%;height:200px;background-color:#fff;color:#111;font-size:90%;font-family:monospace;position:relative;z-index:9999">1';
-var_dump($url);
-echo '</textarea>';
-die();
-//	$url = 'https://denki:key@denki.cwsnara.co.jp/points/points-22/?a=1&jwp-a11y=ssl';
-
-
+		$url = Util::urldec($url);
 
 		static $htmls = array();
 		if (isset($htmls[$url])) return $htmls[$url];
-		if ( ! static::is_html($url)) return;
+
+		// check redirect
+		$headers = static::headers($url);
+		if (strpos($headers[0], ' 30') !== false)
+		{
+			$target_url = static::real_url($url);
+			if ($target_url === false) return false;
+		}
+		// 400 or 500
+		elseif ( ! strpos($headers[0], ' 20') !== false)
+		{
+			return false;
+		}
+		// 200
+		else
+		{
+			$target_url = $url;
+		}
+
+		// ssl
+		$setup = Controller_Setup::fetch_setup();
+		$ignore_cert = array();
+		if (strpos($target_url, 'https') !== false)
+		{
+			if (strpos($target_url, Arr::get($setup, 'trust_ssl_url')) !== false)
+			{
+				$ignore_cert = array(
+					'verify_peer' => false,
+					'verify_peer_name' => false,
+				);
+			}
+			else
+			{
+				Session::add('messages', 'errors', A11YC_LANG_ERROR_SSL);
+				return false;
+			}
+		}
+
+		// basic_auth?
+		$target_url = static::basic_auth_prefix($target_url);
+
+		// is HTML
+		$headers = static::headers($target_url);
+		$content_types = is_array($headers) ? Arr::get($headers, 'Content-Type') : false;
+
+		 // in case array
+		$content_type = is_array($content_types) ? $content_types[0] : $content_types;
+		if ( ! $content_types || strpos($content_type, 'text/html') === false)
+		{
+			return false;
+		}
 
 		// try simple file_get_contents()
 		$ua = Util::s(Input::user_agent());
@@ -235,30 +303,15 @@ die();
 					'method' => 'GET',
 					'header' => 'User-Agent: '.$ua,
 				),
-				'ssl' => array(
-					// bad know-how
-					'verify_peer' => false,
-					'verify_peer_name' => false,
-				)
+				'ssl' => $ignore_cert
 			);
 			$context = stream_context_create($options);
-			$html = @file_get_contents($url, false, $context);
+			$html = @file_get_contents($target_url, false, $context);
 		}
 		else
 		{
-			$html = @file_get_contents($url);
+			$html = @file_get_contents($target_url);
 		}
-
-		$headers = static::headers($url);
-
-
-echo '<textarea style="width:100%;height:200px;background-color:#fff;color:#111;font-size:90%;font-family:monospace;position:relative;z-index:9999">';
-var_dump($ua);
-var_dump($url);
-var_dump($headers);
-var_dump($html);
-echo '</textarea>';
-die();
 
 		if ( ! $html) return false;
 
@@ -271,9 +324,6 @@ die();
 		$htmls[$url] = $html;
 		return $html;
 	}
-
-
-
 
 	/**
 	 * fetch page title
@@ -289,6 +339,20 @@ die();
 		$html = static::fetch_html($url);
 		$titles[$url] = static::fetch_page_title_from_html($html);
 		return $titles[$url];
+	}
+
+	/**
+	 * fetch page title from html
+	 *
+	 * @param   string     $html
+	 * @return  string
+	 */
+	public static function fetch_page_title_from_html($html)
+	{
+		preg_match("/<title.*?>(.+?)<\/title>/si", $html, $m);
+		$tmp = isset($m[1]) ? $m[1] : '';
+		$title = str_replace(array("\n", "\r"), '', $tmp);
+		return $title;
 	}
 
 	/**
@@ -312,20 +376,6 @@ die();
 	}
 
 	/**
-	 * fetch page title from html
-	 *
-	 * @param   string     $html
-	 * @return  string
-	 */
-	public static function fetch_page_title_from_html($html)
-	{
-		preg_match("/<title.*?>(.+?)<\/title>/si", $html, $m);
-		$tmp = isset($m[1]) ? $m[1] : '';
-		$title = str_replace(array("\n", "\r"), '', $tmp);
-		return $title;
-	}
-
-	/**
 	 * is page exist
 	 *
 	 * @param   string     $url
@@ -336,7 +386,7 @@ die();
 		$url = Util::urldec($url);
 
 		// not exists
-		$headers = @get_headers($url, 1);
+		$headers = static::headers($url);
 		if ($headers === false) return false;
 
 		// exists
@@ -344,18 +394,16 @@ die();
 		{
 			return $url;
 		}
-
-		// redirect - depth 1 times
-		if (
-			strpos($headers[0], ' 30') !== false &&
-			isset($headers['Location'])
-		)
+		// retry once
+		elseif (strpos($headers[0], ' 30') !== false)
 		{
-			$redirect_headers = @get_headers($headers['Location']);
-			if (strpos($redirect_headers[0], ' 20') !== false)
+			$headers = static::headers(static::real_url($url));
+			if (strpos($headers[0], ' 20') !== false)
 			{
-				return $headers['Location'];
+				return $url;
 			}
 		}
+
+		return false;
 	}
 }
