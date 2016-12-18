@@ -238,27 +238,27 @@ class Util extends \Kontiki\Util
 	 */
 	public static function fetch_html($url)
 	{
-		$url = Util::urldec($url);
+		$target_url = Util::urldec($url);
 
 		static $htmls = array();
 		if (isset($htmls[$url])) return $htmls[$url];
 
+		if (strpos($url, 'https') !== false)
+		{
+			$target_url = Util::add_query_strings($target_url, array(array('jwp-a11y', 'ssl')));
+		}
+
 		// check redirect
-		$headers = static::headers($url);
+		$headers = static::headers($target_url);
 		if (strpos($headers[0], ' 30') !== false)
 		{
-			$target_url = static::real_url($url);
+			$target_url = static::real_url($target_url);
 			if ($target_url === false) return false;
 		}
 		// 400 or 500
 		elseif ( ! strpos($headers[0], ' 20') !== false)
 		{
 			return false;
-		}
-		// 200
-		else
-		{
-			$target_url = $url;
 		}
 
 		// ssl

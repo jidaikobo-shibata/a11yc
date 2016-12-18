@@ -98,6 +98,8 @@ define('A11YC_LANG_PAGES_PURGE_FAILED', 'Failed to purge %s');
 define('A11YC_LANG_PAGES_UNDELETE_FAILED', 'Failed to undelete %s');
 define('A11YC_LANG_PAGES_RETURN_TO_PAGES', 'A list of linked pages is found. please click this link and go back to "'.A11YC_LANG_PAGES_INDEX.'" to register.');
 define('A11YC_LANG_PAGES_PRESS_ADD_BUTTON', 'A list of linked pages is found. After checking the contents of the list, please press "'.A11YC_LANG_PAGES_URLS_ADD.'" to register.');
+define('A11YC_LANG_PAGES_NOT_FOUND_ALL', 'We could not find a valid link destination. Anyway, please click here to return to '.A11YC_LANG_PAGES_INDEX);
+define('A11YC_LANG_PAGES_NOT_FOUND_SSL', 'In .htaccess, redirecting access to http to https may not find the link. Please try adding <code>RewriteCond %{QUERY_STRING} !jwp-a11y=ssl</code> line after <code>RewriteEngine On</code> of .htaccess.');
 
 // setup
 define('A11YC_LANG_SETUP_TITLE', 'Setup');

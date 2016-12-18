@@ -331,35 +331,34 @@ class Controller_Pages
 					echo '<script>a11yc_auto_scroll()</script>'."\n";
 			}
 
-
 			// already exists
-			$url = Validate::correct_url($v);
-			$url = Util::urldec($url);
-			$exist = Db::fetch('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;', array($url));
-			$indexless  = str_replace(array('/index.htm', '/index.html', '/index.php'), '', $url);
+			$target_url = Validate::correct_url($v);
+			$target_url = Util::urldec($target_url);
+			$exist = Db::fetch('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;', array($target_url));
+			$indexless  = str_replace(array('/index.htm', '/index.html', '/index.php'), '', $target_url);
 
 			$current = $k + 1;
-			echo '<p>'.Util::s($url).' ('.$current.'/'.count($ms[1]).")<br />\n";
+			echo '<p>'.Util::s($target_url).' ('.$current.'/'.count($ms[1]).")<br />\n";
 
 			if (
 				$exist || // already in db
-				in_array($url, $urls) || // already added
+				in_array($target_url, $urls) || // already added
 				in_array($indexless, $urls) // index.xxx
 			)
 			{
 				echo "<strong style=\"color: #408000\">Already exists</strong>\n";
 			}
 			else if (
-				strpos($url, '#') !== false || // fragment
-				strpos($url, $host) === false || // out of host
-				! Util::is_html($url) // non html
+				strpos($target_url, '#') !== false || // fragment
+				strpos($target_url, $host) === false || // out of host
+				! Util::is_html($target_url) // non html
 			)
 			{
 				echo "<strong>Ignored</strong>\n";
 			}
 			else
 			{
-				$urls[] = $url;
+				$urls[] = $target_url;
 				echo "<strong style=\"border-radius: 5px; padding: 5px; color: #fff;background-color:#408000;\">Added</strong>\n";
 			}
 			echo '</p>';
@@ -375,7 +374,18 @@ class Controller_Pages
 		Session::add('values', 'urls', $urls);
 
 		// done
-		echo '<p><a id="a11yc_back_to_pages" href="'.A11YC_PAGES_URL.'">'.A11YC_LANG_PAGES_RETURN_TO_PAGES.'</a></p>';
+		if (count($urls) == 0)
+		{
+			echo '<p><a id="a11yc_back_to_pages" href="'.A11YC_PAGES_URL.'">'.A11YC_LANG_PAGES_NOT_FOUND_ALL.'</a></p>';
+			if (strpos($url, 'https:') !== false)
+			{
+				echo '<p>'.A11YC_LANG_PAGES_NOT_FOUND_SSL.'</p>';
+			}
+		}
+		else
+		{
+			echo '<p><a id="a11yc_back_to_pages" href="'.A11YC_PAGES_URL.'">'.A11YC_LANG_PAGES_RETURN_TO_PAGES.'</a></p>';
+		}
 		echo '<script>a11yc_stop_scroll()</script>'."\n";
 
 		if ( ! headers_sent())
