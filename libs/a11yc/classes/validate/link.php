@@ -84,7 +84,8 @@ class Validate_Link extends Validate
 	public static function same_urls_should_have_same_text()
 	{
 		// urls
-		$ms = static::get_elements_by_re(static::$hl_html, 'anchors_and_values');
+		$str = static::ignore_elements(static::$hl_html);
+		$ms = static::get_elements_by_re($str, 'anchors_and_values');
 		if ( ! $ms[1]) return;
 
 		$urls = array();
@@ -133,7 +134,6 @@ class Validate_Link extends Validate
 	public static function here_link()
 	{
 		$str = static::ignore_elements(static::$hl_html);
-
 		$ms = static::get_elements_by_re($str, 'anchors_and_values');
 		if ( ! $ms[2]) return;
 

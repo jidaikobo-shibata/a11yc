@@ -512,7 +512,6 @@ class Validate
 	{
 		static $retvals = array();
 		if (isset($retvals[$type])) return $retvals[$type];
-		$str = static::ignore_comment_out($str);
 
 		switch ($type)
 		{
