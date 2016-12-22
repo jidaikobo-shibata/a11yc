@@ -214,9 +214,6 @@ class Util extends \Kontiki\Util
 		static $headers = array();
 		if (isset($headers[$url])) return $headers[$url];
 
-		// setup
-		$setup = Controller_Setup::fetch_setup();
-
 		// basic auth?
 		if (static::is_basic_auth($url))
 		{
@@ -344,7 +341,8 @@ class Util extends \Kontiki\Util
 		$ignore_cert = array();
 		if (strpos($target_url, 'https') !== false)
 		{
-			if (strpos($target_url, Arr::get($setup, 'trust_ssl_url')) !== false)
+			$trust_ssl_url = Arr::get($setup, 'trust_ssl_url');
+			if ($trust_ssl_url && strpos($target_url, $trust_ssl_url) !== false)
 			{
 				$ignore_cert = array(
 					'verify_peer' => false,
