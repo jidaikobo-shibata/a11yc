@@ -20,7 +20,6 @@ class Validate_Form extends Validate
 	public static function form_and_labels()
 	{
 		$str = static::ignore_elements(static::$hl_html);
-
 		$ms = static::get_elements_by_re($str, 'tags');
 		if ( ! $ms[1]) return;
 
