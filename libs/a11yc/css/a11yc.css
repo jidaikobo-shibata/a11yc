@@ -512,8 +512,8 @@ table#a11yc_table_info {
 	background-color: #e6e6e6;
 	border-top: 1px solid #ccc;
 }
-.a11y-center_page_jwp-a11y-jwp-a11y_setup #wpfooter,
-.a11y-center_page_jwp-a11y-jwp_a11y_checklist #wpfooter {
+.a11y-center_page_jwp-a11y-jwp_a11y_checklist #wpfooter,
+.a11y-center_page_jwp-a11y-jwp_a11y_setup #wpfooter {
 	display: none;
 }
 #a11y_submit label[for="a11yc_done"] {
