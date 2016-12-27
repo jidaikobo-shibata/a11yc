@@ -114,9 +114,12 @@ class Validate_Head extends Validate
 	 */
 	public static function langless()
 	{
-		// do not use static::ignore_elements() in case of "<html>" is in comment out
-
-		$ms = static::get_elements_by_re(static::$hl_html, 'tags');
+		// do not use static::ignore_elements() and static::get_elements_by_re()
+		// in case of "<html>" is in comment out
+		preg_match_all(
+			"/\<([a-zA-Z1-6]+?) +?([^\>]*?)[\/]*?\>|\<([a-zA-Z1-6]+?)[ \/]*?\>/i",
+			static::$hl_html,
+			$ms);
 
 		$has_langs = array();
 		foreach ($ms[0] as $k => $v)

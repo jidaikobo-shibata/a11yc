@@ -158,7 +158,6 @@ class Validate_Alt extends Validate
 	public static function same_alt_and_filename_of_img()
 	{
 		$str = static::ignore_elements(static::$hl_html);
-
 		$ms = static::get_elements_by_re($str, 'imgs');
 		if ( ! $ms[1]) return;
 

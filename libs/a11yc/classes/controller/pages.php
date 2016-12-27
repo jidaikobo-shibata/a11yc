@@ -334,14 +334,23 @@ class Controller_Pages
 		echo '</div>';
 
 		// add to session
-		sort($urls);
+		// sort($urls); // yousu-mi
 		Session::add('values', 'urls', $urls);
 
 		// done
 		if (count($urls) === 0)
 		{
 			echo '<p><a id="a11yc_back_to_pages" href="'.A11YC_PAGES_URL.'">'.A11YC_LANG_PAGES_NOT_FOUND_ALL.'</a></p>';
-			if (strpos($url, 'https:') !== false)
+
+			$errs = Session::fetch('messages', 'errors');
+			if ($errs)
+			{
+				foreach ($errs as $err)
+				{
+					echo '<p>'.$err.'</p>';
+				}
+			}
+			if (strpos($base_url, 'https:') !== false)
 			{
 				echo '<p>'.A11YC_LANG_PAGES_NOT_FOUND_SSL.'</p>';
 			}
