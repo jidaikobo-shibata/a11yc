@@ -334,7 +334,7 @@ class Controller_Pages
 		echo '</div>';
 
 		// add to session
-		sort($urls);
+		// sort($urls); // yousu-mi
 		Session::add('values', 'urls', $urls);
 
 		// done
