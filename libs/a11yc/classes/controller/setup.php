@@ -55,6 +55,8 @@ class Controller_Setup
 			$checklist_behaviour = intval(@$post['checklist_behaviour']);
 			$standard = intval($post['standard']);
 			$policy = stripslashes($post['policy']);
+			$contact = stripslashes($post['contact']);
+			$report = stripslashes($post['report']);
 
 			$additional_criterions = array();
 			if (Input::post('additional_criterions'))
@@ -93,9 +95,9 @@ class Controller_Setup
 						$post['declare_date'],
 						$post['test_period'],
 						$post['dependencies'],
-						$post['contact'],
+						$contact,
 						$policy,
-						$post['report'],
+						$report,
 						$post['basic_user'],
 						$post['basic_pass'],
 						$post['trust_ssl_url'],
@@ -130,9 +132,9 @@ class Controller_Setup
 						$post['declare_date'],
 						$post['test_period'],
 						$post['dependencies'],
-						$post['contact'],
+						$contact,
 						$policy,
-						$post['report'],
+						$report,
 						$post['basic_user'],
 						$post['basic_pass'],
 						$post['trust_ssl_url'],
