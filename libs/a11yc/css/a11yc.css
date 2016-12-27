@@ -513,6 +513,7 @@ table#a11yc_table_info {
 	border-top: 1px solid #ccc;
 }
 .a11y-center_page_jwp-a11y-jwp_a11y_checklist #wpfooter,
+.a11y-center_page_jwp-a11y-jwp_a11y_bulk #wpfooter,
 .a11y-center_page_jwp-a11y-jwp_a11y_setup #wpfooter {
 	display: none;
 }
