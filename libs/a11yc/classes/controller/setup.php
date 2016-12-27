@@ -29,10 +29,10 @@ class Controller_Setup
 	 *
 	 * @return  array
 	 */
-	public static function fetch_setup()
+	public static function fetch_setup($force = 0)
 	{
 		static $retvals = '';
-		if ($retvals) return $retvals;
+		if ($retvals && ! $force) return $retvals;
 
 		$sql = 'SELECT * FROM '.A11YC_TABLE_SETUP.';';
 		$ret = Db::fetch_all($sql);
@@ -69,7 +69,7 @@ class Controller_Setup
 
 			$setup = static::fetch_setup();
 
-			if (isset($setup['report']))
+			if (isset($setup['standard']))
 			{
 				// update
 
@@ -162,11 +162,11 @@ class Controller_Setup
 	{
 		static::dbio();
 
-		$setup = static::fetch_setup();
+		$setup = static::fetch_setup($force = 1);
 
 		// assign
 		View::assign('title', A11YC_LANG_SETUP_TITLE);
-		View::assign('setup', static::fetch_setup());
+		View::assign('setup', $setup);
 		View::assign('standards', Yaml::each('standards'));
 		View::assign('yml', Yaml::fetch());
 		View::assign('form', View::fetch_tpl('setup/form.php'), FALSE);
