@@ -11,9 +11,7 @@
  */
 
 // kontiki and a11yc
-require (__DIR__.'/config/config.php');
-require (__DIR__.'/libs/kontiki/main.php');
-require (A11YC_PATH.'/main.php');
+require (__DIR__.'/libs/a11yc/main.php');
 
 // database
 \A11yc\Db::forge(array(

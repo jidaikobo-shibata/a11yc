@@ -26,6 +26,7 @@ class Evaluate
 		{
 			$cs[$v['code']]['memo'] = $v['memo'];
 			$cs[$v['code']]['uid'] = $v['uid'];
+			$cs[$v['code']]['passed'] = $v['passed'];
 		}
 		return $cs;
 	}
@@ -60,6 +61,7 @@ class Evaluate
 		foreach ($yml['checks'] as $k => $v)
 		{
 			$memos[$k] = '';
+			// $kk is code
 			foreach ($v as $kk => $vv)
 			{
 				foreach ($vv['pass'] as $kkk => $vvv)
@@ -70,7 +72,7 @@ class Evaluate
 
 					// pass_codes
 					$pass_codes[$kkk] = isset($pass_codes[$kkk]) ? $pass_codes[$kkk] : array();
-					if (isset($cs[$kk]))
+					if (isset($cs[$kk]) && $cs[$kk]['passed'])
 					{
 						$pass_codes[$kkk] = array_merge($pass_codes[$kkk], $vvv);
 						$checked[] = $kk;
@@ -235,15 +237,22 @@ class Evaluate
 
 		foreach ($ps as $k => $p)
 		{
-			$url = Db::escape($p['url']);
-			$cs = Db::fetch_all('SELECT * FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = '.$url.';');
+			$cs = Db::fetch_all(
+				'SELECT * FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = ? AND `passed` = 1;',
+				array($p['url']));
 			foreach ($cs as $v)
 			{
 				$css[] = $v['code'];
 			}
 		}
+		$css = array_flip(array_unique($css));
+		foreach ($css as $k => $v)
+		{
+			$css[$k] = array();
+			$css[$k]['passed'] = 1;
+		}
 
-		return array_flip(array_unique($css));
+		return $css;
 	}
 
 	/**

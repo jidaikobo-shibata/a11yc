@@ -136,11 +136,11 @@ class Controller_Checklist
 			// insert checks
 			foreach (Input::post('chk') as $code => $v)
 			{
-				// if ( ! isset($v['on']) && empty($v['memo'])) continue;
-				if ( ! isset($v['on'])) continue;
-				$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS.' (`url`, `code`, `uid`, `memo`)';
-				$sql.= ' VALUES (?, ?, ?, ?);';
-				Db::execute($sql, array($url, $code, $v['uid'], $v['memo']));
+				if ( ! isset($v['on']) && empty($v['memo'])) continue;
+				$passed = isset($v['on']);
+				$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS.' (`url`, `code`, `uid`, `memo`, `passed`)';
+				$sql.= ' VALUES (?, ?, ?, ?, ?);';
+				Db::execute($sql, array($url, $code, $v['uid'], $v['memo'], $passed));
 			}
 
 			// leveling page

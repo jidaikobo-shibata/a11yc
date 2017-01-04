@@ -17,7 +17,7 @@
 		($include && strlen($v['level']['name']) <= $target_level) ||
 		( ! $include && strlen($v['level']['name']) > $target_level)
 	):
-		if ( ! $results[$k]['pass']) continue;
+//		if ( ! $results[$k]['pass']) continue;
 ?>
 		<tr>
 			<th scope="row"><?php echo \A11yc\Util::key2code($k) ?></th>

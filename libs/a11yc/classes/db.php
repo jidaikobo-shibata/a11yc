@@ -57,6 +57,17 @@ class Db extends \Kontiki\Db
 				$sql.= ');';
 				static::execute($sql);
 			}
+
+			// version 1.2.0
+			if ( ! static::is_fields_exist(A11YC_TABLE_CHECKS, array('passed')))
+			{
+				$sql = 'ALTER TABLE '.A11YC_TABLE_CHECKS.' ADD `passed` INTEGER;';
+				static::execute($sql);
+
+				// update database structure
+				$sql = 'UPDATE '.A11YC_TABLE_CHECKS.' SET `passed` = 1;';
+				static::execute($sql);
+			}
 		}
 
 		if (defined('A11YC_TABLE_BULK'))

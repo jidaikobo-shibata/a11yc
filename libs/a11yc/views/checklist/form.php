@@ -178,8 +178,9 @@ $additional_criterion = join(',', $additional_criterions);
 				$data = $passes ? ' data-pass="'.join(',', $passes).'"' : '';
 				$data.= isset($val["non-exist"]) ? ' data-non-exist="'.join(',', $val["non-exist"]).'"' : '';
 				$checked = '';
+
 				if (
-					($page && isset($cs[$code])) || // ordinary
+					($page && isset($cs[$code]) && $cs[$code]['passed']) || // ordinary
 					($page && isset($bulk[$code]) && empty($cs)) || // default
 					( ! $page && isset($bulk[$code])) // bulk
 				):
