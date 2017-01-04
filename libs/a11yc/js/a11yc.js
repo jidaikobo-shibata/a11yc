@@ -401,8 +401,8 @@ function a11yc_count_checkbox(){
 		subtotal = 0;
 		var pid = '#a11yc_p_'+(index+1);
 		$(this).find('td').each(function(col_index){
+			additional_num = 0;
 			if(!$(this).is('.a11yc_rest_subtotal')){
-				additional_num = 0;
 				l_str = '';
 				for(var i=0; i<=col_index; i++) l_str= l_str+'a';
 				n_str = $(pid).find('.a11yc_level_'+l_str+' th input').filter(':not(:disabled,:checked)').length;
