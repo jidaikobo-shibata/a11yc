@@ -687,17 +687,22 @@ dl#a11yc_validation_code {
 #a11yc_validation_code .a11yc_disclosure_target.active {
 }
 */
-.wp-admin #a11yc_validation_errors {
+.wp-admin #a11yc_validation_list {
 	border: 1px solid #aaa;
-	border-top: none;
+/*	border-top: none; */
 }
 
 #a11yc_validation_errors dt,
 #a11yc_validation_errors dd {
 	border-color:#aaa;
 	border-style: solid;
-	word-break: normal;
 	padding: 2px 5px;
+}
+#a11yc_validation_errors dt {
+	word-break: normal;
+}
+#a11yc_validation_errors dd {
+	word-break: break-all;
 }
 .wp-admin #a11yc_validation_errors dt,
 .wp-admin #a11yc_validation_errors dd {
