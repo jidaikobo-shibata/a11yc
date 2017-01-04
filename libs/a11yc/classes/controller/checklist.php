@@ -134,19 +134,13 @@ class Controller_Checklist
 			Db::execute($sql, array($url));
 
 			// insert checks
-			$pdo = Db::instance()->dbh;
-			$pdo->beginTransaction();
-			try {
-				foreach (Input::post('chk') as $code => $v)
-				{
-					// if ( ! isset($v['on']) && empty($v['memo'])) continue;
-					if ( ! isset($v['on'])) continue;
-					$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS.' (`url`, `code`, `uid`, `memo`)';
-					$sql.= ' VALUES (?, ?, ?, ?);';
-					Db::execute($sql, array($url, $code, $v['uid'], $v['memo']));
-				}
-			} catch (PDOException $e) {
-				$pdo->rollBack();
+			foreach (Input::post('chk') as $code => $v)
+			{
+				// if ( ! isset($v['on']) && empty($v['memo'])) continue;
+				if ( ! isset($v['on'])) continue;
+				$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS.' (`url`, `code`, `uid`, `memo`)';
+				$sql.= ' VALUES (?, ?, ?, ?);';
+				Db::execute($sql, array($url, $code, $v['uid'], $v['memo']));
 			}
 
 			// leveling page
@@ -160,11 +154,10 @@ class Controller_Checklist
 			$standard = intval(Input::post('standard'));
 			$selection_reason = intval(Input::post('selection_reason'));
 			$r = false;
-
 			if (static::fetch_page($url))
 			{
 				$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET ';
-				$sql.= '`date` = ?, `level` = ?, `done` = ?, `standard` = ?, `page_title` =?, `selection_reason` =?';
+				$sql.= '`date` = ?, `level` = ?, `done` = ?, `standard` = ?, `page_title` = ?, `selection_reason` = ?';
 				$sql.= ' WHERE `url` = ?;';
 				$r = Db::execute($sql, array($date, $result, $done, $standard, $page_title, $selection_reason, $url));
 			}

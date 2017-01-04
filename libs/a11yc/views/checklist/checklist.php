@@ -9,7 +9,7 @@
 <?php
 	// is done
 	if ($url != 'bulk'):
-	$checked = @$page['done'] ? ' checked="checked"' : '';
+	$checked = \A11yc\Arr::get($page, 'done') ? ' checked="checked"' : '';
 ?>
 	<!-- is do_link_check -->
 	<label for="a11yc_do_link_check"><input type="checkbox" name="do_link_check" id="a11yc_do_link_check" value="1" /><?php echo A11YC_LANG_CHECKLIST_DO_LINK_CHECK ?></label>
