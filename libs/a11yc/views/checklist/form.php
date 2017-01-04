@@ -203,13 +203,13 @@ $additional_criterion = join(',', $additional_criterions);
 				foreach ($users as $uid => $name):
 					$selected = '';
 					if (
-						isset($cs[$code]['uid']) && $cs[$code]['uid'] = $uid ||
-						isset($bulk[$code]['uid']) && $bulk[$code]['uid'] = $uid
+						(isset($cs[$code]['uid']) && (int) $cs[$code]['uid'] == $uid) ||
+						(isset($bulk[$code]['uid']) && (int) $bulk[$code]['uid'] == $uid)
 					):
 						$selected = ' selected="selected"';
 					endif;
 				?>
-					<option value="<?php echo $uid ?>"><?php echo $name ?></option>
+					<option value="<?php echo $uid ?>"<?php echo $selected ?>><?php echo $name ?></option>
 				<?php endforeach; ?>
 				</select>
 				</td>
