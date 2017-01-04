@@ -99,7 +99,9 @@ class Controller_Checklist
 
 		foreach ($codes as $code)
 		{
-			$code[0]::$code[1]();
+			$c = $code[0];
+			$m = $code[1];
+			$c::$m();
 		}
 
 		if (Validate::get_error_ids())
