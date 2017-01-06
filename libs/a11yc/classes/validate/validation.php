@@ -390,10 +390,7 @@ class Validate_Validation extends Validate
 			if ($ms[1][$k] != 'frame' && $ms[1][$k] != 'iframe') continue;
 			$attrs = static::get_attributes($v);
 
-			if (
-				! isset($attrs['title']) ||
-				(isset($attrs['title']) && empty(trim($attrs['title'])))
-			)
+			if ( ! trim(Arr::get($attrs, 'title')))
 			{
 				static::$error_ids['titleless_frame'][0]['id'] = $ms[0][$k];
 				static::$error_ids['titleless_frame'][0]['str'] = $ms[0][$k];

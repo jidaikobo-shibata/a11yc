@@ -75,7 +75,8 @@ class Validate_Alt extends Validate
 		{
 			if (strpos($m, '<img') === false) continue; // without image
 			if (static::is_ignorable($ms[0][$k])) continue; // ignorable
-			if ( ! empty(trim(strip_tags($m)))) continue; // not image only
+			$t = trim(strip_tags($m)); // php <= 5.5 cannot use function return value
+			if ( ! empty($t)) continue; // not image only
 			$attrs = static::get_attributes($m);
 			$alt = '';
 
