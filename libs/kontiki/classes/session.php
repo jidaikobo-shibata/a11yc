@@ -21,11 +21,29 @@ class Session
 	 */
 	public static function _init()
 	{
-		if (session_status() === PHP_SESSION_DISABLED)
+		// SESSION disabled
+		$is_session_disabled = false;
+		if (version_compare(phpversion(), '5.4.0', '>='))
+		{
+			$is_session_disabled = session_status() === PHP_SESSION_DISABLED ? TRUE : FALSE;
+		}
+		if ($is_session_disabled)
 		{
 			Util::error('couldn\'t start session.');
 		}
-		else if (session_status() === PHP_SESSION_NONE && ! headers_sent())
+
+		// is SESSION started
+		$is_session_started = false;
+		if (version_compare(phpversion(), '5.4.0', '>='))
+		{
+			$is_session_started = session_status() === PHP_SESSION_ACTIVE ? TRUE : FALSE;
+		}
+		else
+		{
+			$is_session_started = session_id() === '' ? FALSE : TRUE;
+		}
+
+		if ($is_session_started === FALSE && ! headers_sent())
 		{
 			if (Util::is_ssl())
 			{
