@@ -294,6 +294,7 @@ class Controller_Checklist
 	 */
 	public static function part_result($results, $target_level, $include = true)
 	{
+		View::assign('setup', Controller_Setup::fetch_setup());
 		View::assign('results', $results);
 		View::assign('target_level', $target_level);
 		View::assign('include', $include);

@@ -11,7 +11,10 @@
  */
 
 // a11yc
-require (__DIR__.'/libs/a11yc/main.php');
+if ( ! defined('A11YC_URL'))
+{
+	require (__DIR__.'/libs/a11yc/main.php');
+}
 
 // header
 header("HTTP/1.1 200 OK");

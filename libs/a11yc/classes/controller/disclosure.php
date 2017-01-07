@@ -21,14 +21,13 @@ class Controller_Disclosure
 	{
 		// setup
 		$setup = Controller_Setup::fetch_setup();
-		if ( ! $setup['policy']) Util::error('Error. Set policy first');
+		if ( ! $setup['target_level']) Util::error(A11YC_LANG_ERROR_NON_TARGET_LEVEL);
 		$target_level = intval(@$setup['target_level']);
-		if ( ! $target_level) Util::error('Error. Set target level first');
 
 		// links
 		$url = \A11yc\Util::remove_query_strings(
 			\A11yc\Util::uri(),
-			array('a11yc_policy', 'a11yc_report', 'a11yc_pages')
+			array('a11yc_policy', 'a11yc_report', 'a11yc_pages', 'url')
 		);
 
 		$policy_link = \A11yc\Util::add_query_strings(
