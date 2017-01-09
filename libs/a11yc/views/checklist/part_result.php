@@ -5,6 +5,9 @@ $html = '';
 $str = str_replace('&quot;', '"', $setup['additional_criterions']);
 $additional_criterions = $str ? unserialize($str) : array();
 
+// total
+$is_total = ! \A11yc\Input::get('url');
+
 // loop
 foreach ($yml['criterions'] as $k => $v):
 	$criterion_code = \A11yc\Util::key2code($k);
@@ -19,38 +22,47 @@ foreach ($yml['criterions'] as $k => $v):
 	):
 
 	// strs
-	$non_exist = isset($results[$k]['non_exist']) ? A11YC_LANG_EXIST_NON : A11YC_LANG_EXIST;
-	$pass_str = $results[$k]['pass'] ? A11YC_LANG_PASS : '-';
+	$is_passed = $results[$k]['pass'];
+	$memo = \A11yc\Util::s($results[$k]['memo']);
+	$pass_str = $is_passed ? A11YC_LANG_PASS : '-';
+
+	// exist_str
+	$exist_str = '-';
+	if ( ! $is_total && isset($results[$k]['non_exist']))
+	{
+		$exist_str = A11YC_LANG_EXIST_NON;
+	}
+	elseif (
+		$is_passed || // individual
+		($is_total && $memo) // total
+		)
+	{
+		// at the total and it has memo (percentage), then it tells us to it is existed.
+		$exist_str = A11YC_LANG_EXIST;
+	}
+
+	// individual: memo
+	// total: percentage
+	// if blank memo and this page was total. this criterion is passed by upper criterion
+	$memo = $is_total && $is_passed && ! $memo ? '100%' : $memo;
 
 	// html
 	$html.= '<tr>';
 	$html.= '	<th scope="row">'.$criterion_code.'</th>';
 	$html.= '	<td>'.$v['name'].'</td>';
 	$html.= '	<td class="a11yc_result">'.$v['level']['name'].'</td>';
-	$html.= '	<td class="a11yc_result a11yc_result_exist">';
-	if ($results[$k]['pass']):
-		$html.= $non_exist;
-	else:
-		$html.= '-';
-	endif;
-	$html.= '	</td>';
-	$html.= '	<td class="a11yc_result">';
-	$html.= $pass_str;
-	$html.= '	</td>';
+	$html.= '	<td class="a11yc_result a11yc_result_exist">'.$exist_str.'</td>';
+	$html.= '	<td class="a11yc_result">'.$pass_str.'</td>';
 
-	// individual: memo
-	// total: percentage
-	$html.= \A11yc\Input::get('url') ? '	<td>' : '	<td class="a11yc_result">';
-	$html.= \A11yc\Util::s($results[$k]['memo']);
-	// if blank memo and this page was total. this criterion is passed by upper criterion
-	if ( ! \A11yc\Input::get('url') && ! $results[$k]['memo'] && $results[$k]['pass']):
-		$html.= '100%';
-	endif;
+	// memo or percentage
+	$html.= $is_total ? '	<td class="a11yc_result">' : '	<td>';
+	$html.= $memo;
 	$html.= '	</td>';
 	$html.= '</tr>';
 	endif;
 endforeach;
 
+// render
 if ($html):
 ?>
 <table class="a11yc_table">
