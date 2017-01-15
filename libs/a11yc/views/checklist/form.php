@@ -171,7 +171,7 @@ $additional_criterion = join(',', $additional_criterions);
 				<h5><label for="<?php echo $ng_id; ?>"><?php echo A11YC_LANG_CHECKLIST_NG_REASON; ?></label></h5>
 				<p><?php echo A11YC_LANG_CHECKLIST_NG_REASON_EXP; ?></p>
 				<textarea name="ngs[<?php echo $kkk; ?>][memo]" id="<?php echo $ng_id; ?>" rows="3"><?php
-					$memo = \A11yc\Arr::get($cs_ngs, $kkk.'.memo', \A11yc\Arr::get($bulk_ngs, $kkk.'.memo'));
+				$memo = isset($cs_ngs[$kkk]['memo']) ? $cs_ngs[$kkk]['memo'] : \A11yc\Arr::get($bulk_ngs, $kkk.'.memo') ;
 					echo $memo;
 				?></textarea>
 

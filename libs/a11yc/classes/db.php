@@ -81,6 +81,17 @@ class Db extends \Kontiki\Db
 				$sql.= '`memo`      text NOT NULL';
 				$sql.= ');';
 				static::execute($sql);
+
+				// update database structure
+				$yml = Yaml::fetch();
+				foreach (array_keys($yml['criterions']) as $criterion)
+				{
+					foreach (Db::fetch_all('SELECT url FROM '.A11YC_TABLE_PAGES.' WHERE `done` = 1') as $url)
+					{
+						$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS_NGS.' (`url`, `criterion`, `uid`, `memo`)  VALUES (?, ?, ?, ?);';
+						static::execute($sql, array($url['url'], $criterion, '1', ''));
+					}
+				}
 			}
 		}
 
