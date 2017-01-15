@@ -30,8 +30,8 @@ class Controller_Center
 	public static function index()
 	{
 		// count
-		$done = Db::fetch('SELECT count(`level`) as done FROM '.A11YC_TABLE_PAGES.' WHERE `done` = 1 and `trash` = 0;');
-		$total = Db::fetch('SELECT count(`level`) as total FROM '.A11YC_TABLE_PAGES.' WHERE `trash` <> 1;');
+		$done = Db::fetch('SELECT count(`url`) as done FROM '.A11YC_TABLE_PAGES.' WHERE `done` = 1 and `trash` = 0;');
+		$total = Db::fetch('SELECT count(`url`) as total FROM '.A11YC_TABLE_PAGES.' WHERE `trash` <> 1;');
 		View::assign('done', $done);
 		View::assign('total', $total);
 

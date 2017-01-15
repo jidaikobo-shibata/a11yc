@@ -30,7 +30,7 @@ define('A11YC_LANG_JUMP_TO_CONTENT', '本文へ移動');
 define('A11YC_LANG_BEGINNING_OF_THE_CONTENT', 'ここから本文です');
 define('A11YC_LANG_UPDATE_SUCCEED', '更新しました');
 define('A11YC_LANG_UPDATE_FAILED', '更新に失敗しました');
-define('A11YC_LANG_ERROR_NON_TARGET_LEVEL', '設定で「目標とする適合レベル」を選んでからチェックを行ってください。');
+define('A11YC_LANG_ERROR_NON_TARGET_LEVEL', '設定で「目標とする適合レベル」を選んでください。');
 define('A11YC_LANG_CTRL_CONFIRM', '元には戻せません。本当に%sしてもよろしいですか？');
 define('A11YC_LANG_CTRL_KEYWORD_TITLE', 'キーワード');
 define('A11YC_LANG_CTRL_ORDER_TITLE', '並び替え');
@@ -162,6 +162,7 @@ define('A11YC_LANG_CHECKLIST_VIEW_SOURCE', 'ソースコードを見る');
 define('A11YC_LANG_CHECKLIST_MACHINE_CHECK', '自動チェック');
 define('A11YC_LANG_CHECKLIST_MEMO', '備考');
 define('A11YC_LANG_NO_BROKEN_LINK_FOUND', 'リンク切れは見つかりませんでした');
+define('A11YC_LANG_CHECKLIST_PERCENTAGE', '達成度');
 
 // bulk
 define('A11YC_LANG_BULK_TITLE', '一括処理');

@@ -10,6 +10,7 @@
 </tr>
 </thead>
 <?php
+$site_level = \A11YC\Evaluate::check_site_level();
 foreach ($pages as $v):
 	$url = \A11yc\Util::urldec($v['url']);
 	$page_title = \A11yc\Util::s($v['page_title']);
@@ -23,7 +24,7 @@ foreach ($pages as $v):
 ?>
 <tr>
 	<td style="word-break: break-all;"><?php echo $page_title.'<br /><a href="'.$url.'">'.$url.'</a>' ?></td>
-	<td style="text-align: center;"><?php echo \A11yc\Util::num2str($v['level']) ?></td>
+	<td style="text-align: center;"><?php echo \A11YC\Evaluate::result_str($site_level, $v['level']) ?></td>
 	<td style="text-align: center;"><a href="<?php echo $chk ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_CHECK ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
 	<td style="white-space: nowrap;"><?php echo \A11yc\Util::s($v['date']) ?></td>
 </tr>

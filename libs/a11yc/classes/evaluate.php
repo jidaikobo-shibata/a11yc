@@ -77,6 +77,8 @@ class Evaluate
 						$pass_codes[$kkk] = array_merge($pass_codes[$kkk], $vvv);
 						$checked[] = $kk;
 					}
+
+					// memos
 					if (
 						isset($cs[$kk]['memo']) &&
 						! empty($cs[$kk]['memo']) &&
@@ -232,24 +234,35 @@ class Evaluate
 	 */
 	public static function evaluate_total()
 	{
-		$ps = Db::fetch_all('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `done` = 1;');
+		$ps = Db::fetch_all('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `done` = 1 and `trash` = 0;');
 		$css = array();
 
+		// calculate percentage
+		$passes = array();
+		$total = array();
 		foreach ($ps as $k => $p)
 		{
 			$cs = Db::fetch_all(
-				'SELECT * FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = ? AND `passed` = 1;',
+				'SELECT * FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = ?;',
 				array($p['url']));
+
 			foreach ($cs as $v)
 			{
-				$css[] = $v['code'];
+				$total[$v['code']] = isset($total[$v['code']]) ? $total[$v['code']] + 1 : 1;
+				if ($v['passed'])
+				{
+					$passes[$v['code']] = isset($passes[$v['code']]) ? $passes[$v['code']] + 1 : 1;
+				}
 			}
 		}
-		$css = array_flip(array_unique($css));
-		foreach ($css as $k => $v)
+
+		// use memo to show percentage
+		foreach ($total as $k => $v)
 		{
 			$css[$k] = array();
-			$css[$k]['passed'] = 1;
+			$percentage = round($passes[$k] / $v, 3) * 100;
+			$css[$k]['memo'] = $percentage.'%';
+			$css[$k]['passed'] = ($percentage == 100);
 		}
 
 		return $css;
