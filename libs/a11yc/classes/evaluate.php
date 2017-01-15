@@ -32,7 +32,7 @@ class Evaluate
 	}
 
 	/**
-	 * evaluate results
+	 * evaluate url
 	 *
 	 * @param   string     $url
 	 * @return  array
@@ -44,7 +44,38 @@ class Evaluate
 	}
 
 	/**
-	 * evaluate results
+	 * pass condition from YAML
+	 * which code made criterion passed
+	 * ['1-1-1'] => array('1-1-1a', '1-1-1b'...)
+	 *
+	 * @return  array
+	 */
+	public static function pass_conditions()
+	{
+		static $pass_conds = array();
+		if ($pass_conds) return $pass_conds;
+
+		$yml = Yaml::fetch();
+		foreach ($yml['checks'] as $v)
+		{
+			foreach ($v as $code => $vv)
+			{
+				foreach ($vv['pass'] as $criterion => $vvv)
+				{
+					$pass_conds[$criterion] = Arr::get($pass_conds, $criterion, array());
+					$pass_conds[$criterion] = array_merge($pass_conds[$criterion], $vvv);
+				}
+			}
+		}
+		foreach ($pass_conds as $k => $v)
+		{
+			$pass_conds[$k] = array_unique($v);
+		}
+		return $pass_conds;
+	}
+
+	/**
+	 * evaluate
 	 *
 	 * @param   string     $url
 	 * @return  array
@@ -56,52 +87,46 @@ class Evaluate
 
 		// prepare conditions and given value
 		$checked = array();
-		$pass_conds = array();
-		$pass_codes = array();
-		foreach ($yml['checks'] as $k => $v)
+		$passed = array();
+		foreach ($yml['checks'] as $v)
 		{
-			$memos[$k] = '';
-			// $kk is code
-			foreach ($v as $kk => $vv)
+			foreach ($v as $code => $vv)
 			{
-				foreach ($vv['pass'] as $kkk => $vvv)
+				foreach ($vv['pass'] as $criterion => $vvv)
 				{
-					// pass_conds
-					$pass_conds[$kkk] = isset($pass_conds[$kkk]) ? $pass_conds[$kkk] : array();
-					$pass_conds[$kkk] = array_merge($pass_conds[$kkk], $vvv);
-
-					// pass_codes
-					$pass_codes[$kkk] = isset($pass_codes[$kkk]) ? $pass_codes[$kkk] : array();
-					if (isset($cs[$kk]) && $cs[$kk]['passed'])
+					// passed
+					$passed[$criterion] = Arr::get($passed, $criterion, array());
+					if (isset($cs[$code]) && $cs[$code]['passed'])
 					{
-						$pass_codes[$kkk] = array_merge($pass_codes[$kkk], $vvv);
-						$checked[] = $kk;
+						$passed[$criterion] = array_merge($passed[$criterion], $vvv);
+						$checked[] = $code;
 					}
 
 					// memos
-					if (
-						isset($cs[$kk]['memo']) &&
-						! empty($cs[$kk]['memo']) &&
-						mb_strpos($memos[$k], $cs[$kk]['memo']) === false)
+					// do not add same memo
+					if ( ! isset($memos[$criterion]))
 					{
-						$memos[$k] = $memos[$k]."\n".$cs[$kk]['memo'];
+						$memos[$criterion] = '';
+					}
+					$memo = Arr::get($cs, $code.'.memo');
+					if ($memo && mb_strpos($memos[$criterion], $memo) === false)
+					{
+						$memos[$criterion] = $memos[$criterion]."\n".$cs[$code]['memo'];
 					}
 				}
 			}
 		}
-
-		foreach ($pass_conds as $k => $v)
-		{
-			$pass_conds[$k] = array_unique($v);
-		}
 		$passed_flat = array();
-		foreach ($pass_codes as $k => $v)
+		foreach ($passed as $k => $v)
 		{
-			$pass_codes[$k] = array_unique($v);
+			$passed[$k] = array_unique($v);
 			$passed_flat = array_merge($passed_flat, $v);
 		}
 		$passed_flat = array_unique($passed_flat);
 		$checked = array_unique($checked);
+
+		// pass condition
+		$pass_conds = static::pass_conditions();
 
 		// evaluate
 		$results = array();
@@ -109,9 +134,9 @@ class Evaluate
 		foreach ($yml['checks'] as $k => $v)
 		{
 			$results[$k] = array();
-			$err = array_diff($pass_conds[$k], $pass_codes[$k]);
+			$err = array_diff($pass_conds[$k], $passed[$k]);
 			$results[$k]['pass'] = $err ? false : TRUE;
-			$results[$k]['memo'] = trim($memos[$k]);
+			$results[$k]['memo'] = Arr::get($memos,$k);
 		}
 
 		// non exist
@@ -135,6 +160,47 @@ class Evaluate
 		}
 
 		return array($results, $checked, $passed_flat);
+	}
+
+	/**
+	 * evaluate total
+	 *
+	 * @return  array
+	 */
+	public static function evaluate_total()
+	{
+		$ps = Db::fetch_all('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `done` = 1 and `trash` = 0;');
+		$css = array();
+
+		// calculate percentage
+		$passes = array();
+		$total = array();
+		foreach ($ps as $k => $p)
+		{
+			$cs = Db::fetch_all(
+				'SELECT * FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = ?;',
+				array($p['url']));
+
+			foreach ($cs as $v)
+			{
+				$total[$v['code']] = isset($total[$v['code']]) ? $total[$v['code']] + 1 : 1;
+				if ($v['passed'])
+				{
+					$passes[$v['code']] = isset($passes[$v['code']]) ? $passes[$v['code']] + 1 : 1;
+				}
+			}
+		}
+
+		// use memo to show percentage
+		foreach ($total as $k => $v)
+		{
+			$css[$k] = array();
+			$percentage = round($passes[$k] / $v, 3) * 100;
+			$css[$k]['memo'] = $percentage.'%';
+			$css[$k]['passed'] = ($percentage == 100);
+		}
+
+		return $css;
 	}
 
 	/**
@@ -225,47 +291,6 @@ class Evaluate
 	{
 		$min = Db::fetch('SELECT MIN(`level`) as min FROM '.A11YC_TABLE_PAGES.' WHERE `done` = 1;');
 		return $min['min'];
-	}
-
-	/**
-	 * evaluate total
-	 *
-	 * @return  array
-	 */
-	public static function evaluate_total()
-	{
-		$ps = Db::fetch_all('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `done` = 1 and `trash` = 0;');
-		$css = array();
-
-		// calculate percentage
-		$passes = array();
-		$total = array();
-		foreach ($ps as $k => $p)
-		{
-			$cs = Db::fetch_all(
-				'SELECT * FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = ?;',
-				array($p['url']));
-
-			foreach ($cs as $v)
-			{
-				$total[$v['code']] = isset($total[$v['code']]) ? $total[$v['code']] + 1 : 1;
-				if ($v['passed'])
-				{
-					$passes[$v['code']] = isset($passes[$v['code']]) ? $passes[$v['code']] + 1 : 1;
-				}
-			}
-		}
-
-		// use memo to show percentage
-		foreach ($total as $k => $v)
-		{
-			$css[$k] = array();
-			$percentage = round($passes[$k] / $v, 3) * 100;
-			$css[$k]['memo'] = $percentage.'%';
-			$css[$k]['passed'] = ($percentage == 100);
-		}
-
-		return $css;
 	}
 
 	/**
