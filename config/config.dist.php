@@ -33,10 +33,12 @@ define('A11YC_CLASSES_PATH',  A11YC_PATH.'/classes');
 define('A11YC_RESOURCE_PATH', A11YC_PATH.'/resources/'.A11YC_LANG);
 
 // tables
-define('A11YC_TABLE_PAGES',  'a11y_pages');
-define('A11YC_TABLE_CHECKS', 'a11y_checks');
-define('A11YC_TABLE_SETUP',  'a11y_setup');
-define('A11YC_TABLE_BULK',   'a11y_bulk');
+define('A11YC_TABLE_SETUP',      'a11y_setup');
+define('A11YC_TABLE_PAGES',      'a11y_pages');
+define('A11YC_TABLE_CHECKS',     'a11y_checks');
+define('A11YC_TABLE_CHECKS_NGS', 'a11y_checks_ngs');
+define('A11YC_TABLE_BULK',       'a11y_bulk');
+define('A11YC_TABLE_BULK_NGS',   'a11y_bulk_ngs');
 
 // urls
 define('A11YC_VALIDATE_URL',  dirname(A11YC_URL));

@@ -52,7 +52,7 @@ class Controller_Setup
 			$post = Input::post();
 			$target_level = intval($post['target_level']);
 			$selected_method = intval($post['selected_method']);
-			$checklist_behaviour = intval(@$post['checklist_behaviour']);
+			$checklist_behaviour = intval(Arr::get($post, 'checklist_behaviour'));
 			$standard = intval($post['standard']);
 			$policy = stripslashes($post['policy']);
 			$contact = stripslashes($post['contact']);
@@ -127,8 +127,8 @@ class Controller_Setup
 				$sql.= ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
 				$r = Db::execute($sql, array(
 						$target_level,
-						$selected_method,
 						$standard,
+						$selected_method,
 						$post['declare_date'],
 						$post['test_period'],
 						$post['dependencies'],

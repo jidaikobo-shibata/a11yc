@@ -45,6 +45,23 @@ class Controller_Bulk extends Controller_Checklist
 	}
 
 	/**
+	 * fetch ng
+	 *
+	 * @return  array
+	 */
+	public static function fetch_ngs()
+	{
+		$sql = 'SELECT * FROM '.A11YC_TABLE_BULK_NGS.';';
+		$ngs = array();
+		foreach (Db::fetch_all($sql) as $v)
+		{
+			$ngs[$v['criterion']]['memo'] = $v['memo'];
+			$ngs[$v['criterion']]['uid'] = $v['uid'];
+		}
+		return $ngs;
+	}
+
+	/**
 	 * dbio
 	 *
 	 * @param   string     $url
@@ -55,6 +72,18 @@ class Controller_Bulk extends Controller_Checklist
 		if (Input::post())
 		{
 			$cs = Input::post('chk');
+
+			// ngs
+			$sql = 'DELETE FROM '.A11YC_TABLE_BULK_NGS.';';
+			Db::execute($sql);
+
+			foreach (Input::post('ngs') as $criterion => $v)
+			{
+				if ( ! trim($v['memo'])) continue;
+				$sql = 'INSERT INTO '.A11YC_TABLE_BULK_NGS.' (`criterion`, `uid`, `memo`)';
+				$sql.= ' VALUES (?, ?, ?);';
+				Db::execute($sql, array($criterion, $v['uid'], $v['memo']));
+			}
 
 			// delete all
 			$sql = 'DELETE FROM '.A11YC_TABLE_BULK.';';
@@ -78,15 +107,43 @@ class Controller_Bulk extends Controller_Checklist
 
 			if (Input::post('update_all') == 1) return;
 
-			// update all
-			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.';';
+			// update all except for in trash item
+			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `trash` = 0;';
 			foreach (Db::fetch_all($sql) as $v)
 			{
+				// ngs
+				foreach (Input::post('ngs') as $criterion => $vv)
+				{
+					// add ngs
+					$sql = 'SELECT * FROM '.A11YC_TABLE_CHECKS_NGS.' WHERE `url` = ? and `criterion` = ?;';
+					if (
+						! Db::fetch($sql, array($v['url'], $criterion)) &&
+						Arr::get($vv, 'memo')
+					)
+					{
+						$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS_NGS.' (`url`, `criterion`, `uid`, `memo`)';
+						$sql.= ' VALUES (?, ?, ?, ?);';
+						Db::execute($sql, array($v['url'], $criterion, $vv['uid'], $vv['memo']));
+					}
+
+					// force update ngs
+					if (Input::post('update_all') == 3)
+					{
+						$sql = 'UPDATE '.A11YC_TABLE_CHECKS_NGS.' SET `memo` = ?, `uid` = ? WHERE `criterion` = ?;';
+						Db::execute($sql, array($vv['memo'], $vv['uid'], $criterion));
+					}
+				}
+
+				// checks and unchecks
 				foreach ($cs as $code => $vv)
 				{
+					// add checks
 					$code_sql = 'SELECT code FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = ? and `code` = ?;';
 
-					if ( ! Db::fetch($code_sql, array($v['url'], $code)) && isset($vv['on']))
+					if (
+						! Db::fetch($code_sql, array($v['url'], $code)) &&
+						isset($vv['on'])
+					)
 					{
 						$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS.' (`url`, `code`, `uid`, `memo`)';
 						$sql.= ' VALUES (?, ?, ?, ?);';
@@ -94,7 +151,11 @@ class Controller_Bulk extends Controller_Checklist
 					}
 
 					// uncheck
-					if (Input::post('update_all') == 3 && Db::fetch($code_sql, array($v['url'], $code)) && ! isset($vv['on']))
+					if (
+						Input::post('update_all') == 3 &&
+						Db::fetch($code_sql, array($v['url'], $code)) &&
+						! isset($vv['on'])
+					)
 					{
 						$sql = 'DELETE FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = ? and `code` = ?;';
 						Db::execute($sql, array($v['url'], $code));

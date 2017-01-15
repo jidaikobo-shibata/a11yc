@@ -129,6 +129,18 @@ class Controller_Checklist
 
 		if (Input::post())
 		{
+			// delete all from NGs
+			$sql = 'DELETE FROM '.A11YC_TABLE_CHECKS_NGS.' WHERE `url` = ?;';
+			Db::execute($sql, array($url));
+
+			foreach (Input::post('ngs') as $criterion => $v)
+			{
+				if ( ! trim($v['memo'])) continue;
+				$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS_NGS.' (`url`, `criterion`, `uid`, `memo`)';
+				$sql.= ' VALUES (?, ?, ?, ?);';
+				Db::execute($sql, array($url, $criterion, $v['uid'], $v['memo']));
+			}
+
 			// delete all from checks
 			$sql = 'DELETE FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = ?;';
 			Db::execute($sql, array($url));
@@ -276,6 +288,12 @@ class Controller_Checklist
 		$cs = Evaluate::fetch_results($url);
 		View::assign('bulk', $bulk);
 		View::assign('cs', $url == 'bulk' ? array() : $cs);
+
+		// cs
+		$bulk_ngs = Controller_Bulk::fetch_ngs();
+		$ngs = Evaluate::fetch_ngs($url);
+		View::assign('bulk_ngs', $bulk_ngs);
+		View::assign('cs_ngs', $url == 'bulk' ? array() : $ngs);
 
 		// validation
 		View::assign('ajax_validation', View::fetch_tpl('checklist/ajax.php'), false);

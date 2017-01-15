@@ -20,15 +20,33 @@ class Evaluate
 	 */
 	public static function fetch_results($url)
 	{
-		$sql = 'SELECT * FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = '.Db::escape($url).';';
+		$sql = 'SELECT * FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = ?;';
 		$cs = array();
-		foreach (Db::fetch_all($sql) as $v)
+		foreach (Db::fetch_all($sql, array($url)) as $v)
 		{
 			$cs[$v['code']]['memo'] = $v['memo'];
 			$cs[$v['code']]['uid'] = $v['uid'];
 			$cs[$v['code']]['passed'] = $v['passed'];
 		}
 		return $cs;
+	}
+
+	/**
+	 * fetch NG results from db
+	 *
+	 * @param   string     $url
+	 * @return  string
+	 */
+	public static function fetch_ngs($url)
+	{
+		$sql = 'SELECT * FROM '.A11YC_TABLE_CHECKS_NGS.' WHERE `url` = ?;';
+		$ngs = array();
+		foreach (Db::fetch_all($sql, array($url)) as $v)
+		{
+			$ngs[$v['criterion']]['memo'] = $v['memo'];
+			$ngs[$v['criterion']]['uid'] = $v['uid'];
+		}
+		return $ngs;
 	}
 
 	/**

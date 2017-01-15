@@ -1,5 +1,5 @@
 <div id="a11yc_header_ctrl">
-<?php if ($url != 'bulk'):  ?>
+<?php if ($url != 'bulk'): ?>
 	<!-- standard -->
 	<p id="a11yc_select_standard" class="a11yc_hide_if_fixedheader"><label for="a11yc_standard"><?php echo A11YC_LANG_STANDARD ?></label>
 	<select name="standard" id="a11yc_standard">
@@ -8,7 +8,7 @@
 		$selected = $k == @$page['standard'] ? ' selected="selected"' : '';
 	?>
 		<option<?php echo $selected ?> value="<?php echo $k ?>"><?php echo $v ?></option>
-	<?php endforeach;  ?>
+	<?php endforeach; ?>
 	</select></p>
 
 	<!-- selection reason -->
@@ -19,7 +19,7 @@
 		$selected = $k == @$page['selection_reason'] ? ' selected="selected"' : '';
 	?>
 		<option<?php echo $selected ?> value="<?php echo $k ?>"><?php echo $v ?></option>
-	<?php endforeach;  ?>
+	<?php endforeach; ?>
 	</select></p>
 <?php endif; ?>
 
@@ -47,7 +47,7 @@ $additional_criterion = join(',', $additional_criterions);
 <div id="a11yc_header">
 	<div id="a11yc_header_left" class="a11yc_fl">
 		<!-- not for bulk -->
-	<?php if ($url != 'bulk'):  ?>
+	<?php if ($url != 'bulk'): ?>
 		<div id="a11yc_targetpage_data">
 		<!-- target page -->
 	<table id="a11yc_back_to_target_page">
@@ -63,11 +63,11 @@ $additional_criterion = join(',', $additional_criterions);
 
 	<?php
 		// #a11yc_error
-		echo $ajax_validation;
+//		echo $ajax_validation;
 	?>
 
 	</div><!-- /#a11yc_targetpage_data -->
-	<?php else:  ?>
+	<?php else: ?>
 		<p><label for="a11yc_update_all"><?php echo A11YC_LANG_BULK_UPDATE ?></label>
 		<select name="update_all" id="a11yc_update_all" >
 			<option value="1"><?php echo A11YC_LANG_BULK_UPDATE1 ?></option>
@@ -81,11 +81,11 @@ $additional_criterion = join(',', $additional_criterions);
 			<option value="2"><?php echo A11YC_LANG_BULK_DONE2 ?></option>
 			<option value="3"><?php echo A11YC_LANG_BULK_DONE3 ?></option>
 		</select></p>
-	<?php endif;  ?>
+	<?php endif; ?>
 	</div><!-- /#a11yc_header_left -->
 
 	<div id="a11yc_header_right" class="a11yc_fr">
-	<?php if ($url != 'bulk'):  ?>
+	<?php if ($url != 'bulk'): ?>
 		<!-- level -->
 		<p id="a11yc_target_level"><?php echo A11YC_LANG_TARGET_LEVEL ?>: <?php echo \A11yc\Util::num2str($target_level) ?>
 <?php $current_level = $target_level ? \A11yc\Evaluate::result_str(@$page['level'], $target_level) : '-'; ?><br><?php echo A11YC_LANG_CURRENT_LEVEL ?>: <span id="a11yc_conformance_level"><?php echo $current_level ?></span></p>
@@ -125,14 +125,14 @@ $additional_criterion = join(',', $additional_criterions);
 
 		<!-- a11yc menu -->
 	<ul id="a11yc_menu_principles">
-	<?php foreach ($yml['principles'] as $v):  ?>
+	<?php foreach ($yml['principles'] as $v): ?>
 		<li id="a11yc_menuitem_<?php echo $v['code'] ?>"><a href="#a11yc_header_p_<?php echo $v['code'] ?>"><?php echo $v['code'].' '.$v['name'] ?></a></li>
-	<?php endforeach;  ?>
+	<?php endforeach; ?>
 	</ul><!--/#a11yc_menu_principles-->
 
 </div><!--/#a11yc_header-->
 
-<?php foreach ($yml['principles'] as $k => $v):  ?>
+<?php foreach ($yml['principles'] as $k => $v): ?>
 	<!-- principles -->
 	<div id="a11yc_p_<?php echo $v['code'] ?>" class="a11yc_section_principle"><h2 id="a11yc_header_p_<?php echo $v['code'] ?>" class="a11yc_header_principle" tabindex="-1"><?php echo $v['code'].' '.$v['name'] ?></h2>
 
@@ -156,12 +156,41 @@ $additional_criterion = join(',', $additional_criterions);
 			<div id="a11yc_c_<?php echo $kkk ?>" class="a11yc_section_criterion<?php echo $class_str ?>">
 			<h4 class="a11yc_header_criterion"><?php echo \A11yc\Util::key2code($vvv['code']).' '.$vvv['name'].' <span class="a11yc_header_criterion_level">('.$vvv['level']['name'].$non_interference.')</span>' ?></h4>
 			<ul class="a11yc_outlink">
-			<?php if (isset($vvv['url_as'])):  ?>
+			<?php if (isset($vvv['url_as'])): ?>
 				<li class="a11yc_outlink_as"><a<?php echo A11YC_TARGET ?> href="<?php echo $vvv['url_as'] ?>" title="Accessibility Supported"><span class="a11yc_skip">Accessibility Supported</span></a></li>
-			<?php endif;  ?>
+			<?php endif; ?>
 				<li class="a11yc_outlink_u"><a<?php echo A11YC_TARGET ?> href="<?php echo $vvv['url'] ?>" title="Understanding"><span class="a11yc_skip">Understanding</span></a></li>
 			</ul>
 			<p class="summary_criterion"><?php echo $vvv['summary'] ?></p>
+
+			<!-- .a11yc_ng NG: NONCONFORMITY -->
+			<div class="a11yc_ng">
+				<?php
+					$ng_id = 'a11yc_ng_'.$kkk;
+				?>
+				<h5><label for="<?php echo $ng_id; ?>"><?php echo A11YC_LANG_CHECKLIST_NG_REASON; ?></label></h5>
+				<p><?php echo A11YC_LANG_CHECKLIST_NG_REASON_EXP; ?></p>
+				<textarea name="ngs[<?php echo $kkk; ?>][memo]" id="<?php echo $ng_id; ?>" rows="3"><?php
+					$memo = \A11yc\Arr::get($cs_ngs, $kkk.'.memo', \A11yc\Arr::get($bulk_ngs, $kkk.'.memo'));
+					echo $memo;
+				?></textarea>
+
+				<select name="ngs[<?php echo $kkk ?>][uid]">
+				<?php
+				foreach ($users as $uid => $name):
+					$selected = '';
+					if (
+						(isset($cs_ngs[$kkk]['uid']) && (int) $cs_ngs[$kkk]['uid'] == $uid) ||
+						(isset($bulk_ngs[$kkk]['uid']) && (int) $bulk_ngs[$kkk]['uid'] == $uid)
+					):
+						$selected = ' selected="selected"';
+					endif;
+				?>
+					<option value="<?php echo $uid ?>"<?php echo $selected ?>><?php echo $name ?></option>
+				<?php endforeach; ?>
+				</select>
+			</div>
+			<!-- /.a11yc_ng NG: NONCONFORMITY -->
 
 			<!-- checks -->
 			<table class="a11yc_table_check"><tbody>
@@ -194,7 +223,7 @@ $additional_criterion = join(',', $additional_criterions);
 				</th>
 
 				<td class="a11yc_table_check_memo">
-				<?php $memo = isset($cs[$code]['memo']) ? $cs[$code]['memo'] : @$bulk[$code]['memo'] ;  ?>
+				<?php $memo = isset($cs[$code]['memo']) ? $cs[$code]['memo'] : @$bulk[$code]['memo'] ; ?>
 				<textarea name="chk[<?php echo $code ?>][memo]"><?php echo $memo ?></textarea>
 				</td>
 
@@ -218,14 +247,14 @@ $additional_criterion = join(',', $additional_criterions);
 				<a<?php echo A11YC_TARGET ?> href="<?php echo A11YC_DOC_URL.$code ?>&amp;criterion=<?php echo $kkk ?>" title="<?php echo A11YC_LANG_DOCS_TITLE ?>" class="a11yc_link_howto"><span role="presentation" aria-hidden="true" class="a11yc_icon_fa a11yc_icon_howto"></span><span class="a11yc_skip"><?php echo A11YC_LANG_DOCS_TITLE ?></span></a>
 				</td>
 				</tr>
-			<?php endforeach;  ?>
+			<?php endforeach; ?>
 			</tbody></table>
 			</div><!--/#c_<?php echo $kkk ?>.l_<?php echo strtolower($vvv['level']['name']) ?>-->
-		<?php endforeach;  ?>
+		<?php endforeach; ?>
 		</div><!--/#g_<?php echo $vv['code'] ?>-->
-	<?php endforeach;  ?>
+	<?php endforeach; ?>
 	</div><!--/#section_p_<?php echo $v['code'] ?>.section_guidelines-->
-<?php endforeach;  ?>
+<?php endforeach; ?>
 <input type="hidden" name="page_title" value="<?php echo s($target_title) ?>" />
 <input type="hidden" name="url" value="<?php echo s($url) ?>" />
 </div><!-- /#a11yc_checks -->

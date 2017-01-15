@@ -26,14 +26,14 @@ class Db extends \Kontiki\Db
 			if ( ! static::is_table_exist(A11YC_TABLE_PAGES))
 			{
 				$sql = 'CREATE TABLE '.A11YC_TABLE_PAGES.' (';
-				$sql.= '`url`       text NOT NULL,';
-				$sql.= '`standard`  INTEGER,';
-				$sql.= '`level`     INTEGER,';
-				$sql.= '`done`      bool,';
-				$sql.= '`date`      date,';
-				$sql.= '`add_date`  datetime,';
+				$sql.= '`url`        text NOT NULL,';
+				$sql.= '`standard`   INTEGER,';
+				$sql.= '`level`      INTEGER,';
+				$sql.= '`done`       bool,';
+				$sql.= '`date`       date,';
+				$sql.= '`add_date`   datetime,';
 				$sql.= '`page_title` text,';
-				$sql.= '`trash`     bool NOT NULL';
+				$sql.= '`trash`      bool NOT NULL';
 				$sql.= ');';
 				static::execute($sql);
 			}
@@ -70,14 +70,41 @@ class Db extends \Kontiki\Db
 			}
 		}
 
+		if (defined('A11YC_TABLE_CHECKS_NGS'))
+		{
+			if ( ! static::is_table_exist(A11YC_TABLE_CHECKS_NGS))
+			{
+				$sql = 'CREATE TABLE '.A11YC_TABLE_CHECKS_NGS.' (';
+				$sql.= '`url`       text NOT NULL,';
+				$sql.= '`criterion` text NOT NULL,';
+				$sql.= '`uid`       INTEGER NOT NULL,';
+				$sql.= '`memo`      text NOT NULL';
+				$sql.= ');';
+				static::execute($sql);
+			}
+		}
+
 		if (defined('A11YC_TABLE_BULK'))
 		{
 			if ( ! static::is_table_exist(A11YC_TABLE_BULK))
 			{
 				$sql = 'CREATE TABLE '.A11YC_TABLE_BULK.' (';
-				$sql.= '`code`     text NOT NULL,';
-				$sql.= '`uid`      INTEGER NOT NULL,';
-				$sql.= '`memo`     text NOT NULL';
+				$sql.= '`code` text NOT NULL,';
+				$sql.= '`uid`  INTEGER NOT NULL,';
+				$sql.= '`memo` text NOT NULL';
+				$sql.= ');';
+				static::execute($sql);
+			}
+		}
+
+		if (defined('A11YC_TABLE_BULK_NGS'))
+		{
+			if ( ! static::is_table_exist(A11YC_TABLE_BULK_NGS))
+			{
+				$sql = 'CREATE TABLE '.A11YC_TABLE_BULK_NGS.' (';
+				$sql.= '`criterion` text NOT NULL,';
+				$sql.= '`uid`       INTEGER NOT NULL,';
+				$sql.= '`memo`      text NOT NULL';
 				$sql.= ');';
 				static::execute($sql);
 			}
