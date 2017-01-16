@@ -43,6 +43,7 @@ class Evaluate
 		$ngs = array();
 		foreach (Db::fetch_all($sql, array($url)) as $v)
 		{
+			if (Arr::get($v, 'memo') == '') continue;
 			$ngs[$v['criterion']]['memo'] = $v['memo'];
 			$ngs[$v['criterion']]['uid'] = $v['uid'];
 		}
@@ -52,132 +53,41 @@ class Evaluate
 	/**
 	 * evaluate url
 	 *
-	 * @param   string     $url
-	 * @return  array
+	 * @param   string  $url
+	 * @return  array   array('1-1-1' => 0, '1-1-2' => 1 or 2 ....)
 	 */
 	public static function evaluate_url($url)
 	{
 		$cs = static::fetch_results($url);
-		return static::evaluate($cs);
-	}
+		$ngs = static::fetch_ngs($url);
+		$rets = static::do_evaluate($cs, $ngs);
 
-	/**
-	 * pass condition from YAML
-	 * which code made criterion passed
-	 * ['1-1-1'] => array('1-1-1a', '1-1-1b'...)
-	 *
-	 * @return  array
-	 */
-	public static function pass_conditions()
-	{
-		static $pass_conds = array();
-		if ($pass_conds) return $pass_conds;
-
-		$yml = Yaml::fetch();
-		foreach ($yml['checks'] as $v)
-		{
-			foreach ($v as $code => $vv)
-			{
-				foreach ($vv['pass'] as $criterion => $vvv)
-				{
-					$pass_conds[$criterion] = Arr::get($pass_conds, $criterion, array());
-					$pass_conds[$criterion] = array_merge($pass_conds[$criterion], $vvv);
-				}
-			}
-		}
-		foreach ($pass_conds as $k => $v)
-		{
-			$pass_conds[$k] = array_unique($v);
-		}
-		return $pass_conds;
-	}
-
-	/**
-	 * evaluate
-	 *
-	 * @param   string     $url
-	 * @return  array
-	 */
-	public static function evaluate($cs)
-	{
-		$yml = Yaml::fetch();
-		$memos = array();
-
-		// prepare conditions and given value
-		$checked = array();
-		$passed = array();
-		foreach ($yml['checks'] as $v)
-		{
-			foreach ($v as $code => $vv)
-			{
-				foreach ($vv['pass'] as $criterion => $vvv)
-				{
-					// passed
-					$passed[$criterion] = Arr::get($passed, $criterion, array());
-					if (isset($cs[$code]) && $cs[$code]['passed'])
-					{
-						$passed[$criterion] = array_merge($passed[$criterion], $vvv);
-						$checked[] = $code;
-					}
-
-					// memos
-					// do not add same memo
-					if ( ! isset($memos[$criterion]))
-					{
-						$memos[$criterion] = '';
-					}
-					$memo = Arr::get($cs, $code.'.memo');
-					if ($memo && mb_strpos($memos[$criterion], $memo) === false)
-					{
-						$memos[$criterion] = $memos[$criterion]."\n".$cs[$code]['memo'];
-					}
-				}
-			}
-		}
-		$passed_flat = array();
-		foreach ($passed as $k => $v)
-		{
-			$passed[$k] = array_unique($v);
-			$passed_flat = array_merge($passed_flat, $v);
-		}
-		$passed_flat = array_unique($passed_flat);
-		$checked = array_unique($checked);
-
-		// pass condition
-		$pass_conds = static::pass_conditions();
-
-		// evaluate
+		// passed and non_exist
 		$results = array();
-		$criterion_keys = array_keys($cs);
-		foreach ($yml['checks'] as $k => $v)
+		foreach ($rets as $criterion => $ret)
 		{
-			$results[$k] = array();
-			$err = array_diff($pass_conds[$k], $passed[$k]);
-			$results[$k]['pass'] = $err ? false : TRUE;
-			$results[$k]['memo'] = Arr::get($memos,$k);
+			$results[$criterion]['passed'] = ($ret >= 1);
+			$results[$criterion]['non_exist'] = ($ret >= 2);
 		}
 
-		// non exist
-		$non_existing = array();
-		foreach ($yml['checks'] as $criterion => $v)
+		// memo
+		$yml = Yaml::fetch();
+		foreach ($yml['codes'] as $code => $criterion)
 		{
-			foreach ($v as $code => $vv)
+			$results[$criterion] = Arr::get($results, $criterion) ?: array();
+			$results[$criterion]['memo'] = Arr::get($results, "{$criterion}.memo") ?: '';
+			if ( ! isset($cs[$code])) continue;
+			if ($results[$criterion]['passed'] == 0 && isset($ngs[$criterion]['memo']))
 			{
-				if ( ! isset($vv['non-exist'])) continue;
-				$non_existing[$code] = $vv['non-exist'];
+				$results[$criterion]['memo'] = $ngs[$criterion]['memo'];
 			}
-		}
-		foreach ($checked as $v)
-		{
-			if ( ! array_key_exists($v, $non_existing)) continue;
-			foreach ($non_existing[$v] as $each)
+			else
 			{
-				if ( ! array_key_exists($each, $results)) continue;
-				$results[$each]['non_exist'] = TRUE;
+				$results[$criterion]['memo'].= Arr::get($cs, "{$code}.memo");
 			}
 		}
 
-		return array($results, $checked, $passed_flat);
+		return $results;
 	}
 
 	/**
@@ -187,38 +97,162 @@ class Evaluate
 	 */
 	public static function evaluate_total()
 	{
+		$yml = Yaml::fetch();
 		$ps = Db::fetch_all('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `done` = 1 and `trash` = 0;');
-		$css = array();
 
 		// calculate percentage
+		$results = array();
 		$passes = array();
+		$non_exists = array();
 		$total = array();
 		foreach ($ps as $k => $p)
 		{
-			$cs = Db::fetch_all(
-				'SELECT * FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = ?;',
-				array($p['url']));
-
-			foreach ($cs as $v)
+			foreach (static::evaluate_url($p['url']) as $criterion => $result)
 			{
-				$total[$v['code']] = isset($total[$v['code']]) ? $total[$v['code']] + 1 : 1;
-				if ($v['passed'])
-				{
-					$passes[$v['code']] = isset($passes[$v['code']]) ? $passes[$v['code']] + 1 : 1;
-				}
+				// initialize
+				$total[$criterion] = Arr::get($total, $criterion, 0);
+				$passes[$criterion] = Arr::get($passes, $criterion, 0);
+
+				// count
+				$total[$criterion]++;
+				$passes[$criterion] += $result['passed'] >= 1 ? 1 : 0;
+
+				// non_exists
+				$non_exists[$criterion] = $result['passed'] >= 2 ? true : false;
 			}
 		}
 
 		// use memo to show percentage
-		foreach ($total as $k => $v)
+		foreach ($total as $criterion => $num)
 		{
-			$css[$k] = array();
-			$percentage = round($passes[$k] / $v, 3) * 100;
-			$css[$k]['memo'] = $percentage.'%';
-			$css[$k]['passed'] = ($percentage == 100);
+			$percentage = round($passes[$criterion] / $num, 3) * 100;
+			$results[$criterion]['memo'] = $percentage.'%';
+			$results[$criterion]['passed'] = ($percentage == 100);
+			$results[$criterion]['non_exist'] = $non_exists[$criterion];
 		}
 
-		return $css;
+		return $results;
+	}
+
+	/**
+	 * passed
+	 *
+	 * @param   array     $cs
+	 * @return  array $passed array('1-1-1' => array('1-1-1a', '1-1-b' ....))
+	 */
+	public static function passed($cs)
+	{
+		$yml = Yaml::fetch();
+		$passed = array();
+
+		foreach ($yml['passes'] as $code => $codes)
+		{
+			if ( ! isset($cs[$code]) || ! $cs[$code]['passed']) continue;
+			foreach ($codes as $each_code)
+			{
+				$criterion = $yml['codes'][$each_code];
+				$passed[$criterion] = Arr::get($passed, $criterion, array());
+				$passed[$criterion] = array_merge($passed[$criterion], $yml['passes'][$each_code]);
+			}
+		}
+		return array_map('array_unique', $passed);
+	}
+
+	/**
+	 * do evaluate
+	 * 0: Nonconformity
+	 * 1: conformity
+	 * 2: non exist and conformity
+	 *
+	 * @param   string  $url
+	 * @return  array   $results = array('1-1-1' => 0, '1-1-2' => 1 or 2 ....)
+	 */
+	public static function do_evaluate($cs, $ngs)
+	{
+		$yml = Yaml::fetch();
+
+		// passed
+		$passed = static::passed($cs);
+
+		// for non exists
+		$checked = array();
+		foreach ($cs as $code => $v)
+		{
+			if ($v['passed'])
+			{
+				$checked[] = $code;
+			}
+		}
+
+		// results
+		$results = array();
+		foreach ($yml['conditions'] as $criterion => $codes)
+		{
+			// check NG
+			if ( ! Arr::get($passed, $criterion) || array_key_exists($criterion, $ngs))
+			{
+				$results[$criterion] = 0;
+				continue;
+			}
+
+			// check criterion
+			$results[$criterion] = array_diff($codes, $passed[$criterion]) ? 0 : 1;
+		}
+
+		// non exists
+		foreach ($yml['non_exists'] as $code => $criterions)
+		{
+			if ( ! in_array($code, $checked)) continue;
+			foreach ($criterions as $criterion)
+			{
+				if ($results[$criterion] == 0) continue;
+				$results[$criterion] = 2;
+			}
+		}
+
+		return $results;
+	}
+
+	/**
+	 * check level url
+	 *
+	 * @param   array  $url
+	 * @return  int
+	 */
+	public static function check_level_url($url)
+	{
+		$cs = static::fetch_results($url);
+		$ngs = static::fetch_ngs($url);
+
+		$passed = array();
+		foreach (static::passed($cs) as $criterion => $codes)
+		{
+			if (array_key_exists($criterion, $ngs)) continue;
+			$passed = array_merge($passed, $codes);
+		}
+
+		return static::check_level($passed);
+	}
+
+	/**
+	 * check level
+	 *
+	 * @param   array      $results
+	 * @return  int
+	 */
+	public static function check_level($results)
+	{
+		$levels = static::fetch_levels();
+		$dones = array();
+		$ngs = array();
+		foreach ($levels as $k => $v)
+		{
+			$ngs = array_merge($ngs, array_diff($v, $results)); // 達成できていない項目
+			if (array_diff($v, $results)) continue;
+			$dones[] = $k;
+		}
+		$ngs = array_unique($ngs);
+		return count($dones);
 	}
 
 	/**

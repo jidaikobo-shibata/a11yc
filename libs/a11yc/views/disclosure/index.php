@@ -9,79 +9,80 @@ endif;
 
 <table class="a11yc_table">
 
-	<!-- Accessibility Policy -->
-	<tr>
-		<th scope="row"><?php echo A11YC_LANG_POLICY ?></th>
-		<td><?php echo '<p class="a11yc_link"><a href="'.$policy_link.'">'.A11YC_LANG_POLICY.'</a></p>'; ?></td>
-	</tr>
-	<!-- /Accessibility Policy -->
-
-	<?php if ($setup['selected_method'] !== 0 && $is_total == FALSE):  ?>
-	<!-- link to report -->
-	<tr>
-		<th scope="row"><?php echo A11YC_LANG_REPORT ?></th>
-		<td><?php echo '<p class="a11yc_link"><a href="'.$report_link.'">'.A11YC_LANG_REPORT.'</a></p>'; ?></td>
-	</tr>
-	<!-- /link to report -->
-	<?php endif;  ?>
-
 	<!-- target level -->
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_TARGET_LEVEL ?></th>
-		<td><?php echo \A11YC\Util::num2str($target_level) ?></td>
+		<td><?php echo \A11yc\Util::num2str($target_level) ?></td>
 	</tr>
 	<!-- /target level -->
 
-	<!-- current level -->
+	<!-- current total level -->
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_CURRENT_LEVEL_WEBPAGES ?></th>
 		<td>
 		<?php
-		$site_level = \A11YC\Evaluate::check_site_level();
-		echo \A11YC\Evaluate::result_str($site_level, $target_level);
+		$site_level = \A11yc\Evaluate::check_site_level();
+		echo \A11yc\Evaluate::result_str($site_level, $target_level);
+		?>
+		</td>
+	</tr>
+	<!-- /current total level -->
+
+	<?php if ( ! $is_total): ?>
+	<!-- current level -->
+	<tr>
+		<th scope="row"><?php echo A11YC_LANG_CURRENT_LEVEL ?></th>
+		<td>
+		<?php
+		echo \A11yc\Evaluate::result_str($page['level'], $target_level);
 		?>
 		</td>
 	</tr>
 	<!-- /current level -->
+	<?php endif; ?>
 
-	<?php if ($is_total): ?>
+	<?php if ($is_total && $setup['dependencies']): ?>
 	<!-- dependencies -->
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_DEPENDENCIES ?></th>
 		<td><?php echo $setup['dependencies']; ?></td>
 	</tr>
 	<!-- /dependencies -->
+	<?php endif; ?>
 
 	<!-- selected method -->
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_CANDIDATES_TITLE ?></th>
 		<td>
 		<?php
-		$arr = array(
-			A11YC_LANG_CANDIDATES0,
-			A11YC_LANG_CANDIDATES1,
-			A11YC_LANG_CANDIDATES2,
-			A11YC_LANG_CANDIDATES3,
-			A11YC_LANG_CANDIDATES4,
-		);
-		echo $arr[$selected_method];
-		echo ' (<a href="'.$pages_link.'">'.A11YC_LANG_CHECKED_PAGES.'</a>)'
+		if ($is_total):
+			echo $selected_methods[$selected_method];
+			if ( ! $is_center):
+				echo ' (<a href="'.$pages_link.'">'.A11YC_LANG_CHECKED_PAGES.'</a>)';
+			endif;
+		else:
+			echo $selection_reasons[$page['selection_reason']];
+		endif;
 		?>
 		</td>
 	</tr>
 	<!-- /selected method -->
-	<?php else: ?>
 
+	<?php if (isset($page) && \A11yc\Arr::get($page, 'url')): ?>
 	<!-- target page -->
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_PAGES_URLS ?></th>
-		<td><?php echo '<a href="'.$page['url'].'">'.$page['url'].'</a>' ?></td>
+		<td><?php
+			echo '<a href="'.$page['url'].'">'.$page['url'].'</a>';
+			if (\Kontiki\Auth::auth()):
+				echo ' <a href="'.A11YC_CHECKLIST_URL.\A11yc\Util::urlenc($page['url']).'"'.A11YC_TARGET.' class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_CHECK ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a>';
+			endif;
+		?></td>
 	</tr>
 	<!-- /target page -->
-
 	<?php endif; ?>
 
-	<!-- period or date -->
+	<!-- period of date -->
 	<tr>
 	<?php if ($is_total): ?>
 		<th scope="row"><?php echo A11YC_LANG_TEST_PERIOD ?></th>
@@ -91,13 +92,13 @@ endif;
 		<td><?php echo $page['date'] ?></td>
 	<?php endif; ?>
 	</tr>
-	<!-- /period or date -->
+	<!-- /period of date -->
 
 	<!-- number of checked -->
 	<?php if (isset($done) && $is_total): ?>
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_NUM_OF_CHECKED ?></th>
-		<td><?php echo $done['done'].' / '.$total['total'] ?></td>
+		<td><?php echo $done['num'].' / '.$total['num'] ?></td>
 	</tr>
 	<?php endif; ?>
 	<!-- /number of checked -->
@@ -115,9 +116,11 @@ endif;
 			?>
 				<li>
 					<a href="<?php echo $url ?>"<?php echo A11YC_TARGET ?>><?php echo $url ?></a>
-					<?php if (\Kontiki\Auth::auth()): ?>
-					(<a href="<?php echo A11YC_CHECKLIST_URL.$url ?>"<?php echo A11YC_TARGET ?>>check</a>)
-					<?php endif; ?>
+					<?php
+					if (\Kontiki\Auth::auth()):
+						echo ' <a href="'.A11YC_CHECKLIST_URL.\A11yc\Util::urlenc($url).'"'.A11YC_TARGET.' class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_CHECK ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a>';
+					endif;
+					?>
 				</li>
 			<?php endforeach; ?>
 			</ul>
@@ -148,10 +151,15 @@ endif;
 <!-- site results -->
 <?php if (isset($result) && $result): ?>
 <h2><?php echo A11YC_LANG_CHECKLIST_TITLE ?></h2>
-<?php echo $result ?>
-<?php endif; ?>
-
-<?php if (isset($additional) && $additional): ?>
+<?php
+echo $result;
+endif;
+if (isset($additional) && $additional): ?>
 <h2><?php echo A11YC_LANG_CHECKLIST_CONFORMANCE_ADDITIONAL ?></h2>
-<?php echo $additional ?>
-<?php endif; ?>
+<?php
+echo $additional;
+endif;
+
+// related page
+include (__DIR__.'/inc_related.php');
+?>

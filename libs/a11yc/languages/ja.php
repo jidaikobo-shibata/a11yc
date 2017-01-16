@@ -137,9 +137,9 @@ define('A11YC_LANG_CANDIDATES3', 'ウェブページ一式を代表するウェ�
 define('A11YC_LANG_CANDIDATES4', 'ウェブページ一式を代表するウェブページとランダムに選択したウェブページとを合わせて選択');
 
 define('A11YC_LANG_CANDIDATES_REASON', 'ページ選出理由');
-define('A11YC_LANG_CANDIDATES_ALL', 'すべてのページが対象のため');
 define('A11YC_LANG_CANDIDATES_IMPORTANT', '代表的なページ');
 define('A11YC_LANG_CANDIDATES_RANDOM', 'ランダムに選出したページ');
+define('A11YC_LANG_CANDIDATES_ALL', 'すべてのページが対象のため');
 define('A11YC_LANG_CANDIDATES_PAGEVIEW', 'アクセス数の多いページ');
 define('A11YC_LANG_CANDIDATES_NEW', '新しいページ');
 define('A11YC_LANG_CANDIDATES_ETC', 'その他の基準で選出');

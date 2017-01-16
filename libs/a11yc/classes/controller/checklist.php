@@ -34,18 +34,6 @@ class Controller_Checklist
 	}
 
 	/**
-	 * fetch page from db
-	 *
-	 * @param   string     $url
-	 * @return  bool|array
-	 */
-	public static function fetch_page($url)
-	{
-		$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;';
-		return Db::fetch($sql, array($url));
-	}
-
-	/**
 	 * validate page
 	 *
 	 * @param   string     $url
@@ -118,6 +106,18 @@ class Controller_Checklist
 	}
 
 	/**
+	 * update_page_level
+	 *
+	 * @param   string     $url
+	 * @return  void
+	 */
+	public static function update_page_level($url)
+	{
+		$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET `level` = ? WHERE `url` = ?;';
+		Db::execute($sql, array(Evaluate::check_level_url($url), $url));
+	}
+
+	/**
 	 * dbio
 	 *
 	 * @param   string     $url
@@ -129,7 +129,7 @@ class Controller_Checklist
 
 		if (Input::post())
 		{
-			// delete all from NGs
+			// NGs
 			$sql = 'DELETE FROM '.A11YC_TABLE_CHECKS_NGS.' WHERE `url` = ?;';
 			Db::execute($sql, array($url));
 
@@ -155,10 +155,6 @@ class Controller_Checklist
 				Db::execute($sql, array($url, $code, $v['uid'], $v['memo'], $passed));
 			}
 
-			// leveling page
-			list($results, $checked, $passed_flat) = Evaluate::evaluate_url($url);
-			$result = Evaluate::check_result($passed_flat);
-
 			// update/create page
 			$done = Input::post('done') ? 1 : 0;
 			$date = date('Y-m-d');
@@ -166,21 +162,25 @@ class Controller_Checklist
 			$standard = intval(Input::post('standard'));
 			$selection_reason = intval(Input::post('selection_reason'));
 			$r = false;
-			if (static::fetch_page($url))
+			if (Controller_Pages::fetch_page($url))
 			{
 				$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET ';
-				$sql.= '`date` = ?, `level` = ?, `done` = ?, `standard` = ?, `page_title` = ?, `selection_reason` = ?';
+				$sql.= '`date` = ?, `done` = ?, `standard` = ?, `page_title` = ?, `selection_reason` = ?';
 				$sql.= ' WHERE `url` = ?;';
-				$r = Db::execute($sql, array($date, $result, $done, $standard, $page_title, $selection_reason, $url));
+				$r = Db::execute($sql, array($date, $done, $standard, $page_title, $selection_reason, $url));
 			}
 			else
 			{
 				$sql = 'INSERT INTO '.A11YC_TABLE_PAGES;
-				$sql.= ' (`url`, `date`, `level`, `done`, `standard`, `trash`, `page_title`, `add_date`, `selection_reason`)';
+				$sql.= ' (`url`, `date`, `done`, `standard`, `trash`, `page_title`, `add_date`, `selection_reason`)';
 				$sql.= ' VALUES (?, ?, ?, ?, ?, 0, ?, ?, ?);';
-				$r = Db::execute($sql, array($url, $date, $result, $done, $standard, $page_title, date('Y-m-d H:i:s'), $selection_reason));
+				$r = Db::execute($sql, array($url, $date, $done, $standard, $page_title, date('Y-m-d H:i:s'), $selection_reason));
 			}
 
+			// update page level
+			static::update_page_level($url);
+
+			// message
 			if ($r)
 			{
 				Session::add('messages', 'messages', A11YC_LANG_UPDATE_SUCCEED);
@@ -244,6 +244,24 @@ class Controller_Checklist
 	}
 
 	/**
+	 * get selection reasons
+	 *
+	 * @return  array()
+	 */
+	public static function selection_reasons()
+	{
+		return array(
+			'-',
+			A11YC_LANG_CANDIDATES_IMPORTANT,
+			A11YC_LANG_CANDIDATES_RANDOM,
+			A11YC_LANG_CANDIDATES_ALL,
+			A11YC_LANG_CANDIDATES_PAGEVIEW,
+			A11YC_LANG_CANDIDATES_NEW,
+			A11YC_LANG_CANDIDATES_ETC,
+		);
+	}
+
+	/**
 	 * form html
 	 * need to wrap <form> and add a submit button
 	 * this method also used by bulk
@@ -259,14 +277,7 @@ class Controller_Checklist
 		static::dbio($url);
 
 		// selection reason
-		$selection_reasons = array(
-			A11YC_LANG_CANDIDATES_ALL,
-			A11YC_LANG_CANDIDATES_IMPORTANT,
-			A11YC_LANG_CANDIDATES_RANDOM,
-			A11YC_LANG_CANDIDATES_PAGEVIEW,
-			A11YC_LANG_CANDIDATES_NEW,
-			A11YC_LANG_CANDIDATES_ETC,
-		);
+		$selection_reasons = static::selection_reasons();
 
 		// assign
 		View::assign('selection_reasons', $selection_reasons);
@@ -280,7 +291,7 @@ class Controller_Checklist
 		View::assign('setup', $setup);
 		View::assign('checklist_behaviour', intval(@$setup['checklist_behaviour']));
 		View::assign('target_level', intval(@$setup['target_level']));
-		View::assign('page', static::fetch_page($url));
+		View::assign('page', Controller_Pages::fetch_page($url));
 		View::assign('link_check', Input::post('do_link_check', false));
 
 		// cs
@@ -312,6 +323,7 @@ class Controller_Checklist
 	 */
 	public static function part_result($results, $target_level, $include = true)
 	{
+		View::assign('is_total', ! \A11yc\Input::get('url'));
 		View::assign('setup', Controller_Setup::fetch_setup());
 		View::assign('results', $results);
 		View::assign('target_level', $target_level);

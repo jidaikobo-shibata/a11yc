@@ -28,6 +28,18 @@ class Controller_Pages
 	}
 
 	/**
+	 * fetch page from db
+	 *
+	 * @param   string     $url
+	 * @return  bool|array
+	 */
+	public static function fetch_page($url)
+	{
+		$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;';
+		return Db::fetch($sql, array($url));
+	}
+
+	/**
 	 * dbio
 	 *
 	 * @return  void

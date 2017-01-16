@@ -5,46 +5,23 @@ $html = '';
 $str = str_replace('&quot;', '"', $setup['additional_criterions']);
 $additional_criterions = $str ? unserialize($str) : array();
 
-// total
-$is_total = ! \A11yc\Input::get('url');
-
 // loop
-foreach ($yml['criterions'] as $k => $v):
-	$criterion_code = \A11yc\Util::key2code($k);
+foreach ($yml['criterions'] as $criterion => $v):
+	$criterion_code = \A11yc\Util::key2code($criterion);
 	if (
 		// ordinary condition
 		($include && strlen($v['level']['name']) <= $target_level) ||
 		// additional condition
 		(
 			! $include && strlen($v['level']['name']) > $target_level &&
-			in_array($k, $additional_criterions)
+			in_array($criterion, $additional_criterions)
 		)
 	):
 
 	// strs
-	$is_passed = $results[$k]['pass'];
-	$memo = \A11yc\Util::s($results[$k]['memo']);
-	$pass_str = $is_passed ? A11YC_LANG_PASS : '-';
-
-	// exist_str
-	$exist_str = '-';
-	if ( ! $is_total && isset($results[$k]['non_exist']))
-	{
-		$exist_str = A11YC_LANG_EXIST_NON;
-	}
-	elseif (
-		$is_passed || // individual
-		($is_total && $memo) // total
-		)
-	{
-		// at the total and it has memo (percentage), then it tells us to it is existed.
-		$exist_str = A11YC_LANG_EXIST;
-	}
-
-	// individual: memo
-	// total: percentage
-	// if blank memo and this page was total. this criterion is passed by upper criterion
-	$memo = $is_total && $is_passed && ! $memo ? '100%' : $memo;
+	$exist_str = $results[$criterion]['non_exist'] == 1 ? A11YC_LANG_EXIST_NON : A11YC_LANG_EXIST;
+	$pass_str = $results[$criterion]['passed'] >= 1 ? A11YC_LANG_PASS : '-';
+	$memo = \A11yc\Util::s(\A11yc\Arr::get($results, "{$criterion}.memo", ''));
 
 	// html
 	$html.= '<tr>';

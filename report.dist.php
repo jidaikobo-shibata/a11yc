@@ -24,7 +24,7 @@ require (__DIR__.'/libs/a11yc/main.php');
 \A11yc\View::forge(A11YC_PATH.'/views/');
 
 // assign
-\A11yc\Controller_Disclosure::total();
+\A11yc\Controller_Disclosure::index();
 
 ?><!DOCTYPE html>
 <html lang="<?php echo A11YC_LANG ?>">

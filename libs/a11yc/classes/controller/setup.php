@@ -41,6 +41,22 @@ class Controller_Setup
 	}
 
 	/**
+	 * get selection methods
+	 *
+	 * @return  array()
+	 */
+	public static function selected_methods()
+	{
+		return array(
+			A11YC_LANG_CANDIDATES0,
+			A11YC_LANG_CANDIDATES1,
+			A11YC_LANG_CANDIDATES2,
+			A11YC_LANG_CANDIDATES3,
+			A11YC_LANG_CANDIDATES4,
+		);
+	}
+
+	/**
 	 * dbio
 	 *
 	 * @return  void
@@ -165,6 +181,7 @@ class Controller_Setup
 		$setup = static::fetch_setup($force = 1);
 
 		// assign
+		View::assign('selected_methods', static::selected_methods());
 		View::assign('title', A11YC_LANG_SETUP_TITLE);
 		View::assign('setup', $setup);
 		View::assign('standards', Yaml::each('standards'));

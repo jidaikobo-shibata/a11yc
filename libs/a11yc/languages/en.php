@@ -137,9 +137,9 @@ define('A11YC_LANG_CANDIDATES3', 'Select a web page to represent the set of web 
 define('A11YC_LANG_CANDIDATES4', 'Selected in accordance with a web page that you selected in web pages and random to represent the set of web pages');
 
 define('A11YC_LANG_CANDIDATES_REASON', 'Page selection reason');
-define('A11YC_LANG_CANDIDATES_ALL', 'All pages are subject');
 define('A11YC_LANG_CANDIDATES_IMPORTANT', 'Representative pages');
 define('A11YC_LANG_CANDIDATES_RANDOM', 'Randomly selected pages');
+define('A11YC_LANG_CANDIDATES_ALL', 'All pages are subject');
 define('A11YC_LANG_CANDIDATES_PAGEVIEW', 'Pages with many accesses');
 define('A11YC_LANG_CANDIDATES_NEW', 'New pages');
 define('A11YC_LANG_CANDIDATES_ETC', 'Pages selected based on other criteria');

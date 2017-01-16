@@ -38,6 +38,7 @@ class Controller_Bulk extends Controller_Checklist
 		$cs = array();
 		foreach (Db::fetch_all($sql) as $v)
 		{
+			if (Arr::get($v, 'memo') == '') continue;
 			$cs[$v['code']]['memo'] = $v['memo'];
 			$cs[$v['code']]['uid'] = $v['uid'];
 		}
@@ -138,22 +139,23 @@ class Controller_Bulk extends Controller_Checklist
 				foreach ($cs as $code => $vv)
 				{
 					// add checks
-					$code_sql = 'SELECT code FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = ? and `code` = ?;';
+					$sql = 'SELECT * FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = ? and `code` = ?;';
+					$result = Db::fetch($sql, array($v['url'], $code));
 
-					if (
-						! Db::fetch($code_sql, array($v['url'], $code)) &&
-						isset($vv['on'])
-					)
+					// add new code
+					if ( ! $result)
 					{
-						$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS.' (`url`, `code`, `uid`, `memo`)';
-						$sql.= ' VALUES (?, ?, ?, ?);';
-						Db::execute($sql, array($v['url'], $code, $vv['uid'], $vv['memo']));
+						if ( ! isset($vv['on']) && empty($vv['memo'])) continue;
+						$passed = isset($vv['on']);
+						$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS;
+						$sql.= ' (`url`, `code`, `uid`, `memo`, `passed`) VALUES (?, ?, ?, ?, ?)';
+						Db::execute($sql, array($v['url'], $code, $vv['uid'], $vv['memo'], $passed));
 					}
 
 					// uncheck
 					if (
 						Input::post('update_all') == 3 &&
-						Db::fetch($code_sql, array($v['url'], $code)) &&
+						$result['passed'] &&
 						! isset($vv['on'])
 					)
 					{
@@ -162,28 +164,28 @@ class Controller_Bulk extends Controller_Checklist
 					}
 				}
 
-				// leveling
-				list($results, $checked, $passed_flat) = Evaluate::evaluate_url($v['url']);
-				$result = Evaluate::check_result($passed_flat);
-
+				// update each page
 				$update_done = intval(Input::post('update_done'));
 				$date = date('Y-m-d');
 
-				// update/create page
-				// do not update standard of each page
+				// do not update done flag
 				if ($update_done == 1)
 				{
 					$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET ';
-					$sql.= '`date` = ?, `level` = ? WHERE `url` = ?;';
-					Db::execute($sql, array($date, $result, $v['url']));
+					$sql.= '`date` = ? WHERE `url` = ?;';
+					Db::execute($sql, array($date, $v['url']));
 				}
 				else
 				{
+					// update done flag done or not done
 					$done = $update_done == 2 ? 1 : 0 ;
 					$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET ';
-					$sql.= '`date` = ?, `level` = ?, `done` = ? WHERE `url` = ?;';
-					Db::execute($sql, array($date, $result, $done, $v['url']));
+					$sql.= '`date` = ?, `done` = ? WHERE `url` = ?;';
+					Db::execute($sql, array($date, $done, $v['url']));
 				}
+
+				// update level
+				static::update_page_level($v['url']);
 			}
 		}
 	}
