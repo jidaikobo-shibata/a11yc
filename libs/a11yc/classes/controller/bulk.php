@@ -38,8 +38,7 @@ class Controller_Bulk extends Controller_Checklist
 		$cs = array();
 		foreach (Db::fetch_all($sql) as $v)
 		{
-			if (Arr::get($v, 'memo') == '') continue;
-			$cs[$v['code']]['memo'] = $v['memo'];
+			$cs[$v['code']]['memo'] = Arr::get($v, 'memo');
 			$cs[$v['code']]['uid'] = $v['uid'];
 		}
 		return $cs;
@@ -91,19 +90,21 @@ class Controller_Bulk extends Controller_Checklist
 			Db::execute($sql);
 
 			// insert
+			$r = false;
 			foreach ($cs as $code => $v)
 			{
 				if ( ! isset($v['on'])) continue;
 				$sql = 'INSERT INTO '.A11YC_TABLE_BULK.' (`code`, `uid`, `memo`) VALUES ';
 				$sql.= '(?, ?, ?);';
-				if (Db::execute($sql, array($code, (int) $v['uid'], $v['memo'])))
-				{
-					Session::add('messages', 'messages', A11YC_LANG_UPDATE_SUCCEED);
-				}
-				else
-				{
-					Session::add('messages', 'errors', A11YC_LANG_UPDATE_FAILED);
-				}
+				$r = Db::execute($sql, array($code, (int) $v['uid'], $v['memo']));
+			}
+			if ($r)
+			{
+				Session::add('messages', 'messages', A11YC_LANG_UPDATE_SUCCEED);
+			}
+			else
+			{
+				Session::add('messages', 'errors', A11YC_LANG_UPDATE_FAILED);
 			}
 
 			if (Input::post('update_all') == 1) return;

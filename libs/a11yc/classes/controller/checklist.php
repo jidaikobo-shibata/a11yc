@@ -280,6 +280,8 @@ class Controller_Checklist
 		$selection_reasons = static::selection_reasons();
 
 		// assign
+		$page = Controller_Pages::fetch_page($url);
+		$setup = Controller_Setup::fetch_setup();
 		View::assign('selection_reasons', $selection_reasons);
 		View::assign('url', $url);
 		View::assign('target_title', Util::fetch_page_title($url));
@@ -287,11 +289,10 @@ class Controller_Checklist
 		View::assign('current_user_id', $current_user_id);
 		View::assign('yml', Yaml::fetch(), false);
 		View::assign('standards', Yaml::each('standards'));
-		$setup = Controller_Setup::fetch_setup();
 		View::assign('setup', $setup);
 		View::assign('checklist_behaviour', intval(@$setup['checklist_behaviour']));
 		View::assign('target_level', intval(@$setup['target_level']));
-		View::assign('page', Controller_Pages::fetch_page($url));
+		View::assign('page', $page);
 		View::assign('link_check', Input::post('do_link_check', false));
 
 		// cs
@@ -300,11 +301,14 @@ class Controller_Checklist
 		View::assign('bulk', $bulk);
 		View::assign('cs', $url == 'bulk' ? array() : $cs);
 
-		// cs
+		// ngs
 		$bulk_ngs = Controller_Bulk::fetch_ngs();
 		$ngs = Evaluate::fetch_ngs($url);
 		View::assign('bulk_ngs', $bulk_ngs);
 		View::assign('cs_ngs', $url == 'bulk' ? array() : $ngs);
+
+		// is new
+		View::assign('is_new', Arr::get($page, 'level') ? false : true);
 
 		// validation
 		View::assign('ajax_validation', View::fetch_tpl('checklist/ajax.php'), false);

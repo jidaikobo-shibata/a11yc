@@ -64,7 +64,7 @@ class Controller_Disclosure
 			foreach (array_keys(Controller_Checklist::selection_reasons()) as $k)
 			{
 				$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `trash` = 0 AND `done` = 1';
-				if ($k <= 5)
+				if ($k <= 5 && $k != 0)
 				{
 					$sql.= ' AND `selection_reason` = ? ORDER BY `url` ASC;';
 					$pages[$k] = Db::fetch_all($sql, array($k));
@@ -73,9 +73,10 @@ class Controller_Disclosure
 				{
 					$sql.= ' AND `selection_reason` = 6 OR `selection_reason` = 0';
 					$sql.= ' OR `selection_reason` is null ORDER BY `url` ASC;';
-					$pages[$k] = Db::fetch_all($sql);
+					$pages[6] = Db::fetch_all($sql);
 				}
 			}
+			ksort($pages);
 			View::assign('selection_reasons', Controller_Checklist::selection_reasons());
 			View::assign('pages', $pages);
 			View::assign('title', A11YC_LANG_CHECKED_PAGES);
@@ -92,7 +93,6 @@ class Controller_Disclosure
 
 		// policy
 		View::assign('policy', $setup['policy']);
-		View::assign('report_link', $report_link);
 		View::assign('title', A11YC_LANG_POLICY);
 		View::assign('body', View::fetch_tpl('disclosure/policy.php'), false);
 		return;

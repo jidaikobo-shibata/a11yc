@@ -43,8 +43,7 @@ class Evaluate
 		$ngs = array();
 		foreach (Db::fetch_all($sql, array($url)) as $v)
 		{
-			if (Arr::get($v, 'memo') == '') continue;
-			$ngs[$v['criterion']]['memo'] = $v['memo'];
+			$ngs[$v['criterion']]['memo'] = Arr::get($v, 'memo');
 			$ngs[$v['criterion']]['uid'] = $v['uid'];
 		}
 		return $ngs;
@@ -118,7 +117,8 @@ class Evaluate
 				$passes[$criterion] += $result['passed'] >= 1 ? 1 : 0;
 
 				// non_exists
-				$non_exists[$criterion] = $result['passed'] >= 2 ? true : false;
+				if (Arr::get($non_exists, $criterion) === false) continue;
+				$non_exists[$criterion] = $result['non_exist'];
 			}
 		}
 
