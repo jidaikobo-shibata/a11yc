@@ -97,7 +97,6 @@ class Evaluate
 	 */
 	public static function evaluate_total()
 	{
-		$yml = Yaml::fetch();
 		$ps = Db::fetch_all('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `done` = 1 and `trash` = 0;');
 
 		// calculate percentage
@@ -105,7 +104,7 @@ class Evaluate
 		$passes = array();
 		$non_exists = array();
 		$total = array();
-		foreach ($ps as $k => $p)
+		foreach ($ps as $p)
 		{
 			foreach (static::evaluate_url($p['url']) as $criterion => $result)
 			{
@@ -266,9 +265,9 @@ class Evaluate
 		$yml = Yaml::fetch();
 		// levels
 		$levels = array();
-		foreach ($yml['levels'] as $k => $v)
+		foreach ($yml['levels'] as $v)
 		{
-			foreach ($yml['checks'] as $criterion => $vv)
+			foreach ($yml['checks'] as $vv)
 			{
 				foreach ($vv as $code => $vvv)
 				{
