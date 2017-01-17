@@ -1,10 +1,6 @@
 <?php
 $html = '';
 
-// additional criterions
-$str = str_replace('&quot;', '"', $setup['additional_criterions']);
-$additional_criterions = $str ? unserialize($str) : array();
-
 // loop
 foreach ($yml['criterions'] as $criterion => $v):
 	$criterion_code = \A11yc\Util::key2code($criterion);
@@ -14,7 +10,7 @@ foreach ($yml['criterions'] as $criterion => $v):
 		// additional condition
 		(
 			! $include && strlen($v['level']['name']) > $target_level &&
-			in_array($criterion, $additional_criterions)
+			in_array($criterion, \A11yc\Controller_Setup::additional_criterions())
 		)
 	):
 

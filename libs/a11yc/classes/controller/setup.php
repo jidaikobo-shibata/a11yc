@@ -56,6 +56,23 @@ class Controller_Setup
 		);
 	}
 
+
+	/**
+	 * get additional criterions
+	 *
+	 * @return  array()
+	 */
+	public static function additional_criterions()
+	{
+		$setup = static::fetch_setup();
+		if(isset($setup['additional_criterions']) && $setup['additional_criterions'])
+		{
+			$str = str_replace('&quot;', '"', $setup['additional_criterions']);
+			return unserialize($str);
+		}
+		return array();
+	}
+
 	/**
 	 * dbio
 	 *
@@ -70,10 +87,16 @@ class Controller_Setup
 			$selected_method = intval($post['selected_method']);
 			$checklist_behaviour = intval(Arr::get($post, 'checklist_behaviour'));
 			$standard = intval($post['standard']);
-			$policy = stripslashes($post['policy']);
-			$contact = stripslashes($post['contact']);
-			$report = stripslashes($post['report']);
 
+			// stripslashes
+			$declare_date = stripslashes($post['declare_date']);
+			$test_period = stripslashes($post['test_period']);
+			$dependencies = stripslashes($post['dependencies']);
+			$policy = stripslashes($post['policy']);
+			$report = stripslashes($post['report']);
+			$contact = stripslashes($post['contact']);
+
+			// additional_criterions
 			$additional_criterions = array();
 			if (Input::post('additional_criterions'))
 			{
@@ -85,6 +108,7 @@ class Controller_Setup
 
 			$setup = static::fetch_setup();
 
+			// database io
 			if (isset($setup['standard']))
 			{
 				// update
@@ -108,9 +132,9 @@ class Controller_Setup
 						$target_level,
 						$standard,
 						$selected_method,
-						$post['declare_date'],
-						$post['test_period'],
-						$post['dependencies'],
+						$declare_date,
+						$test_period,
+						$dependencies,
 						$contact,
 						$policy,
 						$report,
@@ -145,9 +169,9 @@ class Controller_Setup
 						$target_level,
 						$standard,
 						$selected_method,
-						$post['declare_date'],
-						$post['test_period'],
-						$post['dependencies'],
+						$declare_date,
+						$test_period,
+						$dependencies,
 						$contact,
 						$policy,
 						$report,

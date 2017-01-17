@@ -39,7 +39,7 @@ class Controller_Checklist
 	 * @param   string     $url
 	 * @return  array
 	 */
-	public static function validate_page($url, $link_check = false)
+	public static function validate_page($url, $link_check = FALSE)
 	{
 		$content = Util::fetch_html($url);
 		if ( ! $content) return array();
@@ -138,7 +138,8 @@ class Controller_Checklist
 				if ( ! trim($v['memo'])) continue;
 				$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS_NGS.' (`url`, `criterion`, `uid`, `memo`)';
 				$sql.= ' VALUES (?, ?, ?, ?);';
-				Db::execute($sql, array($url, $criterion, $v['uid'], $v['memo']));
+				$memo = stripslashes($v['memo']);
+				Db::execute($sql, array($url, $criterion, (int) $v['uid'], $memo));
 			}
 
 			// delete all from checks
@@ -152,16 +153,17 @@ class Controller_Checklist
 				$passed = isset($v['on']);
 				$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS.' (`url`, `code`, `uid`, `memo`, `passed`)';
 				$sql.= ' VALUES (?, ?, ?, ?, ?);';
-				Db::execute($sql, array($url, $code, $v['uid'], $v['memo'], $passed));
+				$memo = stripslashes($v['memo']);
+				Db::execute($sql, array($url, $code, (int) $v['uid'], $memo, (int) $passed));
 			}
 
 			// update/create page
 			$done = Input::post('done') ? 1 : 0;
 			$date = date('Y-m-d');
-			$page_title = Input::post('page_title');
+			$page_title = stripslashes(Input::post('page_title'));
 			$standard = intval(Input::post('standard'));
 			$selection_reason = intval(Input::post('selection_reason'));
-			$r = false;
+			$r = FALSE;
 			if (Controller_Pages::fetch_page($url))
 			{
 				$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET ';
@@ -240,7 +242,7 @@ class Controller_Checklist
 		View::assign('title', $title);
 
 		static::form($url, $users, $current_user['id']);
-		View::assign('body', View::fetch_tpl('checklist/checklist.php'), false);
+		View::assign('body', View::fetch_tpl('checklist/checklist.php'), FALSE);
 	}
 
 	/**
@@ -287,13 +289,13 @@ class Controller_Checklist
 		View::assign('target_title', Util::fetch_page_title($url));
 		View::assign('users', $users);
 		View::assign('current_user_id', $current_user_id);
-		View::assign('yml', Yaml::fetch(), false);
+		View::assign('yml', Yaml::fetch(), FALSE);
 		View::assign('standards', Yaml::each('standards'));
 		View::assign('setup', $setup);
 		View::assign('checklist_behaviour', intval(@$setup['checklist_behaviour']));
 		View::assign('target_level', intval(@$setup['target_level']));
 		View::assign('page', $page);
-		View::assign('link_check', Input::post('do_link_check', false));
+		View::assign('link_check', Input::post('do_link_check', FALSE));
 
 		// cs
 		$bulk = Controller_Bulk::fetch_results();
@@ -308,13 +310,13 @@ class Controller_Checklist
 		View::assign('cs_ngs', $url == 'bulk' ? array() : $ngs);
 
 		// is new
-		View::assign('is_new', Arr::get($page, 'level') ? false : true);
+		View::assign('is_new', Arr::get($page, 'level') !== NULL ? FALSE : TRUE);
 
 		// validation
-		View::assign('ajax_validation', View::fetch_tpl('checklist/ajax.php'), false);
+		View::assign('ajax_validation', View::fetch_tpl('checklist/ajax.php'), FALSE);
 
 		// form
-		View::assign('form', View::fetch_tpl('checklist/form.php'), false);
+		View::assign('form', View::fetch_tpl('checklist/form.php'), FALSE);
 	}
 
 	/**
@@ -325,15 +327,15 @@ class Controller_Checklist
 	 * @param   bool       $include
 	 * @return  string
 	 */
-	public static function part_result($results, $target_level, $include = true)
+	public static function part_result($results, $target_level, $include = TRUE)
 	{
 		View::assign('is_total', ! \A11yc\Input::get('url'));
 		View::assign('setup', Controller_Setup::fetch_setup());
 		View::assign('results', $results);
 		View::assign('target_level', $target_level);
 		View::assign('include', $include);
-		View::assign('yml', Yaml::fetch(), false);
-		View::assign('result', View::fetch_tpl('checklist/part_result.php'), false);
+		View::assign('yml', Yaml::fetch(), FALSE);
+		View::assign('result', View::fetch_tpl('checklist/part_result.php'), FALSE);
 	}
 
 	/**

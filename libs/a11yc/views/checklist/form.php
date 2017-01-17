@@ -31,14 +31,7 @@
 		$class_str = ($i == $target_level) || ($target_level == 0 && $i == 3) ? ' class="current"' : '';
 		echo '<a role="button" tabindex="0" data-narrow-level="'.implode(',', array_slice(array('l_a', 'l_aa', 'l_aaa'), 0, $i)).'"'.$class_str.'>'.\A11yc\Util::num2str($i).'</a>';
 	}
-
-$additional_criterions = array();
-if(isset($setup['additional_criterions']) && $setup['additional_criterions'])
-{
-	$str = str_replace('&quot;', '"', $setup['additional_criterions']);
-	$additional_criterions = unserialize($str);
-}
-$additional_criterion = join(',', $additional_criterions);
+	$additional_criterion = join(',', \A11yc\Controller_Setup::additional_criterions());
 ?>
 	</p>
 </div><!-- /#a11yc_header_ctrl -->

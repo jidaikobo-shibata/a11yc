@@ -101,8 +101,6 @@
 					'AAA' => 3,
 				);
 				$n = 0;
-				$str = str_replace('&quot;', '"', $setup['additional_criterions']);
-				$additional_criterions = $str ? unserialize($str) : array();
 				foreach ($yml['criterions'] as $code => $v):
 					if ($levels[$v['level']['name']] <= $setup['target_level']) continue;
 					if ($n % 2 === 0):
@@ -110,7 +108,7 @@
 					else:
 						echo '<li class="even">';
 					endif;
-					$checked = in_array($code, $additional_criterions) ? ' checked="checked"' : '';
+					$checked = in_array($code, \A11yc\Controller_Setup::additional_criterions()) ? ' checked="checked"' : '';
 					echo '<label for="additional_criterions_'.$code.'"><input'.$checked.' type="checkbox" name="additional_criterions['.$code.']" id="additional_criterions_'.$code.'" value="1" /> '.$v['code'].' '.$v['name'].' ('.$v['level']['name'].')</label></li>';
 					$n++;
 				endforeach;

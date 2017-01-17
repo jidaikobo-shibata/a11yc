@@ -167,15 +167,15 @@ class Db
 	 */
 	public static function is_table_exist($table, $name = 'default')
 	{
-		$table = static::escape($table, $name);
 		$instance = static::instance($name);
 		if($instance->dbtype == 'sqlite')
 		{
+			$table = static::escape($table, $name);
 			$sql = 'PRAGMA table_info('.$table.');';
 		}
 		elseif($instance->dbtype == 'mysql')
 		{
-			$sql = 'SHOW COLUMNS FROM '.$table.';';
+			$sql = 'SHOW COLUMNS FROM `'.$table.'`;';
 		}
 		return static::fetch_all($sql) ? TRUE : FALSE;
 	}

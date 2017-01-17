@@ -55,7 +55,7 @@ class Controller_Bulk extends Controller_Checklist
 		$ngs = array();
 		foreach (Db::fetch_all($sql) as $v)
 		{
-			$ngs[$v['criterion']]['memo'] = $v['memo'];
+			$ngs[$v['criterion']]['memo'] = Arr::get($v, 'memo');
 			$ngs[$v['criterion']]['uid'] = $v['uid'];
 		}
 		return $ngs;
