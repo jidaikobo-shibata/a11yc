@@ -43,6 +43,7 @@ class Evaluate
 		$ngs = array();
 		foreach (Db::fetch_all($sql, array($url)) as $v)
 		{
+			if (Arr::get($v, 'memo') == '') continue;
 			$ngs[$v['criterion']]['memo'] = Arr::get($v, 'memo');
 			$ngs[$v['criterion']]['uid'] = $v['uid'];
 		}

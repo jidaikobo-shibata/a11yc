@@ -281,6 +281,8 @@ class Controller_Pages
 		foreach ($ms[1] as $k => $url)
 		{
 			// tidy url
+			Validate::set_target_path($base_url);
+			$url = Validate::correct_url($url);
 			$url = Util::keep_url_unique($url);
 
 			// results

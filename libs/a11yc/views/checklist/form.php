@@ -56,7 +56,7 @@
 
 	<?php
 		// #a11yc_error
-//		echo $ajax_validation;
+		echo $ajax_validation;
 	?>
 
 	</div><!-- /#a11yc_targetpage_data -->

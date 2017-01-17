@@ -175,7 +175,7 @@ class Controller_Checklist
 			{
 				$sql = 'INSERT INTO '.A11YC_TABLE_PAGES;
 				$sql.= ' (`url`, `date`, `done`, `standard`, `trash`, `page_title`, `add_date`, `selection_reason`)';
-				$sql.= ' VALUES (?, ?, ?, ?, ?, 0, ?, ?, ?);';
+				$sql.= ' VALUES (?, ?, ?, ?, 0, ?, ?, ?);';
 				$r = Db::execute($sql, array($url, $date, $done, $standard, $page_title, date('Y-m-d H:i:s'), $selection_reason));
 			}
 
@@ -310,7 +310,7 @@ class Controller_Checklist
 		View::assign('cs_ngs', $url == 'bulk' ? array() : $ngs);
 
 		// is new
-		View::assign('is_new', Arr::get($page, 'level') !== NULL ? FALSE : TRUE);
+		View::assign('is_new', is_array($page) && Arr::get($page, 'level') !== NULL ? FALSE : TRUE);
 
 		// validation
 		View::assign('ajax_validation', View::fetch_tpl('checklist/ajax.php'), FALSE);

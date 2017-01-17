@@ -42,6 +42,7 @@ $msg = '';
 <!-- show technique index -->
 <?php
 foreach ($yml['principles'] as $k => $v):
+if ( ! $results['chks'] &&  ! $results['tests']) continue;
 if ($word && ! in_array($k, $results['chks']['principles'])) continue;
 $msg = '';
 ?>

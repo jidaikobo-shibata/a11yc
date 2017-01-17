@@ -149,7 +149,7 @@ class Util extends \Kontiki\Util
 	{
 		$host = static::get_host_from_url($base_url);
 		if ($host === false) return false;
-		return (strpos($url, $host) !== false);
+		return (substr($url, 0, mb_strlen($host)) === $host);
 	}
 
 	/**
@@ -290,6 +290,12 @@ class Util extends \Kontiki\Util
 			// in case basic auth
 			$location = static::basic_auth_prefix($headers['Location']);
 			$current_depth++;
+
+			// use first
+			if (is_array($location))
+			{
+				$location = $location[0];
+			}
 
 			// recursive
 			return static::real_url($location, $depth);
