@@ -15,8 +15,8 @@ foreach ($yml['criterions'] as $criterion => $v):
 	):
 
 	// strs
-	$exist_str = $results[$criterion]['non_exist'] == 1 ? A11YC_LANG_EXIST_NON : A11YC_LANG_EXIST;
-	$pass_str = $results[$criterion]['passed'] >= 1 ? A11YC_LANG_PASS : '-';
+	$exist_str = \A11yc\Arr::get($results, "{$criterion}.non_exist") == 1 ? A11YC_LANG_EXIST_NON : A11YC_LANG_EXIST;
+	$pass_str = \A11yc\Arr::get($results, "{$criterion}.passed") >= 1 ? A11YC_LANG_PASS : '-';
 	$memo = \A11yc\Util::s(\A11yc\Arr::get($results, "{$criterion}.memo", ''));
 
 	// html
