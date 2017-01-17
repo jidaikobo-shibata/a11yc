@@ -14,38 +14,40 @@
 		<th scope="row"><label for="a11yc_standard"><?php echo A11YC_LANG_STANDARD ?></label></th>
 		<td>
 			<select name="standard" id="a11yc_standard">
-<?php
-	foreach ($standards['standards'] as $k => $v):
-	$selected = $k == @$setup['standard'] ? ' selected="selected"' : '';
-?>
+				<?php
+					foreach ($standards['standards'] as $k => $v):
+					$selected = $k == @$setup['standard'] ? ' selected="selected"' : '';
+				?>
 				<option<?php echo $selected ?> value="<?php echo $k ?>"><?php echo $v ?></option>
-<?php endforeach;  ?>
+				<?php endforeach;  ?>
 			</select>
 		</td>
 	</tr>
 
 	<tr>
 		<th scope="row"><label for="a11yc_target_level"><?php echo A11YC_LANG_TARGET_LEVEL ?></label></th>
-		<td><select name="target_level" id="a11yc_target_level">
-<?php
-	foreach (array('', 'A', 'AA', 'AAA') as $k => $v):
-	$selected = @$setup['target_level'] == $k ? ' selected="selected"' : '';
-?>
+		<td>
+			<select name="target_level" id="a11yc_target_level">
+				<?php
+					foreach (array('', 'A', 'AA', 'AAA') as $k => $v):
+					$selected = @$setup['target_level'] == $k ? ' selected="selected"' : '';
+				?>
 				<option<?php echo $selected ?> value="<?php echo $k ?>"><?php echo $v ?></option>
-<?php endforeach; ?>
-		</select></td>
+				<?php endforeach; ?>
+			</select>
+		</td>
 	</tr>
 
 	<tr>
 		<th scope="row"><label for="a11yc_selected_method"><?php echo A11YC_LANG_CANDIDATES_TITLE ?></label></th>
 		<td>
 			<select name="selected_method" id="a11yc_selected_method">
-<?php
-	foreach ($selected_methods as $k => $v):
-	$selected = @$setup['selected_method'] == $k ? ' selected="selected"' : '';
-?>
+				<?php
+					foreach ($selected_methods as $k => $v):
+					$selected = @$setup['selected_method'] == $k ? ' selected="selected"' : '';
+				?>
 				<option<?php echo $selected ?> value="<?php echo $k ?>"><?php echo $v ?></option>
-<?php endforeach; ?>
+				<?php endforeach; ?>
 			</select>
 		</td>
 	</tr>
@@ -68,6 +70,7 @@
 		<th scope="row"><label for="a11yc_policy"><?php echo A11YC_LANG_POLICY ?></label></th>
 		<td>
 			<p><?php echo A11YC_LANG_POLICY_DESC ?></p>
+			<div class="a11yc_policy_sample"><?php echo nl2br($sample_policy) ?></div>
 			<textarea name="policy" id="a11yc_policy" style="width:100%;" rows="7"><?php echo s(@$setup['policy']) ?></textarea>
 		</td>
 	</tr>
@@ -94,7 +97,6 @@
 		<td>
 			<ul id="a11yc_additional_criterions_list">
 			<?php
-
 				$levels = array(
 					'A' => 1,
 					'AA' => 2,

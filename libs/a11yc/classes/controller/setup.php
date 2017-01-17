@@ -56,7 +56,6 @@ class Controller_Setup
 		);
 	}
 
-
 	/**
 	 * get additional criterions
 	 *
@@ -205,6 +204,7 @@ class Controller_Setup
 		$setup = static::fetch_setup($force = 1);
 
 		// assign
+		View::assign('sample_policy', str_replace("\\n", "\n", A11YC_LANG_SAMPLE_POLICY));
 		View::assign('selected_methods', static::selected_methods());
 		View::assign('title', A11YC_LANG_SETUP_TITLE);
 		View::assign('setup', $setup);

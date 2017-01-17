@@ -168,22 +168,10 @@ class Controller_Pages
 			$pages = is_array($pages) ? $pages : array();
 
 			// header
-			if ( ! headers_sent())
-			{
-				header("HTTP/1.1 200 OK");
-				header('Content-Type: text/html; charset=utf-8');
-				echo '<!DOCTYPE html><html lang="'.A11YC_LANG.'"><head>';
-				echo '<meta charset="utf-8">';
-				echo '<title>'.A11YC_LANG_PAGES_URLS_ADD.' - A11YC</title></head><body>';
-			}
-			echo '<script type="text/javascript" src="//code.jquery.com/jquery-1.11.1.min.js"></script>'."\n";
-			echo '<script type="text/javascript" src="'.A11YC_URL_DIR.'/js/a11yc.js"></script>'."\n";
-			echo '<link rel="stylesheet" type="text/css" media="all" href="'.A11YC_URL_DIR.'/css/a11yc.css" />'."\n";
-			echo '<h1>'.A11YC_LANG_PAGES_ADD_TO_DATABASE.'</h1>'."\n";
-			echo '<p>'.A11YC_LANG_PAGES_IT_TAKES_TIME.'</p><hr />'."\n";
-			echo '<div style="word-break: break-all;">'."\n";
-			echo '<script>a11yc_auto_scroll()</script>'."\n";
+			View::assign('title', A11YC_LANG_PAGES_ADD_TO_DATABASE);
+			echo View::fetch_tpl('setup/inc_progress_header.php');
 
+			// draw
 			ob_end_flush();
 			ob_start('mb_output_handler');
 
@@ -282,22 +270,8 @@ class Controller_Pages
 		if ( ! isset($ms[1])) return false;
 
 		// header
-		if ( ! headers_sent())
-		{
-			header("HTTP/1.1 200 OK");
-			header('Content-Type: text/html; charset=utf-8');
-			echo '<!DOCTYPE html><html lang="'.A11YC_LANG.'"><head>';
-			echo '<meta charset="utf-8">';
-			echo '<title>'.A11YC_LANG_PAGES_GET_URLS.' - A11YC</title></head><body>';
-		}
-		echo '<script type="text/javascript" src="//code.jquery.com/jquery-1.11.1.min.js"></script>'."\n";
-		echo '<script type="text/javascript" src="'.A11YC_URL_DIR.'/js/a11yc.js"></script>'."\n";
-		echo '<link rel="stylesheet" type="text/css" media="all" href="'.A11YC_URL_DIR.'/css/a11yc.css" />'."\n";
-
-		echo '<div style="word-break: break-all;">'."\n";
-		echo '<script>a11yc_auto_scroll()</script>'."\n";
-		echo '<h1>'.A11YC_LANG_PAGES_ADD_TO_CANDIDATE.'</h1>'."\n";
-		echo '<p>'.A11YC_LANG_PAGES_IT_TAKES_TIME.'</p><hr />'."\n";
+		View::assign('title', A11YC_LANG_PAGES_ADD_TO_CANDIDATE);
+		echo View::fetch_tpl('setup/inc_progress_header.php');
 
 		// draw
 		ob_end_flush();
