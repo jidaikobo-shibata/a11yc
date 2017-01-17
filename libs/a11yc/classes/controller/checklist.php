@@ -310,7 +310,7 @@ class Controller_Checklist
 		View::assign('cs_ngs', $url == 'bulk' ? array() : $ngs);
 
 		// is new
-		View::assign('is_new', Arr::get($page, 'level') !== NULL ? FALSE : TRUE);
+		View::assign('is_new', is_array($page) && Arr::get($page, 'level') !== NULL ? FALSE : TRUE);
 
 		// validation
 		View::assign('ajax_validation', View::fetch_tpl('checklist/ajax.php'), FALSE);
