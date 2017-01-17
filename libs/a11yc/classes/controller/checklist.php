@@ -175,7 +175,7 @@ class Controller_Checklist
 			{
 				$sql = 'INSERT INTO '.A11YC_TABLE_PAGES;
 				$sql.= ' (`url`, `date`, `done`, `standard`, `trash`, `page_title`, `add_date`, `selection_reason`)';
-				$sql.= ' VALUES (?, ?, ?, ?, ?, 0, ?, ?, ?);';
+				$sql.= ' VALUES (?, ?, ?, ?, 0, ?, ?, ?);';
 				$r = Db::execute($sql, array($url, $date, $done, $standard, $page_title, date('Y-m-d H:i:s'), $selection_reason));
 			}
 
