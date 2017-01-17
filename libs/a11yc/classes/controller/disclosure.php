@@ -92,7 +92,7 @@ class Controller_Disclosure
 		}
 
 		// policy
-		View::assign('policy', $setup['policy']);
+		View::assign('policy', $setup['policy'], false);
 		View::assign('title', A11YC_LANG_POLICY);
 		View::assign('body', View::fetch_tpl('disclosure/policy.php'), false);
 		return;
