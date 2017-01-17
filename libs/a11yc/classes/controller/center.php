@@ -29,13 +29,20 @@ class Controller_Center
 	 */
 	public static function index()
 	{
-		// report page
-		View::assign('is_center', TRUE);
-		Controller_Disclosure::report();
+		$setup = Controller_Setup::fetch_setup();
+
+		$body = '';
+		if ($setup)
+		{
+			// report page
+			View::assign('is_center', TRUE);
+			Controller_Disclosure::report();
+			$body = View::fetch('body');
+		}
 
 		// add report to center information
-		$body = View::fetch('body');
 		$center = View::fetch_tpl('center/index.php');
+		View::assign('title', A11YC_LANG_CENTER_TITLE);
 		View::assign('body', $body.$center, false);
 	}
 }

@@ -133,7 +133,6 @@ class Controller_Disclosure
 		// setup
 		$setup = Controller_Setup::fetch_setup();
 		$target_level = intval(Arr::get($setup, 'target_level'));
-		if ( ! $target_level) Util::error('Error. Set target level first');
 
 		static::assign_links();
 		View::assign('setup', $setup);
