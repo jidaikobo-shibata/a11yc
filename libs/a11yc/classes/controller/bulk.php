@@ -64,130 +64,154 @@ class Controller_Bulk extends Controller_Checklist
 	/**
 	 * dbio
 	 *
-	 * @param   string     $url
+	 * @param   string     $url - unused but this is child method
 	 * @return  void
 	 */
 	public static function dbio($url)
 	{
 		if (Input::post())
 		{
-			$cs = Input::post('chk');
+			// update default only
+			static::dbio_default();
 
+			// update all
+			if (Input::post('update_all') == 1) return;
+
+			// update all
+			static::dbio_all();
+		}
+	}
+
+	/**
+	 * dbio update default only
+	 *
+	 * @return  void
+	 */
+	private static function dbio_default()
+	{
+		// ngs
+		$sql = 'DELETE FROM '.A11YC_TABLE_BULK_NGS.';';
+		Db::execute($sql);
+
+		foreach (Input::post('ngs') as $criterion => $v)
+		{
+			if ( ! trim($v['memo'])) continue;
+			$sql = 'INSERT INTO '.A11YC_TABLE_BULK_NGS.' (`criterion`, `uid`, `memo`)';
+			$sql.= ' VALUES (?, ?, ?);';
+			$memo = stripslashes($v['memo']);
+			Db::execute($sql, array($criterion, (int) $v['uid'], $memo));
+		}
+
+		// delete all
+		$sql = 'DELETE FROM '.A11YC_TABLE_BULK.';';
+		Db::execute($sql);
+
+		// insert
+		$r = false;
+		foreach (Input::post('chk') as $code => $v)
+		{
+			if ( ! isset($v['on'])) continue;
+			$sql = 'INSERT INTO '.A11YC_TABLE_BULK.' (`code`, `uid`, `memo`)';
+			$sql.= ' VALUES (?, ?, ?);';
+			$memo = stripslashes($v['memo']);
+			$r = Db::execute($sql, array($code, (int) $v['uid'], $memo));
+		}
+		if ($r)
+		{
+			Session::add('messages', 'messages', A11YC_LANG_UPDATE_SUCCEED);
+			return;
+		}
+
+		Session::add('messages', 'errors', A11YC_LANG_UPDATE_FAILED);
+	}
+
+	/**
+	 * dbio udpate all
+	 *
+	 * @return  void
+	 */
+	private static function dbio_all()
+	{
+		// update all except for in trash item
+		$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `trash` = 0;';
+		foreach (Db::fetch_all($sql) as $v)
+		{
 			// ngs
-			$sql = 'DELETE FROM '.A11YC_TABLE_BULK_NGS.';';
-			Db::execute($sql);
-
-			foreach (Input::post('ngs') as $criterion => $v)
+			foreach (Input::post('ngs') as $criterion => $vv)
 			{
-				if ( ! trim($v['memo'])) continue;
-				$sql = 'INSERT INTO '.A11YC_TABLE_BULK_NGS.' (`criterion`, `uid`, `memo`)';
-				$sql.= ' VALUES (?, ?, ?);';
-				Db::execute($sql, array($criterion, $v['uid'], $v['memo']));
+				// add ngs
+				$sql = 'SELECT * FROM '.A11YC_TABLE_CHECKS_NGS.' WHERE `url` = ? and `criterion` = ?;';
+				if (
+					! Db::fetch($sql, array($v['url'], $criterion)) &&
+					Arr::get($vv, 'memo')
+				)
+				{
+					$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS_NGS.' (`url`, `criterion`, `uid`, `memo`)';
+					$sql.= ' VALUES (?, ?, ?, ?);';
+					$memo = stripslashes($vv['memo']);
+					Db::execute($sql, array($v['url'], $criterion, (int) $vv['uid'], $memo));
+				}
+
+				// force update ngs
+				if (Input::post('update_all') == 3)
+				{
+					$sql = 'UPDATE '.A11YC_TABLE_CHECKS_NGS.' SET `memo` = ?, `uid` = ? WHERE `criterion` = ?;';
+					Db::execute($sql, array($vv['memo'], $vv['uid'], $criterion));
+				}
 			}
 
-			// delete all
-			$sql = 'DELETE FROM '.A11YC_TABLE_BULK.';';
-			Db::execute($sql);
+			// checks and unchecks
+			foreach (Input::post('chk') as $code => $vv)
+			{
+				// add checks
+				$sql = 'SELECT * FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = ? and `code` = ?;';
+				$result = Db::fetch($sql, array($v['url'], $code));
 
-			// insert
-			$r = false;
-			foreach ($cs as $code => $v)
-			{
-				if ( ! isset($v['on'])) continue;
-				$sql = 'INSERT INTO '.A11YC_TABLE_BULK.' (`code`, `uid`, `memo`) VALUES ';
-				$sql.= '(?, ?, ?);';
-				$r = Db::execute($sql, array($code, (int) $v['uid'], $v['memo']));
+				// add new code
+				if ( ! $result)
+				{
+					if ( ! isset($vv['on']) && empty($vv['memo'])) continue;
+					$passed = isset($vv['on']);
+					$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS;
+					$sql.= ' (`url`, `code`, `uid`, `memo`, `passed`) VALUES (?, ?, ?, ?, ?)';
+					$memo = stripslashes($vv['memo']);
+					Db::execute($sql, array($v['url'], $code, $vv['uid'], $memo, $passed));
+				}
+
+				// uncheck
+				if (
+					Input::post('update_all') == 3 &&
+					$result['passed'] &&
+					! isset($vv['on'])
+				)
+				{
+					$sql = 'DELETE FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = ? and `code` = ?;';
+					Db::execute($sql, array($v['url'], $code));
+				}
 			}
-			if ($r)
+
+			// update each page
+			$update_done = intval(Input::post('update_done'));
+			$date = date('Y-m-d');
+
+			// do not update done flag
+			if ($update_done == 1)
 			{
-				Session::add('messages', 'messages', A11YC_LANG_UPDATE_SUCCEED);
+				$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET ';
+				$sql.= '`date` = ? WHERE `url` = ?;';
+				Db::execute($sql, array($date, $v['url']));
 			}
 			else
 			{
-				Session::add('messages', 'errors', A11YC_LANG_UPDATE_FAILED);
+				// update done flag done or not done
+				$done = $update_done == 2 ? 1 : 0 ;
+				$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET ';
+				$sql.= '`date` = ?, `done` = ? WHERE `url` = ?;';
+				Db::execute($sql, array($date, $done, $v['url']));
 			}
 
-			if (Input::post('update_all') == 1) return;
-
-			// update all except for in trash item
-			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `trash` = 0;';
-			foreach (Db::fetch_all($sql) as $v)
-			{
-				// ngs
-				foreach (Input::post('ngs') as $criterion => $vv)
-				{
-					// add ngs
-					$sql = 'SELECT * FROM '.A11YC_TABLE_CHECKS_NGS.' WHERE `url` = ? and `criterion` = ?;';
-					if (
-						! Db::fetch($sql, array($v['url'], $criterion)) &&
-						Arr::get($vv, 'memo')
-					)
-					{
-						$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS_NGS.' (`url`, `criterion`, `uid`, `memo`)';
-						$sql.= ' VALUES (?, ?, ?, ?);';
-						Db::execute($sql, array($v['url'], $criterion, $vv['uid'], $vv['memo']));
-					}
-
-					// force update ngs
-					if (Input::post('update_all') == 3)
-					{
-						$sql = 'UPDATE '.A11YC_TABLE_CHECKS_NGS.' SET `memo` = ?, `uid` = ? WHERE `criterion` = ?;';
-						Db::execute($sql, array($vv['memo'], $vv['uid'], $criterion));
-					}
-				}
-
-				// checks and unchecks
-				foreach ($cs as $code => $vv)
-				{
-					// add checks
-					$sql = 'SELECT * FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = ? and `code` = ?;';
-					$result = Db::fetch($sql, array($v['url'], $code));
-
-					// add new code
-					if ( ! $result)
-					{
-						if ( ! isset($vv['on']) && empty($vv['memo'])) continue;
-						$passed = isset($vv['on']);
-						$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS;
-						$sql.= ' (`url`, `code`, `uid`, `memo`, `passed`) VALUES (?, ?, ?, ?, ?)';
-						Db::execute($sql, array($v['url'], $code, $vv['uid'], $vv['memo'], $passed));
-					}
-
-					// uncheck
-					if (
-						Input::post('update_all') == 3 &&
-						$result['passed'] &&
-						! isset($vv['on'])
-					)
-					{
-						$sql = 'DELETE FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = ? and `code` = ?;';
-						Db::execute($sql, array($v['url'], $code));
-					}
-				}
-
-				// update each page
-				$update_done = intval(Input::post('update_done'));
-				$date = date('Y-m-d');
-
-				// do not update done flag
-				if ($update_done == 1)
-				{
-					$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET ';
-					$sql.= '`date` = ? WHERE `url` = ?;';
-					Db::execute($sql, array($date, $v['url']));
-				}
-				else
-				{
-					// update done flag done or not done
-					$done = $update_done == 2 ? 1 : 0 ;
-					$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET ';
-					$sql.= '`date` = ?, `done` = ? WHERE `url` = ?;';
-					Db::execute($sql, array($date, $done, $v['url']));
-				}
-
-				// update level
-				static::update_page_level($v['url']);
-			}
+			// update level
+			static::update_page_level($v['url']);
 		}
 	}
 }
