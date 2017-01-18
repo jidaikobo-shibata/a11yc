@@ -140,7 +140,7 @@ class Evaluate
 	 * @param   array     $cs
 	 * @return  array $passed array('1-1-1' => array('1-1-1a', '1-1-b' ....))
 	 */
-	public static function passed($cs)
+	private static function passed($cs)
 	{
 		$yml = Yaml::fetch();
 		$passed = array();
@@ -167,7 +167,7 @@ class Evaluate
 	 * @param   string  $url
 	 * @return  array   $results = array('1-1-1' => 0, '1-1-2' => 1 or 2 ....)
 	 */
-	public static function do_evaluate($cs, $ngs)
+	private static function do_evaluate($cs, $ngs)
 	{
 		$yml = Yaml::fetch();
 
@@ -279,28 +279,6 @@ class Evaluate
 		$levels['AA'] = array_merge($levels['AA'], $levels['A']);
 		$levels['AAA'] = array_merge($levels['AAA'], $levels['AA']);
 		return $levels;
-	}
-
-	/**
-	 * check result
-	 *
-	 * @param   array      $passed_flat
-	 * @return  int
-	 */
-	public static function check_result($passed_flat)
-	{
-		$levels = static::fetch_levels();
-		$dones = array();
-		$ngs = array();
-		foreach ($levels as $k => $v)
-		{
-			$ngs = array_merge($ngs, array_diff($v, $passed_flat)); // 達成できていない項目
-			if (array_diff($v, $passed_flat)) continue;
-			$dones[] = $k;
-		}
-		$ngs = array_unique($ngs);
-
-		return count($dones);
 	}
 
 	/**

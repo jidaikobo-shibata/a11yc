@@ -14,9 +14,9 @@
 			<div class="a11yc_controller">
 			</div>
 			<dl id="a11yc_validation_list">
-			<?php foreach ($errs as $err):  ?>
+			<?php foreach ($errs as $err): ?>
 				<?php echo $err ?>
-			<?php endforeach;  ?>
+			<?php endforeach; ?>
 			</dl>
 		</div><!-- /#a11yc_validation_errors -->
 		<dl id="a11yc_validation_code" class="a11yc_hide_if_fixedheader">

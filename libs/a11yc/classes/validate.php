@@ -656,7 +656,7 @@ class Validate
 			$replaced = '===a11yc_rplc==='.hash("sha256", $original).'===a11yc_rplc===';
 
 			$end_original = '[===end_a11yc_rplc==='.$error_id.'_'.$k.'===a11yc_rplc_back_class==='.$lv.'===end_a11yc_rplc===]';
-			$end_replaced = '===aend_11yc_rplc==='.hash("sha256", $end_original).'===end_a11yc_rplc===';
+			$end_replaced = '===end_a11yc_rplc==='.hash("sha256", $end_original).'===end_a11yc_rplc===';
 			$replaces[$k] = array(
 				'original' => $original,
 				'replaced' => $replaced,
@@ -687,11 +687,16 @@ class Validate
 			}
 
 			// add error
-			$html = mb_substr($html, 0, $pos, "UTF-8").$replaced.mb_substr($html, $pos, NULL, "UTF-8");
+			// not use null. see http://php.net/manual/ja/function.mb-substr.php#77515
+			$html = mb_substr($html, 0, $pos, "UTF-8").
+						$replaced.
+						mb_substr($html, $pos, mb_strlen($html), "UTF-8");
 
 			// and end point
 			$end_pos = $pos + $err_rep_len + $error_len;
-			$html = mb_substr($html, 0, $end_pos, "UTF-8").$end_replaced.mb_substr($html, $end_pos, NULL, "UTF-8");
+			$html = mb_substr($html, 0, $end_pos, "UTF-8").
+						$end_replaced.
+						mb_substr($html, $end_pos, mb_strlen($html), "UTF-8");
 
 			$results[] = $pos + $err_rep_len;
 		}

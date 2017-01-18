@@ -71,9 +71,9 @@ $msg = '';
 			<div id="a11yc_c_<?php echo $kkk ?>" class="a11yc_section_criterion<?php echo $class_str ?> a11yc_level_'.strtolower($vvv['level']['name']).'" data-a11yc-lebel="l_<?php echo strtolower($vvv['level']['name']) ?>">
 			<h4 class="a11yc_header_criterion a11yc_disclosure"><?php echo \A11yc\Util::key2code($vvv['code']).' '.$vvv['name'].' <span class="a11yc_header_criterion_level">('.$vvv['level']['name'].$non_interference.')</span>' ?></h4>
 			<ul class="a11yc_outlink">
-			<?php if (isset($vvv['url_as'])):  ?>
+			<?php if (isset($vvv['url_as'])): ?>
 				<li class="a11yc_outlink_as"><a<?php echo A11YC_TARGET ?> href="<?php echo $vvv['url_as'] ?>" title="Accessibility Supported"><span class="a11yc_skip">Accessibility Supported</span></a></li>
-			<?php endif;  ?>
+			<?php endif; ?>
 				<li class="a11yc_outlink_u"><a<?php echo A11YC_TARGET ?> href="<?php echo $vvv['url'] ?>" title="Understanding"><span class="a11yc_skip">Understanding</span></a></li>
 			</ul>
 			<p class="summary_criterion"><?php echo $vvv['summary'] ?></p>
@@ -83,7 +83,7 @@ $msg = '';
 			<?php foreach ($yml['checks'][$kkk] as $code => $val):
 				if ($word && ! in_array($code, $results['chks']['codes'])) continue;
 				$non_interference = isset($vvvv['non-interference']) ? ' non_interference" title="non interference"' : ''; ?>
-				<li  class="a11yc_disclosure_parent<?php echo $non_interference ?>">
+				<li class="a11yc_disclosure_parent<?php echo $non_interference ?>">
 				<a role="button" class="a11yc_disclosure" <?php /* echo A11YC_TARGET ?> href="<?php echo A11YC_DOC_URL.$code ?>&amp;criterion=<?php echo $kkk ?>"<?php */ ?>><?php echo $val['name'] ?></a>
 				<div class="a11yc_section_each_docs a11yc_disclosure_target<?php echo $class_str_show ?>">
 					<?php

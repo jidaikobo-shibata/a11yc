@@ -19,7 +19,7 @@
 					$selected = $k == @$setup['standard'] ? ' selected="selected"' : '';
 				?>
 				<option<?php echo $selected ?> value="<?php echo $k ?>"><?php echo $v ?></option>
-				<?php endforeach;  ?>
+				<?php endforeach; ?>
 			</select>
 		</td>
 	</tr>
@@ -91,7 +91,7 @@
 		</td>
 	</tr>
 
-<?php if (@$setup['target_level'] && $setup['target_level'] != 3):  ?>
+<?php if (@$setup['target_level'] && $setup['target_level'] != 3): ?>
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_CHECKLIST_CONFORMANCE_ADDITIONAL ?></th>
 		<td>
@@ -118,7 +118,7 @@
 			</ul>
 		</td>
 	</tr>
-<?php endif;  ?>
+<?php endif; ?>
 
 	</tbody>
 </table>
