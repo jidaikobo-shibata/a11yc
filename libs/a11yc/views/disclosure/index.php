@@ -117,6 +117,17 @@ endif;
 				<li>
 					<a href="<?php echo $url ?>"<?php echo A11YC_TARGET ?>><?php echo $url ?></a>
 					<?php
+					if ( ! $is_center):
+					$chk = \A11yc\Util::add_query_strings(
+						\A11yc\Util::uri(),
+						array(
+							array('url', \A11yc\Util::urlenc($url)),
+						));
+					?>
+						(<a href="<?php echo $chk ?>"><?php echo A11YC_LANG_REPORT ?></a>)
+					<?php
+					endif;
+
 					if (\Kontiki\Auth::auth()):
 						echo ' <a href="'.A11YC_CHECKLIST_URL.\A11yc\Util::urlenc($url).'"'.A11YC_TARGET.' class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_CHECK ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a>';
 					endif;
