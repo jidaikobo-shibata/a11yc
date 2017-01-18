@@ -21,6 +21,7 @@ $class_str_show = $word && $word!='' ? ' show' : '';
 
 $html = '';
 foreach ($test['tests'] as $code => $v):
+	if ($word && ! \A11yc\Arr::get($results, 'tests')) continue;
 	if ($word && ! in_array($code, $results['tests'])) continue;
 	\A11yc\View::assign('doc', $v, false);
 	$html.= '<li class="a11yc_disclosure_parent"><a role="button" class="a11yc_disclosure">'.$v['name'].'</a>';
@@ -42,7 +43,7 @@ $msg = '';
 <!-- show technique index -->
 <?php
 foreach ($yml['principles'] as $k => $v):
-if ( ! $results['chks'] &&  ! $results['tests']) continue;
+if ($word && ! \A11yc\Arr::get($results, 'chks')) continue;
 if ($word && ! in_array($k, $results['chks']['principles'])) continue;
 $msg = '';
 ?>
