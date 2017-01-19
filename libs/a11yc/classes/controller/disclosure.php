@@ -71,8 +71,8 @@ class Controller_Disclosure
 				}
 				else
 				{
-					$sql.= ' AND `selection_reason` = 6 OR `selection_reason` = 0';
-					$sql.= ' OR `selection_reason` is null ORDER BY `url` ASC;';
+					$sql.= ' AND (`selection_reason` = 6 OR `selection_reason` = 0';
+					$sql.= ' OR `selection_reason`) is null ORDER BY `url` ASC;';
 					$pages[6] = Db::fetch_all($sql);
 				}
 			}
@@ -124,8 +124,8 @@ class Controller_Disclosure
 			$is_total = TRUE;
 			// count
 			$sql = 'SELECT count(`url`) as num FROM '.A11YC_TABLE_PAGES.' WHERE ';
-			$done =  $sql.' `done` = 1 and `trash` = 0;';
-			$total = $sql.' `trash` <> 1;';
+			$done =  $sql.' `done` = 1 and (`trash` = 0 OR `trash` is null);';
+			$total = $sql.' (`trash` = 0 OR `trash` is null);';
 			View::assign('done', Db::fetch($done));
 			View::assign('total', Db::fetch($total));
 		}

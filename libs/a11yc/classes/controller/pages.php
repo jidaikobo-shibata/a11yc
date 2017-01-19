@@ -383,10 +383,10 @@ class Controller_Pages
 		$qs = '';
 		$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE ';
 		$list = Input::get('list', false);
-		$yetwhr   = '`done` = 0 and `trash` = 0 ';
-		$donewhr  = '`done` = 1 and `trash` = 0 ';
+		$yetwhr   = '(`done` = 0 OR `done` is null) AND (`trash` = 0 OR `trash` is null) ';
+		$donewhr  = '`done` = 1 and (`trash` = 0 OR `trash` is null) ';
 		$trashwhr = '`trash` = 1 ';
-		$allwhr   = '`trash` = 0 ';
+		$allwhr   = '(`trash` = 0 OR `trash` is null) ';
 		switch ($list)
 		{
 			case 'yet':
