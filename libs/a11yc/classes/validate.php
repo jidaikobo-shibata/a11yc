@@ -12,7 +12,6 @@
 namespace A11yc;
 class Validate
 {
-	protected static $target_path;
 	protected static $error_ids = array();
 	protected static $html = '';
 	protected static $hl_html = ''; // HighLighted
@@ -26,47 +25,6 @@ class Validate
 	public static $ignores_comment_out = array(
 		"/\<!--.+?--\>/si",
 	);
-
-	/**
-	 * set_target_path
-	 *
-	 * param string $target_path
-	 * @return  void
-	 */
-	public static function set_target_path($target_path)
-	{
-		static::$target_path = rtrim($target_path, '/');
-	}
-
-	/**
-	 * upper_path
-	 *
-	 * param string $str
-	 * @return  string
-	 */
-	public static function upper_path($str)
-	{
-		$num = substr_count($str, '../');
-		$ret = '';
-		for ($n = 1; $n <= $num; $n++)
-		{
-			$ret = dirname(static::$target_path);
-		}
-
-		$headers = @get_headers($ret);
-		if (
-			$headers !== false &&
-			(
-				strpos($headers[0], ' 20') !== false ||
-				strpos($headers[0], ' 30') !== false
-			)
-		)
-		{
-			return $ret;
-		}
-
-		return static::$target_path;
-	}
 
 	/**
 	 * get_errors
@@ -201,73 +159,6 @@ class Validate
 		}
 
 		return false;
-	}
-
-	/**
-	 * correct url
-	 *
-	 * @param   strings     $str
-	 * @return  strings
-	 */
-	public static function correct_url($str)
-	{
-		// base path
-		$root_path = join("/", array_slice(explode("/", static::$target_path), 0, 3));
-		if (empty($str)) return static::$target_path;
-
-		// do not contain "mailto" because mailto doesn't return header.
-		$schemes = array('http', 'https', 'file', 'ftp', 'gopher', 'news', 'nntp', 'telnet', 'wais', 'prospero');
-
-		// care with start with '//'
-		if (substr($str, 0, 2) == '//')
-		{
-			$str = $str;
-		}
-		elseif ($str == '/')
-		{
-			$str = $str;
-		}
-		else
-		{
-			// root relative path.
-			if ($str[0] == '/' && isset($str[1]) && $str[1] != '/')
-			{
-				$str = $root_path.$str;
-			}
-			else if(substr($str, 0, 2) == './')
-			{
-				$str = static::$target_path.'/'.substr($str, 2);
-			}
-			else if(substr($str, 0, 3) == '../')
-			{
-				$str = static::upper_path($str).'/'.substr($str, 3);
-			}
-
-			// scheme
-			$scheme = substr($str, 0, strpos($str, ':'));
-			if (
-				in_array($scheme, $schemes) ||
-				(strpos($str, ':') !== false && ! in_array($scheme, $schemes))
-			)
-			{
-				$str = $str;
-			}
-			// maybe link to file
-			else if ($str[0] != '#')
-			{
-				$str = static::$target_path.'/'.$str;
-			}
-			// maybe fragment
-			else
-			{
-				$str = $str;
-			}
-		}
-
-		// remove tailing slash
-		$str = $str != '/' ? rtrim($str, '/') : $str;
-
-		return $str;
 	}
 
 	/**

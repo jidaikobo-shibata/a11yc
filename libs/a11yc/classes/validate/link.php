@@ -96,7 +96,7 @@ class Validate_Link extends Validate
 			$attrs = static::get_attributes($v);
 
 			if ( ! isset($attrs['href'])) continue;
-			$url = static::correct_url($attrs['href']);
+			$url = Crawl::keep_url_unique($attrs['href']);
 
 			// strip m except for alt
 			$text = $ms[2][$k];
@@ -204,9 +204,7 @@ class Validate_Link extends Validate
 				continue;
 			}
 
-			// correct url
-			if (static::is_ignorable($tag)) continue;
-			$url = static::correct_url($url);
+			if ( ! $url) continue;
 
 			// fragments
 			if ($url[0] == '#')
@@ -219,6 +217,10 @@ class Validate_Link extends Validate
 				}
 				continue;
 			}
+
+			// correct url
+			if (static::is_ignorable($tag)) continue;
+			$url = Crawl::keep_url_unique($url);
 
 			$headers = @get_headers($url);
 

@@ -178,13 +178,15 @@ class Controller_Pages
 			foreach ($pages as $k => $url)
 			{
 				// tidy url
-				$url = Util::keep_url_unique($url);
+				Crawl::set_target_path($url);
+				$url = Crawl::keep_url_unique($url);
+				$url = Crawl::real_url($url);
 
 				// fragment included
 				if (strpos($url, '#') !== false) continue;
 
 				// is page exist?
-				if ( ! Util::is_page_exist($url))
+				if ( ! Crawl::is_page_exist($url))
 				{
 					Session::add(
 						'messages',
@@ -194,7 +196,7 @@ class Controller_Pages
 				}
 
 				// is html?
-				if ( ! Util::is_html($url)) continue;
+				if ( ! Crawl::is_html($url)) continue;
 
 				// page title
 				$page_title = Util::fetch_page_title($url);
@@ -213,6 +215,7 @@ class Controller_Pages
 					continue;
 				}
 
+				$url = Util::urldec($url);
 				$sql = 'INSERT INTO '.A11YC_TABLE_PAGES;
 				$sql.= '(`url`, `trash`, `add_date`, `page_title`) VALUES (?, 0, ?, ?);';
 				$success = Db::execute($sql, array($url, date('Y-m-d H:i:s'), $page_title));
@@ -262,7 +265,7 @@ class Controller_Pages
 		static $urls = array();
 
 		// fetch attributes
-		$html = Util::fetch_html($base_url);
+		$html = Crawl::fetch_html($base_url);
 		$html = Validate::ignore_elements($html);
 		preg_match_all("/[ \n](?:href|action) *?= *?[\"']([^\"']+?)[\"']/i", $html, $ms);
 
@@ -277,13 +280,13 @@ class Controller_Pages
 		ob_end_flush();
 		ob_start('mb_output_handler');
 
+		Crawl::set_target_path($base_url);
+
 		$urls = array();
 		foreach ($ms[1] as $k => $url)
 		{
 			// tidy url
-			Validate::set_target_path($base_url);
-			$url = Validate::correct_url($url);
-			$url = Util::keep_url_unique($url);
+			$url = Crawl::keep_url_unique($url);
 
 			// results
 			$current = $k + 1;
@@ -301,9 +304,9 @@ class Controller_Pages
 			}
 			else if (
 				strpos($url, '#') !== false || // fragment included
-				! Util::is_same_host($base_url, $url) || // out of host
-				! Util::is_page_exist($url) || // page not exists
-				! Util::is_html($url) // non html
+				! Crawl::is_same_host($base_url, $url) || // out of host
+				! Crawl::is_page_exist($url) || // page not exists
+				! Crawl::is_html($url) // non html
 			)
 			{
 				echo "<strong>Ignored</strong>\n";

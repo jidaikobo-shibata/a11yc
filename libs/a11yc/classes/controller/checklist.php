@@ -41,10 +41,10 @@ class Controller_Checklist
 	 */
 	public static function validate_page($url, $link_check = FALSE)
 	{
-		$content = Util::fetch_html($url);
+		$content = Crawl::fetch_html($url);
 		if ( ! $content) return array();
 		$all_errs = array();
-		Validate::set_target_path($url);
+		Crawl::set_target_path($url);
 		Validate::set_html($content);
 
 		$codes = array(
@@ -205,7 +205,7 @@ class Controller_Checklist
 		if ( ! $url) Util::error('Invalid Access');
 
 		// page existence
-		if ($url != 'bulk' && ! Util::is_page_exist($url))
+		if ($url != 'bulk' && ! Crawl::is_page_exist($url))
 		{
 			Session::add('messages', 'errors', A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR);
 			if ( ! headers_sent())
