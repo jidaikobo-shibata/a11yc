@@ -117,7 +117,7 @@ else:
 <?php endif; ?>
 
 <!-- add pages form -->
-<form action="" method="POST">
+<form action="<?php echo A11YC_PAGES_URL ?>" method="POST">
 <h2><label for="a11yc_add_pages"><?php echo A11YC_LANG_PAGES_URLS ?></label></h2>
 <p><?php echo A11YC_LANG_PAGES_URL_FOR_EACH_LINE ?></p>
 
@@ -132,7 +132,7 @@ endif;
 </form>
 
 <!-- get site urls -->
-<form action="" method="POST">
+<form action="<?php echo A11YC_PAGES_URL ?>" method="POST">
 <h2><label for="a11yc_get_urls"><?php echo A11YC_LANG_PAGES_GET_URLS ?></label></h2>
 <p><?php echo A11YC_LANG_PAGES_GET_URLS_EXP ?></p>
 
