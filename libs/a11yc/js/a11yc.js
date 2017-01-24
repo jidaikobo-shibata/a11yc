@@ -532,6 +532,14 @@ $(document).on('click keydown', '.a11yc_disclosure',  function(e){
 	$.fn.a11yc_disclosure_toggle($(this));
 });
 
+/* === confirm === */
+$('[data-a11yc-confirm]').on('click', function(e){
+	if(!window.confirm($(this).data('a11ycConfirm')))
+	{
+		e.preventDefault();
+		return false;
+	}
+});
 
 /* === assist === */
 

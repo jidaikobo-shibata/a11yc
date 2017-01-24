@@ -1183,6 +1183,14 @@ span.a11yc_icon_expand:before {
 #a11yc_additional_criterions_list li.odd {
 	clear: left;
 }
+.a11yc_policy_sample {
+	overflow: auto;
+	height: 13em;
+	margin-bottom: 1em;
+	border: 0;
+	color: #333;
+	background-color: #eee;
+}
 
 /* pages */
 #a11yc_checklist_index_title,

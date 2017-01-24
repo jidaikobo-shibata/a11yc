@@ -96,7 +96,7 @@ if ($pages):
 		<?php if ($list == 'trash'): ?>
 			<td class="a11yc_result">
 				<a href="<?php echo A11YC_PAGES_URL ?>&amp;undel=1&amp;url=<?php echo \A11yc\Util::urlenc($url).$current_qs ?>"><?php echo A11YC_LANG_PAGES_UNDELETE ?></a>
-				<a href="<?php echo A11YC_PAGES_URL ?>&amp;purge=1&amp;url=<?php echo \A11yc\Util::urlenc($url).$current_qs ?>"><?php echo A11YC_LANG_PAGES_PURGE ?></a>
+				<a href="<?php echo A11YC_PAGES_URL ?>&amp;purge=1&amp;url=<?php echo \A11yc\Util::urlenc($url).$current_qs ?>" data-a11yc-confirm="<?php echo sprintf( A11YC_LANG_CTRL_CONFIRM, A11YC_LANG_PAGES_PURGE) ?>"><?php echo A11YC_LANG_PAGES_PURGE ?></a>
 			</td>
 
 		<?php else: ?>
