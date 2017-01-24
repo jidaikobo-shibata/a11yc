@@ -70,7 +70,7 @@
 		<th scope="row"><label for="a11yc_policy"><?php echo A11YC_LANG_POLICY ?></label></th>
 		<td>
 			<p><?php echo A11YC_LANG_POLICY_DESC ?></p>
-			<div class="a11yc_policy_sample"><?php echo nl2br($sample_policy) ?></div>
+			<div class="a11yc_policy_sample a11yc_cmt"><?php echo nl2br($sample_policy) ?></div>
 			<textarea name="policy" id="a11yc_policy" style="width:100%;" rows="7"><?php echo s(@$setup['policy']) ?></textarea>
 		</td>
 	</tr>
