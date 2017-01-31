@@ -9,7 +9,7 @@
 		endforeach;
 	?>
 	</h1>
-	<div class="a11yc_disclosure_target show">
+	<div class="a11yc_disclosure_target hide">
 		<div id="a11yc_validation_errors" class="a11yc_hide_if_fixedheader">
 			<div class="a11yc_controller">
 			</div>
