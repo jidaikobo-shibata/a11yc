@@ -177,6 +177,9 @@ class Controller_Pages
 
 			foreach ($pages as $k => $url)
 			{
+				$url = trim($url);
+				if ( ! $url) continue;
+
 				// tidy url
 				Crawl::set_target_path($url);
 				$url = Crawl::keep_url_unique($url);
@@ -191,7 +194,7 @@ class Controller_Pages
 					Session::add(
 						'messages',
 						'errors',
-						A11YC_LANG_PAGES_NOT_FOUND.': '. Util::s($page_title.' ('.$url.') '));
+						A11YC_LANG_PAGES_NOT_FOUND.': '. Util::s($url));
 					continue;
 				}
 
@@ -200,6 +203,11 @@ class Controller_Pages
 
 				// page title
 				$page_title = Util::fetch_page_title($url);
+
+				// remove ssl and basic auth
+				$url = Util::remove_query_strings($url, array('jwp-a11y'));
+				$url = Crawl::remove_basic_auth_prefix($url);
+				$url = Crawl::keep_ssl($url);
 
 				$current = $k + 1;
 				echo '<p>'.Util::s($url).' ('.$current.'/'.count($pages).')<br />';

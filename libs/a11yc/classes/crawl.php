@@ -207,7 +207,15 @@ class Crawl
 	 */
 	public static function is_basic_auth($url)
 	{
+		$url = static::avoid_ssl_redirection_loop($url);
 		$headers = @get_headers($url, 1);
+
+		if ($headers === false)
+		{
+			$url = static::basic_auth_prefix($url, $nocheck = true);
+			$headers = @get_headers($url, 1);
+		}
+
 		return (strpos($headers[0], 'Authorization Required') !== false);
 	}
 
@@ -217,13 +225,15 @@ class Crawl
 	 * @param   string     $url
 	 * @return  string
 	 */
-	public static function basic_auth_prefix($url)
+	public static function basic_auth_prefix($url, $nocheck = false)
 	{
+		if (mb_strpos($url, '@') !== false) return $url;
+
 		$setup = Controller_Setup::fetch_setup();
 		$basic_user = Arr::get($setup, 'basic_user');
 		$basic_pass = Arr::get($setup, 'basic_pass');
 
-		if ( ! static::is_basic_auth($url)) return $url;
+		if ( ! $nocheck && ! static::is_basic_auth($url)) return $url;
 
 		if ($basic_user && $basic_pass)
 		{
@@ -232,6 +242,42 @@ class Crawl
 		else
 		{
 			return false;
+		}
+	}
+
+	/**
+	 * remove_basic_auth_prefix
+	 *
+	 * @param   string     $url
+	 * @return  string
+	 */
+	public static function remove_basic_auth_prefix($url)
+	{
+		if (mb_strpos($url, '@') === false) return $url;
+
+		$setup = Controller_Setup::fetch_setup();
+		$basic_user = Arr::get($setup, 'basic_user');
+		$basic_pass = Arr::get($setup, 'basic_pass');
+
+		return str_replace($basic_user.':'.$basic_pass.'@', '', $url);
+	}
+
+	/**
+	 * keep_ssl
+	 * some redirection redirect to non-ssl url.
+	 *
+	 * @param   string     $url
+	 * @return  string
+	 */
+	public static function keep_ssl($url)
+	{
+		if (mb_strpos($url, 'https') !== false) return $url;
+
+		$setup = Controller_Setup::fetch_setup();
+		$trust_ssl_url = Arr::get($setup, 'trust_ssl_url');
+		if ($trust_ssl_url && mb_substr($url, 0, 5) === 'http:')
+		{
+			return 'https:'.mb_substr($url, 5, mb_strlen($url));
 		}
 	}
 
@@ -245,7 +291,8 @@ class Crawl
 	{
 		if (strpos($url, 'https') !== false)
 		{
-			$url = Util::add_query_strings($url, array(array('jwp-a11y', 'ssl')));
+			$url = Util::remove_query_strings($url, array('a11yc'));
+			$url = Util::add_query_strings($url, array(array('a11yc', 'ssl')));
 		}
 		return $url;
 	}
@@ -380,6 +427,7 @@ class Crawl
 
 		// check redirect
 		$headers = static::headers($target_url);
+
 		if (strpos($headers[0], ' 30') !== false)
 		{
 			$target_url = static::real_url($target_url);
@@ -468,6 +516,7 @@ class Crawl
 
 		// not exists
 		$headers = static::headers($url);
+
 		if ($headers === false) return false;
 
 		// exists
