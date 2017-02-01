@@ -209,12 +209,7 @@ class Crawl
 	{
 		$url = static::avoid_ssl_redirection_loop($url);
 		$headers = @get_headers($url, 1);
-
-		if ($headers === false)
-		{
-			$url = static::basic_auth_prefix($url, $nocheck = true);
-			$headers = @get_headers($url, 1);
-		}
+		if ($headers === false) return false;
 
 		return (strpos($headers[0], 'Authorization Required') !== false);
 	}
@@ -225,7 +220,7 @@ class Crawl
 	 * @param   string     $url
 	 * @return  string
 	 */
-	public static function basic_auth_prefix($url, $nocheck = false)
+	public static function basic_auth_prefix($url)
 	{
 		if (mb_strpos($url, '@') !== false) return $url;
 
@@ -233,7 +228,7 @@ class Crawl
 		$basic_user = Arr::get($setup, 'basic_user');
 		$basic_pass = Arr::get($setup, 'basic_pass');
 
-		if ( ! $nocheck && ! static::is_basic_auth($url)) return $url;
+		if ( ! static::is_basic_auth($url)) return $url;
 
 		if ($basic_user && $basic_pass)
 		{
