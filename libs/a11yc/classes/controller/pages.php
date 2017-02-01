@@ -205,7 +205,7 @@ class Controller_Pages
 				$page_title = Util::fetch_page_title($url);
 
 				// remove ssl and basic auth
-				$url = Util::remove_query_strings($url, array('jwp-a11y'));
+				$url = Util::remove_query_strings($url, array('a11yc'));
 				$url = Crawl::remove_basic_auth_prefix($url);
 				$url = Crawl::keep_ssl($url);
 
