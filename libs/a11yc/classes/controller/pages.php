@@ -213,6 +213,7 @@ class Controller_Pages
 				echo '<p>'.Util::s($url).' ('.$current.'/'.count($pages).')<br />';
 				echo Util::s($page_title).'<br />';
 
+				$url = Util::urldec($url);
 				if (Db::fetch('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;', array($url)))
 				{
 					Session::add(
@@ -223,7 +224,6 @@ class Controller_Pages
 					continue;
 				}
 
-				$url = Util::urldec($url);
 				$sql = 'INSERT INTO '.A11YC_TABLE_PAGES;
 				$sql.= '(`url`, `trash`, `add_date`, `page_title`) VALUES (?, 0, ?, ?);';
 				$success = Db::execute($sql, array($url, date('Y-m-d H:i:s'), $page_title));
