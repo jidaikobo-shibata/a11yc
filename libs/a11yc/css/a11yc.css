@@ -1087,10 +1087,12 @@ span.a11yc_icon_delete:before {
 	color: #333;
 }
 span.a11yc_icon_check:before {
-	font-family: FontAwesome;
 	content: '\f044';
 	font-size: 1.5em;
 	color: #333;
+}
+.a11yc_report_table span.a11yc_icon_check:before {
+	content: '\f0f6';
 }
 span.a11yc_icon_view:before {
 	content: '\f06e';
@@ -1315,8 +1317,9 @@ ul.a11yc_pagenation li {
 }
 
 /* result */
-table .a11yc_result {
+table td.a11yc_result {
 	text-align: center;
+	vertical-align: middle;
 }
 
 
