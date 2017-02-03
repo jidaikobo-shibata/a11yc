@@ -1,5 +1,5 @@
 # a11yc
-[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Code Climate](https://codeclimate.com/github/jidaikobo-shibata/a11yc/badges/gpa.svg)](https://codeclimate.com/github/jidaikobo-shibata/a11yc)
 [![Build Status](https://travis-ci.org/jidaikobo-shibata/a11yc.svg?branch=master)](https://travis-ci.org/jidaikobo-shibata/a11yc)
 

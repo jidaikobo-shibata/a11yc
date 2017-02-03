@@ -177,6 +177,9 @@ class Controller_Pages
 
 			foreach ($pages as $k => $url)
 			{
+				$url = trim($url);
+				if ( ! $url) continue;
+
 				// tidy url
 				Crawl::set_target_path($url);
 				$url = Crawl::keep_url_unique($url);
@@ -191,7 +194,7 @@ class Controller_Pages
 					Session::add(
 						'messages',
 						'errors',
-						A11YC_LANG_PAGES_NOT_FOUND.': '. Util::s($page_title.' ('.$url.') '));
+						A11YC_LANG_PAGES_NOT_FOUND.': '. Util::s($url));
 					continue;
 				}
 
@@ -201,10 +204,16 @@ class Controller_Pages
 				// page title
 				$page_title = Util::fetch_page_title($url);
 
+				// remove ssl and basic auth
+				$url = Util::remove_query_strings($url, array('a11yc'));
+				$url = Crawl::remove_basic_auth_prefix($url);
+				$url = Crawl::keep_ssl($url);
+
 				$current = $k + 1;
 				echo '<p>'.Util::s($url).' ('.$current.'/'.count($pages).')<br />';
 				echo Util::s($page_title).'<br />';
 
+				$url = Util::urldec($url);
 				if (Db::fetch('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;', array($url)))
 				{
 					Session::add(
@@ -215,7 +224,6 @@ class Controller_Pages
 					continue;
 				}
 
-				$url = Util::urldec($url);
 				$sql = 'INSERT INTO '.A11YC_TABLE_PAGES;
 				$sql.= '(`url`, `trash`, `add_date`, `page_title`) VALUES (?, 0, ?, ?);';
 				$success = Db::execute($sql, array($url, date('Y-m-d H:i:s'), $page_title));

@@ -99,7 +99,7 @@ define('A11YC_LANG_PAGES_UNDELETE_FAILED', '%sの復活に失敗しました');
 define('A11YC_LANG_PAGES_RETURN_TO_PAGES', 'リンクされているページの一覧を取得しました。ここをクリックして「'.A11YC_LANG_PAGES_INDEX.'」に戻って、登録をしてください。');
 define('A11YC_LANG_PAGES_PRESS_ADD_BUTTON', 'リンクされているページの一覧を取得しました。一覧の内容を確認の上、「'.A11YC_LANG_PAGES_URLS_ADD.'」を押して、登録してください。');
 define('A11YC_LANG_PAGES_NOT_FOUND_ALL', '有効なリンク先を見つけられませんでした。とりあえず、ここをクリックして「'.A11YC_LANG_PAGES_INDEX.'」に戻ってください。');
-define('A11YC_LANG_PAGES_NOT_FOUND_SSL', '.htaccessで、httpへのアクセスをhttpsにリダイレクトしていると、リンクを見つけられないことがあります。.htaccessの<code>RewriteEngine On</code>のあとに<code>RewriteCond %{QUERY_STRING} !jwp-a11y=ssl</code>の一行を加えて試してみてください。');
+define('A11YC_LANG_PAGES_NOT_FOUND_SSL', '.htaccessで、httpへのアクセスをhttpsにリダイレクトしていると、リンクを見つけられないことがあります。.htaccessの<code>RewriteEngine On</code>のあと、SSL関連のリダイレクトの条件に、<code>RewriteCond %{QUERY_STRING} !a11yc=ssl</code>の一行を加えて試してみてください。');
 define('A11YC_LANG_PAGES_ADD_TO_DATABASE', 'URLをデータベースに登録します');
 define('A11YC_LANG_PAGES_ADD_TO_CANDIDATE', 'HTMLから候補になるURLを取得します');
 define('A11YC_LANG_PAGES_IT_TAKES_TIME', 'この処理には、時間がかかります。');

@@ -212,7 +212,7 @@ class Validate_Link extends Validate
 				if ( ! in_array(substr($url, 1), $fragments[1]))
 				{
 					static::$error_ids['link_check'][$k]['id'] = $tag;
-					static::$error_ids['link_check'][$k]['str'] = 'Fragment Not Found: '.$original;
+					static::$error_ids['link_check'][$k]['str'] = 'Fragment Not Found: '.$url;
 					$is_error = true;
 				}
 				continue;
@@ -221,6 +221,7 @@ class Validate_Link extends Validate
 			// correct url
 			if (static::is_ignorable($tag)) continue;
 			$url = Crawl::keep_url_unique($url);
+			$url = Crawl::real_url($url);
 
 			$headers = @get_headers($url);
 
@@ -241,7 +242,7 @@ class Validate_Link extends Validate
 
 			// 40x
 			static::$error_ids['link_check'][$k]['id'] = $tag;
-			static::$error_ids['link_check'][$k]['str'] = substr($headers[0], strpos($headers[0], ' ')).': '.$original;
+			static::$error_ids['link_check'][$k]['str'] = substr($headers[0], strpos($headers[0], ' ')).': '.$url;
 			$is_error = true;
 		}
 		static::add_error_to_html('link_check', static::$error_ids, 'ignores_comment_out');
