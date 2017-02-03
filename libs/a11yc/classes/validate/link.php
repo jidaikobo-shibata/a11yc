@@ -12,6 +12,19 @@
 namespace A11yc;
 class Validate_Link extends Validate
 {
+	protected static $target_path;
+
+	/**
+	 * set_target_path
+	 *
+	 * param string $target_path
+	 * @return  void
+	 */
+	public static function set_target_path($target_path)
+	{
+		static::$target_path = Crawl::remove_index($target_path, '/');
+	}
+
 	/**
 	 * tell user file type
 	 *
@@ -220,9 +233,34 @@ class Validate_Link extends Validate
 
 			// correct url
 			if (static::is_ignorable($tag)) continue;
-			$url = Crawl::keep_url_unique($url);
-			$url = Crawl::real_url($url);
 
+			// relative
+			$target_path = '';
+			if(
+				substr($url, 0, 2) !== '//' &&
+				(
+					substr($url, 0, 1) == '/' ||
+					substr($url, 0, 1) == '.'
+				)
+			)
+			{
+				$target_path = static::$target_path;
+			}
+
+			// inside of site: HTTP_HOST or relative
+			if ($target_path || strpos($url, Arr::get($_SERVER, 'HTTP_HOST')) !== false)
+			{
+				Crawl::set_target_path($target_path ?: $url);
+				$url = Crawl::keep_url_unique($url);
+				$url = Crawl::keep_ssl($url);
+				$url = Crawl::real_url($url);
+				$url = Crawl::basic_auth_prefix($url);
+			}
+
+			// remove strange ampersand. seems depend on environment ?-(
+			$url = str_replace('&#038;', '&', $url);
+
+			// get_headers
 			$headers = @get_headers($url);
 
 			// links

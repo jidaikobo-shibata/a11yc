@@ -266,11 +266,16 @@ class Crawl
 	 */
 	public static function keep_ssl($url)
 	{
+		if (empty(static::$target_path)) Util::error('set set_target_path()');
+
+		// do nothing. already ssl
 		if (mb_strpos($url, 'https') !== false) return $url;
 
-		$setup = Controller_Setup::fetch_setup();
-		$trust_ssl_url = Arr::get($setup, 'trust_ssl_url');
-		if ($trust_ssl_url && mb_substr($url, 0, 5) === 'http:')
+		// do nothing. originally non ssl
+		if (mb_strpos(static::$target_path, 'https') === false) return $url;
+
+		// modify
+		if (mb_substr($url, 0, 5) === 'http:')
 		{
 			return 'https:'.mb_substr($url, 5, mb_strlen($url));
 		}
