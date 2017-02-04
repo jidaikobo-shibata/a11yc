@@ -116,7 +116,7 @@ class Db
 		if ($instance->dbtype == 'sqlite')
 		{
 			$sql = "PRAGMA table_info('".$table."');";
-			$retvals = self::fetch_all($sql);
+			$retvals = self::fetch_all($sql, array(), $name);
 			foreach ($retvals as $k => $v)
 			{
 				if($v['name'])
@@ -128,10 +128,10 @@ class Db
 		elseif ($instance->dbtype == 'mysql')
 		{
 			$sql = "SHOW COLUMNS FROM ".$table.";";
-			$retvals = self::fetch_all($sql);
+			$retvals = self::fetch_all($sql, array(), $name);
 
 			$sql2 = "SHOW INDEX FROM ".$table.";";
-			$indexes = self::fetch_all( $sql2 );
+			$indexes = self::fetch_all($sql2, array(), $name);
 
 			foreach ($retvals as $k => $v)
 			{
@@ -177,7 +177,7 @@ class Db
 		{
 			$sql = 'SHOW COLUMNS FROM `'.$table.'`;';
 		}
-		return static::fetch_all($sql) ? TRUE : FALSE;
+		return static::fetch_all($sql, array(), $name) ? TRUE : FALSE;
 	}
 
 	/**

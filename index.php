@@ -21,7 +21,7 @@ require (__DIR__.'/libs/a11yc/main.php');
 // database
 \A11yc\Db::forge(array(
 	'dbtype' => 'sqlite',
-	'path' => __DIR__.'/db/db.sqlite',
+	'path' => A11YC_SQLITE_PATH.'/db.sqlite',
 ));
 \A11yc\Db::init_table();
 

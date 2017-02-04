@@ -23,7 +23,7 @@ class Db extends \Kontiki\Db
 		// create table
 		if (defined('A11YC_TABLE_PAGES'))
 		{
-			if ( ! static::is_table_exist(A11YC_TABLE_PAGES))
+			if ( ! static::is_table_exist(A11YC_TABLE_PAGES, $name))
 			{
 				$sql = 'CREATE TABLE '.A11YC_TABLE_PAGES.' (';
 				$sql.= '`url`        text NOT NULL,';
@@ -35,19 +35,19 @@ class Db extends \Kontiki\Db
 				$sql.= '`page_title` text,';
 				$sql.= '`trash`      bool NOT NULL';
 				$sql.= ');';
-				static::execute($sql);
+				static::execute($sql, array(), $name);
 			}
 
-			if ( ! static::is_fields_exist(A11YC_TABLE_PAGES, array('selection_reason')))
+			if ( ! static::is_fields_exist(A11YC_TABLE_PAGES, array('selection_reason'), $name))
 			{
 				$sql = 'ALTER TABLE '.A11YC_TABLE_PAGES.' ADD `selection_reason` INTEGER;';
-				static::execute($sql);
+				static::execute($sql, array(), $name);
 			}
 		}
 
 		if (defined('A11YC_TABLE_CHECKS'))
 		{
-			if ( ! static::is_table_exist(A11YC_TABLE_CHECKS))
+			if ( ! static::is_table_exist(A11YC_TABLE_CHECKS, $name))
 			{
 				$sql = 'CREATE TABLE '.A11YC_TABLE_CHECKS.' (';
 				$sql.= '`url`  text NOT NULL,';
@@ -55,24 +55,24 @@ class Db extends \Kontiki\Db
 				$sql.= '`uid`  INTEGER NOT NULL,';
 				$sql.= '`memo` text NOT NULL';
 				$sql.= ');';
-				static::execute($sql);
+				static::execute($sql, array(), $name);
 			}
 
 			// version 1.2.0
-			if ( ! static::is_fields_exist(A11YC_TABLE_CHECKS, array('passed')))
+			if ( ! static::is_fields_exist(A11YC_TABLE_CHECKS, array('passed'), $name))
 			{
 				$sql = 'ALTER TABLE '.A11YC_TABLE_CHECKS.' ADD `passed` INTEGER;';
-				static::execute($sql);
+				static::execute($sql, array(), $name);
 
 				// update database structure
 				$sql = 'UPDATE '.A11YC_TABLE_CHECKS.' SET `passed` = 1;';
-				static::execute($sql);
+				static::execute($sql, array(), $name);
 			}
 		}
 
 		if (defined('A11YC_TABLE_CHECKS_NGS'))
 		{
-			if ( ! static::is_table_exist(A11YC_TABLE_CHECKS_NGS))
+			if ( ! static::is_table_exist(A11YC_TABLE_CHECKS_NGS, $name))
 			{
 				$sql = 'CREATE TABLE '.A11YC_TABLE_CHECKS_NGS.' (';
 				$sql.= '`url`       text NOT NULL,';
@@ -80,7 +80,7 @@ class Db extends \Kontiki\Db
 				$sql.= '`uid`       INTEGER NOT NULL,';
 				$sql.= '`memo`      text NOT NULL';
 				$sql.= ');';
-				static::execute($sql);
+				static::execute($sql, array(), $name);
 
 				// update database structure
 				$yml = Yaml::fetch();
@@ -97,33 +97,33 @@ class Db extends \Kontiki\Db
 
 		if (defined('A11YC_TABLE_BULK'))
 		{
-			if ( ! static::is_table_exist(A11YC_TABLE_BULK))
+			if ( ! static::is_table_exist(A11YC_TABLE_BULK, $name))
 			{
 				$sql = 'CREATE TABLE '.A11YC_TABLE_BULK.' (';
 				$sql.= '`code` text NOT NULL,';
 				$sql.= '`uid`  INTEGER NOT NULL,';
 				$sql.= '`memo` text NOT NULL';
 				$sql.= ');';
-				static::execute($sql);
+				static::execute($sql, array(), $name);
 			}
 		}
 
 		if (defined('A11YC_TABLE_BULK_NGS'))
 		{
-			if ( ! static::is_table_exist(A11YC_TABLE_BULK_NGS))
+			if ( ! static::is_table_exist(A11YC_TABLE_BULK_NGS, $name))
 			{
 				$sql = 'CREATE TABLE '.A11YC_TABLE_BULK_NGS.' (';
 				$sql.= '`criterion` text NOT NULL,';
 				$sql.= '`uid`       INTEGER NOT NULL,';
 				$sql.= '`memo`      text NOT NULL';
 				$sql.= ');';
-				static::execute($sql);
+				static::execute($sql, array(), $name);
 			}
 		}
 
 		if (defined('A11YC_TABLE_SETUP'))
 		{
-			if ( ! static::is_table_exist(A11YC_TABLE_SETUP))
+			if ( ! static::is_table_exist(A11YC_TABLE_SETUP, $name))
 			{
 				$sql = 'CREATE TABLE '.A11YC_TABLE_SETUP.' (';
 				$sql.= '`target_level`        INTEGER NOT NULL,';
@@ -140,13 +140,13 @@ class Db extends \Kontiki\Db
 				$sql.= '`trust_ssl_url`       text NOT NULL,';
 				$sql.= '`checklist_behaviour` INTEGER NOT NULL';
 				$sql.= ');';
-				static::execute($sql);
+				static::execute($sql, array(), $name);
 			}
 
-			if ( ! static::is_fields_exist(A11YC_TABLE_SETUP, array('additional_criterions')))
+			if ( ! static::is_fields_exist(A11YC_TABLE_SETUP, array('additional_criterions'), $name))
 			{
 				$sql = 'ALTER TABLE '.A11YC_TABLE_SETUP.' ADD `additional_criterions` text;';
-				static::execute($sql);
+				static::execute($sql, array(), $name);
 			}
 		}
 	}
