@@ -21,9 +21,12 @@ require (__DIR__.'/libs/a11yc/main.php');
 // database
 \A11yc\Db::forge(array(
 	'dbtype' => 'sqlite',
-	'path' => A11YC_SQLITE_PATH.'/db.sqlite',
+	'path' => KONTIKI_DATA_PATH.KONTIKI_DATA_FILE,
 ));
 \A11yc\Db::init_table();
+
+// backup
+\Kontiki\Db::sqlite();
 
 // users
 \A11yc\Users::forge(unserialize(A11YC_USERS));

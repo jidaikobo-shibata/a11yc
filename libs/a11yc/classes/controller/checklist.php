@@ -45,6 +45,7 @@ class Controller_Checklist
 		if ( ! $content) return array();
 		$all_errs = array();
 		Validate::set_html($content);
+		\A11yc\Crawl::set_target_path($url); // for same_urls_should_have_same_text
 
 		$codes = array(
 			// elements
