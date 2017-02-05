@@ -24,12 +24,12 @@ $target = $version ? \A11yc\Controller_Disclosure::version2filename($version) : 
 	));
 
 // versions
-\A11yc\Db::forge(
-	'versions',
-	array(
-		'dbtype' => 'sqlite',
-		'path' => KONTIKI_DATA_PATH.'/versions.sqlite',
-	));
+// \A11yc\Db::forge(
+// 	'versions',
+// 	array(
+// 		'dbtype' => 'sqlite',
+// 		'path' => KONTIKI_DATA_PATH.'/versions.sqlite',
+// 	));
 
 // init table
 \A11yc\Db::init_table();
