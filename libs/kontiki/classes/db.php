@@ -168,6 +168,7 @@ class Db
 	public static function is_table_exist($table, $name = 'default')
 	{
 		$instance = static::instance($name);
+
 		if($instance->dbtype == 'sqlite')
 		{
 			$table = static::escape($table, $name);

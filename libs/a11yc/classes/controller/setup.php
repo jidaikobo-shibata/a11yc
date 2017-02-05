@@ -82,6 +82,32 @@ class Controller_Setup
 		if (Input::post())
 		{
 			$post = Input::post();
+
+			// protect data
+			if (Arr::get($post, 'protect_data'))
+			{
+				$path = KONTIKI_DATA_PATH.KONTIKI_DATA_FILE;
+				$file = KONTIKI_DATA_PATH.Controller_Disclosure::version2filename(date('Ymd'), $force = TRUE);
+
+				if (file_exists($file))
+				{
+					unlink($file);
+					Session::add('messages', 'messages', A11YC_LANG_DISCLOSURE_DELETE_SAMEDATE);
+				}
+
+				// protect
+				if (copy($path, $file))
+				{
+					Session::add('messages', 'messages', A11YC_LANG_DISCLOSURE_PROTECT_DATA_SAVED);
+				}
+				else
+				{
+					Session::add('messages', 'errors', A11YC_LANG_DISCLOSURE_PROTECT_DATA_FAILD);
+				}
+				return;
+			}
+
+			// setup
 			$target_level = intval($post['target_level']);
 			$selected_method = intval($post['selected_method']);
 			$checklist_behaviour = intval(Arr::get($post, 'checklist_behaviour'));
@@ -199,6 +225,7 @@ class Controller_Setup
 	 */
 	public static function form()
 	{
+		// current setup
 		static::dbio();
 
 		$setup = static::fetch_setup($force = 1);

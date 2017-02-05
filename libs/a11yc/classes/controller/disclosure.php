@@ -24,6 +24,13 @@ class Controller_Disclosure
 			array('a11yc_policy', 'a11yc_report', 'a11yc_pages', 'url')
 		);
 
+		// base page
+		$disclosure_link = \A11yc\Util::remove_query_strings(
+			$url,
+			array('a11yc_version')
+		);
+
+		// other pages
 		$policy_link = $url;
 		$report_link = \A11yc\Util::add_query_strings(
 			$url,
@@ -36,9 +43,58 @@ class Controller_Disclosure
 				array('a11yc_pages', 1)
 			));
 
+		View::assign('disclosure_link', $disclosure_link);
 		View::assign('policy_link', $policy_link);
 		View::assign('report_link', $report_link);
 		View::assign('pages_link', $pages_link);
+	}
+
+	/**
+	 * get_versions
+	 *
+	 * @return  array
+	 */
+	public static function get_versions()
+	{
+		$files = array();
+		foreach (glob(KONTIKI_DATA_PATH.'/'.'*') as $file)
+		{
+			$file = basename($file);
+			if (substr($file, 0, 4) == 'fix.')
+			{
+				$files[] = substr($file, 4, 8);
+			}
+		}
+		return $files;
+	}
+
+	/**
+	 * version2filename
+	 *
+	 * @param  string $version
+	 * @return  string
+	 */
+	public static function version2filename($version, $force = 0)
+	{
+		// suspicious
+		if ( ! is_numeric($version))
+		{
+			Util::error(A11YC_LANG_DISCLOSURE_VERSION_NOT_FOUND);
+		}
+
+		// check exist
+		if ( ! $force)
+		{
+			$files = static::get_versions();
+
+			// version not found
+			if ( ! in_array($version, $files))
+			{
+				Util::error(A11YC_LANG_DISCLOSURE_VERSION_NOT_FOUND);
+			}
+		}
+
+		return '/fix.'.$version.'.sqlite';
 	}
 
 	/**
@@ -92,6 +148,7 @@ class Controller_Disclosure
 		}
 
 		// policy
+		View::assign('versions', static::get_versions());
 		View::assign('policy', $setup['policy'], false);
 		View::assign('title', A11YC_LANG_POLICY);
 		View::assign('body', View::fetch_tpl('disclosure/policy.php'), false);

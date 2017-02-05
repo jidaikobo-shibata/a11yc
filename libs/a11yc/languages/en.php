@@ -55,6 +55,7 @@ define('A11YC_LANG_CENTER_TITLE', 'Center');
 define('A11YC_LANG_CENTER_BOOKMARKLET_EXP', 'Please register the following link into your browser\'s bookmark. You can be inspected any page.');
 define('A11YC_LANG_CENTER_ABOUT', 'About A11yc');
 define('A11YC_LANG_CENTER_LOGO', 'Logo');
+define('A11YC_LANG_CENTER_ABOUT_CONTENT', 'A11yc is a web accessibility checker compatible with WCAG 2.0 created by Jidaikobo Inc.');
 
 // pages
 define('A11YC_LANG_PAGES_TITLE', 'Target Pages');
@@ -81,8 +82,7 @@ define('A11YC_LANG_PAGES_ORDER_URL_DESC', 'URL Desc.');
 define('A11YC_LANG_PAGES_ORDER_PAGE_NAME_ASC', 'Page name Asc.');
 define('A11YC_LANG_PAGES_ORDER_PAGE_NAME_DESC', 'Page name Desc.');
 define('A11YC_LANG_PAGES_CTRL', 'Action');
-define('A11YC_LANG_PAGES_URL_FOR_EACH_LINE', 'Enter one URL to each line, please press the "'.A11YC_LANG_PAGES_URLS_ADD.'".  Please once the registration is in the order of twenty. The program may
-be stopped at the registration process and too many.');
+define('A11YC_LANG_PAGES_URL_FOR_EACH_LINE', 'Enter one URL to each line, please press the "'.A11YC_LANG_PAGES_URLS_ADD.'".  Please once the registration is in the order of twenty. The program may be stopped at the registration process and too many.');
 define('A11YC_LANG_PAGES_ALL', 'All');
 define('A11YC_LANG_PAGES_YET', 'Yet');
 define('A11YC_LANG_PAGES_TRASH', 'Trash');
@@ -164,15 +164,13 @@ define('A11YC_LANG_CHECKLIST_MEMO', 'Note');
 define('A11YC_LANG_NO_BROKEN_LINK_FOUND', 'No broken link was found');
 define('A11YC_LANG_CHECKLIST_PERCENTAGE', 'Achievement');
 define('A11YC_LANG_CHECKLIST_NG_REASON', 'Nonconformity Reason');
-define('A11YC_LANG_CHECKLIST_NG_REASON_EXP', 'If there is application of the object of this achievement item and it is nonconformity, please describe the reason here. If the reason is
-written here, this criterion will be treated as "Nonconformity" or "Partial Conformity".');
+define('A11YC_LANG_CHECKLIST_NG_REASON_EXP', 'If there is application of the object of this achievement item and it is nonconformity, please describe the reason here. If the reason is written here, this criterion will be treated as "Nonconformity" or "Partial Conformity".');
 
 // bulk
 define('A11YC_LANG_BULK_TITLE', 'Batch');
 define('A11YC_LANG_BULK_UPDATE', 'Batch Type');
 define('A11YC_LANG_BULK_UPDATE1', 'Save as the initial value at the new check (does not change any of the test results of an existing page)');
 define('A11YC_LANG_BULK_UPDATE2', 'Only those that checked reflected in the existing test results (but does not update to remove the check)');
-//define('A11YC_LANG_BULK_UPDATE3', 'Remove the check is also reflected in the existing test results (Note: The test results of all the pages will be the same in the site)');
 define('A11YC_LANG_BULK_UPDATE3', 'Reflect all of the items to the existing test results (Note: The test results of all the pages will be the same in the site)');
 define('A11YC_LANG_BULK_DONE', 'Check the end ');
 define('A11YC_LANG_BULK_DONE1', 'Do not change the check flag of an existing page');
@@ -195,6 +193,16 @@ define('A11YC_LANG_ERROR_BASIC_AUTH', 'Access is not possible because it is prot
 define('A11YC_LANG_ERROR_BASIC_AUTH_WRONG', 'Information for basic authentication seems to be wrong. Please check "Setting".');
 define('A11YC_LANG_ERROR_SSL', 'When targeting SSL sites, please enter the target domain in "Settings".');
 
+// disclosure
+define('A11YC_LANG_DISCLOSURE_NEWEST_VERSION', 'Newest version');
+define('A11YC_LANG_DISCLOSURE_CHANGE_VERSION', 'Switch policy, report, exam version');
+define('A11YC_LANG_DISCLOSURE_VERSION_NOT_FOUND', 'Specified version was not found');
+define('A11YC_LANG_DISCLOSURE_PROTECT_VERSION_TITLE', 'Data protection');
+define('A11YC_LANG_DISCLOSURE_PROTECT_VERSION_EXP', 'Protect current policies, tests and reports. Protected data is not subject to editing. Protected data will be laundered and readable when displaying accessibility policy. Protection is on a daily basis. Overwrite existing data if there is
+today\'s data.');
+define('A11YC_LANG_DISCLOSURE_DELETE_SAMEDATE', 'Since there was protected data created today, overwrote it.');
+define('A11YC_LANG_DISCLOSURE_PROTECT_DATA_SAVED', 'Data was protected.');
+define('A11YC_LANG_DISCLOSURE_PROTECT_DATA_FAILD', 'Data protection failed.');
 
 // sample
 define('A11YC_LANG_SAMPLE_POLICY', 'sample:\n<p>[Your Name / Organization Name] will endeavor to create an accessible website that anyone can use in the same way regardless of the presence or absence of disability or age.</p>\n<p>[Please describe the meaning of this website to secure accessibility.]</p>\n<p>We set up accessibility policy as follows and will constantly secure accessibility.</p>\n\n<h2>Policy</h2>\n<p>[Please describe the accessibility policy.]</p>\n\n<h2>Scope of coverage</h2>\n<p>[Please describe as "target pages below http://example.com".]</p>\n\n<h2>Achievement target date</h2>\n<p>[Please describe the target date of accomplishment.]</p>\n\n<h2>Exceptions</h2>\n<p>[Please list if any.]</p>');

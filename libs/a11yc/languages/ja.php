@@ -193,5 +193,15 @@ define('A11YC_LANG_ERROR_BASIC_AUTH', '基本認証で守られているため�
 define('A11YC_LANG_ERROR_BASIC_AUTH_WRONG', '基本認証用の情報が間違っているようです。「設定」を確認してください。');
 define('A11YC_LANG_ERROR_SSL', 'SSLのサイトを対象とするときには、「設定」で対象となるドメインを入力してください。');
 
+// disclosure
+define('A11YC_LANG_DISCLOSURE_NEWEST_VERSION', '最新版');
+define('A11YC_LANG_DISCLOSURE_CHANGE_VERSION', '方針・報告書・試験の版を切り替える');
+define('A11YC_LANG_DISCLOSURE_VERSION_NOT_FOUND', '指定された版が見つかりませんでした');
+define('A11YC_LANG_DISCLOSURE_PROTECT_VERSION_TITLE', 'データの保護');
+define('A11YC_LANG_DISCLOSURE_PROTECT_VERSION_EXP', '現在の方針、試験、報告を保護します。保護されたデータは編集対象外になります。保護されたデータは、アクセシビリティ方針を表示する際、洗濯して閲覧できるようになります。保護は日単位です。本日のデータがある場合は上書きします。');
+define('A11YC_LANG_DISCLOSURE_DELETE_SAMEDATE', '本日作成の保護されたデータがあったため上書きしました。');
+define('A11YC_LANG_DISCLOSURE_PROTECT_DATA_SAVED', 'データを保護しました。');
+define('A11YC_LANG_DISCLOSURE_PROTECT_DATA_FAILD', 'データの保護に失敗しました。');
+
 // sample
 define('A11YC_LANG_SAMPLE_POLICY', '例文：\n<p>【あなたの名前／団体名】は、障害の有無や年齢などに関係なく、だれもが同じように利用できるアクセシブルなウェブサイトづくりに努めます。</p>\n<p>【このウェブサイトがアクセシビリティを確保することの意味を記載してください。】</p>\n<p>以下のとおりアクセシビリティ方針を定め、恒常的にアクセシビリティを確保してゆきます。</p>\n\n<h2>対応方針</h2>\n<p>当サイトは、日本工業規格JIS X 8341-3:2016「高齢者・障害者等配慮設計指針-情報通信における機器、ソフトウェア及びサービス-第3部:ウェブコンテンツ」の等級「AA」に準拠することを目標とします。</p>\n<p>本方針における「準拠」という対応度の表記は、情報通信アクセス協議会ウェブアクセシビリティ基盤委員会「<a href="http://waic.jp/docs/jis2016/compliance-guidelines/201603/">ウェブコンテンツのJIS X 8341-3:2016 対応度表記ガイドライン - 2016年3月版</a>」で定められた表記によります。</p>\n\n<h2>対象範囲</h2>\n<p>【「http://example.com 以下のページを対象とする」というように記載してください。】</p>\n\n<h2>達成目標日</h2>\n<p>【達成目標日を記載してください。】</p>\n\n<h2>例外事項</h2>\n<p>【もしあれば記載してください。】</p>');

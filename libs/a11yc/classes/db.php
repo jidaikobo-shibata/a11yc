@@ -20,7 +20,24 @@ class Db extends \Kontiki\Db
 	 */
 	public static function init_table($name = 'default')
 	{
-		// create table
+		// base tables
+		static::init_pages($name);
+		static::init_checks($name);
+		static::init_bulk($name);
+		static::init_setup($name);
+
+		// versions
+//		static::init_versions();
+	}
+
+	/**
+	 * init pages table
+	 *
+	 * @param   string $name
+	 * @return  void
+	 */
+	private static function init_pages($name = 'default')
+	{
 		if (defined('A11YC_TABLE_PAGES'))
 		{
 			if ( ! static::is_table_exist(A11YC_TABLE_PAGES, $name))
@@ -44,7 +61,16 @@ class Db extends \Kontiki\Db
 				static::execute($sql, array(), $name);
 			}
 		}
+	}
 
+	/**
+	 * init checks table
+	 *
+	 * @param   string $name
+	 * @return  void
+	 */
+	private static function init_checks($name = 'default')
+	{
 		if (defined('A11YC_TABLE_CHECKS'))
 		{
 			if ( ! static::is_table_exist(A11YC_TABLE_CHECKS, $name))
@@ -94,7 +120,16 @@ class Db extends \Kontiki\Db
 				}
 			}
 		}
+	}
 
+	/**
+	 * init bulk table
+	 *
+	 * @param   string $name
+	 * @return  void
+	 */
+	private static function init_bulk($name = 'default')
+	{
 		if (defined('A11YC_TABLE_BULK'))
 		{
 			if ( ! static::is_table_exist(A11YC_TABLE_BULK, $name))
@@ -120,7 +155,16 @@ class Db extends \Kontiki\Db
 				static::execute($sql, array(), $name);
 			}
 		}
+	}
 
+	/**
+	 * init setup table
+	 *
+	 * @param   string $name
+	 * @return  void
+	 */
+	private static function init_setup($name = 'default')
+	{
 		if (defined('A11YC_TABLE_SETUP'))
 		{
 			if ( ! static::is_table_exist(A11YC_TABLE_SETUP, $name))
@@ -148,6 +192,25 @@ class Db extends \Kontiki\Db
 				$sql = 'ALTER TABLE '.A11YC_TABLE_SETUP.' ADD `additional_criterions` text;';
 				static::execute($sql, array(), $name);
 			}
+		}
+	}
+
+	/**
+	 * init versions database
+	 *
+	 * @return  void
+	 */
+	private static function init_versions()
+	{
+		$name = 'versions';
+		if ( ! static::is_table_exist('versions', $name))
+		{
+			$sql = 'CREATE TABLE versions (';
+			$sql.= '`path` text NOT NULL,';
+			$sql.= '`memo` text NOT NULL,';
+			$sql.= '`current` INTEGER NOT NULL';
+			$sql.= ');';
+			static::execute($sql, array(), $name);
 		}
 	}
 }
