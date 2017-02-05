@@ -198,7 +198,7 @@ define('A11YC_LANG_DISCLOSURE_NEWEST_VERSION', '最新版');
 define('A11YC_LANG_DISCLOSURE_CHANGE_VERSION', '方針・報告書・試験の版を切り替える');
 define('A11YC_LANG_DISCLOSURE_VERSION_NOT_FOUND', '指定された版が見つかりませんでした');
 define('A11YC_LANG_DISCLOSURE_PROTECT_VERSION_TITLE', 'データの保護');
-define('A11YC_LANG_DISCLOSURE_PROTECT_VERSION_EXP', '現在の方針、試験、報告を保護します。保護されたデータは編集対象外になります。保護されたデータは、アクセシビリティ方針を表示する際、洗濯して閲覧できるようになります。保護は日単位です。本日のデータがある場合は上書きします。');
+define('A11YC_LANG_DISCLOSURE_PROTECT_VERSION_EXP', '現在の方針、試験、報告を保護します。保護されたデータは編集対象外になります。保護されたデータは、アクセシビリティ方針を表示する際、選択して閲覧できるようになります。保護は日単位です。本日のデータがある場合は上書きします。');
 define('A11YC_LANG_DISCLOSURE_DELETE_SAMEDATE', '本日作成の保護されたデータがあったため上書きしました。');
 define('A11YC_LANG_DISCLOSURE_PROTECT_DATA_SAVED', 'データを保護しました。');
 define('A11YC_LANG_DISCLOSURE_PROTECT_DATA_FAILD', 'データの保護に失敗しました。');
