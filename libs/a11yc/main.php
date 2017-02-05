@@ -19,6 +19,13 @@ if ( ! file_exists($config_path))
 }
 require ($config_path);
 
+// create db dir
+if ( ! file_exists(KONTIKI_DATA_PATH))
+{
+	mkdir(KONTIKI_DATA_PATH);
+	file_put_contents(KONTIKI_DATA_PATH.'/.htaccess', 'deny from all');
+}
+
 // load kontiki
 define('KONTIKI_DEFAULT_LANG', A11YC_LANG);
 require (dirname(dirname(__DIR__)).'/libs/kontiki/main.php');
