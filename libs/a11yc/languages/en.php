@@ -203,6 +203,7 @@ today\'s data.');
 define('A11YC_LANG_DISCLOSURE_DELETE_SAMEDATE', 'Since there was protected data created today, overwrote it.');
 define('A11YC_LANG_DISCLOSURE_PROTECT_DATA_SAVED', 'Data was protected.');
 define('A11YC_LANG_DISCLOSURE_PROTECT_DATA_FAILD', 'Data protection failed.');
+define('A11YC_LANG_DISCLOSURE_PROTECT_DATA_CONFIRM', 'Do you really want to protect your data?');
 
 // sample
 define('A11YC_LANG_SAMPLE_POLICY', 'sample:\n<p>[Your Name / Organization Name] will endeavor to create an accessible website that anyone can use in the same way regardless of the presence or absence of disability or age.</p>\n<p>[Please describe the meaning of this website to secure accessibility.]</p>\n<p>We set up accessibility policy as follows and will constantly secure accessibility.</p>\n\n<h2>Policy</h2>\n<p>[Please describe the accessibility policy.]</p>\n\n<h2>Scope of coverage</h2>\n<p>[Please describe as "target pages below http://example.com".]</p>\n\n<h2>Achievement target date</h2>\n<p>[Please describe the target date of accomplishment.]</p>\n\n<h2>Exceptions</h2>\n<p>[Please list if any.]</p>');
