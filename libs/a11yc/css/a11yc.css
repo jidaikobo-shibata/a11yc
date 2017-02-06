@@ -1323,6 +1323,10 @@ table .a11yc_result {
 table td.a11yc_result {
 	vertical-align: middle;
 }
+.a11yc_table.a11yc_report th a {
+	font-weight: normal;
+	font-size: .9em;
+}
 
 
 /* === disclosure === */
