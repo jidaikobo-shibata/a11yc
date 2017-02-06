@@ -1091,7 +1091,7 @@ span.a11yc_icon_check:before {
 	font-size: 1.5em;
 	color: #333;
 }
-.a11yc_report_table span.a11yc_icon_check:before {
+.a11yc_table.a11yc_report span.a11yc_icon_check:before {
 	content: '\f0f6';
 }
 span.a11yc_icon_view:before {
@@ -1317,9 +1317,15 @@ ul.a11yc_pagenation li {
 }
 
 /* result */
-table td.a11yc_result {
+table .a11yc_result {
 	text-align: center;
+}
+table td.a11yc_result {
 	vertical-align: middle;
+}
+.a11yc_table.a11yc_report th a {
+	font-weight: normal;
+	font-size: .9em;
 }
 
 

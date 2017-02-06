@@ -9,9 +9,9 @@ foreach ($pages as $k => $each_pages):
 	<thead>
 	<tr>
 		<th scope="col"><?php echo A11YC_LANG_CHECKLIST_TARGETPAGE ?></th>
-		<th scope="col"><?php echo A11YC_LANG_CURRENT_LEVEL ?></th>
-		<th scope="col"><?php echo A11YC_LANG_CHECKLIST_TITLE ?></th>
-		<th scope="col"><?php echo A11YC_LANG_TEST_DATE ?></th>
+		<th class="a11yc_result" scope="col"><?php echo A11YC_LANG_CURRENT_LEVEL ?></th>
+		<th class="a11yc_result" scope="col"><?php echo A11YC_LANG_CHECKLIST_TITLE ?></th>
+		<th class="a11yc_result" scope="col"><?php echo A11YC_LANG_TEST_DATE ?></th>
 	</tr>
 	</thead>
 	<?php
