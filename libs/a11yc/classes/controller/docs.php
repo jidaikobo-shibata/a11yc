@@ -49,6 +49,28 @@ class Controller_Docs
 	}
 
 	/**
+	 * word exists
+	 *
+	 * @param  string $target
+	 * @param  string $word
+	 * @return  string
+	 */
+	private static function word_exists($target, $word)
+	{
+		$words = explode(' ', $word);
+
+		$found = true;
+		foreach ($words as $each_word)
+		{
+			if (strpos($target, $each_word) === false)
+			{
+				$found = false;
+			}
+		}
+		return $found;
+	}
+
+	/**
 	 * Show Techs Index
 	 *
 	 * @return  string
@@ -72,18 +94,16 @@ class Controller_Docs
 				foreach ($v as $chk => $vv)
 				{
 					if (
-						strpos($chk, $word) !== false ||
-						strpos($vv['criterion']['code'], $word) !== false ||
-						strpos($vv['criterion']['guideline']['principle']['name'], $word) !== false ||
-						strpos($vv['criterion']['guideline']['principle']['summary'], $word) !== false ||
-//						strpos($vv['criterion']['guideline']['url'], $word) !== false ||
-						strpos($vv['criterion']['guideline']['summary'], $word) !== false ||
-						strpos($vv['criterion']['code'], $word) !== false ||
-						strpos($vv['criterion']['code'], str_replace('.', '-', $word)) !== false ||
-//						strpos($vv['criterion']['url'], $word) !== false ||
-						strpos($vv['criterion']['summary'], $word) !== false ||
-						strpos(@$vv['tech'], $word) !== false ||
-						strpos($vv['name'], $word) !== false
+						static::word_exists($chk, $word) ||
+						static::word_exists($vv['criterion']['code'], $word) ||
+						static::word_exists($vv['criterion']['guideline']['principle']['name'], $word) ||
+						static::word_exists($vv['criterion']['guideline']['principle']['summary'], $word) ||
+						static::word_exists($vv['criterion']['guideline']['summary'], $word) ||
+						static::word_exists($vv['criterion']['code'], $word) ||
+						static::word_exists($vv['criterion']['code'], str_replace('.', '-', $word)) ||
+						static::word_exists($vv['criterion']['summary'], $word) ||
+						static::word_exists(@$vv['tech'], $word) ||
+						static::word_exists($vv['name'], $word)
 					)
 					{
 						$r['chks']['principles'][] = $vv['criterion']['guideline']['principle']['code'];
@@ -97,8 +117,8 @@ class Controller_Docs
 			foreach ($test['tests'] as $code => $v)
 			{
 				if (
-					strpos($v['name'], $word) !== false ||
-					strpos($v['tech'], $word) !== false
+					static::word_exists($v['name'], $word) ||
+					static::word_exists($v['tech'], $word)
 				)
 				{
 					$r['tests'][] = $code;
