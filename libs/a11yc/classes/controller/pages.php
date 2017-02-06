@@ -435,6 +435,7 @@ class Controller_Pages
 		{
 			$order = strtoupper(substr($orderby, strrpos($orderby, '_') + 1));
 			$by    = strtolower(substr($orderby, 0, strrpos($orderby, '_')));
+			$qs    = '&amp;order='.$orderby;
 		}
 		$sql_odr = 'order by '.$by.' '.$order.';';
 
