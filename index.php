@@ -20,10 +20,23 @@ require (__DIR__.'/libs/a11yc/main.php');
 
 // database
 \A11yc\Db::forge(array(
-	'dbtype' => 'sqlite',
-	'path' => __DIR__.'/db/db.sqlite',
-));
+		'dbtype' => 'sqlite',
+		'path' => KONTIKI_DATA_PATH.KONTIKI_DATA_FILE,
+	));
+
+// versions
+// \A11yc\Db::forge(
+// 	'versions',
+// 	array(
+// 		'dbtype' => 'sqlite',
+// 		'path' => KONTIKI_DATA_PATH.'/versions.sqlite',
+// 	));
+
+// init table
 \A11yc\Db::init_table();
+
+// backup
+\Kontiki\Maintenance::sqlite();
 
 // users
 \A11yc\Users::forge(unserialize(A11YC_USERS));

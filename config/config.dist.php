@@ -32,6 +32,10 @@ define('A11YC_PATH',          dirname(__DIR__).'/libs/a11yc');
 define('A11YC_CLASSES_PATH',  A11YC_PATH.'/classes');
 define('A11YC_RESOURCE_PATH', A11YC_PATH.'/resources/'.A11YC_LANG);
 
+// database
+define('KONTIKI_DATA_PATH', dirname(__DIR__).'/db');
+define('KONTIKI_DATA_FILE', '/db.sqlite');
+
 // tables
 define('A11YC_TABLE_SETUP',      'a11y_setup');
 define('A11YC_TABLE_PAGES',      'a11y_pages');

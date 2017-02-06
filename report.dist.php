@@ -13,11 +13,25 @@
 // kontiki and a11yc
 require (__DIR__.'/libs/a11yc/main.php');
 
+// select version
+$version = \A11yc\Input::get('a11yc_version', false);
+$target = $version ? \A11yc\Controller_Disclosure::version2filename($version) : KONTIKI_DATA_FILE;
+
 // database
 \A11yc\Db::forge(array(
-	'dbtype' => 'sqlite',
-	'path' => __DIR__.'/db/db.sqlite',
-));
+		'dbtype' => 'sqlite',
+		'path' => KONTIKI_DATA_PATH.$target,
+	));
+
+// versions
+// \A11yc\Db::forge(
+// 	'versions',
+// 	array(
+// 		'dbtype' => 'sqlite',
+// 		'path' => KONTIKI_DATA_PATH.'/versions.sqlite',
+// 	));
+
+// init table
 \A11yc\Db::init_table();
 
 // view

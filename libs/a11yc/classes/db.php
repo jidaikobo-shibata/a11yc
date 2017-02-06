@@ -20,10 +20,27 @@ class Db extends \Kontiki\Db
 	 */
 	public static function init_table($name = 'default')
 	{
-		// create table
+		// base tables
+		static::init_pages($name);
+		static::init_checks($name);
+		static::init_bulk($name);
+		static::init_setup($name);
+
+		// versions
+//		static::init_versions();
+	}
+
+	/**
+	 * init pages table
+	 *
+	 * @param   string $name
+	 * @return  void
+	 */
+	private static function init_pages($name = 'default')
+	{
 		if (defined('A11YC_TABLE_PAGES'))
 		{
-			if ( ! static::is_table_exist(A11YC_TABLE_PAGES))
+			if ( ! static::is_table_exist(A11YC_TABLE_PAGES, $name))
 			{
 				$sql = 'CREATE TABLE '.A11YC_TABLE_PAGES.' (';
 				$sql.= '`url`        text NOT NULL,';
@@ -35,19 +52,28 @@ class Db extends \Kontiki\Db
 				$sql.= '`page_title` text,';
 				$sql.= '`trash`      bool NOT NULL';
 				$sql.= ');';
-				static::execute($sql);
+				static::execute($sql, array(), $name);
 			}
 
-			if ( ! static::is_fields_exist(A11YC_TABLE_PAGES, array('selection_reason')))
+			if ( ! static::is_fields_exist(A11YC_TABLE_PAGES, array('selection_reason'), $name))
 			{
 				$sql = 'ALTER TABLE '.A11YC_TABLE_PAGES.' ADD `selection_reason` INTEGER;';
-				static::execute($sql);
+				static::execute($sql, array(), $name);
 			}
 		}
+	}
 
+	/**
+	 * init checks table
+	 *
+	 * @param   string $name
+	 * @return  void
+	 */
+	private static function init_checks($name = 'default')
+	{
 		if (defined('A11YC_TABLE_CHECKS'))
 		{
-			if ( ! static::is_table_exist(A11YC_TABLE_CHECKS))
+			if ( ! static::is_table_exist(A11YC_TABLE_CHECKS, $name))
 			{
 				$sql = 'CREATE TABLE '.A11YC_TABLE_CHECKS.' (';
 				$sql.= '`url`  text NOT NULL,';
@@ -55,24 +81,24 @@ class Db extends \Kontiki\Db
 				$sql.= '`uid`  INTEGER NOT NULL,';
 				$sql.= '`memo` text NOT NULL';
 				$sql.= ');';
-				static::execute($sql);
+				static::execute($sql, array(), $name);
 			}
 
-			// version 1.2.0
-			if ( ! static::is_fields_exist(A11YC_TABLE_CHECKS, array('passed')))
+			// switch to passed flag
+			if ( ! static::is_fields_exist(A11YC_TABLE_CHECKS, array('passed'), $name))
 			{
 				$sql = 'ALTER TABLE '.A11YC_TABLE_CHECKS.' ADD `passed` INTEGER;';
-				static::execute($sql);
+				static::execute($sql, array(), $name);
 
 				// update database structure
 				$sql = 'UPDATE '.A11YC_TABLE_CHECKS.' SET `passed` = 1;';
-				static::execute($sql);
+				static::execute($sql, array(), $name);
 			}
 		}
 
 		if (defined('A11YC_TABLE_CHECKS_NGS'))
 		{
-			if ( ! static::is_table_exist(A11YC_TABLE_CHECKS_NGS))
+			if ( ! static::is_table_exist(A11YC_TABLE_CHECKS_NGS, $name))
 			{
 				$sql = 'CREATE TABLE '.A11YC_TABLE_CHECKS_NGS.' (';
 				$sql.= '`url`       text NOT NULL,';
@@ -80,50 +106,70 @@ class Db extends \Kontiki\Db
 				$sql.= '`uid`       INTEGER NOT NULL,';
 				$sql.= '`memo`      text NOT NULL';
 				$sql.= ');';
-				static::execute($sql);
+				static::execute($sql, array(), $name);
 
 				// update database structure
 				$yml = Yaml::fetch();
 				foreach (array_keys($yml['criterions']) as $criterion)
 				{
-					foreach (Db::fetch_all('SELECT url FROM '.A11YC_TABLE_PAGES.' WHERE `done` = 1') as $url)
+					$sql = 'SELECT url FROM '.A11YC_TABLE_PAGES.' WHERE `done` = 1';
+					foreach (Db::fetch_all($sql, array(), $name) as $url)
 					{
-						$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS_NGS.' (`url`, `criterion`, `uid`, `memo`)  VALUES (?, ?, ?, ?);';
-						static::execute($sql, array($url['url'], $criterion, '1', ''));
+						$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS_NGS;
+						$sql.= ' (`url`, `criterion`, `uid`, `memo`) VALUES (?, ?, ?, ?);';
+						static::execute($sql, array($url['url'], $criterion, '1', ''), $name);
 					}
 				}
 			}
 		}
+	}
 
+	/**
+	 * init bulk table
+	 *
+	 * @param   string $name
+	 * @return  void
+	 */
+	private static function init_bulk($name = 'default')
+	{
 		if (defined('A11YC_TABLE_BULK'))
 		{
-			if ( ! static::is_table_exist(A11YC_TABLE_BULK))
+			if ( ! static::is_table_exist(A11YC_TABLE_BULK, $name))
 			{
 				$sql = 'CREATE TABLE '.A11YC_TABLE_BULK.' (';
 				$sql.= '`code` text NOT NULL,';
 				$sql.= '`uid`  INTEGER NOT NULL,';
 				$sql.= '`memo` text NOT NULL';
 				$sql.= ');';
-				static::execute($sql);
+				static::execute($sql, array(), $name);
 			}
 		}
 
 		if (defined('A11YC_TABLE_BULK_NGS'))
 		{
-			if ( ! static::is_table_exist(A11YC_TABLE_BULK_NGS))
+			if ( ! static::is_table_exist(A11YC_TABLE_BULK_NGS, $name))
 			{
 				$sql = 'CREATE TABLE '.A11YC_TABLE_BULK_NGS.' (';
 				$sql.= '`criterion` text NOT NULL,';
 				$sql.= '`uid`       INTEGER NOT NULL,';
 				$sql.= '`memo`      text NOT NULL';
 				$sql.= ');';
-				static::execute($sql);
+				static::execute($sql, array(), $name);
 			}
 		}
+	}
 
+	/**
+	 * init setup table
+	 *
+	 * @param   string $name
+	 * @return  void
+	 */
+	private static function init_setup($name = 'default')
+	{
 		if (defined('A11YC_TABLE_SETUP'))
 		{
-			if ( ! static::is_table_exist(A11YC_TABLE_SETUP))
+			if ( ! static::is_table_exist(A11YC_TABLE_SETUP, $name))
 			{
 				$sql = 'CREATE TABLE '.A11YC_TABLE_SETUP.' (';
 				$sql.= '`target_level`        INTEGER NOT NULL,';
@@ -140,14 +186,33 @@ class Db extends \Kontiki\Db
 				$sql.= '`trust_ssl_url`       text NOT NULL,';
 				$sql.= '`checklist_behaviour` INTEGER NOT NULL';
 				$sql.= ');';
-				static::execute($sql);
+				static::execute($sql, array(), $name);
 			}
 
-			if ( ! static::is_fields_exist(A11YC_TABLE_SETUP, array('additional_criterions')))
+			if ( ! static::is_fields_exist(A11YC_TABLE_SETUP, array('additional_criterions'), $name))
 			{
 				$sql = 'ALTER TABLE '.A11YC_TABLE_SETUP.' ADD `additional_criterions` text;';
-				static::execute($sql);
+				static::execute($sql, array(), $name);
 			}
+		}
+	}
+
+	/**
+	 * init versions database
+	 *
+	 * @return  void
+	 */
+	private static function init_versions()
+	{
+		$name = 'versions';
+		if ( ! static::is_table_exist('versions', $name))
+		{
+			$sql = 'CREATE TABLE versions (';
+			$sql.= '`path` text NOT NULL,';
+			$sql.= '`memo` text NOT NULL,';
+			$sql.= '`current` INTEGER NOT NULL';
+			$sql.= ');';
+			static::execute($sql, array(), $name);
 		}
 	}
 }

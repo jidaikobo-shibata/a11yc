@@ -44,8 +44,8 @@ class Controller_Checklist
 		$content = Crawl::fetch_html($url);
 		if ( ! $content) return array();
 		$all_errs = array();
-		Crawl::set_target_path($url);
 		Validate::set_html($content);
+		\A11yc\Crawl::set_target_path($url); // for same_urls_should_have_same_text
 
 		$codes = array(
 			// elements
@@ -76,6 +76,7 @@ class Controller_Checklist
 		// single tag
 		if ($link_check)
 		{
+			\A11yc\Validate_Link::set_target_path($url);
 			$codes[] = array('\A11yc\Validate_Link', 'link_check');
 		}
 
