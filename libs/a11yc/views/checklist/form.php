@@ -4,7 +4,7 @@
 	<p id="a11yc_select_standard" class="a11yc_hide_if_fixedheader"><label for="a11yc_standard"><?php echo A11YC_LANG_STANDARD ?></label>
 	<select name="standard" id="a11yc_standard">
 	<?php
-	foreach ($standards['standards'] as $k => $v):
+	foreach ($standards as $k => $v):
 		$selected = $k == @$page['standard'] ? ' selected="selected"' : '';
 	?>
 		<option<?php echo $selected ?> value="<?php echo $k ?>"><?php echo $v ?></option>

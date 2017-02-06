@@ -294,7 +294,7 @@ class Controller_Checklist
 			case 1: // all
 				$selection_reasons = array($selection_reasons[3]);
 				break;
-			case 2: // randam
+			case 2: // random
 				$selection_reasons = array($selection_reasons[2]);
 				break;
 			case 3: // representative
@@ -305,6 +305,11 @@ class Controller_Checklist
 				break;
 		}
 
+		// standards
+		$standards = Yaml::each('standards');
+		$standard = Arr::get($setup, 'standard');
+		$standards = array($standards['standards'][$standard]);
+
 		// assign
 		View::assign('selection_reasons', $selection_reasons);
 		View::assign('url', $url);
@@ -312,7 +317,7 @@ class Controller_Checklist
 		View::assign('users', $users);
 		View::assign('current_user_id', $current_user_id);
 		View::assign('yml', Yaml::fetch(), FALSE);
-		View::assign('standards', Yaml::each('standards'));
+		View::assign('standards', $standards);
 		View::assign('setup', $setup);
 		View::assign('checklist_behaviour', intval(@$setup['checklist_behaviour']));
 		View::assign('target_level', intval(@$setup['target_level']));
