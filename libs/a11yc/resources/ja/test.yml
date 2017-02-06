@@ -26,6 +26,9 @@ tests:
       -
         name: ウェブコンテンツの JIS X 8341-3:2016 対応度表記ガイドライン
         url: http://waic.jp/docs/jis2016/compliance-guidelines/201603/
+      -
+        name: ウェブアクセシビリティ方針策定ガイドライン
+        url: http://waic.jp/docs/jis2016/accessibility-plan-guidelines/201604/
 
   doc3:
     name: ページの選出方法「ウェブページ単位」
@@ -56,7 +59,7 @@ tests:
       アクセシビリティに配慮をしているサイトは、アクセシビリティ方針を公開すると良いでしょう。アクセシビリティ方針には、「どのサイトを対象とするか（URLとサイト名の記載）」「サイト内のどのページのアクセシビリティを重視するか」「除外する項目（PDFや動画など）の有無」「目標とする達成レベルと達成予定期日」などを記載することが推奨されています。
     urls:
       -
-        name: ウェブアクセシビリティ方針策定ガイドライン 2016年4月版
+        name: ウェブアクセシビリティ方針策定ガイドライン
         url: http://waic.jp/docs/jis2016/accessibility-plan-guidelines/201604/
 
   doc6:
