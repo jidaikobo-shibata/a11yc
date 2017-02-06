@@ -160,7 +160,8 @@ class Controller_Checklist
 
 			// update/create page
 			$done = Input::post('done') ? 1 : 0;
-			$date = date('Y-m-d');
+			$date = Input::post('done_date', date('Y-m-d'));
+			$date = date('Y-m-d', strtotime($date));
 			$page_title = stripslashes(Input::post('page_title'));
 			$standard = intval(Input::post('standard'));
 			$selection_reason = intval(Input::post('selection_reason'));
@@ -310,6 +311,14 @@ class Controller_Checklist
 		$standard = Arr::get($setup, 'standard');
 		$standards = array($standards['standards'][$standard]);
 
+		// done
+		$done_date = Arr::get($page, 'date');
+		$done_date = $done_date == '0' ? '' : $done_date;
+		if ($done_date)
+		{
+			$done_date = date('Y-m-d', strtotime($done_date));
+		}
+
 		// assign
 		View::assign('selection_reasons', $selection_reasons);
 		View::assign('url', $url);
@@ -319,6 +328,7 @@ class Controller_Checklist
 		View::assign('yml', Yaml::fetch(), FALSE);
 		View::assign('standards', $standards);
 		View::assign('setup', $setup);
+		View::assign('done_date', $done_date);
 		View::assign('checklist_behaviour', intval(@$setup['checklist_behaviour']));
 		View::assign('target_level', intval(@$setup['target_level']));
 		View::assign('page', $page);

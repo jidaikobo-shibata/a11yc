@@ -562,12 +562,14 @@ table#a11yc_table_info {
 	right: 0;
 	float: right;
 }
+#a11yc_done_date,
 #a11yc_select_standard,
 #a11yc_selection_reason,
 .a11yc_narrow_level {
 	display: inline-block;
 	margin-left: 5px;
 }
+.a11yc_fixed_header #a11yc_done_date,
 .a11yc_fixed_header #a11yc_select_standard,
 .a11yc_fixed_header #a11yc_selection_reason {
 	display: none;
