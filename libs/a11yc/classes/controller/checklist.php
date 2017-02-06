@@ -254,13 +254,13 @@ class Controller_Checklist
 	public static function selection_reasons()
 	{
 		return array(
-			'-',
-			A11YC_LANG_CANDIDATES_IMPORTANT,
-			A11YC_LANG_CANDIDATES_RANDOM,
-			A11YC_LANG_CANDIDATES_ALL,
-			A11YC_LANG_CANDIDATES_PAGEVIEW,
-			A11YC_LANG_CANDIDATES_NEW,
-			A11YC_LANG_CANDIDATES_ETC,
+//			0 => '-',
+			1 => A11YC_LANG_CANDIDATES_IMPORTANT,
+			2 => A11YC_LANG_CANDIDATES_RANDOM,
+			3 => A11YC_LANG_CANDIDATES_ALL,
+			4 => A11YC_LANG_CANDIDATES_PAGEVIEW,
+			5 => A11YC_LANG_CANDIDATES_NEW,
+			6 => A11YC_LANG_CANDIDATES_ETC,
 		);
 	}
 
@@ -279,12 +279,33 @@ class Controller_Checklist
 		// dbio
 		static::dbio($url);
 
-		// selection reason
-		$selection_reasons = static::selection_reasons();
-
-		// assign
+		// vals
 		$page = Controller_Pages::fetch_page($url);
 		$setup = Controller_Setup::fetch_setup();
+
+		// selection reason
+		$selection_reasons = static::selection_reasons();
+		$selected_method = Arr::get($setup, 'selected_method');
+		switch ($selected_method)
+		{
+			case 0: // not site unit
+				$selection_reasons = array($selection_reasons[6]);
+				break;
+			case 1: // all
+				$selection_reasons = array($selection_reasons[3]);
+				break;
+			case 2: // randam
+				$selection_reasons = array($selection_reasons[2]);
+				break;
+			case 3: // representative
+				$selection_reasons = array($selection_reasons[1]);
+				break;
+			case 4: // representative and other pages
+				unset($selection_reasons[3]);
+				break;
+		}
+
+		// assign
 		View::assign('selection_reasons', $selection_reasons);
 		View::assign('url', $url);
 		View::assign('target_title', Util::fetch_page_title($url));
