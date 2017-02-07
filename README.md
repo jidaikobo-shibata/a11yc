@@ -61,4 +61,4 @@ JIS X 8341-3:2016 (WCAG 2.0) に基づいたアクセシビリティ報告書と
 
 ### チェック
 
-[skipfish](https://code.google.com/archive/p/skipfish/)をもちいて脆弱性チェックをかけています。
+[skipfish](https://code.google.com/archive/p/skipfish/)と[OWASP ZAP](https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project)をもちいて脆弱性チェックをかけています。
