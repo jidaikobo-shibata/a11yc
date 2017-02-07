@@ -22,23 +22,39 @@ class Route extends \Kontiki\Route
 	 */
 	public static function forge()
 	{
-		$def_controller = '\A11yc\Controller_Center';
-		$def_action = 'Action_Index';
+		// vals
+		$controller = '';
+		$action = '';
+		$c = Input::get('c');
+		$a = Input::get('a');
 
-		$controller = Input::get('c') ?
-								'\A11yc\Controller_'.ucfirst(Input::get('c')) :
-								$def_controller;
-		$action = Input::get('a') ?
-						'Action_'.Input::get('a') :
-						'Action_Index';
-
-		if (method_exists($controller, $action) and is_callable($controller.'::'.$action))
+		// default controller
+		if ( ! isset($_GET['c']) &&  ! isset($_GET['a']))
 		{
-			static::$controller = $def_controller;
-			static::$action = $def_action;
+			$controller = '\A11yc\Controller_Center';
+			$action = 'Action_Index';
 		}
-		static::$controller = $controller;
-		static::$action = $action;
+		// safe access?
+		elseif (ctype_alnum($c) && ctype_alnum($a))
+		{
+			$controller = '\A11yc\Controller_'.ucfirst($c);
+			$action = 'Action_'.ucfirst($a);
+		}
+
+		// class and methods exists
+		if (
+			class_exists($controller) &&
+			method_exists($controller, $action) &&
+			is_callable($controller.'::'.$action)
+		)
+		{
+			static::$controller = $controller;
+			static::$action = $action;
+			return;
+		}
+
+		// error
+		Util::error('service not available.');
 	}
 
 	/**

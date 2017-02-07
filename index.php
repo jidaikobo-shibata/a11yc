@@ -52,8 +52,8 @@ $action = \A11yc\Route::get_action();
 // auth
 if( ! \Kontiki\Auth::auth())
 {
-	$controller = '\A11yc\Controller_Auth';
-	$action = 'Action_Login';
+	// $controller = '\A11yc\Controller_Auth';
+	// $action = 'Action_Login';
 }
 
 // controller

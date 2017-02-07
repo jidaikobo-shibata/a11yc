@@ -243,7 +243,7 @@ class Controller_Checklist
 		View::assign('url', $url);
 		View::assign('title', $title);
 
-		static::form($url, $users, $current_user['id']);
+		static::form($url, $users, Arr::get($current_user, 'id'));
 		View::assign('body', View::fetch_tpl('checklist/checklist.php'), FALSE);
 	}
 

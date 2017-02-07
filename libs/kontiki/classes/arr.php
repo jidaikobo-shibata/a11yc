@@ -40,7 +40,8 @@ class Arr
 	{
 		if ( ! is_array($array) and ! $array instanceof \ArrayAccess)
 		{
-			throw new \InvalidArgumentException('First parameter must be an array or ArrayAccess object.');
+//			throw new \InvalidArgumentException('First parameter must be an array or ArrayAccess object.');
+			return false;
 		}
 
 		if (is_null($key))

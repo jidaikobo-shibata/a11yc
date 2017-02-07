@@ -35,7 +35,15 @@ class Util
 				$path.= str_replace('_', '/', $class);
 
 				// require
-				require $path.'.php';
+				$file_path = $path.'.php';
+				if (file_exists($file_path))
+				{
+					require $path.'.php';
+				}
+				else
+				{
+					return false;
+				}
 
 				// init
 				if (method_exists($class_name, '_init') and is_callable($class_name.'::_init'))
@@ -138,6 +146,7 @@ class Util
 	 */
 	public static function urlenc($url)
 	{
+		$url = str_replace(array("\n", "\r"), '', $url);
 		$url = static::s($url); // & to &amp;
 		$url = str_replace(' ', '%20', $url);
 		if (strpos($url, '%') === false)
@@ -162,6 +171,7 @@ class Util
 	 */
 	public static function urldec($url)
 	{
+		$url = str_replace(array("\n", "\r"), '', $url);
 		$url = trim($url);
 		$url = rtrim($url, '/');
 		$url = static::urlenc($url);
@@ -179,7 +189,7 @@ class Util
 	{
 		if ( ! headers_sent())
 		{
-			header('Content-Type: text/plain; charset=UTF-8', true, 500);
+			header('Content-Type: text/plain; charset=UTF-8', true, 403);
 		}
 		die($message);
 	}

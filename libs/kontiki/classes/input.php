@@ -40,16 +40,22 @@ class Input
 	 * @param   string  $default  The default value
 	 * @return  string|array
 	 */
-	public static function get($index = null, $default = null)
+	public static function get($index = null, $default = null, $sanitize = TRUE)
 	{
+		$get = $_GET;
+
+		if ($sanitize)
+		{
+//			$get = array_map(function($str) {return str_replace("\0", '', $str);}, $get);
+		}
 		if (func_num_args() === 0)
 		{
-			return $_GET;
+			return $get;
 		}
 
-		if ($index && isset($_GET[$index]))
+		if ($index && isset($get[$index]))
 		{
-			return $_GET[$index];
+			return $get[$index];
 		}
 
 		return $default;
@@ -62,16 +68,23 @@ class Input
 	 * @param   mixed   The default value
 	 * @return  string|array
 	 */
-	public static function post($index = null, $default = null)
+	public static function post($index = null, $default = null, $sanitize = TRUE)
 	{
-		if (func_num_args() === 0)
+		$post = $_POST;
+
+		if ($sanitize)
 		{
-			return $_POST;
+//			$post = array_map(function($str) {return str_replace("\0", '', $str);}, $post);
 		}
 
-		if ($index && isset($_POST[$index]))
+		if (func_num_args() === 0)
 		{
-			return $_POST[$index];
+			return $post;
+		}
+
+		if ($index && isset($post[$index]))
+		{
+			return $post[$index];
 		}
 
 		return $default;
