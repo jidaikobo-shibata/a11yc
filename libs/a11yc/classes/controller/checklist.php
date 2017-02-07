@@ -312,7 +312,7 @@ class Controller_Checklist
 		$standards = array($standards['standards'][$standard]);
 
 		// done
-		$done_date = Arr::get($page, 'date');
+		$done_date = is_array($page) ? Arr::get($page, 'date') : 0;
 		$done_date = $done_date == '0' ? '' : $done_date;
 		if ($done_date)
 		{

@@ -7,6 +7,6 @@
 <input type="text" name="username" id="a11yc_username" size="20" value="" />
 
 <label for="a11yc_password"><?php echo A11YC_LANG_LOGIN_PASWWORD ?></label>
-<input type="password" name="password" id="a11yc_password" size="20" value="" />
+<input type="password" name="password" id="a11yc_password" autocomplete="off" size="20" value="" />
 <input type="submit" value="<?php echo A11YC_LANG_LOGIN_BTN ?>" />
 </form>

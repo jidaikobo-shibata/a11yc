@@ -49,6 +49,7 @@ class Session
 			{
 				ini_set('session.cookie_secure', 1);
 			}
+			ini_set('session.cookie_httponly', true);
 			ini_set('session.use_trans_sid', 0);
 			ini_set('session.use_only_cookies', 1);
 			session_name('KNTKSESSID');
