@@ -1,0 +1,10 @@
+<ifModule mod_headers.c>
+# anti Clickjacking
+Header always append X-Frame-Options DENY
+
+# Do not auto recognize Content-Type
+Header always set X-Content-Type-Options nosniff
+
+# Browser XSS Protection
+Header always set X-XSS-Protection:1; mode=block
+</ifModule>
