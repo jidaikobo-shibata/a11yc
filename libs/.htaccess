@@ -2,4 +2,10 @@
   Deny from all
 </Files>
 
-
+# web font
+AddType application/font-woff .woff
+AddType application/font-woff .woff2
+AddType application/x-font-ttf .ttf
+AddType application/x-font-otf .otf
+AddType image/svg+xml .svg
+AddType application/vnd.ms-fontobject .eot
