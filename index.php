@@ -15,6 +15,7 @@
 //date_default_timezone_set('Asia/Tokyo');
 
 // a11yc
+define('A11YC_VERSION', '0.9.0');
 require (__DIR__.'/libs/a11yc/main.php');
 
 // database
