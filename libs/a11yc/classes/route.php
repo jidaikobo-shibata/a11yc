@@ -3,7 +3,6 @@
  * A11yc\Route
  *
  * @package    part of A11yc
- * @version    1.0
  * @author     Jidaikobo Inc.
  * @license    The MIT License (MIT)
  * @copyright  Jidaikobo Inc.
@@ -25,20 +24,36 @@ class Route extends \Kontiki\Route
 		// vals
 		$controller = '';
 		$action = '';
-		$c = Input::get('c');
-		$a = Input::get('a');
+		$c = Input::get('c', '');
+		$a = Input::get('a', '');
+		$is_index = empty(join($_GET));
 
+		// auth
+		if ($is_index && ! \Kontiki\Auth::auth())
+		{
+			$controller = '\A11yc\Controller_Auth';
+			$action = 'Action_Login';
+		}
 		// default controller
-		if ( ! isset($_GET['c']) &&  ! isset($_GET['a']))
+		else if ($is_index)
 		{
 			$controller = '\A11yc\Controller_Center';
 			$action = 'Action_Index';
 		}
 		// safe access?
-		elseif (ctype_alnum($c) && ctype_alnum($a))
+		else if (ctype_alnum($c) && ctype_alnum($a))
 		{
 			$controller = '\A11yc\Controller_'.ucfirst($c);
 			$action = 'Action_'.ucfirst($a);
+		}
+
+		// performed IPs
+		if (defined('A11YC_APPROVED_IPS'))
+		{
+			if ( ! in_array(Arr::get($_SERVER, 'REMOTE_ADDR'), unserialize(A11YC_APPROVED_IPS)))
+			{
+				$controller = '';
+			}
 		}
 
 		// class and methods exists

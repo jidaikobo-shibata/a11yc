@@ -12,6 +12,12 @@ define('A11YC_URL', 'http://example.com/a11yc/index.php');
 // en, ja
 define('A11YC_LANG', 'ja');
 
+// administration access approved IPs
+define('A11YC_APPROVED_IPS', serialize(array(
+	'::1',
+	'127.0.0.1',
+)));
+
 // users
 // array must be started with 1 (not 0)
 // array(1 => array(username, password, display_name, memo))
@@ -31,6 +37,7 @@ define('A11YC_URL_DIR', dirname(A11YC_URL).'/libs/a11yc');
 define('A11YC_PATH',          dirname(__DIR__).'/libs/a11yc');
 define('A11YC_CLASSES_PATH',  A11YC_PATH.'/classes');
 define('A11YC_RESOURCE_PATH', A11YC_PATH.'/resources/'.A11YC_LANG);
+define('A11YC_CACHE_PATH', dirname(__DIR__).'/cache');
 
 // database
 define('KONTIKI_DATA_PATH', dirname(__DIR__).'/db');

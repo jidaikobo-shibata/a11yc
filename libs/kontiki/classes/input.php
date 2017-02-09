@@ -4,7 +4,6 @@
  *
  * @package    part of Kontiki
  * @forked     FuelPHP core/classes/input.php
- * @version    1.0
  * @author     Jidaikobo Inc.
  * @license    The MIT License (MIT)
  * @copyright  Jidaikobo Inc.

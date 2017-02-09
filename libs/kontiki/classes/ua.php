@@ -1,10 +1,15 @@
 <?php
-namespace Kontiki;
 /**
- * Lazy UA detection
- * thx https://gist.github.com/takahashi-yuki/4667353
- * @version 1.2.2
+ * Kontiki\Ua
+ *
+ * @package    part of Kontiki
+ * @author     Jidaikobo Inc.
+ * @license    The MIT License (MIT)
+ * @copyright  Jidaikobo Inc.
+ * @link       http://www.jidaikobo.com
+ * @thx https://gist.github.com/takahashi-yuki/4667353
  */
+namespace Kontiki;
 class Ua
 {
 	/**

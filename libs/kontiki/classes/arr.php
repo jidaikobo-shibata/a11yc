@@ -5,7 +5,6 @@
  * @package    part of Kontiki
  * @forked     FuelPHP core/classes/arr.php
  * @forked     FuelPHP core/classes/fuel.php
- * @version    1.0
  * @author     Jidaikobo Inc.
  * @license    The MIT License (MIT)
  * @copyright  Jidaikobo Inc.

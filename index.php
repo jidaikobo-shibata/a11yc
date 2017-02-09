@@ -3,7 +3,6 @@
  * A11yc
  *
  * @package    part of A11yc
- * @version    1.0
  * @author     Jidaikobo Inc.
  * @license    The MIT License (MIT)
  * @copyright  Jidaikobo Inc.
@@ -35,8 +34,12 @@ require (__DIR__.'/libs/a11yc/main.php');
 // init table
 \A11yc\Db::init_table();
 
-// backup
-\Kontiki\Maintenance::sqlite();
+// backup and version check
+if (\Kontiki\Auth::auth())
+{
+//	\A11yc\Maintenance::version_check();
+	\A11yc\Maintenance::sqlite();
+}
 
 // users
 \A11yc\Users::forge(unserialize(A11YC_USERS));
@@ -48,15 +51,6 @@ require (__DIR__.'/libs/a11yc/main.php');
 \A11yc\Route::forge();
 $controller = \A11yc\Route::get_controller();
 $action = \A11yc\Route::get_action();
-
-// auth
-if( ! \Kontiki\Auth::auth())
-{
-	$controller = '\A11yc\Controller_Auth';
-	$action = 'Action_Login';
-}
-
-// controller
 $controller::$action();
 
 // render
