@@ -26,6 +26,12 @@ define('A11YC_USERS', serialize(array(
 	1 => array('admin', 'password', 'administrator', ''),
 )));
 
+// target
+// define('A11YC_TARGET',     ' target="a11y_target"');
+// define('A11YC_TARGET_OUT', ' target="a11y_target_out"');
+define('A11YC_TARGET',     '');
+define('A11YC_TARGET_OUT', '');
+
 /*
 	below here, basically don't edit.
 */
@@ -59,9 +65,3 @@ define('A11YC_BULK_URL',      A11YC_URL.'?c=bulk&amp;a=index');
 define('A11YC_PAGES_URL',     A11YC_URL.'?c=pages&amp;a=index');
 define('A11YC_CHECKLIST_URL', A11YC_URL.'?c=checklist&amp;a=index&amp;url=');
 define('A11YC_DOC_URL',       A11YC_URL.'?c=docs&amp;a=each&amp;code=');
-
-// target
-// define('A11YC_TARGET',     ' target="a11y_target"');
-// define('A11YC_TARGET_OUT', ' target="a11y_target_out"');
-define('A11YC_TARGET',     '');
-define('A11YC_TARGET_OUT', '');
