@@ -34,14 +34,16 @@ define('A11YC_USERS', serialize(array(
 define('A11YC_URL_DIR', dirname(A11YC_URL).'/libs/a11yc');
 
 // pathes
-define('A11YC_PATH',          dirname(__DIR__).'/libs/a11yc');
+define('A11YC_LIB_PATH',      dirname(__DIR__).'/libs');
+define('A11YC_PATH',          A11YC_LIB_PATH.'/a11yc');
+define('A11YC_CONFIG_PATH',   dirname(__FILE__));
 define('A11YC_CLASSES_PATH',  A11YC_PATH.'/classes');
 define('A11YC_RESOURCE_PATH', A11YC_PATH.'/resources/'.A11YC_LANG);
-define('A11YC_CACHE_PATH', dirname(__DIR__).'/cache');
+define('A11YC_CACHE_PATH',    dirname(__DIR__).'/cache');
 
 // database
-define('KONTIKI_DATA_PATH', dirname(__DIR__).'/db');
-define('KONTIKI_DATA_FILE', '/db.sqlite');
+define('A11YC_DATA_PATH', dirname(__DIR__).'/db');
+define('A11YC_DATA_FILE', '/db.sqlite');
 
 // tables
 define('A11YC_TABLE_SETUP',      'a11y_setup');
