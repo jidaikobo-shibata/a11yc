@@ -56,7 +56,7 @@ class Controller_Disclosure
 	public static function get_versions()
 	{
 		$files = array();
-		foreach (glob(KONTIKI_DATA_PATH.'/'.'*') as $file)
+		foreach (glob(A11YC_DATA_PATH.'/'.'*') as $file)
 		{
 			$file = basename($file);
 			if (substr($file, 0, 4) == 'fix.')
