@@ -34,17 +34,22 @@ class Route extends \Kontiki\Route
 			$controller = '\A11yc\Controller_Auth';
 			$action = 'Action_Login';
 		}
-		// default controller
-		else if ($is_index)
+
+		// for loged in users
+		if (\Kontiki\Auth::auth())
 		{
-			$controller = '\A11yc\Controller_Center';
-			$action = 'Action_Index';
-		}
-		// safe access?
-		else if (ctype_alnum($c) && ctype_alnum($a))
-		{
-			$controller = '\A11yc\Controller_'.ucfirst($c);
-			$action = 'Action_'.ucfirst($a);
+			// default controller
+			if ($is_index)
+			{
+				$controller = '\A11yc\Controller_Center';
+				$action = 'Action_Index';
+			}
+			// safe access?
+			else if (ctype_alnum($c) && ctype_alnum($a))
+			{
+				$controller = '\A11yc\Controller_'.ucfirst($c);
+				$action = 'Action_'.ucfirst($a);
+			}
 		}
 
 		// performed IPs
