@@ -192,14 +192,18 @@ define('A11YC_LANG_ERROR_COULD_NOT_GET_HTML', 'Acquisition of HTML failed: ');
 define('A11YC_LANG_ERROR_BASIC_AUTH', 'Access is not possible because it is protected by basic authentication. Please enter the information for Basic Authentication in "Setting".');
 define('A11YC_LANG_ERROR_BASIC_AUTH_WRONG', 'Information for basic authentication seems to be wrong. Please check "Setting".');
 define('A11YC_LANG_ERROR_SSL', 'When targeting SSL sites, please enter the target domain in "Settings".');
+define('A11YC_LANG_ERROR_GET_NEW_A11YC', '<a href="%s">There is a new version of A11yc</a> (current version:%s latest version:%s).');
+
+// startup
+define('A11YC_LANG_STARTUP_SETDIRS', 'Set up data storage directory and cache directory.');
+define('A11YC_LANG_STARTUP_ERROR_DIR', 'Failed to install data storage directory and cache directory. Please set '.A11YC_DATA_PATH.' And '.A11YC_CACHE_PATH);
 
 // disclosure
 define('A11YC_LANG_DISCLOSURE_NEWEST_VERSION', 'Newest version');
 define('A11YC_LANG_DISCLOSURE_CHANGE_VERSION', 'Switch policy, report, exam version');
 define('A11YC_LANG_DISCLOSURE_VERSION_NOT_FOUND', 'Specified version was not found');
 define('A11YC_LANG_DISCLOSURE_PROTECT_VERSION_TITLE', 'Data protection');
-define('A11YC_LANG_DISCLOSURE_PROTECT_VERSION_EXP', 'Protect current policies, tests and reports. Protected data is not subject to editing. Protected data will be laundered and readable when displaying accessibility policy. Protection is on a daily basis. Overwrite existing data if there is
-today\'s data.');
+define('A11YC_LANG_DISCLOSURE_PROTECT_VERSION_EXP', 'Protect current policies, tests and reports. Protected data is not subject to editing. Protected data will be laundered and readable when displaying accessibility policy. Protection is on a daily basis. Overwrite existing data if there is today\'s data.');
 define('A11YC_LANG_DISCLOSURE_DELETE_SAMEDATE', 'Since there was protected data created today, overwrote it.');
 define('A11YC_LANG_DISCLOSURE_PROTECT_DATA_SAVED', 'Data was protected.');
 define('A11YC_LANG_DISCLOSURE_PROTECT_DATA_FAILD', 'Data protection failed.');

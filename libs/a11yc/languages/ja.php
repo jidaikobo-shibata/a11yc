@@ -194,6 +194,10 @@ define('A11YC_LANG_ERROR_BASIC_AUTH_WRONG', '基本認証用の情報が間違�
 define('A11YC_LANG_ERROR_SSL', 'SSLのサイトを対象とするときには、「設定」で対象となるドメインを入力してください。');
 define('A11YC_LANG_ERROR_GET_NEW_A11YC', '<a href="%s">新しいバージョンのA11yc</a>があります（現在のバージョン: %s 最新のバージョン: %s）。');
 
+// startup
+define('A11YC_LANG_STARTUP_SETDIRS', 'データ保存用ディレクトリとキャッシュディレクトリを設置しました。');
+define('A11YC_LANG_STARTUP_ERROR_DIR', 'データ保存用ディレクトリとキャッシュディレクトリの設置に失敗しました。'.A11YC_DATA_PATH.'と'.A11YC_CACHE_PATH.'を設置してください。');
+
 // disclosure
 define('A11YC_LANG_DISCLOSURE_NEWEST_VERSION', '最新版');
 define('A11YC_LANG_DISCLOSURE_CHANGE_VERSION', '方針・報告書・試験の版を切り替える');

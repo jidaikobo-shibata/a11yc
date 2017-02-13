@@ -24,11 +24,11 @@ class Startup
 		// make directories
 		if (mkdir(A11YC_DATA_PATH) && mkdir(A11YC_CACHE_PATH))
 		{
-			Session::add('messages', 'messages', 'データ保存用ディレクトリとキャッシュディレクトリを設置しました。');
+			Session::add('messages', 'messages', A11YC_LANG_STARTUP_SETDIRS);
 		}
 		else
 		{
-			Util::error('データ保存用ディレクトリとキャッシュディレクトリの設置に失敗しました。'.A11YC_DATA_PATH.'と'.A11YC_CACHE_PATH.'を設置してください。');
+			Util::error(A11YC_LANG_STARTUP_ERROR_DIR);
 		}
 
 		// set .htaccess
