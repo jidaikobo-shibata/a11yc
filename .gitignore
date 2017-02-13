@@ -1,7 +1,8 @@
 config/users.php
 config/config.php
 views/
-db/*
+db
+cache
 jwp_*
 jwp-*
 constants.php
