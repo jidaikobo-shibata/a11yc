@@ -11,60 +11,102 @@
 namespace A11yc;
 class Maintenance extends \Kontiki\Maintenance
 {
+	private static $github_api = 'https://api.github.com/repos/jidaikobo-shibata/a11yc';
+
+	/**
+	 * leave at least a day
+	 *
+	 * @return  void
+	 */
+	public static function leave_at_least_a_day ()
+	{
+		// run once in a day
+		$checked_file = A11YC_CACHE_PATH.'/checked';
+		$cachetime = file_exists($checked_file) ? filemtime($checked_file) : 0;
+		if ($cachetime >= time() - 86400)
+		{
+			return false;
+		}
+
+		// update check date flag
+		touch($checked_file);
+		return true;
+	}
+
+	/**
+	 * version check
+	 *
+	 * @return  void
+	 */
 	public static function version_check ()
 	{
-		// fetch current version
-		$today = strtotime(date('Y-m-d'));
-		$version_file = KONTIKI_DATA_PATH.'/version';
-		$checked_file = KONTIKI_DATA_PATH.'/checked';
-		$uptodate_file = KONTIKI_DATA_PATH.'/uptodate';
-		if (file_exists($version_file))
-		{
-			$version = file_get_contents($version_file);
-		}
-		else
-		{
-			$version = $today;
-			file_put_contents($version_file, $version);
-		}
+		// version notice file
+		$version_notice_file = A11YC_CACHE_PATH.'/version_notice';
 
-// https://api.github.com/repos/jidaikobo-shibata/a11yc/tags
-
-		// run once in a day
-		if ($version >= $today) return;
-
-		// Github API
+		// ask Github API and update stored version
 		ini_set('user_agent', 'file_get_contents');
-		$json = file_get_contents('https://api.github.com/repos/jidaikobo-shibata/a11yc/tags');
-		$repos = json_decode($json, true);
-
-echo '<textarea style="width:100%;height:200px;background-color:#fff;color:#111;font-size:90%;font-family:monospace;position:relative;z-index:9999">';
-var_dump($vals);
-echo '</textarea>';
-die();
-
-		// get a11yc
-		$last_pushed_udate = array();
-		foreach ($repos as $key => $repo)
-		{
-			if ($repo['id'] == '74967427')
-			{
-				$last_pushed_udate = strtotime(date('Y-m-d', strtotime($repo['pushed_at'])));
-				break;
-			}
-		}
+		$tags = json_decode(
+			file_get_contents(static::$github_api.'/tags'),
+			true);
+		$max = $tags[max(array_keys($tags))];
 
 		// is lower?
-		if ($version < $last_pushed_udate)
+		if (version_compare(A11YC_VERSION, $max['name']) == -1)
 		{
-			file_put_contents($uptodate_file, '1');
+			if ( ! preg_match('/[\n\.]+/', $max['name']))
+			{
+				Util::error('Not Found.');
+			}
+			file_put_contents($version_notice_file, $max['name']);
 			return;
 		}
 
+		// using up to date version
+		file_exists($version_notice_file) and unlink($version_notice_file);
+		return;
+	}
 
-echo '<textarea style="width:100%;height:200px;background-color:#fff;color:#111;font-size:90%;font-family:monospace;position:relative;z-index:9999">';
-var_dump($last_pushed_udate);
-echo '</textarea>';
-die();
+	/**
+	 * compare with stored version
+	 *
+	 * @return  void
+	 */
+	public static function is_uging_lower ()
+	{
+		return static::get_stored_version() ? true : false;
+	}
+
+	/**
+	 * get stored version
+	 *
+	 * @return  void
+	 */
+	public static function get_stored_version ()
+	{
+		static $stored_version = '';
+		if (empty($stored_version) === false) return $stored_version;
+
+		$version_notice_file = A11YC_CACHE_PATH.'/version_notice';
+		if (file_exists($version_notice_file))
+		{
+			$stored_version = file_get_contents($version_notice_file);
+			// using lower version
+			if (version_compare(A11YC_VERSION, $stored_version) == -1)
+			{
+				return $stored_version;
+			}
+		}
+
+		// non existence of file means using newer version
+		return false;
+	}
+
+	/**
+	 * self upgrade
+	 *
+	 * @return  void
+	 */
+	public static function self_upgrade ()
+	{
 	}
 }

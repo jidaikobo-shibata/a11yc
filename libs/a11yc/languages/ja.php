@@ -192,6 +192,7 @@ define('A11YC_LANG_ERROR_COULD_NOT_GET_HTML', 'HTMLの取得に失敗しまし�
 define('A11YC_LANG_ERROR_BASIC_AUTH', '基本認証で守られているためアクセスできません。「設定」で基本認証用の情報を入力してください。');
 define('A11YC_LANG_ERROR_BASIC_AUTH_WRONG', '基本認証用の情報が間違っているようです。「設定」を確認してください。');
 define('A11YC_LANG_ERROR_SSL', 'SSLのサイトを対象とするときには、「設定」で対象となるドメインを入力してください。');
+define('A11YC_LANG_ERROR_GET_NEW_A11YC', '<a href="%s">新しいバージョンのA11yc</a>があります（現在のバージョン: %s 最新のバージョン: %s）。');
 
 // disclosure
 define('A11YC_LANG_DISCLOSURE_NEWEST_VERSION', '最新版');

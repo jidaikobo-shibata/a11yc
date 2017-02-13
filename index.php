@@ -15,38 +15,31 @@
 //date_default_timezone_set('Asia/Tokyo');
 
 // a11yc
-define('A11YC_VERSION', '0.9.0');
 require (__DIR__.'/libs/a11yc/main.php');
 
-// database
-\A11yc\Db::forge(array(
-		'dbtype' => 'sqlite',
-		'path' => KONTIKI_DATA_PATH.KONTIKI_DATA_FILE,
-	));
-
-// versions
-// \A11yc\Db::forge(
-// 	'versions',
-// 	array(
-// 		'dbtype' => 'sqlite',
-// 		'path' => KONTIKI_DATA_PATH.'/versions.sqlite',
-// 	));
-
-// init table
-\A11yc\Db::init_table();
-
-// backup and version check
-if (\Kontiki\Auth::auth())
-{
-//	\A11yc\Maintenance::version_check();
-	\A11yc\Maintenance::sqlite();
-}
-
-// users
+// set users before authentication
 \A11yc\Users::forge(unserialize(A11YC_USERS));
 
-// view
-\A11yc\View::forge(A11YC_PATH.'/views/');
+// auth
+if (\A11yc\Auth::auth())
+{
+	// backup and version check, this must not run so frequently.
+	if (\A11yc\Maintenance::leave_at_least_a_day())
+	{
+		// backup
+		\A11yc\Maintenance::sqlite(A11YC_DATA_PATH, A11YC_DATA_FILE);
+
+		// version check
+		\A11yc\Maintenance::version_check();
+
+		// security check
+		\A11yc\Security::deny_http_directories();
+	}
+
+	// login user
+	$login_user = \A11yc\Users::fetch_current_user();
+	\A11yc\View::assign('login_user', $login_user);
+}
 
 // route
 \A11yc\Route::forge();
@@ -54,9 +47,11 @@ $controller = \A11yc\Route::get_controller();
 $action = \A11yc\Route::get_action();
 $controller::$action();
 
-// render
+// assign mode
 $mode = strtolower(substr($controller, strpos($controller, '_') + 1));
 \A11yc\View::assign('mode', $mode);
+
+// render
 \A11yc\View::display(array(
 		'header.php',
 		'messages.php',

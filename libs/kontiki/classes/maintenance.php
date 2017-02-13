@@ -13,19 +13,20 @@ class Maintenance
 {
 	/**
 	 * sqlite
+	 * Be care for directory traversal
 	 *
 	 * @return  void
 	 */
-	public static function sqlite ($is_force = FALSE)
+	public static function sqlite ($path, $file, $is_force = FALSE)
 	{
-		if ( ! file_exists(KONTIKI_DATA_PATH))
+		if ( ! file_exists($path.$file))
 		{
-			die('sqlite file is missing!');
+			Util::error('sqlite file is missing.');
 		}
 
 		// prepare
-		$backup_file = KONTIKI_DATA_PATH.'/backup.'.date('ymd', time()).'.sqlite';
-		$path = KONTIKI_DATA_PATH.KONTIKI_DATA_FILE;
+		$backup_file = $path.'/backup.'.date('ymd', time()).'.sqlite';
+		$path = $path.$file;
 
 		// run backup once in a day
 		if ( ! file_exists($backup_file) || $is_force)
@@ -52,7 +53,7 @@ class Maintenance
 			}
 
 			// garbage collection
-			static::garbage_collection(KONTIKI_DATA_PATH);
+			static::garbage_collection($path);
 		}
 	}
 
@@ -61,13 +62,13 @@ class Maintenance
 	 *
 	 * @return  void
 	 */
-	public static function mysql ($is_force = FALSE)
+	public static function mysql ($path, $is_force = FALSE)
 	{
 		// in preparation
 		return;
 
-		$backup_file = KONTIKI_DATA_PATH.'/backup_.'.date('ymd', time()).'.mysql';
-		$path = KONTIKI_DATA_PATH;
+		$backup_file = $path.'/backup_.'.date('ymd', time()).'.mysql';
+		$path = $path;
 
 		// run backup once in a day
 		if ( ! file_exists($backup_file) || $is_force)
@@ -95,7 +96,7 @@ class Maintenance
 			}
 
 			// garbage collection
-			static::garbage_collection(KONTIKI_DATA_PATH);
+			static::garbage_collection($path);
 		}
 	}
 

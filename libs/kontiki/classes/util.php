@@ -190,6 +190,6 @@ class Util
 		{
 			header('Content-Type: text/plain; charset=UTF-8', true, 403);
 		}
-		die($message);
+		die(Util::s($message));
 	}
 }
