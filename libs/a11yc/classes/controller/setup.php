@@ -85,8 +85,8 @@ class Controller_Setup
 			// protect data
 			if (Arr::get($post, 'protect_data'))
 			{
-				$path = KONTIKI_DATA_PATH.KONTIKI_DATA_FILE;
-				$file = KONTIKI_DATA_PATH.Controller_Disclosure::version2filename(date('Ymd'), $force = TRUE);
+				$path = A11YC_DATA_PATH.A11YC_DATA_FILE;
+				$file = A11YC_DATA_PATH.Controller_Disclosure::version2filename(date('Ymd'), $force = TRUE);
 
 				if (file_exists($file))
 				{
