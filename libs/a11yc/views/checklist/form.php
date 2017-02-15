@@ -1,4 +1,4 @@
-<div id="a11yc_checks" data-a11yc-additional_criterions="<?php echo $additional_criterion ?>" data-a11yc-current-user="<?php echo $current_user_id ?>" data-a11yc-lang='{"expand":"<?php echo A11YC_LANG_CTRL_EXPAND ?>", "compress": "<?php echo A11YC_LANG_CTRL_COMPRESS ?>", "conformance": "<?php echo A11YC_LANG_CHECKLIST_CONFORMANCE.','.A11YC_LANG_CHECKLIST_CONFORMANCE_PARTIAL ?>"}' <?php if($checklist_behaviour) echo ' class="a11yc_hide_passed_item"' ?>>
+<div id="a11yc_checks" data-a11yc-additional_criterions="<?php echo $additional_criterions ?>" data-a11yc-current-user="<?php echo $current_user_id ?>" data-a11yc-lang='{"expand":"<?php echo A11YC_LANG_CTRL_EXPAND ?>", "compress": "<?php echo A11YC_LANG_CTRL_COMPRESS ?>", "conformance": "<?php echo A11YC_LANG_CHECKLIST_CONFORMANCE.','.A11YC_LANG_CHECKLIST_CONFORMANCE_PARTIAL ?>"}' <?php if($checklist_behaviour) echo ' class="a11yc_hide_passed_item"' ?>>
 <!-- header -->
 <div id="a11yc_header">
 	<div id="a11yc_header_ctrl">
@@ -8,7 +8,7 @@
 			<label for="a11yc_done_date"><?php echo A11YC_LANG_TEST_DATE ?></label>
 			<input type="text" name="done_date" id="a11yc_done_date" size="10" value="<?php echo $done_date ?>" />
 		</p>
-	
+
 		<!-- standard -->
 		<p id="a11yc_select_standard" class="">
 			<label for="a11yc_standard"><?php echo A11YC_LANG_STANDARD ?></label>
@@ -21,7 +21,7 @@
 			<?php endforeach; ?>
 			</select>
 		</p>
-	
+
 		<!-- selection reason -->
 		<p id="a11yc_selection_reason" class="">
 			<label for="a11yc_selection_reason"><?php echo A11YC_LANG_CANDIDATES_REASON ?></label>
