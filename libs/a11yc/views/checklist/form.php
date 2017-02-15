@@ -2,14 +2,14 @@
 <?php if ($url != 'bulk'): ?>
 	<!-- standard -->
 	<p id="a11yc_done_date" class="a11yc_hide_if_fixedheader">
-		<label for="a11yc_done_date"><?php echo A11YC_LANG_TEST_DATE ?></label>
-		<input type="text" name="done_date" id="a11yc_done_date" size="10" value="<?php echo $done_date ?>" />
+		<label for="a11yc_done_date_val"><?php echo A11YC_LANG_TEST_DATE ?></label>
+		<input type="text" name="done_date" id="a11yc_done_date_val" size="10" value="<?php echo $done_date ?>" />
 	</p>
 
 	<!-- standard -->
 	<p id="a11yc_select_standard" class="a11yc_hide_if_fixedheader">
-		<label for="a11yc_standard"><?php echo A11YC_LANG_STANDARD ?></label>
-		<select name="standard" id="a11yc_standard">
+		<label for="a11yc_standard_val"><?php echo A11YC_LANG_STANDARD ?></label>
+		<select name="standard" id="a11yc_standard_val">
 		<?php
 		foreach ($standards as $k => $v):
 			$selected = $k == @$page['standard'] ? ' selected="selected"' : '';
@@ -21,8 +21,8 @@
 
 	<!-- selection reason -->
 	<p id="a11yc_selection_reason" class="a11yc_hide_if_fixedheader">
-		<label for="a11yc_selection_reason"><?php echo A11YC_LANG_CANDIDATES_REASON ?></label>
-		<select name="selection_reason" id="a11yc_selection_reason">
+		<label for="a11yc_selection_reason_val"><?php echo A11YC_LANG_CANDIDATES_REASON ?></label>
+		<select name="selection_reason" id="a11yc_selection_reason_val">
 		<?php
 		foreach ($selection_reasons as $k => $v):
 			$selected = $k == @$page['selection_reason'] ? ' selected="selected"' : '';
