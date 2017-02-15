@@ -1,53 +1,41 @@
-<div id="a11yc_header_ctrl">
-<?php if ($url != 'bulk'): ?>
-	<!-- standard -->
-	<p id="a11yc_done_date" class="a11yc_hide_if_fixedheader">
-		<label for="a11yc_done_date"><?php echo A11YC_LANG_TEST_DATE ?></label>
-		<input type="text" name="done_date" id="a11yc_done_date" size="10" value="<?php echo $done_date ?>" />
-	</p>
-
-	<!-- standard -->
-	<p id="a11yc_select_standard" class="a11yc_hide_if_fixedheader">
-		<label for="a11yc_standard"><?php echo A11YC_LANG_STANDARD ?></label>
-		<select name="standard" id="a11yc_standard">
-		<?php
-		foreach ($standards as $k => $v):
-			$selected = $k == @$page['standard'] ? ' selected="selected"' : '';
-		?>
-			<option<?php echo $selected ?> value="<?php echo $k ?>"><?php echo $v ?></option>
-		<?php endforeach; ?>
-		</select>
-	</p>
-
-	<!-- selection reason -->
-	<p id="a11yc_selection_reason" class="a11yc_hide_if_fixedheader">
-		<label for="a11yc_selection_reason"><?php echo A11YC_LANG_CANDIDATES_REASON ?></label>
-		<select name="selection_reason" id="a11yc_selection_reason">
-		<?php
-		foreach ($selection_reasons as $k => $v):
-			$selected = $k == @$page['selection_reason'] ? ' selected="selected"' : '';
-		?>
-			<option<?php echo $selected ?> value="<?php echo $k ?>"><?php echo $v ?></option>
-		<?php endforeach; ?>
-		</select>
-	</p>
-<?php endif; ?>
-
-<!-- narrow level -->
-	<p class="a11yc_narrow_level a11yc_hide_if_no_js" data-a11yc-narrow-target=".a11yc_section_principle">Level:
-<?php
-	for ($i=1; $i<=3; $i++)
-	{
-		$class_str = ($i == $target_level) || ($target_level == 0 && $i == 3) ? ' class="current"' : '';
-		echo '<a role="button" tabindex="0" data-narrow-level="'.implode(',', array_slice(array('l_a', 'l_aa', 'l_aaa'), 0, $i)).'"'.$class_str.'>'.\A11yc\Util::num2str($i).'</a>';
-	}
-	$additional_criterion = join(',', \A11yc\Controller_Setup::additional_criterions());
-?>
-	</p>
-</div><!-- /#a11yc_header_ctrl -->
 <div id="a11yc_checks" data-a11yc-additional_criterions="<?php echo $additional_criterion ?>" data-a11yc-current-user="<?php echo $current_user_id ?>" data-a11yc-lang='{"expand":"<?php echo A11YC_LANG_CTRL_EXPAND ?>", "compress": "<?php echo A11YC_LANG_CTRL_COMPRESS ?>", "conformance": "<?php echo A11YC_LANG_CHECKLIST_CONFORMANCE.','.A11YC_LANG_CHECKLIST_CONFORMANCE_PARTIAL ?>"}' <?php if($checklist_behaviour) echo ' class="a11yc_hide_passed_item"' ?>>
 <!-- header -->
 <div id="a11yc_header">
+	<div id="a11yc_header_ctrl">
+	<?php if ($url != 'bulk'): ?>
+		<!-- standard -->
+		<p id="a11yc_done_date" class="">
+			<label for="a11yc_done_date"><?php echo A11YC_LANG_TEST_DATE ?></label>
+			<input type="text" name="done_date" id="a11yc_done_date" size="10" value="<?php echo $done_date ?>" />
+		</p>
+	
+		<!-- standard -->
+		<p id="a11yc_select_standard" class="">
+			<label for="a11yc_standard"><?php echo A11YC_LANG_STANDARD ?></label>
+			<select name="standard" id="a11yc_standard">
+			<?php
+			foreach ($standards as $k => $v):
+				$selected = $k == @$page['standard'] ? ' selected="selected"' : '';
+			?>
+				<option<?php echo $selected ?> value="<?php echo $k ?>"><?php echo $v ?></option>
+			<?php endforeach; ?>
+			</select>
+		</p>
+	
+		<!-- selection reason -->
+		<p id="a11yc_selection_reason" class="">
+			<label for="a11yc_selection_reason"><?php echo A11YC_LANG_CANDIDATES_REASON ?></label>
+			<select name="selection_reason" id="a11yc_selection_reason">
+			<?php
+			foreach ($selection_reasons as $k => $v):
+				$selected = $k == @$page['selection_reason'] ? ' selected="selected"' : '';
+			?>
+				<option<?php echo $selected ?> value="<?php echo $k ?>"><?php echo $v ?></option>
+			<?php endforeach; ?>
+			</select>
+		</p>
+	<?php endif; ?>
+	</div><!-- /#a11yc_header_ctrl -->
 	<div id="a11yc_header_left" class="a11yc_fl">
 		<!-- not for bulk -->
 	<?php if ($url != 'bulk'): ?>
@@ -88,6 +76,18 @@
 	</div><!-- /#a11yc_header_left -->
 
 	<div id="a11yc_header_right" class="a11yc_fr">
+	<!-- narrow level -->
+		<p class="a11yc_narrow_level" data-a11yc-narrow-target=".a11yc_section_principle">Level:
+	<?php
+		for ($i=1; $i<=3; $i++)
+		{
+			$class_str = ($i == $target_level) || ($target_level == 0 && $i == 3) ? ' class="current"' : '';
+			echo '<a role="button" tabindex="0" data-narrow-level="'.implode(',', array_slice(array('l_a', 'l_aa', 'l_aaa'), 0, $i)).'"'.$class_str.'>'.\A11yc\Util::num2str($i).'</a>';
+		}
+		$additional_criterion = join(',', \A11yc\Controller_Setup::additional_criterions());
+	?>
+		</p>
+
 	<?php if ($url != 'bulk'): ?>
 		<!-- level -->
 		<p id="a11yc_target_level"><?php echo A11YC_LANG_TARGET_LEVEL ?>: <?php echo \A11yc\Util::num2str($target_level) ?>
@@ -171,14 +171,20 @@
 				<?php
 					$ng_id = 'a11yc_ng_'.$kkk;
 				?>
-				<h5><label for="<?php echo $ng_id; ?>"><?php echo A11YC_LANG_CHECKLIST_NG_REASON; ?></label></h5>
-				<p><?php echo A11YC_LANG_CHECKLIST_NG_REASON_EXP; ?></p>
-				<textarea name="ngs[<?php echo $kkk; ?>][memo]" id="<?php echo $ng_id; ?>" rows="3"><?php
-				$memo = $is_new ? \A11yc\Arr::get($bulk_ngs, "{$kkk}.memo") : \A11yc\Arr::get($cs_ngs, "{$kkk}.memo") ;
-					echo $memo;
-				?></textarea>
-
-				<select name="ngs[<?php echo $kkk ?>][uid]">
+				<table class="a11yc_table_check">
+				<tbody>
+					<th scple="row">
+					<h5 class="a11yc_header_ngreason"><label for="<?php echo $ng_id; ?>"><?php echo A11YC_LANG_CHECKLIST_NG_REASON; ?></label></h5>
+						<?php echo A11YC_LANG_CHECKLIST_NG_REASON_EXP; ?>
+					</th>
+					<td class="a11yc_table_check_memo">
+						<textarea name="ngs[<?php echo $kkk; ?>][memo]" id="<?php echo $ng_id; ?>" rows="3"><?php
+						$memo = $is_new ? \A11yc\Arr::get($bulk_ngs, "{$kkk}.memo") : \A11yc\Arr::get($cs_ngs, "{$kkk}.memo") ;
+						echo $memo;
+						?></textarea>
+					</td>
+					<td class="a11yc_table_check_user">
+						<select name="ngs[<?php echo $kkk ?>][uid]">
 				<?php
 				foreach ($users as $uid => $name):
 					$selected = '';
@@ -192,6 +198,9 @@
 					<option value="<?php echo $uid ?>"<?php echo $selected ?>><?php echo $name ?></option>
 				<?php endforeach; ?>
 				</select>
+					</td>
+				</tbody>
+				</table>
 			</div>
 			<!-- /.a11yc_ng NG: NONCONFORMITY -->
 
