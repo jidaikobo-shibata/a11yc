@@ -69,11 +69,11 @@ if (( ! $docs && ! $code && ! $criterion) && $target_html)
 
 	if (Validate::get_error_ids())
 	{
-		foreach (Validate::get_error_ids() as $code => $errs)
+		foreach (Validate::get_error_ids() as $err_code => $errs)
 		{
 			foreach ($errs as $key => $err)
 			{
-				$all_errs[] = Controller_Checklist::message($code, $err, $key, $url.'?code=');
+				$all_errs[] = Controller_Checklist::message($err_code, $err, $key, $url.'?code=');
 			}
 		}
 	}
