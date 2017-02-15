@@ -1,6 +1,6 @@
 # anti directory listing
 # normal
-Options -Indexes
+# Options -Indexes
 # sakura internet
 # DirectoryIndex index.html index.php .ht
 

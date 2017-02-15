@@ -134,7 +134,7 @@ class Validate_Form extends Validate
 				array('\<', '\>', '\/', '\.', '\[', '\]'),
 				$v['form']);
 			preg_match('/'.$replace.'.+?<\/form\>*/is', $tmp_html, $whole_form);
-			$whole_form = $whole_form[0];
+			$whole_form = Arr::get($whole_form, 0, '');
 
 			// avoid get same form
 			$tmp_html = mb_substr(

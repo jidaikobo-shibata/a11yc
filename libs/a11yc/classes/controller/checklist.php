@@ -44,54 +44,26 @@ class Controller_Checklist
 		if ( ! $content) return array();
 		$all_errs = array();
 		Validate::set_html($content);
-		\A11yc\Crawl::set_target_path($url); // for same_urls_should_have_same_text
+		Crawl::set_target_path($url); // for same_urls_should_have_same_text
+		$codes = Validate::$codes;
 
-		$codes = array(
-			// elements
-			array('\A11yc\Validate_Alt', 'empty_alt_attr_of_img_inside_a'),
-			array('\A11yc\Validate_Link', 'here_link'),
-			array('\A11yc\Validate_Link', 'tell_user_file_type'),
-			array('\A11yc\Validate_Link', 'same_urls_should_have_same_text'),
-			array('\A11yc\Validate_Form', 'form_and_labels'),
-
-			// single tag
-			array('\A11yc\Validate_Alt', 'alt_attr_of_img'),
-			array('\A11yc\Validate_Alt', 'img_input_has_alt'),
-			array('\A11yc\Validate_Alt', 'area_has_alt'),
-			array('\A11yc\Validate_Alt', 'same_alt_and_filename_of_img'),
-			array('\A11yc\Validate_Validation', 'suspicious_elements'),
-			array('\A11yc\Validate_Validation', 'appropriate_heading_descending'),
-			array('\A11yc\Validate_Validation', 'meanless_element'),
-			array('\A11yc\Validate_Validation', 'style_for_structure'),
-			array('\A11yc\Validate_Validation', 'invalid_tag'),
-			array('\A11yc\Validate_Validation', 'titleless_frame'),
-			array('\A11yc\Validate_Head', 'check_doctype'),
-			array('\A11yc\Validate_Head', 'meta_refresh'),
-			array('\A11yc\Validate_Head', 'titleless'),
-			array('\A11yc\Validate_Head', 'langless'),
-			array('\A11yc\Validate_Head', 'viewport'),
-		);
-
-		// single tag
+		// link check
 		if ($link_check)
 		{
-			\A11yc\Validate_Link::set_target_path($url);
-			$codes[] = array('\A11yc\Validate_Link', 'link_check');
+			Validate_Link::set_target_path($url);
 		}
-
-		// non tag
-		$codes[] = array('\A11yc\Validate_Validation', 'suspicious_attributes');
-		$codes[] = array('\A11yc\Validate_Validation', 'duplicated_ids_and_accesskey');
-		$codes[] = array('\A11yc\Validate_Validation', 'ja_word_breaking_space');
-		$codes[] = array('\A11yc\Validate_Head', 'same_page_title_in_same_site');
-
-		foreach ($codes as $code)
+		else
 		{
-			$c = $code[0];
-			$m = $code[1];
-			$c::$m();
+			unset($codes['link_check']);
 		}
 
+		// validate
+		foreach ($codes as $method => $class)
+		{
+			$class::$method();
+		}
+
+		// errors
 		if (Validate::get_error_ids())
 		{
 			foreach (Validate::get_error_ids() as $code => $errs)
@@ -365,7 +337,7 @@ class Controller_Checklist
 	 */
 	public static function part_result($results, $target_level, $include = TRUE)
 	{
-		View::assign('is_total', ! \A11yc\Input::get('url'));
+		View::assign('is_total', ! Input::get('url'));
 		View::assign('setup', Controller_Setup::fetch_setup());
 		View::assign('results', $results);
 		View::assign('target_level', $target_level);

@@ -88,8 +88,8 @@ class Validate_Link extends Validate
 
 	/**
 	 * same_urls_should_have_same_text
-			// some screen readers read anchor's title attribute.
-			// and user cannot understand that title is exist or not.
+	 * NOTE: some screen readers read anchor's title attribute.
+	 * and user cannot understand that title is exist or not.
 	 *
 	 * @return  void
 	 */
