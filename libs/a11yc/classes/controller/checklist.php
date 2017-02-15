@@ -351,11 +351,13 @@ class Controller_Checklist
 	 *
 	 * @return  str
 	 */
-	public static function message($code_str, $place, $key)
+	public static function message($code_str, $place, $key, $docpath = '')
 	{
 		$yml = Yaml::fetch();
 		if (isset($yml['errors'][$code_str]))
 		{
+			$docpath = $docpath ?: A11YC_DOC_URL;
+
 			$anchor = $code_str.'_'.$key;
 
 			// level
@@ -373,7 +375,7 @@ class Controller_Checklist
 			$level = $yml['checks'][$criterion_code][$code]['criterion']['level']['name'];
 			$criterion = $yml['checks'][$criterion_code][$code]['criterion'];
 			$ret.= ' ('.strtoupper($lv).' ';
-			$ret.= '<a href="'.A11YC_DOC_URL.$code.'&amp;criterion='.$yml['errors'][$code_str]['criterion'].'"'.A11YC_TARGET.'>Doc</a> ';
+			$ret.= '<a href="'.$docpath.$code.'&amp;criterion='.$yml['errors'][$code_str]['criterion'].'"'.A11YC_TARGET.'>Doc</a> ';
 			$ret.= '<a href="'.$criterion['url'].'"'.A11YC_TARGET.' title="'.$criterion['name'].'">'.Util::key2code($criterion['code']).'</a>)';
 			$ret.= '<a href="#'.$anchor .'" class="a11yc_validation_error_link a11yc_level_'.$lv.' a11yc_hasicon"><span class="a11yc_icon_fa a11yc_icon_arrow_b" role="presentation" aria-hidden="true"></span>Code</a></dt>';
 

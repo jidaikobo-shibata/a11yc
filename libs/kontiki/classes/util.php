@@ -62,7 +62,7 @@ class Util
 	{
 		$uri = static::is_ssl() ? 'https' : 'http';
 		$uri.= '://'.$_SERVER["HTTP_HOST"].rtrim($_SERVER["REQUEST_URI"], '/');
-		return $uri;
+		return static::s($uri);
 	}
 
 	/**
@@ -96,6 +96,10 @@ class Util
 	{
 		if (strpos($uri, '?') !== false)
 		{
+			// all query strings
+			$query_strings = $query_strings ?: array_keys($_GET);
+
+			// replace
 			$uri = str_replace('&amp;', '&', $uri);
 			$pos = strpos($uri, '?');
 			$base_url = substr($uri, 0, $pos);

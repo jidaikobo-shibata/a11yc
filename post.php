@@ -13,25 +13,45 @@
 namespace A11yc;
 require (__DIR__.'/libs/a11yc/main.php');
 
+// url
+$url = Util::uri();
+$url = Util::remove_query_strings($url);
+
 // language and validation access
 $lang = Lang::get_lang();
 if (
 	empty($lang) ||
-	substr($_SERVER['REQUEST_URI'], 0 - strlen('/post.php')) != '/post.php')
+	substr($url, 0 - strlen('/post.php')) != '/post.php')
 {
 	Util::error('Not found.');
 }
 include A11YC_PATH.'/languages/'.$lang.'/post.php';
 
-// values
+// document list
+$docs = Input::get('docs');
+if ($docs)
+{
+	Controller_Docs::index();
+	define('A11YC_LANG_POST_TITLE', A11YC_LANG_DOCS_TITLE);
+}
+
+// document
+$code = Input::get('code');
+$criterion = Input::get('criterion');
+if ($code && $criterion)
+{
+	Controller_Docs::each($criterion, $code);
+	$doc = View::fetch('doc');
+	define('A11YC_LANG_POST_TITLE', $doc['name']);
+}
+
+// validation
 $target_html = '';
 $raw = '';
 $all_errs = array();
 $errs_cnts = array();
-
-// validate
 $target_html = Input::post('source');
-if ($target_html)
+if (( ! $code && ! $criterion) && $target_html)
 {
 	$all_errs = array();
 	Validate::set_html($target_html);
@@ -53,7 +73,7 @@ if ($target_html)
 		{
 			foreach ($errs as $key => $err)
 			{
-				$all_errs[] = Controller_Checklist::message($code, $err, $key);
+				$all_errs[] = Controller_Checklist::message($code, $err, $key, $url.'?code=');
 			}
 		}
 	}
@@ -61,26 +81,26 @@ if ($target_html)
 	// results
 	$errs_cnts = array_merge(array('total' => count($all_errs)), Controller_Checklist::$err_cnts);
 	$raw = nl2br(Validate::revert_html(Util::s(Validate::get_hl_html())));
+
+	// title
+	define('A11YC_LANG_POST_TITLE', 'Online Validation');
+
+	// assign
+	View::assign('is_call_from_post', true);
+
+	View::assign('errs', $all_errs, false);
+	View::assign('errs_cnts', $errs_cnts);
+	View::assign('raw', $raw, false);
+
+	View::assign('result', View::fetch_tpl('checklist/validate.php'), false);
+
+	View::assign('target_html', $target_html);
+	View::assign('title', 'Online Validation');
+	View::assign('body', View::fetch_tpl('post.php'), false);
 }
 
-// title
-define('A11YC_LANG_POST_TITLE', 'Online Validation');
-
-// assign
-View::assign('is_call_from_post', true);
-
-View::assign('errs', $all_errs, false);
-View::assign('errs_cnts', $errs_cnts);
-View::assign('raw', $raw, false);
-
-View::assign('result', View::fetch_tpl('checklist/validate.php'), false);
-
-View::assign('target_html', $target_html);
-View::assign('title', 'Online Validation');
-View::assign('body', View::fetch_tpl('post.php'), false);
-View::assign('mode', 'post');
-
 // render
+View::assign('mode', 'post');
 View::display(array(
 		'header.php',
 		'messages.php',

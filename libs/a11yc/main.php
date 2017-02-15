@@ -33,6 +33,7 @@ include dirname(dirname(__DIR__)).'/libs/spyc/Spyc.php';
 
 // language
 $lang = \A11yc\Lang::get_lang() ?: A11YC_LANG;
+define('A11YC_RESOURCE_PATH', A11YC_PATH.'/resources/'.$lang);
 include A11YC_PATH.'/languages/'.$lang.'/a11yc.php';
 
 // install a11yc if not yet
