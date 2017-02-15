@@ -37,7 +37,7 @@ define('A11YC_TARGET_OUT', '');
  */
 
 // for css and js
-define('A11YC_ASSETS_URL',    dirname(A11YC_URL));
+define('A11YC_ASSETS_URL',    dirname(A11YC_URL).'/assets');
 
 // pathes
 define('A11YC_LIB_PATH',      dirname(__DIR__).'/libs');
