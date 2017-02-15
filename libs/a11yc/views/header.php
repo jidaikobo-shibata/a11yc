@@ -23,7 +23,7 @@
 
 <!-- #a11yc -->
 <div id="<?php echo 'a11yc_'.$mode ?>" class="a11yc">
-<?php if (\Kontiki\Auth::auth()): ?>
+<?php if (\Kontiki\Auth::auth() && isset($login_user[2])): ?>
 	<div id="a11yc_menu_wrapper">
 		<nav id="a11yc_menu">
 		<h1 id="a11yc_title">A11y<span>C</span></h1>

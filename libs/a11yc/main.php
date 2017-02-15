@@ -25,14 +25,15 @@ require ($config_path);
 define('KONTIKI_DEFAULT_LANG', A11YC_LANG);
 require dirname(dirname(__DIR__)).'/libs/kontiki/main.php';
 
-// language
-include A11YC_PATH.'/languages/'.A11YC_LANG.'.php';
-
 // load Spyc - YAML lib.
 include dirname(dirname(__DIR__)).'/libs/spyc/Spyc.php';
 
 // Autoloader - this must be use Kontiki namespace.
 \Kontiki\Util::add_autoloader_path(__DIR__.'/classes/', 'a11yc');
+
+// language
+$lang = \A11yc\Lang::get_lang() ?: A11YC_LANG;
+include A11YC_PATH.'/languages/'.$lang.'/a11yc.php';
 
 // install a11yc if not yet
 \A11yc\Startup::install();

@@ -22,3 +22,10 @@ AddType application/x-font-ttf .ttf
 AddType application/x-font-otf .otf
 AddType image/svg+xml .svg
 AddType application/vnd.ms-fontobject .eot
+
+#rewrite for post.php and KONTIKI
+RewriteEngine on
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ post.php [QSA,L]

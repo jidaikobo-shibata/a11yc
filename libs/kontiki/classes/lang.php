@@ -14,13 +14,15 @@ class Lang
 	/**
 	 * get_langs
 	 *
+	 * @param   $dir
 	 * @return  array
 	 */
-	public static function get_langs()
+	public static function get_langs($dir)
 	{
 		static $langs = array();
 		if ($langs) return $langs;
-		$langs = array_map('basename', glob(KONTIKI_PATH.'lang/*'));
+		$dir = $dir ?: KONTIKI_PATH.'/lang';
+		$langs = array_map('basename', glob($dir.'/*'));
 		return $langs;
 	}
 

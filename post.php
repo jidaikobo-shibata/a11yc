@@ -13,6 +13,16 @@
 namespace A11yc;
 require (__DIR__.'/libs/a11yc/main.php');
 
+// language and validation access
+$lang = Lang::get_lang();
+if (
+	empty($lang) ||
+	substr($_SERVER['REQUEST_URI'], 0 - strlen('/post.php')) != '/post.php')
+{
+	Util::error('Not found.');
+}
+include A11YC_PATH.'/languages/'.$lang.'/post.php';
+
 // values
 $target_html = '';
 $raw = '';
@@ -20,11 +30,9 @@ $all_errs = array();
 $errs_cnts = array();
 
 // validate
-if (Input::post())
+$target_html = Input::post('source');
+if ($target_html)
 {
-	$target_html = Input::post('source');
-
-//	if ( ! $target_html) return array();
 	$all_errs = array();
 	Validate::set_html($target_html);
 	// Crawl::set_target_path($url); // for same_urls_should_have_same_text
@@ -59,13 +67,14 @@ if (Input::post())
 define('A11YC_LANG_POST_TITLE', 'Online Validation');
 
 // assign
+View::assign('is_call_from_post', true);
+
 View::assign('errs', $all_errs, false);
 View::assign('errs_cnts', $errs_cnts);
 View::assign('raw', $raw, false);
 
 View::assign('result', View::fetch_tpl('checklist/validate.php'), false);
 
-View::assign('login_user', 'Online Validation'); // error inhabitant
 View::assign('target_html', $target_html);
 View::assign('title', 'Online Validation');
 View::assign('body', View::fetch_tpl('post.php'), false);

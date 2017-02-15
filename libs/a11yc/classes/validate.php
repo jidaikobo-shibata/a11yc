@@ -563,7 +563,7 @@ class Validate
 
 		// first tag
 		$first_tags = static::get_elements_by_re(static::$hl_html, 'tags');
-		$first_tag = $first_tags[0][0];
+		$first_tag = Arr::get($first_tags, '0.0');
 
 		$lv = strtolower($yml['criterions'][$yml['errors'][$error_id]['criterion']]['level']['name']);
 
@@ -608,7 +608,7 @@ class Validate
 			else
 			{
 				// always search first tag
-				$pos = mb_strpos($html, $first_tag, 0, "UTF-8");
+				$pos = $first_tag ? mb_strpos($html, $first_tag, 0, "UTF-8") : 0;
 			}
 
 			// add error
