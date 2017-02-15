@@ -51,7 +51,7 @@ $raw = '';
 $all_errs = array();
 $errs_cnts = array();
 $target_html = Input::post('source');
-if (( ! $code && ! $criterion) && $target_html)
+if (( ! $docs && ! $code && ! $criterion) && $target_html)
 {
 	$all_errs = array();
 	Validate::set_html($target_html);
@@ -81,7 +81,11 @@ if (( ! $code && ! $criterion) && $target_html)
 	// results
 	$errs_cnts = array_merge(array('total' => count($all_errs)), Controller_Checklist::$err_cnts);
 	$raw = nl2br(Validate::revert_html(Util::s(Validate::get_hl_html())));
+}
 
+// basic assign
+if ( ! $docs && ! $code && ! $criterion)
+{
 	// title
 	define('A11YC_LANG_POST_TITLE', 'Online Validation');
 
