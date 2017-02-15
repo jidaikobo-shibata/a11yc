@@ -4,7 +4,7 @@
 <input type="submit" value="<?php echo A11YC_LANG_CTRL_SEND ?>">
 </form>
 <?php
-if (\A11yc\Input::post()):
-echo $result;
+if (\A11yc\Input::post() && isset($result)):
+	echo $result;
 endif;
 ?>

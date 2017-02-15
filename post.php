@@ -46,12 +46,11 @@ if ($code && $criterion)
 }
 
 // validation
-$target_html = '';
 $raw = '';
 $all_errs = array();
 $errs_cnts = array();
-$target_html = Input::post('source');
-if (( ! $docs && ! $code && ! $criterion) && $target_html)
+$target_html = Input::post('source', '');
+if ($target_html)
 {
 	$all_errs = array();
 	Validate::set_html($target_html);
@@ -60,6 +59,7 @@ if (( ! $docs && ! $code && ! $criterion) && $target_html)
 	$codes = Validate::$codes;
 	unset($codes['link_check']);
 	unset($codes['same_urls_should_have_same_text']);
+	unset($codes['same_page_title_in_same_site']);
 
 	// validate
 	foreach ($codes as $method => $class)
@@ -81,6 +81,11 @@ if (( ! $docs && ! $code && ! $criterion) && $target_html)
 	// results
 	$errs_cnts = array_merge(array('total' => count($all_errs)), Controller_Checklist::$err_cnts);
 	$raw = nl2br(Validate::revert_html(Util::s(Validate::get_hl_html())));
+
+	View::assign('errs', $all_errs, false);
+	View::assign('errs_cnts', $errs_cnts);
+	View::assign('raw', $raw, false);
+	View::assign('result', View::fetch_tpl('checklist/validate.php'), false);
 }
 
 // basic assign
@@ -91,15 +96,8 @@ if ( ! $docs && ! $code && ! $criterion)
 
 	// assign
 	View::assign('is_call_from_post', true);
-
-	View::assign('errs', $all_errs, false);
-	View::assign('errs_cnts', $errs_cnts);
-	View::assign('raw', $raw, false);
-
-	View::assign('result', View::fetch_tpl('checklist/validate.php'), false);
-
-	View::assign('target_html', $target_html);
 	View::assign('title', 'Online Validation');
+	View::assign('target_html', $target_html);
 	View::assign('body', View::fetch_tpl('post.php'), false);
 }
 
