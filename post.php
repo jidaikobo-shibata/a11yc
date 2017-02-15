@@ -89,7 +89,7 @@ if ($target_html)
 }
 
 // basic assign
-if ( ! $docs && ! $code && ! $criterion)
+if ( ! View::fetch('body'))
 {
 	// title
 	define('A11YC_LANG_POST_TITLE', 'Online Validation');
