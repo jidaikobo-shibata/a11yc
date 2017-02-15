@@ -41,38 +41,7 @@ $errs = \A11yc\Controller_Checklist::validate_page($url, $link_check);
 
 $raw = \A11yc\Util::s(\A11yc\Validate::get_hl_html());
 
-$raw = str_replace(
-	array(
-		// span
-		'[===a11yc_rplc===',
-		'===a11yc_rplc_title===',
-		'===a11yc_rplc_class===',
-
-		// strong
-		'===a11yc_rplc===][===a11yc_rplc_strong_class===',
-		'===a11yc_rplc_strong===]',
-
-		// strong to end
-		'[===end_a11yc_rplc===',
-		'===a11yc_rplc_back_class===',
-		'===end_a11yc_rplc===]'
-	),
-	array(
-		// span
-		'<span id="',
-		'" title="',
-		'" class="a11yc_validation_code_error a11yc_level_',
-
-		// span to strong
-		'" tabindex="0">ERROR!</span><strong class="a11yc_level_',
-		'">',
-
-		// strong to end
-		'</strong><a href="#index_',
-		'" class="a11yc_back_link a11yc_hasicon a11yc_level_',
-		'" title="back to error"><span class="a11yc_icon_fa a11yc_icon_arrow_u" role="presentation" aria-hidden="true"></span><span class="a11yc_skip">back</span></a>',
-	),
-	$raw);
+$raw = \A11yc\Validate::revert_html($raw);
 
 $lines = explode("\n", $raw);
 $lines = array_map(function($v){return $v.'<br>';}, $lines);

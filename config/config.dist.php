@@ -33,11 +33,11 @@ define('A11YC_TARGET',     '');
 define('A11YC_TARGET_OUT', '');
 
 /*
-	below here, basically don't edit.
-*/
+ * below here, basically don't edit.
+ */
 
 // for css and js
-define('A11YC_URL_DIR', dirname(A11YC_URL).'/libs/a11yc');
+define('A11YC_ASSETS_URL',    dirname(A11YC_URL).'/assets');
 
 // pathes
 define('A11YC_LIB_PATH',      dirname(__DIR__).'/libs');

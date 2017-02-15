@@ -135,7 +135,7 @@ class Validate_Head extends Validate
 		if ( ! isset($has_langs[1]) || ! in_array('html', $has_langs[1]))
 		{
 			static::$error_ids['langless'][0]['id'] = false;
-			static::$error_ids['langless'][0]['str'] = $ms[0][0];
+			static::$error_ids['langless'][0]['str'] = Arr::get($ms, '0.0');
 			static::add_error_to_html('langless', static::$error_ids);
 			return;
 		}

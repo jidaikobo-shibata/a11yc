@@ -8,9 +8,9 @@ if ( ! headers_sent()):
 	<title><?php echo $title ?> - A11YC</title></head><body>
 <?php endif; ?>
 
-<script type="text/javascript" src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<script type="text/javascript" src="<?php echo A11YC_URL_DIR ?>/js/a11yc.js"></script>
-<link rel="stylesheet" type="text/css" media="all" href="<?php echo A11YC_URL_DIR ?>/css/a11yc.css" />
+<script type="text/javascript" src="<?php echo A11YC_ASSETS_URL ?>/js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="<?php echo A11YC_ASSETS_URL ?>/js/a11yc.js"></script>
+<link rel="stylesheet" type="text/css" media="all" href="<?php echo A11YC_ASSETS_URL ?>/css/a11yc.css" />
 
 <div style="word-break: break-all;">
 <script>a11yc_auto_scroll()</script>

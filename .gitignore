@@ -1,9 +1,10 @@
-config/users.php
+.htaccess
+!/config/.htaccess
+!/libs/.htaccess
 config/config.php
-views/
 db
 cache
 jwp_*
 jwp-*
-constants.php
 readme.txt
+views/

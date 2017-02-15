@@ -11,20 +11,19 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 	<!--script-->
-<!-- 	<script type="text/javascript" src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
-	<script type="text/javascript" src="<?php echo A11YC_URL_DIR ?>/js/jquery-1.11.1.min.js"></script>
-	<script type="text/javascript" src="<?php echo A11YC_URL_DIR ?>/js/a11yc.js"></script>
+	<script type="text/javascript" src="<?php echo A11YC_ASSETS_URL ?>/js/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="<?php echo A11YC_ASSETS_URL ?>/js/a11yc.js"></script>
 
 	<!--css-->
-	<link rel="stylesheet" type="text/css" media="all" href="<?php echo A11YC_URL_DIR ?>/css/a11yc.css" />
-	<link href="<?php echo A11YC_URL_DIR ?>/css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" media="all" href="<?php echo A11YC_ASSETS_URL ?>/css/a11yc.css" />
+	<link href="<?php echo A11YC_ASSETS_URL ?>/css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 
 </head>
 <body>
 
 <!-- #a11yc -->
 <div id="<?php echo 'a11yc_'.$mode ?>" class="a11yc">
-<?php if (\Kontiki\Auth::auth()): ?>
+<?php if (\Kontiki\Auth::auth() && isset($login_user[2])): ?>
 	<div id="a11yc_menu_wrapper">
 		<nav id="a11yc_menu">
 		<h1 id="a11yc_title">A11y<span>C</span></h1>

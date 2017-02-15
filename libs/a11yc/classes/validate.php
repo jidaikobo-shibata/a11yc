@@ -25,6 +25,41 @@ class Validate
 		"/\<!--.+?--\>/si",
 	);
 
+	public static $codes                  = array(
+			// elements
+			'empty_alt_attr_of_img_inside_a'  => '\A11yc\Validate_Alt',
+			'here_link'                       => '\A11yc\Validate_Link',
+			'tell_user_file_type'             => '\A11yc\Validate_Link',
+			'same_urls_should_have_same_text' => '\A11yc\Validate_Link',
+			'form_and_labels'                 => '\A11yc\Validate_Form',
+
+			// single tag
+			'alt_attr_of_img'                 => '\A11yc\Validate_Alt',
+			'img_input_has_alt'               => '\A11yc\Validate_Alt',
+			'area_has_alt'                    => '\A11yc\Validate_Alt',
+			'same_alt_and_filename_of_img'    => '\A11yc\Validate_Alt',
+			'suspicious_elements'             => '\A11yc\Validate_Validation',
+			'appropriate_heading_descending'  => '\A11yc\Validate_Validation',
+			'meanless_element'                => '\A11yc\Validate_Validation',
+			'style_for_structure'             => '\A11yc\Validate_Validation',
+			'invalid_tag'                     => '\A11yc\Validate_Validation',
+			'titleless_frame'                 => '\A11yc\Validate_Validation',
+			'check_doctype'                   => '\A11yc\Validate_Head',
+			'meta_refresh'                    => '\A11yc\Validate_Head',
+			'titleless'                       => '\A11yc\Validate_Head',
+			'langless'                        => '\A11yc\Validate_Head',
+			'viewport'                        => '\A11yc\Validate_Head',
+
+			// link check
+			'link_check'                      => '\A11yc\Validate_Link',
+
+			// non tag
+			'suspicious_attributes'           => '\A11yc\Validate_Validation',
+			'duplicated_ids_and_accesskey'    => '\A11yc\Validate_Validation',
+			'ja_word_breaking_space'          => '\A11yc\Validate_Validation',
+			'same_page_title_in_same_site'    => '\A11yc\Validate_Head',
+		);
+
 	/**
 	 * get_errors
 	 *
@@ -528,7 +563,7 @@ class Validate
 
 		// first tag
 		$first_tags = static::get_elements_by_re(static::$hl_html, 'tags');
-		$first_tag = $first_tags[0][0];
+		$first_tag = Arr::get($first_tags, '0.0');
 
 		$lv = strtolower($yml['criterions'][$yml['errors'][$error_id]['criterion']]['level']['name']);
 
@@ -573,7 +608,7 @@ class Validate
 			else
 			{
 				// always search first tag
-				$pos = mb_strpos($html, $first_tag, 0, "UTF-8");
+				$pos = $first_tag ? mb_strpos($html, $first_tag, 0, "UTF-8") : 0;
 			}
 
 			// add error
@@ -608,5 +643,47 @@ class Validate
 		}
 
 		static::$hl_html = $html;
+	}
+
+	/**
+	 * add error to html
+	 *
+	 * @param   str      $html
+	 * @return  string
+	 */
+	public static function revert_html($html)
+	{
+		return str_replace(
+			array(
+				// span
+				'[===a11yc_rplc===',
+				'===a11yc_rplc_title===',
+				'===a11yc_rplc_class===',
+
+				// strong
+				'===a11yc_rplc===][===a11yc_rplc_strong_class===',
+				'===a11yc_rplc_strong===]',
+
+				// strong to end
+				'[===end_a11yc_rplc===',
+				'===a11yc_rplc_back_class===',
+				'===end_a11yc_rplc===]'
+			),
+			array(
+				// span
+				'<span id="',
+				'" title="',
+				'" class="a11yc_validation_code_error a11yc_level_',
+
+				// span to strong
+				'" tabindex="0">ERROR!</span><strong class="a11yc_level_',
+				'">',
+
+				// strong to end
+				'</strong><a href="#index_',
+				'" class="a11yc_back_link a11yc_hasicon a11yc_level_',
+				'" title="back to error"><span class="a11yc_icon_fa a11yc_icon_arrow_u" role="presentation" aria-hidden="true"></span><span class="a11yc_skip">back</span></a>',
+			),
+			$html);
 	}
 }

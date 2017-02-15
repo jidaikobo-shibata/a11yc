@@ -1,5 +1,9 @@
-<?php if ($errs):
-	// error
+<?php
+// call from post
+$is_call_from_post = isset($is_call_from_post);
+
+if ($errs):
+// error
 ?><h1 class="a11yc_disclosure a11yc_resetstyle a11yc_narrow_level" data-a11yc-narrow-target="#a11yc_validation_list"><?php echo A11YC_LANG_CHECKLIST_MACHINE_CHECK ?>
 	<?php
 		foreach ($errs_cnts as $lv => $errs_cnt):
