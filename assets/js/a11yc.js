@@ -20,13 +20,13 @@ jQuery(function($){
 jQuery(function($){
 //common functions
 	$.fn.a11yc_set_pagemenu_top = function(){
-	console.log('function:'+'$.fn.a11yc_set_pagemenu_top');
+//	console.log('function:'+'$.fn.a11yc_set_pagemenu_top');
 		a11yc_env.pagemenu_top = a11yc_env.$pagemenu[0] ? a11yc_env.$pagemenu.offset().top - a11yc_env.menu_height : 0;
 		a11yc_env.header_height = $('#a11yc_header')[0] ? $('#a11yc_header').outerHeight() : 0;
 	}
 
 	$.fn.a11yc_disclosure = function(){
-	console.log('function:'+'$.fn.a11yc_disclosure');
+//	console.log('function:'+'$.fn.a11yc_disclosure');
 		$disclosure = $(document).find('.a11yc_disclosure');
 		$disclosure_target = $(document).find('.a11yc_disclosure_target');
 		$disclosure.each(function(index){
@@ -48,7 +48,7 @@ jQuery(function($){
 		});
 	}
 	$.fn.a11yc_disclosure_toggle = function($obj, $t){
-	console.log('function:'+'$.fn.a11yc_disclosure_toggle');
+//	console.log('function:'+'$.fn.a11yc_disclosure_toggle');
 		if(!$obj) return;
 		var index = $obj.index('.a11yc_disclosure');
 		$obj.toggleClass('show hide');
@@ -65,13 +65,13 @@ jQuery(function($){
 		});
 	}
 	$.fn.a11yc_set_validation_code_txt = function(){
-	console.log('function:'+'$.fn.a11yc_set_validation_code_txt');
+//	console.log('function:'+'$.fn.a11yc_set_validation_code_txt');
 		var $txt = $('#a11yc_validation_code_txt');
 		$txt.find(':not(br)').remove();
 	}
 
 	$.fn.a11yc_format_validation_error = function(){
-	console.log('function:'+'$.fn.a11yc_format_validation_error');
+//	console.log('function:'+'$.fn.a11yc_format_validation_error');
 
 		var $error_wrapper = $('#a11yc_validation_list');
 		if ($error_wrapper[0])
@@ -185,14 +185,25 @@ if ($('#a11yc_header')[0])
 }
 
 function a11yc_add_fixed() {
-	console.log('function:'+'a11yc_add_fixed');
+//	console.log('function:'+'a11yc_add_fixed');
 
 		var scroll = $(window).scrollTop();
 		if($('.a11yc_fixed_header')[0]) return;
 		//ここで#a11yc_headerがないばあいがある？？
 		a11yc_env.header_height = a11yc_env.header_height!==0 ? $('#a11yc_header').outerHeight(true)+$('#a11yc_header').offset().top : 0;
+//		if(!a11yc_env.$a11yc_content.hasClass('a11yc_add_fixed')){
+			$(document).find('.a11yc_hide_if_fixedheader').each(function(){
+				if($(this).hasClass('hide')) return;
+				$(this).removeClass('show').addClass('hide').hide();
+				
+				if(!$(this).hasClass('a11yc_disclosure_target')) return;
+				var index = $('.a11yc_disclosure_target').index(this);
+				$('.a11yc_disclosure').eq(index).removeClass('show').addClass('hide');
+			});
+//		}
+		a11yc_env.$a11yc_content.addClass('a11yc_add_fixed')
 		a11yc_env.$a11yc_content.addClass('a11yc_fixed_header');
-		$('#a11yc_header_ctrl').prependTo('#a11yc_header');
+//		$('#a11yc_header_ctrl').prependTo('#a11yc_header');
 		if(!a11yc_env.is_wp)
 		{
 			a11yc_env.top_padding = $('#a11yc_header').outerHeight()+(parseInt($('#a11yc_header_p_1').css('margin-top'), 10))*2;
@@ -243,7 +254,7 @@ if($('#a11yc_docs')[0])
 // a11yc_table_check -- checklists, bulk
 //eがないときは、ページ読み込み時
 function a11yc_narrow_level(target_narrow, index, e){
-	console.log('function:'+'a11yc_narrow_level');
+//	console.log('function:'+'a11yc_narrow_level');
 	if(e && e.type==='keydown' && e.keyCode!==13) return;
 	if(e && $(e.target).parent().hasClass('show')) e.stopPropagation();
 	var $target = e ? $(e.target) : $('.a11yc_narrow_level').eq(index).find('.current');
@@ -279,7 +290,7 @@ function a11yc_narrow_level(target_narrow, index, e){
 	}
 }
 function a11yc_validation_code_display(data_levels){
-	console.log('function:'+'a11yc_validation_code_display');
+//	console.log('function:'+'a11yc_validation_code_display');
 	var $code = $('#a11yc_validation_code_raw');
 	var $show_levels = $();
 	for( var k in data_levels )
@@ -293,7 +304,7 @@ function a11yc_validation_code_display(data_levels){
 	$show_levels.removeClass('a11yc_dn').removeAttr('role');
 }
 function a11yc_set_passes($target){
-	console.log('function:'+'a11yc_set_passes');
+//	console.log('function:'+'a11yc_set_passes');
 	var $items = $();
 	$target.each(function(){
 		data_pass_arr = $(this).data('pass') ? $(this).data('pass').split(',') : [];
@@ -309,7 +320,7 @@ function a11yc_set_passes($target){
 	return $items;
 }
 function a11yc_toggle_item(e){
-	console.log('function:'+'a11yc_toggle_item');
+//	console.log('function:'+'a11yc_toggle_item');
 	var $checked = $(),
 			data_pass_arr = [],
 			$show_items = $(),
@@ -338,7 +349,7 @@ function a11yc_toggle_item(e){
 	a11yc_count_checkbox();
 }
 function a11yc_set_pass_items($target, $passed){
-	console.log('function:'+'a11yc_set_pass_items');
+//	console.log('function:'+'a11yc_set_pass_items');
 	var $show_items = $();
 	$pass_items = a11yc_set_passes($target);
 	//$passedがなければ、passする処理
@@ -359,7 +370,7 @@ function a11yc_set_pass_items($target, $passed){
 }
 //table display
 function a11yc_table_display(){
-	console.log('function:'+'a11yc_table_display');
+//	console.log('function:'+'a11yc_table_display');
 	if(!$('.a11yc_hide_passed_item')[0]) return;
 	// hide disuse items
 	$('.a11yc form').find('.a11yc_section_guideline, .a11yc_table_check').each(function(){
@@ -473,15 +484,15 @@ if($('.a11yc_table_check')[0])
 
 /* === bulk === */
 // a11yc_update_done
-$('#a11yc_update_done').parent().addClass('a11yc_dn');
+$('#a11yc_update_done').parent().addClass('a11yc_hide');
 $('#a11yc_update_all').on('change', function(){
 	if($(this).val() > 1)
 	{
-		$('#a11yc_update_done').parent().removeClass('a11yc_dn');
+		$('#a11yc_update_done').parent().removeClass('a11yc_hide').attr('aria-hidden', false);
 	}
 	else
 	{
-		$('#a11yc_update_done').parent().addClass('a11yc_dn');
+		$('#a11yc_update_done').parent().addClass('a11yc_hide').attr('aria-hidden', true);
 	}
 });
 
@@ -512,7 +523,7 @@ if(!a11yc_env.is_wp && $('#a11yc_errors')[0]){
 }
 
 function a11yc_select_validation_code_txt(){
-	console.log('function:'+'a11yc_select_validation_code_txt');
+//	console.log('function:'+'a11yc_select_validation_code_txt');
 	var $code = $('#a11yc_validation_code_raw');
 	var $txt = $('#a11yc_validation_code_txt');
 	var range = document.createRange();
@@ -565,7 +576,7 @@ $(document).on('click', 'a[href^=#]', function(e){
 });
 
 function a11yc_smooth_scroll($t) {
-	console.log('function:'+'a11yc_smooth_scroll');
+//	console.log('function:'+'a11yc_smooth_scroll');
 	var position,
 			margin,
 			a11yc_headerheight;
@@ -594,7 +605,7 @@ $('.a11yc').on('keydown', function(e){
 });
 
 function a11yc_adjust_position($obj) {
-	console.log('function:'+'a11yc_adjust_position');
+//	console.log('function:'+'a11yc_adjust_position');
 	if($obj.closest('#a11yc_menu , #a11yc_header')[0] ) return;
 	setTimeout(function(){
 		var a11yc_position_header_bottom = $('#a11yc_header')[0] ? $('#a11yc_header').offset().top+$('#a11yc_header').outerHeight() : 0;
@@ -625,7 +636,7 @@ $('#a11yc_checks th').on('click', function(e){
 // replace title attr to aria-label.when element is link, screen reader speach out inner skip str.
 a11yc_tooltip();
 function a11yc_tooltip(){
-	console.log('function:'+'a11yc_tooltip');
+//	console.log('function:'+'a11yc_tooltip');
 	var $a11yc_tooltip = $(),
 			title_str = '',
 			position = 0,

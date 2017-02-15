@@ -13,8 +13,8 @@ if ($errs):
 		endforeach;
 	?>
 	</h1>
-	<div class="a11yc_disclosure_target hide">
-		<div id="a11yc_validation_errors" class="a11yc_hide_if_fixedheader">
+	<div class="a11yc_disclosure_target hide a11yc_hide_if_fixedheader">
+		<div id="a11yc_validation_errors" class="">
 			<div class="a11yc_controller">
 			</div>
 			<dl id="a11yc_validation_list">
@@ -23,7 +23,7 @@ if ($errs):
 			<?php endforeach; ?>
 			</dl>
 		</div><!-- /#a11yc_validation_errors -->
-		<dl id="a11yc_validation_code" class="a11yc_hide_if_fixedheader">
+		<dl id="a11yc_validation_code">
 			<dt>
 				<a role="button" class="a11yc_disclosure a11yc_resetstyle" tabindex="0"><?php echo A11YC_LANG_CHECKLIST_VIEW_SOURCE ?></a>
 			</dt>
@@ -41,6 +41,6 @@ if ($errs):
 		</dl>
 </div><!-- /.a11yc_disclosure_target -->
 <?php else:
-	echo '<p class="a11yc_hide_if_fixedheader">'.A11YC_LANG_CHECKLIST_NOT_FOUND_ERR.'</p>';
+	echo '<p class="">'.A11YC_LANG_CHECKLIST_NOT_FOUND_ERR.'</p>';
 endif; ?>
 <!-- /#a11yc_errors -->
