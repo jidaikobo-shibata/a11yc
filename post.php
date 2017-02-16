@@ -102,6 +102,7 @@ if ( ! View::fetch('body'))
 }
 
 // render
+View::assign('base_url', $url);
 View::assign('mode', 'post');
 View::display(array(
 		'post/header.php',
