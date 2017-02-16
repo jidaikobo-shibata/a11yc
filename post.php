@@ -31,7 +31,7 @@ include A11YC_PATH.'/languages/'.$lang.'/post.php';
 $docs = Input::get('docs');
 if ($docs)
 {
-	Controller_Docs::index();
+	Controller_Docs::index(); // $body set
 	define('A11YC_LANG_POST_TITLE', A11YC_LANG_DOCS_TITLE);
 }
 
@@ -41,7 +41,7 @@ $criterion = Input::get('criterion');
 if ($code && $criterion)
 {
 	Controller_Docs::each($criterion, $code);
-	$doc = View::fetch('doc');
+	$doc = View::fetch('doc'); // $body set
 	define('A11YC_LANG_POST_TITLE', $doc['name']);
 }
 
@@ -98,14 +98,14 @@ if ( ! View::fetch('body'))
 	View::assign('is_call_from_post', true);
 	View::assign('title', 'Online Validation');
 	View::assign('target_html', $target_html);
-	View::assign('body', View::fetch_tpl('post.php'), false);
+	View::assign('body', View::fetch_tpl('post/index.php'), false);
 }
 
 // render
 View::assign('mode', 'post');
 View::display(array(
-		'header.php',
+		'post/header.php',
 		'messages.php',
 		'body.php',
-		'footer.php',
+		'post/footer.php',
 	));
