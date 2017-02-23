@@ -12,6 +12,7 @@ namespace Kontiki;
 class Auth
 {
 	public static $user_id;
+	public static $hash = false;
 
 	/**
 	 * _init
@@ -39,11 +40,10 @@ class Auth
 		$password = Input::post('password', false);
 
 		if ( ! $username && ! $username ) return false;
-
 		$users = Users::fetch_users();
 		foreach ($users as $id => $v)
 		{
-			if ($v[0] === $username && $v[1] === $password)
+			if ($v[0] === $username && static::verify($password, $v[1]))
 			{
 				Session::add('auth', 'uid', $id);
 				static::$user_id = $id;
@@ -63,5 +63,27 @@ class Auth
 	public static function logout ()
 	{
 		Session::destroy();
+	}
+
+	/**
+	 * hash
+	 *
+	 * @param $str
+	 * @return string
+	 */
+	public static function hash ($str)
+	{
+		return password_hash($str, CRYPT_BLOWFISH);
+	}
+
+	/**
+	 * verify
+	 *
+	 * @param $str
+	 * @return string
+	 */
+	public static function verify ($password, $hash)
+	{
+		return password_verify($password, $hash);
 	}
 }
