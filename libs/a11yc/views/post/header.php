@@ -22,7 +22,12 @@
 
 <p>
 <a href="<?php echo $base_url ?>"><?php echo A11YC_LANG_POST_INDEX ?></a>
-<a href="<?php echo $base_url ?>?docs=1"><?php echo A11YC_LANG_DOCS_TITLE ?></a>
+<a href="<?php echo $base_url ?>?a=docs"><?php echo A11YC_LANG_DOCS_TITLE ?></a>
+<?php if (\A11yc\Auth::auth()): ?>
+	<a href="<?php echo $base_url ?>?a=logout"><?php echo A11YC_LANG_LOGOUT ?></a>
+<?php else: ?>
+	<a href="<?php echo $base_url ?>?a=login"><?php echo A11YC_LANG_AUTH_TITLE ?></a>
+<?php endif; ?>
 </p>
 
 

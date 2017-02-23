@@ -43,7 +43,7 @@ define('A11YC_LANG_CTRL_EXPAND', '展開する');
 define('A11YC_LANG_CTRL_COMPRESS', '縮小する');
 
 // login
-define('A11YC_LANG_AUTH_TITLE', 'A11YC ログイン');
+define('A11YC_LANG_AUTH_TITLE', 'ログイン');
 define('A11YC_LANG_LOGIN_USERNAME', 'ユーザ名');
 define('A11YC_LANG_LOGIN_PASWWORD', 'パスワード');
 define('A11YC_LANG_LOGIN_BTN', 'ログインする');

@@ -13,17 +13,17 @@ define('A11YC_URL', 'http://example.com/a11yc/index.php');
 define('A11YC_LANG', 'ja');
 
 // administration access approved IPs
-define('A11YC_APPROVED_IPS', serialize(array(
-	'::1',
-	'127.0.0.1',
-)));
+// define('A11YC_APPROVED_IPS', serialize(array(
+// 	'::1',
+// 	'127.0.0.1',
+// )));
 
 // users
 // array must be started with 1 (not 0)
 // array(1 => array(username, password, display_name, memo))
 // username 'root' is development user to show development information.
 // to hash password:
-// php -r "echo password_hash('password', CRYPT_BLOWFISH);"
+// php -r "echo password_hash('password', CRYPT_BLOWFISH);\n"
 define('A11YC_USERS', serialize(array(
 	1 => array(
 		'admin',

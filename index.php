@@ -15,44 +15,46 @@
 //date_default_timezone_set('Asia/Tokyo');
 
 // a11yc
+namespace A11yc;
 require (__DIR__.'/libs/a11yc/main.php');
 
 // set users before authentication
-\A11yc\Users::forge(unserialize(A11YC_USERS));
+Users::forge(unserialize(A11YC_USERS));
 
 // auth
-if (\A11yc\Auth::auth())
+Auth::forge();
+if (Auth::auth())
 {
 	// backup and version check, this must not run so frequently.
-	if (\A11yc\Maintenance::leave_at_least_a_day())
+	if (Maintenance::leave_at_least_a_day())
 	{
 		// backup
-		\A11yc\Maintenance::sqlite(A11YC_DATA_PATH, A11YC_DATA_FILE);
+		Maintenance::sqlite(A11YC_DATA_PATH, A11YC_DATA_FILE);
 
 		// version check
-		\A11yc\Maintenance::version_check();
+		Maintenance::version_check();
 
 		// security check
-		\A11yc\Security::deny_http_directories();
+		Security::deny_http_directories();
 	}
 
 	// login user
-	$login_user = \A11yc\Users::fetch_current_user();
-	\A11yc\View::assign('login_user', $login_user);
+	$login_user = Users::fetch_current_user();
+	View::assign('login_user', $login_user);
 }
 
 // route
-\A11yc\Route::forge();
-$controller = \A11yc\Route::get_controller();
-$action = \A11yc\Route::get_action();
+Route::forge();
+$controller = Route::get_controller();
+$action = Route::get_action();
 $controller::$action();
 
 // assign mode
 $mode = strtolower(substr($controller, strpos($controller, '_') + 1));
-\A11yc\View::assign('mode', $mode);
+View::assign('mode', $mode);
 
 // render
-\A11yc\View::display(array(
+View::display(array(
 		'header.php',
 		'messages.php',
 		'body.php',

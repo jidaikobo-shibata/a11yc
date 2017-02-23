@@ -43,7 +43,7 @@ define('A11YC_LANG_CTRL_EXPAND', 'Expand');
 define('A11YC_LANG_CTRL_COMPRESS', 'Compress');
 
 // login
-define('A11YC_LANG_AUTH_TITLE', 'A11YC Login');
+define('A11YC_LANG_AUTH_TITLE', 'Login');
 define('A11YC_LANG_LOGIN_USERNAME', 'Username');
 define('A11YC_LANG_LOGIN_PASWWORD', 'Password');
 define('A11YC_LANG_LOGIN_BTN', 'Login');

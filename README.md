@@ -31,7 +31,13 @@ JIS X 8341-3:2016 (WCAG 2.0) に基づいたアクセシビリティ報告書と
 
  config/config.php
 
-を作り、環境設定してください。ほとんどの場合、A11YC_URL (ファイルを設置したアドレス) とA11YC_USERS (管理者情報) を設定したら大丈夫だと思います。
+を作り、環境設定してください。ほとんどの場合、A11YC_URL (ファイルを設置したアドレス) とA11YC_USERS (管理者情報) を設定したら大丈夫だと思います。報告書作成画面にアクセスできるIPを制限したい場合はA11YC_APPROVED_IPSを書いてください。特にない場合は、空にしておいてください。
+
+パスワードはconfig.dist.phpにもありますが、コマンドラインで
+
+  php -r "echo password_hash('password', CRYPT_BLOWFISH);\n"
+
+というようにハッシュして保存してください。
 
 ### 使い方
 
@@ -58,6 +64,10 @@ JIS X 8341-3:2016 (WCAG 2.0) に基づいたアクセシビリティ報告書と
 * [JIS X 8341-3:2016 試験実施ガイドライン](http://waic.jp/docs/jis2016/test-guidelines/201604/)
 * [ウェブアクセシビリティ評価ツールの最低要求仕様 2012年11月版](http://waic.jp/docs/jis2010/minimum-requirement/201211/index.html)
 * [WCAG-EM Report Tool Website Accessibility Evaluation Report Generator](https://www.w3.org/WAI/eval/report-tool/#/)
+
+### 依存しているライブラリ
+
+* [spyc](https://github.com/mustangostang/spyc)
 
 ### チェック
 

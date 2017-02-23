@@ -12,17 +12,16 @@ namespace Kontiki;
 class Auth
 {
 	public static $user_id;
-	public static $hash = false;
 
 	/**
-	 * _init
+	 * forge
 	 * start session
 	 *
 	 * @return  void
 	 */
-	public static function _init()
+	public static function forge($session_name = 'KNTKSESSID')
 	{
-		Session::forge();
+		Session::forge($session_name);
 	}
 
 	/**

@@ -14,11 +14,11 @@ class Session
 	protected static $values = array();
 
 	/**
-	 * _init
+	 * Create Session
 	 *
 	 * @return  void
 	 */
-	public static function _init()
+	public static function forge($session_name = 'KNTKSESSID')
 	{
 		// SESSION disabled
 		$is_session_disabled = false;
@@ -51,20 +51,10 @@ class Session
 			ini_set('session.cookie_httponly', true);
 			ini_set('session.use_trans_sid', 0);
 			ini_set('session.use_only_cookies', 1);
-			session_name('KNTKSESSID');
+			session_name($session_name);
 			session_start();
 			session_regenerate_id(true);
 		}
-	}
-
-	/**
-	 * Create Session
-	 *
-	 * @return  void
-	 */
-	public static function forge()
-	{
-		return true;
 	}
 
 	/**
