@@ -22,8 +22,15 @@ define('A11YC_APPROVED_IPS', serialize(array(
 // array must be started with 1 (not 0)
 // array(1 => array(username, password, display_name, memo))
 // username 'root' is development user to show development information.
+// to hash password:
+// php -r "echo password_hash('password', CRYPT_BLOWFISH);"
 define('A11YC_USERS', serialize(array(
-	1 => array('admin', 'password', 'administrator', ''),
+	1 => array(
+		'admin',
+		'$2y$10$4cik/nEzePSnrSwaUsUaleosAHLUPDk0SchWDmn5LCM1LqqqYH6xC', // 'adminpass'
+		'administrator',
+		''
+	),
 )));
 
 // target
