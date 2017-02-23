@@ -12,7 +12,7 @@ ussage:
 put this code to front controller.
 
 require (__DIR__.'/libs/a11yc/classes/controller/post.php');
-\A11yc\Controller_Post::online_validation();
+\A11yc\Controller_Post::forge();
 
  */
 namespace A11yc;
