@@ -12,7 +12,12 @@ ussage:
 put this code to front controller.
 
 require (__DIR__.'/libs/a11yc/classes/controller/post.php');
+define('A11YC_POST_IP_MAX_A_DAY', 150);
+define('A11YC_POST_COOKIE_A_10MIN', 10); // min.
 \A11yc\Controller_Post::online_validation();
+
+at .htaccess
+php_value post_max_size "2M"
 
  */
 namespace A11yc;
@@ -28,6 +33,11 @@ class Controller_Post
 	 */
 	public static function forge()
 	{
+		// max post a day by ip
+		defined('A11YC_POST_IP_MAX_A_DAY') or define('A11YC_POST_IP_MAX_A_DAY', 150);
+		defined('A11YC_POST_COOKIE_A_10MIN') or define('A11YC_POST_COOKIE_A_10MIN', 10);
+
+		// a11yc
 		require (dirname(dirname(__DIR__)).'/main.php');
 
 		// set application url
@@ -36,11 +46,13 @@ class Controller_Post
 		// load language
 		static::load_language();
 
+		// session
+ 	Session::forge('A11YCONLINEVALIDATE');
+
 		// auth users
 		Users::forge(unserialize(A11YC_GUEST_USERS));
 
 		// auth
-		Auth::forge('A11YCONLINEVALIDATE');
 		if (Auth::auth())
 		{
 			// login user
@@ -124,11 +136,51 @@ class Controller_Post
 	 */
 	private static function Action_Validation()
 	{
-		/*
-			banのルールを作る
-			ipを保存するDBを作る？
-			ガベコレも
-		*/
+		// ip
+		$ip = $_SERVER['REMOTE_ADDR'];
+
+		// performed IPs
+		$is_in_white_list = false;
+		if (defined('A11YC_GUEST_USERS'))
+		{
+			$is_in_white_list = in_array(
+				Arr::get($_SERVER, 'REMOTE_ADDR'),
+				unserialize(A11YC_GUEST_USERS)
+			);
+		}
+
+		// ip check for guest users
+		if ( ! Auth::auth() && ! $is_in_white_list)
+		{
+			// database
+			define('A11YC_POST_DB', 'post_log');
+			define('A11YC_POST_DATA_FILE', '/'.A11YC_POST_DB.'.sqlite');
+			Db::forge(
+				A11YC_POST_DB,
+				array(
+					'dbtype' => 'sqlite',
+					'path' => A11YC_DATA_PATH.A11YC_POST_DATA_FILE,
+				));
+			static::init_table();
+
+			// ip check
+			$past_24h = time() - 86400;
+			$sql = 'SELECT COUNT(`ip`) as cnt FROM ip WHERE `ip` = ? AND `datetime` > ?;;';
+			$ip_count = Db::fetch($sql, array($ip, $past_24h), A11YC_POST_DB);
+
+			// cookie check
+			$cookie_count = Session::show('a11yc_post', 'count') ?: array();
+			$cookie_count = array_filter($cookie_count, function ($v){return ($v > time() - 600);});
+
+			// ban
+			if (
+				$ip_count['cnt'] >= A11YC_POST_IP_MAX_A_DAY ||
+				count($cookie_count) >= A11YC_POST_COOKIE_A_10MIN
+			)
+			{
+				Util::error('too much access.');
+			}
+		}
 
 		// validation
 		$raw = '';
@@ -175,6 +227,17 @@ class Controller_Post
 			View::assign('errs_cnts', $errs_cnts);
 			View::assign('raw', $raw, false);
 			View::assign('result', View::fetch_tpl('checklist/validate.php'), false);
+
+			// count up for guest users
+			if ( ! Auth::auth() && ! $is_in_white_list)
+			{
+				// ip
+				$sql = 'INSERT INTO ip (ip, datetime) VALUES (?, ?);';
+				Db::execute($sql, array($ip, date('Y-m-d H:i:s')), A11YC_POST_DB);
+
+				// cookie (session)
+				Session::add('a11yc_post', 'count', time());
+			}
 		}
 
 		// title
@@ -237,9 +300,9 @@ class Controller_Post
 		}
 
 		// performed IPs
-		if (defined('A11YC_APPROVED_IPS'))
+		if (defined('A11YC_GUEST_USERS'))
 		{
-			if ( ! in_array(Arr::get($_SERVER, 'REMOTE_ADDR'), unserialize(A11YC_APPROVED_IPS)))
+			if ( ! in_array(Arr::get($_SERVER, 'REMOTE_ADDR'), unserialize(A11YC_GUEST_USERS)))
 			{
 				$action = '';
 			}
@@ -258,5 +321,22 @@ class Controller_Post
 
 		// error
 		Util::error('service not available.');
+	}
+
+	/**
+	 * init table
+	 *
+	 * @return  void
+	 */
+	private static function init_table()
+	{
+		if ( ! DB::is_table_exist('ip', A11YC_POST_DB))
+		{
+			$sql = 'CREATE TABLE ip (';
+			$sql.= '`ip`        text NOT NULL,';
+			$sql.= '`datetime`  datetime';
+			$sql.= ');';
+			DB::execute($sql, array(), A11YC_POST_DB);
+		}
 	}
 }

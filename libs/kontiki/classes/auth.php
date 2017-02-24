@@ -21,7 +21,10 @@ class Auth
 	 */
 	public static function forge($session_name = 'KNTKSESSID')
 	{
-		Session::forge($session_name);
+		if ( ! Session::is_started())
+		{
+			Session::forge($session_name);
+		}
 	}
 
 	/**
