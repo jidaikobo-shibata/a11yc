@@ -130,6 +130,18 @@ class Controller_Post
 	}
 
 	/**
+	 * Action_Readme
+	 *
+	 * @return void
+	 */
+	private static function Action_Readme()
+	{
+		View::assign('body', View::fetch_tpl('post/readme.php'), false);
+		View::assign('title', A11YC_LANG_POST_README);
+		define('A11YC_LANG_POST_TITLE', A11YC_LANG_POST_README);
+	}
+
+	/**
 	 * Action_Validation
 	 *
 	 * @return void
@@ -226,6 +238,7 @@ class Controller_Post
 			View::assign('errs', $all_errs, false);
 			View::assign('errs_cnts', $errs_cnts);
 			View::assign('raw', $raw, false);
+			View::assign('is_call_from_post', true);
 			View::assign('result', View::fetch_tpl('checklist/validate.php'), false);
 
 			// count up for guest users
@@ -241,11 +254,10 @@ class Controller_Post
 		}
 
 		// title
-		define('A11YC_LANG_POST_TITLE', 'Online Validation');
+		define('A11YC_LANG_POST_TITLE', A11YC_LANG_POST_SERVICE_NAME);
 
 		// assign
-		View::assign('is_call_from_post', true);
-		View::assign('title', A11YC_LANG_POST_TITLE);
+		View::assign('title', '');
 		View::assign('target_html', $target_html);
 		View::assign('body', View::fetch_tpl('post/index.php'), false);
 	}

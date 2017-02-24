@@ -276,15 +276,15 @@ tr.a11yc_flash {
 	margin-bottom: .5em;
 }
 
-table#a11yc_table_info {
+table.a11yc_table_info {
 	font-size: .9em;
 	margin: 1em 0;
 }
-#a11yc_table_info th {
+.a11yc_table_info th {
 	white-space: nowrap;
 	background: #eee;
 }
-#a11yc_table_info th+td {
+.a11yc_table_info th+td {
 	min-width: 13em;
 }
 
@@ -827,7 +827,7 @@ h2.a11yc_header_principle:after {
 .a11yc_ng:hover th,
 .a11yc_ng:hover td {
 	background-color: #fefedd;
-} 
+}
 
 
 .a11yc_outlink {
@@ -1252,7 +1252,9 @@ ul.a11yc_pagenation li {
 	list-style-type: disc;
 }
 #a11yc_docs .a11yc_ul_test div,
-#a11yc_docs .a11yc_ul_check div {
+#a11yc_post .a11yc_ul_test div,
+#a11yc_docs .a11yc_ul_check div,
+#a11yc_post .a11yc_ul_check div {
 	background-color: #fff;
 	margin-top: 5px;
 	margin-right: 10px;
@@ -1271,6 +1273,13 @@ ul.a11yc_pagenation li {
 #a11yc_docs .a11yc_ul_test h2:after,
 #a11yc_docs .a11yc_ul_check h2:after {
 	content: none;
+}
+#a11yc_docs .a11yc_ul_test h5,
+#a11yc_post .a11yc_ul_test h5,
+#a11yc_docs .a11yc_ul_check h5,
+#a11yc_post .a11yc_ul_check h5 {
+	font-size: 1.1em;
+	margin-bottom: .25em;
 }
 
 /* result */
