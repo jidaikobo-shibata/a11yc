@@ -43,7 +43,7 @@ class Route extends \Kontiki\Route
 		}
 
 		// guest users only can access auth
-		if ( ! \Kontiki\Auth::auth() && substr($action, -5) != 'Login')
+		if ( ! Auth::auth() && substr($action, -5) != 'Login')
 		{
 			$controller = '';
 		}

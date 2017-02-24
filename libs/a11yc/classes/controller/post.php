@@ -296,6 +296,7 @@ class Controller_Post
 		// vals
 		$a = Input::get('a', '');
 		$controller = '\A11yc\Controller_Post';
+		$action = '';
 		$is_index = empty(join($_GET));
 
 		// top page
@@ -310,10 +311,16 @@ class Controller_Post
 			$action = 'Action_'.ucfirst($a);
 		}
 
-		// auth
-		if (\Kontiki\Auth::auth() && $a == 'login')
+		// auth - already logged in
+		if (Auth::auth() && $a == 'login')
 		{
 			header('location:'.static::$url);
+		}
+
+		// auth - post
+		if (Input::post('username') || Input::post('password'))
+		{
+			$action = 'Action_Login';
 		}
 
 		// performed IPs

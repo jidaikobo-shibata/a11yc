@@ -33,4 +33,4 @@
 </p>
 <!-- /mainmenu -->
 
-<h1><?php echo A11YC_LANG_POST_TITLE ?></h1>
+<h1><?php echo A11YC_LANG_POST_TITLE; if ( ! $title) echo ' ver.'.A11YC_VERSION; ?></h1>
