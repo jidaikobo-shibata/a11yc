@@ -285,27 +285,39 @@ class Evaluate
 	 *
 	 * @param   int      $level
 	 * @param   int      $target_level
+	 * @param   bool     $is_str
 	 * @return  string
 	 */
-	public static function result_str($level, $target_level)
+	public static function result_str($level, $target_level, $is_str = TRUE)
 	{
 		$level = intval($level);
 		if ($target_level == 2 && $level == 1)
 		{
-			return sprintf(A11YC_LANG_CHECKLIST_CONFORMANCE_PARTIAL, 'AA');
+			return $is_str ?
+				sprintf(A11YC_LANG_CHECKLIST_CONFORMANCE_PARTIAL, 'AA') :
+				'AA-';
 		}
 		elseif ($target_level == 3 && $level == 2)
 		{
-			return sprintf(A11YC_LANG_CHECKLIST_CONFORMANCE_PARTIAL, 'AAA');
+			return $is_str ?
+				sprintf(A11YC_LANG_CHECKLIST_CONFORMANCE_PARTIAL, 'AAA') :
+				'AAA-';
 		}
 		else
 		{
-			$ls = array(
-				sprintf(A11YC_LANG_CHECKLIST_CONFORMANCE_PARTIAL, 'A'),
-				sprintf(A11YC_LANG_CHECKLIST_CONFORMANCE, 'A'),
-				sprintf(A11YC_LANG_CHECKLIST_CONFORMANCE, 'AA'),
-				sprintf(A11YC_LANG_CHECKLIST_CONFORMANCE, 'AAA'),
-			);
+			$ls =  $is_str ?
+					array(
+						sprintf(A11YC_LANG_CHECKLIST_CONFORMANCE_PARTIAL, 'A'),
+						sprintf(A11YC_LANG_CHECKLIST_CONFORMANCE, 'A'),
+						sprintf(A11YC_LANG_CHECKLIST_CONFORMANCE, 'AA'),
+						sprintf(A11YC_LANG_CHECKLIST_CONFORMANCE, 'AAA'),
+					) :
+					array(
+						'A-',
+						'A',
+						'AA',
+						'AAA',
+					);
 			return $ls[$level];
 		}
 	}
