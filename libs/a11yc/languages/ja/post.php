@@ -5,4 +5,36 @@
  * @package    part of A11yc
  */
 
-define('A11YC_LANG_POST_INDEX', 'A11y バリデーション');
+define('A11YC_LANG_POST_SERVICE_NAME', 'A11yc アクセシビリティ バリデーション サービス');
+define('A11YC_LANG_POST_SERVICE_NAME_ABBR', 'A11yc AVS');
+
+define('A11YC_LANG_POST_INDEX', 'バリデーション');
+
+define('A11YC_LANG_POST_README', '使い方');
+
+define('A11YC_LANG_POST_HOWTO', 'HTMLに対して、機械的にできるアクセシビリティのチェックを行います。<a href="/post.php">バリデーション</a>の<code>HTML Source</code>のtextareaにHTMLを貼付して、送信してください。アクセシビリティ上のチェックポイントとその解説文を表示します。');
+
+define('A11YC_LANG_POST_SERVICE_NAME_TITLE', 'サービスの名称');
+define('A11YC_LANG_POST_SERVICE_NAME_EXP', '「<strong>'.A11YC_LANG_POST_SERVICE_NAME.'</strong>」です。長いので、「<strong>'.A11YC_LANG_POST_SERVICE_NAME_ABBR.'</strong>」という表記も用います。');
+
+define('A11YC_LANG_POST_CONDITION_TITLE', '利用制限');
+define('A11YC_LANG_POST_CONDITION_EXP_FREE', '無料でお使いいただけます。');
+define('A11YC_LANG_POST_CONDITION_EXP_10MIN', '10分で10回よりも多いpostがある場合、数分間postできなくなります。');
+define('A11YC_LANG_POST_CONDITION_EXP_24H', '一つのIPアドレスから24時間で150回よりも多いpostがある場合、少しの間postできなくなります。');
+
+define('A11YC_LANG_POST_COLLECTION_TITLE', '収集している情報');
+define('A11YC_LANG_POST_COLLECTION_GOOGLE', 'Google Analyticsをつかってアクセス解析を行っています。');
+define('A11YC_LANG_POST_COLLECTION_IP', 'IPアドレスによる制限のためIPアドレスとそのIPアドレスからアクセスされた時間を保存しています。');
+
+define('A11YC_LANG_POST_VENDOR_TITLE', '開発元');
+define('A11YC_LANG_POST_VENDOR_JIDAIKOBO', '<a href="http:/www.jidaikobo.com">有限会社時代工房</a>');
+define('A11YC_LANG_POST_VENDOR_JIDAIKOBO_TWITTER', '<a href="https://twitter.com/jidaikobo">時代工房のTwitter</a>');
+
+define('A11YC_LANG_POST_TECH_TITLE', '技術情報');
+define('A11YC_LANG_POST_TECH_A11YC', 'A11ycというライブラリを基礎にして開発しています。<a href="https://github.com/jidaikobo-shibata/a11yc">A11ycは、githubで入手可能</a>です。このライブラリも時代工房で作っています。');
+define('A11YC_LANG_POST_TECH_A11YC_ADD', 'A11ycでは、このアクセシビリティバリデーションサービスで提供している機能のほかに、JIS X 8341-3:2016で求められている報告書や試験結果（チェックリスト）の作成機能があります。');
+define('A11YC_LANG_POST_TECH_JWP_A11YC', 'WordPress用のプラグイン<a href="https://ja.wordpress.org/plugins/jwp-a11y/">jwp-a11y</a>もA11ycと同様の機能がありますので、おためしください。');
+define('A11YC_LANG_POST_TECH_JWP_A11YC_ADD', 'Wordpressプラグイン版では、このA11yc AVSのバリデーション機能を、投稿のたびに実行できるので、恒常的にアクセシビリティを意識してサイトを運営できるようになると思います。');
+
+define('A11YC_LANG_POST_FEEDBACK_TITLE', 'フィードバック');
+define('A11YC_LANG_POST_FEEDBACK_EXP', '機能、解説文の表現についての要望や修正箇所等ありましたら、メール（<a href="mailto:info@jidaikobo.com">info@jidaikobo.com</a>）でもTwitterでも、なんでもよいので、ご連絡ください。');

@@ -43,7 +43,7 @@ define('A11YC_LANG_CTRL_EXPAND', '展開する');
 define('A11YC_LANG_CTRL_COMPRESS', '縮小する');
 
 // login
-define('A11YC_LANG_AUTH_TITLE', 'A11YC ログイン');
+define('A11YC_LANG_AUTH_TITLE', 'ログイン');
 define('A11YC_LANG_LOGIN_USERNAME', 'ユーザ名');
 define('A11YC_LANG_LOGIN_PASWWORD', 'パスワード');
 define('A11YC_LANG_LOGIN_BTN', 'ログインする');
@@ -158,8 +158,10 @@ define('A11YC_LANG_CHECKLIST_CONFORMANCE_PARTIAL', '%s 一部準拠');
 define('A11YC_LANG_CHECKLIST_CONFORMANCE_ADDITIONAL', '目標とする達成基準以上の達成項目');
 define('A11YC_LANG_CHECKLIST_NON_INTERFERENCE', '非干渉');
 define('A11YC_LANG_CHECKLIST_DO_LINK_CHECK', 'リンク切れをチェック');
+define('A11YC_LANG_CHECKLIST_SOURCE', 'ソースコード');
 define('A11YC_LANG_CHECKLIST_VIEW_SOURCE', 'ソースコードを見る');
 define('A11YC_LANG_CHECKLIST_MACHINE_CHECK', '自動チェック');
+define('A11YC_LANG_CHECKLIST_CHECK_RESULT', 'チェック結果');
 define('A11YC_LANG_CHECKLIST_MEMO', '備考');
 define('A11YC_LANG_NO_BROKEN_LINK_FOUND', 'リンク切れは見つかりませんでした');
 define('A11YC_LANG_CHECKLIST_PERCENTAGE', '達成度');

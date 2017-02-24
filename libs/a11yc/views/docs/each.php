@@ -1,4 +1,5 @@
-<h2><?php echo A11YC_LANG_UNDERSTANDING ?></h2>
+<?php $level = isset($is_call_form_index) ? 'h5' : 'h2' ; ?>
+<<?php echo $level ?>><?php echo A11YC_LANG_UNDERSTANDING ?></<?php echo $level ?>>
 
 <?php
 $lines = isset($doc['tech']) ? explode("\n", stripslashes(\A11YC\Util::key2link($doc['tech']))) : false;
@@ -13,7 +14,7 @@ if ($lines): ?>
 	<p><?php echo A11YC_LANG_NO_DOC ?></p>
 <?php endif; ?>
 <?php if (isset($doc['criterion'])): ?>
-	<table id="a11yc_table_info" class="a11yc_table">
+	<table class="a11yc_table_info a11yc_table">
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_PRINCIPLE ?></th>
 		<td><?php echo $doc['criterion']['guideline']['principle']['name'] ?></td>
@@ -39,7 +40,7 @@ if ($lines): ?>
 	if (isset($doc['relations'])):
 		$rels = \A11yc\Util::s($doc['relations']);
 ?>
-		<h2><?php echo A11YC_LANG_RELATED ?></h2>
+		<<?php echo $level ?>><?php echo A11YC_LANG_RELATED ?></<?php echo $level ?>>
 		<ul>
 <?php
 			foreach ($rels as $rel_criterion => $rel_codes):
@@ -58,13 +59,13 @@ if ($lines): ?>
 	if (isset($yml['criterions'][$criterion]['url'])):
 ?>
 		<!-- understanding -->
-	<h2><?php echo A11YC_LANG_UNDERSTANDING ?>:&nbsp;<?php echo sprintf(A11YC_LANG_DOCS_UNDERSTANDING, \A11yc\Util::key2code($doc['criterion']['code'])) ?></h2>
+	<<?php echo $level ?>><?php echo A11YC_LANG_UNDERSTANDING ?>:&nbsp;<?php echo sprintf(A11YC_LANG_DOCS_UNDERSTANDING, \A11yc\Util::key2code($doc['criterion']['code'])) ?></<?php echo $level ?>>
 	<p><a<?php echo A11YC_TARGET_OUT ?> href="<?php echo $yml['criterions'][$criterion]['url'] ?>"><?php echo $yml['criterions'][$criterion]['summary'] ?></a></p>
 <?php endif; ?>
 
 <?php if (isset($doc['url_as'])): ?>
 	<!-- Accessibility Supported -->
-	<h2><?php echo A11YC_LANG_AS ?></h2>
+	<<?php echo $level ?>><?php echo A11YC_LANG_AS ?></<?php echo $level ?>>
 	<ul>
 	<?php
 		foreach ($doc['url_as'] as $v):
@@ -77,7 +78,7 @@ if ($lines): ?>
 
 <?php if (isset($doc['urls'])): ?>
 	<!-- related -->
-	<h2><?php echo A11YC_LANG_RELATED ?></h2>
+	<<?php echo $level ?>><?php echo A11YC_LANG_RELATED ?></<?php echo $level ?>>
 	<ul>
 	<?php
 		foreach ($doc['urls'] as $v):

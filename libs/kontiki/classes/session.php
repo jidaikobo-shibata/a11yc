@@ -14,11 +14,11 @@ class Session
 	protected static $values = array();
 
 	/**
-	 * _init
+	 * Create Session
 	 *
 	 * @return  void
 	 */
-	public static function _init()
+	public static function forge($session_name = 'KNTKSESSID')
 	{
 		// SESSION disabled
 		$is_session_disabled = false;
@@ -31,7 +31,29 @@ class Session
 			Util::error('couldn\'t start session.');
 		}
 
-		// is SESSION started
+		// SESSION start
+		if (static::is_started() === FALSE && ! headers_sent())
+		{
+			if (Util::is_ssl())
+			{
+				ini_set('session.cookie_secure', 1);
+			}
+			ini_set('session.cookie_httponly', true);
+			ini_set('session.use_trans_sid', 0);
+			ini_set('session.use_only_cookies', 1);
+			session_name($session_name);
+			session_start();
+			session_regenerate_id(true);
+		}
+	}
+
+	/**
+	 * started?
+	 *
+	 * @return bool
+	 */
+	public static function is_started()
+	{
 		$is_session_started = false;
 		if (version_compare(phpversion(), '5.4.0', '>='))
 		{
@@ -41,30 +63,7 @@ class Session
 		{
 			$is_session_started = session_id() === '' ? FALSE : TRUE;
 		}
-
-		if ($is_session_started === FALSE && ! headers_sent())
-		{
-			if (Util::is_ssl())
-			{
-				ini_set('session.cookie_secure', 1);
-			}
-			ini_set('session.cookie_httponly', true);
-			ini_set('session.use_trans_sid', 0);
-			ini_set('session.use_only_cookies', 1);
-			session_name('KNTKSESSID');
-			session_start();
-			session_regenerate_id(true);
-		}
-	}
-
-	/**
-	 * Create Session
-	 *
-	 * @return  void
-	 */
-	public static function forge()
-	{
-		return true;
+		return $is_session_started;
 	}
 
 	/**
@@ -93,9 +92,22 @@ class Session
 	public static function add($realm, $key, $vals)
 	{
 		static::$values[$realm][$key][] = $vals;
-		if (isset($_SESSION[$realm]))
+
+		// if key exists, merge.
+		if (isset($_SESSION[$realm][$key]))
 		{
-			static::$values[$realm] = array_merge($_SESSION[$realm], static::$values[$realm]);
+			static::$values[$realm][$key] = array_merge(
+				$_SESSION[$realm][$key],
+				static::$values[$realm][$key]
+			);
+		}
+		// realm
+		elseif (isset($_SESSION[$realm]))
+		{
+			static::$values[$realm] = array_merge(
+				$_SESSION[$realm],
+				static::$values[$realm]
+			);
 		}
 		static::$values[$realm][$key] = array_unique(static::$values[$realm][$key]);
 		$_SESSION[$realm] = static::$values[$realm];
@@ -151,6 +163,8 @@ class Session
 
 	/**
 	 * fetch
+	 * fetch data from SESSION and static value.
+	 * after fetching data will be deleted (default).
 	 *
 	 * @param   string  $realm
 	 * @param   string  $key

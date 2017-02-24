@@ -1355,7 +1355,7 @@ checks:
       non-interference: true
       name: There is a flashing content, but it is below the general flash threshold and red flash threshold
       tech: |
-        Users of Photodermatosis are banned by flash and may be unable to use any other content at all, so this is forbidden. Since you need to pay attention even in the screen as well as in the movie, please play the movie and check it. For a more detailed definition of flashes, see Understanding Success Criterion 2.3.1. 
+        Users of Photodermatosis are banned by flash and may be unable to use any other content at all, so this is forbidden. Since you need to pay attention even in the screen as well as in the movie, please play the movie and check it. For a more detailed definition of flashes, see Understanding Success Criterion 2.3.1.
       urls:
         -
           name: Three Flashes or Below Threshold
@@ -1541,10 +1541,10 @@ checks:
           - 3-1-2a
       name: Specifies the basic language of the web page with html element and Content-Language.
       tech: |
-        By specifying the default language of the web page like <html lang="en"> by specifying HTML lang, the user agent and assistive technology can interpret the contents correctly.
+        By specifying the default language of the web page like &lt;html lang="en"&gt; by specifying HTML lang, the user agent and assistive technology can interpret the contents correctly.
         When constructing a multilingual site, it is important to forget about this, so please be aware that even Japanese pages may be "en".
         Also, when multiple languages are mixed within a single page, it is strongly recommended that consideration is also given to Success Criterion 3.1.2.
-        
+
   3-1-2:
     3-1-2a:
       criterion: *c3-1-2

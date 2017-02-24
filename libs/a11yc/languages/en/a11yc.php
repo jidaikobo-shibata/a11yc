@@ -43,7 +43,7 @@ define('A11YC_LANG_CTRL_EXPAND', 'Expand');
 define('A11YC_LANG_CTRL_COMPRESS', 'Compress');
 
 // login
-define('A11YC_LANG_AUTH_TITLE', 'A11YC Login');
+define('A11YC_LANG_AUTH_TITLE', 'Login');
 define('A11YC_LANG_LOGIN_USERNAME', 'Username');
 define('A11YC_LANG_LOGIN_PASWWORD', 'Password');
 define('A11YC_LANG_LOGIN_BTN', 'Login');
@@ -158,8 +158,10 @@ define('A11YC_LANG_CHECKLIST_CONFORMANCE_PARTIAL', 'Partial Conformance with %s'
 define('A11YC_LANG_CHECKLIST_CONFORMANCE_ADDITIONAL', 'Additional Conformance');
 define('A11YC_LANG_CHECKLIST_NON_INTERFERENCE', 'Non interference');
 define('A11YC_LANG_CHECKLIST_DO_LINK_CHECK', 'Do link check');
+define('A11YC_LANG_CHECKLIST_SOURCE', 'Source code');
 define('A11YC_LANG_CHECKLIST_VIEW_SOURCE', 'View source code');
 define('A11YC_LANG_CHECKLIST_MACHINE_CHECK', 'Automatic Check');
+define('A11YC_LANG_CHECKLIST_CHECK_RESULT', 'Check Result');
 define('A11YC_LANG_CHECKLIST_MEMO', 'Note');
 define('A11YC_LANG_NO_BROKEN_LINK_FOUND', 'No broken link was found');
 define('A11YC_LANG_CHECKLIST_PERCENTAGE', 'Achievement');

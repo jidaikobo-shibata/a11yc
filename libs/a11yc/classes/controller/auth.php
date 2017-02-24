@@ -27,10 +27,10 @@ class Controller_Auth
 	 *
 	 * @return  void
 	 */
-	public static function Action_Logout()
+	public static function Action_Logout($redirect = A11YC_URL)
 	{
 		\Kontiki\Auth::logout();
-		header('location:'.A11YC_URL);
+		header('location:'.$redirect);
 		exit();
 	}
 }

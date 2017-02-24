@@ -14,14 +14,17 @@ class Auth
 	public static $user_id;
 
 	/**
-	 * _init
+	 * forge
 	 * start session
 	 *
 	 * @return  void
 	 */
-	public static function _init()
+	public static function forge($session_name = 'KNTKSESSID')
 	{
-		Session::forge();
+		if ( ! Session::is_started())
+		{
+			Session::forge($session_name);
+		}
 	}
 
 	/**
@@ -38,12 +41,11 @@ class Auth
 		$username = Input::post('username', false);
 		$password = Input::post('password', false);
 
-		if ( ! $username && ! $username ) return false;
-
+		if ( ! $username || ! $password) return false;
 		$users = Users::fetch_users();
 		foreach ($users as $id => $v)
 		{
-			if ($v[0] === $username && $v[1] === $password)
+			if ($v[0] === $username && static::verify($password, $v[1]))
 			{
 				Session::add('auth', 'uid', $id);
 				static::$user_id = $id;
@@ -63,5 +65,27 @@ class Auth
 	public static function logout ()
 	{
 		Session::destroy();
+	}
+
+	/**
+	 * hash
+	 *
+	 * @param $str
+	 * @return string
+	 */
+	public static function hash ($str)
+	{
+		return password_hash($str, CRYPT_BLOWFISH);
+	}
+
+	/**
+	 * verify
+	 *
+	 * @param $str
+	 * @return string
+	 */
+	public static function verify ($password, $hash)
+	{
+		return password_verify($password, $hash);
 	}
 }

@@ -17,13 +17,13 @@ class Route extends \Kontiki\Route
 	/**
 	 * forge
 	 *
+	 * @param $controller
+	 * @param $action
 	 * @return  void
 	 */
-	public static function forge()
+	public static function forge($controller = '\A11yc\Controller_Center', $action = 'Action_Index')
 	{
 		// vals
-		$controller = '';
-		$action = '';
 		$c = Input::get('c', '');
 		$a = Input::get('a', '');
 		$is_index = empty(join($_GET));
@@ -35,21 +35,17 @@ class Route extends \Kontiki\Route
 			$action = 'Action_Login';
 		}
 
-		// for loged in users
-		if (\Kontiki\Auth::auth())
+		// safe access?
+		if ( ! $is_index && ctype_alnum($c) && ctype_alnum($a))
 		{
-			// default controller
-			if ($is_index)
-			{
-				$controller = '\A11yc\Controller_Center';
-				$action = 'Action_Index';
-			}
-			// safe access?
-			else if (ctype_alnum($c) && ctype_alnum($a))
-			{
-				$controller = '\A11yc\Controller_'.ucfirst($c);
-				$action = 'Action_'.ucfirst($a);
-			}
+			$controller = '\A11yc\Controller_'.ucfirst($c);
+			$action = 'Action_'.ucfirst($a);
+		}
+
+		// guest users only can access auth
+		if ( ! Auth::auth() && substr($action, -5) != 'Login')
+		{
+			$controller = '';
 		}
 
 		// performed IPs
@@ -95,5 +91,24 @@ class Route extends \Kontiki\Route
 	public static function get_action()
 	{
     return static::$action;
+	}
+	/**
+	 * set_controller
+	 *
+	 * @return void
+	 */
+	public static function set_controller($controller)
+	{
+		static::$controller = $controller;
+	}
+
+	/**
+	 * set_action
+	 *
+	 * @return void
+	 */
+	public static function set_action($action)
+	{
+		static::$action = $action;
 	}
 }

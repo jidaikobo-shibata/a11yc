@@ -10,7 +10,7 @@
  */
 
 // version
-define('A11YC_VERSION', '0.9.0');
+define('A11YC_VERSION', '0.9.1');
 
 // config
 $config_path = dirname(dirname(__DIR__)).'/config/config.php';
