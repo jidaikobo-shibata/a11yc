@@ -60,13 +60,18 @@ class Controller_Post
 			View::assign('login_user', $login_user);
 		}
 
+		// view
+		View::add_tpl_path(A11YC_PATH.'/views/post');
+
+		// set base url before call controllers
+		View::assign('base_url', static::$url);
+
 		// routing
 		static::routing();
 		$action = Route::get_action();
 		static::$action();
 
 		// render
-		View::assign('base_url', static::$url);
 		View::assign('mode', 'post');
 		View::display(array(
 				'post/header.php',
