@@ -158,8 +158,10 @@ define('A11YC_LANG_CHECKLIST_CONFORMANCE_PARTIAL', 'Partial Conformance with %s'
 define('A11YC_LANG_CHECKLIST_CONFORMANCE_ADDITIONAL', 'Additional Conformance');
 define('A11YC_LANG_CHECKLIST_NON_INTERFERENCE', 'Non interference');
 define('A11YC_LANG_CHECKLIST_DO_LINK_CHECK', 'Do link check');
+define('A11YC_LANG_CHECKLIST_SOURCE', 'Source code');
 define('A11YC_LANG_CHECKLIST_VIEW_SOURCE', 'View source code');
 define('A11YC_LANG_CHECKLIST_MACHINE_CHECK', 'Automatic Check');
+define('A11YC_LANG_CHECKLIST_CHECK_RESULT', 'Check Result');
 define('A11YC_LANG_CHECKLIST_MEMO', 'Note');
 define('A11YC_LANG_NO_BROKEN_LINK_FOUND', 'No broken link was found');
 define('A11YC_LANG_CHECKLIST_PERCENTAGE', 'Achievement');

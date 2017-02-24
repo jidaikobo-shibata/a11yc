@@ -14,7 +14,7 @@ put this code to front controller.
 require (__DIR__.'/libs/a11yc/classes/controller/post.php');
 define('A11YC_POST_IP_MAX_A_DAY', 150);
 define('A11YC_POST_COOKIE_A_10MIN', 10); // min.
-\A11yc\Controller_Post::online_validation();
+\A11yc\Controller_Post::forge();
 
 at .htaccess
 php_value post_max_size "2M"
@@ -141,11 +141,11 @@ class Controller_Post
 
 		// performed IPs
 		$is_in_white_list = false;
-		if (defined('A11YC_GUEST_USERS'))
+		if (defined('A11YC_APPROVED_GUEST_IPS'))
 		{
 			$is_in_white_list = in_array(
 				Arr::get($_SERVER, 'REMOTE_ADDR'),
-				unserialize(A11YC_GUEST_USERS)
+				unserialize(A11YC_APPROVED_GUEST_IPS)
 			);
 		}
 
@@ -300,9 +300,9 @@ class Controller_Post
 		}
 
 		// performed IPs
-		if (defined('A11YC_GUEST_USERS'))
+		if (defined('A11YC_APPROVED_GUEST_IPS'))
 		{
-			if ( ! in_array(Arr::get($_SERVER, 'REMOTE_ADDR'), unserialize(A11YC_GUEST_USERS)))
+			if ( ! in_array(Arr::get($_SERVER, 'REMOTE_ADDR'), unserialize(A11YC_APPROVED_GUEST_IPS)))
 			{
 				$action = '';
 			}
