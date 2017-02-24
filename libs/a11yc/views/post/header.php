@@ -4,6 +4,9 @@
 	<meta charset="utf-8">
 	<title><?php if ($title) echo $title.' - '; echo A11YC_LANG_POST_SERVICE_NAME ?></title>
 
+	<!--favicon-->
+	<link href="<?php echo A11YC_ASSETS_URL ?>/img/favicon.ico" rel="SHORTCUT ICON" />
+
 	<!-- viewport -->
 	<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
