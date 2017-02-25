@@ -195,7 +195,7 @@ function a11yc_add_fixed() {
 			$(document).find('.a11yc_hide_if_fixedheader').each(function(){
 				if($(this).hasClass('hide')) return;
 				$(this).removeClass('show').addClass('hide').hide();
-				
+
 				if(!$(this).hasClass('a11yc_disclosure_target')) return;
 				var index = $('.a11yc_disclosure_target').index(this);
 				$('.a11yc_disclosure').eq(index).removeClass('show').addClass('hide');
