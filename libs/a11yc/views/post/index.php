@@ -1,5 +1,5 @@
 <form action="<?php echo \A11yc\Util::uri() ?>" method="POST">
-<label for="source">source</label>
+<label for="source">HTML Source</label>
 <textarea name="source" id="source" style="width: 100%; min-height: 10em;"><?php echo $target_html ?></textarea>
 <input type="submit" value="<?php echo A11YC_LANG_CTRL_SEND ?>">
 </form>

@@ -2,7 +2,10 @@
 <html lang="<?php echo A11YC_LANG ?>">
 <head>
 	<meta charset="utf-8">
-	<title><?php echo $title ?> - A11YC</title>
+	<title><?php if ($title) echo $title.' - '; echo A11YC_LANG_POST_SERVICE_NAME ?></title>
+
+	<!--favicon-->
+	<link href="<?php echo A11YC_ASSETS_URL ?>/img/favicon.ico" rel="SHORTCUT ICON" />
 
 	<!-- viewport -->
 	<meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -20,8 +23,10 @@
 <!-- #a11yc -->
 <div id="<?php echo 'a11yc_'.$mode ?>" class="a11yc">
 
+<!-- mainmenu -->
 <p>
 <a href="<?php echo $base_url ?>"><?php echo A11YC_LANG_POST_INDEX ?></a>
+<a href="<?php echo $base_url ?>?a=readme"><?php echo A11YC_LANG_POST_README ?></a>
 <a href="<?php echo $base_url ?>?a=docs"><?php echo A11YC_LANG_DOCS_TITLE ?></a>
 <?php if (\A11yc\Auth::auth()): ?>
 	<a href="<?php echo $base_url ?>?a=logout"><?php echo A11YC_LANG_LOGOUT ?></a>
@@ -29,6 +34,6 @@
 	<a href="<?php echo $base_url ?>?a=login"><?php echo A11YC_LANG_AUTH_TITLE ?></a>
 <?php endif; ?>
 </p>
+<!-- /mainmenu -->
 
-
-<h1><?php echo A11YC_LANG_POST_TITLE ?></h1>
+<h1><?php echo A11YC_LANG_POST_TITLE; if ( ! $title) echo ' ver.'.A11YC_VERSION; ?></h1>

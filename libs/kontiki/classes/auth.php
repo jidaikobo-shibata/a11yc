@@ -21,7 +21,10 @@ class Auth
 	 */
 	public static function forge($session_name = 'KNTKSESSID')
 	{
-		Session::forge($session_name);
+		if ( ! Session::is_started())
+		{
+			Session::forge($session_name);
+		}
 	}
 
 	/**
@@ -38,7 +41,7 @@ class Auth
 		$username = Input::post('username', false);
 		$password = Input::post('password', false);
 
-		if ( ! $username && ! $username ) return false;
+		if ( ! $username || ! $password) return false;
 		$users = Users::fetch_users();
 		foreach ($users as $id => $v)
 		{

@@ -1,4 +1,4 @@
-<?php if (\A11yc\Input::post('username')): ?>
+<?php if (\A11yc\Input::post('username') || \A11yc\Input::post('password')): ?>
 	<p><strong><?php echo A11YC_LANG_LOGIN_ERROR0 ?></strong></p>
 <?php endif; ?>
 

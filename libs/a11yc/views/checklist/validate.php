@@ -12,7 +12,7 @@ if ($errs):
 			$class_str = $lv == 'total' ? ' current' : '';
 			echo '<a role="button" class="a11yc_resetstyle'.$class_str.'" tabindex="0" data-narrow-level=\'['.$narrow_level.']\'>'.strtoupper($lv).': '.intval($errs_cnt).'</a> ';
 		endforeach;
-		
+
 		$class_str = $is_call_from_post ? '' : 'a11yc_disclosure_target a11yc_hide_if_fixedheader hide';
 	?>
 	</h1>

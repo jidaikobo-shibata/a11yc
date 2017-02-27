@@ -68,7 +68,7 @@ $msg = '';
 			$class_str = isset($vvv['non-interference']) ? ' non_interference' : '';
 			$class_str.= ' a11yc_criterion_l_'.strtolower($vvv['level']['name']);
 			 ?>
-			<div id="a11yc_c_<?php echo $kkk ?>" class="a11yc_section_criterion<?php echo $class_str ?> a11yc_level_'.strtolower($vvv['level']['name']).'" data-a11yc-lebel="l_<?php echo strtolower($vvv['level']['name']) ?>">
+			<div id="a11yc_c_<?php echo $kkk ?>" class="a11yc_section_criterion<?php echo $class_str ?> a11yc_level_<?php echo strtolower($vvv['level']['name']) ?>" data-a11yc-lebel="l_<?php echo strtolower($vvv['level']['name']) ?>">
 			<h4 class="a11yc_header_criterion a11yc_disclosure"><?php echo \A11yc\Util::key2code($vvv['code']).' '.$vvv['name'].' <span class="a11yc_header_criterion_level">('.$vvv['level']['name'].$non_interference.')</span>' ?></h4>
 			<ul class="a11yc_outlink">
 			<?php if (isset($vvv['url_as'])): ?>
@@ -87,6 +87,7 @@ $msg = '';
 				<a role="button" class="a11yc_disclosure" <?php /* echo A11YC_TARGET ?> href="<?php echo A11YC_DOC_URL.$code ?>&amp;criterion=<?php echo $kkk ?>"<?php */ ?>><?php echo $val['name'] ?></a>
 				<div class="a11yc_section_each_docs a11yc_disclosure_target<?php echo $class_str_show ?>">
 					<?php
+						\A11yc\View::assign('is_call_form_index', true);
 						\A11yc\View::assign('doc', $val, false);
 						echo \A11yc\View::fetch_tpl('docs/each.php');
 					?>
