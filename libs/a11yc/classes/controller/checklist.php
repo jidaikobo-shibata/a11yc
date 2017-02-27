@@ -304,7 +304,7 @@ class Controller_Checklist
 		View::assign('target_level', intval(@$setup['target_level']));
 		View::assign('page', $page);
 		View::assign('link_check', Input::post('do_link_check', FALSE));
-		View::assign('additional_criterions', join(',',Controller_Setup::additional_criterions()));
+		View::assign('additional_criterions', join('","',Controller_Setup::additional_criterions()));
 
 		// cs
 		$bulk = Controller_Bulk::fetch_results();

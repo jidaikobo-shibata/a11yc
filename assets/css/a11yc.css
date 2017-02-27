@@ -413,6 +413,10 @@ table#a11yc_table_info {
 	max-height: calc( 100vh - 3em);
 	overflow: auto;
 }
+#a11yc_header_inner {
+	max-width: 960px;
+	margin: auto;
+}
 .a11yc_fixed_header > h1 {
 	clip: rect(1px 1px 1px 1px);
 	clip: rect(1px,1px,1px,1px);
@@ -512,16 +516,19 @@ table#a11yc_table_info {
 /*	text-align: right;
 	margin-top: -3.25em;
 	margin-bottom: .25em;*/
-	position: absolute;
+/*	position: absolute;
 	top: -2.75em;
 	right: 0;
+*/
 }
+/*
 .a11yc_fixed_header #a11yc_form_checklist  #a11yc_header_ctrl {
 	position: relative;
 	top: 0;
 	right: 0;
 	float: right;
 }
+*/
 #a11yc_done_date,
 #a11yc_select_standard,
 #a11yc_selection_reason {
@@ -625,6 +632,10 @@ table#a11yc_rest {
 	min-height: 2em;
 	overflow: auto;
 }
+#a11yc_post #a11yc_validation_list,
+#a11yc_post .a11yc_source {
+	max-height: initial;
+}
 #a11yc_validation_list.expand,
 .a11yc_source.expand {
 	max-height: initial;
@@ -667,7 +678,8 @@ dl#a11yc_validation_code {
 	margin-top: -1px;
 	background-color: #ffdfdf;
 }
-#a11yc_validation_errors dd {
+#a11yc_validation_errors dd,
+#a11yc_validation_code dd {
 	margin-left: 0;
 	border-width: 0 1px 1px 1px;
 }
