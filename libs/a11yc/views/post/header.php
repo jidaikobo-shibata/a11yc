@@ -22,18 +22,20 @@
 <body>
 <!-- #a11yc -->
 <div id="<?php echo 'a11yc_'.$mode ?>" class="a11yc">
-
-<!-- mainmenu -->
-<p>
-<a href="<?php echo $base_url ?>"><?php echo A11YC_LANG_POST_INDEX ?></a>
-<a href="<?php echo $base_url ?>?a=readme"><?php echo A11YC_LANG_POST_README ?></a>
-<a href="<?php echo $base_url ?>?a=docs"><?php echo A11YC_LANG_DOCS_TITLE ?></a>
+	<div id="a11yc_menu_wrapper">
+	<nav id="a11yc_menu">
+	<h1 id="a11yc_title"><img src="<?php echo A11YC_ASSETS_URL ?>/img/logo_w.png" alt="A11yC logo" /></span></h1>
+	<ul>
+		<li class="a11yc_menu_item a11yc_validation"><a href="<?php echo $base_url ?>" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_POST_INDEX ?></a></li>
+		<li class="a11yc_menu_item a11yc_readme"><a href="<?php echo $base_url ?>?a=readme" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_POST_README ?></a></li>
+		<li class="a11yc_menu_item a11yc_docs"><a href="<?php echo $base_url ?>?a=docs" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_DOCS_TITLE ?></a></li>
 <?php if (\A11yc\Auth::auth()): ?>
-	<a href="<?php echo $base_url ?>?a=logout"><?php echo A11YC_LANG_LOGOUT ?></a>
+		<li class="a11yc_menu_item a11yc_logout a11yc_fr"><a href="<?php echo $base_url ?>?a=logout" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_LOGOUT ?></a></li>
 <?php else: ?>
-	<a href="<?php echo $base_url ?>?a=login"><?php echo A11YC_LANG_AUTH_TITLE ?></a>
+		<li class="a11yc_menu_item a11yc_login a11yc_fr"><a href="<?php echo $base_url ?>?a=login" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_AUTH_TITLE ?></a></li>
 <?php endif; ?>
-</p>
-<!-- /mainmenu -->
+		</ul>
+	</nav><!--/#a11yc_menu-->
+</div><!--#a11yc_menu_wrapper-->
 
 <h1><?php echo A11YC_LANG_POST_TITLE; if ( ! $title) echo ' ver.'.A11YC_VERSION; ?></h1>

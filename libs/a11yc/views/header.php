@@ -26,7 +26,7 @@
 <?php if (\Kontiki\Auth::auth() && isset($login_user[2])): ?>
 	<div id="a11yc_menu_wrapper">
 		<nav id="a11yc_menu">
-		<h1 id="a11yc_title">A11y<span>C</span></h1>
+		<h1 id="a11yc_title"><img src="<?php echo A11YC_ASSETS_URL ?>/img/logo_w.png" alt="A11yC logo" /></span></h1>
 		<a href="#a11yc_content" class="a11yc_skip a11yc_show_if_focus"><?php echo A11YC_LANG_JUMP_TO_CONTENT ?></a>
 		<ul>
 			<li class="a11yc_menu_item a11yc_center"><a href="?c=center&amp;a=index" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_CENTER_TITLE ?></a></li>
