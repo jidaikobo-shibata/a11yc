@@ -42,9 +42,7 @@ if(!$('.a11yc')[0]) return;
 		var additional_arr = $('#a11yc_checks').data('a11ycAdditional_criterions');
 		a11yc_env.$additional_criterions = $(additional_arr.map(function(el){ return '#a11yc_c_'+el }).join(','));
 	}
-});
 
-jQuery(function($){
 	//get contents height
 	$.fn.a11yc_get_height = function(arr){
 //	console.log('fn.a11yc_get_height');
@@ -410,6 +408,7 @@ jQuery(function($){
 
 //count checkbox
 function a11yc_count_checkbox(){
+jQuery(function($){
 	var pid ='',
 	    additional_num = 0,
 	    $row= $(),
@@ -421,7 +420,6 @@ function a11yc_count_checkbox(){
 	var levels_arr = ['a', 'aa', 'aaa'],
 			count_arr = [[],[],[],[]],
 			current_level = a11yc_env.$current_level.length;
-	jQuery(function($){
 		$('.a11yc_section_principle').each(function(index){
 			pid = index+1;
 			for(var i=0; i<3; i++)
