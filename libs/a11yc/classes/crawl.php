@@ -12,6 +12,20 @@ namespace A11yc;
 class Crawl
 {
 	protected static $target_path;
+	protected static $goutte;
+
+	/**
+	 * _init()
+	 *
+	 * @return  void
+	 */
+	public static function _init()
+	{
+		// require (A11YC_LIB_PATH.'/goutte/vendor/autoload.php');
+		// static::$goutte = new \Goutte\Client();
+		// $client->request('HEAD', $url);
+		// $status_code = $client->getInternalResponse()->getStatus();
+	}
 
 	/**
 	 * set_target_path
