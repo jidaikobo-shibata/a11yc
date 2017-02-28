@@ -1,135 +1,135 @@
-<div id="a11yc_checks" data-a11yc-additional_criterions="<?php echo $additional_criterions ?>" data-a11yc-current-user="<?php echo $current_user_id ?>" data-a11yc-lang='{"expand":"<?php echo A11YC_LANG_CTRL_EXPAND ?>", "compress": "<?php echo A11YC_LANG_CTRL_COMPRESS ?>", "conformance": "<?php echo A11YC_LANG_CHECKLIST_CONFORMANCE.','.A11YC_LANG_CHECKLIST_CONFORMANCE_PARTIAL ?>"}' <?php if($checklist_behaviour) echo ' class="a11yc_hide_passed_item"' ?>>
+<div id="a11yc_checks" data-a11yc-target_level="<?php echo str_repeat('a',$target_level) ?>" data-a11yc-additional_criterions='[<?php echo $additional_criterions ? '"'.$additional_criterions.'"' : ''?>]' data-a11yc-current-user="<?php echo $current_user_id ?>" data-a11yc-lang='{"expand":"<?php echo A11YC_LANG_CTRL_EXPAND ?>", "compress": "<?php echo A11YC_LANG_CTRL_COMPRESS ?>", "conformance": "<?php echo A11YC_LANG_CHECKLIST_CONFORMANCE.','.A11YC_LANG_CHECKLIST_CONFORMANCE_PARTIAL ?>"}' <?php if($checklist_behaviour) echo ' class="a11yc_hide_passed_item"' ?>>
 <!-- header -->
 <div id="a11yc_header">
-	<div id="a11yc_header_ctrl">
-	<?php if ($url != 'bulk'): ?>
-		<!-- standard -->
-		<p id="a11yc_done_date" class="">
-			<label for="a11yc_done_date"><?php echo A11YC_LANG_TEST_DATE ?></label>
-			<input type="text" name="done_date" id="a11yc_done_date" size="10" value="<?php echo $done_date ?>" />
-		</p>
-
-		<!-- standard -->
-		<p id="a11yc_select_standard" class="">
-			<label for="a11yc_standard"><?php echo A11YC_LANG_STANDARD ?></label>
-			<select name="standard" id="a11yc_standard">
-			<?php
-			foreach ($standards as $k => $v):
-				$selected = $k == @$page['standard'] ? ' selected="selected"' : '';
-			?>
-				<option<?php echo $selected ?> value="<?php echo $k ?>"><?php echo $v ?></option>
-			<?php endforeach; ?>
-			</select>
-		</p>
-
-		<!-- selection reason -->
-		<p id="a11yc_selection_reason" class="">
-			<label for="a11yc_selection_reason"><?php echo A11YC_LANG_CANDIDATES_REASON ?></label>
-			<select name="selection_reason" id="a11yc_selection_reason">
-			<?php
-			foreach ($selection_reasons as $k => $v):
-				$selected = $k == @$page['selection_reason'] ? ' selected="selected"' : '';
-			?>
-				<option<?php echo $selected ?> value="<?php echo $k ?>"><?php echo $v ?></option>
-			<?php endforeach; ?>
-			</select>
-		</p>
-	<?php endif; ?>
-	</div><!-- /#a11yc_header_ctrl -->
-	<div id="a11yc_header_left" class="a11yc_fl">
-		<!-- not for bulk -->
-	<?php if ($url != 'bulk'): ?>
-		<div id="a11yc_targetpage_data">
-		<!-- target page -->
-	<table id="a11yc_back_to_target_page">
-	<tr>
-		<th><?php echo A11YC_LANG_CHECKLIST_TARGETPAGE ?></th>
-		<td><?php echo $target_title ?></td>
-	</tr>
-	<tr>
-		<th><?php echo A11YC_LANG_PAGES_URLS ?></th>
-		<td><a href="<?php echo \A11yc\Util::urldec($url) ?>"><?php echo \A11yc\Util::urldec($url) ?></a></td>
-	</tr>
-	</table>
-
-	<?php
-		// #a11yc_error
-		echo $ajax_validation;
-	?>
-
-	</div><!-- /#a11yc_targetpage_data -->
-	<?php else: ?>
-		<p><label for="a11yc_update_all"><?php echo A11YC_LANG_BULK_UPDATE ?></label>
-		<select name="update_all" id="a11yc_update_all" >
-			<option value="1"><?php echo A11YC_LANG_BULK_UPDATE1 ?></option>
-			<option value="2"><?php echo A11YC_LANG_BULK_UPDATE2 ?></option>
-			<option value="3"><?php echo A11YC_LANG_BULK_UPDATE3 ?></option>
-		</select></p>
-
-		<p><label for="a11yc_update_done"><?php echo A11YC_LANG_BULK_DONE ?></label>
-		<select name="update_done" id="a11yc_update_done">
-			<option value="1"><?php echo A11YC_LANG_BULK_DONE1 ?></option>
-			<option value="2"><?php echo A11YC_LANG_BULK_DONE2 ?></option>
-			<option value="3"><?php echo A11YC_LANG_BULK_DONE3 ?></option>
-		</select></p>
-	<?php endif; ?>
-	</div><!-- /#a11yc_header_left -->
-
-	<div id="a11yc_header_right" class="a11yc_fr">
-	<!-- narrow level -->
-		<p class="a11yc_narrow_level" data-a11yc-narrow-target=".a11yc_section_principle">Level:
-	<?php
-		for ($i=1; $i<=3; $i++)
-		{
-			$class_str = ($i == $target_level) || ($target_level == 0 && $i == 3) ? ' class="current"' : '';
-			echo '<a role="button" tabindex="0" data-narrow-level="'.implode(',', array_slice(array('l_a', 'l_aa', 'l_aaa'), 0, $i)).'"'.$class_str.'>'.\A11yc\Util::num2str($i).'</a>';
-		}
-		$additional_criterion = join(',', \A11yc\Controller_Setup::additional_criterions());
-	?>
-		</p>
-
-	<?php if ($url != 'bulk'): ?>
-		<!-- level -->
-		<p id="a11yc_target_level"><?php echo A11YC_LANG_TARGET_LEVEL ?>: <?php echo \A11yc\Util::num2str($target_level) ?>
-<?php $current_level = $target_level ? \A11yc\Evaluate::result_str(@$page['level'], $target_level) : '-'; ?><br><?php echo A11YC_LANG_CURRENT_LEVEL ?>: <span id="a11yc_conformance_level"><?php echo $current_level ?></span></p>
-	<?php endif ?>
-		<!-- rest of num -->
-		<p class="a11yc_hide_if_no_js"><a role="button" class="a11yc_disclosure"><?php echo A11YC_LANG_CHECKLIST_RESTOFNUM ?>&nbsp;:&nbsp;<span id="a11yc_rest_total">&nbsp;-&nbsp;</span></a></p>
-		<div class="a11yc_disclosure_target show a11yc_hide_if_fixedheader a11yc_hide_if_no_js">
-		<table id="a11yc_rest">
-			<thead>
-				<tr>
-					<th scope="col">&nbsp;</th>
-					<th scope="col" class="a11yc_rest_label_lv">A</th>
-					<th scope="col" class="a11yc_rest_label_lv">AA</th>
-					<th scope="col" class="a11yc_rest_label_lv">AAA</th>
-					<th scope="col"><?php echo A11YC_LANG_CHECKLIST_TOTAL ?></th>
-				</tr>
-			</thead>
-			<tbody>
-		<?php foreach ($yml['principles'] as $v): ?>
-				<tr id="a11yc_rest_<?php echo $v['code'] ?>">
-					<th scope="row"><?php echo $v['code'].'&nbsp;'.$v['name'] ?></th>
-					<td data-a11yc-rest-level="a">&nbsp;-&nbsp;</td>
-					<td data-a11yc-rest-level="aa">&nbsp;-&nbsp;</td>
-					<td data-a11yc-rest-level="aaa">&nbsp;-&nbsp;</td>
-					<td class="a11yc_rest_subtotal">&nbsp;-&nbsp;</td>
-				</tr>
-		<?php endforeach; ?>
-			</tbody>
+	<div id="a11yc_header_inner">
+		<div id="a11yc_header_ctrl">
+		<?php if ($url != 'bulk'): ?>
+			<!-- standard -->
+			<p id="a11yc_done_date" class="">
+				<label for="a11yc_done_date"><?php echo A11YC_LANG_TEST_DATE ?></label>
+				<input type="text" name="done_date" id="a11yc_done_date" size="10" value="<?php echo $done_date ?>" />
+			</p>
+			<!-- standard -->
+			<p id="a11yc_select_standard" class="">
+				<label for="a11yc_standard"><?php echo A11YC_LANG_STANDARD ?></label>
+				<select name="standard" id="a11yc_standard">
+				<?php
+				foreach ($standards as $k => $v):
+					$selected = $k == @$page['standard'] ? ' selected="selected"' : '';
+				?>
+					<option<?php echo $selected ?> value="<?php echo $k ?>"><?php echo $v ?></option>
+				<?php endforeach; ?>
+				</select>
+			</p>
+	
+			<!-- selection reason -->
+			<p id="a11yc_selection_reason" class="">
+				<label for="a11yc_selection_reason"><?php echo A11YC_LANG_CANDIDATES_REASON ?></label>
+				<select name="selection_reason" id="a11yc_selection_reason">
+				<?php
+				foreach ($selection_reasons as $k => $v):
+					$selected = $k == @$page['selection_reason'] ? ' selected="selected"' : '';
+				?>
+					<option<?php echo $selected ?> value="<?php echo $k ?>"><?php echo $v ?></option>
+				<?php endforeach; ?>
+				</select>
+			</p>
+		<?php endif; ?>
+		</div><!-- /#a11yc_header_ctrl -->
+		<div id="a11yc_header_left" class="a11yc_fl">
+			<!-- not for bulk -->
+		<?php if ($url != 'bulk'): ?>
+			<div id="a11yc_targetpage_data">
+			<!-- target page -->
+		<table id="a11yc_back_to_target_page">
+		<tr>
+			<th><?php echo A11YC_LANG_CHECKLIST_TARGETPAGE ?></th>
+			<td><?php echo $target_title ?></td>
+		</tr>
+		<tr>
+			<th><?php echo A11YC_LANG_PAGES_URLS ?></th>
+			<td><a href="<?php echo \A11yc\Util::urldec($url) ?>"><?php echo \A11yc\Util::urldec($url) ?></a></td>
+		</tr>
 		</table>
-		</div>
-		<?php /*
-			$checked = $setup['checklist_behaviour'] ? ' checked="checked"' : '';
+	
+		<?php
+			// #a11yc_error
+			echo $ajax_validation;
 		?>
-		<label for="a11yc_checklist_behaviour" class="a11yc_label_switch"><span role="presentation" aria-hidden="true"></span><input type="checkbox" name="checklist_behaviour" id="a11yc_checklist_behaviour" value=""<?php echo $checked ?> class="" /><?php echo A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR_DISAPPEAR ?></label>
-		<?php */ ?>
-	</div><!-- /#a11yc_header_right -->
+	
+		</div><!-- /#a11yc_targetpage_data -->
+		<?php else: ?>
+			<p><label for="a11yc_update_all"><?php echo A11YC_LANG_BULK_UPDATE ?></label>
+			<select name="update_all" id="a11yc_update_all" >
+				<option value="1"><?php echo A11YC_LANG_BULK_UPDATE1 ?></option>
+				<option value="2"><?php echo A11YC_LANG_BULK_UPDATE2 ?></option>
+				<option value="3"><?php echo A11YC_LANG_BULK_UPDATE3 ?></option>
+			</select></p>
+	
+			<p><label for="a11yc_update_done"><?php echo A11YC_LANG_BULK_DONE ?></label>
+			<select name="update_done" id="a11yc_update_done">
+				<option value="1"><?php echo A11YC_LANG_BULK_DONE1 ?></option>
+				<option value="2"><?php echo A11YC_LANG_BULK_DONE2 ?></option>
+				<option value="3"><?php echo A11YC_LANG_BULK_DONE3 ?></option>
+			</select></p>
+		<?php endif; ?>
+		</div><!-- /#a11yc_header_left -->
+	
+		<div id="a11yc_header_right" class="a11yc_fr">
+		<!-- narrow level -->
+			<p class="a11yc_narrow_level" data-a11yc-narrow-target=".a11yc_section_principle">Level:
+		<?php
+			for ($i=1; $i<=3; $i++)
+			{
+				$class_str = ($i == $target_level) || ($target_level == 0 && $i == 3) ? ' class="current"' : '';
+				echo '<a role="button" tabindex="0" data-narrow-level=\'['.implode(',', array_slice(array('"l_a"', '"l_aa"', '"l_aaa"'), 0, $i)).']\''.$class_str.'>'.\A11yc\Util::num2str($i).'</a>';
+			}
+		?>
+			</p>
+	
+		<?php if ($url != 'bulk'): ?>
+			<!-- level -->
+			<p id="a11yc_target_level"><?php echo A11YC_LANG_TARGET_LEVEL ?>: <?php echo \A11yc\Util::num2str($target_level) ?>
+	<?php $current_level = $target_level ? \A11yc\Evaluate::result_str(@$page['level'], $target_level) : '-'; ?><br><?php echo A11YC_LANG_CURRENT_LEVEL ?>: <span id="a11yc_conformance_level"><?php echo $current_level ?></span></p>
+		<?php endif ?>
+			<!-- rest of num -->
+			<p class="a11yc_hide_if_no_js"><a role="button" class="a11yc_disclosure"><?php echo A11YC_LANG_CHECKLIST_RESTOFNUM ?>&nbsp;:&nbsp;<span id="a11yc_rest_total">&nbsp;-&nbsp;</span></a></p>
+			<div class="a11yc_disclosure_target show a11yc_hide_if_fixedheader a11yc_hide_if_no_js">
+			<table id="a11yc_rest">
+				<thead>
+					<tr>
+						<th scope="col">&nbsp;</th>
+						<th scope="col" class="a11yc_rest_label_lv">A</th>
+						<th scope="col" class="a11yc_rest_label_lv">AA</th>
+						<th scope="col" class="a11yc_rest_label_lv">AAA</th>
+						<th scope="col"><?php echo A11YC_LANG_CHECKLIST_TOTAL ?></th>
+					</tr>
+				</thead>
+				<tbody>
+			<?php foreach ($yml['principles'] as $v): ?>
+					<tr id="a11yc_rest_<?php echo $v['code'] ?>">
+						<th scope="row"><?php echo $v['code'].'&nbsp;'.$v['name'] ?></th>
+						<td data-a11yc-rest-level="a">&nbsp;-&nbsp;</td>
+						<td data-a11yc-rest-level="aa">&nbsp;-&nbsp;</td>
+						<td data-a11yc-rest-level="aaa">&nbsp;-&nbsp;</td>
+						<td class="a11yc_rest_subtotal">&nbsp;-&nbsp;</td>
+					</tr>
+			<?php endforeach; ?>
+				</tbody>
+			</table>
+			</div>
+			<?php /*
+				$checked = $setup['checklist_behaviour'] ? ' checked="checked"' : '';
+			?>
+			<label for="a11yc_checklist_behaviour" class="a11yc_label_switch"><span role="presentation" aria-hidden="true"></span><input type="checkbox" name="checklist_behaviour" id="a11yc_checklist_behaviour" value=""<?php echo $checked ?> class="" /><?php echo A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR_DISAPPEAR ?></label>
+			<?php */ ?>
+		</div><!-- /#a11yc_header_right -->
+	</div><!--/#a11yc_header_inner-->
 
 		<!-- a11yc menu -->
 	<ul id="a11yc_menu_principles">
 	<?php foreach ($yml['principles'] as $v): ?>
-		<li id="a11yc_menuitem_<?php echo $v['code'] ?>"><a href="#a11yc_header_p_<?php echo $v['code'] ?>"><?php echo $v['code'].' '.$v['name'] ?></a></li>
+		<li id="a11yc_menuitem_<?php echo $v['code'] ?>"><a href="#a11yc_header_p_<?php echo $v['code'] ?>"><?php echo $v['code'].' '.$v['name'] ?><span></span></a></li>
 	<?php endforeach; ?>
 	</ul><!--/#a11yc_menu_principles-->
 
@@ -231,7 +231,7 @@
 
 				<tr<?php echo $class_str ?>>
 				<th scope="row">
-				<label for="<?php echo $code ?>"><input type="checkbox"<?php echo $checked ?> id="<?php echo $code ?>" name="chk[<?php echo $code ?>][on]" value="1" <?php echo $data ?> class="<?php echo $vvv['level']['name'] ?> a11yc_skip"/><span class="a11yc_icon_fa a11yc_icon_checkbox" role="presentation" aria-hidden="true"></span><?php echo $skip_non_interference.$val['name'] ?></label>
+				<label for="<?php echo $code ?>"><input type="checkbox"<?php echo $checked ?> id="<?php echo $code ?>" name="chk[<?php echo $code ?>][on]" value="1" <?php echo $data ?> class="<?php echo strtolower($vvv['level']['name']) ?> a11yc_skip"/><span class="a11yc_icon_fa a11yc_icon_checkbox" role="presentation" aria-hidden="true"></span><?php echo $skip_non_interference.$val['name'] ?></label>
 				</th>
 
 				<td class="a11yc_table_check_memo">
