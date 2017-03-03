@@ -11,6 +11,7 @@
 
 // version
 define('A11YC_VERSION', '0.9.2');
+// git tag 0.9.2 & git push origin 0.9.2
 
 // config
 $config_path = dirname(dirname(__DIR__)).'/config/config.php';
