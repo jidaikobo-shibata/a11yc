@@ -67,4 +67,5 @@ exclude_paths:
 - config/
 - db/
 - libs/spyc
+- libs/guzzle
 - libs/a11yc/css/font-awesome
