@@ -1357,6 +1357,9 @@ table td.a11yc_result {
 	background-color: transparent;
 	font-weight: normal;
 }
+.a11yc #a11yc_validation_code_raw {
+	word-break: break-all;
+}
 
 .a11yc .a11yc_hide {
 	visibility: hidden;

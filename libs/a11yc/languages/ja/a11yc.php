@@ -148,6 +148,7 @@ define('A11YC_LANG_CANDIDATES_ETC', 'その他の基準で選出');
 define('A11YC_LANG_CHECKLIST_TARGETPAGE', '対象ページ');
 define('A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR', 'チェック対象のページを見つけられませんでした');
 define('A11YC_LANG_CHECKLIST_NOT_FOUND_ERR', '自動チェックではエラーが見つかりませんでした');
+define('A11YC_LANG_CHECKLIST_COULD_NOT_DRAW_HTML', 'なんらかの理由でHTMLの取得に失敗しました');
 define('A11YC_LANG_CHECKLIST_TITLE', 'チェックリスト');
 define('A11YC_LANG_CHECKLIST_DONE', 'チェック終了');
 define('A11YC_LANG_CHECKLIST_RESTOFNUM', '残りのチェック項目数');

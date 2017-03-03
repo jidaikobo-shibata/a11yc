@@ -122,6 +122,7 @@ class Validate_Link extends Validate
 			}
 			$text = strip_tags($text);
 			$text = trim($text);
+			$text = preg_replace("/\s{2,}/i", ' ', $text);
 
 			// check
 			if ( ! array_key_exists($url, $urls))
@@ -135,7 +136,7 @@ class Validate_Link extends Validate
 				static::$error_ids['same_urls_should_have_same_text'][$k]['str'] = $url.': ('.mb_strlen($urls[$url], "UTF-8").') "'.$urls[$url].'" OR ('.mb_strlen($text, "UTF-8").') "'.$text.'"';
 			}
 		}
-	static::add_error_to_html('same_urls_should_have_same_text', static::$error_ids, 'ignores_comment_out');
+		static::add_error_to_html('same_urls_should_have_same_text', static::$error_ids, 'ignores_comment_out');
 	}
 
 	/**

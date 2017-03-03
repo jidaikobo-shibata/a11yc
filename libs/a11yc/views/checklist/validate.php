@@ -36,12 +36,16 @@ if ($errs):
 			<dd class="a11yc_disclosure_target show">
 				<div class="a11yc_controller"></div>
 				<div class="a11yc_source">
+					<?php if (strpos($raw, '===a11yc_rplc===') !== false):
+						echo A11YC_LANG_CHECKLIST_COULD_NOT_DRAW_HTML;
+					else: ?>
 					<div id="a11yc_validation_code_raw">
 						<?php echo $raw ?>
 					</div>
 					<div id="a11yc_validation_code_txt" style="display: none;">
 						<?php echo $raw ?>
 					</div>
+					<?php endif; ?>
 				</div><!-- /.a11yc_disclosure_target -->
 			</dd>
 		</dl>
