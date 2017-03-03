@@ -12,20 +12,6 @@ namespace A11yc;
 class Crawl
 {
 	protected static $target_path;
-	protected static $goutte;
-
-	/**
-	 * _init()
-	 *
-	 * @return  void
-	 */
-	public static function _init()
-	{
-		// require (A11YC_LIB_PATH.'/goutte/vendor/autoload.php');
-		// static::$goutte = new \Goutte\Client();
-		// $client->request('HEAD', $url);
-		// $status_code = $client->getInternalResponse()->getStatus();
-	}
 
 	/**
 	 * set_target_path
@@ -359,6 +345,17 @@ class Crawl
 	 */
 	public static function real_url($url, $depth = 2)
 	{
+		static $urls = array();
+		if (isset($urls[$url])) return $urls[$url];
+
+		\A11yc\Guzzle::forge($url);
+
+		$urls[$url] = \A11yc\Guzzle::instance($url)->real_url;
+
+		return $urls[$url];
+
+		// below here, keep code in case of cannot use guzzle.
+
 		static $target_url = '';
 		static $urls = array();
 		static $current_depth = 0;
@@ -431,10 +428,19 @@ class Crawl
 	 */
 	public static function fetch_html($url)
 	{
-		$target_url = Util::urldec($url);
-
 		static $htmls = array();
 		if (isset($htmls[$url])) return $htmls[$url];
+
+		\A11yc\Guzzle::forge($url);
+		\A11yc\Guzzle::instance($url)->set_config('User-Agent', Util::s(Input::user_agent()));
+
+		$htmls[$url] = \A11yc\Guzzle::instance($url)->is_html ?
+								 \A11yc\Guzzle::instance($url)->body :
+								 false;
+
+		return $htmls[$url];
+
+		// below here, keep code in case of cannot use guzzle.
 
 		// ssl
 		$target_url = static::avoid_ssl_redirection_loop($target_url);
@@ -526,6 +532,11 @@ class Crawl
 	 */
 	public static function is_page_exist($url)
 	{
+		\A11yc\Guzzle::forge($url);
+		return \A11yc\Guzzle::instance($url)->is_exists;
+
+		// below here, keep code in case of cannot use guzzle.
+
 		$url = Util::urldec($url);
 
 		// not exists

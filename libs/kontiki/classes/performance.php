@@ -21,7 +21,7 @@ class Performance
 	 */
 	public static function set_time()
 	{
-		static::$beg_time = microtime(true) ;
+		static::$beg_time = microtime(true);
 	}
 
 	/**
@@ -31,7 +31,7 @@ class Performance
 	 */
 	public static function set_memory()
 	{
-		static::$beg_memory = memory_get_usage(false) ;
+		static::$beg_memory = memory_get_usage(false);
 	}
 
 	/**

@@ -68,7 +68,12 @@ JIS X 8341-3:2016 (WCAG 2.0) に基づいたアクセシビリティ報告書と
 ### 依存しているライブラリ
 
 * [spyc](https://github.com/mustangostang/spyc)
+* [guzzle](https://github.com/guzzle/guzzle)
 
 ### チェック
 
 [skipfish](https://code.google.com/archive/p/skipfish/)と[OWASP ZAP](https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project)をもちいて脆弱性チェックをかけています。
+
+### 謝辞
+
+参考にさせていただいた資料および使わせてもらっているライブラリの開発者の皆さんに感謝します。
