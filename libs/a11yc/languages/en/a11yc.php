@@ -162,6 +162,8 @@ define('A11YC_LANG_CHECKLIST_SOURCE', 'Source code');
 define('A11YC_LANG_CHECKLIST_VIEW_SOURCE', 'View source code');
 define('A11YC_LANG_CHECKLIST_MACHINE_CHECK', 'Automatic Check');
 define('A11YC_LANG_CHECKLIST_CHECK_RESULT', 'Check Result');
+define('A11YC_LANG_CHECKLIST_UA', 'User Agent');
+define('A11YC_LANG_CHECKLIST_REAL_URL', 'Checked URL');
 define('A11YC_LANG_CHECKLIST_MEMO', 'Note');
 define('A11YC_LANG_NO_BROKEN_LINK_FOUND', 'No broken link was found');
 define('A11YC_LANG_CHECKLIST_PERCENTAGE', 'Achievement');
@@ -195,6 +197,7 @@ define('A11YC_LANG_ERROR_BASIC_AUTH', 'Access is not possible because it is prot
 define('A11YC_LANG_ERROR_BASIC_AUTH_WRONG', 'Information for basic authentication seems to be wrong. Please check "Setting".');
 define('A11YC_LANG_ERROR_SSL', 'When targeting SSL sites, please enter the target domain in "Settings".');
 define('A11YC_LANG_ERROR_GET_NEW_A11YC', '<a href="%s">There is a new version of A11yc</a> (current version:%s latest version:%s).');
+define('A11YC_LANG_ERROR_NO_URL_NO_CHECK_SAME', 'Without URL, link destination and link string can not be confirmed. Executed other checks.');
 
 // startup
 define('A11YC_LANG_STARTUP_SETDIRS', 'Set up data storage directory and cache directory.');
@@ -213,3 +216,11 @@ define('A11YC_LANG_DISCLOSURE_PROTECT_DATA_CONFIRM', 'Do you really want to prot
 
 // sample
 define('A11YC_LANG_SAMPLE_POLICY', 'sample:\n<p>[Your Name / Organization Name] will endeavor to create an accessible website that anyone can use in the same way regardless of the presence or absence of disability or age.</p>\n<p>[Please describe the meaning of this website to secure accessibility.]</p>\n<p>We set up accessibility policy as follows and will constantly secure accessibility.</p>\n\n<h2>Policy</h2>\n<p>[Please describe the accessibility policy.]</p>\n\n<h2>Scope of coverage</h2>\n<p>[Please describe as "target pages below http://example.com".]</p>\n\n<h2>Achievement target date</h2>\n<p>[Please describe the target date of accomplishment.]</p>\n\n<h2>Exceptions</h2>\n<p>[Please list if any.]</p>');
+
+// ua
+define('A11YC_LANG_UA_USING',  'Current Browser');
+define('A11YC_LANG_UA_FEATUREPHONE',  'Feature Phone');
+define('A11YC_LANG_UA_IPHONE',  'Smartphone (iPhone)');
+define('A11YC_LANG_UA_IPAD',  'Tablet (iPad)');
+define('A11YC_LANG_UA_ANDROID',  'Smartphone (Android)');
+define('A11YC_LANG_UA_ANDROID_TABLET',  'Tablet (Android)');

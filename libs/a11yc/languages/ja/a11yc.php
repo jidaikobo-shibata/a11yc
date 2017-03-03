@@ -162,6 +162,8 @@ define('A11YC_LANG_CHECKLIST_SOURCE', 'ソースコード');
 define('A11YC_LANG_CHECKLIST_VIEW_SOURCE', 'ソースコードを見る');
 define('A11YC_LANG_CHECKLIST_MACHINE_CHECK', '自動チェック');
 define('A11YC_LANG_CHECKLIST_CHECK_RESULT', 'チェック結果');
+define('A11YC_LANG_CHECKLIST_UA', 'ユーザーエージェント');
+define('A11YC_LANG_CHECKLIST_REAL_URL', 'チェックしたURL');
 define('A11YC_LANG_CHECKLIST_MEMO', '備考');
 define('A11YC_LANG_NO_BROKEN_LINK_FOUND', 'リンク切れは見つかりませんでした');
 define('A11YC_LANG_CHECKLIST_PERCENTAGE', '達成度');
@@ -195,6 +197,7 @@ define('A11YC_LANG_ERROR_BASIC_AUTH', '基本認証で守られているため�
 define('A11YC_LANG_ERROR_BASIC_AUTH_WRONG', '基本認証用の情報が間違っているようです。「設定」を確認してください。');
 define('A11YC_LANG_ERROR_SSL', 'SSLのサイトを対象とするときには、「設定」で対象となるドメインを入力してください。');
 define('A11YC_LANG_ERROR_GET_NEW_A11YC', '<a href="%s">新しいバージョンのA11yc</a>があります（現在のバージョン: %s 最新のバージョン: %s）。');
+define('A11YC_LANG_ERROR_NO_URL_NO_CHECK_SAME', 'URLがない場合は、リンク先とリンク文字列の生合成は確認できません。それ以外のチェックを行います。');
 
 // startup
 define('A11YC_LANG_STARTUP_SETDIRS', 'データ保存用ディレクトリとキャッシュディレクトリを設置しました。');
@@ -213,3 +216,11 @@ define('A11YC_LANG_DISCLOSURE_PROTECT_DATA_CONFIRM', '本当にデータを保�
 
 // sample
 define('A11YC_LANG_SAMPLE_POLICY', '例文：\n<p>【あなたの名前／団体名】は、障害の有無や年齢などに関係なく、だれもが同じように利用できるアクセシブルなウェブサイトづくりに努めます。</p>\n<p>【このウェブサイトがアクセシビリティを確保することの意味を記載してください。】</p>\n<p>以下のとおりアクセシビリティ方針を定め、恒常的にアクセシビリティを確保してゆきます。</p>\n\n<h2>対応方針</h2>\n<p>当サイトは、日本工業規格JIS X 8341-3:2016「高齢者・障害者等配慮設計指針-情報通信における機器、ソフトウェア及びサービス-第3部:ウェブコンテンツ」の等級「AA」に準拠することを目標とします。</p>\n<p>本方針における「準拠」という対応度の表記は、情報通信アクセス協議会ウェブアクセシビリティ基盤委員会「<a href="http://waic.jp/docs/jis2016/compliance-guidelines/201603/">ウェブコンテンツのJIS X 8341-3:2016 対応度表記ガイドライン - 2016年3月版</a>」で定められた表記によります。</p>\n\n<h2>対象範囲</h2>\n<p>【「http://example.com 以下のページを対象とする」というように記載してください。】</p>\n\n<h2>達成目標日</h2>\n<p>【達成目標日を記載してください。】</p>\n\n<h2>例外事項</h2>\n<p>【もしあれば記載してください。】</p>');
+
+// ua
+define('A11YC_LANG_UA_USING',  '現在のブラウザ');
+define('A11YC_LANG_UA_FEATUREPHONE',  'フィーチャーフォン');
+define('A11YC_LANG_UA_IPHONE',  'スマートフォン（iPhone）');
+define('A11YC_LANG_UA_IPAD',  'タブレット（iPad）');
+define('A11YC_LANG_UA_ANDROID',  'スマートフォン（Android）');
+define('A11YC_LANG_UA_ANDROID_TABLET',  'タブレット（Android）');

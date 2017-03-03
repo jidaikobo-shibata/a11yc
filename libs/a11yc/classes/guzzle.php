@@ -82,28 +82,38 @@ class Guzzle
 	 * simple HEAD request
 	 * to use broken link check. This method won't return real_url.
 	 *
-	 * @return  void
+	 * @return  bool
 	 */
 	private function head()
 	{
 		// don't call twice
-		if ( ! $this->cons_tmp && isset($this->status_code)) return;
+		if ( ! $this->cons_tmp && isset($this->status_code)) return true;
 		$url = $this->url;
 
 		// override temporary config
 		$cons = $this->get_config();
 
-		// client
 		$client = new \GuzzleHttp\Client(array(
 				'http_errors' => false,
 			));
-		$response = $client->head($url, $cons);
+
+		// client
+		try {
+			try {
+				$response = $client->head($url, $cons);
+			} catch (\GuzzleHttp\Exception\ConnectException $e) {
+				return false;
+			}
+		} catch (\GuzzleHttp\Exception\RequestException $e) {
+			return false;
+		}
 
 		// set values
 		$this->status_code = $response->getStatusCode();
 		$this->headers     = $response->getHeaders();
 		$this->is_exists   = ($this->status_code == 200);
 		$this->is_html     = $this->is_html($response);
+		return true;
 	}
 
 	/**
@@ -115,7 +125,7 @@ class Guzzle
 	private function get()
 	{
 		// don't call twice
-		if ( ! $this->cons_tmp && isset($this->body)) return;
+		if ( ! $this->cons_tmp && isset($this->body)) return true;
 		$url = $this->url;
 
 		// override temporary config
@@ -141,17 +151,43 @@ class Guzzle
 		$request = new \GuzzleHttp\Psr7\Request('GET', $url, $cons);
 
 		// basic-auth user and passwd is need to be set here.
-		$response = $client->send($request, $cons);
+		try {
+			try {
+			$response = $client->send($request, $cons);
+			} catch (\GuzzleHttp\Exception\ConnectException $e) {
+				return false;
+			}
+		} catch (\GuzzleHttp\Exception\RequestException $e) {
+			return false;
+		}
 
 		// set values
 		$this->real_url = $lastRequest->getUri()->__toString();
-		$this->body     = $response->getBody()->getContents();
+		$this->body     = $this->encoding($response->getBody()->getContents());
 
 		// over write if already exists
 		$this->status_code = $response->getStatusCode();
 		$this->headers     = $response->getHeaders();
 		$this->is_exists   = ($this->status_code == 200);
 		$this->is_html     = $this->is_html($response);
+		return true;
+	}
+
+	/**
+	 * text encoding
+	 *
+	 * @param   object $response
+	 * @return  void
+	 */
+	private function encoding($body)
+	{
+		$encodes = array("ASCII", "SJIS-win", "SJIS", "ISO-2022-JP", "EUC-JP");
+		$encode = mb_detect_encoding($body, array_merge($encodes, array("UTF-8")));
+		if (in_array($encode, $encodes))
+		{
+			$body = mb_convert_encoding($body, "UTF-8", $encode);
+		}
+		return $body;
 	}
 
 	/**
@@ -203,12 +239,18 @@ class Guzzle
 			// get status code at the first time. simple requests.
 			if (in_array($name, array('status_code', 'headers', 'is_exists', 'is_html')))
 			{
-				$this->head();
+				if ( ! $this->head())
+				{
+					return FALSE;
+				}
 			}
 			// need GET requests.
 			else
 			{
-				$this->get();
+				if ( ! $this->get())
+				{
+					return FALSE;
+				}
 			}
 			return $this->$name;
 		}

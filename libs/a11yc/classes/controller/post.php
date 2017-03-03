@@ -40,6 +40,9 @@ class Controller_Post
 		// a11yc
 		require (dirname(dirname(__DIR__)).'/main.php');
 
+		// ua
+		require (A11YC_PATH.'/resources/ua.php');
+
 		// set application url
 		static::$url = Util::remove_query_strings(Util::uri());
 
@@ -153,8 +156,13 @@ class Controller_Post
 	 */
 	private static function Action_Validation()
 	{
-		// ip
-		$ip = $_SERVER['REMOTE_ADDR'];
+		// vals
+		$ip         = $_SERVER['REMOTE_ADDR'];
+		$url        = Input::post('url', '');
+		$user_agent = Input::post('user_agent', '');
+		$default_ua = Util::s(Input::user_agent());
+		$page_title = '';
+		$real_url   = '';
 
 		// performed IPs
 		$is_in_white_list = false;
@@ -203,16 +211,68 @@ class Controller_Post
 		$raw = '';
 		$all_errs = array();
 		$errs_cnts = array();
-		$target_html = Input::post('source', '');
+		$target_html = '';
+
+		if (Input::post('source', ''))
+		{
+			$target_html = Input::post('source');
+		}
+		elseif ($url)
+		{
+			Guzzle::forge($url);
+
+			// User Agent
+			switch ($user_agent)
+			{
+				case 'iphone':
+					$ua = A11YC_UA_IPHONE;
+					break;
+				case 'android':
+					$ua = A11YC_UA_ANDROID;
+					break;
+				case 'ipad':
+					$ua = A11YC_UA_IPAD;
+					break;
+				case 'tablet':
+					$ua = A11YC_UA_ANDROID_TABLET;
+					break;
+				case 'featurephone':
+					$ua = A11YC_UA_FEATUREPHONE;
+					break;
+				default:
+					$ua = $default_ua;
+					break;
+			}
+			$default_ua = $ua;
+			Guzzle::instance($url)->set_config('User-Agent', $ua);
+
+			// html
+			$target_html = Guzzle::instance($url)->is_html ? Guzzle::instance($url)->body : false;
+
+			// real url
+			$real_url = $target_html ? Guzzle::instance($url)->real_url : '';
+		}
+
+		// Do Validate
 		if ($target_html)
 		{
 			$all_errs = array();
 			Validate::set_html($target_html);
-			// Crawl::set_target_path($url); // for same_urls_should_have_same_text
-
 			$codes = Validate::$codes;
+
+			// for same_urls_should_have_same_text
+			if ($url)
+			{
+				Crawl::set_target_path($url);
+			}
+			else
+			{
+				unset($codes['same_urls_should_have_same_text']);
+				Session::add('messages', 'errors', A11YC_LANG_ERROR_NO_URL_NO_CHECK_SAME);
+			}
+
+			// unset uncheck errors
 			unset($codes['link_check']);
-			unset($codes['same_urls_should_have_same_text']);
 			unset($codes['same_page_title_in_same_site']);
 
 			// validate
@@ -233,6 +293,9 @@ class Controller_Post
 				}
 			}
 
+			// page_title
+			$page_title = Util::fetch_page_title_from_html($target_html);
+
 			// results
 			$errs_cnts = array_merge(
 				array('total' => count($all_errs)),
@@ -240,11 +303,11 @@ class Controller_Post
 			);
 			$raw = nl2br(Validate::revert_html(Util::s(Validate::get_hl_html())));
 
-			View::assign('errs', $all_errs, false);
-			View::assign('errs_cnts', $errs_cnts);
-			View::assign('raw', $raw, false);
-			View::assign('is_call_from_post', true);
-			View::assign('result', View::fetch_tpl('checklist/validate.php'), false);
+			View::assign('errs'              , $all_errs, false);
+			View::assign('errs_cnts'         , $errs_cnts);
+			View::assign('raw'               , $raw, false);
+			View::assign('is_call_from_post' , true);
+			View::assign('result'            , View::fetch_tpl('checklist/validate.php'), false);
 
 			// count up for guest users
 			if ( ! Auth::auth() && ! $is_in_white_list)
@@ -258,13 +321,24 @@ class Controller_Post
 			}
 		}
 
+		// error
+		if (Input::post() && ! $target_html)
+		{
+			Session::add('messages', 'errors', A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR);
+		}
+
 		// title
 		define('A11YC_LANG_POST_TITLE', A11YC_LANG_POST_SERVICE_NAME);
 
 		// assign
-		View::assign('title', '');
-		View::assign('target_html', $target_html);
-		View::assign('body', View::fetch_tpl('post/index.php'), false);
+		View::assign('title'              , '');
+		View::assign('page_title'         , $page_title);
+		View::assign('real_url'           , $real_url ?: $url);
+		View::assign('current_user_agent' , $default_ua);
+		View::assign('user_agent'         , $user_agent);
+		View::assign('url'                , $url);
+		View::assign('target_html'        , $target_html);
+		View::assign('body'               , View::fetch_tpl('post/index.php'), false);
 	}
 
 	/**

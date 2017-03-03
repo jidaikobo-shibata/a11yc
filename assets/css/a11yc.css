@@ -1386,3 +1386,9 @@ table td.a11yc_result {
 	clip: auto;
 	z-index: 9999;
 }
+
+/* a11yc_validator */
+
+#a11yc_validator_results_info dd {
+	word-break: break-all;
+}
