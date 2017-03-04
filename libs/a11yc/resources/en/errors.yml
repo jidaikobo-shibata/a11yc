@@ -24,7 +24,7 @@ errors:
     criterion: 1-1-1
     code: 1-1-1c
   img_input_has_alt:
-    message: The input element's alt attribute does not exist or the alt attribute value is null. When the type of the input element is image, please enter the character representing purpose
+    message: The alt attribute of input element does not exist or the alt attribute value is null. When the type of the input element is image, please enter the character representing purpose
     criterion: 1-1-1
     code: 1-1-1c
   here_link:
@@ -39,8 +39,12 @@ errors:
     message: It seems there are too many closing tags. Since this error will fail to locate the location, check the structure by browsing the DOM of the browser etc.
     criterion: 4-1-1
     code: 4-1-1a
+  unclosed_elements:
+    message: There is an incomplete tag
+    criterion: 4-1-1
+    code: 4-1-1a
   suspicious_ends:
-    message: There is a Suspicious closing tag
+    message: There is a suspicious closing tag
     criterion: 4-1-1
     code: 4-1-1a
   appropriate_heading_descending:
@@ -131,21 +135,16 @@ errors:
     message: Full-width space exists in the tag
     criterion: 4-1-1
     code: 4-1-1a
-  # these are not invalid.
-  # label_miss_maches:
-  #   message: It seems that the relationship between for and id in the form element does not match
-  #   criterion: 4-1-1
-  #   code: 4-1-1a
-  # tacit_label_miss_maches:
-  #   message: Implicit label's for and id do not match
-  #   criterion: 2-4-6
-  #   code: 2-4-6a
   contain_plural_form_elements:
     message: Label should not contain more than one labelable element
     criterion: 2-4-6
     code: 2-4-6a
   labelless:
-    message: Let's use label when using the form element
+    message: Use label when using the form element
+    criterion: 1-3-1
+    code: 1-3-1a
+  not_label_but_title:
+    message: Use label or title attribute which has meaning when using the input/textarea/select element
     criterion: 1-3-1
     code: 1-3-1a
   lackness_of_form_ends:

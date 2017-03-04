@@ -33,6 +33,7 @@
 		<li class="a11yc_menu_item a11yc_logout a11yc_fr"><a href="<?php echo $base_url ?>?a=logout" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_LOGOUT ?></a></li>
 <?php else: ?>
 		<li class="a11yc_menu_item a11yc_login a11yc_fr"><a href="<?php echo $base_url ?>?a=login" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_AUTH_TITLE ?></a></li>
+			<li class="a11yc_menu_item a11yc_dev_info a11yc_fr"><span role="presentation"><?php echo \Kontiki\Performance::calc_time().' '.\Kontiki\Performance::calc_memory() ?></span></li>
 <?php endif; ?>
 		</ul>
 	</nav><!--/#a11yc_menu-->

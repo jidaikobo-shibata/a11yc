@@ -17,12 +17,12 @@
 </ul>
 
 <h2><?php echo A11YC_LANG_POST_VENDOR_TITLE ?></h2>
-<ul>
-	<li><?php echo A11YC_LANG_POST_VENDOR_JIDAIKOBO ?></li>
-	<li><?php echo A11YC_LANG_POST_VENDOR_JIDAIKOBO_TWITTER ?></li>
+<ul id="a11yc_readme_vendor">
+	<li><a href="http:/www.jidaikobo.com"><img src="<?php echo A11YC_ASSETS_URL ?>/img/logo_author.png" id="a11yc_logo_author" alt="<?php echo A11YC_LANG_CENTER_LOGO ?>"><?php echo A11YC_LANG_POST_VENDOR_JIDAIKOBO ?></a></li>
+	<li><a href="https://twitter.com/jidaikobo"><img src="<?php echo A11YC_ASSETS_URL ?>/img/Twitter_Logo_Blue.png" id="a11yc_logo_author" alt="Twitter Logo"><?php echo A11YC_LANG_POST_VENDOR_JIDAIKOBO_TWITTER ?></a></li>
 </ul>
 
-<h2><?php echo A11YC_LANG_POST_TECH_TITLE ?></h2>
+<h2 class="clear"><?php echo A11YC_LANG_POST_TECH_TITLE ?></h2>
 <ul>
 	<li><?php echo A11YC_LANG_POST_TECH_A11YC ?></li>
 	<li><?php echo A11YC_LANG_POST_TECH_A11YC_ADD ?></li>

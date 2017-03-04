@@ -38,6 +38,8 @@ class Validate
 			'img_input_has_alt'               => '\A11yc\Validate_Alt',
 			'area_has_alt'                    => '\A11yc\Validate_Alt',
 			'same_alt_and_filename_of_img'    => '\A11yc\Validate_Alt',
+			'not_label_but_title'             => '\A11yc\Validate_Form',
+			'unclosed_elements'               => '\A11yc\Validate_Validation',
 			'suspicious_elements'             => '\A11yc\Validate_Validation',
 			'appropriate_heading_descending'  => '\A11yc\Validate_Validation',
 			'meanless_element'                => '\A11yc\Validate_Validation',
@@ -345,8 +347,8 @@ class Validate
 			}
 		}
 
-		$str = preg_replace("/  +/", " ", $str); // remove plural spaces
-		$str = str_replace(" = ", "=", $str); // remove plural spaces
+		$str = preg_replace("/ {2,}/", " ", $str); // remove plural spaces
+		$str = preg_replace("/ *?= */", "=", $str); // remove plural spaces
 		$str = str_replace(array("\n", "\r"), " ", $str); // newline to blank
 		$attrs = array();
 		$strs = explode(' ', $str);

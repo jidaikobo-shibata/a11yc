@@ -50,6 +50,27 @@ class Validate_Validation extends Validate
 	}
 
 	/**
+	 * unclosed_elements
+	 *
+	 * @return  bool
+	 */
+	public static function unclosed_elements()
+	{
+		$str = static::ignore_elements(static::$hl_html);
+
+		// tags
+		preg_match_all("/\<([^\>\n]+?)\</i", $str, $tags);
+
+		if ( ! $tags[0]) return;
+		foreach ($tags[0] as $k => $m)
+		{
+			static::$error_ids['unclosed_elements'][$k]['id'] = $m;
+			static::$error_ids['unclosed_elements'][$k]['str'] = $m;
+		}
+		static::add_error_to_html('unclosed_elements', static::$error_ids, 'ignores');
+	}
+
+	/**
 	 * suspicious_elements
 	 *
 	 * @return  bool

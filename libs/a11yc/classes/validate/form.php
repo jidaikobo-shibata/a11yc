@@ -200,48 +200,10 @@ class Validate_Form extends Validate
 							static::$error_ids['contain_plural_form_elements'][$n]['id'] = $label_m[0];
 							static::$error_ids['contain_plural_form_elements'][$n]['str'] = $label_m[0];
 						}
-
-			// 			// is for and id are valid?
-			// 			$inner_attrs_label = static::get_attributes($m);
-			// 			$for = isset($inner_attrs_label['for']) ? $inner_attrs_label['for'] : false;
-
-			// 			// exclude id in tacit label
-			// 			$inner_attrs_form = static::get_attributes($mmms[0][0]);
-			// 			$id = isset($inner_attrs_form['id']) ? $inner_attrs_form['id'] : false;
-
-			// 			// if for exists compare with for and id
-			// 			if ($for)
-			// 			{
-			// 				if ($id != $for)
-			// 				{
-			// 					static::$error_ids['tacit_label_miss_maches'][$n]['id'] = $v['form'];
-			// 					static::$error_ids['tacit_label_miss_maches'][$n]['str'] = $action.': '.$inner_attrs_form['id'].', '.$for;
-			// 				}
-			// 			}
-			// 			// for is not exist, therefore this element's id is ignorable
-			// 			else if ($id && in_array($id, $v['ids']))
-			// 			{
-			// 				$v['ids'] = array_flip($v['ids']);
-			// 				unset($v['ids'][$id]);
-			// 				$v['ids'] = array_flip($v['ids']);
-			// 			}
 					}
 				}
 			}
 
-			// if (isset($v['fors']) && isset($v['ids']))
-			// {
-			// 	// id can exist without for...
-			// 	// $miss_maches_fors = array_diff($v['fors'], $v['ids']);
-			// 	// $miss_maches_ids = array_diff($v['ids'], $v['fors']);
-			// 	// $miss_maches = array_merge($miss_maches_ids, $miss_maches_fors);
-			// 	$miss_maches = array_diff($v['fors'], $v['ids']);
-			// 	if ($miss_maches)
-			// 	{
-			// 		static::$error_ids['label_miss_maches'][$n]['id'] = $v['form'];
-			// 		static::$error_ids['label_miss_maches'][$n]['str'] = $action.': '.join(', ', $miss_maches);
-			// 	}
-			// }
 			$n++;
 		}
 		static::add_error_to_html('labelless', static::$error_ids, 'ignores');
@@ -249,7 +211,148 @@ class Validate_Form extends Validate
 		static::add_error_to_html('duplicated_names', static::$error_ids, 'ignores');
 		static::add_error_to_html('unique_label', static::$error_ids, 'ignores');
 		static::add_error_to_html('contain_plural_form_elements', static::$error_ids, 'ignores');
-		// static::add_error_to_html('label_miss_maches', static::$error_ids, 'ignores');
-		// static::add_error_to_html('tacit_label_miss_maches', static::$error_ids, 'ignores');
+	}
+
+	/**
+	 * not_label_but_title
+	 *
+	 * @return  bool
+	 */
+	public static function not_label_but_title()
+	{
+		$str = static::ignore_elements(static::$hl_html);
+		$ms = static::get_elements_by_re($str, 'tags');
+		if ( ! $ms[0]) return;
+
+		// labels_eles
+		$eles = array();
+		$fors = array();
+		foreach ($ms[1] as $k => $m)
+		{
+			if ( ! in_array($m, array('label', 'input', 'textarea', 'select'))) continue;
+
+			$attrs = static::get_attributes($ms[0][$k]);
+			if ($m == 'label')
+			{
+				$eles[$k]['tag'] = $ms[0][$k];
+				$eles[$k]['tag_name'] = $ms[1][$k];
+				$for = isset($attrs['for']) ? $attrs['for'] : '';
+				$eles[$k]['for'] = $for;
+				if ($for) $fors[] = $for;
+			}
+			elseif (in_array($m, array('textarea', 'select')))
+			{
+				$eles[$k]['tag'] = $ms[0][$k];
+				$eles[$k]['tag_name'] = $ms[1][$k];
+				$eles[$k]['title'] = isset($attrs['title']) ? $attrs['title'] : '';
+				$eles[$k]['id'] = isset($attrs['id']) ? $attrs['id'] : '';
+			}
+			elseif ($m == 'input')
+			{
+				// typeless means text
+				$attrs['type'] = isset($attrs['type']) ? $attrs['type'] : 'text';
+
+				// target attributes
+				if (in_array($attrs['type'], array('text', 'checkbox', 'radio', 'file', 'password')))
+				{
+					$eles[$k]['tag'] = $ms[0][$k];
+					$eles[$k]['tag_name'] = $ms[1][$k];
+					$eles[$k]['title'] = isset($attrs['title']) ? $attrs['title'] : '';
+					$eles[$k]['id'] = isset($attrs['id']) ? $attrs['id'] : '';
+				}
+			}
+		}
+
+		// no form elements
+		if ( ! $eles) return;
+
+		// find "id" which make pair with existing "for" attribute
+		$del_eles = array();
+		foreach ($fors as $for)
+		{
+			foreach ($eles as $k => $ele)
+			{
+				// pick up target ids
+				if (isset($ele['id']) && $ele['id'] == $for)
+				{
+					// id must be unique
+					if (array_key_exists($for, $del_eles)) continue;
+					$del_eles[$for] = $k;
+				}
+			}
+		}
+
+		// find valid "label"s
+		$del_fors = array();
+		foreach (array_keys($del_eles) as $id)
+		{
+			foreach ($eles as $k => $ele)
+			{
+				// pick up target fors
+				if (isset($ele['for']) && $ele['for'] == $id)
+				{
+					// for must NOT be unique
+					$del_fors[] = $k;
+				}
+			}
+		}
+
+		// first elimination - delete valid pairs
+		foreach ($del_eles as $k)
+		{
+			unset($eles[$k]);
+		}
+		foreach ($del_fors as $k)
+		{
+			unset($eles[$k]);
+		}
+
+		// after here, tacit labels or labelless items remain. I hope so...
+		// check tacit labels
+		$del_eles = array();
+		$pattern = '/\<label[^\>]*?\>.*?\<\/label\>/is';
+		preg_match_all($pattern, $str, $mms);
+
+		if ($mms[0])
+		{
+			foreach ($mms[0] as $m)
+			{
+				$prev = '';
+				foreach ($eles as $k => $ele)
+				{
+					if ($ele['tag_name'] == 'label')
+					{
+						$prev = $k;
+					}
+					elseif (strpos($m, $ele['tag']) !== false)
+					{
+						$del_eles[] = $prev;
+						$del_eles[] = $k;
+					}
+				}
+			}
+		}
+
+		// second elimination - tacit label
+		foreach ($del_eles as $k)
+		{
+			unset($eles[$k]);
+		}
+
+		// after here, remained labels are meanless.
+		// check title attribute
+		foreach ($eles as $k => $ele)
+		{
+			if ($ele['tag_name'] == 'label') continue;
+
+			// empty or titleless
+			$title = trim(mb_convert_kana($ele['title'], 's'));
+			if (empty($title))
+			{
+				static::$error_ids['not_label_but_title'][$k]['id'] = $ele['tag'];
+				static::$error_ids['not_label_but_title'][$k]['str'] = $ele['tag'];
+			}
+		}
+		static::add_error_to_html('not_label_but_title', static::$error_ids, 'ignores');
 	}
 }

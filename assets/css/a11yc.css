@@ -378,7 +378,6 @@ table.a11yc_table_info {
 	content: "\f059";
 }
 
-
 #a11yc_menu a {
 	text-decoration: none;
 	color: #fff;
@@ -1394,4 +1393,33 @@ table td.a11yc_result {
 
 #a11yc_validator_results_info dd {
 	word-break: break-all;
+}
+
+#a11yc_validator_footer {
+	font-size: 90%;
+	font-family: sans-serif;
+	border-top: 1px #aaa solid;
+	text-align: center;
+	padding: 20px 0 10px;
+	margin: 25px 0 0;
+}
+
+#a11yc_readme_vendor li {
+	margin: 0;
+	display: inline-block;
+	vertical-align: top;
+	width: 170px;
+	text-align: center;
+	list-style: none;
+	font-size: 100%;
+}
+
+#a11yc_readme_vendor li img {
+	height: 100px;
+	display: block;
+	margin: 5px auto;
+}
+
+.clear {
+	clear: both;
 }

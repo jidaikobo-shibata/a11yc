@@ -12,8 +12,7 @@ define('A11YC_LANG_POST_INDEX', 'Validation');
 
 define('A11YC_LANG_POST_README', 'Read me');
 
-define('A11YC_LANG_POST_HOWTO', ' Mechanical accessibility check for the HTML. Please paste your HTML in the textarea of ​​<code>HTML Source</code> in <a href="/post.php">Validation</a> and send it. Display accessibility checkpoints and their commentary.');
-
+define('A11YC_LANG_POST_HOWTO', ' Mechanical accessibility check for the HTML. Please paste your HTML in the textarea of ​​<code>HTML Source</code> or enter target URL to <code>URL</code> in <a href="/post.php">Validation</a> and send it. Display accessibility checkpoints and their commentary.');
 define('A11YC_LANG_POST_SERVICE_NAME_TITLE', 'Name of service');
 define('A11YC_LANG_POST_SERVICE_NAME_EXP', '"<strong>'.A11YC_LANG_POST_SERVICE_NAME.'</strong>" Short version is "<strong>'.A11YC_LANG_POST_SERVICE_NAME_ABBR.'</strong>".');
 
@@ -27,8 +26,8 @@ define('A11YC_LANG_POST_COLLECTION_GOOGLE', 'We are using Google Analytics.');
 define('A11YC_LANG_POST_COLLECTION_IP', 'Because of limitation by IP address, IP address and time accessed from that IP address are saved.');
 
 define('A11YC_LANG_POST_VENDOR_TITLE', 'Vendor');
-define('A11YC_LANG_POST_VENDOR_JIDAIKOBO', '<a href="http:/www.jidaikobo.com">Jidaikobo Inc.</a>');
-define('A11YC_LANG_POST_VENDOR_JIDAIKOBO_TWITTER', '<a href="https://twitter.com/jidaikobo">Twitter of Jidaikobo Inc.</a>');
+define('A11YC_LANG_POST_VENDOR_JIDAIKOBO', 'Jidaikobo Inc.');
+define('A11YC_LANG_POST_VENDOR_JIDAIKOBO_TWITTER', 'Twitter of Jidaikobo Inc.');
 
 define('A11YC_LANG_POST_TECH_TITLE', 'Technical information');
 define('A11YC_LANG_POST_TECH_A11YC', 'Based on the library called A11yc. <a href="https://github.com/jidaikobo-shibata/a11yc">A11yc is available on github </a>. Is is also made by Jidaikobo.');

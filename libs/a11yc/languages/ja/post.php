@@ -12,7 +12,7 @@ define('A11YC_LANG_POST_INDEX', 'バリデーション');
 
 define('A11YC_LANG_POST_README', '使い方');
 
-define('A11YC_LANG_POST_HOWTO', 'HTMLに対して、機械的にできるアクセシビリティのチェックを行います。<a href="/post.php">バリデーション</a>の<code>HTML Source</code>のtextareaにHTMLを貼付して、送信してください。アクセシビリティ上のチェックポイントとその解説文を表示します。');
+define('A11YC_LANG_POST_HOWTO', 'HTMLに対して、機械的にできるアクセシビリティのチェックを行います。<a href="/post.php">バリデーション</a>の<code>URL</code>に検査対象のURLを入力するか、<code>HTML Source</code>のtextareaにHTMLを貼付して、送信してください。アクセシビリティ上のチェックポイントとその解説文を表示します。');
 
 define('A11YC_LANG_POST_SERVICE_NAME_TITLE', 'サービスの名称');
 define('A11YC_LANG_POST_SERVICE_NAME_EXP', '「<strong>'.A11YC_LANG_POST_SERVICE_NAME.'</strong>」です。長いので、「<strong>'.A11YC_LANG_POST_SERVICE_NAME_ABBR.'</strong>」という表記も用います。');
@@ -27,8 +27,8 @@ define('A11YC_LANG_POST_COLLECTION_GOOGLE', 'Google Analyticsをつかってア�
 define('A11YC_LANG_POST_COLLECTION_IP', 'IPアドレスによる制限のためIPアドレスとそのIPアドレスからアクセスされた時間を保存しています。');
 
 define('A11YC_LANG_POST_VENDOR_TITLE', '開発元');
-define('A11YC_LANG_POST_VENDOR_JIDAIKOBO', '<a href="http:/www.jidaikobo.com">有限会社時代工房</a>');
-define('A11YC_LANG_POST_VENDOR_JIDAIKOBO_TWITTER', '<a href="https://twitter.com/jidaikobo">時代工房のTwitter</a>');
+define('A11YC_LANG_POST_VENDOR_JIDAIKOBO', '有限会社時代工房');
+define('A11YC_LANG_POST_VENDOR_JIDAIKOBO_TWITTER', '時代工房のTwitter');
 
 define('A11YC_LANG_POST_TECH_TITLE', '技術情報');
 define('A11YC_LANG_POST_TECH_A11YC', 'A11ycというライブラリを基礎にして開発しています。<a href="https://github.com/jidaikobo-shibata/a11yc">A11ycは、githubで入手可能</a>です。このライブラリも時代工房で作っています。');
