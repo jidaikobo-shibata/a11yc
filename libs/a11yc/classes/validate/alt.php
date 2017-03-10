@@ -170,7 +170,8 @@ class Validate_Alt extends Validate
 			$filename = basename($attrs['src']);
 			if (
 				$attrs['alt'] == $filename || // within extension
-				$attrs['alt'] == substr($filename, 0, strrpos($filename, '.')) // without extension
+				$attrs['alt'] == substr($filename, 0, strrpos($filename, '.')) || // without extension
+				$attrs['alt'] == substr($filename, 0, strrpos($filename, '-')) // without size
 			)
 			{
 				static::$error_ids['same_alt_and_filename_of_img'][$k]['id'] = $ms[0][$k];
