@@ -14,6 +14,7 @@ put this code to front controller.
 require (__DIR__.'/libs/a11yc/classes/controller/post.php');
 define('A11YC_POST_IP_MAX_A_DAY', 150);
 define('A11YC_POST_COOKIE_A_10MIN', 10); // min.
+define('A11YC_POST_SCRIPT_NAME', '/index.php');
 \A11yc\Controller_Post::forge();
 
 at .htaccess
@@ -37,6 +38,9 @@ class Controller_Post
 		defined('A11YC_POST_IP_MAX_A_DAY') or define('A11YC_POST_IP_MAX_A_DAY', 150);
 		defined('A11YC_POST_COOKIE_A_10MIN') or define('A11YC_POST_COOKIE_A_10MIN', 10);
 
+		// script name
+		defined('A11YC_POST_SCRIPT_NAME') or define('A11YC_POST_SCRIPT_NAME', '/post.php');
+
 		// a11yc
 		require (dirname(dirname(__DIR__)).'/main.php');
 
@@ -45,6 +49,7 @@ class Controller_Post
 
 		// set application url
 		static::$url = Util::remove_query_strings(Util::uri());
+		static::$url.= strpos(static::$url, A11YC_POST_SCRIPT_NAME) === false ? A11YC_POST_SCRIPT_NAME : '';
 
 		// load language
 		static::load_language();
@@ -336,6 +341,7 @@ class Controller_Post
 		View::assign('real_url'           , $real_url ?: $url);
 		View::assign('current_user_agent' , $default_ua);
 		View::assign('user_agent'         , $user_agent);
+		View::assign('target_url'         , static::$url);
 		View::assign('url'                , $url);
 		View::assign('target_html'        , $target_html);
 		View::assign('body'               , View::fetch_tpl('post/index.php'), false);
@@ -350,10 +356,8 @@ class Controller_Post
 	{
 		// load language
 		$lang = Lang::get_lang();
-		if (
-			empty($lang) ||
-			substr(static::$url, 0 - strlen('/post.php')) != '/post.php'
-		)
+
+		if (empty($lang))
 		{
 			Util::error('Not found.');
 		}

@@ -1,5 +1,5 @@
 <!-- by url -->
-<form action="<?php echo \A11yc\Util::uri() ?>" method="POST">
+<form action="<?php echo $target_url ?>" method="POST">
 <h2>URL</h2>
 <label for="url">URL</label>
 <input type="text" name="url" id="url" size="35" value="<?php echo $url ?>">
@@ -27,7 +27,7 @@ $uas = array(
 </form>
 
 <!-- by html -->
-<form action="<?php echo \A11yc\Util::uri() ?>" method="POST">
+<form action="<?php echo $target_url ?>" method="POST">
 <h2><label for="source">HTML Source</label></h2>
 <textarea name="source" id="source" style="width: 100%; min-height: 10em;"><?php echo $target_html ?></textarea>
 <input type="hidden" name="url" value="<?php echo $url ?>">
