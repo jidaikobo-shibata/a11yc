@@ -42,9 +42,11 @@ if ($errs):
 					<div id="a11yc_validation_code_raw">
 						<?php echo $raw ?>
 					</div>
+					<?php /* ?>
 					<div id="a11yc_validation_code_txt" style="display: none;">
 						<?php echo $raw ?>
 					</div>
+					<?php */ ?>
 					<?php endif; ?>
 				</div><!-- /.a11yc_disclosure_target -->
 			</dd>

@@ -525,9 +525,9 @@ table.a11yc_table_info {
 	float: right;
 }
 */
-#a11yc_done_date,
-#a11yc_select_standard,
-#a11yc_selection_reason {
+#a11yc_header_done_date,
+#a11yc_header_select_standard,
+#a11yc_header_selection_reason {
 	display: inline-block;
 	margin-left: 5px;
 }
@@ -811,13 +811,14 @@ h2.a11yc_header_principle:after {
 	margin-bottom:1.5em;
 	background-color: #f3f3f3;
 }
-.a11yc_header_ngreason {
+.a11yc_title_ngreason {
 	display: inline-block;
 	margin: -.25em 0 .25em;
 	padding: 1px 4px;
 	background-color: #ccc !important;
 	border-radius: 3px;
 	font-size: 1em;
+	font-weight: bold;
 }
 .a11yc_table_check .a11yc_header_ngreason label {
 	display: inline;

@@ -1,5 +1,4 @@
 <h2><?php echo A11YC_LANG_SETUP_TITLE ?></h2>
-
 <table class="a11yc_table">
 	<tbody>
 
@@ -29,7 +28,7 @@
 		<td>
 			<select name="target_level" id="a11yc_target_level">
 				<?php
-					foreach (array('', 'A', 'AA', 'AAA') as $k => $v):
+					foreach (array('-', 'A', 'AA', 'AAA') as $k => $v):
 					$selected = @$setup['target_level'] == $k ? ' selected="selected"' : '';
 				?>
 				<option<?php echo $selected ?> value="<?php echo $k ?>"><?php echo $v ?></option>
