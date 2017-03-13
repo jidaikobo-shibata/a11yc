@@ -12,7 +12,7 @@ define('A11YC_LANG_POST_INDEX', 'バリデーション');
 
 define('A11YC_LANG_POST_README', '使い方');
 
-define('A11YC_LANG_POST_HOWTO', 'HTMLに対して、機械的にできるアクセシビリティのチェックを行います。<a href="/post.php">バリデーション</a>の<code>URL</code>に検査対象のURLを入力するか、<code>HTML Source</code>のtextareaにHTMLを貼付して、送信してください。アクセシビリティ上のチェックポイントとその解説文を表示します。');
+define('A11YC_LANG_POST_HOWTO', 'HTMLに対して、機械的にできるアクセシビリティのチェックを行います。<a href="%s">バリデーション</a>の<code>URL</code>に検査対象のURLを入力するか、<code>HTML Source</code>のtextareaにHTMLを貼付して、送信してください。アクセシビリティ上のチェックポイントとその解説文を表示します。');
 
 define('A11YC_LANG_POST_SERVICE_NAME_TITLE', 'サービスの名称');
 define('A11YC_LANG_POST_SERVICE_NAME_EXP', '「<strong>'.A11YC_LANG_POST_SERVICE_NAME.'</strong>」です。長いので、「<strong>'.A11YC_LANG_POST_SERVICE_NAME_ABBR.'</strong>」という表記も用います。');
