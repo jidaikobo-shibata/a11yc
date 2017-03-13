@@ -1400,6 +1400,30 @@ table td.a11yc_result {
 	box-sizing: border-box;
 	min-height: calc( 100vh - 16px - 65px - 1em);
 }
+#a11yc_validation_not_found_error {
+	background-color: rgba(139, 195, 47,.15);
+	margin-top: 1em;
+	padding: 20px;
+}
+#a11yc_validation_not_found_error span {
+	position: relative;
+	content: '';
+	display: inline-block;
+	width: 2em;
+	height: 2em;
+	border-radius: 50%;
+	margin-right: 10px;
+	background: rgb(139,195,47);
+	vertical-align: middle;
+}
+#a11yc_validation_not_found_error span:before {
+	content: '\f00c';
+	font-size: 1.55em;
+	color: #fff;
+	position: absolute;
+	top: .165em;
+	left: .175em;
+}
 
 #a11yc_validator_results_info dd {
 	word-break: break-all;

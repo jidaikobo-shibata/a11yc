@@ -53,6 +53,6 @@ if ($errs):
 		</dl>
 </div><!-- /.a11yc_disclosure_target -->
 <?php else:
-	echo '<p class="">'.A11YC_LANG_CHECKLIST_NOT_FOUND_ERR.'</p>';
+	echo '<p id="a11yc_validation_not_found_error"><span class="a11yc_icon_fa" role="presentation" aria-hidden="true"></span>'.A11YC_LANG_CHECKLIST_NOT_FOUND_ERR.'</p>';
 endif; ?>
 <!-- /#a11yc_errors -->
