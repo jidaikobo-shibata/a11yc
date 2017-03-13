@@ -18,6 +18,13 @@
 	<link rel="stylesheet" type="text/css" media="all" href="<?php echo A11YC_ASSETS_URL ?>/css/a11yc.css" />
 	<link href="<?php echo A11YC_ASSETS_URL ?>/css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 
+<?php
+if (A11YC_POST_GOOGLE_ANALYTICS_CODE)
+{
+	echo "	<!--Google analytics-->";
+	echo A11YC_POST_GOOGLE_ANALYTICS_CODE;
+}
+?>
 </head>
 <body>
 <!-- #a11yc -->

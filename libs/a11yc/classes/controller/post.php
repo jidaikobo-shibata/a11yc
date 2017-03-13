@@ -41,6 +41,9 @@ class Controller_Post
 		// script name
 		defined('A11YC_POST_SCRIPT_NAME') or define('A11YC_POST_SCRIPT_NAME', '/post.php');
 
+		// Google Analytics
+		defined('A11YC_POST_GOOGLE_ANALYTICS_CODE') or define('A11YC_POST_GOOGLE_ANALYTICS_CODE', '');
+
 		// a11yc
 		require (dirname(dirname(__DIR__)).'/main.php');
 
