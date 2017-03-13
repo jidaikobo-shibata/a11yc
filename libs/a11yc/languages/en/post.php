@@ -37,3 +37,5 @@ define('A11YC_LANG_POST_TECH_JWP_A11YC_ADD', 'In Wordpress Plugin, execute valid
 
 define('A11YC_LANG_POST_FEEDBACK_TITLE', 'Feedback');
 define('A11YC_LANG_POST_FEEDBACK_EXP', 'If there is a request or correction part on the expression of the function, commentary, etc., please send us email (<a href="mailto:info@jidaikobo.com">info@jidaikobo.com</a>) or Twitter.');
+
+define('A11YC_LANG_POST_DONE', 'Done.');

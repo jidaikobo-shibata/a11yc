@@ -38,3 +38,5 @@ define('A11YC_LANG_POST_TECH_JWP_A11YC_ADD', 'Wordpressプラグイン版では�
 
 define('A11YC_LANG_POST_FEEDBACK_TITLE', 'フィードバック');
 define('A11YC_LANG_POST_FEEDBACK_EXP', '機能、解説文の表現についての要望や修正箇所等ありましたら、メール（<a href="mailto:info@jidaikobo.com">info@jidaikobo.com</a>）でもTwitterでも、なんでもよいので、ご連絡ください。');
+
+define('A11YC_LANG_POST_DONE', '検証しました。');

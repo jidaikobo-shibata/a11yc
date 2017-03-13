@@ -198,7 +198,7 @@ define('A11YC_LANG_ERROR_BASIC_AUTH', '基本認証で守られているため�
 define('A11YC_LANG_ERROR_BASIC_AUTH_WRONG', '基本認証用の情報が間違っているようです。「設定」を確認してください。');
 define('A11YC_LANG_ERROR_SSL', 'SSLのサイトを対象とするときには、「設定」で対象となるドメインを入力してください。');
 define('A11YC_LANG_ERROR_GET_NEW_A11YC', '<a href="%s">新しいバージョンのA11yc</a>があります（現在のバージョン: %s 最新のバージョン: %s）。');
-define('A11YC_LANG_ERROR_NO_URL_NO_CHECK_SAME', 'URLがない場合は、リンク先とリンク文字列の生合成は確認できません。それ以外のチェックを行います。');
+define('A11YC_LANG_ERROR_NO_URL_NO_CHECK_SAME', 'URLがない場合は、リンク先とリンク文字列の整合性は確認できません。それ以外のチェックを行います。');
 
 // startup
 define('A11YC_LANG_STARTUP_SETDIRS', 'データ保存用ディレクトリとキャッシュディレクトリを設置しました。');

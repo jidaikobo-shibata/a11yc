@@ -301,6 +301,9 @@ class Controller_Post
 				}
 			}
 
+			// message
+			Session::add('messages', 'messages', A11YC_LANG_POST_DONE);
+
 			// page_title
 			$page_title = Util::fetch_page_title_from_html($target_html);
 
