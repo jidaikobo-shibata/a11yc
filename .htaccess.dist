@@ -13,6 +13,10 @@ Header always set X-Content-Type-Options nosniff
 
 # Browser XSS Protection
 Header always set X-XSS-Protection "1; mode=block"
+
+# Cache-Control
+Header always set Pragma no-cache
+Header always set Cache-Control no-cache
 </ifModule>
 
 # web font
@@ -22,3 +26,11 @@ AddType application/x-font-ttf .ttf
 AddType application/x-font-otf .otf
 AddType image/svg+xml .svg
 AddType application/vnd.ms-fontobject .eot
+
+# redirect
+RewriteEngine on
+RewriteBase /
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [QSA,L]
