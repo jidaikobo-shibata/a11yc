@@ -41,7 +41,7 @@
 		<?php if ($url != 'bulk'): ?>
 			<div id="a11yc_targetpage_data">
 			<!-- target page -->
-		<table id="a11yc_back_to_target_page">
+		<table id="a11yc_targetpage_info">
 		<tr>
 			<th><?php echo A11YC_LANG_CHECKLIST_TARGETPAGE ?></th>
 			<td><?php echo $target_title ?></td>
