@@ -407,15 +407,6 @@ class Controller_Post
 			$action = 'Action_Login';
 		}
 
-		// performed IPs
-		if (defined('A11YC_APPROVED_GUEST_IPS'))
-		{
-			if ( ! in_array(Arr::get($_SERVER, 'REMOTE_ADDR'), unserialize(A11YC_APPROVED_GUEST_IPS)))
-			{
-				$action = '';
-			}
-		}
-
 		// class and methods exists
 		if (
 			method_exists($controller, $action) &&
