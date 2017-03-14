@@ -204,7 +204,7 @@ class Validate_Validation extends Validate
 			'basefont',
 		);
 
-		$ms = static::get_elements_by_re($str, 'tags');
+		$ms = static::get_elements_by_re($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 
 		$n = 0;
@@ -242,7 +242,7 @@ class Validate_Validation extends Validate
 	{
 		$str = static::ignore_elements(static::$hl_html);
 
-		$ms = static::get_elements_by_re($str, 'tags');
+		$ms = static::get_elements_by_re($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 		foreach ($ms[0] as $k => $m)
 		{
@@ -269,7 +269,7 @@ class Validate_Validation extends Validate
 	{
 		$str = static::ignore_elements(static::$hl_html);
 
-		$ms = static::get_elements_by_re($str, 'tags');
+		$ms = static::get_elements_by_re($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 
 		foreach ($ms[0] as $k => $m)
@@ -303,7 +303,7 @@ class Validate_Validation extends Validate
 	{
 		$str = static::ignore_elements(static::$hl_html);
 
-		$ms = static::get_elements_by_re($str, 'tags');
+		$ms = static::get_elements_by_re($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 
 		// duplicated_ids
@@ -347,7 +347,7 @@ class Validate_Validation extends Validate
 	public static function invalid_tag()
 	{
 		$str = static::ignore_elements(static::$hl_html);
-		$ms = static::get_elements_by_re($str, 'tags');
+		$ms = static::get_elements_by_re($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 
 		foreach ($ms[0] as $k => $m)
@@ -402,7 +402,7 @@ class Validate_Validation extends Validate
 	public static function titleless_frame()
 	{
 		$str = static::ignore_elements(static::$hl_html);
-		$ms = static::get_elements_by_re($str, 'tags');
+		$ms = static::get_elements_by_re($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 
 		foreach ($ms[0] as $k => $v)
@@ -412,8 +412,8 @@ class Validate_Validation extends Validate
 
 			if ( ! trim(Arr::get($attrs, 'title')))
 			{
-				static::$error_ids['titleless_frame'][0]['id'] = $ms[0][$k];
-				static::$error_ids['titleless_frame'][0]['str'] = $ms[0][$k];
+				static::$error_ids['titleless_frame'][$k]['id'] = $ms[0][$k];
+				static::$error_ids['titleless_frame'][$k]['str'] = $ms[0][$k];
 			}
 		}
 		static::add_error_to_html('titleless_frame', static::$error_ids, 'ignores');

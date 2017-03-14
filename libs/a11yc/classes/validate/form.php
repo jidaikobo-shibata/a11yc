@@ -19,7 +19,7 @@ class Validate_Form extends Validate
 	public static function form_and_labels()
 	{
 		$str = static::ignore_elements(static::$hl_html);
-		$ms = static::get_elements_by_re($str, 'tags');
+		$ms = static::get_elements_by_re($str, 'ignores', 'tags');
 		if ( ! $ms[1]) return;
 
 		// is form exists?
@@ -221,7 +221,7 @@ class Validate_Form extends Validate
 	public static function not_label_but_title()
 	{
 		$str = static::ignore_elements(static::$hl_html);
-		$ms = static::get_elements_by_re($str, 'tags');
+		$ms = static::get_elements_by_re($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 
 		// labels_eles

@@ -34,7 +34,7 @@ class Validate_Head extends Validate
 	public static function viewport()
 	{
 		$str = static::ignore_elements(static::$hl_html);
-		$ms = static::get_elements_by_re($str, 'tags');
+		$ms = static::get_elements_by_re($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 
 		foreach ($ms[1] as $k => $tag)
@@ -56,7 +56,7 @@ class Validate_Head extends Validate
 	public static function meta_refresh()
 	{
 		$str = static::ignore_elements(static::$hl_html);
-		$ms = static::get_elements_by_re($str, 'tags');
+		$ms = static::get_elements_by_re($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 
 		foreach ($ms[0] as $k => $v)
@@ -93,7 +93,7 @@ class Validate_Head extends Validate
 		$str = static::ignore_elements(static::$hl_html);
 
 		// to locate first element at the error
-		$ms = static::get_elements_by_re($str, 'tags');
+		$ms = static::get_elements_by_re($str, 'ignores', 'tags');
 
 		if (
 			strpos(strtolower($str), '<title') === false || // lacknesss of title element

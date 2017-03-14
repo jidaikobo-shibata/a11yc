@@ -32,7 +32,7 @@ class Validate_Link extends Validate
 	public static function tell_user_file_type()
 	{
 		$str = static::ignore_elements(static::$hl_html);
-		$ms = static::get_elements_by_re($str, 'anchors_and_values');
+		$ms = static::get_elements_by_re($str, 'ignores', 'anchors_and_values');
 		if ( ! $ms[1]) return;
 
 		$suspicious = array(
@@ -97,7 +97,7 @@ class Validate_Link extends Validate
 	{
 		// urls
 		$str = static::ignore_elements(static::$hl_html);
-		$ms = static::get_elements_by_re($str, 'anchors_and_values');
+		$ms = static::get_elements_by_re($str, 'ignores', 'anchors_and_values');
 		if ( ! $ms[1]) return;
 
 		$urls = array();
@@ -147,7 +147,7 @@ class Validate_Link extends Validate
 	public static function here_link()
 	{
 		$str = static::ignore_elements(static::$hl_html);
-		$ms = static::get_elements_by_re($str, 'anchors_and_values');
+		$ms = static::get_elements_by_re($str, 'ignores', 'anchors_and_values');
 		if ( ! $ms[2]) return;
 
 		foreach ($ms[2] as $k => $m)
@@ -170,7 +170,7 @@ class Validate_Link extends Validate
 	public static function link_check()
 	{
 		$str = static::ignore_elements(static::$hl_html);
-		$ms = static::get_elements_by_re($str, 'tags');
+		$ms = static::get_elements_by_re($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 
 		// candidates

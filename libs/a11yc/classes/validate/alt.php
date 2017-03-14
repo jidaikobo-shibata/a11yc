@@ -20,7 +20,7 @@ class Validate_Alt extends Validate
 	{
 		$str = static::ignore_elements(static::$hl_html);
 
-		$ms = static::get_elements_by_re($str, 'imgs');
+		$ms = static::get_elements_by_re($str, 'ignores', 'imgs');
 		if ( ! $ms[1]) return;
 
 		foreach ($ms[1] as $k => $m)
@@ -67,7 +67,7 @@ class Validate_Alt extends Validate
 	{
 		$str = static::ignore_elements(static::$hl_html);
 
-		$ms = static::get_elements_by_re($str, 'anchors_and_values');
+		$ms = static::get_elements_by_re($str, 'ignores', 'anchors_and_values');
 		if ( ! $ms[2]) return;
 
 		foreach ($ms[2] as $k => $m)
@@ -106,7 +106,7 @@ class Validate_Alt extends Validate
 	{
 		$str = static::ignore_elements(static::$hl_html);
 
-		$ms = static::get_elements_by_re($str, 'tags');
+		$ms = static::get_elements_by_re($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 
 		foreach ($ms[0] as $k => $m)
@@ -131,7 +131,7 @@ class Validate_Alt extends Validate
 	{
 		$str = static::ignore_elements(static::$hl_html);
 
-		$ms = static::get_elements_by_re($str, 'tags');
+		$ms = static::get_elements_by_re($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 
 		foreach($ms[0] as $k => $m)
@@ -158,7 +158,7 @@ class Validate_Alt extends Validate
 	public static function same_alt_and_filename_of_img()
 	{
 		$str = static::ignore_elements(static::$hl_html);
-		$ms = static::get_elements_by_re($str, 'imgs');
+		$ms = static::get_elements_by_re($str, 'ignores', 'imgs');
 		if ( ! $ms[1]) return;
 
 		foreach ($ms[1] as $k => $m)

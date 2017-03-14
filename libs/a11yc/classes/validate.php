@@ -12,6 +12,9 @@ namespace A11yc;
 class Validate
 {
 	protected static $error_ids = array();
+	protected static $first_tag = '';
+	protected static $res = array();
+	protected static $ignored_str = '';
 	protected static $html = '';
 	protected static $hl_html = ''; // HighLighted
 
@@ -123,8 +126,7 @@ class Validate
 	 */
 	public static function ignore_elements($str, $force = false)
 	{
-		static $retval = '';
-		if ($retval && ! $force) return $retval;
+		if (static::$ignored_str && ! $force) return static::$ignored_str;
 
 		// ignore comment out, script, style
 		$ignores = array_merge(static::$ignores, static::$ignores_comment_out);
@@ -133,8 +135,13 @@ class Validate
 		{
 			$str = preg_replace($ignore, '', $str);
 		}
-		$retval = $str;
-		return $retval;
+
+		// set first tag
+		$first_tags = static::get_elements_by_re($str, 'ignores', 'tags');
+		static::$first_tag = Arr::get($first_tags, '0.0');
+
+		static::$ignored_str = $str;
+		return $str;
 	}
 
 	/**
@@ -432,32 +439,32 @@ class Validate
 	 * get elements by regular expression
 	 *
 	 * @param   strings $str
+	 * @param   strings $ignore_type
 	 * @param   strings $type (anchors|anchors_and_values|imgs|tags)
 	 * @return  void
 	 */
-	public static function get_elements_by_re($str, $type = 'tags')
+	public static function get_elements_by_re($str, $ignore_type, $type = 'tags')
 	{
-		static $retvals = array();
-		if (isset($retvals[$type])) return $retvals[$type];
+		if (isset(static::$res[$ignore_type][$type])) return static::$res[$ignore_type][$type];
 
 		switch ($type)
 		{
 			case 'anchors':
 				if (preg_match_all("/\<(?:a|area) ([^\>]+?)\>/i", $str, $ms))
 				{
-					$retvals[$type] = $ms;
+					static::$res[$ignore_type][$type] = $ms;
 				}
 				break;
 			case 'anchors_and_values':
 				if (preg_match_all("/\<a ([^\>]+)\>(.*?)\<\/a\>|\<area ([^\>]+?)\/\>/si", $str, $ms))
 				{
-					$retvals[$type] = $ms;
+					static::$res[$ignore_type][$type] = $ms;
 				}
 				break;
 			case 'imgs':
 				if (preg_match_all("/\<img ([^\>]+?)\>/i", $str, $ms))
 				{
-					$retvals[$type] = $ms;
+					static::$res[$ignore_type][$type] = $ms;
 				}
 				break;
 			default:
@@ -474,11 +481,11 @@ class Validate
 						$tags,
 						$ms[2],
 					);
-					$retvals[$type] = $ret;
+					static::$res[$ignore_type][$type] = $ret;
 				}
 				break;
 		}
-		return isset($retvals[$type]) ? $retvals[$type] : false;
+		return isset(static::$res[$ignore_type][$type]) ? static::$res[$ignore_type][$type] : false;
 	}
 
 	/**
@@ -535,7 +542,7 @@ class Validate
 		$errors = array();
 		foreach ($s_errors[$error_id] as $k => $v)
 		{
-			$errors[$k] = $v['id'];
+			$errors[$k] = $v['id'] === false ? static::$first_tag : $v['id'];
 		}
 
 		// ignore elements or comments
@@ -563,10 +570,6 @@ class Validate
 			}
 		}
 
-		// first tag
-		$first_tags = static::get_elements_by_re(static::$hl_html, 'tags');
-		$first_tag = Arr::get($first_tags, '0.0');
-
 		$lv = strtolower($yml['criterions'][$yml['errors'][$error_id]['criterion']]['level']['name']);
 
 		// replace errors
@@ -580,10 +583,11 @@ class Validate
 
 			// hash strgings to avoid wrong replace
 			$original = '[===a11yc_rplc==='.$error_id.'_'.$k.'===a11yc_rplc_title==='.$yml['errors'][$error_id]['message'].'===a11yc_rplc_class==='.$lv.'===a11yc_rplc===][===a11yc_rplc_strong_class==='.$lv.'===a11yc_rplc_strong===]';
-			$replaced = '===a11yc_rplc==='.hash("sha256", $original).'===a11yc_rplc===';
+			$replaced = '===a11yc_rplc==='.hash("sha256", $original).'===/a11yc_rplc===';
 
 			$end_original = '[===end_a11yc_rplc==='.$error_id.'_'.$k.'===a11yc_rplc_back_class==='.$lv.'===end_a11yc_rplc===]';
-			$end_replaced = '===end_a11yc_rplc==='.hash("sha256", $end_original).'===end_a11yc_rplc===';
+			$end_replaced = '===end_a11yc_rplc==='.hash("sha256", $end_original).'===/end_a11yc_rplc===';
+
 			$replaces[$k] = array(
 				'original' => $original,
 				'replaced' => $replaced,
@@ -610,7 +614,7 @@ class Validate
 			else
 			{
 				// always search first tag
-				$pos = $first_tag ? mb_strpos($html, $first_tag, 0, "UTF-8") : 0;
+				$pos = static::$first_tag ? mb_strpos($html, static::$first_tag, 0, "UTF-8") : 0;
 			}
 
 			// add error
@@ -655,7 +659,7 @@ class Validate
 	 */
 	public static function revert_html($html)
 	{
-		return str_replace(
+		$retval = str_replace(
 			array(
 				// span
 				'[===a11yc_rplc===',
@@ -687,5 +691,6 @@ class Validate
 				'" title="back to error"><span class="a11yc_icon_fa a11yc_icon_arrow_u" role="presentation" aria-hidden="true"></span><span class="a11yc_skip">back</span></a>',
 			),
 			$html);
+		return $retval;
 	}
 }
