@@ -214,6 +214,7 @@ class Validate
 	{
 		static $retvals = array();
 		if (isset($retvals[$str])) return $retvals[$str];
+		$keep = $str;
 
 		static $ruled_attrs = array(
 			'accept', 'accept-charset', 'accesskey', 'action', 'align', 'alt',
@@ -430,9 +431,9 @@ class Validate
 			}
 		}
 		$attrs['suspicious_end_quote'] = $suspicious_end_quote;
-		$retvals[$str] = $attrs;
+		$retvals[$keep] = $attrs;
 
-		return $retvals[$str];
+		return $retvals[$keep];
 	}
 
 	/**
