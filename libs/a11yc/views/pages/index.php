@@ -1,3 +1,4 @@
+<?php namespace A11yc; ?>
 <!-- list -->
 <h2 id="a11yc_checklist_index_title"><?php echo A11YC_LANG_PAGES_INDEX ?></h2>
 <ul class="a11yc_checklist_pages">
@@ -74,11 +75,11 @@ if ($pages):
 	<tbody>
 	<?php
 	$i = 0;
-	$no_url = \A11yc\Util::urldec(\A11yc\Input::get('no_url', ''));
+	$no_url = Util::urldec(Input::get('no_url', ''));
 	foreach ($pages as $page):
-	$url = \A11yc\Util::s($page['url']);
+	$url = Util::s($page['url']);
 	$not_found_class = $no_url == $url ? ' not_found_url' : '';
-	$page_title = \A11yc\Util::s($page['page_title']);
+	$page_title = Util::s($page['page_title']);
 	$class_str = ++$i%2==0 ? ' class="even'.$not_found_class.'"' : ' class="odd'.$not_found_class.'"';
 	?>
 	<tr<?php echo $class_str ?>>
@@ -87,22 +88,22 @@ if ($pages):
 			<?php echo $page_title.'<br /><a href="'.$url.'">'.$url ?></a>
 		</th>
 
-		<td class="a11yc_result"><?php echo \A11yc\Util::num2str($page['level']) ?></td>
+		<td class="a11yc_result"><?php echo Util::num2str($page['level']) ?></td>
 		<?php
 			$done = @$page['done'] == 1 ? A11YC_LANG_PAGES_DONE : '' ;
 		?>
 		<td class="a11yc_result"><?php echo $done ?></td>
 		<?php if ($list != 'trash'): ?>
-		<td class="a11yc_result"><a href="<?php echo A11YC_CHECKLIST_URL.\A11yc\Util::urlenc($url) ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_CHECK ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
+		<td class="a11yc_result"><a href="<?php echo A11YC_CHECKLIST_URL.Util::urlenc($url) ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_CHECK ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
 		<?php endif; ?>
 		<?php if ($list == 'trash'): ?>
 			<td class="a11yc_result">
-				<a href="<?php echo A11YC_PAGES_URL ?>&amp;undel=1&amp;url=<?php echo \A11yc\Util::urlenc($url).$current_qs ?>"><?php echo A11YC_LANG_PAGES_UNDELETE ?></a>
-				<a href="<?php echo A11YC_PAGES_URL ?>&amp;purge=1&amp;url=<?php echo \A11yc\Util::urlenc($url).$current_qs ?>" data-a11yc-confirm="<?php echo sprintf( A11YC_LANG_CTRL_CONFIRM, A11YC_LANG_PAGES_PURGE) ?>"><?php echo A11YC_LANG_PAGES_PURGE ?></a>
+				<a href="<?php echo A11YC_PAGES_URL ?>&amp;undel=1&amp;url=<?php echo Util::urlenc($url).$current_qs ?>"><?php echo A11YC_LANG_PAGES_UNDELETE ?></a>
+				<a href="<?php echo A11YC_PAGES_URL ?>&amp;purge=1&amp;url=<?php echo Util::urlenc($url).$current_qs ?>" data-a11yc-confirm="<?php echo sprintf( A11YC_LANG_CTRL_CONFIRM, A11YC_LANG_PAGES_PURGE) ?>"><?php echo A11YC_LANG_PAGES_PURGE ?></a>
 			</td>
 
 		<?php else: ?>
-			<td class="a11yc_result"><a href="<?php echo A11YC_PAGES_URL ?>&amp;del=1&amp;url=<?php echo \A11yc\Util::urlenc($url).$current_qs ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_DELETE ?></span><span class="a11yc_icon_delete a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
+			<td class="a11yc_result"><a href="<?php echo A11YC_PAGES_URL ?>&amp;del=1&amp;url=<?php echo Util::urlenc($url).$current_qs ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_DELETE ?></span><span class="a11yc_icon_delete a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
 		<?php endif; ?>
 		<td class="a11yc_result"><?php echo $page['add_date'] ? date('Y-m-d', strtotime($page['add_date'])) : '-' ?></td>
 		<td class="a11yc_result"><?php echo $page['date'] ?></td>

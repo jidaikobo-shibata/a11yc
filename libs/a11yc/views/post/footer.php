@@ -1,3 +1,4 @@
+<?php namespace A11yc; ?>
 </div><!-- /#a11yc -->
 
 <footer id="a11yc_validator_footer">

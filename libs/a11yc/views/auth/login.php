@@ -1,8 +1,9 @@
-<?php if (\A11yc\Input::post('username') || \A11yc\Input::post('password')): ?>
+<?php namespace A11yc; ?>
+<?php if (Input::post('username') || Input::post('password')): ?>
 	<p><strong><?php echo A11YC_LANG_LOGIN_ERROR0 ?></strong></p>
 <?php endif; ?>
 
-<form action="<?php echo \A11yc\Util::remove_query_strings(\A11yc\Util::uri()) ?>" method="POST">
+<form action="<?php echo Util::remove_query_strings(Util::uri()) ?>" method="POST">
 	<label for="a11yc_username"><?php echo A11YC_LANG_LOGIN_USERNAME ?></label>
 	<input type="text" name="username" id="a11yc_username" size="20" value="" />
 

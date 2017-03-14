@@ -1,4 +1,5 @@
 <?php
+namespace A11yc;
 // call from post
 $is_call_from_post = isset($is_call_from_post);
 

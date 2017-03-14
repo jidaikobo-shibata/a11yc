@@ -1,3 +1,4 @@
+<?php namespace A11yc; ?>
 <form id="a11yc_search" action="<?php echo A11YC_URL ?>" method="GET">
 	<input type="hidden" name="c" value="pages">
 	<input type="hidden" name="a" value="index">
@@ -11,7 +12,7 @@
 		<select name="num" id="a11yc_num">
 			<?php
 				foreach (array(25, 50, 100, 250, 500) as $v):
-				$checked = \A11yc\Input::get('num') == $v ? ' selected="selected"' : '';
+				$checked = Input::get('num') == $v ? ' selected="selected"' : '';
 			?>
 				<option value="<?php echo $v ?>"<?php echo $checked ?>><?php echo $v ?></option>
 			<?php endforeach; ?>
@@ -33,7 +34,7 @@
 		<select name="order" id="a11yc_order">
 		<?php
 		foreach ($opts as $k => $v):
-			$checked = \A11yc\Input::get('order') == $k ? ' selected="selected"' : '';
+			$checked = Input::get('order') == $k ? ' selected="selected"' : '';
 		?>
 			<option value="<?php echo $k ?>"<?php echo $checked ?>><?php echo $v ?></option>
 		<?php endforeach; ?>

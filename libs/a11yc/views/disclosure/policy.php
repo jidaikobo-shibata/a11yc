@@ -1,4 +1,5 @@
 <?php
+namespace A11yc;
 // change version
 if ($versions):
 	$html = '';
@@ -6,12 +7,12 @@ if ($versions):
 	$html.= '<div><label for="a11yc_version">'.A11YC_LANG_DISCLOSURE_CHANGE_VERSION.'</label>';
 	$html.= '<select name="a11yc_version" id="a11yc_version">';
 	foreach ($versions as $version):
-		$selected = \A11yc\Input::get('a11yc_version', '') == $version ? ' selected="selected"' : '';
+		$selected = Input::get('a11yc_version', '') == $version ? ' selected="selected"' : '';
 		$html.= '<option'.$selected.' value="'.$version.'">'.date('Y-m-d', strtotime($version)).'</option>';
 	endforeach;
 	$html.= '</select>';
 	$html.= '<input type="submit" value="'.A11YC_LANG_CTRL_SEND.'">';
-	if (\A11yc\Input::get('a11yc_version', false)):
+	if (Input::get('a11yc_version', false)):
 		$html.= '<a href="'.$disclosure_link.'">'.A11YC_LANG_DISCLOSURE_NEWEST_VERSION.'</a>';
 	endif;
 	$html.= '</div></form>';

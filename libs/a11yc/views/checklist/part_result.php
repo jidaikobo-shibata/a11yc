@@ -1,23 +1,24 @@
 <?php
+namespace A11yc;
 $html = '';
 
 // loop
 foreach ($yml['criterions'] as $criterion => $v):
-	$criterion_code = \A11yc\Util::key2code($criterion);
+	$criterion_code = Util::key2code($criterion);
 	if (
 		// ordinary condition
 		($include && strlen($v['level']['name']) <= $target_level) ||
 		// additional condition
 		(
 			! $include && strlen($v['level']['name']) > $target_level &&
-			in_array($criterion, \A11yc\Controller_Setup::additional_criterions())
+			in_array($criterion, Controller_Setup::additional_criterions())
 		)
 	):
 
 	// strs
-	$exist_str = \A11yc\Arr::get($results, "{$criterion}.non_exist") == 1 ? A11YC_LANG_EXIST_NON : A11YC_LANG_EXIST;
-	$pass_str = \A11yc\Arr::get($results, "{$criterion}.passed") >= 1 ? A11YC_LANG_PASS : '-';
-	$memo = \A11yc\Util::s(\A11yc\Arr::get($results, "{$criterion}.memo", ''));
+	$exist_str = Arr::get($results, "{$criterion}.non_exist") == 1 ? A11YC_LANG_EXIST_NON : A11YC_LANG_EXIST;
+	$pass_str = Arr::get($results, "{$criterion}.passed") >= 1 ? A11YC_LANG_PASS : '-';
+	$memo = Util::s(Arr::get($results, "{$criterion}.memo", ''));
 
 	// html
 	$html.= '<tr>';
@@ -47,7 +48,7 @@ if ($html):
 			<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PASS ?></th>
 			<th scope="col" class="a11yc_result">
 			<?php
-				if (\A11yc\Input::get('url')):
+				if (Input::get('url')):
 					echo A11YC_LANG_CHECKLIST_MEMO;
 				else:
 					echo A11YC_LANG_CHECKLIST_PERCENTAGE;

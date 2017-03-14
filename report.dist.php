@@ -8,22 +8,23 @@
  * @copyright  Jidaikobo Inc.
  * @link       http://www.jidaikobo.com
  */
+namespace A11yc;
 
 // kontiki and a11yc
 require (__DIR__.'/libs/a11yc/main.php');
 
 // select version
-$version = \A11yc\Input::get('a11yc_version', false);
-$target = $version ? \A11yc\Controller_Disclosure::version2filename($version) : KONTIKI_DATA_FILE;
+$version = Input::get('a11yc_version', false);
+$target = $version ? Controller_Disclosure::version2filename($version) : KONTIKI_DATA_FILE;
 
 // database
-\A11yc\Db::forge(array(
+Db::forge(array(
 		'dbtype' => 'sqlite',
 		'path' => KONTIKI_DATA_PATH.$target,
 	));
 
 // versions
-// \A11yc\Db::forge(
+// Db::forge(
 // 	'versions',
 // 	array(
 // 		'dbtype' => 'sqlite',
@@ -31,19 +32,19 @@ $target = $version ? \A11yc\Controller_Disclosure::version2filename($version) : 
 // 	));
 
 // init table
-\A11yc\Db::init_table();
+Db::init_table();
 
 // view
-\A11yc\View::forge(A11YC_PATH.'/views/');
+View::forge(A11YC_PATH.'/views/');
 
 // assign
-\A11yc\Controller_Disclosure::index();
+Controller_Disclosure::index();
 
 ?><!DOCTYPE html>
 <html lang="<?php echo A11YC_LANG ?>">
 <head>
 	<meta charset="utf-8">
-	<title><?php echo \A11yc\View::fetch('title') ?> - A11YC</title>
+	<title><?php echo View::fetch('title') ?> - A11YC</title>
 
 	<!-- robots -->
 	<meta name="robots" content="noindex, nofollow">
@@ -62,8 +63,8 @@ $target = $version ? \A11yc\Controller_Disclosure::version2filename($version) : 
 </head>
 <body>
 
-<h1><?php echo \A11yc\View::fetch('title') ?></h1>
-<?php echo \A11yc\View::fetch('body') ?>
+<h1><?php echo View::fetch('title') ?></h1>
+<?php echo View::fetch('body') ?>
 
 </body>
 </html>

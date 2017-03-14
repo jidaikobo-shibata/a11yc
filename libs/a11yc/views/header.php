@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<?php namespace A11yc; ?><!DOCTYPE html>
 <html lang="<?php echo A11YC_LANG ?>">
 <head>
 	<meta charset="utf-8">
@@ -47,7 +47,7 @@
 	$h1 = constant('A11YC_LANG_'.strtoupper($mode).'_TITLE');
 	$titile_attr_str ='';
 	if($mode == 'docs'):
-		if( ! (\A11yc\Input::get('a') == 'each')):
+		if( ! (Input::get('a') == 'each')):
 			$titile_attr_str = ' class="a11yc_hasctrl"';
 		else:
 			$h1 .= ':&nbsp;'.$doc['name'];

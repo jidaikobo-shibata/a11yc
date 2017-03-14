@@ -1,3 +1,4 @@
+<?php namespace A11yc; ?>
 <form id="a11yc_search" action="<?php echo A11YC_URL ?>" method="GET">
 	<input type="hidden" name="c" value="docs">
 	<input type="hidden" name="a" value="index">

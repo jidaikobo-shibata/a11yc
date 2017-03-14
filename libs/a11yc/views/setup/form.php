@@ -1,3 +1,4 @@
+<?php namespace A11yc; ?>
 <h2><?php echo A11YC_LANG_SETUP_TITLE ?></h2>
 <table class="a11yc_table">
 	<tbody>
@@ -109,7 +110,7 @@
 					else:
 						echo '<li class="even">';
 					endif;
-					$checked = in_array($code, \A11yc\Controller_Setup::additional_criterions()) ? ' checked="checked"' : '';
+					$checked = in_array($code, Controller_Setup::additional_criterions()) ? ' checked="checked"' : '';
 					echo '<label for="additional_criterions_'.$code.'"><input'.$checked.' type="checkbox" name="additional_criterions['.$code.']" id="additional_criterions_'.$code.'" value="1" /> '.$v['code'].' '.$v['name'].' ('.$v['level']['name'].')</label></li>';
 					$n++;
 				endforeach;

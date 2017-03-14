@@ -1,3 +1,4 @@
+<?php namespace A11yc; ?>
 <div id="a11yc_checks" data-a11yc-target_level="<?php echo str_repeat('a',$target_level) ?>" data-a11yc-additional_criterions='[<?php echo $additional_criterions ? '"'.$additional_criterions.'"' : ''?>]' data-a11yc-current-user="<?php echo $current_user_id ?>" data-a11yc-lang='{"expand":"<?php echo A11YC_LANG_CTRL_EXPAND ?>", "compress": "<?php echo A11YC_LANG_CTRL_COMPRESS ?>", "conformance": "<?php echo A11YC_LANG_CHECKLIST_CONFORMANCE.','.A11YC_LANG_CHECKLIST_CONFORMANCE_PARTIAL ?>"}' <?php if($checklist_behaviour) echo ' class="a11yc_hide_passed_item"' ?>>
 <!-- header -->
 <div id="a11yc_header">
@@ -48,7 +49,7 @@
 		</tr>
 		<tr>
 			<th><?php echo A11YC_LANG_PAGES_URLS ?></th>
-			<td><a href="<?php echo \A11yc\Util::urldec($url) ?>"><?php echo \A11yc\Util::urldec($url) ?></a></td>
+			<td><a href="<?php echo Util::urldec($url) ?>"><?php echo Util::urldec($url) ?></a></td>
 		</tr>
 		</table>
 	
@@ -82,15 +83,15 @@
 			for ($i=1; $i<=3; $i++)
 			{
 				$class_str = ($i == $target_level) || ($target_level == 0 && $i == 3) ? ' class="current"' : '';
-				echo '<a role="button" tabindex="0" data-narrow-level=\'['.implode(',', array_slice(array('"l_a"', '"l_aa"', '"l_aaa"'), 0, $i)).']\''.$class_str.'>'.\A11yc\Util::num2str($i).'</a>';
+				echo '<a role="button" tabindex="0" data-narrow-level=\'['.implode(',', array_slice(array('"l_a"', '"l_aa"', '"l_aaa"'), 0, $i)).']\''.$class_str.'>'.Util::num2str($i).'</a>';
 			}
 		?>
 			</p>
 	
 		<?php if ($url != 'bulk'): ?>
 			<!-- level -->
-			<p id="a11yc_target_level"><?php echo A11YC_LANG_TARGET_LEVEL ?>: <?php echo \A11yc\Util::num2str($target_level) ?>
-	<?php $current_level = $target_level ? \A11yc\Evaluate::result_str(@$page['level'], $target_level) : '-'; ?><br><?php echo A11YC_LANG_CURRENT_LEVEL ?>: <span id="a11yc_conformance_level"><?php echo $current_level ?></span></p>
+			<p id="a11yc_target_level"><?php echo A11YC_LANG_TARGET_LEVEL ?>: <?php echo Util::num2str($target_level) ?>
+	<?php $current_level = $target_level ? Evaluate::result_str(@$page['level'], $target_level) : '-'; ?><br><?php echo A11YC_LANG_CURRENT_LEVEL ?>: <span id="a11yc_conformance_level"><?php echo $current_level ?></span></p>
 		<?php endif ?>
 			<!-- rest of num -->
 			<p class="a11yc_hide_if_no_js"><a role="button" class="a11yc_disclosure"><?php echo A11YC_LANG_CHECKLIST_RESTOFNUM ?>&nbsp;:&nbsp;<span id="a11yc_rest_total">&nbsp;-&nbsp;</span></a></p>
@@ -144,7 +145,7 @@
 	foreach ($yml['guidelines'] as $kk => $vv):
 		if ($kk{0} != $k) continue;
 	?>
-		<div id="a11yc_g_<?php echo $vv['code'] ?>" class="a11yc_section_guideline"><h3 class="a11yc_header_guideline"><?php echo \A11yc\Util::key2code($vv['code']).' '.$vv['name'] ?></h3>
+		<div id="a11yc_g_<?php echo $vv['code'] ?>" class="a11yc_section_guideline"><h3 class="a11yc_header_guideline"><?php echo Util::key2code($vv['code']).' '.$vv['name'] ?></h3>
 
 		<!-- criterions -->
 		<?php
@@ -157,7 +158,7 @@
 			$class_str.= ' a11yc_p_'.$k.'_criterion';
 		?>
 			<div id="a11yc_c_<?php echo $kkk ?>" class="a11yc_section_criterion<?php echo $class_str ?>">
-			<h4 class="a11yc_header_criterion"><?php echo \A11yc\Util::key2code($vvv['code']).' '.$vvv['name'].' <span class="a11yc_header_criterion_level">('.$vvv['level']['name'].$non_interference.')</span>' ?></h4>
+			<h4 class="a11yc_header_criterion"><?php echo Util::key2code($vvv['code']).' '.$vvv['name'].' <span class="a11yc_header_criterion_level">('.$vvv['level']['name'].$non_interference.')</span>' ?></h4>
 			<ul class="a11yc_outlink">
 			<?php if (isset($vvv['url_as'])): ?>
 				<li class="a11yc_outlink_as"><a<?php echo A11YC_TARGET ?> href="<?php echo $vvv['url_as'] ?>" title="Accessibility Supported"><span class="a11yc_skip">Accessibility Supported</span></a></li>
@@ -180,7 +181,7 @@
 						</th>
 						<td class="a11yc_table_check_memo">
 							<textarea name="ngs[<?php echo $kkk; ?>][memo]" id="<?php echo $ng_id; ?>" rows="3"><?php
-							$memo = $is_new ? \A11yc\Arr::get($bulk_ngs, "{$kkk}.memo") : \A11yc\Arr::get($cs_ngs, "{$kkk}.memo") ;
+							$memo = $is_new ? Arr::get($bulk_ngs, "{$kkk}.memo") : Arr::get($cs_ngs, "{$kkk}.memo") ;
 							echo $memo;
 							?></textarea>
 						</td>

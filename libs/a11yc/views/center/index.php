@@ -1,3 +1,4 @@
+<?php namespace A11yc; ?>
 <!-- Bookmarklet -->
 <h2>Bookmarklet</h2>
 

@@ -1,3 +1,4 @@
+<?php namespace A11yc; ?>
 <?php if ( ! $is_center): ?>
 <h2><?php echo A11YC_LANG_RELATED ?></h2>
 <ul>

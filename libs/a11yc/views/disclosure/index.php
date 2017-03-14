@@ -1,3 +1,4 @@
+<?php namespace A11yc; ?>
 <h2><?php echo $title ?></h2>
 
 <?php
@@ -12,7 +13,7 @@ endif;
 	<!-- target level -->
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_TARGET_LEVEL ?></th>
-		<td><?php echo \A11yc\Util::num2str($target_level) ?></td>
+		<td><?php echo Util::num2str($target_level) ?></td>
 	</tr>
 	<!-- /target level -->
 
@@ -21,8 +22,8 @@ endif;
 		<th scope="row"><?php echo A11YC_LANG_CURRENT_LEVEL_WEBPAGES ?></th>
 		<td>
 		<?php
-		$site_level = \A11yc\Evaluate::check_site_level();
-		echo \A11yc\Evaluate::result_str($site_level, $target_level);
+		$site_level = Evaluate::check_site_level();
+		echo Evaluate::result_str($site_level, $target_level);
 		?>
 		</td>
 	</tr>
@@ -34,7 +35,7 @@ endif;
 		<th scope="row"><?php echo A11YC_LANG_CURRENT_LEVEL ?></th>
 		<td>
 		<?php
-		echo \A11yc\Evaluate::result_str($page['level'], $target_level);
+		echo Evaluate::result_str($page['level'], $target_level);
 		?>
 		</td>
 	</tr>
@@ -68,14 +69,14 @@ endif;
 	</tr>
 	<!-- /selected method -->
 
-	<?php if (isset($page) && \A11yc\Arr::get($page, 'url')): ?>
+	<?php if (isset($page) && Arr::get($page, 'url')): ?>
 	<!-- target page -->
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_PAGES_URLS ?></th>
 		<td><?php
 			echo '<a href="'.$page['url'].'">'.$page['url'].'</a>';
 			if (\Kontiki\Auth::auth()):
-				echo ' <a href="'.A11YC_CHECKLIST_URL.\A11yc\Util::urlenc($page['url']).'"'.A11YC_TARGET.' class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_CHECK ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a>';
+				echo ' <a href="'.A11YC_CHECKLIST_URL.Util::urlenc($page['url']).'"'.A11YC_TARGET.' class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_CHECK ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a>';
 			endif;
 		?></td>
 	</tr>
@@ -118,10 +119,10 @@ endif;
 					<a href="<?php echo $url ?>"<?php echo A11YC_TARGET ?>><?php echo $url ?></a>
 					<?php
 					if ( ! $is_center):
-					$chk = \A11yc\Util::add_query_strings(
-						\A11yc\Util::uri(),
+					$chk = Util::add_query_strings(
+						Util::uri(),
 						array(
-							array('url', \A11yc\Util::urlenc($url)),
+							array('url', Util::urlenc($url)),
 						));
 					?>
 						(<a href="<?php echo $chk ?>"><?php echo A11YC_LANG_REPORT ?></a>)
@@ -129,7 +130,7 @@ endif;
 					endif;
 
 					if (\Kontiki\Auth::auth()):
-						echo ' <a href="'.A11YC_CHECKLIST_URL.\A11yc\Util::urlenc($url).'"'.A11YC_TARGET.' class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_CHECK ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a>';
+						echo ' <a href="'.A11YC_CHECKLIST_URL.Util::urlenc($url).'"'.A11YC_TARGET.' class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_CHECK ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a>';
 					endif;
 					?>
 				</li>

@@ -1,8 +1,9 @@
+<?php namespace A11yc; ?>
 <?php $level = isset($is_call_form_index) ? 'h5' : 'h2' ; ?>
 <<?php echo $level ?>><?php echo A11YC_LANG_UNDERSTANDING ?></<?php echo $level ?>>
 
 <?php
-$lines = isset($doc['tech']) ? explode("\n", stripslashes(\A11YC\Util::key2link($doc['tech']))) : false;
+$lines = isset($doc['tech']) ? explode("\n", stripslashes(Util::key2link($doc['tech']))) : false;
 
 if ($lines): ?>
 	<ul>
@@ -29,7 +30,7 @@ if ($lines): ?>
 
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_CRITERION ?></th>
-		<td><?php echo $doc['criterion']['name'].'<br><span class="a11yc_inlineblock">('.\A11yc\Util::key2code($doc['criterion']['code']).' '.$doc['criterion']['level']['name'].')</span>' ?></td>
+		<td><?php echo $doc['criterion']['name'].'<br><span class="a11yc_inlineblock">('.Util::key2code($doc['criterion']['code']).' '.$doc['criterion']['level']['name'].')</span>' ?></td>
 		<td><?php echo $doc['criterion']['summary'] ?></td>
 	</tr>
 	</table>
@@ -38,7 +39,7 @@ if ($lines): ?>
 		<!-- relation -->
 <?php
 	if (isset($doc['relations'])):
-		$rels = \A11yc\Util::s($doc['relations']);
+		$rels = Util::s($doc['relations']);
 ?>
 		<<?php echo $level ?>><?php echo A11YC_LANG_RELATED ?></<?php echo $level ?>>
 		<ul>
@@ -46,7 +47,7 @@ if ($lines): ?>
 			foreach ($rels as $rel_criterion => $rel_codes):
 				foreach ($rel_codes as $rel_code):
 ?>
-				<li><a<?php echo A11YC_TARGET ?> href="<?php echo A11YC_DOC_URL.$rel_code ?>&amp;criterion=<?php echo \A11yc\Util::s($rel_criterion) ?>"><?php echo $yml['checks'][$rel_criterion][$rel_code]['name'] ?>&nbsp;(<?php echo \A11yc\Util::key2code($yml['checks'][$rel_criterion][$rel_code]['criterion']['code']).'&nbsp;'.$yml['checks'][$rel_criterion][$rel_code]['level']['name'] ?>)</a></li>
+				<li><a<?php echo A11YC_TARGET ?> href="<?php echo A11YC_DOC_URL.$rel_code ?>&amp;criterion=<?php echo Util::s($rel_criterion) ?>"><?php echo $yml['checks'][$rel_criterion][$rel_code]['name'] ?>&nbsp;(<?php echo Util::key2code($yml['checks'][$rel_criterion][$rel_code]['criterion']['code']).'&nbsp;'.$yml['checks'][$rel_criterion][$rel_code]['level']['name'] ?>)</a></li>
 			<?php
 				endforeach;
 			endforeach;
@@ -59,7 +60,7 @@ if ($lines): ?>
 	if (isset($yml['criterions'][$criterion]['url'])):
 ?>
 		<!-- understanding -->
-	<<?php echo $level ?>><?php echo A11YC_LANG_UNDERSTANDING ?>:&nbsp;<?php echo sprintf(A11YC_LANG_DOCS_UNDERSTANDING, \A11yc\Util::key2code($doc['criterion']['code'])) ?></<?php echo $level ?>>
+	<<?php echo $level ?>><?php echo A11YC_LANG_UNDERSTANDING ?>:&nbsp;<?php echo sprintf(A11YC_LANG_DOCS_UNDERSTANDING, Util::key2code($doc['criterion']['code'])) ?></<?php echo $level ?>>
 	<p><a<?php echo A11YC_TARGET_OUT ?> href="<?php echo $yml['criterions'][$criterion]['url'] ?>"><?php echo $yml['criterions'][$criterion]['summary'] ?></a></p>
 <?php endif; ?>
 
@@ -69,7 +70,7 @@ if ($lines): ?>
 	<ul>
 	<?php
 		foreach ($doc['url_as'] as $v):
-		$v = \A11yc\Util::s($v);
+		$v = Util::s($v);
 	?>
 		<li><a<?php echo A11YC_TARGET_OUT ?> href="<?php echo $v['url'] ?>"><?php echo $v['name'] ?></a></li>
 	<?php endforeach; ?>
@@ -82,7 +83,7 @@ if ($lines): ?>
 	<ul>
 	<?php
 		foreach ($doc['urls'] as $v):
-		$v = \A11yc\Util::s($v);
+		$v = Util::s($v);
 	?>
 		<li><a<?php echo A11YC_TARGET_OUT ?> href="<?php echo $v['url'] ?>"><?php echo $v['name'] ?></a></li>
 	<?php endforeach; ?>

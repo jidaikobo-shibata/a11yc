@@ -1,3 +1,4 @@
+<?php namespace A11yc; ?>
 <!-- by url -->
 <form action="<?php echo $target_url ?>" method="POST">
 <h2>URL</h2>
@@ -35,7 +36,7 @@ $uas = array(
 </form>
 
 <?php
-if (\A11yc\Input::post() && isset($result)):
+if (Input::post() && isset($result)):
 ?>
 <h2><?php echo A11YC_LANG_CHECKLIST_CHECK_RESULT ?></h2>
 <table id="a11yc_targetpage_info">
