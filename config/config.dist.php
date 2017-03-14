@@ -11,6 +11,8 @@ define('A11YC_URL', 'http://example.com/a11yc/index.php');
 // language
 // en, ja
 define('A11YC_LANG', 'ja');
+
+// time zone
 define('A11YC_TIMEZONE', 'Asia/Tokyo');
 
 // administration access approved IPs

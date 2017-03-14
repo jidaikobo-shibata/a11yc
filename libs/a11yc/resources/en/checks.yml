@@ -218,7 +218,7 @@ checks:
       tech: |
         It is a hearing-dependent test such as a hearing test.
         The image of the flower is displayed and it is an image that asks "Which part is calyx?" It clearly indicates that it is an image for testing purposes.
-        If you prepare transcribed text with these images, movies and sounds, it will not be a test, so these will be out of the scope of accessibility checks.
+        If you prepare transcribed text with these images, movies and sounds, it will not be a test, so you will explain the purpose of the content with alternative text.
 
     1-1-1k:
       criterion: *c1-1-1

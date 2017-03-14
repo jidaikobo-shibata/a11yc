@@ -34,7 +34,7 @@ define('A11YC_LANG_POST_TECH_TITLE', '技術情報');
 define('A11YC_LANG_POST_TECH_A11YC', 'A11ycというライブラリを基礎にして開発しています。<a href="https://github.com/jidaikobo-shibata/a11yc">A11ycは、githubで入手可能</a>です。このライブラリも時代工房で作っています。');
 define('A11YC_LANG_POST_TECH_A11YC_ADD', 'A11ycでは、このアクセシビリティバリデーションサービスで提供している機能のほかに、JIS X 8341-3:2016で求められている報告書や試験結果（チェックリスト）の作成機能があります。');
 define('A11YC_LANG_POST_TECH_JWP_A11YC', 'WordPress用のプラグイン<a href="https://ja.wordpress.org/plugins/jwp-a11y/">jwp-a11y</a>もA11ycと同様の機能がありますので、おためしください。');
-define('A11YC_LANG_POST_TECH_JWP_A11YC_ADD', 'Wordpressプラグイン版では、このA11yc AVSのバリデーション機能を、投稿のたびに実行できるので、恒常的にアクセシビリティを意識してサイトを運営できるようになると思います。');
+define('A11YC_LANG_POST_TECH_JWP_A11YC_ADD', 'Wordpressプラグイン版では、このA11yc AVSのバリデーション機能を投稿のたびに実行できるので、恒常的にアクセシビリティを意識してサイトを運営できるようになると思います。');
 
 define('A11YC_LANG_POST_FEEDBACK_TITLE', 'フィードバック');
 define('A11YC_LANG_POST_FEEDBACK_EXP', '機能、解説文の表現についての要望や修正箇所等ありましたら、メール（<a href="mailto:info@jidaikobo.com">info@jidaikobo.com</a>）でもTwitterでも、なんでもよいので、ご連絡ください。');
