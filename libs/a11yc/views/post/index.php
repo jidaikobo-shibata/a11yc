@@ -38,14 +38,20 @@ $uas = array(
 if (\A11yc\Input::post() && isset($result)):
 ?>
 <h2><?php echo A11YC_LANG_CHECKLIST_CHECK_RESULT ?></h2>
-<dl id="a11yc_validator_results_info">
-	<dt><?php echo A11YC_LANG_PAGES_PAGETITLE ?></dt>
-	<dd><?php echo $page_title ?></dd>
-	<dt><?php echo A11YC_LANG_CHECKLIST_REAL_URL ?></dt>
-	<dd><?php echo $real_url ?></dd>
-	<dt><?php echo A11YC_LANG_CHECKLIST_UA ?></dt>
-	<dd><?php echo $current_user_agent; ?></dd>
-</dl>
+<table id="a11yc_targetpage_info">
+	<tr>
+		<th scope="row"><?php echo A11YC_LANG_PAGES_PAGETITLE ?></th>
+		<td><?php echo $page_title ?></td>
+	</tr>
+	<tr>
+		<th scope="row"><?php echo A11YC_LANG_CHECKLIST_REAL_URL ?></th>
+		<td><?php echo $real_url ?></td>
+	</tr>
+	<tr>
+		<th scope="row"><?php echo A11YC_LANG_CHECKLIST_UA ?></th>
+		<td><?php echo $current_user_agent; ?></td>
+	</tr>
+</table>
 <?php
 	echo $result;
 endif;

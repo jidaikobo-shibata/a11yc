@@ -31,7 +31,8 @@
 	color: #006ab6;
 }
 .a11yc a:active {
-	color: #68baef;
+/* 	color: #68baef; */
+/*	color: #8bc32f;*/
 }
 .a11yc a:hover {
 	text-decoration: none;
@@ -206,7 +207,8 @@ tr.a11yc_flash {
 .a11yc h1 {
 	font-size: 2em;
 	font-weight: normal;
-	border-bottom: 2px solid #68baef;
+/* 	border-bottom: 2px solid #68baef; */
+	border-bottom: 2px solid #8bc32f;
 	margin: .25em 0 .5em;
 }
 .a11yc h1.a11yc_hasctrl {
@@ -220,7 +222,8 @@ tr.a11yc_flash {
 .a11yc h1.a11yc_hasctrl+*+.a11yc_presentation {
 	width: 100%;
 	height: 2px;
-	background-color: #68baef;
+/* 	background-color: #68baef; */
+	background-color: #8bc32f;
 	clear: both;
 	margin-bottom: 1em;
 }
@@ -233,7 +236,8 @@ tr.a11yc_flash {
 }
 .a11yc h2:after {
 	content: '';
-	background-color: #68baef;
+/* 	background-color: #68baef; */
+	background-color: #8bc32f;
 	display: block;
 	position: absolute;
 	left: 0;
@@ -384,7 +388,8 @@ table.a11yc_table_info {
 }
 #a11yc_menu a:hover,
 #a11yc_menu a:focus {
-	color: #68baef;
+/* 	color: #68baef; */
+	color: #8bc32f;
 }
 /* fixed a11yc menu */
 #a11yc_header {
@@ -525,9 +530,9 @@ table.a11yc_table_info {
 	float: right;
 }
 */
-#a11yc_done_date,
-#a11yc_select_standard,
-#a11yc_selection_reason {
+#a11yc_header_done_date,
+#a11yc_header_select_standard,
+#a11yc_header_selection_reason {
 	display: inline-block;
 	margin-left: 5px;
 }
@@ -551,7 +556,7 @@ table.a11yc_table_info {
 	text-align: right;
 	width: 20em;
 }
-#a11yc_back_to_target_page th {
+#a11yc_targetpage_info th {
 	text-align: left;
 	padding-right: 5px;
 	vertical-align: top;
@@ -811,13 +816,14 @@ h2.a11yc_header_principle:after {
 	margin-bottom:1.5em;
 	background-color: #f3f3f3;
 }
-.a11yc_header_ngreason {
+.a11yc_title_ngreason {
 	display: inline-block;
 	margin: -.25em 0 .25em;
 	padding: 1px 4px;
 	background-color: #ccc !important;
 	border-radius: 3px;
 	font-size: 1em;
+	font-weight: bold;
 }
 .a11yc_table_check .a11yc_header_ngreason label {
 	display: inline;
@@ -1390,6 +1396,34 @@ table td.a11yc_result {
 }
 
 /* a11yc_validator */
+#a11yc_post {
+	box-sizing: border-box;
+	min-height: calc( 100vh - 16px - 65px - 1em);
+}
+#a11yc_validation_not_found_error {
+	background-color: rgba(139, 195, 47,.15);
+	margin-top: 1em;
+	padding: 20px;
+}
+#a11yc_validation_not_found_error span {
+	position: relative;
+	content: '';
+	display: inline-block;
+	width: 2em;
+	height: 2em;
+	border-radius: 50%;
+	margin-right: 10px;
+	background: rgb(139,195,47);
+	vertical-align: middle;
+}
+#a11yc_validation_not_found_error span:before {
+	content: '\f00c';
+	font-size: 1.55em;
+	color: #fff;
+	position: absolute;
+	top: .165em;
+	left: .175em;
+}
 
 #a11yc_validator_results_info dd {
 	word-break: break-all;

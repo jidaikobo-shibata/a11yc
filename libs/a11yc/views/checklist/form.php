@@ -5,12 +5,12 @@
 		<div id="a11yc_header_ctrl">
 		<?php if ($url != 'bulk'): ?>
 			<!-- standard -->
-			<p id="a11yc_done_date" class="">
+			<p id="a11yc_header_done_date" class="">
 				<label for="a11yc_done_date"><?php echo A11YC_LANG_TEST_DATE ?></label>
 				<input type="text" name="done_date" id="a11yc_done_date" size="10" value="<?php echo $done_date ?>" />
 			</p>
 			<!-- standard -->
-			<p id="a11yc_select_standard" class="">
+			<p id="a11yc_header_select_standard" class="">
 				<label for="a11yc_standard"><?php echo A11YC_LANG_STANDARD ?></label>
 				<select name="standard" id="a11yc_standard">
 				<?php
@@ -23,7 +23,7 @@
 			</p>
 	
 			<!-- selection reason -->
-			<p id="a11yc_selection_reason" class="">
+			<p id="a11yc_header_selection_reason" class="">
 				<label for="a11yc_selection_reason"><?php echo A11YC_LANG_CANDIDATES_REASON ?></label>
 				<select name="selection_reason" id="a11yc_selection_reason">
 				<?php
@@ -41,7 +41,7 @@
 		<?php if ($url != 'bulk'): ?>
 			<div id="a11yc_targetpage_data">
 			<!-- target page -->
-		<table id="a11yc_back_to_target_page">
+		<table id="a11yc_targetpage_info">
 		<tr>
 			<th><?php echo A11YC_LANG_CHECKLIST_TARGETPAGE ?></th>
 			<td><?php echo $target_title ?></td>
@@ -173,32 +173,34 @@
 				?>
 				<table class="a11yc_table_check">
 				<tbody>
-					<th scple="row">
-					<h5 class="a11yc_header_ngreason"><label for="<?php echo $ng_id; ?>"><?php echo A11YC_LANG_CHECKLIST_NG_REASON; ?></label></h5>
-						<?php echo A11YC_LANG_CHECKLIST_NG_REASON_EXP; ?>
-					</th>
-					<td class="a11yc_table_check_memo">
-						<textarea name="ngs[<?php echo $kkk; ?>][memo]" id="<?php echo $ng_id; ?>" rows="3"><?php
-						$memo = $is_new ? \A11yc\Arr::get($bulk_ngs, "{$kkk}.memo") : \A11yc\Arr::get($cs_ngs, "{$kkk}.memo") ;
-						echo $memo;
-						?></textarea>
-					</td>
-					<td class="a11yc_table_check_user">
-						<select name="ngs[<?php echo $kkk ?>][uid]">
-				<?php
-				foreach ($users as $uid => $name):
-					$selected = '';
-					if (
-						(isset($cs_ngs[$kkk]['uid']) && (int) $cs_ngs[$kkk]['uid'] == $uid) ||
-						(isset($bulk_ngs[$kkk]['uid']) && (int) $bulk_ngs[$kkk]['uid'] == $uid)
-					):
-						$selected = ' selected="selected"';
-					endif;
-				?>
-					<option value="<?php echo $uid ?>"<?php echo $selected ?>><?php echo $name ?></option>
-				<?php endforeach; ?>
-				</select>
-					</td>
+					<tr>
+						<th scope="row">
+						<span class="a11yc_title_ngreason"><label for="<?php echo $ng_id; ?>"><?php echo A11YC_LANG_CHECKLIST_NG_REASON; ?></label></span>
+							<?php echo A11YC_LANG_CHECKLIST_NG_REASON_EXP; ?>
+						</th>
+						<td class="a11yc_table_check_memo">
+							<textarea name="ngs[<?php echo $kkk; ?>][memo]" id="<?php echo $ng_id; ?>" rows="3"><?php
+							$memo = $is_new ? \A11yc\Arr::get($bulk_ngs, "{$kkk}.memo") : \A11yc\Arr::get($cs_ngs, "{$kkk}.memo") ;
+							echo $memo;
+							?></textarea>
+						</td>
+						<td class="a11yc_table_check_user">
+							<select name="ngs[<?php echo $kkk ?>][uid]">
+					<?php
+					foreach ($users as $uid => $name):
+						$selected = '';
+						if (
+							(isset($cs_ngs[$kkk]['uid']) && (int) $cs_ngs[$kkk]['uid'] == $uid) ||
+							(isset($bulk_ngs[$kkk]['uid']) && (int) $bulk_ngs[$kkk]['uid'] == $uid)
+						):
+							$selected = ' selected="selected"';
+						endif;
+					?>
+						<option value="<?php echo $uid ?>"<?php echo $selected ?>><?php echo $name ?></option>
+					<?php endforeach; ?>
+					</select>
+						</td>
+					</tr>
 				</tbody>
 				</table>
 			</div>

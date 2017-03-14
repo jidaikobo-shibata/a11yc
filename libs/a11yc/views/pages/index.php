@@ -59,15 +59,17 @@ if ($pages):
 ?>
 	<table class="a11yc_table">
 	<thead>
-	<th>URL</th>
-	<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_LEVEL ?></th>
-	<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_CHECKLIST_DONE ?></th>
-	<?php if ($list != 'trash'): ?>
-	<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGES_CHECK ?></th>
-	<?php endif; ?>
-	<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGES_CTRL ?></th>
-	<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGES_ADD_DATE ?></th>
-	<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_TEST_DATE ?></th>
+	<tr>
+		<th>URL</th>
+		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_LEVEL ?></th>
+		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_CHECKLIST_DONE ?></th>
+		<?php if ($list != 'trash'): ?>
+		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGES_CHECK ?></th>
+		<?php endif; ?>
+		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGES_CTRL ?></th>
+		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGES_ADD_DATE ?></th>
+		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_TEST_DATE ?></th>
+	</tr>
 	</thead>
 	<tbody>
 	<?php

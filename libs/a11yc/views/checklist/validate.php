@@ -42,15 +42,17 @@ if ($errs):
 					<div id="a11yc_validation_code_raw">
 						<?php echo $raw ?>
 					</div>
+					<?php /* ?>
 					<div id="a11yc_validation_code_txt" style="display: none;">
 						<?php echo $raw ?>
 					</div>
+					<?php */ ?>
 					<?php endif; ?>
 				</div><!-- /.a11yc_disclosure_target -->
 			</dd>
 		</dl>
 </div><!-- /.a11yc_disclosure_target -->
 <?php else:
-	echo '<p class="">'.A11YC_LANG_CHECKLIST_NOT_FOUND_ERR.'</p>';
+	echo '<p id="a11yc_validation_not_found_error"><span class="a11yc_icon_fa" role="presentation" aria-hidden="true"></span>'.A11YC_LANG_CHECKLIST_NOT_FOUND_ERR.'</p>';
 endif; ?>
 <!-- /#a11yc_errors -->

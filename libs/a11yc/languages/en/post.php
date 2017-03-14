@@ -12,7 +12,7 @@ define('A11YC_LANG_POST_INDEX', 'Validation');
 
 define('A11YC_LANG_POST_README', 'Read me');
 
-define('A11YC_LANG_POST_HOWTO', ' Mechanical accessibility check for the HTML. Please paste your HTML in the textarea of ​​<code>HTML Source</code> or enter target URL to <code>URL</code> in <a href="/post.php">Validation</a> and send it. Display accessibility checkpoints and their commentary.');
+define('A11YC_LANG_POST_HOWTO', ' Mechanical accessibility check for the HTML. Please paste your HTML in the textarea of ​​<code>HTML Source</code> or enter target URL to <code>URL</code> in <a href="%s">Validation</a> and send it. Display accessibility checkpoints and their commentary.');
 define('A11YC_LANG_POST_SERVICE_NAME_TITLE', 'Name of service');
 define('A11YC_LANG_POST_SERVICE_NAME_EXP', '"<strong>'.A11YC_LANG_POST_SERVICE_NAME.'</strong>" Short version is "<strong>'.A11YC_LANG_POST_SERVICE_NAME_ABBR.'</strong>".');
 
