@@ -44,7 +44,6 @@ class Validate
 			'not_label_but_title'             => '\A11yc\Validate_Form',
 			'unclosed_elements'               => '\A11yc\Validate_Validation',
 			'suspicious_elements'             => '\A11yc\Validate_Validation',
-			'appropriate_heading_descending'  => '\A11yc\Validate_Validation',
 			'meanless_element'                => '\A11yc\Validate_Validation',
 			'style_for_structure'             => '\A11yc\Validate_Validation',
 			'invalid_tag'                     => '\A11yc\Validate_Validation',
@@ -59,6 +58,7 @@ class Validate
 			'link_check'                      => '\A11yc\Validate_Link',
 
 			// non tag
+			'appropriate_heading_descending'  => '\A11yc\Validate_Validation',
 			'suspicious_attributes'           => '\A11yc\Validate_Validation',
 			'duplicated_ids_and_accesskey'    => '\A11yc\Validate_Validation',
 			'ja_word_breaking_space'          => '\A11yc\Validate_Validation',

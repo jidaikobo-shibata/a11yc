@@ -180,4 +180,93 @@ class Validate_Alt extends Validate
 		}
 		static::add_error_to_html('same_alt_and_filename_of_img', static::$error_ids, 'ignores');
 	}
+
+	/**
+	 * get_images
+	 * This Method is NOT a validator
+	 * @return  array()
+	 */
+	public static function get_images()
+	{
+		$retvals = array();
+		$str = static::ignore_elements(static::$hl_html);
+		$ms = static::get_elements_by_re($str, 'ignores', 'tags');
+		if ( ! $ms[0]) return $retvals;
+
+		$n = 0;
+		$targets = array('img', 'input', 'area');
+		foreach ($ms[1] as $k => $v)
+		{
+			if ( ! in_array($v, $targets)) continue;
+			$attrs = static::get_attributes($ms[0][$k]);
+			if ($v == 'input' &&  ! isset($attrs['src'])) continue;
+
+			$retvals[$n]['element'] = $v;
+
+			// src not exists
+			if ( ! isset($attrs['src']))
+			{
+				$retvals[$n]['uri'] = null;
+			}
+			else
+			{
+				$retvals[$n]['uri'] = Crawl::keep_url_unique($attrs['src']);
+				// Guzzle::forge($uri);
+				// $retvals[$n]['uri'] = Guzzle::instance($uri)->is_exists ?
+				// 										Guzzle::instance($uri)->real_url :
+				// 										false;
+			}
+
+			// alt not exists
+			if ( ! isset($attrs['alt']))
+			{
+				$retvals[$n]['alt'] = null;
+				$retvals[$n]['newline'] = null;
+			}
+			else
+			{
+				// empty alt
+				if (empty($attrs['alt']))
+				{
+					$retvals[$n]['alt'] = '';
+				}
+				else
+				{
+					// alt of blank chars
+					$alt = str_replace('　', ' ', $attrs['alt']);
+					$alt = trim($alt);
+					if (empty($attrs['alt']))
+					{
+						$retvals[$n]['alt'] = '===a11yc_alt_of_blank_chars===';
+					}
+					// alt text
+					else
+					{
+						$retvals[$n]['alt'] = $attrs['alt'];
+					}
+				}
+
+				// newline in attr
+				$retvals[$n]['newline'] = preg_match("/[\n\r]/is", $attrs['alt']);
+			}
+
+			// role
+			$retvals[$n]['role'] = Arr::get($attrs, 'role', null);
+
+			// title
+			$retvals[$n]['title'] = Arr::get($attrs, 'title', null);
+
+			// aria-*
+			$retvals[$n]['aria'] = array();
+			foreach ($attrs as $kk => $vv)
+			{
+				if (substr($kk, 0, 5) != 'aria-') continue;
+				$retvals[$n]['aria'][$kk] = $vv;
+			}
+
+			$n++;
+		}
+
+		return $retvals;
+	}
 }

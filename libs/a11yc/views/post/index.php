@@ -24,7 +24,11 @@ $uas = array(
 	<option value="<?php echo $type ?>"<?php echo $selected ?>><?php echo $ua ?></option>
 	<?php endforeach; ?>
 </select>
+
+<div>
+<label for="show_list_images"><input id="show_list_images" name="show_list_images" type="checkbox" value="1"> <?php echo A11YC_LANG_SHOW_LIST_IMAGES ?></label>
 <input type="submit" value="<?php echo A11YC_LANG_CTRL_SEND ?>">
+</div>
 </form>
 
 <!-- by html -->

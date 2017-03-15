@@ -170,6 +170,8 @@ define('A11YC_LANG_NO_BROKEN_LINK_FOUND', 'No broken link was found');
 define('A11YC_LANG_CHECKLIST_PERCENTAGE', 'Achievement');
 define('A11YC_LANG_CHECKLIST_NG_REASON', 'Nonconformity Reason');
 define('A11YC_LANG_CHECKLIST_NG_REASON_EXP', 'If there is application of the object of this achievement item and it is nonconformity, please describe the reason here. If the reason is written here, this criterion will be treated as "Nonconformity" or "Partial Conformity".');
+define('A11YC_LANG_SHOW_LIST_IMAGES', 'Show list of images and alt');
+define('A11YC_LANG_SHOW_LIST_IMAGES_EXP', 'If there is a URL to be surveyed, you can check the list of images on that page.');
 
 // bulk
 define('A11YC_LANG_BULK_TITLE', 'Batch');
