@@ -179,3 +179,7 @@ errors:
     message: If you set user-scalable=no in the viewport setting, users can not change it to the size they like, so avoid it.
     criterion: 1-4-4
     code: 1-4-4a
+  must_be_numeric_attr:
+    message: Must be numeric attribute
+    criterion: 4-1-1
+    code: 4-1-1a

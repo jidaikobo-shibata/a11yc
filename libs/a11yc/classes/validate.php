@@ -62,6 +62,7 @@ class Validate
 			'suspicious_attributes'           => '\A11yc\Validate_Validation',
 			'duplicated_ids_and_accesskey'    => '\A11yc\Validate_Validation',
 			'ja_word_breaking_space'          => '\A11yc\Validate_Validation',
+			'must_be_numeric_attr'            => '\A11yc\Validate_Validation',
 			'same_page_title_in_same_site'    => '\A11yc\Validate_Head',
 		);
 

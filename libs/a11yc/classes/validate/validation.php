@@ -420,4 +420,38 @@ class Validate_Validation extends Validate
 		}
 		static::add_error_to_html('titleless_frame', static::$error_ids, 'ignores');
 	}
+
+	/**
+	 * numeric attr
+	 *
+	 * @return  bool
+	 */
+	public static function must_be_numeric_attr()
+	{
+		$str = static::ignore_elements(static::$hl_html);
+		$ms = static::get_elements_by_re($str, 'ignores', 'tags');
+		if ( ! $ms[0]) return;
+
+		$targets = array(
+			'width',
+			'height',
+			'border',
+		);
+
+		foreach ($ms[0] as $k => $v)
+		{
+			$attrs = static::get_attributes($v);
+
+			foreach ($attrs as $attr => $val)
+			{
+				if ( ! in_array($attr, $targets)) continue;
+				if ( ! is_numeric($val))
+				{
+					static::$error_ids['must_be_numeric_attr'][$k]['id'] = $v;
+					static::$error_ids['must_be_numeric_attr'][$k]['str'] = $attr;
+				}
+			}
+		}
+		static::add_error_to_html('must_be_numeric_attr', static::$error_ids, 'ignores');
+	}
 }

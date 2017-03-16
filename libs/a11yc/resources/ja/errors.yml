@@ -179,3 +179,7 @@ errors:
     message: viewport設定でuser-scalable=noを設定すると、好みの大きさに変更できないので、避けましょう
     criterion: 1-4-4
     code: 1-4-4a
+  must_be_numeric_attr:
+    message: 数値でなければいけない値があります
+    criterion: 4-1-1
+    code: 4-1-1a
