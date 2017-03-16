@@ -59,20 +59,22 @@ endif;
 
 ?>
 <tr<?php echo $class; ?>>
-	<td><?php
+	<td class="a11yc_image_importance"><?php
 		echo $important ? '<strong>'.$important.'</strong>' : '';
 		echo $need_check ? '<strong>'.$need_check.'</strong>' : '';
 ?></td>
-	<td><?php echo $v['element']; ?></td>
-	<td style="background-color: #efefef;">
+	<td class="a11yc_image_element"><?php echo $v['element']; ?></td>
+	<td class="a11yc_image_img">
+		<div>
 	<?php if ($v['attrs']['src']): ?>
-		<img src="<?php echo $v['attrs']['src'] ?>" alt="" role="presentation">
+			<img src="<?php echo $v['attrs']['src'] ?>" alt="" role="presentation">
 	<?php endif; ?>
+		</div>
 	</td>
-	<td><?php echo $alt; ?></td>
-	<td><?php echo Arr::get('attrs', 'title', '') ?></td>
-	<td><?php echo Arr::get('attrs', 'role', '') ?></td>
-	<td><?php
+	<td class="a11yc_image_alt"><?php echo $alt; ?></td>
+	<td class="a11yc_image_title"><?php echo Arr::get('attrs', 'title', '') ?></td>
+	<td class="a11yc_image_role"><?php echo Arr::get('attrs', 'role', '') ?></td>
+	<td class="a11yc_image_aria"><?php
 	foreach ($v['aria'] as $kk => $vv):
 		echo $kk.' - '.$vv;
 	endforeach;
