@@ -32,7 +32,7 @@ $classes = array();
 
 // important
 $important = $v['href'] ? A11YC_LANG_IMPORTANT : '';
-$classes[] = $important ? 'important' : '';
+$classes[] = $important ? 'a11yc_important' : '';
 
 // alt
 $alt = Arr::get($v, 'attrs.alt', null);
@@ -40,14 +40,15 @@ $alt = Arr::get($v, 'attrs.alt', null);
 $need_check = '';
 if ($alt === NULL):
 	$alt = '<em>'.A11YC_LANG_CHECKLIST_ALT_NULL.'</em>';
-	$classes[] = 'error';
+	$classes[] = 'a11yc_error';
+	$need_check = A11YC_LANG_NEED_CHECK;
 elseif (empty($alt)):
 	$alt = '<em>'.A11YC_LANG_CHECKLIST_ALT_EMPTY.'</em>';
-	$classes[] = $important ? 'error' : '';
+	$classes[] = $important ? 'a11yc_error' : '';
 	$need_check = $important ? A11YC_LANG_NEED_CHECK : '';
 elseif ($alt == '===a11yc_alt_of_blank_chars==='):
 	$alt = '<em>'.A11YC_LANG_CHECKLIST_ALT_BLANK.'</em>';
-	$classes[] = $important ? 'error' : '';
+	$classes[] = $important ? 'a11yc_error' : '';
 	$need_check = $important ? A11YC_LANG_NEED_CHECK : '';
 endif;
 

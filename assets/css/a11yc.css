@@ -1514,9 +1514,15 @@ table td.a11yc_result {
 
 table.a11yc_image_list
 {
+	width: 100%;
 	border-collapse: collapse;
 }
-
+tr.a11yc_important {
+	background-color: #ffffd0;
+}
+tr.a11yc_error {
+	background-color: #ffdfdf;
+}
 .a11yc_image_list th
 {
 	white-space: nowrap;
@@ -1531,21 +1537,26 @@ table.a11yc_image_list
 .a11yc_image_list td em
 {
 	color: #900;
+	font-weight: bold;
+	font-style: normal;
 }
-.a11yc_image_list .a11yc_image_importance,
-.a11yc_image_list .a11yc_image_element,
-.a11yc_image_list td.a11yc_image_img {
+.a11yc_image_importance,
+.a11yc_image_element,
+.a11yc_image_img {
 	text-align: center;
 }
+.a11yc_image_importance strong{
+	display: block;
+}
+
 .a11yc_image_list td.a11yc_image_img {
 	background-color: #eee;
-}
-.a11yc_image_img div {
-	width: 200px;
+	width: 210px;
 }
 .a11yc_image_list td img
 {
 	width: auto;
 	max-width: 100%;
 	max-height: 100px;
+	vertical-align: bottom;
 }
