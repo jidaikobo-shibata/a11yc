@@ -1512,7 +1512,7 @@ table td.a11yc_result {
 
 /* a11yc_image_list */
 
-.a11yc_image_list
+table.a11yc_image_list
 {
 	border-collapse: collapse;
 }
@@ -1525,17 +1525,27 @@ table td.a11yc_result {
 .a11yc_image_list th,
 .a11yc_image_list td
 {
-	padding: 5px;
-	text-align: center;
+	padding: 10px 5px;
+	border-bottom: 1px solid #333;
 }
-
 .a11yc_image_list td em
 {
 	color: #900;
 }
-
+.a11yc_image_list .a11yc_image_importance,
+.a11yc_image_list .a11yc_image_element,
+.a11yc_image_list td.a11yc_image_img {
+	text-align: center;
+}
+.a11yc_image_list td.a11yc_image_img {
+	background-color: #eee;
+}
+.a11yc_image_img div {
+	width: 200px;
+}
 .a11yc_image_list td img
 {
-	width: 200px;
-	min-width: 200px;
+	width: auto;
+	max-width: 100%;
+	max-height: 100px;
 }
