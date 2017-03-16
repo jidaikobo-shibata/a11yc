@@ -1450,9 +1450,10 @@ table td.a11yc_result {
 #a11yc_post .a11yc_narrow_level a {
 	position: relative;
 	display: inline-block;
-	font-size: 2.5em;
+	font-size: 1.75em;
 	margin-right: 20px;
 	margin-bottom: 0;
+	padding: .125em 10px .1em;
 }
 #a11yc_post .a11yc_narrow_level a .a11yc_errs_lv:after {
 	content: '';
