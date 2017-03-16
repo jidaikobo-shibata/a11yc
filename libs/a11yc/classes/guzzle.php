@@ -14,6 +14,7 @@ class Guzzle
 	protected static $_instances = array();
 	protected $cons = array();
 	protected $cons_tmp = array();
+	protected $errors = array();
 	protected $url;
 	protected $real_url;
 	protected $headers;
@@ -102,9 +103,11 @@ class Guzzle
 			try {
 				$response = $client->head($url, $cons);
 			} catch (\GuzzleHttp\Exception\ConnectException $e) {
+				$this->errors[] = 'ConnectException';
 				return false;
 			}
 		} catch (\GuzzleHttp\Exception\RequestException $e) {
+			$this->errors[] = 'RequestException';
 			return false;
 		}
 
@@ -155,9 +158,11 @@ class Guzzle
 			try {
 			$response = $client->send($request, $cons);
 			} catch (\GuzzleHttp\Exception\ConnectException $e) {
+				$this->errors[] = 'ConnectException';
 				return false;
 			}
 		} catch (\GuzzleHttp\Exception\RequestException $e) {
+			$this->errors[] = 'RequestException';
 			return false;
 		}
 
@@ -236,8 +241,13 @@ class Guzzle
 	{
 		if (property_exists($this, $name))
 		{
+			// errors?
+			if ($name == 'errors')
+			{
+				return $this->errors;
+			}
 			// get status code at the first time. simple requests.
-			if (in_array($name, array('status_code', 'headers', 'is_exists', 'is_html')))
+			elseif (in_array($name, array('status_code', 'headers', 'is_exists', 'is_html')))
 			{
 				if ( ! $this->head())
 				{
