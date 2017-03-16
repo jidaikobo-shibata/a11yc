@@ -26,16 +26,20 @@ $uas = array(
 </select>
 
 <div>
-<label for="show_list_images"><input id="show_list_images" name="show_list_images" type="checkbox" value="1"> <?php echo A11YC_LANG_SHOW_LIST_IMAGES ?></label>
-<input type="submit" value="<?php echo A11YC_LANG_CTRL_SEND ?>">
+	<label for="behaviour"><?php echo A11YC_LANG_POST_BEHAVIOUR ?></label>
+	<select name="behaviour" id="behaviour">
+		<option value="check"><?php echo A11YC_LANG_POST_DO_CHECK ?></option>
+		<option value="images"><?php echo A11YC_LANG_POST_SHOW_LIST_IMAGES ?></option>
+	</select>
+	<input type="submit" value="<?php echo A11YC_LANG_CTRL_SEND ?>">
 </div>
 </form>
 
 <!-- by html -->
 <form action="<?php echo $target_url ?>" method="POST">
 <h2><label for="source">HTML Source</label></h2>
+<p><?php echo A11YC_LANG_POST_CANT_SHOW_LIST_IMAGES ?></p>
 <textarea name="source" id="source" style="width: 100%; min-height: 10em;"><?php echo $target_html ?></textarea>
-<input type="hidden" name="url" value="<?php echo $url ?>">
 <input type="submit" value="<?php echo A11YC_LANG_CTRL_SEND ?>">
 </form>
 

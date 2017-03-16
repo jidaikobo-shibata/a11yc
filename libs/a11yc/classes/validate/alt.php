@@ -190,83 +190,119 @@ class Validate_Alt extends Validate
 	{
 		$retvals = array();
 		$str = static::ignore_elements(static::$hl_html);
-		$ms = static::get_elements_by_re($str, 'ignores', 'tags');
-		if ( ! $ms[0]) return $retvals;
 
+		// at first, get images in a
+		preg_match_all('/\<a [^\>]+\>.+?\<\/a\>/is', $str, $as);
 		$n = 0;
-		$targets = array('img', 'input', 'area');
+		foreach ($as[0] as $v)
+		{
+			if (strpos($v, '<img ') === false) continue;
+
+			// link
+			$attrs = static::get_attributes($v);
+			$href = Arr::get($attrs, 'href');
+
+			// plural images can be exist.
+			preg_match_all('/\<img[^\>]+\>/is', $v, $ass);
+			foreach ($ass[0] as $vv)
+			{
+				$retvals[$n]['element'] = 'img';
+				$retvals[$n]['href'] = $href;
+				$retvals[$n]['attrs'] = static::get_attributes($vv);
+				$n++;
+			}
+
+			// remove a within images
+			$str = str_replace($v, '', $str);
+		}
+
+		// secondary, get areas
+		preg_match_all('/\<area [^\>]+\>.+?\<\/a\>/is', $str, $as);
+		foreach ($as[0] as $v)
+		{
+			// link
+			$attrs = static::get_attributes($v);
+			$retvals[$n]['element'] = 'area';
+			$retvals[$n]['href'] = Arr::get($attrs, 'href');
+			$retvals[$n]['attrs'] = $attrs;
+			$n++;
+
+			// remove a within images
+			$str = str_replace($v, '', $str);
+		}
+
+		// get buttons?
+
+		// input and img
+		$ms = static::get_elements_by_re($str, 'ignores', 'tags', $force = true);
+
+		$targets = array('img', 'input');
 		foreach ($ms[1] as $k => $v)
 		{
 			if ( ! in_array($v, $targets)) continue;
 			$attrs = static::get_attributes($ms[0][$k]);
-			if ($v == 'input' &&  ! isset($attrs['src'])) continue;
+			if ($v == 'input' &&  ! isset($attrs['attrs'])) continue;
 
 			$retvals[$n]['element'] = $v;
+			$retvals[$n]['href'] = NULL;
+			$retvals[$n]['attrs'] = $attrs;
+			$n++;
+		}
 
+		// tidy
+		foreach ($retvals as $k => $v)
+		{
 			// src not exists
-			if ( ! isset($attrs['src']))
+			if ( ! isset($v['attrs']['src']))
 			{
-				$retvals[$n]['uri'] = null;
+				$retvals[$k]['attrs']['src'] = null;
 			}
 			else
 			{
-				$retvals[$n]['uri'] = Crawl::keep_url_unique($attrs['src']);
-				// Guzzle::forge($uri);
-				// $retvals[$n]['uri'] = Guzzle::instance($uri)->is_exists ?
-				// 										Guzzle::instance($uri)->real_url :
-				// 										false;
+				$retvals[$k]['attrs']['src'] = Crawl::keep_url_unique($v['attrs']['src']);
 			}
 
 			// alt not exists
-			if ( ! isset($attrs['alt']))
+			if ( ! isset($v['attrs']['alt']))
 			{
-				$retvals[$n]['alt'] = null;
-				$retvals[$n]['newline'] = null;
+				$retvals[$k]['attrs']['alt'] = null;
+				$retvals[$k]['attrs']['newline'] = null;
 			}
 			else
 			{
 				// empty alt
-				if (empty($attrs['alt']))
+				if (empty($v['attrs']['alt']))
 				{
-					$retvals[$n]['alt'] = '';
+					$retvals[$k]['attrs']['alt'] = '';
 				}
 				else
 				{
 					// alt of blank chars
-					$alt = str_replace('　', ' ', $attrs['alt']);
+					$alt = str_replace('　', ' ', $v['attrs']['alt']);
 					$alt = trim($alt);
-					if (empty($attrs['alt']))
+					if (empty($v['attrs']['alt']))
 					{
-						$retvals[$n]['alt'] = '===a11yc_alt_of_blank_chars===';
+						$retvals[$k]['attrs']['alt'] = '===a11yc_alt_of_blank_chars===';
 					}
 					// alt text
 					else
 					{
-						$retvals[$n]['alt'] = $attrs['alt'];
+						$retvals[$k]['attrs']['alt'] = $v['attrs']['alt'];
 					}
 				}
 
 				// newline in attr
-				$retvals[$n]['newline'] = preg_match("/[\n\r]/is", $attrs['alt']);
+				$retvals[$k]['attrs']['newline'] = preg_match("/[\n\r]/is", $v['attrs']['alt']);
 			}
-
-			// role
-			$retvals[$n]['role'] = Arr::get($attrs, 'role', null);
-
-			// title
-			$retvals[$n]['title'] = Arr::get($attrs, 'title', null);
 
 			// aria-*
-			$retvals[$n]['aria'] = array();
-			foreach ($attrs as $kk => $vv)
+			$retvals[$k]['aria'] = array();
+			foreach ($retvals[$k]['attrs'] as $kk => $vv)
 			{
 				if (substr($kk, 0, 5) != 'aria-') continue;
-				$retvals[$n]['aria'][$kk] = $vv;
+				$retvals[$k]['aria'][$kk] = $vv;
 			}
-
-			$n++;
 		}
-
 		return $retvals;
 	}
 }

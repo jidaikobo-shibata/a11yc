@@ -221,7 +221,7 @@ class Controller_Post
 		$errs_cnts = array();
 		$target_html = '';
 
-		if (Input::post('source', ''))
+		if (Input::post('source'))
 		{
 			$target_html = Input::post('source');
 		}
@@ -273,18 +273,22 @@ class Controller_Post
 			if ($url)
 			{
 				Crawl::set_target_path($url);
-				if (Input::post('show_list_images'))
+				if (Input::post('behaviour') == 'images')
 				{
 					$do_validate = false;
 					View::assign('images', Validate_Alt::get_images());
+					Session::add('messages', 'messages', A11YC_LANG_POST_DONE_IMAGE_LIST);
 				}
 			}
 			else
 			{
-				unset($codes['same_urls_should_have_same_text']);
-				Session::add('messages', 'errors', A11YC_LANG_ERROR_NO_URL_NO_CHECK_SAME);
+				// just for "same_urls_should_have_same_text".
+				Crawl::set_target_path('http://example.com');
+				// unset($codes['same_urls_should_have_same_text']);
+				// Session::add('messages', 'errors', A11YC_LANG_ERROR_NO_URL_NO_CHECK_SAME);
 			}
 
+			// do validate not image list
 			if ($do_validate)
 			{
 				// unset uncheck errors
@@ -308,10 +312,20 @@ class Controller_Post
 						}
 					}
 				}
-			}
 
-			// message
-			Session::add('messages', 'messages', A11YC_LANG_POST_DONE);
+				// message
+				Session::add('messages', 'messages', A11YC_LANG_POST_DONE);
+				if (count($all_errs) == 0)
+				{
+					Session::add('messages', 'messages',
+						A11YC_LANG_CHECKLIST_NOT_FOUND_ERR);
+				}
+				else
+				{
+					Session::add('messages', 'messages',
+						sprintf(A11YC_LANG_POST_DONE_POINTS, count($all_errs)));
+				}
+			}
 
 			// page_title
 			$page_title = Util::fetch_page_title_from_html($target_html);

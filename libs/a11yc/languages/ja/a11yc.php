@@ -170,8 +170,13 @@ define('A11YC_LANG_NO_BROKEN_LINK_FOUND', 'リンク切れは見つかりませ�
 define('A11YC_LANG_CHECKLIST_PERCENTAGE', '達成度');
 define('A11YC_LANG_CHECKLIST_NG_REASON', '不適合理由');
 define('A11YC_LANG_CHECKLIST_NG_REASON_EXP', 'この達成項目の対象の適用があり、かつ不適合である場合はここにその理由を記入してください。ここに理由が書いてあると、この達成基準は「不適合」あるいは「部分適合」扱いとなります。');
-define('A11YC_LANG_SHOW_LIST_IMAGES', '画像とaltの一覧を表示する');
-define('A11YC_LANG_SHOW_LIST_IMAGES_EXP', '調査対象のURLがある場合は、そのページにある画像の一覧を確認できます。');
+define('A11YC_LANG_IMPORTANT', '重要');
+define('A11YC_LANG_NEED_CHECK', '要確認');
+define('A11YC_LANG_CHECKLIST_IMPORTANT_EMP', 'a要素に含まれている要素については「重要」と表示されます。');
+define('A11YC_LANG_CHECKLIST_IMPORTANT_EMP2', '「重要」な要素について、altが空であるような場合、「要確認」と表示されます。');
+define('A11YC_LANG_CHECKLIST_ALT_NULL', 'alt属性値が存在しません');
+define('A11YC_LANG_CHECKLIST_ALT_EMPTY', 'alt属性値が空です');
+define('A11YC_LANG_CHECKLIST_ALT_BLANK', 'alt属性値が空白文字です');
 
 // bulk
 define('A11YC_LANG_BULK_TITLE', '一括処理');

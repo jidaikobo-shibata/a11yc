@@ -170,8 +170,14 @@ define('A11YC_LANG_NO_BROKEN_LINK_FOUND', 'No broken link was found');
 define('A11YC_LANG_CHECKLIST_PERCENTAGE', 'Achievement');
 define('A11YC_LANG_CHECKLIST_NG_REASON', 'Nonconformity Reason');
 define('A11YC_LANG_CHECKLIST_NG_REASON_EXP', 'If there is application of the object of this achievement item and it is nonconformity, please describe the reason here. If the reason is written here, this criterion will be treated as "Nonconformity" or "Partial Conformity".');
-define('A11YC_LANG_SHOW_LIST_IMAGES', 'Show list of images and alt');
-define('A11YC_LANG_SHOW_LIST_IMAGES_EXP', 'If there is a URL to be surveyed, you can check the list of images on that page.');
+define('A11YC_LANG_IMPORTANT', 'IMPORTANT');
+define('A11YC_LANG_NEED_CHECK', 'Need Check');
+define('A11YC_LANG_CHECKLIST_IMPORTANT_EMP', 'Elements included in a element are displayed as "IMPORTANT".');
+define('A11YC_LANG_CHECKLIST_IMPORTANT_EMP2', 'If "alt" is empty for the "important" element, "'.A11YC_LANG_NEED_CHECK.'" is displayed.');
+define('A11YC_LANG_CHECKLIST_ALT_NULL', 'alt attribute not exist');
+define('A11YC_LANG_CHECKLIST_ALT_EMPTY', 'alt attribute is empty');
+define('A11YC_LANG_CHECKLIST_ALT_BLANK', 'alt attribute is blank character');
+
 
 // bulk
 define('A11YC_LANG_BULK_TITLE', 'Batch');

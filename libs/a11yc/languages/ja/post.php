@@ -12,7 +12,7 @@ define('A11YC_LANG_POST_INDEX', 'バリデーション');
 
 define('A11YC_LANG_POST_README', '使い方');
 
-define('A11YC_LANG_POST_HOWTO', 'HTMLに対して、機械的にできるアクセシビリティのチェックを行います。<a href="%s">バリデーション</a>の<code>URL</code>に検査対象のURLを入力するか、<code>HTML Source</code>のtextareaにHTMLを貼付して、送信してください。アクセシビリティ上のチェックポイントとその解説文を表示します。');
+define('A11YC_LANG_POST_HOWTO', '<p>HTMLに対して、機械的にできるアクセシビリティのチェックを行います。<a href="%s">バリデーション</a>の<code>URL</code>に検査対象のURLを入力するか、<code>HTML Source</code>のtextareaにHTMLを貼付して、送信してください。アクセシビリティ上のチェックポイントとその解説文を表示します。</p><p>URLによるチェックの場合は、アクセシビリティのチェックの他に、画像とaltの確認を行うことができます。</p>');
 
 define('A11YC_LANG_POST_SERVICE_NAME_TITLE', 'サービスの名称');
 define('A11YC_LANG_POST_SERVICE_NAME_EXP', '「<strong>'.A11YC_LANG_POST_SERVICE_NAME.'</strong>」です。長いので、「<strong>'.A11YC_LANG_POST_SERVICE_NAME_ABBR.'</strong>」という表記も用います。');
@@ -40,3 +40,10 @@ define('A11YC_LANG_POST_FEEDBACK_TITLE', 'フィードバック');
 define('A11YC_LANG_POST_FEEDBACK_EXP', '機能、解説文の表現についての要望や修正箇所等ありましたら、メール（<a href="mailto:info@jidaikobo.com">info@jidaikobo.com</a>）でもTwitterでも、なんでもよいので、ご連絡ください。');
 
 define('A11YC_LANG_POST_DONE', '検証しました。');
+define('A11YC_LANG_POST_DONE_POINTS', '%s箇所の指摘事項があります。');
+define('A11YC_LANG_POST_DONE_IMAGE_LIST', '画像とaltの一覧を取得しました。リファラの設定などによっては、画像が表示されないことがあります。');
+
+define('A11YC_LANG_POST_BEHAVIOUR', '動作');
+define('A11YC_LANG_POST_DO_CHECK', 'アクセシビリティのチェックを行う');
+define('A11YC_LANG_POST_SHOW_LIST_IMAGES', '画像とaltの一覧を表示する');
+define('A11YC_LANG_POST_CANT_SHOW_LIST_IMAGES', 'HTMLのソースチェックでは画像とaltの一覧の表示はできません。');

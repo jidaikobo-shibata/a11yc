@@ -442,30 +442,34 @@ class Validate
 	 * @param   strings $str
 	 * @param   strings $ignore_type
 	 * @param   strings $type (anchors|anchors_and_values|imgs|tags)
+	 * @param   bool    $force
 	 * @return  void
 	 */
-	public static function get_elements_by_re($str, $ignore_type, $type = 'tags')
+	public static function get_elements_by_re($str, $ignore_type, $type = 'tags', $force = false)
 	{
-		if (isset(static::$res[$ignore_type][$type])) return static::$res[$ignore_type][$type];
+		if (isset(static::$res[$ignore_type][$type]) && $force == false)
+		{
+			return static::$res[$ignore_type][$type];
+		}
 
 		switch ($type)
 		{
 			case 'anchors':
 				if (preg_match_all("/\<(?:a|area) ([^\>]+?)\>/i", $str, $ms))
 				{
-					static::$res[$ignore_type][$type] = $ms;
+					$ret = $ms;
 				}
 				break;
 			case 'anchors_and_values':
 				if (preg_match_all("/\<a ([^\>]+)\>(.*?)\<\/a\>|\<area ([^\>]+?)\/\>/si", $str, $ms))
 				{
-					static::$res[$ignore_type][$type] = $ms;
+					$ret = $ms;
 				}
 				break;
 			case 'imgs':
 				if (preg_match_all("/\<img ([^\>]+?)\>/i", $str, $ms))
 				{
-					static::$res[$ignore_type][$type] = $ms;
+					$ret = $ms;
 				}
 				break;
 			default:
@@ -482,10 +486,20 @@ class Validate
 						$tags,
 						$ms[2],
 					);
-					static::$res[$ignore_type][$type] = $ret;
 				}
 				break;
 		}
+
+		// no influence
+		if ($ret && ! $force)
+		{
+			static::$res[$ignore_type][$type] = $ret;
+		}
+		elseif ($ret)
+		{
+			return $ret;
+		}
+
 		return isset(static::$res[$ignore_type][$type]) ? static::$res[$ignore_type][$type] : false;
 	}
 

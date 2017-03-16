@@ -6,9 +6,15 @@ $is_call_from_post = isset($is_call_from_post);
 
 if ($images):
 ?>
-<table border="1">
+<ul class="a11yc_cmt">
+	<li><?php echo A11YC_LANG_CHECKLIST_IMPORTANT_EMP ?></li>
+	<li><?php echo A11YC_LANG_CHECKLIST_IMPORTANT_EMP2 ?></li>
+</ul>
+
+<table class="a11yc_image_list" summary="Image and alt">
 <thead>
 <tr>
+	<th>importance</th>
 	<th>element</th>
 	<th>image</th>
 	<th>alt</th>
@@ -17,29 +23,53 @@ if ($images):
 	<th>aria-*</th>
 </tr>
 </thead>
-<?php foreach ($images as $v): ?>
-<tr>
-	<td>
-	<?php echo $v['element'] ?>
-	</td>
+<?php
+
+foreach ($images as $v):
+
+$classes = array();
+
+// important
+$important = $v['href'] ? A11YC_LANG_IMPORTANT : '';
+$classes[] = $important ? 'important' : '';
+
+// alt
+$alt = $v['attrs']['alt'];
+$need_check = '';
+if ($alt === NULL):
+	$alt = A11YC_LANG_CHECKLIST_ALT_NULL;
+	$classes[] = 'error';
+elseif (empty($alt)):
+	$alt = A11YC_LANG_CHECKLIST_ALT_EMPTY;
+	$classes[] = $important ? 'error' : '';
+	$need_check = $important ? A11YC_LANG_NEED_CHECK : '';
+elseif ($alt == '===a11yc_alt_of_blank_chars==='):
+	$alt = A11YC_LANG_CHECKLIST_ALT_BLANK;
+	$classes[] = $important ? 'error' : '';
+	$need_check = $important ? A11YC_LANG_NEED_CHECK : '';
+endif;
+
+// row class
+$class = '';
+if ($classes):
+	$class = ' class="'.join(' ', $classes).'"';
+endif;
+
+?>
+<tr<?php echo $class; ?>>
+	<td><?php
+		echo $important ? '<strong>'.$important.'</strong>' : '';
+		echo $need_check ? '<strong>'.$need_check.'</strong>' : '';
+?></td>
+	<td><?php echo $v['element']; ?></td>
 	<td style="background-color: #efefef;">
-	<?php if ($v['uri']): ?>
-	<img src="<?php echo $v['uri'] ?>" style="min-width:150px;">
+	<?php if ($v['attrs']['src']): ?>
+		<img src="<?php echo $v['attrs']['src'] ?>" alt="" role="presentation">
 	<?php endif; ?>
 	</td>
-	<td><?php
-	if ($v['alt'] === NULL):
-		echo '属性値が存在しません';
-	elseif (empty($v['alt'])):
-		echo '属性値が空です';
-	elseif ($v['alt'] == '===a11yc_alt_of_blank_chars==='):
-		echo '属性値が空白文字です';
-	else:
-		echo $v['alt'];
-	endif;
-	?></td>
-	<td><?php echo $v['title'] ?></td>
-	<td><?php echo $v['role'] ?></td>
+	<td><?php echo $alt; ?></td>
+	<td><?php echo Arr::get('attrs', 'title', '') ?></td>
+	<td><?php echo Arr::get('attrs', 'role', '') ?></td>
 	<td><?php
 	foreach ($v['aria'] as $kk => $vv):
 		echo $kk.' - '.$vv;
