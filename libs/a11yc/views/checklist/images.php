@@ -58,7 +58,7 @@ endif;
 
 ?>
 <tr<?php echo $class; ?>>
-	<td class="a11yc_image_img">
+	<th class="a11yc_image_img">
 		<div>
 	<?php if (isset($v['attrs']['src']) && $v['attrs']['src']): ?>
 			<img src="<?php echo $v['attrs']['src'] ?>" alt="" role="presentation">
@@ -67,7 +67,7 @@ endif;
 		echo '<em>'.A11YC_LANG_CHECKLIST_SRC_NONE.'</em>';
 	endif; ?>
 		</div>
-	</td>
+	</th>
 	<td class="a11yc_image_importance"><?php
 		echo $important ? '<strong>'.$important.'</strong>' : '';
 		echo $need_check ? '<strong>'.$need_check.'</strong>' : '';
