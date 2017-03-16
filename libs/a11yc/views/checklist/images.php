@@ -58,14 +58,14 @@ endif;
 
 ?>
 <tr<?php echo $class; ?>>
-	<td class="a11yc_image_img">
+	<th class="a11yc_image_img">
 		<div>
 	<?php if ($v['attrs']['src']): ?>
 			<img src="<?php echo $v['attrs']['src'] ?>" alt="" role="presentation">
 			<?php echo '<span class="a11yc_image_src">'.basename($v['attrs']['src']).'</span>' ?>
 	<?php endif; ?>
 		</div>
-	</td>
+	</th>
 	<td class="a11yc_image_importance"><?php
 		echo $important ? '<strong>'.$important.'</strong>' : '';
 		echo $need_check ? '<strong>'.$need_check.'</strong>' : '';
