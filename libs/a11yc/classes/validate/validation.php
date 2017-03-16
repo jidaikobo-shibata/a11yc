@@ -20,28 +20,30 @@ class Validate_Validation extends Validate
 	{
 		$str = static::ignore_elements(static::$hl_html);
 
-		$secs = preg_split("/\<h([1-6])[^\>]*\>(.+?)\<\/h\d/", $str, -1, PREG_SPLIT_DELIM_CAPTURE);
+		$secs = preg_split("/\<(h[^\>?]+?)\>(.+?)\<\/h\d/", $str, -1, PREG_SPLIT_DELIM_CAPTURE);
 		if ( ! $secs) return;
 
+		// get first appeared heading
 		$prev = 1;
 		foreach ($secs as $sec)
 		{
-			if (is_numeric($sec))
+			if (is_numeric($sec[1]))
 			{
-				$prev = $sec;
+				$prev = $sec[1];
 				break;
 			}
 		}
 
 		foreach ($secs as $k => $v)
 		{
-			if ( ! is_numeric($v)) continue; // skip non heading
-			$current_level = $v;
+			if ($v[0] != 'h' || ! is_numeric($v[1])) continue; // skip non heading
+			$current_level = $v[1];
 
 			if ($current_level - $prev >= 2)
 			{
-				$str = isset($secs[$k + 1]) ? $secs[$k + 1] : $v;
-				static::$error_ids['appropriate_heading_descending'][$k]['id'] = $str;
+				$str = isset($secs[$k + 1]) ? $secs[$k + 1] : $v[1];
+
+				static::$error_ids['appropriate_heading_descending'][$k]['id'] = '<'.$v.'>'.$str;
 				static::$error_ids['appropriate_heading_descending'][$k]['str'] = $str;
 			}
 			$prev = $current_level;

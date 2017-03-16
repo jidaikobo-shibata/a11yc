@@ -1457,3 +1457,28 @@ table td.a11yc_result {
 .clear {
 	clear: both;
 }
+
+/* a11yc_image_list */
+
+.a11yc_image_list
+{
+	border-collapse: collapse;
+}
+
+.a11yc_image_list th
+{
+	white-space: nowrap;
+}
+
+.a11yc_image_list th,
+.a11yc_image_list td
+{
+	padding: 5px;
+	text-align: center;
+}
+
+.a11yc_image_list td img
+{
+	width: 200px;
+	min-width: 200px;
+}

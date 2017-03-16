@@ -221,7 +221,7 @@ class Controller_Post
 		$errs_cnts = array();
 		$target_html = '';
 
-		if (Input::post('source', ''))
+		if (Input::post('source'))
 		{
 			$target_html = Input::post('source');
 		}
@@ -269,40 +269,63 @@ class Controller_Post
 			$codes = Validate::$codes;
 
 			// for same_urls_should_have_same_text
+			$do_validate = true;
 			if ($url)
 			{
 				Crawl::set_target_path($url);
+				if (Input::post('behaviour') == 'images')
+				{
+					$do_validate = false;
+					View::assign('images', Validate_Alt::get_images());
+					Session::add('messages', 'messages', A11YC_LANG_POST_DONE_IMAGE_LIST);
+				}
 			}
 			else
 			{
-				unset($codes['same_urls_should_have_same_text']);
-				Session::add('messages', 'errors', A11YC_LANG_ERROR_NO_URL_NO_CHECK_SAME);
+				// just for "same_urls_should_have_same_text".
+				Crawl::set_target_path('http://example.com');
+				// unset($codes['same_urls_should_have_same_text']);
+				// Session::add('messages', 'errors', A11YC_LANG_ERROR_NO_URL_NO_CHECK_SAME);
 			}
 
-			// unset uncheck errors
-			unset($codes['link_check']);
-			unset($codes['same_page_title_in_same_site']);
-
-			// validate
-			foreach ($codes as $method => $class)
+			// do validate not image list
+			if ($do_validate)
 			{
-				$class::$method();
-			}
+				// unset uncheck errors
+				unset($codes['link_check']);
+				unset($codes['same_page_title_in_same_site']);
 
-			if (Validate::get_error_ids())
-			{
-				$err_link = static::$url.'?a=doc&code=';
-				foreach (Validate::get_error_ids() as $err_code => $errs)
+				// validate
+				foreach ($codes as $method => $class)
 				{
-					foreach ($errs as $key => $err)
+					$class::$method();
+				}
+
+				if (Validate::get_error_ids())
+				{
+					$err_link = static::$url.'?a=doc&code=';
+					foreach (Validate::get_error_ids() as $err_code => $errs)
 					{
-						$all_errs[]=Controller_Checklist::message($err_code, $err, $key, $err_link);
+						foreach ($errs as $key => $err)
+						{
+							$all_errs[]=Controller_Checklist::message($err_code, $err, $key, $err_link);
+						}
 					}
 				}
-			}
 
-			// message
-			Session::add('messages', 'messages', A11YC_LANG_POST_DONE);
+				// message
+				Session::add('messages', 'messages', A11YC_LANG_POST_DONE);
+				if (count($all_errs) == 0)
+				{
+					Session::add('messages', 'messages',
+						A11YC_LANG_CHECKLIST_NOT_FOUND_ERR);
+				}
+				else
+				{
+					Session::add('messages', 'messages',
+						sprintf(A11YC_LANG_POST_DONE_POINTS, count($all_errs)));
+				}
+			}
 
 			// page_title
 			$page_title = Util::fetch_page_title_from_html($target_html);
@@ -318,7 +341,15 @@ class Controller_Post
 			View::assign('errs_cnts'         , $errs_cnts);
 			View::assign('raw'               , $raw, false);
 			View::assign('is_call_from_post' , true);
-			View::assign('result'            , View::fetch_tpl('checklist/validate.php'), false);
+			View::assign('do_validate'       , $do_validate);
+			if ($do_validate)
+			{
+				View::assign('result' , View::fetch_tpl('checklist/validate.php'), false);
+			}
+			else
+			{
+				View::assign('result' , View::fetch_tpl('checklist/images.php'), false);
+			}
 
 			// count up for guest users
 			if ( ! Auth::auth() && ! $is_in_white_list)

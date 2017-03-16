@@ -1,5 +1,5 @@
 <?php namespace A11yc; ?>
-<p><?php echo sprintf(A11YC_LANG_POST_HOWTO, Util::remove_query_strings(Util::uri())) ?></p>
+<?php echo sprintf(A11YC_LANG_POST_HOWTO, Util::remove_query_strings(Util::uri())) ?>
 
 <h2><?php echo A11YC_LANG_POST_SERVICE_NAME_TITLE ?></h2>
 <p><?php echo A11YC_LANG_POST_SERVICE_NAME_EXP ?></p>

@@ -44,7 +44,6 @@ class Validate
 			'not_label_but_title'             => '\A11yc\Validate_Form',
 			'unclosed_elements'               => '\A11yc\Validate_Validation',
 			'suspicious_elements'             => '\A11yc\Validate_Validation',
-			'appropriate_heading_descending'  => '\A11yc\Validate_Validation',
 			'meanless_element'                => '\A11yc\Validate_Validation',
 			'style_for_structure'             => '\A11yc\Validate_Validation',
 			'invalid_tag'                     => '\A11yc\Validate_Validation',
@@ -59,6 +58,7 @@ class Validate
 			'link_check'                      => '\A11yc\Validate_Link',
 
 			// non tag
+			'appropriate_heading_descending'  => '\A11yc\Validate_Validation',
 			'suspicious_attributes'           => '\A11yc\Validate_Validation',
 			'duplicated_ids_and_accesskey'    => '\A11yc\Validate_Validation',
 			'ja_word_breaking_space'          => '\A11yc\Validate_Validation',
@@ -442,30 +442,34 @@ class Validate
 	 * @param   strings $str
 	 * @param   strings $ignore_type
 	 * @param   strings $type (anchors|anchors_and_values|imgs|tags)
+	 * @param   bool    $force
 	 * @return  void
 	 */
-	public static function get_elements_by_re($str, $ignore_type, $type = 'tags')
+	public static function get_elements_by_re($str, $ignore_type, $type = 'tags', $force = false)
 	{
-		if (isset(static::$res[$ignore_type][$type])) return static::$res[$ignore_type][$type];
+		if (isset(static::$res[$ignore_type][$type]) && $force == false)
+		{
+			return static::$res[$ignore_type][$type];
+		}
 
 		switch ($type)
 		{
 			case 'anchors':
 				if (preg_match_all("/\<(?:a|area) ([^\>]+?)\>/i", $str, $ms))
 				{
-					static::$res[$ignore_type][$type] = $ms;
+					$ret = $ms;
 				}
 				break;
 			case 'anchors_and_values':
 				if (preg_match_all("/\<a ([^\>]+)\>(.*?)\<\/a\>|\<area ([^\>]+?)\/\>/si", $str, $ms))
 				{
-					static::$res[$ignore_type][$type] = $ms;
+					$ret = $ms;
 				}
 				break;
 			case 'imgs':
 				if (preg_match_all("/\<img ([^\>]+?)\>/i", $str, $ms))
 				{
-					static::$res[$ignore_type][$type] = $ms;
+					$ret = $ms;
 				}
 				break;
 			default:
@@ -482,10 +486,20 @@ class Validate
 						$tags,
 						$ms[2],
 					);
-					static::$res[$ignore_type][$type] = $ret;
 				}
 				break;
 		}
+
+		// no influence
+		if ($ret && ! $force)
+		{
+			static::$res[$ignore_type][$type] = $ret;
+		}
+		elseif ($ret)
+		{
+			return $ret;
+		}
+
 		return isset(static::$res[$ignore_type][$type]) ? static::$res[$ignore_type][$type] : false;
 	}
 

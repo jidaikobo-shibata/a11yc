@@ -180,4 +180,129 @@ class Validate_Alt extends Validate
 		}
 		static::add_error_to_html('same_alt_and_filename_of_img', static::$error_ids, 'ignores');
 	}
+
+	/**
+	 * get_images
+	 * This Method is NOT a validator
+	 * @return  array()
+	 */
+	public static function get_images()
+	{
+		$retvals = array();
+		$str = static::ignore_elements(static::$hl_html);
+
+		// at first, get images in a
+		preg_match_all('/\<a [^\>]+\>.+?\<\/a\>/is', $str, $as);
+		$n = 0;
+		foreach ($as[0] as $v)
+		{
+			if (strpos($v, '<img ') === false) continue;
+
+			// link
+			$attrs = static::get_attributes($v);
+			$href = Arr::get($attrs, 'href');
+
+			// plural images can be exist.
+			preg_match_all('/\<img[^\>]+\>/is', $v, $ass);
+			foreach ($ass[0] as $vv)
+			{
+				$retvals[$n]['element'] = 'img';
+				$retvals[$n]['href'] = $href;
+				$retvals[$n]['attrs'] = static::get_attributes($vv);
+				$n++;
+			}
+
+			// remove a within images
+			$str = str_replace($v, '', $str);
+		}
+
+		// secondary, get areas
+		preg_match_all('/\<area [^\>]+\>.+?\<\/a\>/is', $str, $as);
+		foreach ($as[0] as $v)
+		{
+			// link
+			$attrs = static::get_attributes($v);
+			$retvals[$n]['element'] = 'area';
+			$retvals[$n]['href'] = Arr::get($attrs, 'href');
+			$retvals[$n]['attrs'] = $attrs;
+			$n++;
+
+			// remove a within images
+			$str = str_replace($v, '', $str);
+		}
+
+		// get buttons?
+
+		// input and img
+		$ms = static::get_elements_by_re($str, 'ignores', 'tags', $force = true);
+
+		$targets = array('img', 'input');
+		foreach ($ms[1] as $k => $v)
+		{
+			if ( ! in_array($v, $targets)) continue;
+			$attrs = static::get_attributes($ms[0][$k]);
+			if ($v == 'input' &&  ! isset($attrs['attrs'])) continue;
+
+			$retvals[$n]['element'] = $v;
+			$retvals[$n]['href'] = NULL;
+			$retvals[$n]['attrs'] = $attrs;
+			$n++;
+		}
+
+		// tidy
+		foreach ($retvals as $k => $v)
+		{
+			// src not exists
+			if ( ! isset($v['attrs']['src']))
+			{
+				$retvals[$k]['attrs']['src'] = null;
+			}
+			else
+			{
+				$retvals[$k]['attrs']['src'] = Crawl::keep_url_unique($v['attrs']['src']);
+			}
+
+			// alt not exists
+			if ( ! isset($v['attrs']['alt']))
+			{
+				$retvals[$k]['attrs']['alt'] = null;
+				$retvals[$k]['attrs']['newline'] = null;
+			}
+			else
+			{
+				// empty alt
+				if (empty($v['attrs']['alt']))
+				{
+					$retvals[$k]['attrs']['alt'] = '';
+				}
+				else
+				{
+					// alt of blank chars
+					$alt = str_replace('　', ' ', $v['attrs']['alt']);
+					$alt = trim($alt);
+					if (empty($v['attrs']['alt']))
+					{
+						$retvals[$k]['attrs']['alt'] = '===a11yc_alt_of_blank_chars===';
+					}
+					// alt text
+					else
+					{
+						$retvals[$k]['attrs']['alt'] = $v['attrs']['alt'];
+					}
+				}
+
+				// newline in attr
+				$retvals[$k]['attrs']['newline'] = preg_match("/[\n\r]/is", $v['attrs']['alt']);
+			}
+
+			// aria-*
+			$retvals[$k]['aria'] = array();
+			foreach ($retvals[$k]['attrs'] as $kk => $vv)
+			{
+				if (substr($kk, 0, 5) != 'aria-') continue;
+				$retvals[$k]['aria'][$kk] = $vv;
+			}
+		}
+		return $retvals;
+	}
 }
