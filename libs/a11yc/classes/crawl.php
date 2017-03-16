@@ -545,6 +545,7 @@ class Crawl
 	public static function is_page_exist($url)
 	{
 		\A11yc\Guzzle::forge($url);
+
 		return \A11yc\Guzzle::instance($url)->is_exists;
 
 		// below here, keep code in case of cannot use guzzle.

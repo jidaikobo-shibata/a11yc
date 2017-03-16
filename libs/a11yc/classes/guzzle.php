@@ -61,6 +61,14 @@ class Guzzle
 		{
 			// instance
 			static::$_instances[$url] = new static($url, $cons);
+
+			$setup = Controller_Setup::fetch_setup();
+			$basic_user = Arr::get($setup, 'basic_user');
+			$basic_pass = Arr::get($setup, 'basic_pass');
+			if ($basic_user && $basic_pass)
+			{
+				static::instance($url)->set_config('auth', array($basic_user, $basic_pass));
+			}
 		}
 	}
 
