@@ -114,7 +114,7 @@ class Controller_Disclosure
 		static::assign_links();
 
 		// page list
-		if (Input::get('a11yc_pages'))
+		if (Input::get('a11yc_pages') && $setup['test_period'])
 		{
 			foreach (array_keys(Controller_Checklist::selection_reasons()) as $k)
 			{
@@ -139,7 +139,7 @@ class Controller_Disclosure
 			return;
 		}
 		// report
-		else if (Input::get('a11yc_report') || Input::get('url'))
+		else if ($setup['test_period'] && (Input::get('a11yc_report') || Input::get('url')))
 		{
 			static::report(Input::get('url', ''));
 			return;
