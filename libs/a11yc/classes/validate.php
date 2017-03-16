@@ -452,6 +452,7 @@ class Validate
 			return static::$res[$ignore_type][$type];
 		}
 
+		$ret = '';
 		switch ($type)
 		{
 			case 'anchors':

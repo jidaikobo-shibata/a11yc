@@ -255,7 +255,7 @@ class Validate_Alt extends Validate
 			// src not exists
 			if ( ! isset($v['attrs']['src']))
 			{
-				$retvals[$k]['attrs']['src'] = null;
+				// $retvals[$k]['attrs']['src'] = null;
 			}
 			else
 			{
@@ -265,8 +265,8 @@ class Validate_Alt extends Validate
 			// alt not exists
 			if ( ! isset($v['attrs']['alt']))
 			{
-				$retvals[$k]['attrs']['alt'] = null;
-				$retvals[$k]['attrs']['newline'] = null;
+				// $retvals[$k]['attrs']['alt'] = null;
+				// $retvals[$k]['attrs']['newline'] = null;
 			}
 			else
 			{
@@ -280,7 +280,8 @@ class Validate_Alt extends Validate
 					// alt of blank chars
 					$alt = str_replace('　', ' ', $v['attrs']['alt']);
 					$alt = trim($alt);
-					if (empty($v['attrs']['alt']))
+
+					if (empty($alt))
 					{
 						$retvals[$k]['attrs']['alt'] = '===a11yc_alt_of_blank_chars===';
 					}

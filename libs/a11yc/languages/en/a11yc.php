@@ -174,6 +174,7 @@ define('A11YC_LANG_IMPORTANT', 'IMPORTANT');
 define('A11YC_LANG_NEED_CHECK', 'Need Check');
 define('A11YC_LANG_CHECKLIST_IMPORTANT_EMP', 'Elements included in a element are displayed as "IMPORTANT".');
 define('A11YC_LANG_CHECKLIST_IMPORTANT_EMP2', 'If "alt" is empty for the "important" element, "'.A11YC_LANG_NEED_CHECK.'" is displayed.');
+define('A11YC_LANG_CHECKLIST_IMPORTANT_EMP3', 'You may see, <a href="%s">1.1.1</a>.');
 define('A11YC_LANG_CHECKLIST_ALT_NULL', 'alt attribute not exist');
 define('A11YC_LANG_CHECKLIST_ALT_EMPTY', 'alt attribute is empty');
 define('A11YC_LANG_CHECKLIST_ALT_BLANK', 'alt attribute is blank character');

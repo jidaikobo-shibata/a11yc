@@ -1477,6 +1477,11 @@ table td.a11yc_result {
 	text-align: center;
 }
 
+.a11yc_image_list td em
+{
+	color: #900;
+}
+
 .a11yc_image_list td img
 {
 	width: 200px;

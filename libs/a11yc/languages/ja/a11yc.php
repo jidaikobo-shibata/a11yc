@@ -174,6 +174,7 @@ define('A11YC_LANG_IMPORTANT', '重要');
 define('A11YC_LANG_NEED_CHECK', '要確認');
 define('A11YC_LANG_CHECKLIST_IMPORTANT_EMP', 'a要素に含まれている要素については「重要」と表示されます。');
 define('A11YC_LANG_CHECKLIST_IMPORTANT_EMP2', '「重要」な要素について、altが空であるような場合、「要確認」と表示されます。');
+define('A11YC_LANG_CHECKLIST_IMPORTANT_EMP3', 'altのつけ方については、<a href="%s">1.1.1の文書</a>を参考にしてください。');
 define('A11YC_LANG_CHECKLIST_ALT_NULL', 'alt属性値が存在しません');
 define('A11YC_LANG_CHECKLIST_ALT_EMPTY', 'alt属性値が空です');
 define('A11YC_LANG_CHECKLIST_ALT_BLANK', 'alt属性値が空白文字です');
