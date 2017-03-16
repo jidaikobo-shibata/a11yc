@@ -15,7 +15,7 @@ if ($errs):
 	foreach ($errs_cnts as $lv => $errs_cnt):
 		$level  = $lv=='total' ? '"l_a","l_aa","l_aaa"' : '"l_'.$lv.'"';
 		$class_str = $lv == 'total' ? ' current' : '';
-		$html.='<a role="button" class="a11yc_resetstyle'.$class_str.'" tabindex="0" data-narrow-level=\'['.$level .']\'>'.strtoupper($lv).' <span class="a11yc_errs_cnt">'.intval($errs_cnt).'</span></a> ';
+		$html.='<a role="button" class="a11yc_resetstyle'.$class_str.'" tabindex="0" data-narrow-level=\'['.$level .']\'><span class="a11yc_errs_lv">'.strtoupper($lv).'</span> <span class="a11yc_errs_cnt">'.intval($errs_cnt).'</span></a> ';
 	endforeach;
 
 	$html.= $is_call_from_post ? '</p>' : '</h1>';
