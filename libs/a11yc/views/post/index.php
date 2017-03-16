@@ -25,7 +25,7 @@ $uas = array(
 	<?php endforeach; ?>
 </select>
 
-<div>
+<div class="a11yc_submit_group">
 	<label for="behaviour"><?php echo A11YC_LANG_POST_BEHAVIOUR ?></label>
 	<select name="behaviour" id="behaviour">
 		<option value="check"><?php echo A11YC_LANG_POST_DO_CHECK ?></option>
@@ -46,6 +46,7 @@ $uas = array(
 <?php
 if (Input::post() && isset($result)):
 ?>
+<div id="a11yc_validator_results">
 <h2><?php echo A11YC_LANG_CHECKLIST_CHECK_RESULT ?></h2>
 <table id="a11yc_targetpage_info">
 	<tr>
@@ -63,5 +64,6 @@ if (Input::post() && isset($result)):
 </table>
 <?php
 	echo $result;
+	echo '</div><!-- /#a11yc_validator_results -->';
 endif;
 ?>

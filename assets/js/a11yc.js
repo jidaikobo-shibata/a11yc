@@ -134,22 +134,25 @@ jQuery(function($){
 
 		//エラー・ソース欄の展開用。これは外に追い出すといいかも
 			//expand contents
-			var icon_labels = [$('#a11yc_checks').data('a11ycLang').expand, $('#a11yc_checks').data('a11ycLang').compress];
-			$expand_icon = $('<a role="button" class="a11yc_expand a11yc_hasicon" tabindex="0"><span role="presentation" aria-hidden="true" class="a11yc_icon_fa a11yc_icon_expand"></span><span class="a11yc_skip">'+icon_labels[0]+'</span></a>');
-
-			$expands = $error_wrapper.add($disclosure);
-			$controller.append($expand_icon.clone());
-
-			$(document).on('click', '.a11yc_expand', function(){
-				var index = $('.a11yc_expand').index(this);
-				$(this).toggleClass('on');
-				$expands.eq(index).toggleClass('expand');
-				if($(this).hasClass('on')){
-					$(this).find('.a11yc_skip').text(icon_labels[1]);
-				}else{
-					$(this).find('.a11yc_skip').text(icon_labels[0]);
-				}
-			});
+			if(!$('#a11yc_post')[0])
+			{
+				var icon_labels = [$('#a11yc_checks').data('a11ycLang').expand, $('#a11yc_checks').data('a11ycLang').compress];
+				$expand_icon = $('<a role="button" class="a11yc_expand a11yc_hasicon" tabindex="0"><span role="presentation" aria-hidden="true" class="a11yc_icon_fa a11yc_icon_expand"></span><span class="a11yc_skip">'+icon_labels[0]+'</span></a>');
+	
+				$expands = $error_wrapper.add($disclosure);
+				$controller.append($expand_icon.clone());
+	
+				$(document).on('click', '.a11yc_expand', function(){
+					var index = $('.a11yc_expand').index(this);
+					$(this).toggleClass('on');
+					$expands.eq(index).toggleClass('expand');
+					if($(this).hasClass('on')){
+						$(this).find('.a11yc_skip').text(icon_labels[1]);
+					}else{
+						$(this).find('.a11yc_skip').text(icon_labels[0]);
+					}
+				});
+			}
 			// click validate_link
 			$(document).on('click', '.a11yc_validate_link a', function(e){
 				var $t = $($(e.currentTarget).attr('href'));
@@ -372,7 +375,8 @@ jQuery(function($){
 	});
 	// click
 	$(document).on('click', '.a11yc_narrow_level a', function(e){
-		a11yc_narrow_level($(e.target), $($(this).parent().data('a11ycNarrowTarget')), e);
+//		a11yc_narrow_level($(e.target), $($(this).parent().data('a11ycNarrowTarget')), e);
+		a11yc_narrow_level($(this), $($(this).parent().data('a11ycNarrowTarget')), e);
 	});
 	
 	function a11yc_narrow_level($target, $narrow_target, e){
@@ -708,7 +712,7 @@ function a11yc_stop_scroll(){
 
 /* === get validation error_message === */
 jQuery(function($){
-	if(!$('.a11yc')[0]) return;
+	if(!$('.a11yc')[0] || $('#a11yc_post')[0] ) return;
 	if(!a11yc_env.is_wp && $('#a11yc_validator_results')[0]){
 		$.ajax({
 			type: 'POST',
