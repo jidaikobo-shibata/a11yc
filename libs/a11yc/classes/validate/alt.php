@@ -304,6 +304,7 @@ class Validate_Alt extends Validate
 				$retvals[$k]['aria'][$kk] = $vv;
 			}
 		}
+
 		return $retvals;
 	}
 }

@@ -412,6 +412,7 @@ class Validate
 			// valid attributes
 			if (
 				in_array($key, $ruled_attrs) ||
+				substr($key, 0, 5) == 'aria-' ||
 				substr($key, 0, 5) == 'data-' ||
 				substr($key, 0, 4) == 'xml:'
 			)
