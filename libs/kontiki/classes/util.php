@@ -133,12 +133,27 @@ class Util
 	/**
 	 * sanitiz html
 	 *
-	 * @return  string | array
+	 * @param  string  $str
+	 * @return  mixed
 	 */
 	public static function s($str)
 	{
 		if (is_array($str)) return array_map(array('\Kontiki\Util', 's'), $str);
 		return htmlentities($str, ENT_QUOTES, 'UTF-8', false);
+	}
+
+	/**
+	 * truncate
+	 *
+	 * @param  string  $str
+	 * @param  integer $len
+	 * @param  string  $lead
+	 * @return  string
+	 */
+	public static function truncate($str, $len, $lead = '...')
+	{
+		$target_len = mb_strlen($str);
+		return $target_len > $len ? mb_substr($str, 0, $len).$lead : $str;
 	}
 
 	/**

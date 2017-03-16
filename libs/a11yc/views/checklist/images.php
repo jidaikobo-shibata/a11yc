@@ -60,10 +60,12 @@ endif;
 <tr<?php echo $class; ?>>
 	<td class="a11yc_image_img">
 		<div>
-	<?php if ($v['attrs']['src']): ?>
+	<?php if (isset($v['attrs']['src']) && $v['attrs']['src']): ?>
 			<img src="<?php echo $v['attrs']['src'] ?>" alt="" role="presentation">
 			<?php echo '<span class="a11yc_image_src">'.basename($v['attrs']['src']).'</span>' ?>
-	<?php endif; ?>
+	<?php else:
+		echo '<em>'.A11YC_LANG_CHECKLIST_SRC_NONE.'</em>';
+	endif; ?>
 		</div>
 	</td>
 	<td class="a11yc_image_importance"><?php
@@ -75,21 +77,25 @@ endif;
 	<td class="a11yc_image_attrs">
 <?php
 	$attrs = array();
+	$max = 20;
 
+	// parent attrs
 	foreach (array('tabindex', 'aria-hidden') as $vv):
 		if (isset($v[$vv])):
-			$attrs[] = '<li>'.$vv.' = '.$v[$vv].'<span class="a11yc_image_parent">parent</span></li>';
+			$key = mb_strlen($vv) <= $max ? $vv : '<span title="'.$vv.'">'.Util::truncate($vv, 10).'</span>' ;
+			$val = mb_strlen($v[$vv]) <= $max ? $v[$vv] : '<span title="'.$v[$vv].'">'.Util::truncate($v[$vv], 10).'</span>' ;
+
+			$attrs[] = '<li>'.$key.' = '.$val.'<span class="a11yc_image_parent">parent</span></li>';
 		endif;
 	endforeach;
+
+	// self attrs
 	foreach ($v['attrs'] as $kk => $vv):
 		if (in_array($kk, array('suspicious_end_quote', 'newline', 'alt', 'src'))) continue;
-		$max = 20;
-		$len = mb_strlen($vv);
-		if ($len > $max):
-			$attrs[] = '<li>'.$kk.' = <span title="'.$vv.'">'.mb_substr($vv, 0, 10).'...</span></li>';
-		else:
-			$attrs[] = '<li>'.$kk.' = '.$vv.'</li>';
-		endif;
+		$key = mb_strlen($kk) <= $max ? $kk : '<span title="'.$kk.'">'.Util::truncate($kk, 10).'</span>' ;
+		$val = mb_strlen($vv) <= $max ? $vv : '<span title="'.$vv.'">'.Util::truncate($vv, 10).'</span>' ;
+
+		$attrs[] = '<li>'.$key.' = '.$val.'</li>';
 	endforeach;
 	if ($attrs):
 		echo '<ul>'.join($attrs).'</ul>';

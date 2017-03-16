@@ -178,6 +178,7 @@ define('A11YC_LANG_CHECKLIST_IMPORTANT_EMP3', 'altのつけ方については、
 define('A11YC_LANG_CHECKLIST_ALT_NULL', 'alt属性値が存在しません');
 define('A11YC_LANG_CHECKLIST_ALT_EMPTY', 'alt属性値が空です');
 define('A11YC_LANG_CHECKLIST_ALT_BLANK', 'alt属性値が空白文字です');
+define('A11YC_LANG_CHECKLIST_SRC_NONE', 'src属性値が空か存在しません');
 
 // bulk
 define('A11YC_LANG_BULK_TITLE', '一括処理');
