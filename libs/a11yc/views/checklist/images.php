@@ -81,7 +81,7 @@ endif;
 
 	// parent attrs
 	foreach (array('tabindex', 'aria-hidden') as $vv):
-		if (isset($v[$vv])):
+		if (isset($v[$vv]) && $v[$vv]):
 			$key = mb_strlen($vv) <= $max ? $vv : '<span title="'.$vv.'">'.Util::truncate($vv, 10).'</span>' ;
 			$val = mb_strlen($v[$vv]) <= $max ? $v[$vv] : '<span title="'.$v[$vv].'">'.Util::truncate($v[$vv], 10).'</span>' ;
 
