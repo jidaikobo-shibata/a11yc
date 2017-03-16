@@ -77,7 +77,7 @@ endif;
 	$attrs = array();
 
 	foreach (array('tabindex', 'aria-hidden') as $vv):
-		if ($v[$vv]):
+		if (isset($v[$vv])):
 			$attrs[] = '<li>'.$vv.' = '.$v[$vv].'<span class="a11yc_image_parent">parent</span></li>';
 		endif;
 	endforeach;
