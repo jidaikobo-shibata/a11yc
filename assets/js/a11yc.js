@@ -130,26 +130,29 @@ jQuery(function($){
 			var $error_anchors = $('#a11yc_validation_code').find('.a11yc_source span');
 			var $disclosure = $('#a11yc_validation_code').find('.a11yc_source');
 			var $error_places = $();
-			var $controller = $('#a11yc_errors .a11yc_controller');
+			var $controller = $('#a11yc_validator_results .a11yc_controller');
 
 		//エラー・ソース欄の展開用。これは外に追い出すといいかも
 			//expand contents
-			var icon_labels = [$('#a11yc_checks').data('a11ycLang').expand, $('#a11yc_checks').data('a11ycLang').compress];
-			$expand_icon = $('<a role="button" class="a11yc_expand a11yc_hasicon" tabindex="0"><span role="presentation" aria-hidden="true" class="a11yc_icon_fa a11yc_icon_expand"></span><span class="a11yc_skip">'+icon_labels[0]+'</span></a>');
-
-			$expands = $error_wrapper.add($disclosure);
-			$controller.append($expand_icon.clone());
-
-			$(document).on('click', '.a11yc_expand', function(){
-				var index = $('.a11yc_expand').index(this);
-				$(this).toggleClass('on');
-				$expands.eq(index).toggleClass('expand');
-				if($(this).hasClass('on')){
-					$(this).find('.a11yc_skip').text(icon_labels[1]);
-				}else{
-					$(this).find('.a11yc_skip').text(icon_labels[0]);
-				}
-			});
+			if(!$('#a11yc_post')[0])
+			{
+				var icon_labels = [$('#a11yc_checks').data('a11ycLang').expand, $('#a11yc_checks').data('a11ycLang').compress];
+				$expand_icon = $('<a role="button" class="a11yc_expand a11yc_hasicon" tabindex="0"><span role="presentation" aria-hidden="true" class="a11yc_icon_fa a11yc_icon_expand"></span><span class="a11yc_skip">'+icon_labels[0]+'</span></a>');
+	
+				$expands = $error_wrapper.add($disclosure);
+				$controller.append($expand_icon.clone());
+	
+				$(document).on('click', '.a11yc_expand', function(){
+					var index = $('.a11yc_expand').index(this);
+					$(this).toggleClass('on');
+					$expands.eq(index).toggleClass('expand');
+					if($(this).hasClass('on')){
+						$(this).find('.a11yc_skip').text(icon_labels[1]);
+					}else{
+						$(this).find('.a11yc_skip').text(icon_labels[0]);
+					}
+				});
+			}
 			// click validate_link
 			$(document).on('click', '.a11yc_validate_link a', function(e){
 				var $t = $($(e.currentTarget).attr('href'));
@@ -372,7 +375,8 @@ jQuery(function($){
 	});
 	// click
 	$(document).on('click', '.a11yc_narrow_level a', function(e){
-		a11yc_narrow_level($(e.target), $($(this).parent().data('a11ycNarrowTarget')), e);
+//		a11yc_narrow_level($(e.target), $($(this).parent().data('a11ycNarrowTarget')), e);
+		a11yc_narrow_level($(this), $($(this).parent().data('a11ycNarrowTarget')), e);
 	});
 	
 	function a11yc_narrow_level($target, $narrow_target, e){
@@ -708,28 +712,28 @@ function a11yc_stop_scroll(){
 
 /* === get validation error_message === */
 jQuery(function($){
-	if(!$('.a11yc')[0]) return;
-	if(!a11yc_env.is_wp && $('#a11yc_errors')[0]){
+	if(!$('.a11yc')[0] || $('#a11yc_post')[0] ) return;
+	if(!a11yc_env.is_wp && $('#a11yc_validator_results')[0]){
 		$.ajax({
 			type: 'POST',
-			url: $('#a11yc_errors').data('a11ycAjaxUrl'),
+			url: $('#a11yc_validator_results').data('a11ycAjaxUrl'),
 			dataType: 'html',
 			data: {
-				url: $('#a11yc_errors').data('a11ycUrl'),
-				link_check: $('#a11yc_errors').data('a11ycLinkCheck')
+				url: $('#a11yc_validator_results').data('a11ycUrl'),
+				link_check: $('#a11yc_validator_results').data('a11ycLinkCheck')
 			},
 			beforeSend: function() {
-				$('#a11yc_errors').addClass('a11yc_loading');
+				$('#a11yc_validator_results').addClass('a11yc_loading');
 			},
 			success: function(data) {
-				$('#a11yc_errors').removeClass('a11yc_loading').append(data);
+				$('#a11yc_validator_results').removeClass('a11yc_loading').append(data);
 				$.fn.a11yc_disclosure();
 				if(!$('.a11yc_fixed_header')[0]) $.fn.a11yc_get_height();
 				$.fn.a11yc_format_validation_error();
 				//$.fn.a11yc_set_validation_code_txt();
 			},
 			error:function() {
-				$('#a11yc_errors').removeClass('a11yc_loading').text('failed');
+				$('#a11yc_validator_results').removeClass('a11yc_loading').text('failed');
 			}
 		});
 	}

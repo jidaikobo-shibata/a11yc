@@ -5,18 +5,24 @@ $is_call_from_post = isset($is_call_from_post);
 
 if ($errs):
 // error
+	$html = '';
 	$class_str = $is_call_from_post ? '' : ' a11yc_disclosure';
-?><h1 class="a11yc_resetstyle a11yc_narrow_level<?php echo $class_str ?>" data-a11yc-narrow-target="#a11yc_validation_list"><?php echo $is_call_from_post ? A11YC_LANG_CHECKLIST_CHECK_RESULT : A11YC_LANG_CHECKLIST_MACHINE_CHECK ?>
-	<?php
-		foreach ($errs_cnts as $lv => $errs_cnt):
-			$narrow_level = $lv=='total' ? '"l_a","l_aa","l_aaa"' : '"l_'.$lv.'"';
-			$class_str = $lv == 'total' ? ' current' : '';
-			echo '<a role="button" class="a11yc_resetstyle'.$class_str.'" tabindex="0" data-narrow-level=\'['.$narrow_level.']\'>'.strtoupper($lv).': '.intval($errs_cnt).'</a> ';
-		endforeach;
+	$html.= $is_call_from_post ? '<p class="' : '<h1 class="a11yc_resetstyle ';
+	$html.='a11yc_narrow_level'.$class_str.'" data-a11yc-narrow-target="#a11yc_validation_list">';
+	$html.= $is_call_from_post ? '' : A11YC_LANG_CHECKLIST_MACHINE_CHECK;
 
-		$class_str = $is_call_from_post ? '' : 'a11yc_disclosure_target a11yc_hide_if_fixedheader hide';
+	//narrow level
+	foreach ($errs_cnts as $lv => $errs_cnt):
+		$level  = $lv=='total' ? '"l_a","l_aa","l_aaa"' : '"l_'.$lv.'"';
+		$class_str = $lv == 'total' ? ' current' : '';
+		$html.='<a role="button" class="a11yc_resetstyle'.$class_str.'" tabindex="0" data-narrow-level=\'['.$level .']\'>'.strtoupper($lv).' <span class="a11yc_errs_cnt">'.intval($errs_cnt).'</span></a> ';
+	endforeach;
+
+	$html.= $is_call_from_post ? '</p>' : '</h1>';
+
+	echo $html;
+	$class_str = $is_call_from_post ? '' : 'a11yc_disclosure_target a11yc_hide_if_fixedheader hide';
 	?>
-	</h1>
 	<div class="<?php echo $class_str ?>">
 		<div id="a11yc_validation_errors" class="">
 			<div class="a11yc_controller">
@@ -56,4 +62,3 @@ if ($errs):
 <?php else:
 	echo '<p id="a11yc_validation_not_found_error"><span class="a11yc_icon_fa" role="presentation" aria-hidden="true"></span>'.A11YC_LANG_CHECKLIST_NOT_FOUND_ERR.'</p>';
 endif; ?>
-<!-- /#a11yc_errors -->
