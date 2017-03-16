@@ -21,7 +21,7 @@ class Validate_Link extends Validate
 	 */
 	public static function set_target_path($target_path)
 	{
-		static::$target_path = Crawl::remove_index($target_path, '/');
+		static::$target_path = Crawl::remove_filename($target_path, '/');
 	}
 
 	/**

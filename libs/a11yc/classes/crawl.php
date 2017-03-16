@@ -21,7 +21,7 @@ class Crawl
 	 */
 	public static function set_target_path($target_path)
 	{
-		static::$target_path = static::remove_index($target_path, '/');
+		static::$target_path = static::remove_filename($target_path, '/');
 	}
 
 	/**
@@ -47,21 +47,33 @@ class Crawl
 	}
 
 	/**
-	 * remove_index
+	 * remove_filename
 	 *
 	 * param string $url
 	 * @return  string
 	 */
-	public static function remove_index($url)
+	public static function remove_filename($url)
 	{
 		$url = trim($url);
-		$url = rtrim($url, '/');
-		$url = Util::urldec($url);
-		$url  = str_replace(
-			array('/index.htm', '/index.html', '/index.php'),
-			'',
-			$url);
-		return $url;
+
+		// is end with slash?
+		$is_not_file = false;
+		if (mb_substr($url, -1) == '/')
+		{
+			$is_not_file = true;
+		}
+
+		// is end with file?
+		if ( ! $is_not_file)
+		{
+			$ext = mb_substr($url, strrpos($url, '.') + 1);
+			if ($ext && preg_match('/htm|php|pl|cgi/i', $ext))
+			{
+				$url = dirname($url);
+			}
+		}
+
+		return Util::urldec($url);
 	}
 
 	/**
