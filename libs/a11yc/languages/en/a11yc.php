@@ -178,7 +178,7 @@ define('A11YC_LANG_CHECKLIST_IMPORTANT_EMP3', 'You may see, <a href="%s">1.1.1</
 define('A11YC_LANG_CHECKLIST_ALT_NULL', 'alt attribute not exist');
 define('A11YC_LANG_CHECKLIST_ALT_EMPTY', 'alt attribute is empty');
 define('A11YC_LANG_CHECKLIST_ALT_BLANK', 'alt attribute is blank character');
-
+define('A11YC_LANG_CHECKLIST_SRC_NONE', 'src attribute is empty or does not exist');
 
 // bulk
 define('A11YC_LANG_BULK_TITLE', 'Batch');

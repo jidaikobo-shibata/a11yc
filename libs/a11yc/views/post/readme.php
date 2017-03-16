@@ -31,5 +31,11 @@
 	<li><?php echo A11YC_LANG_POST_TECH_JWP_A11YC_ADD ?></li>
 </ul>
 
+<h2>TODO</h2>
+<ul>
+	<li><code>figure</code>などHTML5における<code>img</code>要素の<code>alt</code>省略条件の加味</li>
+	<li><code>aria-*</code>にどこまで対応するか悩む</li>
+</ul>
+
 <h2><?php echo A11YC_LANG_POST_FEEDBACK_TITLE ?></h2>
 <p><?php echo A11YC_LANG_POST_FEEDBACK_EXP ?></p>

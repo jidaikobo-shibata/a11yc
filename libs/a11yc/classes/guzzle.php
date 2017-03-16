@@ -13,8 +13,8 @@ class Guzzle
 {
 	protected static $_instances = array();
 	protected $cons = array();
-	protected $cons_tmp = array();
 	protected $errors = array();
+	protected $cons_tmp = array();
 	protected $url;
 	protected $real_url;
 	protected $headers;
@@ -61,6 +61,14 @@ class Guzzle
 		{
 			// instance
 			static::$_instances[$url] = new static($url, $cons);
+
+			$setup = Controller_Setup::fetch_setup();
+			$basic_user = Arr::get($setup, 'basic_user');
+			$basic_pass = Arr::get($setup, 'basic_pass');
+			if ($basic_user && $basic_pass)
+			{
+				static::instance($url)->set_config('auth', array($basic_user, $basic_pass));
+			}
 		}
 	}
 
@@ -215,7 +223,7 @@ class Guzzle
 	 */
 	public function set_config($name, $val)
 	{
-		$this->cons_tmp = array_merge($this->cons_tmp, array($name => $val));
+		$this->cons_tmp = array_merge($this->cons, array($name => $val));
 	}
 
 	/**
