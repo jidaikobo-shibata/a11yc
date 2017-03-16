@@ -54,7 +54,7 @@
 		</table>
 	
 		<?php
-			// #a11yc_error
+			// validation
 			echo $ajax_validation;
 		?>
 	

@@ -130,7 +130,7 @@ jQuery(function($){
 			var $error_anchors = $('#a11yc_validation_code').find('.a11yc_source span');
 			var $disclosure = $('#a11yc_validation_code').find('.a11yc_source');
 			var $error_places = $();
-			var $controller = $('#a11yc_errors .a11yc_controller');
+			var $controller = $('#a11yc_validator_results .a11yc_controller');
 
 		//エラー・ソース欄の展開用。これは外に追い出すといいかも
 			//expand contents
@@ -709,27 +709,27 @@ function a11yc_stop_scroll(){
 /* === get validation error_message === */
 jQuery(function($){
 	if(!$('.a11yc')[0]) return;
-	if(!a11yc_env.is_wp && $('#a11yc_errors')[0]){
+	if(!a11yc_env.is_wp && $('#a11yc_validator_results')[0]){
 		$.ajax({
 			type: 'POST',
-			url: $('#a11yc_errors').data('a11ycAjaxUrl'),
+			url: $('#a11yc_validator_results').data('a11ycAjaxUrl'),
 			dataType: 'html',
 			data: {
-				url: $('#a11yc_errors').data('a11ycUrl'),
-				link_check: $('#a11yc_errors').data('a11ycLinkCheck')
+				url: $('#a11yc_validator_results').data('a11ycUrl'),
+				link_check: $('#a11yc_validator_results').data('a11ycLinkCheck')
 			},
 			beforeSend: function() {
-				$('#a11yc_errors').addClass('a11yc_loading');
+				$('#a11yc_validator_results').addClass('a11yc_loading');
 			},
 			success: function(data) {
-				$('#a11yc_errors').removeClass('a11yc_loading').append(data);
+				$('#a11yc_validator_results').removeClass('a11yc_loading').append(data);
 				$.fn.a11yc_disclosure();
 				if(!$('.a11yc_fixed_header')[0]) $.fn.a11yc_get_height();
 				$.fn.a11yc_format_validation_error();
 				//$.fn.a11yc_set_validation_code_txt();
 			},
 			error:function() {
-				$('#a11yc_errors').removeClass('a11yc_loading').text('failed');
+				$('#a11yc_validator_results').removeClass('a11yc_loading').text('failed');
 			}
 		});
 	}
