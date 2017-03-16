@@ -85,7 +85,7 @@ endif;
 			$key = mb_strlen($vv) <= $max ? $vv : '<span title="'.$vv.'">'.Util::truncate($vv, 10).'</span>' ;
 			$val = mb_strlen($v[$vv]) <= $max ? $v[$vv] : '<span title="'.$v[$vv].'">'.Util::truncate($v[$vv], 10).'</span>' ;
 
-			$attrs[] = '<li>'.$key.' = '.$val.'<span class="a11yc_image_parent">parent</span></li>';
+			$attrs[] = '<li>'.$key.' = "'.$val.'"<span class="a11yc_image_parent">parent</span></li>';
 		endif;
 	endforeach;
 
@@ -95,7 +95,7 @@ endif;
 		$key = mb_strlen($kk) <= $max ? $kk : '<span title="'.$kk.'">'.Util::truncate($kk, 10).'</span>' ;
 		$val = mb_strlen($vv) <= $max ? $vv : '<span title="'.$vv.'">'.Util::truncate($vv, 10).'</span>' ;
 
-		$attrs[] = '<li>'.$key.' = '.$val.'</li>';
+		$attrs[] = '<li>'.$key.' = "'.$val.'"</li>';
 	endforeach;
 	if ($attrs):
 		echo '<ul>'.join($attrs).'</ul>';
