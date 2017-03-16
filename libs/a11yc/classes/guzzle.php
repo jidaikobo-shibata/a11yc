@@ -13,6 +13,7 @@ class Guzzle
 {
 	protected static $_instances = array();
 	protected $cons = array();
+	protected $errors = array();
 	protected $cons_tmp = array();
 	protected $url;
 	protected $real_url;
@@ -60,6 +61,14 @@ class Guzzle
 		{
 			// instance
 			static::$_instances[$url] = new static($url, $cons);
+
+			$setup = Controller_Setup::fetch_setup();
+			$basic_user = Arr::get($setup, 'basic_user');
+			$basic_pass = Arr::get($setup, 'basic_pass');
+			if ($basic_user && $basic_pass)
+			{
+				static::instance($url)->set_config('auth', array($basic_user, $basic_pass));
+			}
 		}
 	}
 
@@ -102,9 +111,11 @@ class Guzzle
 			try {
 				$response = $client->head($url, $cons);
 			} catch (\GuzzleHttp\Exception\ConnectException $e) {
+				$this->errors[] = 'ConnectException';
 				return false;
 			}
 		} catch (\GuzzleHttp\Exception\RequestException $e) {
+			$this->errors[] = 'RequestException';
 			return false;
 		}
 
@@ -155,9 +166,11 @@ class Guzzle
 			try {
 			$response = $client->send($request, $cons);
 			} catch (\GuzzleHttp\Exception\ConnectException $e) {
+				$this->errors[] = 'ConnectException';
 				return false;
 			}
 		} catch (\GuzzleHttp\Exception\RequestException $e) {
+			$this->errors[] = 'RequestException';
 			return false;
 		}
 
@@ -210,7 +223,7 @@ class Guzzle
 	 */
 	public function set_config($name, $val)
 	{
-		$this->cons_tmp = array_merge($this->cons_tmp, array($name => $val));
+		$this->cons_tmp = array_merge($this->cons, array($name => $val));
 	}
 
 	/**
@@ -236,8 +249,12 @@ class Guzzle
 	{
 		if (property_exists($this, $name))
 		{
+			if ($name == 'errors')
+			{
+				return $this->errors;
+			}
 			// get status code at the first time. simple requests.
-			if (in_array($name, array('status_code', 'headers', 'is_exists', 'is_html')))
+			elseif (in_array($name, array('status_code', 'headers', 'is_exists', 'is_html')))
 			{
 				if ( ! $this->head())
 				{
