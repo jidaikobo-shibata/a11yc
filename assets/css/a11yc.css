@@ -1560,3 +1560,8 @@ tr.a11yc_error {
 	max-height: 100px;
 	vertical-align: bottom;
 }
+
+.a11yc_image_list td.a11yc_image_attrs
+{
+	white-space: nowrap;
+}

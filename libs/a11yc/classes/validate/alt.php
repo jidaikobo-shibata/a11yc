@@ -201,6 +201,8 @@ class Validate_Alt extends Validate
 			// link
 			$attrs = static::get_attributes($v);
 			$href = Arr::get($attrs, 'href');
+			$aria_hidden = Arr::get($attrs, 'aria-hidden');
+			$tabindex = Arr::get($attrs, 'tabindex');
 
 			// plural images can be exist.
 			preg_match_all('/\<img[^\>]+\>/is', $v, $ass);
@@ -208,6 +210,8 @@ class Validate_Alt extends Validate
 			{
 				$retvals[$n]['element'] = 'img';
 				$retvals[$n]['href'] = $href;
+				$retvals[$n]['aria_hidden'] = $aria_hidden;
+				$retvals[$n]['tabindex'] = $tabindex;
 				$retvals[$n]['attrs'] = static::get_attributes($vv);
 				$n++;
 			}

@@ -15,13 +15,11 @@ if ($images):
 <table class="a11yc_image_list" summary="Image and alt">
 <thead>
 <tr>
+	<th>image</th>
 	<th>importance</th>
 	<th>element</th>
-	<th>image</th>
 	<th>alt</th>
-	<th>title</th>
-	<th>role</th>
-	<th>aria-*</th>
+	<th>attrs</th>
 </tr>
 </thead>
 <?php
@@ -60,26 +58,44 @@ endif;
 
 ?>
 <tr<?php echo $class; ?>>
+	<td class="a11yc_image_img">
+		<div>
+	<?php if ($v['attrs']['src']): ?>
+			<img src="<?php echo $v['attrs']['src'] ?>" alt="" role="presentation">
+			<?php echo '<span class="a11yc_image_src">'.basename($v['attrs']['src']).'</span>' ?>
+	<?php endif; ?>
+		</div>
+	</td>
 	<td class="a11yc_image_importance"><?php
 		echo $important ? '<strong>'.$important.'</strong>' : '';
 		echo $need_check ? '<strong>'.$need_check.'</strong>' : '';
 ?></td>
 	<td class="a11yc_image_element"><?php echo $v['element']; ?></td>
-	<td class="a11yc_image_img">
-		<div>
-	<?php if ($v['attrs']['src']): ?>
-			<img src="<?php echo $v['attrs']['src'] ?>" alt="" role="presentation">
-	<?php endif; ?>
-		</div>
-	</td>
 	<td class="a11yc_image_alt"><?php echo $alt; ?></td>
-	<td class="a11yc_image_title"><?php echo Arr::get('attrs', 'title', '') ?></td>
-	<td class="a11yc_image_role"><?php echo Arr::get('attrs', 'role', '') ?></td>
-	<td class="a11yc_image_aria"><?php
-	foreach ($v['aria'] as $kk => $vv):
-		echo $kk.' - '.$vv;
+	<td class="a11yc_image_attrs">
+<?php
+	$attrs = array();
+
+	foreach (array('tabindex', 'aria-hidden') as $vv):
+		if ($v[$vv]):
+			$attrs[] = '<li>'.$vv.' = '.$v[$vv].'<span class="a11yc_image_parent">parent</span></li>';
+		endif;
 	endforeach;
-	?></td>
+	foreach ($v['attrs'] as $kk => $vv):
+		if (in_array($kk, array('suspicious_end_quote', 'newline', 'alt', 'src'))) continue;
+		$max = 20;
+		$len = mb_strlen($vv);
+		if ($len > $max):
+			$attrs[] = '<li>'.$kk.' = <span title="'.$vv.'">'.mb_substr($vv, 0, 10).'...</span></li>';
+		else:
+			$attrs[] = '<li>'.$kk.' = '.$vv.'</li>';
+		endif;
+	endforeach;
+	if ($attrs):
+		echo '<ul>'.join($attrs).'</ul>';
+	endif;
+?>
+</td>
 </tr>
 <?php endforeach; ?>
 </table>
