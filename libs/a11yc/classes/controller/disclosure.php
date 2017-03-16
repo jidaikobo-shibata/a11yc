@@ -138,7 +138,6 @@ class Controller_Disclosure
 			View::assign('body', View::fetch_tpl('disclosure/pages.php'), false);
 			return;
 		}
-
 		// report
 		else if (Input::get('a11yc_report') || Input::get('url'))
 		{
