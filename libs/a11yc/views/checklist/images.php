@@ -9,6 +9,7 @@ if ($images):
 <ul class="a11yc_cmt">
 	<li><?php echo A11YC_LANG_CHECKLIST_IMPORTANT_EMP ?></li>
 	<li><?php echo A11YC_LANG_CHECKLIST_IMPORTANT_EMP2 ?></li>
+	<li><?php echo sprintf(A11YC_LANG_CHECKLIST_IMPORTANT_EMP3, '?a=doc&code=1-1-1b&criterion=1-1-1') ?></li>
 </ul>
 
 <table class="a11yc_image_list" summary="Image and alt">
@@ -34,17 +35,18 @@ $important = $v['href'] ? A11YC_LANG_IMPORTANT : '';
 $classes[] = $important ? 'important' : '';
 
 // alt
-$alt = $v['attrs']['alt'];
+$alt = Arr::get($v, 'attrs.alt', null);
+
 $need_check = '';
 if ($alt === NULL):
-	$alt = A11YC_LANG_CHECKLIST_ALT_NULL;
+	$alt = '<em>'.A11YC_LANG_CHECKLIST_ALT_NULL.'</em>';
 	$classes[] = 'error';
 elseif (empty($alt)):
-	$alt = A11YC_LANG_CHECKLIST_ALT_EMPTY;
+	$alt = '<em>'.A11YC_LANG_CHECKLIST_ALT_EMPTY.'</em>';
 	$classes[] = $important ? 'error' : '';
 	$need_check = $important ? A11YC_LANG_NEED_CHECK : '';
 elseif ($alt == '===a11yc_alt_of_blank_chars==='):
-	$alt = A11YC_LANG_CHECKLIST_ALT_BLANK;
+	$alt = '<em>'.A11YC_LANG_CHECKLIST_ALT_BLANK.'</em>';
 	$classes[] = $important ? 'error' : '';
 	$need_check = $important ? A11YC_LANG_NEED_CHECK : '';
 endif;

@@ -259,6 +259,19 @@ class Controller_Post
 
 			// real url
 			$real_url = $target_html ? Guzzle::instance($url)->real_url : '';
+
+			// basic auth failed
+			if (Guzzle::instance($url)->status_code == 401)
+			{
+				$target_html = '';
+				Session::add('messages', 'errors', A11YC_LANG_POST_BASIC_AUTH_EXP);
+			}
+
+			// connection problems
+			if (Guzzle::instance($url)->errors)
+			{
+				Session::add('messages', 'errors', A11YC_LANG_ERROR_COULD_NOT_ESTABLISH_CONNECTION);
+			}
 		}
 
 		// Do Validate

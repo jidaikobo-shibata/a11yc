@@ -47,3 +47,5 @@ define('A11YC_LANG_POST_BEHAVIOUR', '動作');
 define('A11YC_LANG_POST_DO_CHECK', 'アクセシビリティのチェックを行う');
 define('A11YC_LANG_POST_SHOW_LIST_IMAGES', '画像とaltの一覧を表示する');
 define('A11YC_LANG_POST_CANT_SHOW_LIST_IMAGES', 'HTMLのソースチェックでは画像とaltの一覧の表示はできません。');
+
+define('A11YC_LANG_POST_BASIC_AUTH_EXP', '対象のページは基本認証で守られています。');

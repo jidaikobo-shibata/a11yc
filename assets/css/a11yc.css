@@ -1229,7 +1229,7 @@ ul.a11yc_pagenation li {
 	padding-right: 130px;
 	min-height: 120px;
 }
-#a11yc_center_about #a11yc_logo_author {
+#a11yc_center_about .a11yc_logo_author {
 	position: absolute;
 	top: 20px;
 	right:20px;
@@ -1497,6 +1497,11 @@ table td.a11yc_result {
 {
 	padding: 5px;
 	text-align: center;
+}
+
+.a11yc_image_list td em
+{
+	color: #900;
 }
 
 .a11yc_image_list td img

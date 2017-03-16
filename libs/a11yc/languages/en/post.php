@@ -47,3 +47,5 @@ define('A11YC_LANG_POST_DO_CHECK', 'Do Accessibility check');
 define('A11YC_LANG_POST_SHOW_LIST_IMAGES', 'Show list of images and alt');
 define('A11YC_LANG_POST_BEHAVIOUR', 'Behaviour');
 define('A11YC_LANG_POST_CANT_SHOW_LIST_IMAGES', 'can not display images and alt lists with HTML source check.');
+
+define('A11YC_LANG_POST_BASIC_AUTH_EXP', 'Could not pass basic authentication');

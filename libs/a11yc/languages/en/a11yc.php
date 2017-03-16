@@ -174,6 +174,7 @@ define('A11YC_LANG_IMPORTANT', 'IMPORTANT');
 define('A11YC_LANG_NEED_CHECK', 'Need Check');
 define('A11YC_LANG_CHECKLIST_IMPORTANT_EMP', 'Elements included in a element are displayed as "IMPORTANT".');
 define('A11YC_LANG_CHECKLIST_IMPORTANT_EMP2', 'If "alt" is empty for the "important" element, "'.A11YC_LANG_NEED_CHECK.'" is displayed.');
+define('A11YC_LANG_CHECKLIST_IMPORTANT_EMP3', 'You may see, <a href="%s">1.1.1</a>.');
 define('A11YC_LANG_CHECKLIST_ALT_NULL', 'alt attribute not exist');
 define('A11YC_LANG_CHECKLIST_ALT_EMPTY', 'alt attribute is empty');
 define('A11YC_LANG_CHECKLIST_ALT_BLANK', 'alt attribute is blank character');
@@ -207,6 +208,7 @@ define('A11YC_LANG_ERROR_BASIC_AUTH_WRONG', 'Information for basic authenticatio
 define('A11YC_LANG_ERROR_SSL', 'When targeting SSL sites, please enter the target domain in "Settings".');
 define('A11YC_LANG_ERROR_GET_NEW_A11YC', '<a href="%s">There is a new version of A11yc</a> (current version:%s latest version:%s).');
 define('A11YC_LANG_ERROR_NO_URL_NO_CHECK_SAME', 'Without URL, link destination and link string can not be confirmed. Executed other checks.');
+define('A11YC_LANG_ERROR_COULD_NOT_ESTABLISH_CONNECTION', 'For some reason (ex. SSL certificate), Could not get the source.');
 
 // startup
 define('A11YC_LANG_STARTUP_SETDIRS', 'Set up data storage directory and cache directory.');
