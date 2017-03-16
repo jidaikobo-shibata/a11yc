@@ -223,7 +223,7 @@ class Guzzle
 	 */
 	public function set_config($name, $val)
 	{
-		$this->cons_tmp = array_merge($this->cons_tmp, array($name => $val));
+		$this->cons_tmp = array_merge($this->cons, array($name => $val));
 	}
 
 	/**
