@@ -62,6 +62,7 @@ class Guzzle
 			// instance
 			static::$_instances[$url] = new static($url, $cons);
 
+			// set basic auth from setup
 			$setup = Controller_Setup::fetch_setup();
 			$basic_user = Arr::get($setup, 'basic_user');
 			$basic_pass = Arr::get($setup, 'basic_pass');
@@ -96,7 +97,7 @@ class Guzzle
 	private function head()
 	{
 		// don't call twice
-		if ( ! $this->cons_tmp && isset($this->status_code)) return true;
+		if (isset($this->status_code) && $this->status_code) return true;
 		$url = $this->url;
 
 		// override temporary config
@@ -136,7 +137,7 @@ class Guzzle
 	private function get()
 	{
 		// don't call twice
-		if ( ! $this->cons_tmp && isset($this->body)) return true;
+		if (isset($this->body) && $this->body) return true;
 		$url = $this->url;
 
 		// override temporary config
@@ -194,8 +195,16 @@ class Guzzle
 	 */
 	private function encoding($body)
 	{
+		// trust declaration
+		if (strpos($body, 'charset="UTF-8"') !== false)
+		{
+			return $body;
+		}
+
+		// try to detect
 		$encodes = array("ASCII", "SJIS-win", "SJIS", "ISO-2022-JP", "EUC-JP");
 		$encode = mb_detect_encoding($body, array_merge($encodes, array("UTF-8")));
+
 		if (in_array($encode, $encodes))
 		{
 			$body = mb_convert_encoding($body, "UTF-8", $encode);
@@ -223,7 +232,11 @@ class Guzzle
 	 */
 	public function set_config($name, $val)
 	{
-		$this->cons_tmp = array_merge($this->cons, array($name => $val));
+		$this->cons = array_merge($this->cons, array($name => $val));
+
+		// at setting config, clear stored data
+		$this->status_code = '';
+		$this->body = '';
 	}
 
 	/**
@@ -233,10 +246,7 @@ class Guzzle
 	 */
 	private function get_config()
 	{
-		$cons = $this->cons_tmp ?: $this->cons;
-		$this->cons = $cons;
-		$this->cons_tmp = array();
-		return $cons;
+		return $this->cons;
 	}
 
 	/**
