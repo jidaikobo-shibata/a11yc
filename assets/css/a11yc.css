@@ -1419,7 +1419,8 @@ table td.a11yc_result {
 	margin-top: 0;
 }
 #a11yc_post #url {
-	width: calc( 100% - 25em );
+/*	width: calc( 100% - 25em ); */
+	width: 20em;
 	margin-right: 1em;
 }
 #a11yc_post #user_agent {
