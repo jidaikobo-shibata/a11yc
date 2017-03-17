@@ -43,6 +43,7 @@ class Validate
 			'same_alt_and_filename_of_img'    => '\A11yc\Validate_Alt',
 			'not_label_but_title'             => '\A11yc\Validate_Form',
 			'unclosed_elements'               => '\A11yc\Validate_Validation',
+			'invalid_single_tag_close'        => '\A11yc\Validate_Validation',
 			'suspicious_elements'             => '\A11yc\Validate_Validation',
 			'meanless_element'                => '\A11yc\Validate_Validation',
 			'style_for_structure'             => '\A11yc\Validate_Validation',
@@ -256,6 +257,9 @@ class Validate
 			$str = $ms[0];
 		}
 		$str = ' '.$str;
+
+		// blankless
+		$str = str_replace('/>', ' />', $str);
 
 		// variables
 		$double = '"';

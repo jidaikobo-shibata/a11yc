@@ -183,3 +183,7 @@ errors:
     message: Must be numeric attribute
     criterion: 4-1-1
     code: 4-1-1a
+  invalid_single_tag_close:
+    message: When specifying a single tag, put a space before "/>"
+    criterion: 4-1-1
+    code: 4-1-1a

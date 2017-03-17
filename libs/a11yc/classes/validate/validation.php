@@ -85,7 +85,7 @@ class Validate_Validation extends Validate
 		preg_match_all("/\<([^\> \n]+)/i", $str, $tags);
 
 		// elements
-		$endless = array('img', 'wbr', 'br', 'hr', 'base', 'input', 'param', 'area', 'embed', 'meta', 'link', 'track', 'source', 'col', 'command', 'frame');
+		$endless = array('img', 'wbr', 'br', 'hr', 'base', 'input', 'param', 'area', 'embed', 'meta', 'link', 'track', 'source', 'col', 'command', 'frame', 'keygen', 'rect', 'circle', 'line');
 		$ignores = array('!doctype', 'html', '![if', '![endif]', '?xml');
 		$omissionables = array('li', 'dt', 'dd', 'p', 'rt', 'rp', 'optgroup', 'option', 'tr', 'td', 'th', 'thead', 'tfoot', 'tbody', 'colgroup');
 		$ignores = array_merge($ignores, $endless, $omissionables);
@@ -453,5 +453,27 @@ class Validate_Validation extends Validate
 			}
 		}
 		static::add_error_to_html('must_be_numeric_attr', static::$error_ids, 'ignores');
+	}
+
+	/**
+	 * invalid single tag close
+	 *
+	 * @return  bool
+	 */
+	public static function invalid_single_tag_close()
+	{
+		$str = static::ignore_elements(static::$hl_html);
+		$ms = static::get_elements_by_re($str, 'ignores', 'tags');
+		if ( ! $ms[0]) return;
+
+		foreach ($ms[0] as $k => $v)
+		{
+			if (preg_match("/[^ ]+\/\>/", $v))
+			{
+				static::$error_ids['invalid_single_tag_close'][$k]['id'] = $v;
+				static::$error_ids['invalid_single_tag_close'][$k]['str'] = $ms[1][$k];
+			}
+		}
+		static::add_error_to_html('invalid_single_tag_close', static::$error_ids, 'ignores');
 	}
 }

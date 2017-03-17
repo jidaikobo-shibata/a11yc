@@ -183,3 +183,7 @@ errors:
     message: 数値でなければいけない値があります
     criterion: 4-1-1
     code: 4-1-1a
+  invalid_single_tag_close:
+    message: 単独タグを明示する際、"/>"の前には空白を入れましょう
+    criterion: 4-1-1
+    code: 4-1-1a
