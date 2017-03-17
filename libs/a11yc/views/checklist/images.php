@@ -56,6 +56,14 @@ if ($classes):
 	$class = ' class="'.join(' ', $classes).'"';
 endif;
 
+// attribute error
+$attr_err = '';
+foreach ($v['attrs'] as $kk => $vv):
+	if ( ! in_array($kk, array('width', 'height'))) continue;
+	if (is_numeric($vv)) continue;
+	$attr_err.= '<em>'.sprintf(A11YC_LANG_CHECKLIST_MUST_BE_NUMERIC, $kk).'</em>';
+endforeach;
+
 ?>
 <tr<?php echo $class; ?>>
 	<th class="a11yc_image_img">
@@ -100,6 +108,7 @@ endif;
 	if ($attrs):
 		echo '<ul>'.join($attrs).'</ul>';
 	endif;
+	echo $attr_err;
 ?>
 </td>
 </tr>

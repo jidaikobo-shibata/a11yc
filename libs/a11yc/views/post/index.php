@@ -58,7 +58,7 @@ if (Input::post() && isset($result)):
 		<td><?php echo $real_url ?></td>
 	</tr>
 	<tr>
-		<th scope="row"><?php echo A11YC_LANG_CHECKLIST_UA ?></th>
+		<th scope="row">User Agent</th>
 		<td><?php echo $current_user_agent; ?></td>
 	</tr>
 </table>
