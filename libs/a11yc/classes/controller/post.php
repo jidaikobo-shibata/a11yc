@@ -67,7 +67,7 @@ class Controller_Post
 		}
 		else
 		{
-			Users::forge(unserialize(A11YC_GUEST_USERS));
+			Users::forge(array());
 		}
 
 		// auth
