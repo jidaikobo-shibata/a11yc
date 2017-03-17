@@ -27,6 +27,7 @@
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="<?php echo s(Util::uri()) ?>" />
 	<meta property="og:site_name" content="<?php echo A11YC_LANG_POST_SERVICE_NAME ?>" />
+	<meta property="og:description" content="ウェブアクセシビリティのチェッカーです。だれでもお使いいただけます。" />
 	<meta property="og:image" content="https://a11yc.com/logo.png" />
 	
 	<!-- Twitter card -->
