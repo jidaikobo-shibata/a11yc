@@ -38,12 +38,12 @@
 	text-decoration: none;
 }
 #a11yc_docs li,
-#a11yc_post li,
 #a11yc_checklist li,
 #a11yc_checklist p {
 	line-height: 1.5;
 	margin-bottom: .6em;
 }
+
 #a11yc_docs li:last-child,
 #a11yc_post li:last-child,
 #a11yc_checklist li:last-child {
