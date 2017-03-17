@@ -2,10 +2,10 @@
 <!-- by url -->
 <form action="<?php echo $target_url ?>" method="POST" class="a11yc_validator">
 <h2>URL</h2>
-<label for="url">URL</label>
-<input type="text" name="url" id="url" size="35" value="<?php echo $url ?>">
-
-<label for="user_agent">User Agent</label>
+<label for="url">URL
+	<input type="text" name="url" id="url" size="35" value="<?php echo $url ?>">
+</label>
+<label for="user_agent">User Agent
 <?php
 $uas = array(
 	'using' => A11YC_LANG_UA_USING,
@@ -16,21 +16,23 @@ $uas = array(
 	'featurephone' => A11YC_LANG_UA_FEATUREPHONE,
 );
 ?>
-<select name="user_agent" id="user_agent">
-	<?php
-		foreach ($uas as $type => $ua):
-			$selected = $user_agent == $type ? ' selected="selected"' : '';
-	?>
-	<option value="<?php echo $type ?>"<?php echo $selected ?>><?php echo $ua ?></option>
-	<?php endforeach; ?>
-</select>
+	<select name="user_agent" id="user_agent">
+		<?php
+			foreach ($uas as $type => $ua):
+				$selected = $user_agent == $type ? ' selected="selected"' : '';
+		?>
+		<option value="<?php echo $type ?>"<?php echo $selected ?>><?php echo $ua ?></option>
+		<?php endforeach; ?>
+	</select>
+</label>
 
 <div class="a11yc_submit_group">
-	<label for="behaviour"><?php echo A11YC_LANG_POST_BEHAVIOUR ?></label>
-	<select name="behaviour" id="behaviour">
+	<label for="behaviour"><?php echo A11YC_LANG_POST_BEHAVIOUR ?>
+		<select name="behaviour" id="behaviour">
 		<option value="check"><?php echo A11YC_LANG_POST_DO_CHECK ?></option>
 		<option value="images"><?php echo A11YC_LANG_POST_SHOW_LIST_IMAGES ?></option>
 	</select>
+	</label>
 	<input type="submit" value="<?php echo A11YC_LANG_CTRL_SEND ?>">
 </div>
 </form>
