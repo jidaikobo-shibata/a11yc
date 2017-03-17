@@ -71,7 +71,7 @@ endforeach;
 	<?php if (isset($v['attrs']['src']) && $v['attrs']['src']): ?>
 			<img src="<?php echo $v['attrs']['src'] ?>" alt="" role="presentation">
 			<?php echo '<span class="a11yc_image_src">'.basename($v['attrs']['src']).'</span>' ?>
-	<?php else:
+	<?php elseif (in_array($v['element'], array('img', 'input'))):
 		echo '<em>'.A11YC_LANG_CHECKLIST_SRC_NONE.'</em>';
 	endif; ?>
 		</div>

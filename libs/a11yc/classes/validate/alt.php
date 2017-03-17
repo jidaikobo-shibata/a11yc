@@ -221,7 +221,7 @@ class Validate_Alt extends Validate
 		}
 
 		// secondary, get areas
-		preg_match_all('/\<area [^\>]+\>.+?\<\/a\>/is', $str, $as);
+		preg_match_all('/\<area [^\>]+\>/is', $str, $as);
 		foreach ($as[0] as $v)
 		{
 			// link
