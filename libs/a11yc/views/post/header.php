@@ -68,7 +68,7 @@ if (A11YC_POST_GOOGLE_ANALYTICS_CODE)
 			<iframe title="facebook いいねボタン" src="//www.facebook.com/plugins/like.php?href=<?php echo urlencode(s(Util::uri())) ?>&amp;width=72&amp;layout=button&amp;action=like&amp;show_faces=false&amp;share=false&amp;height=21&amp;" style="border:none; overflow:hidden; width:72px; height:21px;" id="facebook_like_button"></iframe>
 		
 			<!--?-->
-			<a href="http://b.hatena.ne.jp/entry/<?php echo s(Util::uri()) ?>" class="hatena-bookmark-button" data-hatena-bookmark-title="<?php echo $title ?: A11YC_LANG_POST_SERVICE_NAME ?>" data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+			<a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="basic" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
 		</li>
 		</ul>
 	</nav><!--/#a11yc_menu-->
