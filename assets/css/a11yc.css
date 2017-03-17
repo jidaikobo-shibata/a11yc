@@ -1580,7 +1580,7 @@ th.a11yc_image_img {
 .a11yc_image_importance strong{
 	display: block;
 }
-td.a11yc_image_attrs
+td.a11yc_image_attrs li
 {
 	white-space: nowrap;
 }
