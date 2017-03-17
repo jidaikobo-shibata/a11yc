@@ -15,11 +15,11 @@ if ($images):
 <table class="a11yc_image_list" summary="Image and alt">
 <thead>
 <tr>
-	<th>image</th>
-	<th>importance</th>
-	<th>element</th>
-	<th>alt</th>
-	<th>attrs</th>
+	<th><?php echo A11YC_LANG_IMAGE ?></th>
+	<th><?php echo A11YC_LANG_IMPORTANCE ?></th>
+	<th><?php echo A11YC_LANG_ELEMENT ?></th>
+	<th>Alt</th>
+	<th><?php echo A11YC_LANG_ATTRS ?></th>
 </tr>
 </thead>
 <?php

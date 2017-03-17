@@ -170,6 +170,10 @@ define('A11YC_LANG_NO_BROKEN_LINK_FOUND', 'リンク切れは見つかりませ�
 define('A11YC_LANG_CHECKLIST_PERCENTAGE', '達成度');
 define('A11YC_LANG_CHECKLIST_NG_REASON', '不適合理由');
 define('A11YC_LANG_CHECKLIST_NG_REASON_EXP', 'この達成項目の対象の適用があり、かつ不適合である場合はここにその理由を記入してください。ここに理由が書いてあると、この達成基準は「不適合」あるいは「部分適合」扱いとなります。');
+define('A11YC_LANG_IMAGE', '画像');
+define('A11YC_LANG_IMPORTANCE', '重要度');
+define('A11YC_LANG_ELEMENT', '要素');
+define('A11YC_LANG_ATTRS', '属性');
 define('A11YC_LANG_IMPORTANT', '重要');
 define('A11YC_LANG_NEED_CHECK', '要確認');
 define('A11YC_LANG_CHECKLIST_IMPORTANT_EMP', 'a要素に含まれている要素については「重要」と表示されます。');
