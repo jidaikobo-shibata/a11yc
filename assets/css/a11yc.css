@@ -566,7 +566,9 @@ table.a11yc_table_info {
 	vertical-align: top;
 	white-space: nowrap;
 }
-
+#a11yc_targetpage_info td {
+	word-break: break-all;
+}
 #a11yc_header_right a.a11yc_disclosure {
 	display: inline-block;
 }
