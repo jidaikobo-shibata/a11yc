@@ -1577,10 +1577,11 @@ th.a11yc_image_img {
 	margin-top: 5px;
 	font-weight: normal;
 }
-
 .a11yc_image_importance strong{
 	display: block;
 }
+td.a11yc_image_importance,
+td.a11yc_image_element,
 td.a11yc_image_attrs li
 {
 	white-space: nowrap;
