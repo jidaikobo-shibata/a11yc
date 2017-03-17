@@ -21,7 +21,7 @@ class Validate_Validation extends Validate
 		$str = static::ignore_elements(static::$hl_html);
 
 		$secs = preg_split("/\<(h[^\>?]+?)\>(.+?)\<\/h\d/", $str, -1, PREG_SPLIT_DELIM_CAPTURE);
-		if ( ! $secs) return;
+		if ( ! $secs[0]) return;
 
 		// get first appeared heading
 		$prev = 1;
