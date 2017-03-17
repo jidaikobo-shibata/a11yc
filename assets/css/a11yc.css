@@ -1552,6 +1552,7 @@ tr.a11yc_error th {
 .a11yc_image_list em
 {
 	color: #900;
+	display: block;
 	font-weight: bold;
 	font-style: normal;
 }
