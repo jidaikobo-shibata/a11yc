@@ -61,7 +61,14 @@ class Controller_Post
  	Session::forge('A11YCONLINEVALIDATE');
 
 		// auth users
-		Users::forge(unserialize(A11YC_GUEST_USERS));
+		if (defined('A11YC_GUEST_USERS'))
+		{
+			Users::forge(unserialize(A11YC_GUEST_USERS));
+		}
+		else
+		{
+			Users::forge(unserialize(A11YC_GUEST_USERS));
+		}
 
 		// auth
 		if (Auth::auth())
