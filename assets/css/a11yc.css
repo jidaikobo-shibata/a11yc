@@ -1418,17 +1418,24 @@ table td.a11yc_result {
 #a11yc_post form.a11yc_validator h2 {
 	margin-top: 0;
 }
-#a11yc_post #url {
-/*	width: calc( 100% - 25em ); */
-	width: 20em;
+#a11yc_post form.a11yc_validator label {
+	display: inline-block;
+	margin-bottom: 5px;
+}
+#a11yc_post [for="url"] {
+	width: calc( 100% - 23em );
+	min-width: 20em;
 	margin-right: 1em;
+}
+#a11yc_post #url {
+	width: calc( 100% - 3em);
 }
 #a11yc_post #user_agent {
 	width: 16em;
 }
 .a11yc_submit_group {
 	text-align: right;
-	margin-top: 20px;
+	margin-top: 15px;
 }
 .a11yc_submit_group [type="submit"]{
 	display: inline;
