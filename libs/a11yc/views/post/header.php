@@ -18,6 +18,9 @@
 	<link rel="stylesheet" type="text/css" media="all" href="<?php echo A11YC_ASSETS_URL ?>/css/a11yc.css" />
 	<link href="<?php echo A11YC_ASSETS_URL ?>/css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 
+	<!--Search engine-->
+	<meta name="description" content="ウェブアクセシビリティのチェッカーです。だれでもお使いいただけます。" />
+
 	<!--OGP-->
 	<meta property="og:locale" content="ja_JP" />
 	<meta property="og:title" content="<?php echo $title ?: A11YC_LANG_POST_SERVICE_NAME ?>" />
