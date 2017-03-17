@@ -1407,6 +1407,9 @@ table td.a11yc_result {
 	box-sizing: border-box;
 	min-height: calc( 100vh - 16px - 65px - 1em);
 }
+#a11yc_post li#social_buttons > * {
+	vertical-align: middle;
+}
 #a11yc_post form.a11yc_validator {
 	background-color: #eee;
 	padding: 15px 20px 5px;
