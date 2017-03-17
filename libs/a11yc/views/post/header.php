@@ -18,6 +18,17 @@
 	<link rel="stylesheet" type="text/css" media="all" href="<?php echo A11YC_ASSETS_URL ?>/css/a11yc.css" />
 	<link href="<?php echo A11YC_ASSETS_URL ?>/css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 
+	<!--OGP-->
+	<meta property="og:locale" content="ja_JP" />
+	<meta property="og:title" content="<?php echo $title ?: A11YC_LANG_POST_SERVICE_NAME ?>" />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="<?php echo s(Util::uri()) ?>" />
+	<meta property="og:site_name" content="<?php echo A11YC_LANG_POST_SERVICE_NAME ?>" />
+	<meta property="og:image" content="https://a11yc.com/logo.png" />
+	
+	<!-- Twitter card -->
+	<meta name="twitter:card" content="summary" />
+
 <?php
 if (A11YC_POST_GOOGLE_ANALYTICS_CODE)
 {
