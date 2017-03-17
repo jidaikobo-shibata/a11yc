@@ -29,7 +29,7 @@ foreach ($images as $v):
 $classes = array();
 
 // important
-$important = $v['href'] ? A11YC_LANG_IMPORTANT : '';
+$important = $v['is_important'] ? A11YC_LANG_IMPORTANT : '';
 $classes[] = $important ? 'a11yc_important' : '';
 
 // alt
@@ -88,10 +88,10 @@ endforeach;
 	$max = 20;
 
 	// parent attrs
-	foreach (array('tabindex', 'aria-hidden') as $vv):
+	foreach (array('tabindex', 'aria-hidden', 'href') as $vv):
 		if (isset($v[$vv]) && $v[$vv]):
 			$key = mb_strlen($vv) <= $max ? $vv : '<span title="'.$vv.'">'.Util::truncate($vv, 10).'</span>' ;
-			$val = mb_strlen($v[$vv]) <= $max ? $v[$vv] : '<span title="'.$v[$vv].'">'.Util::truncate($v[$vv], 10).'</span>' ;
+			$val = mb_strlen($v[$vv]) <= $max ? $v[$vv] : '<span title="'.$v[$vv].'">'.Util::truncate($v[$vv], 15).'</span>' ;
 
 			$attrs[] = '<li>'.$key.' = "'.$val.'"<span class="a11yc_image_parent">parent</span></li>';
 		endif;
@@ -101,7 +101,7 @@ endforeach;
 	foreach ($v['attrs'] as $kk => $vv):
 		if (in_array($kk, array('suspicious_end_quote', 'newline', 'alt', 'src'))) continue;
 		$key = mb_strlen($kk) <= $max ? $kk : '<span title="'.$kk.'">'.Util::truncate($kk, 10).'</span>' ;
-		$val = mb_strlen($vv) <= $max ? $vv : '<span title="'.$vv.'">'.Util::truncate($vv, 10).'</span>' ;
+		$val = mb_strlen($vv) <= $max ? $vv : '<span title="'.$vv.'">'.Util::truncate($vv, 15).'</span>' ;
 
 		$attrs[] = '<li>'.$key.' = "'.$val.'"</li>';
 	endforeach;

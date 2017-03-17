@@ -208,7 +208,8 @@ class Validate_Alt extends Validate
 			preg_match_all('/\<img[^\>]+\>/is', $v, $ass);
 			foreach ($ass[0] as $vv)
 			{
-				$retvals[$n]['element'] = 'img';
+				$retvals[$n]['element'] = 'img (a)';
+				$retvals[$n]['is_important'] = true;
 				$retvals[$n]['href'] = $href;
 				$retvals[$n]['aria_hidden'] = $aria_hidden;
 				$retvals[$n]['tabindex'] = $tabindex;
@@ -227,6 +228,7 @@ class Validate_Alt extends Validate
 			// link
 			$attrs = static::get_attributes($v);
 			$retvals[$n]['element'] = 'area';
+			$retvals[$n]['is_important'] = true;
 			$retvals[$n]['href'] = Arr::get($attrs, 'href');
 			$retvals[$n]['attrs'] = $attrs;
 			$n++;
@@ -235,7 +237,33 @@ class Validate_Alt extends Validate
 			$str = str_replace($v, '', $str);
 		}
 
-		// get buttons?
+		// get buttons
+		preg_match_all('/\<button [^\>]+\>.+?\<\/button\>/is', $str, $as);
+		foreach ($as[0] as $v)
+		{
+			if (strpos($v, '<img ') === false) continue;
+
+			// link
+			$attrs = static::get_attributes($v);
+			$aria_hidden = Arr::get($attrs, 'aria-hidden');
+			$tabindex = Arr::get($attrs, 'tabindex');
+
+			// plural images can be exist.
+			preg_match_all('/\<img[^\>]+\>/is', $v, $ass);
+			foreach ($ass[0] as $vv)
+			{
+				$retvals[$n]['element'] = 'img (button)';
+				$retvals[$n]['href'] = null;
+				$retvals[$n]['is_important'] = 1;
+				$retvals[$n]['aria_hidden'] = $aria_hidden;
+				$retvals[$n]['tabindex'] = $tabindex;
+				$retvals[$n]['attrs'] = static::get_attributes($vv);
+				$n++;
+			}
+
+			// remove a within images
+			$str = str_replace($v, '', $str);
+		}
 
 		// input and img
 		$ms = static::get_elements_by_re($str, 'ignores', 'tags', $force = true);
@@ -245,9 +273,10 @@ class Validate_Alt extends Validate
 		{
 			if ( ! in_array($v, $targets)) continue;
 			$attrs = static::get_attributes($ms[0][$k]);
-			if ($v == 'input' &&  ! isset($attrs['attrs'])) continue;
+			if ($v == 'input' && ( ! isset($attrs['type']) || $attrs['type'] != 'image')) continue;
 
 			$retvals[$n]['element'] = $v;
+			$retvals[$n]['is_important'] = $v == 'input' ? true : false ;
 			$retvals[$n]['href'] = NULL;
 			$retvals[$n]['attrs'] = $attrs;
 			$n++;
