@@ -454,6 +454,10 @@ table.a11yc_table_info {
 .a11yc textarea {
 	resize: vertical;
 }
+.a11yc button,
+.a11yc input[type="submit"] {
+	-webkit-appearance: none;
+}
 .a11yc [type="submit"] {
 	min-width: 6em;
 	display: block;
@@ -1575,6 +1579,7 @@ tr.a11yc_error th {
 th.a11yc_image_img {
 	background-color: #eee;
 	width: 210px;
+	min-width: 100px;
 }
 .a11yc_image_img img
 {
@@ -1593,14 +1598,38 @@ th.a11yc_image_img {
 }
 td.a11yc_image_importance,
 td.a11yc_image_element,
-td.a11yc_image_attrs li
+td.a11yc_image_attrs li span 
 {
 	white-space: nowrap;
+}
+td.a11yc_image_alt {
+	min-width: 7em;
+}
+td.a11yc_image_attrs {
+	max-width: 16em;
+}
+td.a11yc_image_attrs ul {
+	padding-left: 0;
+}
+td.a11yc_image_attrs ul {
+	list-style-type: none;
+}
+span.a11yc_list_marker:before {
+	content: '\2022';
+	position: absolute;
+}
+span.a11yc_attr {
+	width: 100%;
+	box-sizing: border-box;
+	display: block;
+	padding-left: .75em;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 td.a11yc_image_attrs .a11yc_image_parent {
 	display: inline-block;
 	line-height: 1.2em;
-	margin-left: 3px;
+	margin-right: 3px;
 	padding: 0 .2em;
 	background-color: rgba(160,160,160,.5);
 	border-radius: 3px;
