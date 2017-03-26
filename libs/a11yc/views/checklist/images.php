@@ -94,8 +94,7 @@ endforeach;
 //			$val = mb_strlen($v[$vv]) <= $max ? $v[$vv] : '<span title="'.$v[$vv].'">'.Util::truncate($v[$vv], 15).'</span>' ;
 
 //			$attrs[] = '<li>'.$key.' = "'.$val.'"<span class="a11yc_image_parent">parent</span></li>';
-
-			$attrs[] = '<li><span class="a11yc_list_marker" role="presentation" aria-hidden="true"></span><span class="a11yc_attr" title=\''.$vv.'="'.$v[vv].'"\'><span class="a11yc_image_parent">parent</span>'.$vv.'="'.$v[vv].'"</span></li>';
+			$attrs[] = '<li><span class="a11yc_list_marker" role="presentation" aria-hidden="true"></span><span class="a11yc_attr" title=\''.$vv.'="'.$v[$vv].'"\'><span class="a11yc_image_parent">parent</span>'.$vv.'="'.$v[$vv].'"</span></li>';
 		endif;
 	endforeach;
 
@@ -109,7 +108,7 @@ endforeach;
 
 		$attrs[] = '<li><span class="a11yc_list_marker" role="presentation" aria-hidden="true"></span><span class="a11yc_attr" title=\''.$kk.'="'.$vv.'"\'>'.$kk .'="'.$vv.'"</span></li>';
 	endforeach;
-	
+
 	if ($attrs):
 		echo '<ul>'.join($attrs).'</ul>';
 	endif;
