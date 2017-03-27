@@ -25,7 +25,6 @@ namespace A11yc;
 class Controller_Post
 {
 	private static $url;
-	private static $is_logged_in = false;
 
 	/**
 	 * forge
@@ -165,6 +164,43 @@ class Controller_Post
 	}
 
 	/**
+	 * ip check for guest users
+	 *
+	 * @return void
+	 */
+	private static function ip_check_for_guest_users($ip)
+	{
+		// database
+		define('A11YC_POST_DB', 'post_log');
+		define('A11YC_POST_DATA_FILE', '/'.A11YC_POST_DB.'.sqlite');
+		Db::forge(
+			A11YC_POST_DB,
+			array(
+				'dbtype' => 'sqlite',
+				'path' => A11YC_DATA_PATH.A11YC_POST_DATA_FILE,
+			));
+		static::init_table();
+
+		// ip check
+		$past_24h = time() - 86400;
+		$sql = 'SELECT COUNT(`ip`) as cnt FROM ip WHERE `ip` = ? AND `datetime` > ?;;';
+		$ip_count = Db::fetch($sql, array($ip, $past_24h), A11YC_POST_DB);
+
+		// cookie check
+		$cookie_count = Session::show('a11yc_post', 'count') ?: array();
+		$cookie_count = array_filter($cookie_count, function ($v){return ($v > time() - 600);});
+
+		// ban
+		if (
+			$ip_count['cnt'] >= A11YC_POST_IP_MAX_A_DAY ||
+			count($cookie_count) >= A11YC_POST_COOKIE_A_10MIN
+		)
+		{
+			Util::error('too much access.');
+		}
+	}
+
+	/**
 	 * Action_Validation
 	 *
 	 * @return void
@@ -172,7 +208,7 @@ class Controller_Post
 	private static function Action_Validation()
 	{
 		// vals
-		$ip         = $_SERVER['REMOTE_ADDR'];
+		$ip         = Input::server('REMOTE_ADDR', '');
 		$url        = Input::post('url', '');
 		$user_agent = Input::post('user_agent', '');
 		$default_ua = Util::s(Input::user_agent());
@@ -183,43 +219,13 @@ class Controller_Post
 		$is_in_white_list = false;
 		if (defined('A11YC_APPROVED_GUEST_IPS'))
 		{
-			$is_in_white_list = in_array(
-				Arr::get($_SERVER, 'REMOTE_ADDR'),
-				unserialize(A11YC_APPROVED_GUEST_IPS)
-			);
+			$is_in_white_list = in_array($ip, unserialize(A11YC_APPROVED_GUEST_IPS));
 		}
 
 		// ip check for guest users
 		if ( ! Auth::auth() && ! $is_in_white_list)
 		{
-			// database
-			define('A11YC_POST_DB', 'post_log');
-			define('A11YC_POST_DATA_FILE', '/'.A11YC_POST_DB.'.sqlite');
-			Db::forge(
-				A11YC_POST_DB,
-				array(
-					'dbtype' => 'sqlite',
-					'path' => A11YC_DATA_PATH.A11YC_POST_DATA_FILE,
-				));
-			static::init_table();
-
-			// ip check
-			$past_24h = time() - 86400;
-			$sql = 'SELECT COUNT(`ip`) as cnt FROM ip WHERE `ip` = ? AND `datetime` > ?;;';
-			$ip_count = Db::fetch($sql, array($ip, $past_24h), A11YC_POST_DB);
-
-			// cookie check
-			$cookie_count = Session::show('a11yc_post', 'count') ?: array();
-			$cookie_count = array_filter($cookie_count, function ($v){return ($v > time() - 600);});
-
-			// ban
-			if (
-				$ip_count['cnt'] >= A11YC_POST_IP_MAX_A_DAY ||
-				count($cookie_count) >= A11YC_POST_COOKIE_A_10MIN
-			)
-			{
-				Util::error('too much access.');
-			}
+			static::ip_check_for_guest_users($ip);
 		}
 
 		// validation
@@ -432,7 +438,7 @@ class Controller_Post
 		$a = Input::get('a', '');
 		$controller = '\A11yc\Controller_Post';
 		$action = '';
-		$is_index = empty(join($_GET));
+		$is_index = empty(join(Input::get()));
 
 		// top page
 		if ($is_index)

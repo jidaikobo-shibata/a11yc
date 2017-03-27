@@ -169,36 +169,27 @@ class Validate
 	/**
 	 * is_ignorable
 	 *
-	 * @param   strings     $str
+	 * @param   strings $str
 	 * @return  bool
 	 */
 	public static function is_ignorable($str)
 	{
 		$attrs = static::get_attributes($str);
 
-		// Strictly this is not so correct. but it seems be considered.
 		if (
-			isset($attrs['tabindex']) && $attrs['tabindex'] = -1 ||
-			isset($attrs['aria-hidden']) && $attrs['tabindex'] = 'true'
+			// Strictly this is not so correct. but it seems be considered.
+			(isset($attrs['tabindex']) && $attrs['tabindex'] = -1) ||
+			(isset($attrs['aria-hidden']) && $attrs['tabindex'] = 'true') ||
+
+			// occasionally JavaScript provides function by id or class.
+			(isset($attrs['href']) && strpos($attrs['href'], 'javascript') === 0) ||
+
+			// occasionally JavaScript use #
+			(isset($attrs['href']) && $attrs['href'] == '#') ||
+
+			// mailto
+			(isset($attrs['href']) && substr($attrs['href'], 0, 7) == 'mailto:')
 		)
-		{
-			return true;
-		}
-
-		// occasionally JavaScript provides function by id or class.
-		if (isset($attrs['href']) && strpos($attrs['href'], 'javascript') === 0)
-		{
-			return true;
-		}
-
-		// occasionally JavaScript use #.
-		if (isset($attrs['href']) && $attrs['href'] == '#')
-		{
-			return true;
-		}
-
-		// mailto
-		if (isset($attrs['href']) && substr($attrs['href'], 0, 7) == 'mailto:')
 		{
 			return true;
 		}
@@ -302,7 +293,6 @@ class Validate
 
 		$suspicious_end_quote = false;
 
-		$qoutes = array();
 		$loop = true;
 		while($loop)
 		{
@@ -364,7 +354,6 @@ class Validate
 		$str = preg_replace("/ *?= */", "=", $str); // remove plural spaces
 		$str = str_replace(array("\n", "\r"), " ", $str); // newline to blank
 		$attrs = array();
-		$strs = explode(' ', $str);
 
 		foreach (explode(' ', $str) as $k => $v)
 		{

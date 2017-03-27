@@ -24,9 +24,6 @@ class Db extends \Kontiki\Db
 		static::init_checks($name);
 		static::init_bulk($name);
 		static::init_setup($name);
-
-		// versions
-//		static::init_versions();
 	}
 
 	/**
@@ -193,25 +190,6 @@ class Db extends \Kontiki\Db
 				$sql = 'ALTER TABLE '.A11YC_TABLE_SETUP.' ADD `additional_criterions` text;';
 				static::execute($sql, array(), $name);
 			}
-		}
-	}
-
-	/**
-	 * init versions database
-	 *
-	 * @return  void
-	 */
-	private static function init_versions()
-	{
-		$name = 'versions';
-		if ( ! static::is_table_exist('versions', $name))
-		{
-			$sql = 'CREATE TABLE versions (';
-			$sql.= '`path` text NOT NULL,';
-			$sql.= '`memo` text NOT NULL,';
-			$sql.= '`current` INTEGER NOT NULL';
-			$sql.= ');';
-			static::execute($sql, array(), $name);
 		}
 	}
 }

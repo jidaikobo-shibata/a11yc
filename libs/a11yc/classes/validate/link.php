@@ -115,7 +115,7 @@ class Validate_Link extends Validate
 			preg_match_all("/\<\w+ +?[^\>]*?alt *?= *?[\"']([^\"']*?)[\"'][^\>]*?\>/", $text, $mms);
 			if ($mms)
 			{
-				foreach ($mms[0] as $kk => $vv)
+				foreach (array_keys($mms[0]) as $kk)
 				{
 					$text = str_replace($mms[0][$kk], $mms[1][$kk], $text);
 				}
@@ -248,13 +248,11 @@ class Validate_Link extends Validate
 			}
 
 			// inside of site: HTTP_HOST or relative
-			if ($target_path || strpos($url, Arr::get($_SERVER, 'HTTP_HOST')) !== false)
+			if ($target_path || strpos($url, Input::server('HTTP_HOST')) !== false)
 			{
 				Crawl::set_target_path($target_path ?: $url);
 				$url = Crawl::keep_url_unique($url);
-				$url = Crawl::keep_ssl($url);
 				$url = Crawl::real_url($url);
-				$url = Crawl::basic_auth_prefix($url);
 			}
 
 			// remove strange ampersand. seems depend on environment ?-(

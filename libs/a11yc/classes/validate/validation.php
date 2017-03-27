@@ -117,7 +117,7 @@ class Validate_Validation extends Validate
 		// check nums of opens
 		$too_much_opens = array();
 		$too_much_ends = array();
-		foreach ($opens_cnt as $tag => $num)
+		foreach (array_keys($opens_cnt) as $tag)
 		{
 			if ( ! isset($ends_cnt[$tag]) || $opens_cnt[$tag] > $ends_cnt[$tag])
 			{

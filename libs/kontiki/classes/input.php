@@ -39,14 +39,10 @@ class Input
 	 * @param   string  $default  The default value
 	 * @return  string|array
 	 */
-	public static function get($index = null, $default = null, $sanitize = TRUE)
+	public static function get($index = null, $default = null)
 	{
 		$get = $_GET;
 
-		if ($sanitize)
-		{
-//			$get = array_map(function($str) {return str_replace("\0", '', $str);}, $get);
-		}
 		if (func_num_args() === 0)
 		{
 			return $get;
@@ -67,14 +63,9 @@ class Input
 	 * @param   mixed   The default value
 	 * @return  string|array
 	 */
-	public static function post($index = null, $default = null, $sanitize = TRUE)
+	public static function post($index = null, $default = null)
 	{
 		$post = $_POST;
-
-		if ($sanitize)
-		{
-//			$post = array_map(function($str) {return str_replace("\0", '', $str);}, $post);
-		}
 
 		if (func_num_args() === 0)
 		{
@@ -98,14 +89,16 @@ class Input
 	 */
 	public static function file($index = null, $default = null)
 	{
+		$files = $_FILES;
+
 		if (func_num_args() === 0)
 		{
-			return $_FILES;
+			return $files;
 		}
 
-		if ($index && isset($_FILES[$index]))
+		if ($index && isset($files[$index]))
 		{
-			return $_FILES[$index];
+			return $files[$index];
 		}
 
 		return $default;
@@ -120,14 +113,16 @@ class Input
 	 */
 	public static function cookie($index = null, $default = null)
 	{
+		$cookies = $_COOKIES;
+
 		if (func_num_args() === 0)
 		{
-			return $_COOKIES;
+			return $cookies;
 		}
 
-		if ($index && isset($_COOKIES[$index]))
+		if ($index && isset($cookies[$index]))
 		{
-			return $_COOKIES[$index];
+			return $cookies[$index];
 		}
 
 		return $default;
@@ -142,14 +137,16 @@ class Input
 	 */
 	public static function server($index = null, $default = null)
 	{
+		$server = $_SERVER;
+
 		if (func_num_args() === 0)
 		{
-			return $_SERVER;
+			return $server;
 		}
 
-		if ($index && isset($_SERVER[$index]))
+		if ($index && isset($server[$index]))
 		{
-			return $_SERVER[$index];
+			return $server[$index];
 		}
 
 		return $default;

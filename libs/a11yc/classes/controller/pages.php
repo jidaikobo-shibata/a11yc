@@ -19,7 +19,7 @@ class Controller_Pages
 	public static function Action_Index()
 	{
 		$setup = Controller_Setup::fetch_setup();
-		if ( ! $setup['target_level'])
+		if ( ! Arr::get($setup, 'target_level'))
 		{
 			Session::add('messages', 'errors', A11YC_LANG_ERROR_NON_TARGET_LEVEL);
 		}
@@ -166,13 +166,13 @@ class Controller_Pages
 			$pages = explode("\n", trim(Input::post('pages')));
 			$pages = is_array($pages) ? $pages : array();
 
-			// header
-			View::assign('title', A11YC_LANG_PAGES_ADD_TO_DATABASE);
-			echo View::fetch_tpl('setup/inc_progress_header.php');
-
 			// draw
 			ob_end_flush();
 			ob_start('mb_output_handler');
+
+			// header
+			View::assign('title', A11YC_LANG_PAGES_ADD_TO_DATABASE);
+			echo View::fetch_tpl('setup/inc_progress_header.php');
 
 			foreach ($pages as $k => $url)
 			{
@@ -202,11 +202,6 @@ class Controller_Pages
 
 				// page title
 				$page_title = Util::fetch_page_title($url);
-
-				// remove ssl and basic auth
-				$url = Util::remove_query_strings($url, array('a11yc'));
-				$url = Crawl::remove_basic_auth_prefix($url);
-				$url = Crawl::keep_ssl($url);
 
 				$current = $k + 1;
 				echo '<p>'.Util::s($url).' ('.$current.'/'.count($pages).')<br />';
@@ -279,13 +274,13 @@ class Controller_Pages
 		// collect url
 		if ( ! isset($ms[1])) return false;
 
-		// header
-		View::assign('title', A11YC_LANG_PAGES_ADD_TO_CANDIDATE);
-		echo View::fetch_tpl('setup/inc_progress_header.php');
-
 		// draw
 		ob_end_flush();
 		ob_start('mb_output_handler');
+
+		// header
+		View::assign('title', A11YC_LANG_PAGES_ADD_TO_CANDIDATE);
+		echo View::fetch_tpl('setup/inc_progress_header.php');
 
 		Crawl::set_target_path($base_url);
 
@@ -309,7 +304,7 @@ class Controller_Pages
 			{
 				echo "<strong style=\"color: #408000\">Already exists</strong>\n";
 			}
-			else if (
+			elseif (
 				strpos($url, '#') !== false || // fragment included
 				! Crawl::is_same_host($base_url, $url) || // out of host
 				! Crawl::is_page_exist($url) || // page not exists
