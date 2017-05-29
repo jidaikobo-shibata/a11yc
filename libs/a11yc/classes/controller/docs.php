@@ -28,7 +28,6 @@ class Controller_Docs
 	 */
 	public static function Action_Search()
 	{
-
 		View::assign('yml', Yaml::fetch(), FALSE);
 		View::assign('test', Yaml::each('test'));
 		View::assign('title', A11YC_LANG_DOCS_TITLE);
