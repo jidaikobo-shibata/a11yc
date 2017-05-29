@@ -245,6 +245,7 @@ class Validate
 		if (strpos($str, '<') !== false)
 		{
 			preg_match('/\<[^\>]+?\>/is', $str, $ms);
+			if ( ! isset($ms[0])) return $retvals;
 			$str = $ms[0];
 		}
 		$str = ' '.$str;
