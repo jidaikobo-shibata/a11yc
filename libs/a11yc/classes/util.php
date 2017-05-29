@@ -40,6 +40,8 @@ class Util extends \Kontiki\Util
 	 */
 	public static function key2link($text)
 	{
+		if (defined('A11YC_POST_SCRIPT_NAME')) return $text;
+
 		$yml = Yaml::fetch();
 
 		preg_match_all("/\d-\d-\d+?\w/", $text, $ms);
