@@ -124,7 +124,7 @@ class Controller_Setup
 			$additional_criterions = array();
 			if (Input::post('additional_criterions'))
 			{
-				foreach ($post['additional_criterions'] as $code => $v)
+				foreach (array_keys($post['additional_criterions']) as $code)
 				{
 					$additional_criterions[] = $code;
 				}

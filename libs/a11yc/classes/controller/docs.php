@@ -87,7 +87,7 @@ class Controller_Docs
 
 			$r['chks'] = array();
 			$r['tests'] = array();
-			foreach ($yaml['checks'] as $criterion => $v)
+			foreach ($yaml['checks'] as $v)
 			{
 				foreach ($v as $chk => $vv)
 				{
