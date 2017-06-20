@@ -92,16 +92,16 @@ class Controller_Docs
 				foreach ($v as $chk => $vv)
 				{
 					if (
-						static::word_exists($chk, $word) ||
-						static::word_exists($vv['criterion']['code'], $word) ||
-						static::word_exists($vv['criterion']['guideline']['principle']['name'], $word) ||
-						static::word_exists($vv['criterion']['guideline']['principle']['summary'], $word) ||
-						static::word_exists($vv['criterion']['guideline']['summary'], $word) ||
-						static::word_exists($vv['criterion']['code'], $word) ||
-						static::word_exists($vv['criterion']['code'], str_replace('.', '-', $word)) ||
-						static::word_exists($vv['criterion']['summary'], $word) ||
-						static::word_exists(@$vv['tech'], $word) ||
-						static::word_exists($vv['name'], $word)
+						self::word_exists($chk, $word) ||
+						self::word_exists($vv['criterion']['code'], $word) ||
+						self::word_exists($vv['criterion']['guideline']['principle']['name'], $word) ||
+						self::word_exists($vv['criterion']['guideline']['principle']['summary'], $word) ||
+						self::word_exists($vv['criterion']['guideline']['summary'], $word) ||
+						self::word_exists($vv['criterion']['code'], $word) ||
+						self::word_exists($vv['criterion']['code'], str_replace('.', '-', $word)) ||
+						self::word_exists($vv['criterion']['summary'], $word) ||
+						self::word_exists(@$vv['tech'], $word) ||
+						self::word_exists($vv['name'], $word)
 					)
 					{
 						$r['chks']['principles'][] = $vv['criterion']['guideline']['principle']['code'];
@@ -115,8 +115,8 @@ class Controller_Docs
 			foreach ($test['tests'] as $code => $v)
 			{
 				if (
-					static::word_exists($v['name'], $word) ||
-					static::word_exists($v['tech'], $word)
+					self::word_exists($v['name'], $word) ||
+					self::word_exists($v['tech'], $word)
 				)
 				{
 					$r['tests'][] = $code;
@@ -142,6 +142,7 @@ class Controller_Docs
 	{
 		$yml = Yaml::fetch();
 		$test = Yaml::each('test');
+		$doc = array();
 
 		if (isset($yml['checks'][$criterion][$code]))
 		{

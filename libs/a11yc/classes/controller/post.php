@@ -334,7 +334,7 @@ class Controller_Post
 					{
 						foreach ($errs as $key => $err)
 						{
-							$all_errs[]=Controller_Checklist::message($err_code, $err, $key, $err_link);
+							$all_errs[] = Controller_Checklist::message($err_code, $err, $key, $err_link);
 						}
 					}
 				}
