@@ -286,6 +286,11 @@ class Controller_Checklist
 		// standards
 		$standards = Yaml::each('standards');
 		$standard = Arr::get($setup, 'standard');
+		if (is_null($standard))
+		{
+			Session::add('messages', 'errors', A11YC_LANG_ERROR_NON_TARGET_LEVEL);
+			return;
+		}
 		$standards = array($standards['standards'][$standard]);
 
 		// done
