@@ -45,7 +45,7 @@ class Users
 		if ( ! Session::show('auth', 'uid')[0]) return array();
 		$uid = Session::show('auth', 'uid')[0];
 		$users = static::fetch_users();
-		foreach ($users as $k => $v)
+		foreach (array_keys($users) as $k)
 		{
 			$users[$k]['id'] = $k;
 		}

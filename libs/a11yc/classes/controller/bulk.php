@@ -167,7 +167,7 @@ class Controller_Bulk extends Controller_Checklist
 				$result = Db::fetch($sql, array($v['url'], $code));
 
 				// add new code
-				if ( ! $result)
+				if (empty($result))
 				{
 					if ( ! isset($vv['on']) && empty($vv['memo'])) continue;
 					$passed = isset($vv['on']);
