@@ -238,7 +238,7 @@
 				</th>
 
 				<td class="a11yc_table_check_memo">
-				<?php $memo = isset($cs[$code]['memo']) ? $cs[$code]['memo'] : @$bulk[$code]['memo'] ; ?>
+				<?php $memo = Arr::get($cs, "{$code}.memo", Arr::get($bulk, "{$code}.memo", '')); ?>
 				<textarea name="chk[<?php echo $code ?>][memo]"><?php echo $memo ?></textarea>
 				</td>
 
