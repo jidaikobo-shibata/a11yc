@@ -33,51 +33,127 @@ class Input
 	}
 
 	/**
+	 * Check Post data existence
+	 *
+	 * @return  bool
+	 */
+	public static function is_post_exists()
+	{
+		return (static::server('REQUEST_METHOD') == 'POST');
+	}
+
+	/**
 	 * Gets the specified GET variable.
 	 *
 	 * @param   string  $index    The index to get
 	 * @param   string  $default  The default value
+	 * @param   string  $filter   default: FILTER_DEFAULT
+	 * @param   string  $options  for filter_input()
 	 * @return  string|array
 	 */
-	public static function get($index = null, $default = null)
+	public static function get(
+		$index,
+		$default = null,
+		$filter = FILTER_DEFAULT,
+		$options = array()
+	)
 	{
-		$get = $_GET;
-
-		if (func_num_args() === 0)
-		{
-			return $get;
-		}
-
-		if ($index && isset($get[$index]))
-		{
-			return $get[$index];
-		}
-
-		return $default;
+		$val = filter_input(INPUT_GET, $index, $filter, $options);
+		return $val ? $val : $default;
 	}
 
 	/**
-	 * Fetch an item from the POST array
+	 * Gets the specified Array GET variable.
 	 *
-	 * @param   string  The index key
-	 * @param   mixed   The default value
+	 * @param   string  $index    The index to get
+	 * @param   string  $default  The default value
+	 * @param   string  $filter   default: FILTER_DEFAULT
 	 * @return  string|array
 	 */
-	public static function post($index = null, $default = null)
+	public static function get_arr(
+		$index,
+		$default = null,
+		$filter = FILTER_DEFAULT
+	)
 	{
-		$post = $_POST;
+		return static::get($index, array(), $filter, FILTER_REQUIRE_ARRAY);
+	}
 
-		if (func_num_args() === 0)
-		{
-			return $post;
-		}
+	/**
+	 * Gets the specified POST variable.
+	 *
+	 * @param   string  $index    The index to get
+	 * @param   string  $default  The default value
+	 * @param   string  $filter   default: FILTER_DEFAULT
+	 * @param   string  $options  for filter_input()
+	 * @return  string|array
+	 */
+	public static function post(
+		$index,
+		$default = null,
+		$filter = FILTER_DEFAULT,
+		$options = array()
+	)
+	{
+		$val = filter_input(INPUT_POST, $index, $filter, $options);
+		return $val ? $val : $default;
+	}
 
-		if ($index && isset($post[$index]))
-		{
-			return $post[$index];
-		}
+	/**
+	 * Gets the specified Array POST variable.
+	 *
+	 * @param   string  $index    The index to get
+	 * @param   string  $default  The default value
+	 * @param   string  $filter   default: FILTER_DEFAULT
+	 * @return  string|array
+	 */
+	public static function post_arr(
+		$index,
+		$default = null,
+		$filter = FILTER_DEFAULT
+	)
+	{
+		return static::post($index, array(), $filter, FILTER_REQUIRE_ARRAY);
+	}
 
-		return $default;
+	/**
+	 * Gets the specified COOKIE variable.
+	 *
+	 * @param   string  $index    The index to get
+	 * @param   string  $default  The default value
+	 * @param   string  $filter   default: FILTER_DEFAULT
+	 * @param   string  $options  for filter_input()
+	 * @return  string|array
+	 */
+	public static function cookie(
+		$index,
+		$default = null,
+		$filter = FILTER_DEFAULT,
+		$options = array()
+	)
+	{
+		$val = filter_input(INPUT_COOKIE, $index, $filter, $options);
+		return $val ? $val : $default;
+	}
+
+	/**
+	 * Gets the specified SERVER variable.
+	 *
+	 * @param   string  $index    The index to get
+	 * @param   string  $default  The default value
+	 * @param   string  $filter   default: FILTER_DEFAULT
+	 * @param   string  $options  for filter_input()
+	 * @return  string|array
+	 */
+	public static function server(
+		$index,
+		$default = null,
+		$filter = FILTER_DEFAULT,
+		$options = array()
+	)
+	{
+		$val = filter_input(INPUT_SERVER, $index, $filter, $options);
+		return $val ? $val : $default;
 	}
 
 	/**
@@ -87,7 +163,7 @@ class Input
 	 * @param   mixed   The default value
 	 * @return  string|array
 	 */
-	public static function file($index = null, $default = null)
+	public static function file($index, $default = null)
 	{
 		$files = $_FILES;
 
@@ -99,54 +175,6 @@ class Input
 		if ($index && isset($files[$index]))
 		{
 			return $files[$index];
-		}
-
-		return $default;
-	}
-
-	/**
-	 * Fetch an item from the COOKIE array
-	 *
-	 * @param    string  The index key
-	 * @param    mixed   The default value
-	 * @return   string|array
-	 */
-	public static function cookie($index = null, $default = null)
-	{
-		$cookies = $_COOKIES;
-
-		if (func_num_args() === 0)
-		{
-			return $cookies;
-		}
-
-		if ($index && isset($cookies[$index]))
-		{
-			return $cookies[$index];
-		}
-
-		return $default;
-	}
-
-	/**
-	 * Fetch an item from the SERVER array
-	 *
-	 * @param   string  The index key
-	 * @param   mixed   The default value
-	 * @return  string|array
-	 */
-	public static function server($index = null, $default = null)
-	{
-		$server = $_SERVER;
-
-		if (func_num_args() === 0)
-		{
-			return $server;
-		}
-
-		if ($index && isset($server[$index]))
-		{
-			return $server[$index];
 		}
 
 		return $default;

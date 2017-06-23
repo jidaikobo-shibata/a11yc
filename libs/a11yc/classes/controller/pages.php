@@ -46,9 +46,10 @@ class Controller_Pages
 	public static function dbio()
 	{
 		// purge, undelete, delete
-		if (Input::get('url'))
+		$url = Input::get('url', null, FILTER_VALIDATE_URL);
+		if ($url)
 		{
-			$url = Util::urldec(Input::get('url', ''));
+			$url = Util::urldec($url);
 			$page_title = Util::fetch_page_title_from_db($url);
 
 			// purge
