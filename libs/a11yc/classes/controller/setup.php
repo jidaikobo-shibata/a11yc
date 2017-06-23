@@ -147,7 +147,6 @@ class Controller_Setup
 				$sql.= '`report` = ?,';
 				$sql.= '`basic_user` = ?,';
 				$sql.= '`basic_pass` = ?,';
-				$sql.= '`trust_ssl_url` = ?,';
 				$sql.= '`additional_criterions` = ?,';
 				$sql.= '`checklist_behaviour` = ?;';
 				$r = Db::execute($sql, array(
@@ -162,7 +161,6 @@ class Controller_Setup
 						$report,
 						Input::post('basic_user', ''),
 						Input::post('basic_pass', ''),
-						Input::post('trust_ssl_url', ''),
 						serialize($additional_criterions),
 						$checklist_behaviour
 					));
@@ -183,7 +181,6 @@ class Controller_Setup
 				$sql.= '`report`, ';
 				$sql.= '`basic_user`, ';
 				$sql.= '`basic_pass`, ';
-				$sql.= '`trust_ssl_url`, ';
 				$sql.= '`additional_criterions`, ';
 				$sql.= '`checklist_behaviour`)';
 				$sql.= ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
@@ -199,7 +196,6 @@ class Controller_Setup
 						$report,
 						Input::post('basic_user', ''),
 						Input::post('basic_pass', ''),
-						Input::post('trust_ssl_url', ''),
 						serialize($additional_criterions),
 						$checklist_behaviour
 					));

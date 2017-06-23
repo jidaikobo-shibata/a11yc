@@ -113,8 +113,6 @@ define('A11YC_LANG_SETUP_BASIC_AUTH_TITLE', 'Basic Auth');
 define('A11YC_LANG_SETUP_BASIC_AUTH_EXP', 'If the site to be tested is protected by basic authentication, please enter the user name and password for basic authentication here.');
 define('A11YC_LANG_SETUP_BASIC_AUTH_USER', 'Basic Auth user');
 define('A11YC_LANG_SETUP_BASIC_AUTH_PASS', 'Basic Auth password');
-define('A11YC_LANG_SETUP_TRUST_SSL_TITLE', 'SSL');
-define('A11YC_LANG_SETUP_TRUST_SSL_EXP', 'When targeting SSL sites, please enter that domain here. Please do not enter URL of untrusted site. (ex: www.example.com)');
 
 define('A11YC_LANG_DECLARE_DATE', 'Declare Date');
 define('A11YC_LANG_STANDARD', 'Standard');

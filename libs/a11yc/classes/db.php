@@ -179,7 +179,6 @@ class Db extends \Kontiki\Db
 				$sql.= '`report`              text NOT NULL,';
 				$sql.= '`basic_user`          text NOT NULL,';
 				$sql.= '`basic_pass`          text NOT NULL,';
-				$sql.= '`trust_ssl_url`       text NOT NULL,';
 				$sql.= '`checklist_behaviour` INTEGER NOT NULL';
 				$sql.= ');';
 				static::execute($sql, array(), $name);
@@ -188,6 +187,12 @@ class Db extends \Kontiki\Db
 			if ( ! static::is_fields_exist(A11YC_TABLE_SETUP, array('additional_criterions'), $name))
 			{
 				$sql = 'ALTER TABLE '.A11YC_TABLE_SETUP.' ADD `additional_criterions` text;';
+				static::execute($sql, array(), $name);
+			}
+
+			if (static::is_fields_exist(A11YC_TABLE_SETUP, array('trust_ssl_url'), $name))
+			{
+				$sql = 'ALTER TABLE '.A11YC_TABLE_SETUP.' DROP `trust_ssl_url`;';
 				static::execute($sql, array(), $name);
 			}
 		}
