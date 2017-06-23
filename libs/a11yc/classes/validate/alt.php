@@ -285,23 +285,14 @@ class Validate_Alt extends Validate
 		// tidy
 		foreach ($retvals as $k => $v)
 		{
-			// src not exists
-			if ( ! isset($v['attrs']['src']))
-			{
-				// $retvals[$k]['attrs']['src'] = null;
-			}
-			else
+			// src exists
+			if (isset($v['attrs']['src']))
 			{
 				$retvals[$k]['attrs']['src'] = Crawl::keep_url_unique($v['attrs']['src']);
 			}
 
-			// alt not exists
-			if ( ! isset($v['attrs']['alt']))
-			{
-				// $retvals[$k]['attrs']['alt'] = null;
-				// $retvals[$k]['attrs']['newline'] = null;
-			}
-			else
+			// alt exists
+			if (isset($v['attrs']['alt']))
 			{
 				// empty alt
 				if (empty($v['attrs']['alt']))
