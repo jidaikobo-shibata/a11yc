@@ -165,6 +165,8 @@ class Db extends \Kontiki\Db
 	{
 		if (defined('A11YC_TABLE_SETUP'))
 		{
+			// delete trust_ssl_url column at 2017-06-23. but sqlite cannot drop column.
+			// so just remove from initialize.
 			if ( ! static::is_table_exist(A11YC_TABLE_SETUP, $name))
 			{
 				$sql = 'CREATE TABLE '.A11YC_TABLE_SETUP.' (';
@@ -187,12 +189,6 @@ class Db extends \Kontiki\Db
 			if ( ! static::is_fields_exist(A11YC_TABLE_SETUP, array('additional_criterions'), $name))
 			{
 				$sql = 'ALTER TABLE '.A11YC_TABLE_SETUP.' ADD `additional_criterions` text;';
-				static::execute($sql, array(), $name);
-			}
-
-			if (static::is_fields_exist(A11YC_TABLE_SETUP, array('trust_ssl_url'), $name))
-			{
-				$sql = 'ALTER TABLE '.A11YC_TABLE_SETUP.' DROP `trust_ssl_url`;';
 				static::execute($sql, array(), $name);
 			}
 		}
