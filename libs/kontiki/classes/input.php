@@ -153,6 +153,10 @@ class Input
 	)
 	{
 		$val = filter_input(INPUT_SERVER, $index, $filter, $options);
+		if ( ! $val)
+		{
+			$val = filter_input(INPUT_ENV, $index, $filter, $options);
+		}
 		return $val ? $val : $default;
 	}
 
