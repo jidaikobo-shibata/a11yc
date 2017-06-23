@@ -131,6 +131,7 @@ class Controller_Setup
 			$setup = static::fetch_setup();
 
 			// database io
+			// about unused column `trust_ssl_url` see db.php
 			if (isset($setup['standard']))
 			{
 				// update
@@ -147,6 +148,7 @@ class Controller_Setup
 				$sql.= '`report` = ?,';
 				$sql.= '`basic_user` = ?,';
 				$sql.= '`basic_pass` = ?,';
+				$sql.= '`trust_ssl_url` = ?,';
 				$sql.= '`additional_criterions` = ?,';
 				$sql.= '`checklist_behaviour` = ?;';
 				$r = Db::execute($sql, array(
@@ -161,6 +163,7 @@ class Controller_Setup
 						$report,
 						Input::post('basic_user', ''),
 						Input::post('basic_pass', ''),
+						'',
 						serialize($additional_criterions),
 						$checklist_behaviour
 					));
@@ -181,6 +184,7 @@ class Controller_Setup
 				$sql.= '`report`, ';
 				$sql.= '`basic_user`, ';
 				$sql.= '`basic_pass`, ';
+				$sql.= '`trust_ssl_url`, ';
 				$sql.= '`additional_criterions`, ';
 				$sql.= '`checklist_behaviour`)';
 				$sql.= ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
@@ -196,6 +200,7 @@ class Controller_Setup
 						$report,
 						Input::post('basic_user', ''),
 						Input::post('basic_pass', ''),
+						'',
 						serialize($additional_criterions),
 						$checklist_behaviour
 					));
