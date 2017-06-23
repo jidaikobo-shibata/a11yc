@@ -68,7 +68,7 @@ class Controller_Bulk extends Controller_Checklist
 	 */
 	public static function dbio($url)
 	{
-		if (Input::post())
+		if (Input::is_post_exists())
 		{
 			// update default only
 			static::dbio_default();
@@ -92,7 +92,7 @@ class Controller_Bulk extends Controller_Checklist
 		$sql = 'DELETE FROM '.A11YC_TABLE_BULK_NGS.';';
 		Db::execute($sql);
 
-		foreach (Input::post('ngs') as $criterion => $v)
+		foreach (Input::post_arr('ngs') as $criterion => $v)
 		{
 			if ( ! trim($v['memo'])) continue;
 			$sql = 'INSERT INTO '.A11YC_TABLE_BULK_NGS.' (`criterion`, `uid`, `memo`)';
@@ -107,7 +107,7 @@ class Controller_Bulk extends Controller_Checklist
 
 		// insert
 		$r = false;
-		foreach (Input::post('chk') as $code => $v)
+		foreach (Input::post_arr('chk') as $code => $v)
 		{
 			if ( ! isset($v['on'])) continue;
 			$sql = 'INSERT INTO '.A11YC_TABLE_BULK.' (`code`, `uid`, `memo`)';
@@ -136,7 +136,7 @@ class Controller_Bulk extends Controller_Checklist
 		foreach (Db::fetch_all($sql) as $v)
 		{
 			// ngs
-			foreach (Input::post('ngs') as $criterion => $vv)
+			foreach (Input::post_arr('ngs') as $criterion => $vv)
 			{
 				// add ngs
 				$sql = 'SELECT * FROM '.A11YC_TABLE_CHECKS_NGS.' WHERE `url` = ? and `criterion` = ?;';
@@ -160,7 +160,7 @@ class Controller_Bulk extends Controller_Checklist
 			}
 
 			// checks and unchecks
-			foreach (Input::post('chk') as $code => $vv)
+			foreach (Input::post_arr('chk') as $code => $vv)
 			{
 				// add checks
 				$sql = 'SELECT * FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = ? and `code` = ?;';

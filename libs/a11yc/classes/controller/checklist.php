@@ -26,8 +26,8 @@ class Controller_Checklist
 			Session::add('messages', 'errors', A11YC_LANG_ERROR_NON_TARGET_LEVEL);
 		}
 
-		$get_url = Input::get('url');
-		$post_url = Input::post('url');
+		$get_url = Input::get('url', '', FILTER_VALIDATE_URL);
+		$post_url = Input::post('url', '', FILTER_VALIDATE_URL);
 		$url = ! empty($get_url) && is_string($get_url) ? Util::urldec($get_url) : '';
 		$url = empty($url) && ! empty($post_url) && is_string($post_url) ? Util::urldec($post_url) : $url;
 
@@ -101,14 +101,13 @@ class Controller_Checklist
 	{
 		$url = Util::urldec($url);
 
-		if (Input::post())
+		if (Input::is_post_exists())
 		{
 			// NGs
 			$sql = 'DELETE FROM '.A11YC_TABLE_CHECKS_NGS.' WHERE `url` = ?;';
 			Db::execute($sql, array($url));
 
-			$post_ngs = Input::post('ngs');
-			$post_ngs = is_array($post_ngs) ? $post_ngs : array();
+			$post_ngs = Input::post_arr('ngs');
 			foreach ($post_ngs as $criterion => $v)
 			{
 				if ( ! trim($v['memo'])) continue;
@@ -123,8 +122,7 @@ class Controller_Checklist
 			Db::execute($sql, array($url));
 
 			// insert checks
-			$post_chk = Input::post('chk');
-			$post_chk = is_array($post_chk) ? $post_chk : array();
+			$post_chk = Input::post_arr('chk');
 			foreach ($post_chk as $code => $v)
 			{
 				if ( ! isset($v['on']) && empty($v['memo'])) continue;

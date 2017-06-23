@@ -209,7 +209,7 @@ class Controller_Post
 	{
 		// vals
 		$ip         = Input::server('REMOTE_ADDR', '');
-		$url        = Input::post('url', '');
+		$url        = Input::post('url', '', FILTER_VALIDATE_URL);
 		$user_agent = Input::post('user_agent', '');
 		$default_ua = Util::s(Input::user_agent());
 		$page_title = '';
@@ -390,7 +390,7 @@ class Controller_Post
 		}
 
 		// error
-		if (Input::post() && ! $target_html)
+		if (Input::is_post_exists() && ! $target_html)
 		{
 			Session::add('messages', 'errors', A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR);
 		}
@@ -438,7 +438,7 @@ class Controller_Post
 		$a = Input::get('a', '');
 		$controller = '\A11yc\Controller_Post';
 		$action = '';
-		$is_index = empty(join(Input::get()));
+		$is_index = empty(Input::server('QUERY_STRING'));
 
 		// top page
 		if ($is_index)

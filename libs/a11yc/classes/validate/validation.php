@@ -103,11 +103,9 @@ class Validate_Validation extends Validate
 			if ($tag[0] =='/')
 			{
 				$ends[] = substr($tag, 1);
+				continue;
 			}
-			else
-			{
-				$opens[] = $tag;
-			}
+			$opens[] = $tag;
 		}
 
 		// count tags
@@ -263,85 +261,6 @@ class Validate_Validation extends Validate
 	}
 
 	/**
-	 * suspicious attributes
-	 *
-	 * @return  void
-	 */
-	public static function suspicious_attributes()
-	{
-		$str = static::ignore_elements(static::$hl_html);
-
-		$ms = static::get_elements_by_re($str, 'ignores', 'tags');
-		if ( ! $ms[0]) return;
-
-		foreach ($ms[0] as $k => $m)
-		{
-			$attrs = static::get_attributes($m);
-
-			// suspicious attributes
-			if (isset($attrs['suspicious']))
-			{
-				static::$error_ids['suspicious_attributes'][$k]['id'] = $ms[0][$k];
-				static::$error_ids['suspicious_attributes'][$k]['str'] = join(', ', $attrs['suspicious']);
-			}
-
-			// duplicated_attributes
-			if (isset($attrs['plural']))
-			{
-				static::$error_ids['duplicated_attributes'][$k]['id'] = $ms[0][$k];
-				static::$error_ids['duplicated_attributes'][$k]['str'] = $m;
-			}
-		}
-		static::add_error_to_html('suspicious_attributes', static::$error_ids, 'ignores');
-		static::add_error_to_html('duplicated_attributes', static::$error_ids, 'ignores');
-	}
-
-	/**
-	 * duplicated ids and accesskey
-	 *
-	 * @return  void
-	 */
-	public static function duplicated_ids_and_accesskey()
-	{
-		$str = static::ignore_elements(static::$hl_html);
-
-		$ms = static::get_elements_by_re($str, 'ignores', 'tags');
-		if ( ! $ms[0]) return;
-
-		// duplicated_ids
-		$ids = array();
-		foreach ($ms[0] as $k => $m)
-		{
-			$attrs = static::get_attributes($m);
-			if ( ! isset($attrs['id'])) continue;
-
-			if (in_array($attrs['id'], $ids))
-			{
-				static::$error_ids['duplicated_ids'][$k]['id'] = $ms[0][$k];
-				static::$error_ids['duplicated_ids'][$k]['str'] = $attrs['id'];
-			}
-			$ids[] = $attrs['id'];
-		}
-		static::add_error_to_html('duplicated_ids', static::$error_ids, 'ignores');
-
-		// duplicated_accesskeys
-		$accesskeys = array();
-		foreach ($ms[0] as $k => $m)
-		{
-			$attrs = static::get_attributes($m);
-			if ( ! isset($attrs['accesskey'])) continue;
-
-			if (in_array($attrs['accesskey'], $accesskeys))
-			{
-				static::$error_ids['duplicated_accesskeys'][$k]['id'] = $ms[0][$k];
-				static::$error_ids['duplicated_accesskeys'][$k]['str'] = $attrs['accesskey'];
-			}
-			$accesskeys[] = $attrs['accesskey'];
-		}
-		static::add_error_to_html('duplicated_accesskeys', static::$error_ids, 'ignores');
-	}
-
-	/**
 	 * invalid tag
 	 *
 	 * @return  void
@@ -371,7 +290,7 @@ class Validate_Validation extends Validate
 			// delete qouted quotation
 			$tag = str_replace(array("\\'", '\\"'), '', $m);
 
-			// TODO: in Englsih, single quote is frequent on grammar
+			// in Englsih, single quote is frequent on grammar
 			// if ((substr_count($tag, '"') + substr_count($tag, "'")) % 2 !== 0)
 			if (substr_count($tag, '"') % 2 !== 0)
 			{
@@ -394,65 +313,6 @@ class Validate_Validation extends Validate
 		static::add_error_to_html('unbalanced_quotation', static::$error_ids, 'ignores');
 		static::add_error_to_html('cannot_contain_multibyte_space', static::$error_ids, 'ignores');
 		static::add_error_to_html('cannot_contain_newline', static::$error_ids, 'ignores');
-	}
-
-	/**
-	 * titleless_frame
-	 *
-	 * @return  void
-	 */
-	public static function titleless_frame()
-	{
-		$str = static::ignore_elements(static::$hl_html);
-		$ms = static::get_elements_by_re($str, 'ignores', 'tags');
-		if ( ! $ms[0]) return;
-
-		foreach ($ms[0] as $k => $v)
-		{
-			if ($ms[1][$k] != 'frame' && $ms[1][$k] != 'iframe') continue;
-			$attrs = static::get_attributes($v);
-
-			if ( ! trim(Arr::get($attrs, 'title')))
-			{
-				static::$error_ids['titleless_frame'][$k]['id'] = $ms[0][$k];
-				static::$error_ids['titleless_frame'][$k]['str'] = $ms[0][$k];
-			}
-		}
-		static::add_error_to_html('titleless_frame', static::$error_ids, 'ignores');
-	}
-
-	/**
-	 * numeric attr
-	 *
-	 * @return  bool
-	 */
-	public static function must_be_numeric_attr()
-	{
-		$str = static::ignore_elements(static::$hl_html);
-		$ms = static::get_elements_by_re($str, 'ignores', 'tags');
-		if ( ! $ms[0]) return;
-
-		$targets = array(
-			'width',
-			'height',
-			'border',
-		);
-
-		foreach ($ms[0] as $k => $v)
-		{
-			$attrs = static::get_attributes($v);
-
-			foreach ($attrs as $attr => $val)
-			{
-				if ( ! in_array($attr, $targets)) continue;
-				if ( ! is_numeric($val))
-				{
-					static::$error_ids['must_be_numeric_attr'][$k]['id'] = $v;
-					static::$error_ids['must_be_numeric_attr'][$k]['str'] = $attr;
-				}
-			}
-		}
-		static::add_error_to_html('must_be_numeric_attr', static::$error_ids, 'ignores');
 	}
 
 	/**
