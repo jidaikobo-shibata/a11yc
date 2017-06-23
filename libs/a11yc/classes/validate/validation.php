@@ -308,36 +308,35 @@ class Validate_Validation extends Validate
 		$ms = static::get_elements_by_re($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 
-		// duplicated_ids
 		$ids = array();
-		foreach ($ms[0] as $k => $m)
-		{
-			$attrs = static::get_attributes($m);
-			if ( ! isset($attrs['id'])) continue;
-
-			if (in_array($attrs['id'], $ids))
-			{
-				static::$error_ids['duplicated_ids'][$k]['id'] = $ms[0][$k];
-				static::$error_ids['duplicated_ids'][$k]['str'] = $attrs['id'];
-			}
-			$ids[] = $attrs['id'];
-		}
-		static::add_error_to_html('duplicated_ids', static::$error_ids, 'ignores');
-
-		// duplicated_accesskeys
 		$accesskeys = array();
 		foreach ($ms[0] as $k => $m)
 		{
 			$attrs = static::get_attributes($m);
-			if ( ! isset($attrs['accesskey'])) continue;
 
-			if (in_array($attrs['accesskey'], $accesskeys))
+			// duplicated_ids
+			if (isset($attrs['id']))
 			{
-				static::$error_ids['duplicated_accesskeys'][$k]['id'] = $ms[0][$k];
-				static::$error_ids['duplicated_accesskeys'][$k]['str'] = $attrs['accesskey'];
+				if (in_array($attrs['id'], $ids))
+				{
+					static::$error_ids['duplicated_ids'][$k]['id'] = $ms[0][$k];
+					static::$error_ids['duplicated_ids'][$k]['str'] = $attrs['id'];
+				}
+				$ids[] = $attrs['id'];
 			}
-			$accesskeys[] = $attrs['accesskey'];
+
+			// duplicated_accesskeys
+			if (isset($attrs['accesskey']))
+			{
+				if (in_array($attrs['accesskey'], $accesskeys))
+				{
+					static::$error_ids['duplicated_accesskeys'][$k]['id'] = $ms[0][$k];
+					static::$error_ids['duplicated_accesskeys'][$k]['str'] = $attrs['accesskey'];
+				}
+				$accesskeys[] = $attrs['accesskey'];
+			}
 		}
+		static::add_error_to_html('duplicated_ids', static::$error_ids, 'ignores');
 		static::add_error_to_html('duplicated_accesskeys', static::$error_ids, 'ignores');
 	}
 
