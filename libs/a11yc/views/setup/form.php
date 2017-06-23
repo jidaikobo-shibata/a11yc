@@ -150,13 +150,5 @@
 		</td>
 	</tr>
 
-	<tr>
-		<th scope="row"><label for="a11yc_trust_ssl_url"><?php echo A11YC_LANG_SETUP_TRUST_SSL_TITLE ?></label></th>
-		<td>
-			<p><?php echo A11YC_LANG_SETUP_TRUST_SSL_EXP ?></p>
-			<input type="text" name="trust_ssl_url" id="a11yc_trust_ssl_url" size="30" value="<?php echo @$setup['trust_ssl_url'] ?>">
-		</td>
-	</tr>
-
 	</tbody>
 </table>
