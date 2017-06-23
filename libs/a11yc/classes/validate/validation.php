@@ -27,7 +27,7 @@ class Validate_Validation extends Validate
 		$prev = 1;
 		foreach ($secs as $sec)
 		{
-			if (is_numeric($sec[1]))
+			if (isset($sec[1]) && is_numeric($sec[1]))
 			{
 				$prev = $sec[1];
 				break;
