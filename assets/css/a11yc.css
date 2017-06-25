@@ -30,10 +30,12 @@
 .a11yc a:link {
 	color: #006ab6;
 }
+/*
 .a11yc a:active {
-/* 	color: #68baef; */
-/*	color: #8bc32f;*/
+ 	color: #68baef;
+	color: #8bc32f;
 }
+*/
 .a11yc a:hover {
 	text-decoration: none;
 }
@@ -83,6 +85,7 @@
 	font-size: .9em;
 	font-family: monospace;
 }
+/*
 .a11yc_source table {
 	width: 100%;
 }
@@ -107,9 +110,7 @@
 .a11yc_source tr:hover > * {
 	background-color: #fefedd;
 }
-.a11yc_source strong {
-	background-color: #fefebb;
-}
+*/
 .a11yc_source strong {
 	background-color: #fefebb;
 }
@@ -201,6 +202,7 @@ abbr
 }
 .a11yc_flash
 {
+	background-color: rgb(255,255,170);
 	background-color: rgba(255,255,0,.3);
 }
 tr.a11yc_flash {
@@ -219,11 +221,11 @@ tr.a11yc_flash {
 	float: left;
 	margin-bottom: 0;
 }
-.a11yc h1.a11yc_hasctrl+* {
+.a11yc #a11yc_header_ctrl {
 	position: relative;
 	float: right;
 }
-.a11yc h1.a11yc_hasctrl+*+.a11yc_presentation {
+.a11yc #a11yc_header_ctrl+.a11yc_presentation {
 	width: 100%;
 	height: 2px;
 /* 	background-color: #68baef; */
@@ -500,7 +502,6 @@ table.a11yc_table_info {
 }
 #a11y_submit [type="submit"] {
 	display: inline;
-	margin: 0;
 }
 
 /* menu */
@@ -521,15 +522,16 @@ table.a11yc_table_info {
 #a11yc_post #a11yc_header_ctrl form {
 	display: inline-block;
 }
+/*
 #a11yc_form_checklist #a11yc_header_ctrl {
-/*	text-align: right;
+	text-align: right;
 	margin-top: -3.25em;
-	margin-bottom: .25em;*/
-/*	position: absolute;
+	margin-bottom: .25em;
+	position: absolute;
 	top: -2.75em;
 	right: 0;
-*/
 }
+*/
 /*
 .a11yc_fixed_header #a11yc_form_checklist  #a11yc_header_ctrl {
 	position: relative;
@@ -1358,6 +1360,7 @@ table td.a11yc_result {
 	padding-bottom: .125em;
 }
 .a11yc_disclosure.active:hover {
+	background-color: #eeeeee;
 	background-color: rgba(0,0,0,.05);
 }
 .a11yc li.a11yc_disclosure_parent {
@@ -1445,6 +1448,7 @@ table td.a11yc_result {
 	display: inline;
 }
 #a11yc_validation_not_found_error {
+	background-color: rgb(139, 195, 47);
 	background-color: rgba(139, 195, 47,.15);
 	margin-top: 1em;
 	padding: 20px;
@@ -1598,7 +1602,7 @@ th.a11yc_image_img {
 }
 td.a11yc_image_importance,
 td.a11yc_image_element,
-td.a11yc_image_attrs li span 
+td.a11yc_image_attrs li span
 {
 	white-space: nowrap;
 }
@@ -1631,6 +1635,7 @@ td.a11yc_image_attrs .a11yc_image_parent {
 	line-height: 1.2em;
 	margin-right: 3px;
 	padding: 0 .2em;
+	background-color: rgb(160,160,160);
 	background-color: rgba(160,160,160,.5);
 	border-radius: 3px;
 }
