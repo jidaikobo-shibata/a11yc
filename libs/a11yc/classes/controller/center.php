@@ -31,7 +31,7 @@ class Controller_Center
 		$setup = Controller_Setup::fetch_setup();
 
 		$body = '';
-		if ($setup)
+		if ( ! empty($setup))
 		{
 			// report page
 			View::assign('is_center', TRUE);

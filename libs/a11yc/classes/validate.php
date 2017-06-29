@@ -48,7 +48,7 @@ class Validate
 			'meanless_element'                => '\A11yc\Validate_Validation',
 			'style_for_structure'             => '\A11yc\Validate_Validation',
 			'invalid_tag'                     => '\A11yc\Validate_Validation',
-			'titleless_frame'                 => '\A11yc\Validate_Validation',
+			'titleless_frame'                 => '\A11yc\Validate_Attr',
 			'check_doctype'                   => '\A11yc\Validate_Head',
 			'meta_refresh'                    => '\A11yc\Validate_Head',
 			'titleless'                       => '\A11yc\Validate_Head',
@@ -60,10 +60,10 @@ class Validate
 
 			// non tag
 			'appropriate_heading_descending'  => '\A11yc\Validate_Validation',
-			'suspicious_attributes'           => '\A11yc\Validate_Validation',
-			'duplicated_ids_and_accesskey'    => '\A11yc\Validate_Validation',
 			'ja_word_breaking_space'          => '\A11yc\Validate_Validation',
-			'must_be_numeric_attr'            => '\A11yc\Validate_Validation',
+			'suspicious_attributes'           => '\A11yc\Validate_Attr',
+			'duplicated_ids_and_accesskey'    => '\A11yc\Validate_Attr',
+			'must_be_numeric_attr'            => '\A11yc\Validate_Attr',
 			'same_page_title_in_same_site'    => '\A11yc\Validate_Head',
 		);
 
@@ -169,36 +169,27 @@ class Validate
 	/**
 	 * is_ignorable
 	 *
-	 * @param   strings     $str
+	 * @param   strings $str
 	 * @return  bool
 	 */
 	public static function is_ignorable($str)
 	{
 		$attrs = static::get_attributes($str);
 
-		// Strictly this is not so correct. but it seems be considered.
 		if (
-			isset($attrs['tabindex']) && $attrs['tabindex'] = -1 ||
-			isset($attrs['aria-hidden']) && $attrs['tabindex'] = 'true'
+			// Strictly this is not so correct. but it seems be considered.
+			(isset($attrs['tabindex']) && $attrs['tabindex'] = -1) ||
+			(isset($attrs['aria-hidden']) && $attrs['tabindex'] = 'true') ||
+
+			// occasionally JavaScript provides function by id or class.
+			(isset($attrs['href']) && strpos($attrs['href'], 'javascript') === 0) ||
+
+			// occasionally JavaScript use #
+			(isset($attrs['href']) && $attrs['href'] == '#') ||
+
+			// mailto
+			(isset($attrs['href']) && substr($attrs['href'], 0, 7) == 'mailto:')
 		)
-		{
-			return true;
-		}
-
-		// occasionally JavaScript provides function by id or class.
-		if (isset($attrs['href']) && strpos($attrs['href'], 'javascript') === 0)
-		{
-			return true;
-		}
-
-		// occasionally JavaScript use #.
-		if (isset($attrs['href']) && $attrs['href'] == '#')
-		{
-			return true;
-		}
-
-		// mailto
-		if (isset($attrs['href']) && substr($attrs['href'], 0, 7) == 'mailto:')
 		{
 			return true;
 		}
@@ -254,6 +245,7 @@ class Validate
 		if (strpos($str, '<') !== false)
 		{
 			preg_match('/\<[^\>]+?\>/is', $str, $ms);
+			if ( ! isset($ms[0])) return $retvals;
 			$str = $ms[0];
 		}
 		$str = ' '.$str;
@@ -302,7 +294,6 @@ class Validate
 
 		$suspicious_end_quote = false;
 
-		$qoutes = array();
 		$loop = true;
 		while($loop)
 		{
@@ -364,7 +355,6 @@ class Validate
 		$str = preg_replace("/ *?= */", "=", $str); // remove plural spaces
 		$str = str_replace(array("\n", "\r"), " ", $str); // newline to blank
 		$attrs = array();
-		$strs = explode(' ', $str);
 
 		foreach (explode(' ', $str) as $k => $v)
 		{

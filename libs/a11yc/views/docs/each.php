@@ -64,28 +64,21 @@ if ($lines): ?>
 	<p><a<?php echo A11YC_TARGET_OUT ?> href="<?php echo $yml['criterions'][$criterion]['url'] ?>"><?php echo $yml['criterions'][$criterion]['summary'] ?></a></p>
 <?php endif; ?>
 
-<?php if (isset($doc['url_as'])): ?>
-	<!-- Accessibility Supported -->
-	<<?php echo $level ?>><?php echo A11YC_LANG_AS ?></<?php echo $level ?>>
+<!-- Accessibility Supported and other related things -->
+<?php
+foreach (array('url_as', 'urls') as $key):
+if (isset($doc[$key])):
+?>
+	<<?php echo $level ?>><?php echo $key == 'url_as' ? A11YC_LANG_AS : A11YC_LANG_RELATED ?></<?php echo $level ?>>
 	<ul>
 	<?php
-		foreach ($doc['url_as'] as $v):
+		foreach ($doc[$key] as $v):
 		$v = Util::s($v);
 	?>
 		<li><a<?php echo A11YC_TARGET_OUT ?> href="<?php echo $v['url'] ?>"><?php echo $v['name'] ?></a></li>
 	<?php endforeach; ?>
 	</ul>
-<?php endif; ?>
-
-<?php if (isset($doc['urls'])): ?>
-	<!-- related -->
-	<<?php echo $level ?>><?php echo A11YC_LANG_RELATED ?></<?php echo $level ?>>
-	<ul>
-	<?php
-		foreach ($doc['urls'] as $v):
-		$v = Util::s($v);
-	?>
-		<li><a<?php echo A11YC_TARGET_OUT ?> href="<?php echo $v['url'] ?>"><?php echo $v['name'] ?></a></li>
-	<?php endforeach; ?>
-	</ul>
-<?php endif; ?>
+<?php
+endif;
+endforeach;
+?>

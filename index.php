@@ -12,7 +12,6 @@
 //error_reporting
 //ini_set('error_reporting', E_ALL | ~E_STRICT);
 //error_reporting(0);
-//date_default_timezone_set('Asia/Tokyo');
 
 // a11yc
 namespace A11yc;

@@ -111,14 +111,14 @@ jQuery(function($){
 	$disclosure = $(document).find('.a11yc_disclosure');
 	$disclosure_target = $(document).find('.a11yc_disclosure_target');
 	$.fn.a11yc_disclosure();
-	
+
 	$(document).on('click keydown', '.a11yc_disclosure',  function(e){
 		if(e && e.type==='keydown' && e.keyCode!==13) return;
 		$.fn.a11yc_disclosure_toggle($(this));
 	});
 });
 
-jQuery(function($){	
+jQuery(function($){
 	//in validation error : add link anchor etc.
 	$.fn.a11yc_format_validation_error = function(){
 //	console.log('function:'+'$.fn.a11yc_format_validation_error');
@@ -138,10 +138,10 @@ jQuery(function($){
 			{
 				var icon_labels = [$('#a11yc_checks').data('a11ycLang').expand, $('#a11yc_checks').data('a11ycLang').compress];
 				$expand_icon = $('<a role="button" class="a11yc_expand a11yc_hasicon" tabindex="0"><span role="presentation" aria-hidden="true" class="a11yc_icon_fa a11yc_icon_expand"></span><span class="a11yc_skip">'+icon_labels[0]+'</span></a>');
-	
+
 				$expands = $error_wrapper.add($disclosure);
 				$controller.append($expand_icon.clone());
-	
+
 				$(document).on('click', '.a11yc_expand', function(){
 					var index = $('.a11yc_expand').index(this);
 					$(this).toggleClass('on');
@@ -195,9 +195,9 @@ jQuery(function($){
 				top = 0,
 				left = 0,
 				right = 0;
-	
+
 		$a11yc_tooltip = $('<span id="a11yc_tooltip" aria-hidden="true" role="presentation"></span>').hide().appendTo('body');
-	
+
 		$('.a11yc').on({
 			'mouseenter focus': function(e){
 				if(!$(this).is('a, span, :input, strong')) return;
@@ -206,7 +206,7 @@ jQuery(function($){
 					position = $obj.offset();
 					$a11yc_tooltip.text(title_str).stop(true, true).show();
 					$obj.data('a11ycTitle', title_str).attr('ariaLabel', title_str).removeAttr('title');
-	
+
 					//position
 					$a11yc_tooltip.css('top', position.top-5-$a11yc_tooltip.outerHeight()+'px');
 					$a11yc_tooltip.css('left', position.left-$a11yc_tooltip.outerWidth()/2+'px');
@@ -216,7 +216,7 @@ jQuery(function($){
 					left = left < 0 ? 0 : left;
 					right = $(window).outerWidth()-left-$a11yc_tooltip.outerWidth();
 					left = right < 0 ? left + right : left;
-	
+
 					$a11yc_tooltip.css({'top': top+'px', 'left': left+'px'});
 				}
 				, 0, $(this));
@@ -231,7 +231,7 @@ jQuery(function($){
 	}
 });
 
-// adjust focus position 
+// adjust focus position
 jQuery(function($){
 	if( ! a11yc_env ) return;
 	$('.a11yc').on('focus', 'a, :input', function(e){
@@ -249,9 +249,9 @@ jQuery(function($){
 			else if($t.closest('#a11yc_header')[0]) //hidden in fixed menu
 			{
 				var $t_parent = $t.closest('#a11yc_validation_list, .a11yc_source');
-				if(!$t_parent[0])
-				{
-				}
+//				if(!$t_parent[0])
+//				{
+//				}
 			}
 			else //if(  )//hidden in fixed footer
 			{
@@ -333,7 +333,7 @@ jQuery(function($){
 		$('#a11yc_header').find('.a11yc_hide_if_fixedheader').each(function(){
 			if($(this).hasClass('hide')) return;
 			$(this).removeClass('show').addClass('hide').hide();
-			
+
 			if(!$(this).hasClass('a11yc_disclosure_target')) return;
 			var index = $('.a11yc_disclosure_target').index(this);
 			$('.a11yc_disclosure').eq(index).removeClass('show').addClass('hide');
@@ -380,7 +380,7 @@ jQuery(function($){
 //		a11yc_narrow_level($(e.target), $($(this).parent().data('a11ycNarrowTarget')), e);
 		a11yc_narrow_level($(this), $($(this).parent().data('a11ycNarrowTarget')), e);
 	});
-	
+
 	function a11yc_narrow_level($target, $narrow_target, e){
 		if(!$target) return;
 		var $checks = $narrow_target.find('.a11yc_level_a,.a11yc_level_aa,.a11yc_level_aaa');
@@ -390,10 +390,10 @@ jQuery(function($){
 		var level_arr = $target.data('narrowLevel') ? $target.data('narrowLevel') : [];
 		//ここ、いつかlevel_arrの値の頭にl_がつかないようにして整理したい。むしろl_でいろいろちゃんと動くようにすべきか
 		var $levels = $(level_arr.map(function(el){ return '.a11yc_leve'+el }).join(','));
-		
+
 		$checks.addClass('a11yc_dn');
 		$levels.add(a11yc_env.$additional_criterions).removeClass('a11yc_dn');
-	
+
 		//validation_list only //これ、処理の分け方を考えたほうがよさそう
 		if($narrow_target[0].id==='a11yc_validation_list')
 		{
@@ -544,33 +544,33 @@ if(!$('#a11yc_checks')[0]) return;
 		// toggle check items
 		//ページ読み込み時にチェックの状態を反映
 		a11yc_toggle_item();
-	
+
 		//click checkbox
 		$('.a11yc_table_check input[type="checkbox"]').on('click', function(e){
 		// highlight ただし、今はtrにはa11yc_flashのスタイルがない
 		//		$(this).closest('tr').a11yc_flash();
-	
+
 			// display
 			a11yc_toggle_item(e);
-			
+
 			// count
 			a11yc_count_checkbox();
-	
+
 			// for not used items
 			a11yc_empty_table();
-	
+
 			// adjust position
 			if (a11yc_env.is_hide_passed_item)
 			{
 				$.fn.a11yc_adjust_position($(this))
 			}
-			
+
 			// reflect current login user
 			var select = $(this).closest('tr').find('select');
 			if(String(c_id) !== select.val()) select.val(c_id).a11yc_flash();
 		});
 	}
-	
+
 	/* 未使用。パスしたアイテムを隠すかどうかのチェックボックスがページ内にある場合。
 	// show/hide passed items
 	jQuery(function($){
@@ -581,7 +581,7 @@ if(!$('#a11yc_checks')[0]) return;
 		});
 	});
 	*/
-	
+
 	function a11yc_toggle_item(e){
 //		console.log('function:'+'a11yc_toggle_item');
 		var input = e ? $(e.target) : '',
@@ -639,24 +639,24 @@ if(!$('#a11yc_checks')[0]) return;
 					if(data_pass_arr[k]===this.id) continue; //自分自身は相手にしない？
 					$items = $items.add('#'+data_pass_arr[k]);
 				}
-			}	
+			}
 		});
 		return $items;
 	}
-	
+
 	// fixed header
 	if ($('#a11yc_header')[0])
 	{
 		$(window).on('scroll', a11yc_fixed_header);
 	}
-	
+
 	// resize
 	$(window).on('resize', function(){
 		$.fn.a11yc_get_height ();
 		//本当はresizeの際にpaddingも変化させないといけない
 		//	a11yc_fixed_header();
 	});
-	
+
 	/*
 	//	remove fixed header
 		if($(window).scrollTop() === 0)
@@ -770,4 +770,3 @@ jQuery(function($){
 		}
 	});
 });
-

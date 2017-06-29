@@ -22,7 +22,7 @@
 				<?php endforeach; ?>
 				</select>
 			</p>
-	
+
 			<!-- selection reason -->
 			<p id="a11yc_header_selection_reason" class="">
 				<label for="a11yc_selection_reason"><?php echo A11YC_LANG_CANDIDATES_REASON ?></label>
@@ -52,12 +52,12 @@
 			<td><a href="<?php echo Util::urldec($url) ?>"><?php echo Util::urldec($url) ?></a></td>
 		</tr>
 		</table>
-	
+
 		<?php
 			// validation
 			echo $ajax_validation;
 		?>
-	
+
 		</div><!-- /#a11yc_targetpage_data -->
 		<?php else: ?>
 			<p><label for="a11yc_update_all"><?php echo A11YC_LANG_BULK_UPDATE ?></label>
@@ -66,7 +66,7 @@
 				<option value="2"><?php echo A11YC_LANG_BULK_UPDATE2 ?></option>
 				<option value="3"><?php echo A11YC_LANG_BULK_UPDATE3 ?></option>
 			</select></p>
-	
+
 			<p><label for="a11yc_update_done"><?php echo A11YC_LANG_BULK_DONE ?></label>
 			<select name="update_done" id="a11yc_update_done">
 				<option value="1"><?php echo A11YC_LANG_BULK_DONE1 ?></option>
@@ -75,7 +75,7 @@
 			</select></p>
 		<?php endif; ?>
 		</div><!-- /#a11yc_header_left -->
-	
+
 		<div id="a11yc_header_right" class="a11yc_fr">
 		<!-- narrow level -->
 			<p class="a11yc_narrow_level" data-a11yc-narrow-target=".a11yc_section_principle">Level:
@@ -87,7 +87,7 @@
 			}
 		?>
 			</p>
-	
+
 		<?php if ($url != 'bulk'): ?>
 			<!-- level -->
 			<p id="a11yc_target_level"><?php echo A11YC_LANG_TARGET_LEVEL ?>: <?php echo Util::num2str($target_level) ?>
@@ -238,7 +238,7 @@
 				</th>
 
 				<td class="a11yc_table_check_memo">
-				<?php $memo = isset($cs[$code]['memo']) ? $cs[$code]['memo'] : @$bulk[$code]['memo'] ; ?>
+				<?php $memo = Arr::get($cs, "{$code}.memo", Arr::get($bulk, "{$code}.memo", '')); ?>
 				<textarea name="chk[<?php echo $code ?>][memo]"><?php echo $memo ?></textarea>
 				</td>
 

@@ -36,7 +36,7 @@
 	<li><code>figure</code>などHTML5における<code>img</code>要素の<code>alt</code>省略条件の加味</li>
 	<li><code>aria-*</code>にどこまで対応するか悩む</li>
 	<li>SVGをどうするか考える</li>
-	<li>画像一覧で外部サーバの非SSLの画像を表示すると、SSL出なくなるのをどうするか考える（Camo？）</li>
+	<li>画像一覧で外部サーバの非SSLの画像を表示すると、SSLでなくなるのをどうするか考える（Camo？）</li>
 </ul>
 
 <h2><?php echo A11YC_LANG_POST_FEEDBACK_TITLE ?></h2>

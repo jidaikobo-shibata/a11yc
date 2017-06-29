@@ -106,7 +106,6 @@ class Controller_Disclosure
 		// setup
 		$setup = Controller_Setup::fetch_setup();
 		if ( ! $setup['target_level']) Util::error(A11YC_LANG_ERROR_NON_TARGET_LEVEL);
-		$target_level = intval(@$setup['target_level']);
 		View::assign('setup', $setup);
 		View::assign('is_center', FALSE);
 

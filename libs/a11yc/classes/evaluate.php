@@ -230,7 +230,7 @@ class Evaluate
 			$passed = array_merge($passed, $codes);
 		}
 
-		return static::check_level($passed);
+		return self::check_level($passed);
 	}
 
 	/**
@@ -239,9 +239,9 @@ class Evaluate
 	 * @param   array      $results
 	 * @return  int
 	 */
-	public static function check_level($results)
+	private static function check_level($results)
 	{
-		$levels = static::fetch_levels();
+		$levels = self::fetch_levels();
 		$dones = array();
 		$ngs = array();
 		foreach ($levels as $k => $v)
@@ -259,7 +259,7 @@ class Evaluate
 	 *
 	 * @return  array()
 	 */
-	public static function fetch_levels()
+	private static function fetch_levels()
 	{
 		$yml = Yaml::fetch();
 		// levels
