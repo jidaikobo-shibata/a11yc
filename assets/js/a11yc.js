@@ -233,6 +233,7 @@ jQuery(function($){
 
 // adjust focus position 
 jQuery(function($){
+	if( ! a11yc_env ) return;
 	$('.a11yc').on('focus', 'a, :input', function(e){
 		e.stopPropagation();
 		setTimeout(function(){
@@ -275,6 +276,7 @@ jQuery(function($){
 // links on the same page
 // prepare
 jQuery(function($){
+	if( ! a11yc_env ) return;
 	$(document).on('click', 'a[href^=#]', function(e){
 		var href = $(this).attr("href"),
 				$t = $(href);
