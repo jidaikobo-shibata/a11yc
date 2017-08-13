@@ -72,18 +72,49 @@ class Validate_Link extends Validate
 						$f_inner.= 'doc,docx,xls,xlsx,ppt,pptx';
 					}
 
+					$len = '';
+					$is_exists = null;
+					if (version_compare(PHP_VERSION, '5.4.0') >= 0)
+					{
+						\A11yc\Guzzle::forge($href);
+						$is_exists = \A11yc\Guzzle::instance($href)->is_exists;
+						if ($is_exists)
+						{
+							$tmps = \A11yc\Guzzle::instance($href)->headers;
+							if (isset($tmps['Content-Length'][0]))
+							{
+								$ext = strtoupper(substr($href, strrpos($href, '.') + 1));
+								$len = ' ('.$ext.', '.Util::byte2Str(intval($tmps['Content-Length'][0])).')';
+							}
+						}
+					}
+
+					// better text
 					if (
-						strpos(strtolower($f_inner), $vv) === false || // lacknesss of file type
-						preg_match("/\d/", $f_inner) == false // lacknesss of filesize?
+						// null means lower php version
+						(is_null($is_exists) || $is_exists === true) &&
+						(
+							strpos(strtolower($f_inner), $vv) === false || // lacknesss of file type
+							preg_match("/\d/", $f_inner) == false // lacknesss of filesize?
+						)
 					)
 					{
 						static::$error_ids['tell_user_file_type'][$k]['id'] = $ms[0][$k];
-						static::$error_ids['tell_user_file_type'][$k]['str'] = $href.': '.$inner;
+						static::$error_ids['tell_user_file_type'][$k]['str'] = $href.': '.$inner.$len;
+					}
+
+					// broken link
+					if (is_null($is_exists)) continue;
+					if ($is_exists === false)
+					{
+						static::$error_ids['link_check'][$k]['id'] = $ms[0][$k];
+						static::$error_ids['link_check'][$k]['str'] = $href;
 					}
 				}
 			}
 		}
 		static::add_error_to_html('tell_user_file_type', static::$error_ids, 'ignores');
+		static::add_error_to_html('link_check', static::$error_ids, 'ignores_comment_out');
 	}
 
 	/**
