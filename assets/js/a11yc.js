@@ -424,23 +424,22 @@ jQuery(function($){
 	    total = 0;
 //	console.time('a11yc_count_checkbox');
 	var levels_arr = ['a', 'aa', 'aaa'],
-			level_str = '',
 			count_arr = [[],[],[],[]],
 			current_level = a11yc_env.$current_level.length;
 		$('.a11yc_section_principle').each(function(index){
 			pid = index+1;
 			for(var i=0; i<3; i++)
 			{
-				level_str = levels_arr[i];
 				count = 0;
-				if(level_str.length <= current_level)
+				var n = i;
+				if(levels_arr[n].length <= current_level)
 				{
-					count = $(this).find('.'+level_str).filter(':not(:disabled,:checked)').length;
+					count = $(this).find('.'+levels_arr[n]).filter(':not(:disabled,:checked)').length;
 				}
 				else
 				{
 					a11yc_env.$additional_criterions.each(function(){
-						if($(this).not('.a11yc_p_'+pid+'_criterion.a11yc_level_'+level_str)[0]) return;
+						if($(this).not('.a11yc_p_'+pid+'_criterion.a11yc_level_'+levels_arr[n])[0]) return;
 						if($(this).find(':checkbox').not(':disabled, :checked')[0])
 						{
 							count++;
@@ -454,12 +453,13 @@ jQuery(function($){
 		for(var i=0; i<4; i++)
 		{
 			$row = $('#a11yc_rest_'+(i+1));
+			var n = i;
 			num = 0;
 			subtotal = 0;
 			$row.find('td').each(function(index){
 				if(index < 3)
 				{
-					num = count_arr[i][index];
+					num = count_arr[n][index];
 					$(this).text(num);
 					if( typeof num !=='number') return;
 					subtotal+=num;
@@ -468,7 +468,7 @@ jQuery(function($){
 			//subtotal
 				$(this).text(subtotal);
 				total+=subtotal;
-				a11yc_env.$pagemenu_count.eq(i).text('('+subtotal+')');
+				a11yc_env.$pagemenu_count.eq(n).text('('+subtotal+')');
 			});
 			$('#a11yc_rest_total').text(total);
 		}
