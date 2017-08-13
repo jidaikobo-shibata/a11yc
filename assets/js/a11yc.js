@@ -424,21 +424,23 @@ jQuery(function($){
 	    total = 0;
 //	console.time('a11yc_count_checkbox');
 	var levels_arr = ['a', 'aa', 'aaa'],
+			level_str = '',
 			count_arr = [[],[],[],[]],
 			current_level = a11yc_env.$current_level.length;
 		$('.a11yc_section_principle').each(function(index){
 			pid = index+1;
 			for(var i=0; i<3; i++)
 			{
+				level_str = levels_arr[i];
 				count = 0;
-				if(levels_arr[i].length <= current_level)
+				if(level_str.length <= current_level)
 				{
-					count = $(this).find('.'+levels_arr[i]).filter(':not(:disabled,:checked)').length;
+					count = $(this).find('.'+level_str).filter(':not(:disabled,:checked)').length;
 				}
 				else
 				{
 					a11yc_env.$additional_criterions.each(function(){
-						if($(this).not('.a11yc_p_'+pid+'_criterion.a11yc_level_'+levels_arr[i])[0]) return;
+						if($(this).not('.a11yc_p_'+pid+'_criterion.a11yc_level_'+level_str)[0]) return;
 						if($(this).find(':checkbox').not(':disabled, :checked')[0])
 						{
 							count++;
