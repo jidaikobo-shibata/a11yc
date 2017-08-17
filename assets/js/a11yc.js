@@ -303,6 +303,7 @@ jQuery(function($){
 function a11yc_smooth_scroll(href) {
 //	console.time('a11yc_smooth_scroll');
 	jQuery(function($){
+		if(!$('.a11yc')[0]) return;
 		//If already scrolling, stop scroll and start from that position
 		$(a11yc_env.scrollable_element).stop();
 		var $t = $(href),
