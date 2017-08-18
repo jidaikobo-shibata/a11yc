@@ -187,3 +187,7 @@ errors:
     message: 単独タグを明示する際、"/>"の前には空白を入れましょう
     criterion: 4-1-1
     code: 4-1-1a
+  headerless_section:
+    message: sectionタグはh1-6要素を含めることをおすすめします
+    criterion: 1-3-1
+    code: 1-3-1a

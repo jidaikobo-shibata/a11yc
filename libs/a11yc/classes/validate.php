@@ -35,6 +35,7 @@ class Validate
 			'tell_user_file_type'             => '\A11yc\Validate_Link',
 			'same_urls_should_have_same_text' => '\A11yc\Validate_Link',
 			'form_and_labels'                 => '\A11yc\Validate_Form',
+			'headerless_section'              => '\A11yc\Validate_Validation',
 
 			// single tag
 			'alt_attr_of_img'                 => '\A11yc\Validate_Alt',

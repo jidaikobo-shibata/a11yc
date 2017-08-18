@@ -187,3 +187,7 @@ errors:
     message: When specifying a single tag, put a space before "/>"
     criterion: 4-1-1
     code: 4-1-1a
+  headerless_section:
+    message: section should include h1-6 element
+    criterion: 1-3-1
+    code: 1-3-1a

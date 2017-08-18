@@ -336,4 +336,27 @@ class Validate_Validation extends Validate
 		}
 		static::add_error_to_html('invalid_single_tag_close', static::$error_ids, 'ignores');
 	}
+
+	/**
+	 * headerless section
+	 *
+	 * @return  bool
+	 */
+	public static function headerless_section()
+	{
+		$str = static::ignore_elements(static::$hl_html);
+
+		$secs = preg_split("/\<(section[^\>?]+?)\>(.+?)\<\/section/", $str, -1, PREG_SPLIT_DELIM_CAPTURE);
+		if ( ! $secs[0]) return;
+
+		foreach ($secs as $k => $v)
+		{
+			if ( ! preg_match("/\<h\d/", $v))
+			{
+				static::$error_ids['headerless_section'][$k]['id'] = $v;
+				static::$error_ids['headerless_section'][$k]['str'] = $ms[1][$k];
+			}
+		}
+		static::add_error_to_html('headerless_section', static::$error_ids, 'ignores');
+	}
 }
