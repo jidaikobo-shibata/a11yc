@@ -233,6 +233,7 @@ jQuery(function($){
 
 // adjust focus position
 jQuery(function($){
+	if( ! a11yc_env ) return;
 	$('.a11yc').on('focus', 'a, :input', function(e){
 		e.stopPropagation();
 		setTimeout(function(){
@@ -275,6 +276,7 @@ jQuery(function($){
 // links on the same page
 // prepare
 jQuery(function($){
+	if( ! a11yc_env ) return;
 	$(document).on('click', 'a[href^=#]', function(e){
 		var href = $(this).attr("href"),
 				$t = $(href);
@@ -301,6 +303,7 @@ jQuery(function($){
 function a11yc_smooth_scroll(href) {
 //	console.time('a11yc_smooth_scroll');
 	jQuery(function($){
+		if(!$('.a11yc')[0]) return;
 		//If already scrolling, stop scroll and start from that position
 		$(a11yc_env.scrollable_element).stop();
 		var $t = $(href),
@@ -429,14 +432,15 @@ jQuery(function($){
 			for(var i=0; i<3; i++)
 			{
 				count = 0;
-				if(levels_arr[i].length <= current_level)
+				var n = i;
+				if(levels_arr[n].length <= current_level)
 				{
-					count = $(this).find('.'+levels_arr[i]).filter(':not(:disabled,:checked)').length;
+					count = $(this).find('.'+levels_arr[n]).filter(':not(:disabled,:checked)').length;
 				}
 				else
 				{
 					a11yc_env.$additional_criterions.each(function(){
-						if($(this).not('.a11yc_p_'+pid+'_criterion.a11yc_level_'+levels_arr[i])[0]) return;
+						if($(this).not('.a11yc_p_'+pid+'_criterion.a11yc_level_'+levels_arr[n])[0]) return;
 						if($(this).find(':checkbox').not(':disabled, :checked')[0])
 						{
 							count++;
@@ -450,12 +454,13 @@ jQuery(function($){
 		for(var i=0; i<4; i++)
 		{
 			$row = $('#a11yc_rest_'+(i+1));
+			var n = i;
 			num = 0;
 			subtotal = 0;
 			$row.find('td').each(function(index){
 				if(index < 3)
 				{
-					num = count_arr[i][index];
+					num = count_arr[n][index];
 					$(this).text(num);
 					if( typeof num !=='number') return;
 					subtotal+=num;
@@ -464,7 +469,7 @@ jQuery(function($){
 			//subtotal
 				$(this).text(subtotal);
 				total+=subtotal;
-				a11yc_env.$pagemenu_count.eq(i).text('('+subtotal+')');
+				a11yc_env.$pagemenu_count.eq(n).text('('+subtotal+')');
 			});
 			$('#a11yc_rest_total').text(total);
 		}
