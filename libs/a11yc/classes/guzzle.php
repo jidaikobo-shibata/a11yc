@@ -113,11 +113,11 @@ class Guzzle
 				$response = $client->head($url, $cons);
 			} catch (\GuzzleHttp\Exception\ConnectException $e) {
 				$this->errors[] = 'ConnectException';
-				return false;
+				return null;
 			}
 		} catch (\GuzzleHttp\Exception\RequestException $e) {
 			$this->errors[] = 'RequestException';
-			return false;
+			return null;
 		}
 
 		// set values
@@ -269,7 +269,7 @@ class Guzzle
 			{
 				if ( ! $this->head())
 				{
-					return FALSE;
+					return null;
 				}
 			}
 			// need GET requests.
@@ -277,7 +277,7 @@ class Guzzle
 			{
 				if ( ! $this->get())
 				{
-					return FALSE;
+					return null;
 				}
 			}
 			return $this->$name;

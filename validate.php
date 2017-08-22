@@ -31,7 +31,7 @@ Db::init_table();
 View::forge(A11YC_PATH.'/views/');
 
 // action
-$url = Util::urldec(Input::post('url', ''));
+$url = Util::urldec(Input::post('url', '', FILTER_VALIDATE_URL));
 $link_check = intval(Input::post('link_check', ''));
 if ( ! $url) Util::error('invalid access');
 

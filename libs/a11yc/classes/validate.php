@@ -35,6 +35,7 @@ class Validate
 			'tell_user_file_type'             => '\A11yc\Validate_Link',
 			'same_urls_should_have_same_text' => '\A11yc\Validate_Link',
 			'form_and_labels'                 => '\A11yc\Validate_Form',
+			'headerless_section'              => '\A11yc\Validate_Validation',
 
 			// single tag
 			'alt_attr_of_img'                 => '\A11yc\Validate_Alt',
@@ -48,7 +49,7 @@ class Validate
 			'meanless_element'                => '\A11yc\Validate_Validation',
 			'style_for_structure'             => '\A11yc\Validate_Validation',
 			'invalid_tag'                     => '\A11yc\Validate_Validation',
-			'titleless_frame'                 => '\A11yc\Validate_Validation',
+			'titleless_frame'                 => '\A11yc\Validate_Attr',
 			'check_doctype'                   => '\A11yc\Validate_Head',
 			'meta_refresh'                    => '\A11yc\Validate_Head',
 			'titleless'                       => '\A11yc\Validate_Head',
@@ -60,10 +61,10 @@ class Validate
 
 			// non tag
 			'appropriate_heading_descending'  => '\A11yc\Validate_Validation',
-			'suspicious_attributes'           => '\A11yc\Validate_Validation',
-			'duplicated_ids_and_accesskey'    => '\A11yc\Validate_Validation',
 			'ja_word_breaking_space'          => '\A11yc\Validate_Validation',
-			'must_be_numeric_attr'            => '\A11yc\Validate_Validation',
+			'suspicious_attributes'           => '\A11yc\Validate_Attr',
+			'duplicated_ids_and_accesskey'    => '\A11yc\Validate_Attr',
+			'must_be_numeric_attr'            => '\A11yc\Validate_Attr',
 			'same_page_title_in_same_site'    => '\A11yc\Validate_Head',
 		);
 
@@ -245,6 +246,7 @@ class Validate
 		if (strpos($str, '<') !== false)
 		{
 			preg_match('/\<[^\>]+?\>/is', $str, $ms);
+			if ( ! isset($ms[0])) return $retvals;
 			$str = $ms[0];
 		}
 		$str = ' '.$str;

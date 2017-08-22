@@ -47,7 +47,7 @@ class Db
 		if ( ! static::instance($name))
 		{
 			// instance
-			static::$_instances[$name] = new static($name, $cons);
+			static::$_instances[$name] = new static($cons);
 		}
 	}
 
@@ -56,7 +56,7 @@ class Db
 	 *
 	 * @return  void
 	 */
-	public function __construct($name, $config)
+	public function __construct($config)
 	{
 		$dbtype = strtolower($config['dbtype']);
 		// sqlite
@@ -139,7 +139,7 @@ class Db
 					$retvals[$k]['name'] = $v['Field'];
 
 					//search indexes
-					foreach ( $indexes as $kk => $vv )
+					foreach ($indexes as $vv)
 					{
 						if (
 							strtolower($v['Field']) == strtolower($vv['Column_name']) &&

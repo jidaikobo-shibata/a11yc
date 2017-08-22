@@ -78,12 +78,10 @@ class Controller_Setup
 	 */
 	public static function dbio()
 	{
-		if (Input::post())
+		if (Input::is_post_exists())
 		{
-			$post = Input::post();
-
 			// protect data
-			if (Arr::get($post, 'protect_data'))
+			if (Input::post('protect_data'))
 			{
 				$path = A11YC_DATA_PATH.A11YC_DATA_FILE;
 				$file = A11YC_DATA_PATH.Controller_Disclosure::version2filename(date('Ymd'), $force = TRUE);
@@ -107,24 +105,24 @@ class Controller_Setup
 			}
 
 			// setup
-			$target_level = intval($post['target_level']);
-			$selected_method = intval($post['selected_method']);
-			$checklist_behaviour = intval(Arr::get($post, 'checklist_behaviour'));
-			$standard = intval($post['standard']);
+			$target_level = intval(Input::post('target_level'));
+			$selected_method = intval(Input::post('selected_method'));
+			$checklist_behaviour = intval(Input::post('checklist_behaviour'));
+			$standard = intval(Input::post('standard'));
 
 			// stripslashes
-			$declare_date = stripslashes($post['declare_date']);
-			$test_period = stripslashes($post['test_period']);
-			$dependencies = stripslashes($post['dependencies']);
-			$policy = stripslashes($post['policy']);
-			$report = stripslashes($post['report']);
-			$contact = stripslashes($post['contact']);
+			$declare_date = stripslashes(Input::post('declare_date'));
+			$test_period = stripslashes(Input::post('test_period'));
+			$dependencies = stripslashes(Input::post('dependencies'));
+			$policy = stripslashes(Input::post('policy'));
+			$report = stripslashes(Input::post('report'));
+			$contact = stripslashes(Input::post('contact'));
 
 			// additional_criterions
 			$additional_criterions = array();
-			if (Input::post('additional_criterions'))
+			if (Input::post_arr('additional_criterions'))
 			{
-				foreach ($post['additional_criterions'] as $code => $v)
+				foreach (array_keys(Input::post_arr('additional_criterions')) as $code)
 				{
 					$additional_criterions[] = $code;
 				}
@@ -133,6 +131,7 @@ class Controller_Setup
 			$setup = static::fetch_setup();
 
 			// database io
+			// about unused column `trust_ssl_url` see db.php
 			if (isset($setup['standard']))
 			{
 				// update
@@ -162,9 +161,9 @@ class Controller_Setup
 						$contact,
 						$policy,
 						$report,
-						$post['basic_user'],
-						$post['basic_pass'],
-						$post['trust_ssl_url'],
+						Input::post('basic_user', ''),
+						Input::post('basic_pass', ''),
+						'',
 						serialize($additional_criterions),
 						$checklist_behaviour
 					));
@@ -199,9 +198,9 @@ class Controller_Setup
 						$contact,
 						$policy,
 						$report,
-						$post['basic_user'],
-						$post['basic_pass'],
-						$post['trust_ssl_url'],
+						Input::post('basic_user', ''),
+						Input::post('basic_pass', ''),
+						'',
 						serialize($additional_criterions),
 						$checklist_behaviour
 					));

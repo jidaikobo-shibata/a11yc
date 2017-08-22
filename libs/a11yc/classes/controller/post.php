@@ -103,7 +103,7 @@ class Controller_Post
 	 *
 	 * @return void
 	 */
-	private static function Action_Login()
+	public static function Action_Login()
 	{
 		\A11yc\Controller_Auth::Action_Login();
 		define('A11YC_LANG_POST_TITLE', A11YC_LANG_AUTH_TITLE);
@@ -114,7 +114,7 @@ class Controller_Post
 	 *
 	 * @return void
 	 */
-	private static function Action_Logout()
+	public static function Action_Logout()
 	{
 		\A11yc\Controller_Auth::Action_Logout(static::$url);
 	}
@@ -124,7 +124,7 @@ class Controller_Post
 	 *
 	 * @return void
 	 */
-	private static function Action_Docs()
+	public static function Action_Docs()
 	{
 		Controller_Docs::index(); // $body set
 		define('A11YC_LANG_POST_TITLE', A11YC_LANG_DOCS_TITLE);
@@ -135,7 +135,7 @@ class Controller_Post
 	 *
 	 * @return void
 	 */
-	private static function Action_Doc()
+	public static function Action_Doc()
 	{
 		$code = Input::get('code');
 		$criterion = Input::get('criterion');
@@ -156,7 +156,7 @@ class Controller_Post
 	 *
 	 * @return void
 	 */
-	private static function Action_Readme()
+	public static function Action_Readme()
 	{
 		View::assign('body', View::fetch_tpl('post/readme.php'), false);
 		View::assign('title', A11YC_LANG_POST_README);
@@ -205,11 +205,11 @@ class Controller_Post
 	 *
 	 * @return void
 	 */
-	private static function Action_Validation()
+	public static function Action_Validation()
 	{
 		// vals
 		$ip         = Input::server('REMOTE_ADDR', '');
-		$url        = Input::post('url', '');
+		$url        = Input::post('url', '', FILTER_VALIDATE_URL);
 		$user_agent = Input::post('user_agent', '');
 		$default_ua = Util::s(Input::user_agent());
 		$page_title = '';
@@ -334,7 +334,7 @@ class Controller_Post
 					{
 						foreach ($errs as $key => $err)
 						{
-							$all_errs[]=Controller_Checklist::message($err_code, $err, $key, $err_link);
+							$all_errs[] = Controller_Checklist::message($err_code, $err, $key, $err_link);
 						}
 					}
 				}
@@ -390,7 +390,7 @@ class Controller_Post
 		}
 
 		// error
-		if (Input::post() && ! $target_html)
+		if (Input::is_post_exists() && ! $target_html)
 		{
 			Session::add('messages', 'errors', A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR);
 		}
@@ -438,7 +438,7 @@ class Controller_Post
 		$a = Input::get('a', '');
 		$controller = '\A11yc\Controller_Post';
 		$action = '';
-		$is_index = empty(join(Input::get()));
+		$is_index = empty(Input::server('QUERY_STRING'));
 
 		// top page
 		if ($is_index)

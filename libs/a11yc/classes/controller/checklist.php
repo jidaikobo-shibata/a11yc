@@ -26,8 +26,10 @@ class Controller_Checklist
 			Session::add('messages', 'errors', A11YC_LANG_ERROR_NON_TARGET_LEVEL);
 		}
 
-		$url = Input::get('url') ? Util::urldec(Input::get('url')) : '';
-		$url = empty($url) && Input::post('url') ? Util::urldec(Input::post('url')) : $url;
+		$get_url = Input::get('url', '', FILTER_VALIDATE_URL);
+		$post_url = Input::post('url', '', FILTER_VALIDATE_URL);
+		$url = ! empty($get_url) && is_string($get_url) ? Util::urldec($get_url) : '';
+		$url = empty($url) && ! empty($post_url) && is_string($post_url) ? Util::urldec($post_url) : $url;
 
 		static::checklist($url);
 	}
@@ -99,13 +101,14 @@ class Controller_Checklist
 	{
 		$url = Util::urldec($url);
 
-		if (Input::post())
+		if (Input::is_post_exists())
 		{
 			// NGs
 			$sql = 'DELETE FROM '.A11YC_TABLE_CHECKS_NGS.' WHERE `url` = ?;';
 			Db::execute($sql, array($url));
 
-			foreach (Input::post('ngs') as $criterion => $v)
+			$post_ngs = Input::post_arr('ngs');
+			foreach ($post_ngs as $criterion => $v)
 			{
 				if ( ! trim($v['memo'])) continue;
 				$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS_NGS.' (`url`, `criterion`, `uid`, `memo`)';
@@ -119,7 +122,8 @@ class Controller_Checklist
 			Db::execute($sql, array($url));
 
 			// insert checks
-			foreach (Input::post('chk') as $code => $v)
+			$post_chk = Input::post_arr('chk');
+			foreach ($post_chk as $code => $v)
 			{
 				if ( ! isset($v['on']) && empty($v['memo'])) continue;
 				$passed = isset($v['on']);
@@ -280,6 +284,11 @@ class Controller_Checklist
 		// standards
 		$standards = Yaml::each('standards');
 		$standard = Arr::get($setup, 'standard');
+		if (is_null($standard))
+		{
+			Session::add('messages', 'errors', A11YC_LANG_ERROR_NON_TARGET_LEVEL);
+			return;
+		}
 		$standards = array($standards['standards'][$standard]);
 
 		// done

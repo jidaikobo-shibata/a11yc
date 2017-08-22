@@ -40,6 +40,8 @@ class Util extends \Kontiki\Util
 	 */
 	public static function key2link($text)
 	{
+		if (defined('A11YC_POST_SCRIPT_NAME')) return $text;
+
 		$yml = Yaml::fetch();
 
 		preg_match_all("/\d-\d-\d+?\w/", $text, $ms);
@@ -136,7 +138,7 @@ class Util extends \Kontiki\Util
 	{
 		static $titles = array();
 		if (isset($titles[$url])) return $titles[$url];
-		$url = Util::urldec(Input::get('url'));
+		$url = Util::urldec(Input::post('url', '', FILTER_VALIDATE_URL));
 		$exist = Db::fetch('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;', array($url));
 		if ($exist)
 		{
