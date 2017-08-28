@@ -19,6 +19,8 @@ class Validate_Head extends Validate
 	 */
 	public static function check_doctype()
 	{
+		if (Validate::is_partial() == true) return;
+
 		if ( ! static::get_doctype())
 		{
 			static::$error_ids['check_doctype'][0]['id'] = false;
@@ -34,6 +36,8 @@ class Validate_Head extends Validate
 	 */
 	public static function viewport()
 	{
+		if (Validate::is_partial() == true) return;
+
 		$str = static::ignore_elements(static::$hl_html);
 		$ms = static::get_elements_by_re($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
@@ -56,6 +60,8 @@ class Validate_Head extends Validate
 	 */
 	public static function meta_refresh()
 	{
+		if (Validate::is_partial() == true) return;
+
 		$str = static::ignore_elements(static::$hl_html);
 		$ms = static::get_elements_by_re($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
@@ -91,6 +97,8 @@ class Validate_Head extends Validate
 	 */
 	public static function titleless()
 	{
+		if (Validate::is_partial() == true) return;
+
 		$str = static::ignore_elements(static::$hl_html);
 
 		// to locate first element at the error
@@ -114,6 +122,8 @@ class Validate_Head extends Validate
 	 */
 	public static function langless()
 	{
+		if (Validate::is_partial() == true) return;
+
 		// do not use static::ignore_elements() and static::get_elements_by_re()
 		// in case of "<html>" is in comment out
 		preg_match_all(

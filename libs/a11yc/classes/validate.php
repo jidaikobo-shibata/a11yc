@@ -12,6 +12,8 @@ namespace A11yc;
 
 class Validate
 {
+	protected static $is_partial = false;
+	protected static $do_link_check = false;
 	protected static $error_ids = array();
 	protected static $first_tag = '';
 	protected static $res = array();
@@ -68,6 +70,48 @@ class Validate
 			'must_be_numeric_attr'            => '\A11yc\Validate_Attr',
 			'same_page_title_in_same_site'    => '\A11yc\Validate_Head',
 		);
+
+	/**
+	 * set_do_link_check
+	 *
+	 * @param  bool
+	 * @return  void
+	 */
+	public static function set_do_link_check($bool)
+	{
+		static::$do_link_check = $bool;
+	}
+
+	/**
+	 * do_link_check
+	 *
+	 * @return  bool
+	 */
+	public static function do_link_check()
+	{
+		return static::$do_link_check;
+	}
+
+	/**
+	 * set_is_partial
+	 *
+	 * @param  bool
+	 * @return  void
+	 */
+	public static function set_is_partial($bool)
+	{
+		static::$is_partial = $bool;
+	}
+
+	/**
+	 * is_partial
+	 *
+	 * @return  bool
+	 */
+	public static function is_partial()
+	{
+		return static::$is_partial;
+	}
 
 	/**
 	 * get_errors
