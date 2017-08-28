@@ -346,10 +346,11 @@ class Validate_Validation extends Validate
 	{
 		$str = static::ignore_elements(static::$hl_html);
 
-		$secs = preg_split("/\<(section[^\>?]+?)\>(.+?)\<\/section/", $str, -1, PREG_SPLIT_DELIM_CAPTURE);
+		preg_match_all("/\<section[^\>]*?\>(.+?)\<\/section/is", $str, $secs);
+
 		if ( ! $secs[0]) return;
 
-		foreach ($secs as $k => $v)
+		foreach ($secs[0] as $k => $v)
 		{
 			if ( ! preg_match("/\<h\d/", $v))
 			{
