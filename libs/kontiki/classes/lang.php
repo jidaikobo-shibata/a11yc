@@ -14,8 +14,8 @@ class Lang
 	/**
 	 * get_langs
 	 *
-	 * @param   $dir
-	 * @return  array
+	 * @param  String $dir
+	 * @return Array
 	 */
 	public static function get_langs($dir)
 	{
@@ -29,7 +29,7 @@ class Lang
 	/**
 	 * get_lang
 	 *
-	 * @return  string
+	 * @return String
 	 */
 	public static function get_lang()
 	{

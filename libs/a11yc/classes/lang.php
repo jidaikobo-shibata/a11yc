@@ -9,12 +9,13 @@
  * @link       http://www.jidaikobo.com
  */
 namespace A11yc;
+
 class Lang extends \Kontiki\Lang
 {
 	/**
 	 * get_lang
 	 *
-	 * @return  string
+	 * @return String
 	 */
 	public static function get_lang()
 	{

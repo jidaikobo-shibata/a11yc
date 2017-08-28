@@ -9,6 +9,7 @@
  * @link       http://www.jidaikobo.com
  */
 namespace A11yc;
+
 class Crawl
 {
 	protected static $target_path;
@@ -16,8 +17,8 @@ class Crawl
 	/**
 	 * set_target_path
 	 *
-	 * param string $target_path
-	 * @return  void
+	 * @param  String $target_path
+	 * @return Void
 	 */
 	public static function set_target_path($target_path)
 	{
@@ -27,8 +28,8 @@ class Crawl
 	/**
 	 * is valid scheme
 	 *
-	 * param string $url
-	 * @return  bool
+	 * @param  String $url
+	 * @return Bool
 	 */
 	public static function is_valid_scheme($url)
 	{
@@ -49,8 +50,8 @@ class Crawl
 	/**
 	 * remove_filename
 	 *
-	 * param string $url
-	 * @return  string
+	 * @param  String $url
+	 * @return String
 	 */
 	public static function remove_filename($url)
 	{
@@ -79,8 +80,8 @@ class Crawl
 	/**
 	 * upper_path
 	 *
-	 * param string $str
-	 * @return  string
+	 * @param  String $str
+	 * @return String
 	 */
 	public static function upper_path($str)
 	{
@@ -113,8 +114,8 @@ class Crawl
 	/**
 	 * keep url unique
 	 *
-	 * @param   strings  $str ['http://...', '/', '../', '/..']
-	 * @return  strings
+	 * @param  String $str ['http://...', '/', '../', '/..']
+	 * @return String
 	 */
 	public static function keep_url_unique($str)
 	{
@@ -176,8 +177,8 @@ class Crawl
 	/**
 	 * get_host_from_url
 	 *
-	 * @param   string     $url
-	 * @return  string|bool
+	 * @param  String $url
+	 * @return String|Bool
 	 */
 	public static function get_host_from_url($url)
 	{
@@ -200,8 +201,8 @@ class Crawl
 	/**
 	 * is_same_host
 	 *
-	 * @param   string     $url
-	 * @return  bool
+	 * @param  String $url
+	 * @return Bool
 	 */
 	public static function is_same_host($base_url, $url)
 	{
@@ -215,8 +216,8 @@ class Crawl
 	 * if this function returns false, real url is not exists.
 	 * therefore if this returns sting (url), then target url returned 200.
 	 *
-	 * @param   string     $url
-	 * @return  string|false
+	 * @param  String $url
+	 * @return String
 	 */
 	public static function real_url($url, $depth = 2)
 	{
@@ -232,8 +233,8 @@ class Crawl
 	/**
 	 * is html
 	 *
-	 * @param   string     $url
-	 * @return  bool
+	 * @param  String  $url
+	 * @return Bool
 	 */
 	public static function is_html($url)
 	{
@@ -243,8 +244,8 @@ class Crawl
 	/**
 	 * fetch html
 	 *
-	 * @param   string     $url
-	 * @return  string
+	 * @param  String $url
+	 * @return String
 	 */
 	public static function fetch_html($url)
 	{
@@ -264,8 +265,8 @@ class Crawl
 	/**
 	 * is page exist
 	 *
-	 * @param   string     $url
-	 * @return  bool
+	 * @param  String $url
+	 * @return Bool
 	 */
 	public static function is_page_exist($url)
 	{

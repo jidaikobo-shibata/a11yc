@@ -9,12 +9,13 @@
  * @link       http://www.jidaikobo.com
  */
 namespace A11yc;
+
 class Validate_Alt extends Validate
 {
 	/**
 	 * alt attr of img
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function alt_attr_of_img()
 	{
@@ -61,7 +62,7 @@ class Validate_Alt extends Validate
 	/**
 	 * empty alt attr of img inside a
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function empty_alt_attr_of_img_inside_a()
 	{
@@ -153,7 +154,7 @@ class Validate_Alt extends Validate
 	/**
 	 * same alt and filename of img
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function same_alt_and_filename_of_img()
 	{

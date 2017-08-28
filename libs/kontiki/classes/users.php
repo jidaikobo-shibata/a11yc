@@ -9,6 +9,7 @@
  * @link       http://www.jidaikobo.com
  */
 namespace Kontiki;
+
 class Users
 {
 	protected static $users = array();
@@ -17,8 +18,8 @@ class Users
 	 * set users
 	 * key must be started with 1 (not 0)
 	 *
-	 * @param   array array(1 => array(username, password, display_name, memo))
-	 * @return  void
+	 * @param  Array array(1 => array(username, password, display_name, memo))
+	 * @return Void
 	 */
 	public static function forge($users = array())
 	{
@@ -28,7 +29,7 @@ class Users
 	/**
 	 * fetch_users
 	 *
-	 * @return  array()
+	 * @return Array
 	 */
 	public static function fetch_users()
 	{
@@ -38,7 +39,7 @@ class Users
 	/**
 	 * fetch_current_user
 	 *
-	 * @return  array()
+	 * @return Array
 	 */
 	public static function fetch_current_user()
 	{

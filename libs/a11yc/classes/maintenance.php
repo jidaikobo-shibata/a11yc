@@ -9,6 +9,7 @@
  * @link       http://www.jidaikobo.com
  */
 namespace A11yc;
+
 class Maintenance extends \Kontiki\Maintenance
 {
 	private static $github_api = 'https://api.github.com/repos/jidaikobo-shibata/a11yc';
@@ -16,7 +17,7 @@ class Maintenance extends \Kontiki\Maintenance
 	/**
 	 * leave at least a day
 	 *
-	 * @return  void
+	 * @return Bool
 	 */
 	public static function leave_at_least_a_day ()
 	{
@@ -36,7 +37,7 @@ class Maintenance extends \Kontiki\Maintenance
 	/**
 	 * version check
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function version_check ()
 	{
@@ -69,7 +70,7 @@ class Maintenance extends \Kontiki\Maintenance
 	/**
 	 * compare with stored version
 	 *
-	 * @return  void
+	 * @return Bool
 	 */
 	public static function is_uging_lower ()
 	{
@@ -79,7 +80,7 @@ class Maintenance extends \Kontiki\Maintenance
 	/**
 	 * get stored version
 	 *
-	 * @return  void
+	 * @return String|Bool
 	 */
 	public static function get_stored_version ()
 	{
@@ -104,7 +105,7 @@ class Maintenance extends \Kontiki\Maintenance
 	/**
 	 * self upgrade
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function self_upgrade ()
 	{

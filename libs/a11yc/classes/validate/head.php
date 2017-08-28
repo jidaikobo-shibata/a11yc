@@ -9,12 +9,13 @@
  * @link       http://www.jidaikobo.com
  */
 namespace A11yc;
+
 class Validate_Head extends Validate
 {
 	/**
 	 * check doctype
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function check_doctype()
 	{
@@ -29,7 +30,7 @@ class Validate_Head extends Validate
 	/**
 	 * viewport
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function viewport()
 	{
@@ -51,7 +52,7 @@ class Validate_Head extends Validate
 	/**
 	 * meta_refresh
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function meta_refresh()
 	{
@@ -86,7 +87,7 @@ class Validate_Head extends Validate
 	/**
 	 * titleless
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function titleless()
 	{
@@ -109,7 +110,7 @@ class Validate_Head extends Validate
 	/**
 	 * langless
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function langless()
 	{
@@ -224,7 +225,7 @@ class Validate_Head extends Validate
 	/**
 	 * same page title in same site
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function same_page_title_in_same_site()
 	{

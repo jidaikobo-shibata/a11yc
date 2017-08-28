@@ -9,12 +9,13 @@
  * @link       http://www.jidaikobo.com
  */
 namespace A11yc;
+
 class Controller_Docs
 {
 	/**
 	 * action index
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function Action_Index()
 	{
@@ -24,7 +25,7 @@ class Controller_Docs
 	/**
 	 * action search
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function Action_Search()
 	{
@@ -37,7 +38,7 @@ class Controller_Docs
 	/**
 	 * action each
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function Action_Each()
 	{
@@ -49,9 +50,9 @@ class Controller_Docs
 	/**
 	 * word exists
 	 *
-	 * @param  string $target
-	 * @param  string $word
-	 * @return  string
+	 * @param  String $target
+	 * @param  String $word
+	 * @return Bool
 	 */
 	private static function word_exists($target, $word)
 	{
@@ -71,7 +72,7 @@ class Controller_Docs
 	/**
 	 * Show Techs Index
 	 *
-	 * @return  string
+	 * @return Void
 	 */
 	public static function index()
 	{
@@ -136,7 +137,9 @@ class Controller_Docs
 	/**
 	 * Show each
 	 *
-	 * @return  string
+	 * @param String $criterion
+	 * @param String $code
+	 * @return Void
 	 */
 	public static function each($criterion, $code)
 	{

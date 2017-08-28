@@ -9,6 +9,7 @@
  * @link       http://www.jidaikobo.com
  */
 namespace A11yc;
+
 class Controller_Checklist
 {
 	static public $err_cnts = array('a' => 0, 'aa' => 0, 'aaa' => 0);
@@ -16,7 +17,7 @@ class Controller_Checklist
 	/**
 	 * action index
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function Action_Index()
 	{
@@ -37,8 +38,9 @@ class Controller_Checklist
 	/**
 	 * validate page
 	 *
-	 * @param   string     $url
-	 * @return  array
+	 * @param  String $url
+	 * @param  Bool $link_check
+	 * @return Array
 	 */
 	public static function validate_page($url, $link_check = FALSE)
 	{
@@ -82,8 +84,8 @@ class Controller_Checklist
 	/**
 	 * update_page_level
 	 *
-	 * @param   string     $url
-	 * @return  void
+	 * @param  String $url
+	 * @return Void
 	 */
 	public static function update_page_level($url)
 	{
@@ -94,8 +96,8 @@ class Controller_Checklist
 	/**
 	 * dbio
 	 *
-	 * @param   string     $url
-	 * @return  void
+	 * @param  String $url
+	 * @return Void
 	 */
 	public static function dbio($url)
 	{
@@ -174,7 +176,8 @@ class Controller_Checklist
 	/**
 	 * checklist
 	 *
-	 * @return  string
+	 * @param  String $url
+	 * @return Void
 	 */
 	public static function checklist($url)
 	{
@@ -225,7 +228,7 @@ class Controller_Checklist
 	/**
 	 * get selection reasons
 	 *
-	 * @return  array()
+	 * @return Array
 	 */
 	public static function selection_reasons()
 	{
@@ -245,10 +248,10 @@ class Controller_Checklist
 	 * need to wrap <form> and add a submit button
 	 * this method also used by bulk
 	 *
-	 * @param   string     $url
-	 * @param   array      $users
-	 * @param   integer    $current_user_id
-	 * @return  string
+	 * @param  String $url
+	 * @param  Array $users
+	 * @param  Integer $current_user_id
+	 * @return Void
 	 */
 	public static function form($url, $users = array(), $current_user_id = null)
 	{
@@ -340,10 +343,10 @@ class Controller_Checklist
 	/**
 	 * part of result html
 	 *
-	 * @param   array      $results
-	 * @param   integer    $target_level
-	 * @param   bool       $include
-	 * @return  string
+	 * @param  Array $results
+	 * @param  Integer $target_level
+	 * @param  Bool $include
+	 * @return Void
 	 */
 	public static function part_result($results, $target_level, $include = TRUE)
 	{
@@ -359,7 +362,11 @@ class Controller_Checklist
 	/**
 	 * message
 	 *
-	 * @return  str
+	 * @param String $code_str
+	 * @param Array $place
+	 * @param String $key
+	 * @param String $docpath
+	 * @return String|Bool
 	 */
 	public static function message($code_str, $place, $key, $docpath = '')
 	{

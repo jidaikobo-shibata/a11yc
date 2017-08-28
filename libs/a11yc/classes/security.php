@@ -9,12 +9,13 @@
  * @link       http://www.jidaikobo.com
  */
 namespace A11yc;
+
 class Security extends \Kontiki\Security
 {
 	/**
 	 * deny_http_directories
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function deny_http_directories()
 	{
@@ -46,7 +47,7 @@ class Security extends \Kontiki\Security
 		// faild
 		if ( ! $result)
 		{
-			Session::add('messages', 'error', '.htaccessの設置に失敗しました。'.A11YC_CONFIG_PATH.''.A11YC_CACHE_PATH.''.A11YC_DATA_PATH.'にdeny from allと書いた.htaccessを手動で設置してください。');
+			Session::add('messages', 'error', 'failred to put .htaccess. add .htaccess with "deny from all"'.A11YC_CONFIG_PATH.''.A11YC_CACHE_PATH.''.A11YC_DATA_PATH);
 		}
 	}
 }

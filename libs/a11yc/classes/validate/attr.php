@@ -9,12 +9,13 @@
  * @link       http://www.jidaikobo.com
  */
 namespace A11yc;
+
 class Validate_Attr extends Validate
 {
 	/**
 	 * suspicious attributes
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function suspicious_attributes()
 	{
@@ -48,7 +49,7 @@ class Validate_Attr extends Validate
 	/**
 	 * duplicated ids and accesskey
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function duplicated_ids_and_accesskey()
 	{
@@ -92,7 +93,7 @@ class Validate_Attr extends Validate
 	/**
 	 * titleless_frame
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function titleless_frame()
 	{
@@ -117,7 +118,7 @@ class Validate_Attr extends Validate
 	/**
 	 * numeric attr
 	 *
-	 * @return  bool
+	 * @return Bool
 	 */
 	public static function must_be_numeric_attr()
 	{

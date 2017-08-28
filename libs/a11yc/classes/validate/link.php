@@ -9,6 +9,7 @@
  * @link       http://www.jidaikobo.com
  */
 namespace A11yc;
+
 class Validate_Link extends Validate
 {
 	protected static $target_path;
@@ -17,7 +18,7 @@ class Validate_Link extends Validate
 	 * set_target_path
 	 *
 	 * param string $target_path
-	 * @return  void
+	 * @return Void
 	 */
 	public static function set_target_path($target_path)
 	{
@@ -27,7 +28,7 @@ class Validate_Link extends Validate
 	/**
 	 * tell user file type
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function tell_user_file_type()
 	{
@@ -122,7 +123,7 @@ class Validate_Link extends Validate
 	 * NOTE: some screen readers read anchor's title attribute.
 	 * and user cannot understand that title is exist or not.
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function same_urls_should_have_same_text()
 	{
@@ -196,7 +197,7 @@ class Validate_Link extends Validate
 	/**
 	 * link_check
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function link_check()
 	{

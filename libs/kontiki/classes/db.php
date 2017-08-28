@@ -9,6 +9,7 @@
  * @link       http://www.jidaikobo.com
  */
 namespace Kontiki;
+
 class Db
 {
 	public $dbh;
@@ -19,8 +20,8 @@ class Db
 	/**
 	 * instance
 	 *
-	 * @param   string    $name
-	 * @return  instance
+	 * @param  String $name
+	 * @return Instance
 	 */
 	public static function instance($name = 'default')
 	{
@@ -30,9 +31,9 @@ class Db
 	/**
 	 * Create Db object
 	 *
-	 * @param   string    Identifier for this db
-	 * @param   array     Configuration array
-	 * @return  void
+	 * @param  String $name Identifier for this db
+	 * @param  Array $cons Configuration
+	 * @return Void
 	 */
 	public static function forge($name = 'default', $cons = array())
 	{
@@ -54,7 +55,8 @@ class Db
 	/**
 	 * __construct
 	 *
-	 * @return  void
+	 * @param Array $config
+	 * @return Void
 	 */
 	public function __construct($config)
 	{
@@ -91,11 +93,11 @@ class Db
 		$this->dbh = $dbh;
 	}
 
-	/*
+	/**
 	 * init table
 	 *
-	 * @param   string  $name
-	 * @return  void
+	 * @param  String $name
+	 * @return void
 	 */
 	public static function init_table($name = 'default')
 	{
@@ -104,8 +106,9 @@ class Db
 	/**
 	 * get_fields
 	 *
-	 * @param   string  $table
-	 * @return  array
+	 * @param  String $table
+	 * @param  String $name
+	 * @return Array
 	 */
 	public static function get_fields($table, $name = 'default')
 	{
@@ -183,9 +186,10 @@ class Db
 	/**
 	 * is_fields_exist
 	 *
-	 * @param   string  $table
-	 * @param   array   $fields
-	 * @return  bool
+	 * @param  String $table
+	 * @param  Array $fields
+	 * @param  String $name
+	 * @return Bool
 	 */
 	public static function is_fields_exist($table, $fields = array(), $name = 'default')
 	{
@@ -208,9 +212,9 @@ class Db
 	/**
 	 * escape
 	 *
-	 * @param   string|array $str
-	 * @param   string       $name
-	 * @return  string|array
+	 * @param  String|Array $str
+	 * @param  String $name
+	 * @return String|Array
 	 */
 	public static function escape($str, $name = 'default')
 	{
@@ -224,10 +228,10 @@ class Db
 	/**
 	 * fetch one
 	 *
-	 * @param   string     $sql
-	 * @param   array      $placeholders
-	 * @param   string     $name
-	 * @return  array
+	 * @param  String $sql
+	 * @param  Array $placeholders
+	 * @param  String $name
+	 * @return Array
 	 */
 	public static function fetch
 		(
@@ -247,10 +251,10 @@ class Db
 	/**
 	 * fetch all
 	 *
-	 * @param   string     $sql
-	 * @param   array      $placeholders
-	 * @param   string     $name
-	 * @return  array
+	 * @param  String $sql
+	 * @param  Array $placeholders
+	 * @param  String $name
+	 * @return Array
 	 */
 	public static function fetch_all
 		(
@@ -269,10 +273,10 @@ class Db
 	/**
 	 * execute sql
 	 *
-	 * @param   string     $sql
-	 * @param   array      $placeholders
-	 * @param   string     $name
-	 * @return  void
+	 * @param  String $sql
+	 * @param  Array $placeholders
+	 * @param  String $name
+	 * @return Void
 	 */
 	public static function execute
 		(

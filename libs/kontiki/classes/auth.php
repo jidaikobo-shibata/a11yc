@@ -9,6 +9,7 @@
  * @link       http://www.jidaikobo.com
  */
 namespace Kontiki;
+
 class Auth
 {
 	public static $user_id;
@@ -17,7 +18,8 @@ class Auth
 	 * forge
 	 * start session
 	 *
-	 * @return  void
+	 * @param  String $session_name
+	 * @return Void
 	 */
 	public static function forge($session_name = 'KNTKSESSID')
 	{
@@ -30,7 +32,7 @@ class Auth
 	/**
 	 * auth
 	 *
-	 * @return bool
+	 * @return Bool
 	 */
 	public static function auth ()
 	{
@@ -60,7 +62,7 @@ class Auth
 	/**
 	 * logout
 	 *
-	 * @return void
+	 * @return Void
 	 */
 	public static function logout ()
 	{
@@ -70,8 +72,8 @@ class Auth
 	/**
 	 * hash
 	 *
-	 * @param $str
-	 * @return string
+	 * @param  String $str
+	 * @return String
 	 */
 	public static function hash ($str)
 	{
@@ -81,8 +83,9 @@ class Auth
 	/**
 	 * verify
 	 *
-	 * @param $str
-	 * @return string
+	 * @param  String $password
+	 * @param  String $hash
+	 * @return Bool
 	 */
 	public static function verify ($password, $hash)
 	{

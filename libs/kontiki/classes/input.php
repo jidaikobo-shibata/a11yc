@@ -10,12 +10,14 @@
  * @link       http://www.jidaikobo.com
  */
 namespace Kontiki;
+
 class Input
 {
 	/**
 	 * Return's the referrer
 	 *
-	 * @return  string
+	 * @param  String $default
+	 * @return String
 	 */
 	public static function referrer($default = '')
 	{
@@ -25,7 +27,8 @@ class Input
 	/**
 	 * Return's the user agent
 	 *
-	 * @return  string
+	 * @param  String $default
+	 * @return String
 	 */
 	public static function user_agent($default = '')
 	{
@@ -35,7 +38,7 @@ class Input
 	/**
 	 * Check Post data existence
 	 *
-	 * @return  bool
+	 * @return Bool
 	 */
 	public static function is_post_exists()
 	{
@@ -45,11 +48,11 @@ class Input
 	/**
 	 * Gets the specified GET variable.
 	 *
-	 * @param   string  $index    The index to get
-	 * @param   string  $default  The default value
-	 * @param   string  $filter   default: FILTER_DEFAULT
-	 * @param   string  $options  for filter_input()
-	 * @return  string|array
+	 * @param  String $index The index to get
+	 * @param  String $default The default value
+	 * @param  String $filter default: FILTER_DEFAULT
+	 * @param  String $options for filter_input()
+	 * @return String|Array
 	 */
 	public static function get(
 		$index,
@@ -65,10 +68,10 @@ class Input
 	/**
 	 * Gets the specified Array GET variable.
 	 *
-	 * @param   string  $index    The index to get
-	 * @param   string  $default  The default value
-	 * @param   string  $filter   default: FILTER_DEFAULT
-	 * @return  string|array
+	 * @param  String $index The index to get
+	 * @param  String $default The default value
+	 * @param  String $filter default: FILTER_DEFAULT
+	 * @return String|Array
 	 */
 	public static function get_arr(
 		$index,
@@ -82,11 +85,11 @@ class Input
 	/**
 	 * Gets the specified POST variable.
 	 *
-	 * @param   string  $index    The index to get
-	 * @param   string  $default  The default value
-	 * @param   string  $filter   default: FILTER_DEFAULT
-	 * @param   string  $options  for filter_input()
-	 * @return  string|array
+	 * @param  String $index The index to get
+	 * @param  String $default The default value
+	 * @param  String $filter default: FILTER_DEFAULT
+	 * @param  String  $options  for filter_input()
+	 * @return String|Array
 	 */
 	public static function post(
 		$index,
@@ -102,10 +105,10 @@ class Input
 	/**
 	 * Gets the specified Array POST variable.
 	 *
-	 * @param   string  $index    The index to get
-	 * @param   string  $default  The default value
-	 * @param   string  $filter   default: FILTER_DEFAULT
-	 * @return  string|array
+	 * @param  String $index The index to get
+	 * @param  String $default The default value
+	 * @param  String $filter default: FILTER_DEFAULT
+	 * @return String|Array
 	 */
 	public static function post_arr(
 		$index,
@@ -119,11 +122,11 @@ class Input
 	/**
 	 * Gets the specified COOKIE variable.
 	 *
-	 * @param   string  $index    The index to get
-	 * @param   string  $default  The default value
-	 * @param   string  $filter   default: FILTER_DEFAULT
-	 * @param   string  $options  for filter_input()
-	 * @return  string|array
+	 * @param  String $index The index to get
+	 * @param  String $default The default value
+	 * @param  String $filter default: FILTER_DEFAULT
+	 * @param  String $options for filter_input()
+	 * @return String|Array
 	 */
 	public static function cookie(
 		$index,
@@ -139,11 +142,11 @@ class Input
 	/**
 	 * Gets the specified SERVER variable.
 	 *
-	 * @param   string  $index    The index to get
-	 * @param   string  $default  The default value
-	 * @param   string  $filter   default: FILTER_DEFAULT
-	 * @param   string  $options  for filter_input()
-	 * @return  string|array
+	 * @param  String $index The index to get
+	 * @param  String $default The default value
+	 * @param  String $filter default: FILTER_DEFAULT
+	 * @param  String $options for filter_input()
+	 * @return String|Array
 	 */
 	public static function server(
 		$index,
@@ -163,9 +166,9 @@ class Input
 	/**
 	 * Fetch an item from the FILE array
 	 *
-	 * @param   string  The index key
-	 * @param   mixed   The default value
-	 * @return  string|array
+	 * @param  String $index The index to get
+	 * @param  Mixed $default The default value
+	 * @return String|Array
 	 */
 	public static function file($index, $default = null)
 	{

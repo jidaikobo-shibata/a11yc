@@ -9,6 +9,7 @@
  * @link       http://www.jidaikobo.com
  */
 namespace Kontiki;
+
 class Route
 {
 }

@@ -9,12 +9,13 @@
  * @link       http://www.jidaikobo.com
  */
 namespace A11yc;
+
 class Controller_Disclosure
 {
 	/**
 	 * links
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function assign_links()
 	{
@@ -51,7 +52,7 @@ class Controller_Disclosure
 	/**
 	 * get_versions
 	 *
-	 * @return  array
+	 * @return Array
 	 */
 	public static function get_versions()
 	{
@@ -70,8 +71,9 @@ class Controller_Disclosure
 	/**
 	 * version2filename
 	 *
-	 * @param  string $version
-	 * @return  string
+	 * @param  String $version
+	 * @param  Bool $force
+	 * @return String
 	 */
 	public static function version2filename($version, $force = 0)
 	{
@@ -99,7 +101,7 @@ class Controller_Disclosure
 	/**
 	 * Show Results index
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function index()
 	{
@@ -155,7 +157,8 @@ class Controller_Disclosure
 	/**
 	 * Show report
 	 *
-	 * @return  void
+	 * @param String $url
+	 * @return Void
 	 */
 	public static function report($url = '')
 	{

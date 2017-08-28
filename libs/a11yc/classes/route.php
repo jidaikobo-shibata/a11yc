@@ -9,6 +9,7 @@
  * @link       http://www.jidaikobo.com
  */
 namespace A11yc;
+
 class Route extends \Kontiki\Route
 {
 	protected static $controller;
@@ -17,9 +18,9 @@ class Route extends \Kontiki\Route
 	/**
 	 * forge
 	 *
-	 * @param $controller
-	 * @param $action
-	 * @return  void
+	 * @param  String $controller
+	 * @param  String $action
+	 * @return Void
 	 */
 	public static function forge($controller = '\A11yc\Controller_Center', $action = 'Action_Index')
 	{
@@ -76,7 +77,7 @@ class Route extends \Kontiki\Route
 	/**
 	 * get_controller
 	 *
-	 * @return  string
+	 * @return String
 	 */
 	public static function get_controller()
 	{
@@ -86,7 +87,7 @@ class Route extends \Kontiki\Route
 	/**
 	 * get_action
 	 *
-	 * @return  string
+	 * @return String
 	 */
 	public static function get_action()
 	{
@@ -95,7 +96,7 @@ class Route extends \Kontiki\Route
 	/**
 	 * set_controller
 	 *
-	 * @return void
+	 * @return Void
 	 */
 	public static function set_controller($controller)
 	{
@@ -105,7 +106,8 @@ class Route extends \Kontiki\Route
 	/**
 	 * set_action
 	 *
-	 * @return void
+	 * @param String $action
+	 * @return Void
 	 */
 	public static function set_action($action)
 	{

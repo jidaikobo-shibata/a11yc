@@ -9,12 +9,13 @@
  * @link       http://www.jidaikobo.com
  */
 namespace A11yc;
+
 class Yaml
 {
 	/**
 	 * parse YAML message
 	 *
-	 * @return  array
+	 * @return Array
 	 */
 	public static function fetch()
 	{
@@ -72,7 +73,8 @@ class Yaml
 	/**
 	 * get each
 	 *
-	 * @return  array
+	 * @param  String $file
+	 * @return String
 	 */
 	public static function each($file)
 	{

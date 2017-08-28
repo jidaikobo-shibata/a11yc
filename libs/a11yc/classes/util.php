@@ -9,13 +9,16 @@
  * @link       http://www.jidaikobo.com
  */
 namespace A11yc;
+
 class Util extends \Kontiki\Util
 {
 	/**
 	 * number to 'A' or 'AA' or 'AAA'
 	 * to get conformance level string
 	 *
-	 * @return  string
+	 * @param  Integer $num
+	 * @param  String $default
+	 * @return String
 	 */
 	public static function num2str($num, $default = '-')
 	{
@@ -26,7 +29,8 @@ class Util extends \Kontiki\Util
 	/**
 	 * replace '-' to '.' to convert '1-1-1' to '1.1.1'
 	 *
-	 * @return  string
+	 * @param  String $str
+	 * @return String
 	 */
 	public static function key2code($str)
 	{
@@ -36,7 +40,8 @@ class Util extends \Kontiki\Util
 	/**
 	 * create doc link of '\d-\d-\d\w' in the text
 	 *
-	 * @return  string
+	 * @param  String $text
+	 * @return String
 	 */
 	public static function key2link($text)
 	{
@@ -79,7 +84,8 @@ class Util extends \Kontiki\Util
 	 * get criterion from a11yc code
 	 * '1-3-1a' to '1-3-1'
 	 *
-	 * @return  string
+	 * @param  String $code
+	 * @return String|Bool
 	 */
 	public static function get_criterion_from_code($code)
 	{
@@ -102,8 +108,8 @@ class Util extends \Kontiki\Util
 	 * fetch page title
 	 * do not use DB. because page title is possible to be changed.
 	 *
-	 * @param   string     $url
-	 * @return  string
+	 * @param  String $url
+	 * @return String
 	 */
 	public static function fetch_page_title($url)
 	{
@@ -117,8 +123,8 @@ class Util extends \Kontiki\Util
 	/**
 	 * fetch page title from html
 	 *
-	 * @param   string     $html
-	 * @return  string
+	 * @param  String $html
+	 * @return String
 	 */
 	public static function fetch_page_title_from_html($html)
 	{
@@ -131,8 +137,8 @@ class Util extends \Kontiki\Util
 	/**
 	 * fetch page title from DB
 	 *
-	 * @param   string     $url
-	 * @return  string
+	 * @param  String $url
+	 * @return String
 	 */
 	public static function fetch_page_title_from_db($url)
 	{

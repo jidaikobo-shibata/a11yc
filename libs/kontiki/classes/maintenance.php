@@ -15,7 +15,10 @@ class Maintenance
 	 * sqlite
 	 * Be care for directory traversal
 	 *
-	 * @return  void
+	 * @param  String $path
+	 * @param  String $file
+	 * @param  Bool $is_force
+	 * @return Void
 	 */
 	public static function sqlite ($path, $file, $is_force = FALSE)
 	{
@@ -60,7 +63,9 @@ class Maintenance
 	/**
 	 * mysql
 	 *
-	 * @return  void
+	 * @param  String $path
+	 * @param  Bool $is_force
+	 * @return Void
 	 */
 	public static function mysql ($path, $is_force = FALSE)
 	{
@@ -103,7 +108,8 @@ class Maintenance
 	/**
 	 * garbage_collection
 	 *
-	 * @return  void
+	 * @param  String $path
+	 * @return Void
 	 */
 	private static function garbage_collection ($path)
 	{

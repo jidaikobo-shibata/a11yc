@@ -9,14 +9,15 @@
  * @link       http://www.jidaikobo.com
  */
 namespace Kontiki;
+
 class Util
 {
 	/**
 	 * add autoloader path
 	 *
-	 * @param   string    $path
-	 * @param   string    $namespace
-	 * @return  void
+	 * @param  String $path
+	 * @param  String $namespace
+	 * @return Void
 	 */
 	public static function add_autoloader_path($path, $namespace = '')
 	{
@@ -56,7 +57,7 @@ class Util
 	/**
 	 * get current uri
 	 *
-	 * @return  string
+	 * @return String
 	 */
 	public static function uri()
 	{
@@ -69,9 +70,9 @@ class Util
 	 * add query strings
 	 * this medhod doesn't apply sanitizing
 	 *
-	 * @param   string    $uri
-	 * @param   array     $query_strings array(array('key', 'val'),...)
-	 * @return  string
+	 * @param  String $uri
+	 * @param  Array $query_strings array(array('key', 'val'),...)
+	 * @return String
 	 */
 	public static function add_query_strings($uri, $query_strings = array())
 	{
@@ -88,9 +89,9 @@ class Util
 	/**
 	 * remove query strings
 	 *
-	 * @param   string    $uri
-	 * @param   array     $query_strings array('key',....)
-	 * @return  string
+	 * @param  String $uri
+	 * @param  Array $query_strings array('key',....)
+	 * @return String
 	 */
 	public static function remove_query_strings($uri, $query_strings = array())
 	{
@@ -122,7 +123,7 @@ class Util
 	/**
 	 * is ssl
 	 *
-	 * @return  bool
+	 * @return Bool
 	 */
 	public static function is_ssl()
 	{
@@ -133,8 +134,8 @@ class Util
 	/**
 	 * sanitiz html
 	 *
-	 * @param  string  $str
-	 * @return  mixed
+	 * @param  String $str
+	 * @return Mixed
 	 */
 	public static function s($str)
 	{
@@ -145,10 +146,10 @@ class Util
 	/**
 	 * truncate
 	 *
-	 * @param  string  $str
-	 * @param  integer $len
-	 * @param  string  $lead
-	 * @return  string
+	 * @param  String $str
+	 * @param  Integer $len
+	 * @param  String $lead
+	 * @return String
 	 */
 	public static function truncate($str, $len, $lead = '...')
 	{
@@ -159,8 +160,8 @@ class Util
 	/**
 	 * urlenc
 	 *
-	 * @param   string     $url
-	 * @return  bool
+	 * @param  String $url
+	 * @return Bool
 	 */
 	public static function urlenc($url)
 	{
@@ -184,8 +185,8 @@ class Util
 	/**
 	 * urldec
 	 *
-	 * @param   string     $url
-	 * @return  bool
+	 * @param  String $url
+	 * @return Bool
 	 */
 	public static function urldec($url)
 	{
@@ -201,7 +202,8 @@ class Util
 	/**
 	 * error
 	 *
-	 * @return  void
+	 * @param String $message
+	 * @return Void
 	 */
 	public static function error($message = '')
 	{
@@ -214,10 +216,10 @@ class Util
 
 	/**
 	 * byte2Str
-	 * thx http://qiita.com/git6_com/items/ecaafb1afb42fc207814
 	 *
-	 * @param int
-	 * @return string
+	 * @param  Integer $bytes
+	 * @return String
+	 * @link http://qiita.com/git6_com/items/ecaafb1afb42fc207814
 	 */
 	function byte2Str($bytes)
 	{

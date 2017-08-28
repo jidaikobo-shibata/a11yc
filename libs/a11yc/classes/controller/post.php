@@ -22,6 +22,7 @@ php_value post_max_size "2M"
 
  */
 namespace A11yc;
+
 class Controller_Post
 {
 	private static $url;
@@ -29,7 +30,7 @@ class Controller_Post
 	/**
 	 * forge
 	 *
-	 * @return void
+	 * @return Void
 	 */
 	public static function forge()
 	{
@@ -101,7 +102,7 @@ class Controller_Post
 	/**
 	 * Action_Login
 	 *
-	 * @return void
+	 * @return Void
 	 */
 	public static function Action_Login()
 	{
@@ -112,7 +113,7 @@ class Controller_Post
 	/**
 	 * Action_Logout
 	 *
-	 * @return void
+	 * @return Void
 	 */
 	public static function Action_Logout()
 	{
@@ -122,7 +123,7 @@ class Controller_Post
 	/**
 	 * Action_Docs
 	 *
-	 * @return void
+	 * @return Void
 	 */
 	public static function Action_Docs()
 	{
@@ -133,7 +134,7 @@ class Controller_Post
 	/**
 	 * Action_Doc
 	 *
-	 * @return void
+	 * @return Void
 	 */
 	public static function Action_Doc()
 	{
@@ -154,7 +155,7 @@ class Controller_Post
 	/**
 	 * Action_Readme
 	 *
-	 * @return void
+	 * @return Void
 	 */
 	public static function Action_Readme()
 	{
@@ -166,7 +167,8 @@ class Controller_Post
 	/**
 	 * ip check for guest users
 	 *
-	 * @return void
+	 * @param  String $ip
+	 * @return Void
 	 */
 	private static function ip_check_for_guest_users($ip)
 	{
@@ -203,7 +205,7 @@ class Controller_Post
 	/**
 	 * Action_Validation
 	 *
-	 * @return void
+	 * @return Void
 	 */
 	public static function Action_Validation()
 	{
@@ -413,7 +415,7 @@ class Controller_Post
 	/**
 	 * load language
 	 *
-	 * @return  string
+	 * @return Void
 	 */
 	private static function load_language()
 	{
@@ -430,7 +432,7 @@ class Controller_Post
 	/**
 	 * routing
 	 *
-	 * @return  string
+	 * @return String
 	 */
 	private static function routing()
 	{
@@ -482,7 +484,7 @@ class Controller_Post
 	/**
 	 * init table
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	private static function init_table()
 	{

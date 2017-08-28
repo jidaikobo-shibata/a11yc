@@ -9,6 +9,7 @@
  * @link       http://www.jidaikobo.com
  */
 namespace Kontiki;
+
 class Performance
 {
 	public static $beg_time;
@@ -17,7 +18,7 @@ class Performance
 	/**
 	 * set_time
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function set_time()
 	{
@@ -27,7 +28,7 @@ class Performance
 	/**
 	 * set_memory
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function set_memory()
 	{
@@ -37,7 +38,7 @@ class Performance
 	/**
 	 * calc_time
 	 *
-	 * @return  void
+	 * @return String
 	 */
 	public static function calc_time()
 	{
@@ -47,7 +48,7 @@ class Performance
 	/**
 	 * calc_memory
 	 *
-	 * @return  void
+	 * @return String
 	 */
 	public static function calc_memory()
 	{

@@ -9,12 +9,13 @@
  * @link       http://www.jidaikobo.com
  */
 namespace A11yc;
+
 class Controller_Pages
 {
 	/**
 	 * Show Pages Index
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function Action_Index()
 	{
@@ -29,8 +30,8 @@ class Controller_Pages
 	/**
 	 * fetch page from db
 	 *
-	 * @param   string     $url
-	 * @return  bool|array
+	 * @param  String $url
+	 * @return Bool|Array
 	 */
 	public static function fetch_page($url)
 	{
@@ -41,7 +42,7 @@ class Controller_Pages
 	/**
 	 * dbio
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function dbio()
 	{
@@ -69,7 +70,9 @@ class Controller_Pages
 	/**
 	 * dbio_delete
 	 *
-	 * @return  void
+	 * @param String $url
+	 * @param String $page_title
+	 * @return Void
 	 */
 	private static function dbio_delete($url, $page_title)
 	{
@@ -99,7 +102,9 @@ class Controller_Pages
 	/**
 	 * dbio_undelete
 	 *
-	 * @return  void
+	 * @param String $url
+	 * @param String $page_title
+	 * @return Void
 	 */
 	private static function dbio_undelete($url, $page_title)
 	{
@@ -128,7 +133,9 @@ class Controller_Pages
 	/**
 	 * dbio_purge
 	 *
-	 * @return  void
+	 * @param String $url
+	 * @param String $page_title
+	 * @return Void
 	 */
 	private static function dbio_purge($url, $page_title)
 	{
@@ -157,7 +164,7 @@ class Controller_Pages
 	/**
 	 * dbio_update_pages
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	private static function dbio_update_pages()
 	{
@@ -260,8 +267,8 @@ class Controller_Pages
 	/**
 	 * crawler
 	 *
-	 * param string $url
-	 * @return  array
+	 * @param  String $base_url
+	 * @return Array
 	 */
 	public static function crawler($base_url)
 	{
@@ -365,7 +372,7 @@ class Controller_Pages
 	/**
 	 * get_urls
 	 *
-	 * @return  string
+	 * @return Void
 	 */
 	public static function get_urls()
 	{
@@ -378,7 +385,7 @@ class Controller_Pages
 	/**
 	 * Manage Target Pages
 	 *
-	 * @return  string
+	 * @return Void
 	 */
 	public static function index()
 	{

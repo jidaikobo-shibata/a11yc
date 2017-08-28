@@ -9,12 +9,13 @@
  * @link       http://www.jidaikobo.com
  */
 namespace A11yc;
+
 class Validate_Form extends Validate
 {
 	/**
 	 * form and labels
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function form_and_labels()
 	{

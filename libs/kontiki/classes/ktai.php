@@ -14,7 +14,7 @@ class Ktai
 	/**
 	 * display
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public function encode4mobile()
 	{

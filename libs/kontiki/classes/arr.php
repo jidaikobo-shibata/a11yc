@@ -11,6 +11,7 @@
  * @link       http://www.jidaikobo.com
  */
 namespace Kontiki;
+
 class Arr
 {
 	/**

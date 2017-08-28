@@ -9,6 +9,7 @@
  * @link       http://www.jidaikobo.com
  */
 namespace A11yc;
+
 class Guzzle
 {
 	protected static $_instances = array();
@@ -29,7 +30,7 @@ class Guzzle
 	/**
 	 * _init
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function _init()
 	{
@@ -39,8 +40,8 @@ class Guzzle
 	/**
 	 * instance
 	 *
-	 * @param   string    $url
-	 * @return  instance
+	 * @param  String $url
+	 * @return Instance
 	 */
 	public static function instance($url)
 	{
@@ -50,9 +51,9 @@ class Guzzle
 	/**
 	 * Create Crawler object
 	 *
-	 * @param   string $url  Identifier for this request
-	 * @param   array  $cons configuration
-	 * @return  void
+	 * @param  String $url Identifier for this request
+	 * @param  Array $cons configuration
+	 * @return Void
 	 */
 	public static function forge($url, $cons = array())
 	{
@@ -78,9 +79,9 @@ class Guzzle
 	 * simply try to access and store status code.
 	 * HEAD request is little bit faster than GET request.
 	 *
-	 * @param   string $url  Identifier for this request
-	 * @param   array  $cons configuration
-	 * @return  void
+	 * @param  String $url Identifier for this request
+	 * @param  Array $cons configuration
+	 * @return Void
 	 */
 	public function __construct($url, $cons = array())
 	{
@@ -92,7 +93,7 @@ class Guzzle
 	 * simple HEAD request
 	 * to use broken link check. This method won't return real_url.
 	 *
-	 * @return  bool
+	 * @return Bool
 	 */
 	private function head()
 	{
@@ -132,7 +133,7 @@ class Guzzle
 	 * GET request
 	 * to use fetch complex values such as HTML, real urls.
 	 *
-	 * @return  mixed
+	 * @return Mixed
 	 */
 	private function get()
 	{
@@ -190,8 +191,8 @@ class Guzzle
 	/**
 	 * text encoding
 	 *
-	 * @param   object $response
-	 * @return  void
+	 * @param  String $body
+	 * @return Void
 	 */
 	private function encoding($body)
 	{
@@ -215,8 +216,8 @@ class Guzzle
 	/**
 	 * is html.
 	 *
-	 * @param   object $response
-	 * @return  void
+	 * @param  Object $response
+	 * @return Void
 	 */
 	private function is_html($response)
 	{
@@ -226,9 +227,9 @@ class Guzzle
 	/**
 	 * set config
 	 *
-	 * @param   string $name
-	 * @param   mixed  $value
-	 * @return  void
+	 * @param  String $name
+	 * @param  Mixed  $value
+	 * @return Void
 	 */
 	public function set_config($name, $val)
 	{
@@ -242,7 +243,7 @@ class Guzzle
 	/**
 	 * get config
 	 *
-	 * @return  array
+	 * @return Array
 	 */
 	private function get_config()
 	{
@@ -252,8 +253,8 @@ class Guzzle
 	/**
 	 * Fetch a values
 	 *
-	 * @param   string
-	 * @return  mixed
+	 * @param  String $name
+	 * @return Mixed
 	 */
 	public function __get($name)
 	{

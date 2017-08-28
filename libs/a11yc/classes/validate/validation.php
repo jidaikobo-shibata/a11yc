@@ -9,12 +9,13 @@
  * @link       http://www.jidaikobo.com
  */
 namespace A11yc;
+
 class Validate_Validation extends Validate
 {
 	/**
 	 * appropriate heading descending
 	 *
-	 * @return  bool
+	 * @return Void
 	 */
 	public static function appropriate_heading_descending()
 	{
@@ -163,7 +164,7 @@ class Validate_Validation extends Validate
 	/**
 	 * ja word breaking space
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function ja_word_breaking_space()
 	{
@@ -183,7 +184,7 @@ class Validate_Validation extends Validate
 	/**
 	 * meanless element
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function meanless_element()
 	{
@@ -236,7 +237,7 @@ class Validate_Validation extends Validate
 	/**
 	 * style for structure
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function style_for_structure()
 	{
@@ -263,7 +264,7 @@ class Validate_Validation extends Validate
 	/**
 	 * invalid tag
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function invalid_tag()
 	{

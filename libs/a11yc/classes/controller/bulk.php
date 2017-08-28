@@ -9,12 +9,13 @@
  * @link       http://www.jidaikobo.com
  */
 namespace A11yc;
+
 class Controller_Bulk extends Controller_Checklist
 {
 	/**
 	 * action index
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function Action_Index()
 	{
@@ -29,7 +30,7 @@ class Controller_Bulk extends Controller_Checklist
 	/**
 	 * fetch_results
 	 *
-	 * @return  array
+	 * @return Array
 	 */
 	public static function fetch_results()
 	{
@@ -46,7 +47,7 @@ class Controller_Bulk extends Controller_Checklist
 	/**
 	 * fetch ng
 	 *
-	 * @return  array
+	 * @return Array
 	 */
 	public static function fetch_ngs()
 	{
@@ -63,8 +64,8 @@ class Controller_Bulk extends Controller_Checklist
 	/**
 	 * dbio
 	 *
-	 * @param   string     $url - unused but this is child method
-	 * @return  void
+	 * @param  String $url - unused but this is child method
+	 * @return Void
 	 */
 	public static function dbio($url)
 	{
@@ -84,7 +85,7 @@ class Controller_Bulk extends Controller_Checklist
 	/**
 	 * dbio update default only
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	private static function dbio_default()
 	{
@@ -127,7 +128,7 @@ class Controller_Bulk extends Controller_Checklist
 	/**
 	 * dbio udpate all
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	private static function dbio_all()
 	{

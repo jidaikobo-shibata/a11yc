@@ -10,13 +10,14 @@
  * @thx https://gist.github.com/takahashi-yuki/4667353
  */
 namespace Kontiki;
+
 class Ua
 {
 	/**
 	 * get IE version by numeric
 	 * IE: <=1
 	 * none IE: 0
-	 * @return int
+	 * @return Integer
 	 */
 	public static function get_ie_version()
 	{
@@ -40,7 +41,7 @@ class Ua
 	/**
 	 * get browser type
 	 *
-	 * @return string
+	 * @return String
 	 * @link http://developer.wordpress.org/reference/functions/wp_is_mobile/
 	 */
 	public static function get_browser_type()
@@ -87,7 +88,7 @@ class Ua
 	/**
 	 * is modern browser
 	 *
-	 * @return bool
+	 * @return Bool
 	 */
 	public static function is_modern_browser()
 	{
@@ -97,7 +98,7 @@ class Ua
 	/**
 	 * is legacy browser
 	 *
-	 * @return bool
+	 * @return Bool
 	 */
 	public static function is_legacy_browser()
 	{
@@ -107,7 +108,7 @@ class Ua
 	/**
 	 * is mobile (smart phone or tablet)
 	 *
-	 * @return bool
+	 * @return Bool
 	 */
 	public static function is_mobile()
 	{
@@ -117,7 +118,7 @@ class Ua
 	/**
 	 * is bot
 	 *
-	 * @return bool
+	 * @return Bool
 	 */
 	public static function is_bot()
 	{

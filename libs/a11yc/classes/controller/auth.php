@@ -9,12 +9,13 @@
  * @link       http://www.jidaikobo.com
  */
 namespace A11yc;
+
 class Controller_Auth
 {
 	/**
 	 * Login
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function Action_Login()
 	{
@@ -25,7 +26,8 @@ class Controller_Auth
 	/**
 	 * Logout
 	 *
-	 * @return  void
+	 * @param String $redirect
+	 * @return Void
 	 */
 	public static function Action_Logout($redirect = A11YC_URL)
 	{

@@ -9,6 +9,7 @@
  * @link       http://www.jidaikobo.com
  */
 namespace Kontiki;
+
 class View
 {
 	public static $vals = array();
@@ -17,8 +18,8 @@ class View
 	/**
 	 * set template path
 	 *
-	 * @param   string    path
-	 * @return  void
+	 * @param  String $tpl_path
+	 * @return Void
 	 */
 	public static function forge($tpl_path)
 	{
@@ -30,8 +31,8 @@ class View
 	 * add template path
 	 * added template pathes is stronger than forged template path
 	 *
-	 * @param   string    path
-	 * @return  void
+	 * @param  String $tpl_path
+	 * @return Void
 	 */
 	public static function add_tpl_path($tpl_path)
 	{
@@ -43,7 +44,8 @@ class View
 	 * tpl_path
 	 * specified / fallback template path
 	 *
-	 * @return  string
+	 * @param  String $tpl
+	 * @return String|Bool
 	 */
 	public static function tpl_path($tpl)
 	{
@@ -70,7 +72,8 @@ class View
 	 * fetch
 	 * fetch vals
 	 *
-	 * @return  string
+	 * @return Integer|String $k
+	 * @return String|Bool
 	 */
 	public static function fetch($k)
 	{
@@ -81,7 +84,8 @@ class View
 	 * fetch_tpl
 	 * fetch specified / fallback template
 	 *
-	 * @return  string
+	 * @param  String $tpl
+	 * @return String
 	 */
 	public static function fetch_tpl($tpl)
 	{
@@ -102,7 +106,10 @@ class View
 	/**
 	 * assign
 	 *
-	 * @return  void
+	 * @param  String $key
+	 * @param  String $val
+	 * @param  Bool $escape
+	 * @return Void
 	 */
 	public static function assign($key, $val, $escape = TRUE)
 	{
@@ -112,8 +119,8 @@ class View
 	/**
 	 * display
 	 *
-	 * @param  array $tpls order of templates
-	 * @return  void
+	 * @param  Array $tpls order of templates
+	 * @return Void
 	 */
 	public static function display(array $tpls)
 	{

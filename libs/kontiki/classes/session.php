@@ -9,6 +9,7 @@
  * @link       http://www.jidaikobo.com
  */
 namespace Kontiki;
+
 class Session
 {
 	protected static $values = array();
@@ -16,7 +17,8 @@ class Session
 	/**
 	 * Create Session
 	 *
-	 * @return  void
+	 * @param  String $session_name
+	 * @return void
 	 */
 	public static function forge($session_name = 'KNTKSESSID')
 	{
@@ -50,7 +52,7 @@ class Session
 	/**
 	 * started?
 	 *
-	 * @return bool
+	 * @return Bool
 	 */
 	public static function is_started()
 	{
@@ -69,7 +71,7 @@ class Session
 	/**
 	 * Destroy Session
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function destroy()
 	{
@@ -84,10 +86,10 @@ class Session
 	/**
 	 * add
 	 *
-	 * @param   string    $realm
-	 * @param   string    $key
-	 * @param   mixed     $vals
-	 * @return  void
+	 * @param  String $realm
+	 * @param  String $key
+	 * @param  Mixed $vals
+	 * @return Void
 	 */
 	public static function add($realm, $key, $vals)
 	{
@@ -116,10 +118,10 @@ class Session
 	/**
 	 * remove
 	 *
-	 * @param   string  $realm
-	 * @param   string  $key
-	 * @param   int     $c_key
-	 * @return  void
+	 * @param  String $realm
+	 * @param  String $key
+	 * @param  Integer $c_key
+	 * @return Void
 	 */
 	public static function remove($realm, $key = '', $c_key = '')
 	{
@@ -166,10 +168,10 @@ class Session
 	 * fetch data from SESSION and static value.
 	 * after fetching data will be deleted (default).
 	 *
-	 * @param   string  $realm
-	 * @param   string  $key
-	 * @param   bool    $is_once
-	 * @return  mixed
+	 * @param  String $realm
+	 * @param  String $key
+	 * @param  Bool $is_once
+	 * @return Mixed
 	 */
 	public static function fetch($realm, $key = '', $is_once = 1)
 	{
@@ -208,9 +210,9 @@ class Session
 	/**
 	 * show
 	 *
-	 * @param   string  $realm
-	 * @param   string  $key
-	 * @return  mixed
+	 * @param  String $realm
+	 * @param  String $key
+	 * @return Mixed
 	 */
 	public static function show($realm = '', $key = '')
 	{

@@ -9,6 +9,7 @@
  * @link       http://www.jidaikobo.com
  */
 namespace A11yc;
+
 class Validate
 {
 	protected static $error_ids = array();
@@ -71,7 +72,7 @@ class Validate
 	/**
 	 * get_errors
 	 *
-	 * @return  array
+	 * @return Array
 	 */
 	public static function get_errors()
 	{
@@ -81,7 +82,7 @@ class Validate
 	/**
 	 * get_error_ids
 	 *
-	 * @return  array
+	 * @return Array
 	 */
 	public static function get_error_ids()
 	{
@@ -91,8 +92,8 @@ class Validate
 	/**
 	 * set_html
 	 *
-	 * @param   strings     $str
-	 * @return  void
+	 * @param  String $str
+	 * @return Void
 	 */
 	public static function set_html($str)
 	{
@@ -103,7 +104,7 @@ class Validate
 	/**
 	 * get_html
 	 *
-	 * @return  array
+	 * @return String
 	 */
 	public static function get_html()
 	{
@@ -113,7 +114,7 @@ class Validate
 	/**
 	 * get_hl_html
 	 *
-	 * @return  array
+	 * @return String
 	 */
 	public static function get_hl_html()
 	{
@@ -123,9 +124,9 @@ class Validate
 	/**
 	 * ignore_elements
 	 *
-	 * @param   strings     $str
-	 * @param   bool        $force
-	 * @return  $str
+	 * @param  String $str
+	 * @param  Bool $force
+	 * @return String
 	 */
 	public static function ignore_elements($str, $force = false)
 	{
@@ -150,8 +151,8 @@ class Validate
 	/**
 	 * ignore_comment_out
 	 *
-	 * @param   strings     $str
-	 * @return  $str
+	 * @param  String $str
+	 * @return String
 	 */
 	public static function ignore_comment_out($str)
 	{
@@ -170,8 +171,8 @@ class Validate
 	/**
 	 * is_ignorable
 	 *
-	 * @param   strings $str
-	 * @return  bool
+	 * @param  String $str
+	 * @return Bool
 	 */
 	public static function is_ignorable($str)
 	{
@@ -201,8 +202,8 @@ class Validate
 	/**
 	 * get_attributes
 	 *
-	 * @param   strings $attrs
-	 * @return  array()
+	 * @param  String $str
+	 * @return Array
 	 */
 	public static function get_attributes($str)
 	{
@@ -436,11 +437,11 @@ class Validate
 	/**
 	 * get elements by regular expression
 	 *
-	 * @param   strings $str
-	 * @param   strings $ignore_type
-	 * @param   strings $type (anchors|anchors_and_values|imgs|tags)
-	 * @param   bool    $force
-	 * @return  void
+	 * @param  String $str
+	 * @param  String $ignore_type
+	 * @param  String $type (anchors|anchors_and_values|imgs|tags)
+	 * @param  Bool $force
+	 * @return Array
 	 */
 	public static function get_elements_by_re($str, $ignore_type, $type = 'tags', $force = false)
 	{
@@ -504,7 +505,7 @@ class Validate
 	/**
 	 * get_doctype
 	 *
-	 * @return  mixed
+	 * @return String|Bool
 	 */
 	public static function get_doctype()
 	{
@@ -539,10 +540,10 @@ class Validate
 	/**
 	 * add error to html
 	 *
-	 * @param   strings  $error_id
-	 * @param   array    $errors
-	 * @param   str      $ignore_vals
-	 * @return  void
+	 * @param  String $error_id
+	 * @param  Array $errors
+	 * @param  String $ignore_vals
+	 * @return Void
 	 */
 	public static function add_error_to_html($error_id, $s_errors, $ignore_vals = '')
 	{
@@ -665,10 +666,10 @@ class Validate
 	}
 
 	/**
-	 * add error to html
+	 * revert html
 	 *
-	 * @param   str      $html
-	 * @return  string
+	 * @param  String $html
+	 * @return String
 	 */
 	public static function revert_html($html)
 	{

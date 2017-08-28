@@ -9,13 +9,14 @@
  * @link       http://www.jidaikobo.com
  */
 namespace A11yc;
+
 class Db extends \Kontiki\Db
 {
 	/**
 	 * init table
 	 *
-	 * @param   string $name
-	 * @return  void
+	 * @param  String $name
+	 * @return Void
 	 */
 	public static function init_table($name = 'default')
 	{
@@ -29,8 +30,8 @@ class Db extends \Kontiki\Db
 	/**
 	 * init pages table
 	 *
-	 * @param   string $name
-	 * @return  void
+	 * @param  String $name
+	 * @return Void
 	 */
 	private static function init_pages($name = 'default')
 	{
@@ -62,8 +63,8 @@ class Db extends \Kontiki\Db
 	/**
 	 * init checks table
 	 *
-	 * @param   string $name
-	 * @return  void
+	 * @param  String $name
+	 * @return Void
 	 */
 	private static function init_checks($name = 'default')
 	{
@@ -123,8 +124,8 @@ class Db extends \Kontiki\Db
 	/**
 	 * init bulk table
 	 *
-	 * @param   string $name
-	 * @return  void
+	 * @param  String $name
+	 * @return Void
 	 */
 	private static function init_bulk($name = 'default')
 	{
@@ -158,8 +159,8 @@ class Db extends \Kontiki\Db
 	/**
 	 * init setup table
 	 *
-	 * @param   string $name
-	 * @return  void
+	 * @param  String $name
+	 * @return Void
 	 */
 	private static function init_setup($name = 'default')
 	{

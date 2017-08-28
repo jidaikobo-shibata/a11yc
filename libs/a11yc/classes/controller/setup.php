@@ -9,12 +9,13 @@
  * @link       http://www.jidaikobo.com
  */
 namespace A11yc;
+
 class Controller_Setup
 {
 	/**
 	 * action
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function Action_Index()
 	{
@@ -26,7 +27,7 @@ class Controller_Setup
 	/**
 	 * fetch setup
 	 *
-	 * @return  array
+	 * @return Array
 	 */
 	public static function fetch_setup($force = 0)
 	{
@@ -42,7 +43,7 @@ class Controller_Setup
 	/**
 	 * get selection methods
 	 *
-	 * @return  array()
+	 * @return Array
 	 */
 	public static function selected_methods()
 	{
@@ -58,7 +59,7 @@ class Controller_Setup
 	/**
 	 * get additional criterions
 	 *
-	 * @return  array()
+	 * @return Array
 	 */
 	public static function additional_criterions()
 	{
@@ -74,7 +75,7 @@ class Controller_Setup
 	/**
 	 * dbio
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function dbio()
 	{
@@ -219,7 +220,7 @@ class Controller_Setup
 	/**
 	 * setup form
 	 *
-	 * @return  string
+	 * @return Void
 	 */
 	public static function form()
 	{

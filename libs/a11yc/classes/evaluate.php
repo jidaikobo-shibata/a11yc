@@ -9,13 +9,14 @@
  * @link       http://www.jidaikobo.com
  */
 namespace A11yc;
+
 class Evaluate
 {
 	/**
 	 * fetch results from db
 	 *
-	 * @param   string     $url
-	 * @return  string
+	 * @param  String $url
+	 * @return String
 	 */
 	public static function fetch_results($url)
 	{
@@ -33,8 +34,8 @@ class Evaluate
 	/**
 	 * fetch NG results from db
 	 *
-	 * @param   string     $url
-	 * @return  string
+	 * @param  String $url
+	 * @return String
 	 */
 	public static function fetch_ngs($url)
 	{
@@ -52,8 +53,8 @@ class Evaluate
 	/**
 	 * evaluate url
 	 *
-	 * @param   string  $url
-	 * @return  array   array('1-1-1' => 0, '1-1-2' => 1 or 2 ....)
+	 * @param  String $url
+	 * @return Array array('1-1-1' => 0, '1-1-2' => 1 or 2 ....)
 	 */
 	public static function evaluate_url($url)
 	{
@@ -92,7 +93,7 @@ class Evaluate
 	/**
 	 * evaluate total
 	 *
-	 * @return  array
+	 * @return Array
 	 */
 	public static function evaluate_total()
 	{
@@ -136,8 +137,8 @@ class Evaluate
 	/**
 	 * passed
 	 *
-	 * @param   array     $cs
-	 * @return  array $passed array('1-1-1' => array('1-1-1a', '1-1-b' ....))
+	 * @param  Array $cs
+	 * @return Array $passed array('1-1-1' => array('1-1-1a', '1-1-b' ....))
 	 */
 	private static function passed($cs)
 	{
@@ -163,8 +164,9 @@ class Evaluate
 	 * 1: conformity
 	 * 2: non exist and conformity
 	 *
-	 * @param   string  $url
-	 * @return  array   $results = array('1-1-1' => 0, '1-1-2' => 1 or 2 ....)
+	 * @param  Array $cs
+	 * @param  Array $ngs
+	 * @return Array $results = array('1-1-1' => 0, '1-1-2' => 1 or 2 ....)
 	 */
 	private static function do_evaluate($cs, $ngs)
 	{
@@ -215,8 +217,8 @@ class Evaluate
 	/**
 	 * check level url
 	 *
-	 * @param   array  $url
-	 * @return  int
+	 * @param  String $url
+	 * @return Integer
 	 */
 	public static function check_level_url($url)
 	{
@@ -236,8 +238,8 @@ class Evaluate
 	/**
 	 * check level
 	 *
-	 * @param   array      $results
-	 * @return  int
+	 * @param  Array $results
+	 * @return Integer
 	 */
 	private static function check_level($results)
 	{
@@ -257,7 +259,7 @@ class Evaluate
 	/**
 	 * fetch levels
 	 *
-	 * @return  array()
+	 * @return Array
 	 */
 	private static function fetch_levels()
 	{
@@ -283,10 +285,10 @@ class Evaluate
 	/**
 	 * result string
 	 *
-	 * @param   int      $level
-	 * @param   int      $target_level
-	 * @param   bool     $is_str
-	 * @return  string
+	 * @param  Integer $level
+	 * @param  Integer $target_level
+	 * @param  Bool $is_str
+	 * @return String
 	 */
 	public static function result_str($level, $target_level, $is_str = TRUE)
 	{
@@ -325,8 +327,7 @@ class Evaluate
 	/**
 	 * check site level
 	 *
-	 * @param   string     $target_level
-	 * @return  string
+	 * @return String
 	 */
 	public static function check_site_level()
 	{
@@ -337,7 +338,8 @@ class Evaluate
 	/**
 	 * pages of passed
 	 *
-	 * @return  array
+	 * @param  String $target_level
+	 * @return Array
 	 */
 	public static function passed_pages($target_level)
 	{
@@ -347,7 +349,8 @@ class Evaluate
 	/**
 	 * pages of unpassed
 	 *
-	 * @return  array
+	 * @param  String $target_level
+	 * @return Array
 	 */
 	public static function unpassed_pages($target_level)
 	{

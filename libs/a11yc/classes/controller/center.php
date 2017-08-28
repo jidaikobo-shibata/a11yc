@@ -9,12 +9,13 @@
  * @link       http://www.jidaikobo.com
  */
 namespace A11yc;
+
 class Controller_Center
 {
 	/**
 	 * action
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function Action_Index()
 	{
@@ -24,7 +25,7 @@ class Controller_Center
 	/**
 	 * Show A11y Center Index
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function index()
 	{

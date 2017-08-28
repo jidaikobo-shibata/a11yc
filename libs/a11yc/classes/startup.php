@@ -9,12 +9,13 @@
  * @link       http://www.jidaikobo.com
  */
 namespace A11yc;
+
 class Startup
 {
 	/**
 	 * install
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function install ()
 	{
@@ -38,7 +39,7 @@ class Startup
 	/**
 	 * check_progress
 	 *
-	 * @return  void
+	 * @return Void
 	 */
 	public static function check_progress ()
 	{
