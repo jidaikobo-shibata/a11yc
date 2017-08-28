@@ -11,7 +11,7 @@
 namespace A11yc;
 class Crawl
 {
-	protected static $target_path;
+	protected static $target_path = '';
 
 	/**
 	 * set_target_path
@@ -22,6 +22,16 @@ class Crawl
 	public static function set_target_path($target_path)
 	{
 		static::$target_path = static::remove_filename($target_path, '/');
+	}
+
+	/**
+	 * get_target_path
+	 *
+	 * @return  string
+	 */
+	public static function get_target_path()
+	{
+		return static::$target_path;
 	}
 
 	/**

@@ -11,19 +11,6 @@
 namespace A11yc;
 class Validate_Link extends Validate
 {
-	protected static $target_path;
-
-	/**
-	 * set_target_path
-	 *
-	 * param string $target_path
-	 * @return  void
-	 */
-	public static function set_target_path($target_path)
-	{
-		static::$target_path = Crawl::remove_filename($target_path, '/');
-	}
-
 	/**
 	 * tell user file type
 	 *
@@ -173,7 +160,7 @@ class Validate_Link extends Validate
 	/**
 	 * here link
 	 *
-	 * @return  bool
+	 * @return  void
 	 */
 	public static function here_link()
 	{
@@ -200,6 +187,8 @@ class Validate_Link extends Validate
 	 */
 	public static function link_check()
 	{
+		if (Validate::do_link_check() == false) return;
+
 		$str = static::ignore_elements(static::$hl_html);
 		$ms = static::get_elements_by_re($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
@@ -275,7 +264,7 @@ class Validate_Link extends Validate
 				)
 			)
 			{
-				$target_path = static::$target_path;
+				$target_path = Crawl::get_target_path;
 			}
 
 			// inside of site: HTTP_HOST or relative
