@@ -19,15 +19,15 @@
 	<link href="<?php echo A11YC_ASSETS_URL ?>/css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 
 	<!--Search engine-->
-	<meta name="description" content="ウェブアクセシビリティのチェッカーです。だれでもお使いいただけます。" />
+	<meta name="description" content="<?php echo A11YC_LANG_POST_DESCRIPTION ?>" />
 
 	<!--OGP-->
-	<meta property="og:locale" content="ja_JP" />
+	<meta property="og:locale" content="<?php echo A11YC_LANG == 'ja' ? 'ja_JP' : 'en_US'  ?>" />
 	<meta property="og:title" content="<?php echo $title ?: A11YC_LANG_POST_SERVICE_NAME ?>" />
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="<?php echo s(Util::uri()) ?>" />
 	<meta property="og:site_name" content="<?php echo A11YC_LANG_POST_SERVICE_NAME ?>" />
-	<meta property="og:description" content="ウェブアクセシビリティのチェッカーです。だれでもお使いいただけます。" />
+	<meta property="og:description" content="<?php echo A11YC_LANG_POST_DESCRIPTION ?>" />
 	<meta property="og:image" content="https://a11yc.com/logo.png" />
 
 	<!-- Twitter card -->
@@ -61,15 +61,15 @@ if (A11YC_POST_GOOGLE_ANALYTICS_CODE)
 <?php endif; ?>
 		<li id="social_buttons" class="a11yc_fr">
 			<!--Twitter-->
-			<a href="https://twitter.com/share" class="twitter-share-button">ツイートする</a>
+			<a href="https://twitter.com/share" class="twitter-share-button"><?php echo A11YC_LANG_POST_SOCIAL_TWEET ?></a>
 			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id))
 			{js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";
 			fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 
 			<!--facebook-->
-			<iframe title="facebook いいねボタン" src="//www.facebook.com/plugins/like.php?href=<?php echo urlencode(s(Util::uri())) ?>&amp;width=72&amp;layout=button&amp;action=like&amp;show_faces=false&amp;share=false&amp;height=21&amp;" style="border:none; overflow:hidden; width:72px; height:21px;" id="facebook_like_button"></iframe>
+			<iframe title="<?php echo A11YC_LANG_POST_SOCIAL_FACEBOOK ?>" src="//www.facebook.com/plugins/like.php?href=<?php echo urlencode(s(Util::uri())) ?>&amp;width=72&amp;layout=button&amp;action=like&amp;show_faces=false&amp;share=false&amp;height=21&amp;" style="border:none; overflow:hidden; width:72px; height:21px;" id="facebook_like_button"></iframe>
 			<!--?-->
-			<a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="basic" title="このエントリーをはてなブックマークに追加"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+			<a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="basic" title="<?php echo A11YC_LANG_POST_SOCIAL_HATENA ?>"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="<?php echo A11YC_LANG_POST_SOCIAL_HATENA ?>" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
 		</li>
 		</ul>
 	</nav><!--/#a11yc_menu-->

@@ -10,6 +10,8 @@ define('A11YC_LANG_POST_SERVICE_NAME_ABBR', 'A11yc AVS');
 
 define('A11YC_LANG_POST_INDEX', 'バリデーション');
 
+define('A11YC_LANG_POST_DESCRIPTION', 'ウェブアクセシビリティのチェッカーです。だれでもお使いいただけます。');
+
 define('A11YC_LANG_POST_README', '使い方');
 
 define('A11YC_LANG_POST_HOWTO', '<p>HTMLに対して、機械的にできるアクセシビリティのチェックを行います。<a href="%s">バリデーション</a>の<code>URL</code>に検査対象のURLを入力するか、<code>HTML Source</code>のtextareaにHTMLを貼付して、送信してください。アクセシビリティ上のチェックポイントとその解説文を表示します。</p><p>URLによるチェックの場合は、アクセシビリティのチェックの他に、画像とaltの確認を行うことができます。</p>');
@@ -49,3 +51,7 @@ define('A11YC_LANG_POST_SHOW_LIST_IMAGES', '画像とaltの一覧を表示する
 define('A11YC_LANG_POST_CANT_SHOW_LIST_IMAGES', 'HTMLのソースチェックでは画像とaltの一覧の表示はできません。');
 
 define('A11YC_LANG_POST_BASIC_AUTH_EXP', '対象のページは基本認証で守られています。');
+
+define('A11YC_LANG_POST_SOCIAL_TWEET', 'ツイートする');
+define('A11YC_LANG_POST_SOCIAL_FACEBOOK', 'Facebook いいねボタン');
+define('A11YC_LANG_POST_SOCIAL_HATENA', 'このエントリーをはてなブックマークに追加');

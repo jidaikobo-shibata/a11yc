@@ -10,6 +10,8 @@ define('A11YC_LANG_POST_SERVICE_NAME_ABBR', 'A11yc AVS');
 
 define('A11YC_LANG_POST_INDEX', 'Validation');
 
+define('A11YC_LANG_POST_DESCRIPTION', 'This is a kind of web accessibility checker. anyone can use.');
+
 define('A11YC_LANG_POST_README', 'Read me');
 
 define('A11YC_LANG_POST_HOWTO', '<p>Mechanical accessibility check for the HTML. Please paste your HTML in the textarea of ​​<code>HTML Source</code> or enter target URL to <code>URL</code> in <a href="%s">Validation</a> and send it. Display accessibility checkpoints and their commentary.</p><p>In the case of check by URL, in addition to checking accessibility, you can check images and alt.</p>');
@@ -49,3 +51,7 @@ define('A11YC_LANG_POST_BEHAVIOUR', 'Behaviour');
 define('A11YC_LANG_POST_CANT_SHOW_LIST_IMAGES', 'can not display images and alt lists with HTML source check.');
 
 define('A11YC_LANG_POST_BASIC_AUTH_EXP', 'Could not pass basic authentication');
+
+define('A11YC_LANG_POST_SOCIAL_TWEET', 'Tweet');
+define('A11YC_LANG_POST_SOCIAL_FACEBOOK', 'Facebook Like Button');
+define('A11YC_LANG_POST_SOCIAL_HATENA', 'Add Hatena Bookmark');
