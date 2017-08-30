@@ -24,7 +24,7 @@ class Session
 	{
 		// SESSION disabled
 		$is_session_disabled = false;
-		if (version_compare(phpversion(), '5.4.0', '>='))
+		if (defined('PHP_SESSION_DISABLED') && version_compare(phpversion(), '5.4.0', '>='))
 		{
 			$is_session_disabled = session_status() === PHP_SESSION_DISABLED ? TRUE : FALSE;
 		}
