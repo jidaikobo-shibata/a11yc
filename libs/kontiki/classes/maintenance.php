@@ -113,9 +113,11 @@ class Maintenance
 	 */
 	private static function garbage_collection ($path)
 	{
+		$path = dirname($path);
 		foreach (glob($path.'/'.'*') as $file)
 		{
 			$file = basename($file);
+
 			if (substr($file, 0, 7) == 'backup.')
 			{
 				if (filectime($path.'/'.$file) <= time() - 86400 * 10)
