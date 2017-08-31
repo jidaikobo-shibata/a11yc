@@ -204,7 +204,6 @@ class Validate_Link extends Validate
 
 		// fragments
 		preg_match_all("/ (?:id|name) *?= *?[\"']([^\"']+?)[\"']/i", $str, $fragments);
-		$is_error = false;
 
 		foreach ($ms[0] as $k => $tag)
 		{
@@ -247,7 +246,6 @@ class Validate_Link extends Validate
 				{
 					static::$error_ids['link_check'][$k]['id'] = $tag;
 					static::$error_ids['link_check'][$k]['str'] = 'Fragment Not Found: '.$url;
-					$is_error = true;
 				}
 				continue;
 			}
@@ -325,7 +323,6 @@ class Validate_Link extends Validate
 			{
 				static::$error_ids['link_check'][$k]['id'] = $tag;
 				static::$error_ids['link_check'][$k]['str'] = 'Not Found: '.$tag;
-				$is_error = true;
 				continue;
 			}
 
@@ -338,16 +335,7 @@ class Validate_Link extends Validate
 			// 40x
 			static::$error_ids['link_check'][$k]['id'] = $tag;
 			static::$error_ids['link_check'][$k]['str'] = substr($headers[0], strpos($headers[0], ' ')).': '.$url;
-			$is_error = true;
 		}
 		static::add_error_to_html('link_check', static::$error_ids, 'ignores_comment_out');
-
-		// message
-		if ( ! $is_error)
-		{
-			static::$error_ids['no_broken_link_found'][0]['id'] = '';
-			static::$error_ids['no_broken_link_found'][0]['str'] = A11YC_LANG_NO_BROKEN_LINK_FOUND;
-		}
-		static::add_error_to_html('no_broken_link_found', static::$error_ids, 'ignores_comment_out');
 	}
 }
