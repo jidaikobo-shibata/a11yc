@@ -55,7 +55,7 @@ class Validate_Validation extends Validate
 	/**
 	 * unclosed_elements
 	 *
-	 * @return  bool
+	 * @return Void
 	 */
 	public static function unclosed_elements()
 	{
@@ -76,7 +76,7 @@ class Validate_Validation extends Validate
 	/**
 	 * suspicious_elements
 	 *
-	 * @return  bool
+	 * @return Void
 	 */
 	public static function suspicious_elements()
 	{
@@ -319,7 +319,7 @@ class Validate_Validation extends Validate
 	/**
 	 * invalid single tag close
 	 *
-	 * @return  bool
+	 * @return Void
 	 */
 	public static function invalid_single_tag_close()
 	{
@@ -341,7 +341,7 @@ class Validate_Validation extends Validate
 	/**
 	 * headerless section
 	 *
-	 * @return  bool
+	 * @return Void
 	 */
 	public static function headerless_section()
 	{

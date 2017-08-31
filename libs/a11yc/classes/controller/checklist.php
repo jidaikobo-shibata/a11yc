@@ -52,11 +52,7 @@ class Controller_Checklist
 		$codes = Validate::$codes;
 
 		// link check
-		if ($link_check)
-		{
-			Validate_Link::set_target_path($url);
-		}
-		else
+		if ( ! $link_check)
 		{
 			unset($codes['link_check']);
 		}
