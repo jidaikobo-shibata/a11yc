@@ -265,7 +265,7 @@ class Validate_Link extends Validate
 				)
 			)
 			{
-				$target_path = Crawl::get_target_path;
+				$target_path = Crawl::get_target_path();
 			}
 
 			// inside of site: HTTP_HOST or relative
@@ -281,6 +281,44 @@ class Validate_Link extends Validate
 
 			// get_headers
 			$headers = @get_headers($url);
+
+			// try once more
+			// thx http://www.mogumagu.com/wp/wordpress/archives/1601
+			// thx http://qiita.com/kino0104/items/8a6a6dc2404c27bc43ea
+			if (function_exists('curl_init'))
+			{
+				$ch = curl_init();
+				curl_setopt($ch, CURLOPT_URL, $url);
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+				curl_setopt($ch, CURLOPT_HEADER, true);
+				curl_setopt($ch, CURLOPT_SSLVERSION, 1);
+				curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+				if(curl_exec($ch) === false) echo 'Curl error: ' . curl_error($ch);
+				$info = curl_getinfo($ch);
+				curl_close($ch);
+				if ($info['http_code'])
+				{
+					$headers[0] = ' '.$info['http_code'];
+				}
+
+				// insecure challenge
+				if ( ! $headers)
+				{
+					$ch2 = curl_init();
+					curl_setopt($ch2, CURLOPT_URL, $url);
+					curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
+					curl_setopt($ch2, CURLOPT_HEADER, true);
+					curl_setopt($ch2, CURLOPT_SSLVERSION, 1);
+					curl_setopt($ch2, CURLOPT_SSL_VERIFYPEER, FALSE);
+					if(curl_exec($ch2) === false) echo 'Curl error2: ' . curl_error($ch2);
+					$info = curl_getinfo($ch2);
+					curl_close($ch2);
+					if ($info['http_code'])
+					{
+						$headers[0] = ' '.$info['http_code'];
+					}
+				}
+			}
 
 			// links
 			if ($headers === false)

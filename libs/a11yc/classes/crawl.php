@@ -13,6 +13,7 @@ namespace A11yc;
 class Crawl
 {
 	protected static $target_path = '';
+	protected static $real_urls = array();
 
 	/**
 	 * set_target_path
@@ -231,13 +232,22 @@ class Crawl
 	 */
 	public static function real_url($url, $depth = 2)
 	{
-		static $urls = array();
-		if (isset($urls[$url])) return $urls[$url];
+		if (isset(static::$real_urls[$url])) return static::$real_urls[$url];
 
 		\A11yc\Guzzle::forge($url);
-		$urls[$url] = \A11yc\Guzzle::instance($url)->real_url;
+		$real_url = \A11yc\Guzzle::instance($url)->real_url;
 
-		return $urls[$url];
+		if ($real_url)
+		{
+			static::$real_urls[$url] = $real_url;
+		}
+		// it maybe guzzle's trouble
+		elseif ( ! empty($url))
+		{
+			static::$real_urls[$url] = $url;
+		}
+
+		return isset(static::$real_urls[$url]) ? static::$real_urls[$url] : $url;
 	}
 
 	/**
