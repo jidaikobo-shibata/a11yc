@@ -89,6 +89,7 @@ class Validate
 	 */
 	public static function do_link_check()
 	{
+		if ( ! \A11yc\Guzzle::env_check()) return false;
 		return static::$do_link_check;
 	}
 

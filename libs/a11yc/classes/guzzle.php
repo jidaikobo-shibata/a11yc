@@ -38,6 +38,17 @@ class Guzzle
 	}
 
 	/**
+	 * env_check
+	 *
+	 * @return Bool
+	 */
+	public static function env_check()
+	{
+		if (version_compare(PHP_VERSION, '5.6.0') <= 0) return false;
+		return true;
+	}
+
+	/**
 	 * instance
 	 *
 	 * @param  String $url
