@@ -61,9 +61,13 @@ class Util
 	 */
 	public static function uri()
 	{
-		$uri = static::is_ssl() ? 'https' : 'http';
-		$uri.= '://'.$_SERVER["HTTP_HOST"].rtrim($_SERVER["REQUEST_URI"], '/');
-		return static::s($uri);
+		if (isset($_SERVER["HTTP_HOST"]) && isset($_SERVER["REQUEST_URI"]))
+		{
+			$uri = static::is_ssl() ? 'https' : 'http';
+			$uri.= '://'.$_SERVER["HTTP_HOST"].rtrim($_SERVER["REQUEST_URI"], '/');
+			return static::s($uri);
+		}
+		return '';
 	}
 
 	/**
