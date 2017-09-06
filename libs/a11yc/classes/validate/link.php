@@ -298,24 +298,6 @@ class Validate_Link extends Validate
 				{
 					$headers[0] = ' '.$info['http_code'];
 				}
-
-				// insecure challenge
-				if ( ! $headers)
-				{
-					$ch2 = curl_init();
-					curl_setopt($ch2, CURLOPT_URL, $url);
-					curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
-					curl_setopt($ch2, CURLOPT_HEADER, true);
-					curl_setopt($ch2, CURLOPT_SSLVERSION, 1);
-					curl_setopt($ch2, CURLOPT_SSL_VERIFYPEER, FALSE);
-					if(curl_exec($ch2) === false) echo 'Curl error2: ' . curl_error($ch2);
-					$info = curl_getinfo($ch2);
-					curl_close($ch2);
-					if ($info['http_code'])
-					{
-						$headers[0] = ' '.$info['http_code'];
-					}
-				}
 			}
 
 			// links
