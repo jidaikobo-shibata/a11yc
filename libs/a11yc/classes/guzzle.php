@@ -34,7 +34,10 @@ class Guzzle
 	 */
 	public static function _init()
 	{
-		require (A11YC_LIB_PATH.'/guzzle/vendor/autoload.php');
+		if (static::env_check())
+		{
+			require (A11YC_LIB_PATH.'/guzzle/vendor/autoload.php');
+		}
 	}
 
 	/**
