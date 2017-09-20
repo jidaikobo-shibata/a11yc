@@ -62,7 +62,7 @@ class Validate_Link extends Validate
 
 					$len = '';
 					$is_exists = null;
-					if (version_compare(PHP_VERSION, '5.4.0') >= 0)
+					if (\A11yc\Guzzle::env_check())
 					{
 						\A11yc\Guzzle::forge($href);
 						$is_exists = \A11yc\Guzzle::instance($href)->is_exists;
@@ -266,7 +266,7 @@ class Validate_Link extends Validate
 				$target_path = Crawl::get_target_path();
 			}
 
-			// inside of site: HTTP_HOST or relative
+			// inside of site: HTTP_HOST or relative using Guzzle
 			if ($target_path || strpos($url, Input::server('HTTP_HOST')) !== false)
 			{
 				Crawl::set_target_path($target_path ?: $url);
