@@ -572,8 +572,8 @@ class Validate
 		{
 			$doctype = 'html4';
 		}
-		// xhtml1
-		else if(strpos($ms[0], 'DTD XHTML 1.0 ') !== false)
+		// xhtml1x
+		else if(strpos($ms[0], 'DTD XHTML 1') !== false)
 		{
 			$doctype = 'xhtml1';
 		}
