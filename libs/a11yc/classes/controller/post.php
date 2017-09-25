@@ -267,7 +267,11 @@ class Controller_Post
 					break;
 			}
 			$default_ua = $ua;
-			Guzzle::instance($url)->set_config('User-Agent', $ua);
+			// thx https://twitter.com/tadsan/status/910431111120961536
+			Guzzle::instance($url)->set_config(
+				'User-Agent',
+				$ua.' Service/a11yc (+http://www.jidaikobo.com)'
+			);
 
 			// html
 			$target_html = Guzzle::instance($url)->is_html ? Guzzle::instance($url)->body : false;
