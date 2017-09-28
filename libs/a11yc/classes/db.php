@@ -192,6 +192,12 @@ class Db extends \Kontiki\Db
 				static::execute($sql, array(), $name);
 			}
 
+			if ( ! static::is_fields_exist(A11YC_TABLE_SETUP, array('stop_guzzle'), $name))
+			{
+				$sql = 'ALTER TABLE '.A11YC_TABLE_SETUP.' ADD `stop_guzzle` INTEGER NOT NULL DEFAULT \'\';';
+				static::execute($sql, array(), $name);
+			}
+
 		}
 	}
 }

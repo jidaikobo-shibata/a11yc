@@ -109,6 +109,7 @@ class Controller_Setup
 			$target_level = intval(Input::post('target_level'));
 			$selected_method = intval(Input::post('selected_method'));
 			$checklist_behaviour = intval(Input::post('checklist_behaviour'));
+			$stop_guzzle = intval(Input::post('stop_guzzle'));
 			$standard = intval(Input::post('standard'));
 
 			// stripslashes
@@ -151,7 +152,8 @@ class Controller_Setup
 				$sql.= '`basic_pass` = ?,';
 				$sql.= '`trust_ssl_url` = ?,';
 				$sql.= '`additional_criterions` = ?,';
-				$sql.= '`checklist_behaviour` = ?;';
+				$sql.= '`checklist_behaviour` = ?,';
+				$sql.= '`stop_guzzle` = ?;';
 				$r = Db::execute($sql, array(
 						$target_level,
 						$standard,
@@ -166,7 +168,8 @@ class Controller_Setup
 						Input::post('basic_pass', ''),
 						'',
 						serialize($additional_criterions),
-						$checklist_behaviour
+						$checklist_behaviour,
+						$stop_guzzle
 					));
 			}
 			else
@@ -187,8 +190,9 @@ class Controller_Setup
 				$sql.= '`basic_pass`, ';
 				$sql.= '`trust_ssl_url`, ';
 				$sql.= '`additional_criterions`, ';
-				$sql.= '`checklist_behaviour`)';
-				$sql.= ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+				$sql.= '`checklist_behaviour`,';
+				$sql.= '`stop_guzzle`)';
+				$sql.= ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
 				$r = Db::execute($sql, array(
 						$target_level,
 						$standard,
@@ -203,7 +207,8 @@ class Controller_Setup
 						Input::post('basic_pass', ''),
 						'',
 						serialize($additional_criterions),
-						$checklist_behaviour
+						$checklist_behaviour,
+						$stop_guzzle
 					));
 			}
 			if ($r)

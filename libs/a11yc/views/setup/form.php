@@ -122,10 +122,19 @@
 
 	</tbody>
 </table>
+
 <h2><?php echo A11YC_LANG_SETUP_TITLE_ETC ?></h2>
 
 <table class="a11yc_table">
 	<tbody>
+	<tr>
+		<th><?php echo A11YC_LANG_SETUP_IS_USE_GUZZLE ?></th>
+		<?php
+			$checked = isset($setup['stop_guzzle']) && $setup['stop_guzzle'] ? ' checked="checked"' : '';
+		?>
+		<td><label for="a11yc_stop_guzzle"><input type="checkbox" name="stop_guzzle" id="a11yc_stop_guzzle" value="1"<?php echo $checked ?> /><?php echo A11YC_LANG_SETUP_IS_USE_GUZZLE ?></label><br /><p><?php echo A11YC_LANG_SETUP_IS_USE_GUZZLE_EXP ?></p></td>
+	</tr>
+
 	<tr>
 		<th><?php echo A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR ?></th>
 		<?php

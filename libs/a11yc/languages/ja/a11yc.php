@@ -113,6 +113,8 @@ define('A11YC_LANG_SETUP_BASIC_AUTH_TITLE', '基本認証');
 define('A11YC_LANG_SETUP_BASIC_AUTH_EXP', '試験対象のサイトが基本認証で守られている場合、ここに基本認証用のユーザ名とパスワードを入力してください。');
 define('A11YC_LANG_SETUP_BASIC_AUTH_USER', '基本認証ユーザ名');
 define('A11YC_LANG_SETUP_BASIC_AUTH_PASS', '基本認証パスワード');
+define('A11YC_LANG_SETUP_IS_USE_GUZZLE', 'Guzzleを停止');
+define('A11YC_LANG_SETUP_IS_USE_GUZZLE_EXP', 'なんらかの理由でGuzzleが競合する場合、Guzzleを停止してください。Guzzleを停止しても、更新された投稿のアクセシビリティチェックは行えますが、報告書作成等の機能が失われます。できれば、原因を取り除いてください。');
 
 define('A11YC_LANG_DECLARE_DATE', '表明日');
 define('A11YC_LANG_STANDARD', '規格の種類');

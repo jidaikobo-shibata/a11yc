@@ -34,7 +34,7 @@ class Guzzle
 	 */
 	public static function _init()
 	{
-		if (static::env_check())
+		if (static::env_check() && ! class_exists('GuzzleHttp'))
 		{
 			require (A11YC_LIB_PATH.'/guzzle/vendor/autoload.php');
 		}
@@ -47,6 +47,8 @@ class Guzzle
 	 */
 	public static function env_check()
 	{
+		$setup = Controller_Setup::fetch_setup();
+		if (Arr::get($setup, 'stop_guzzle')) return false;
 		if (version_compare(PHP_VERSION, '5.6.0') <= 0) return false;
 		return true;
 	}
