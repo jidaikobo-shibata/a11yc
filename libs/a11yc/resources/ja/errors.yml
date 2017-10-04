@@ -28,7 +28,7 @@ errors:
     criterion: 1-1-1
     code: 1-1-1c
   here_link:
-    message: 「こちら」をリンクにしないでください
+    message: 「こちら」のような文字列をリンクにしないでください
     criterion: 2-4-4
     code: 2-4-4a
   too_much_opens:
@@ -144,7 +144,7 @@ errors:
     criterion: 1-3-1
     code: 1-3-1a
   not_label_but_title:
-    message: input/textarea/select要素を使う時には、labelを使いましょう。labelがない場合は空あるいは空文字でないtitle属性を使ってください
+    message: input/textarea/select要素を使う時には、labelを使いましょう。labelが使えない場合は、title属性を使ってください
     criterion: 1-3-1
     code: 1-3-1a
   lackness_of_form_ends:

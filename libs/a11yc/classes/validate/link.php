@@ -169,13 +169,14 @@ class Validate_Link extends Validate
 		$ms = static::get_elements_by_re($str, 'ignores', 'anchors_and_values');
 		if ( ! $ms[2]) return;
 
+		$heres = array_map('trim', explode(',', A11YC_LANG_HERE));
 		foreach ($ms[2] as $k => $m)
 		{
 			$m = trim($m);
-			if ($m == A11YC_LANG_HERE)
+			if (in_array(strtolower($m), $heres))
 			{
 				static::$error_ids['here_link'][$k]['id'] = $ms[0][$k];
-				static::$error_ids['here_link'][$k]['str'] = @$ms[1][$k];
+				static::$error_ids['here_link'][$k]['str'] = esc_html($ms[0][$k]);
 			}
 		}
 		static::add_error_to_html('here_link', static::$error_ids, 'ignores');

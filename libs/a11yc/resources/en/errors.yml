@@ -28,7 +28,7 @@ errors:
     criterion: 1-1-1
     code: 1-1-1c
   here_link:
-    message: Do not link "here" as a link
+    message: Do not link something like "here" as a link
     criterion: 2-4-4
     code: 2-4-4a
   too_much_opens:

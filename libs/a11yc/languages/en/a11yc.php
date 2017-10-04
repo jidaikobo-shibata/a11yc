@@ -14,7 +14,7 @@ define('A11YC_LANG_EXIST', 'Present');
 define('A11YC_LANG_EXIST_NON', 'Not Present');
 define('A11YC_LANG_PASS', 'Conformance ');
 define('A11YC_LANG_CRITERION', 'Criterion');
-define('A11YC_LANG_HERE', 'here');
+define('A11YC_LANG_HERE', 'here, click here, click');
 define('A11YC_LANG_TEST_RESULT', 'Test result');
 define('A11YC_LANG_CURRENT_LEVEL', 'Current Level');
 define('A11YC_LANG_CURRENT_LEVEL_WEBPAGES', 'Level that has been achieved at the site');
