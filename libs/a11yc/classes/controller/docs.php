@@ -56,7 +56,8 @@ class Controller_Docs
 	 */
 	private static function word_exists($target, $word)
 	{
-		$words = explode(' ', $word);
+		$words = explode(' ', strtolower($word));
+		$target = strtolower($target);
 
 		$found = true;
 		foreach ($words as $each_word)
@@ -66,6 +67,7 @@ class Controller_Docs
 				$found = false;
 			}
 		}
+
 		return $found;
 	}
 

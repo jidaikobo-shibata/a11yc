@@ -1987,7 +1987,8 @@ checks:
       level: *lv1
       name: There is no error in HTML syntax check
       tech: |
-        There should be no error in markup describing web content. In Understanding WCAG 2.0, well formed is not sought but valid. For example, elements that can exist alone as HTML are not erroneous, but if well formed in xml languages, we do not allow such elements that exist alone.
+        There should be no error in markup describing web content.
+        In addition to analyzing this accessibility checker, you can also use <a href="https://validator.w3.org">Markup Validation Service</a>.
 
   4-1-2:
     4-1-2a:

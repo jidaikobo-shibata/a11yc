@@ -2159,9 +2159,10 @@ checks:
         4-1-1:
           - 4-1-1a
       level: *lv1
-      name: HTMLの構文チェックでエラーがない
+      name: 文法に則った妥当なマークアップをしている
       tech: |
-        ウェブコンテンツを記述するマークアップに誤りがないこと。Understanding WCAG2.0では、well formedは求めず、validを求めている。たとえばHTMLとしては単独で存在できる要素は誤りでないが、xml系言語でwell formedというと、こういった単独で存在する要素を認めていないため。
+        ウェブコンテンツを記述するマークアップ（HTML）に誤りがないこと。
+        このアクセシビリティチェッカーの解析以外にも<a href="https://validator.w3.org">Markup Validation Service</a>などを活用すると良い。
 
   4-1-2:
     4-1-2a:

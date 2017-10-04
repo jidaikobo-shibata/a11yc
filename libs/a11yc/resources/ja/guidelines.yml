@@ -90,7 +90,7 @@ guidelines:
   4-1: &g4-1
     code: 4-1
     name: 互換性
-    principle: *p3
+    principle: *p4
     url: http://waic.jp/docs/UNDERSTANDING-WCAG20/ensure-compat.html
     summary: |
       現在及び将来の、支援技術を含むユーザエージェントとの互換性を最大化すること。
