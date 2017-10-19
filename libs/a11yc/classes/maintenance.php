@@ -21,50 +21,26 @@ class Maintenance extends \Kontiki\Maintenance
 	 */
 	public static function leave_at_least_a_day ()
 	{
-		// run once in a day
-		$checked_file = A11YC_CACHE_PATH.'/checked';
-		$cachetime = file_exists($checked_file) ? filemtime($checked_file) : 0;
-		if ($cachetime >= time() - 86400)
+		// old version
+		if (file_exists(A11YC_CACHE_PATH))
+		{
+			unlink(A11YC_CACHE_PATH);
+		}
+
+		// check
+		$sql = 'SELECT `last_checked` FROM '.A11YC_TABLE_MAINTENANCE.';';
+		$ret = Db::fetch($sql);
+		if ( ! $ret)
+		{
+			$sql = 'UPDATE '.A11YC_TABLE_MAINTENANCE.' set `last_checked` = '.date('Y-m-d').';';
+			Db::execute($sql);
+			return true;
+		}
+		elseif (isset($ret['last_checked']) && strtotime($ret['last_checked']) >= time() - 86400)
 		{
 			return false;
 		}
-
-		// update check date flag
-		touch($checked_file);
 		return true;
-	}
-
-	/**
-	 * version check
-	 *
-	 * @return Void
-	 */
-	public static function version_check ()
-	{
-		// version notice file
-		$version_notice_file = A11YC_CACHE_PATH.'/version_notice';
-
-		// ask Github API and update stored version
-		ini_set('user_agent', 'file_get_contents');
-		$tags = json_decode(
-			file_get_contents(static::$github_api.'/tags'),
-			true);
-		$max = $tags[max(array_keys($tags))];
-
-		// is lower?
-		if (version_compare(A11YC_VERSION, $max['name']) == -1)
-		{
-			if ( ! preg_match('/[\n\.]+/', $max['name']))
-			{
-				Util::error('Not Found.');
-			}
-			file_put_contents($version_notice_file, $max['name']);
-			return;
-		}
-
-		// using up to date version
-		file_exists($version_notice_file) and unlink($version_notice_file);
-		return;
 	}
 
 	/**
@@ -74,32 +50,26 @@ class Maintenance extends \Kontiki\Maintenance
 	 */
 	public static function is_uging_lower ()
 	{
-		return static::get_stored_version() ? true : false;
-	}
-
-	/**
-	 * get stored version
-	 *
-	 * @return String|Bool
-	 */
-	public static function get_stored_version ()
-	{
-		static $stored_version = '';
-		if (empty($stored_version) === false) return $stored_version;
-
-		$version_notice_file = A11YC_CACHE_PATH.'/version_notice';
-		if (file_exists($version_notice_file))
+		$sql = 'SELECT `version` FROM '.A11YC_TABLE_MAINTENANCE.';';
+		$ret = Db::fetch($sql);
+		if ( ! $ret)
 		{
-			$stored_version = file_get_contents($version_notice_file);
-			// using lower version
-			if (version_compare(A11YC_VERSION, $stored_version) == -1)
-			{
-				return $stored_version;
-			}
+			$sql = 'UPDATE '.A11YC_TABLE_MAINTENANCE.' set `version` = '.A11YC_VERSION.';';
+			Db::execute($sql);
+			$ret = array();
+			$ret['version'] = A11YC_VERSION;
 		}
 
-		// non existence of file means using newer version
-		return false;
+		// ask Github API and update stored version
+		ini_set('user_agent', 'file_get_contents');
+		$tags = json_decode(
+			file_get_contents(static::$github_api.'/tags'),
+			true
+		);
+		$max = $tags[max(array_keys($tags))];
+
+		// lower: return true
+		return version_compare(A11YC_VERSION, $ret['version']) == -1;
 	}
 
 	/**

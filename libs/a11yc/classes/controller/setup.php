@@ -12,6 +12,8 @@ namespace A11yc;
 
 class Controller_Setup
 {
+	protected static $version = null;
+
 	/**
 	 * action
 	 *
@@ -25,6 +27,59 @@ class Controller_Setup
 	}
 
 	/**
+	 * version_sql
+	 *
+	 * @param bool $is_and
+	 * @return string
+	 */
+	public static function version_sql($is_and = true)
+	{
+		$version = static::get_version();
+		$sql = ' `version` = "'.$version.'"';
+		return $is_and ? ' AND'.$sql : ' WHERE'.$sql ;
+	}
+
+	/**
+	 * curent_version_sql
+	 *
+	 * @return string
+	 */
+	public static function curent_version_sql($is_and = true)
+	{
+		$sql = ' `version` = "0"';
+		return $is_and ? ' AND'.$sql : ' WHERE'.$sql ;
+	}
+
+	/**
+	 * get_version
+	 *
+	 * @return string
+	 */
+	public static function get_version()
+	{
+		if ( ! is_null(static::$version)) return static::$version;
+
+		// check get request
+		$version = \A11yc\Input::get('a11yc_version', '');
+		$version = $version ? intval($version) : $version;
+		if (empty($version)) return '';
+
+		// check db
+		$sql = 'SELECT `version` FROM '.A11YC_TABLE_SETUP.' GROUP BY `version`;';
+		$versions = Db::fetch_all($sql);
+		if (in_array($version, $versions['versions']))
+		{
+			static::$version = $version;
+		}
+		else
+		{
+			static::$version = 0; // current
+		}
+
+		return static::$version;
+	}
+
+	/**
 	 * fetch setup
 	 *
 	 * @return Array
@@ -34,7 +89,7 @@ class Controller_Setup
 		static $retvals = '';
 		if ($retvals && ! $force) return $retvals;
 
-		$sql = 'SELECT * FROM '.A11YC_TABLE_SETUP.';';
+		$sql = 'SELECT * FROM '.A11YC_TABLE_SETUP.static::version_sql(false).';';
 		$ret = Db::fetch_all($sql);
 		$retvals = Arr::get($ret, 0, array());
 		return $retvals;
@@ -84,24 +139,91 @@ class Controller_Setup
 			// protect data
 			if (Input::post('protect_data'))
 			{
-				$path = A11YC_DATA_PATH.A11YC_DATA_FILE;
-				$file = A11YC_DATA_PATH.Controller_Disclosure::version2filename(date('Ymd'), $force = TRUE);
+				$status = true;
+				$delete = false;
 
-				if (file_exists($file))
+				if (A11YC_DB_TYPE == 'mysql')
 				{
-					unlink($file);
+					// tables
+					$version = date('Ymd');
+					$tables = array(
+						A11YC_TABLE_SETUP,
+						A11YC_TABLE_PAGES,
+						A11YC_TABLE_CHECKS,
+						A11YC_TABLE_CHECKS_NGS,
+					);
+
+					// check existence
+					$sql = 'SELECT * FROM '.A11YC_TABLE_SETUP.' WHERE `version` = ? LIMIT 1;';
+					$check = Db::fetch($sql, array($version));
+					if ($check)
+					{
+						foreach ($tables as $table)
+						{
+							$sql = 'DELETE FROM '.$table.' WHERE `version` = ?;';
+							Db::execute($sql, array($version));
+						}
+						$delete = true;
+					}
+
+					// insert
+					foreach ($tables as $table)
+					{
+						$records = Db::fetch_all('SELECT * FROM '.$table.' WHERE `version` = 0;');
+						// records loop
+						foreach ($records as $datas)
+						{
+							// prepare
+							$fields = array();
+							$placeholders = array();
+							$vals = array();
+							foreach ($datas as $field => $data)
+							{
+								$data = $field == 'version' ? $version : $data;
+								$fields[] = '`'.$field.'`';
+								$placeholders[] = '?';
+								$vals[] = $data;
+							}
+
+							// sql
+							$sql = 'INSERT INTO '.$table.' (';
+							$sql.= join(', ', $fields).') VALUES (';
+							$sql.= join(', ', $placeholders).');';
+							Db::execute($sql, $vals);
+						}
+					}
+				}
+				// sqlite
+				else
+				{
+					$path = A11YC_DATA_PATH.A11YC_DATA_FILE;
+					$file = A11YC_DATA_PATH.Controller_Disclosure::version2filename(date('Ymd'), $force = TRUE);
+
+					if (file_exists($file))
+					{
+						unlink($file);
+						$delete = true;
+					}
+
+					// protect
+					if ( ! copy($path, $file)) $status = false;
+				}
+
+				// message
+				if ($delete)
+				{
 					Session::add('messages', 'messages', A11YC_LANG_DISCLOSURE_DELETE_SAMEDATE);
 				}
 
-				// protect
-				if (copy($path, $file))
+				if ($status)
 				{
 					Session::add('messages', 'messages', A11YC_LANG_DISCLOSURE_PROTECT_DATA_SAVED);
 				}
-				else
+				elseif($status == 'failed')
 				{
 					Session::add('messages', 'errors', A11YC_LANG_DISCLOSURE_PROTECT_DATA_FAILD);
 				}
+
 				return;
 			}
 
@@ -153,7 +275,8 @@ class Controller_Setup
 				$sql.= '`trust_ssl_url` = ?,';
 				$sql.= '`additional_criterions` = ?,';
 				$sql.= '`checklist_behaviour` = ?,';
-				$sql.= '`stop_guzzle` = ?;';
+				$sql.= '`stop_guzzle` = ?,';
+				$sql.= '`version` = ?;';
 				$r = Db::execute($sql, array(
 						$target_level,
 						$standard,
@@ -169,7 +292,8 @@ class Controller_Setup
 						'',
 						serialize($additional_criterions),
 						$checklist_behaviour,
-						$stop_guzzle
+						$stop_guzzle,
+						''
 					));
 			}
 			else
@@ -191,8 +315,9 @@ class Controller_Setup
 				$sql.= '`trust_ssl_url`, ';
 				$sql.= '`additional_criterions`, ';
 				$sql.= '`checklist_behaviour`,';
-				$sql.= '`stop_guzzle`)';
-				$sql.= ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+				$sql.= '`stop_guzzle`,';
+				$sql.= '`version`)';
+				$sql.= ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
 				$r = Db::execute($sql, array(
 						$target_level,
 						$standard,
@@ -208,9 +333,12 @@ class Controller_Setup
 						'',
 						serialize($additional_criterions),
 						$checklist_behaviour,
-						$stop_guzzle
+						$stop_guzzle,
+						''
 					));
+
 			}
+
 			if ($r)
 			{
 				Session::add('messages', 'messages', A11YC_LANG_UPDATE_SUCCEED);

@@ -90,6 +90,7 @@ checks:
         There is an exception to omit alt in HTML5, but in order to apply this exception, please apply it after understanding the specification of HTML5 well.
         Since it is an image for skipping requests to images of other servers and analyzing logs, empty alt is inserted.
         There is an image, but there is a character string duplicated with the image in the vicinity, and alt is omitted. (If there is an image of Mr. A and there is written "Mr. A" in the vicinity thereof, "Mr. A" Alternatively, alt such as "Mr. A's image" may be easier to read for screen readers if omitting alt).
+        In order to make it easy to distinguish between "imaged character" and "image", it is good to attach a prefix such as "photo: XX" or a descriptive alt like "XX photo". For example, alt "Japanese sweets" may bother to judge whether it is "imaged" the word "Japanese sweets" or "a picture of Japanese sweets".
         There are images of graphs and charts, but there is alt that explains what graphs and charts it is (e.g. "Sales graph of June, July, August"). Level A does not ask for a detailed description of the value of the graph, but of course there is a description of the value in the range that is possible. It is also good to have a table marked up with table nearby.
 
     1-1-1c:

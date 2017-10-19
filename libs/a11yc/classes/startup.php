@@ -19,6 +19,7 @@ class Startup
 	 */
 	public static function install ()
 	{
+/*
 		// already done
 		if (file_exists(A11YC_DATA_PATH)) return;
 
@@ -34,6 +35,7 @@ class Startup
 
 		// set .htaccess
 		Security::deny_http_directories();
+*/
 	}
 
 	/**

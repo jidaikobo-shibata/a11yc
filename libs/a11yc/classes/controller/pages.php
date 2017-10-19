@@ -35,7 +35,7 @@ class Controller_Pages
 	 */
 	public static function fetch_page($url)
 	{
-		$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;';
+		$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?'.Controller_Setup::version_sql().';';
 		return Db::fetch($sql, array($url));
 	}
 
@@ -79,10 +79,10 @@ class Controller_Pages
 		// delete
 		if (Input::get('del'))
 		{
-			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ? and `trash` = 0;';
+			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ? and `trash` = 0'.Controller_Setup::curent_version_sql().';';
 			if (Db::fetch($sql, array($url)))
 			{
-				$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET `trash` = 1 WHERE `url` = ?;';
+				$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET `trash` = 1 WHERE `url` = ?'.Controller_Setup::curent_version_sql().';';
 				Db::execute($sql, array($url));
 				Session::add(
 					'messages',
@@ -110,10 +110,10 @@ class Controller_Pages
 	{
 		if (Input::get('undel'))
 		{
-			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ? and `trash` = 1;';
+			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ? and `trash` = 1'.Controller_Setup::curent_version_sql().';';
 			if (Db::fetch($sql, array($url)))
 			{
-				$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET `trash` = 0 WHERE `url` = ?;';
+				$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET `trash` = 0 WHERE `url` = ?'.Controller_Setup::curent_version_sql().';';
 				Db::execute($sql, array($url));
 				Session::add(
 					'messages',
@@ -141,10 +141,10 @@ class Controller_Pages
 	{
 		if (Input::get('purge'))
 		{
-			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ? and `trash` = 1;';
+			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ? and `trash` = 1'.Controller_Setup::curent_version_sql().';';
 			if (Db::fetch($sql, array($url)))
 			{
-				$sql = 'DELETE FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;';
+				$sql = 'DELETE FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?'.Controller_Setup::curent_version_sql().';';
 				Db::execute($sql, array($url));
 				Session::add(
 					'messages',
@@ -216,7 +216,7 @@ class Controller_Pages
 				echo Util::s($page_title).'<br />';
 
 				$url = Util::urldec($url);
-				if (Db::fetch('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;', array($url)))
+				if (Db::fetch('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?'.Controller_Setup::curent_version_sql().';', array($url)))
 				{
 					Session::add(
 						'messages',
@@ -227,7 +227,8 @@ class Controller_Pages
 				}
 
 				$sql = 'INSERT INTO '.A11YC_TABLE_PAGES;
-				$sql.= '(`url`, `trash`, `add_date`, `page_title`) VALUES (?, 0, ?, ?);';
+				$sql.= '(`url`, `trash`, `add_date`, `page_title`, `version`) VALUES ';
+				$sql.= '(?, 0, ?, ?, "");';
 				$success = Db::execute($sql, array($url, date('Y-m-d H:i:s'), $page_title));
 				if ($success)
 				{
@@ -307,7 +308,7 @@ class Controller_Pages
 				// already added
 				in_array($url, $urls) ||
 				// already in db
-				Db::fetch('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;', array($url))
+				Db::fetch('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?'.Controller_Setup::curent_version_sql().';', array($url))
 			)
 			{
 				echo "<strong style=\"color: #408000\">Already exists</strong>\n";
@@ -418,6 +419,7 @@ class Controller_Pages
 				$sql.= $allwhr;
 				break;
 		}
+		$sql.= Controller_Setup::curent_version_sql();
 
 		// order
 		$order = 'DESC';

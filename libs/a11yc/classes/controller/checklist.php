@@ -102,21 +102,21 @@ class Controller_Checklist
 		if (Input::is_post_exists())
 		{
 			// NGs
-			$sql = 'DELETE FROM '.A11YC_TABLE_CHECKS_NGS.' WHERE `url` = ?;';
+			$sql = 'DELETE FROM '.A11YC_TABLE_CHECKS_NGS.' WHERE `url` = ?'.Controller_Setup::curent_version_sql().';';
 			Db::execute($sql, array($url));
 
 			$post_ngs = Input::post_arr('ngs');
 			foreach ($post_ngs as $criterion => $v)
 			{
 				if ( ! trim($v['memo'])) continue;
-				$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS_NGS.' (`url`, `criterion`, `uid`, `memo`)';
-				$sql.= ' VALUES (?, ?, ?, ?);';
+				$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS_NGS.' (`url`, `criterion`, `uid`, `memo`, `version`)';
+				$sql.= ' VALUES (?, ?, ?, ?, "");';
 				$memo = stripslashes($v['memo']);
 				Db::execute($sql, array($url, $criterion, (int) $v['uid'], $memo));
 			}
 
 			// delete all from checks
-			$sql = 'DELETE FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = ?;';
+			$sql = 'DELETE FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = ?'.Controller_Setup::curent_version_sql().';';
 			Db::execute($sql, array($url));
 
 			// insert checks
@@ -125,8 +125,8 @@ class Controller_Checklist
 			{
 				if ( ! isset($v['on']) && empty($v['memo'])) continue;
 				$passed = isset($v['on']);
-				$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS.' (`url`, `code`, `uid`, `memo`, `passed`)';
-				$sql.= ' VALUES (?, ?, ?, ?, ?);';
+				$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS.' (`url`, `code`, `uid`, `memo`, `passed`, `version`)';
+				$sql.= ' VALUES (?, ?, ?, ?, ?, "");';
 				$memo = stripslashes($v['memo']);
 				Db::execute($sql, array($url, $code, (int) $v['uid'], $memo, (int) $passed));
 			}
@@ -143,14 +143,14 @@ class Controller_Checklist
 			{
 				$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET ';
 				$sql.= '`date` = ?, `done` = ?, `standard` = ?, `page_title` = ?, `selection_reason` = ?';
-				$sql.= ' WHERE `url` = ?;';
+				$sql.= ' WHERE `url` = ?'.Controller_Setup::curent_version_sql().';';
 				$r = Db::execute($sql, array($date, $done, $standard, $page_title, $selection_reason, $url));
 			}
 			else
 			{
 				$sql = 'INSERT INTO '.A11YC_TABLE_PAGES;
-				$sql.= ' (`url`, `date`, `done`, `standard`, `trash`, `page_title`, `add_date`, `selection_reason`)';
-				$sql.= ' VALUES (?, ?, ?, ?, 0, ?, ?, ?);';
+				$sql.= ' (`url`, `date`, `done`, `standard`, `trash`, `page_title`, `add_date`, `selection_reason`, `version`)';
+				$sql.= ' VALUES (?, ?, ?, ?, 0, ?, ?, ?, "");';
 				$r = Db::execute($sql, array($url, $date, $done, $standard, $page_title, date('Y-m-d H:i:s'), $selection_reason));
 			}
 

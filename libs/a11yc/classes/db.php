@@ -25,6 +25,7 @@ class Db extends \Kontiki\Db
 		static::init_checks($name);
 		static::init_bulk($name);
 		static::init_setup($name);
+		static::init_maintenance($name);
 	}
 
 	/**
@@ -55,6 +56,12 @@ class Db extends \Kontiki\Db
 			if ( ! static::is_fields_exist(A11YC_TABLE_PAGES, array('selection_reason'), $name))
 			{
 				$sql = 'ALTER TABLE '.A11YC_TABLE_PAGES.' ADD `selection_reason` INTEGER;';
+				static::execute($sql, array(), $name);
+			}
+
+			if ( ! static::is_fields_exist(A11YC_TABLE_PAGES, array('version'), $name))
+			{
+				$sql = 'ALTER TABLE '.A11YC_TABLE_PAGES.' ADD `version` INTEGER DEFAULT 0;';
 				static::execute($sql, array(), $name);
 			}
 		}
@@ -91,6 +98,12 @@ class Db extends \Kontiki\Db
 				$sql = 'UPDATE '.A11YC_TABLE_CHECKS.' SET `passed` = 1;';
 				static::execute($sql, array(), $name);
 			}
+
+			if ( ! static::is_fields_exist(A11YC_TABLE_CHECKS, array('version'), $name))
+			{
+				$sql = 'ALTER TABLE '.A11YC_TABLE_CHECKS.' ADD `version` INTEGER DEFAULT 0;';
+				static::execute($sql, array(), $name);
+			}
 		}
 
 		if (defined('A11YC_TABLE_CHECKS_NGS'))
@@ -117,6 +130,12 @@ class Db extends \Kontiki\Db
 						static::execute($sql, array($url['url'], $criterion, '1', ''), $name);
 					}
 				}
+			}
+
+			if ( ! static::is_fields_exist(A11YC_TABLE_CHECKS_NGS, array('version'), $name))
+			{
+				$sql = 'ALTER TABLE '.A11YC_TABLE_CHECKS_NGS.' ADD `version` INTEGER DEFAULT 0;';
+				static::execute($sql, array(), $name);
 			}
 		}
 	}
@@ -194,10 +213,43 @@ class Db extends \Kontiki\Db
 
 			if ( ! static::is_fields_exist(A11YC_TABLE_SETUP, array('stop_guzzle'), $name))
 			{
-				$sql = 'ALTER TABLE '.A11YC_TABLE_SETUP.' ADD `stop_guzzle` INTEGER NOT NULL DEFAULT \'\';';
+				$sql = 'ALTER TABLE '.A11YC_TABLE_SETUP.' ADD `stop_guzzle` INTEGER NOT NULL DEFAULT 0;';
 				static::execute($sql, array(), $name);
 			}
 
+			if ( ! static::is_fields_exist(A11YC_TABLE_SETUP, array('version'), $name))
+			{
+				$sql = 'ALTER TABLE '.A11YC_TABLE_SETUP.' ADD `version` INTEGER DEFAULT 0;';
+				static::execute($sql, array(), $name);
+			}
 		}
 	}
+
+	/**
+	 * init maintenance table
+	 *
+	 * @param  String $name
+	 * @return Void
+	 */
+	private static function init_maintenance($name = 'default')
+	{
+		if (defined('A11YC_TABLE_MAINTENANCE'))
+		{
+			if ( ! static::is_table_exist(A11YC_TABLE_MAINTENANCE, $name))
+			{
+				$sql = 'CREATE TABLE '.A11YC_TABLE_MAINTENANCE.' (';
+				$sql.= '`last_checked` date,';
+				$sql.= '`version` TEXT NOT NULL';
+				$sql.= ');';
+				static::execute($sql, array(), $name);
+
+				// default value
+				$sql = 'INSERT INTO '.A11YC_TABLE_MAINTENANCE;
+				$sql.= ' (`last_checked`, `version`) VALUES';
+				$sql.= '("'.date('Y-m-d').'", "'.A11YC_VERSION.'");';
+				static::execute($sql, array(), $name);
+			}
+		}
+	}
+
 }
