@@ -112,7 +112,7 @@ class Db
 	 */
 	public static function get_fields($table, $name = 'default')
 	{
-		$table = ucfirst($table);
+//		$table = ucfirst($table);
 		$instance = static::instance($name);
 
 		if ($instance->dbtype == 'sqlite')
