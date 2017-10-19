@@ -24,7 +24,9 @@ class Maintenance extends \Kontiki\Maintenance
 		// old version
 		if (file_exists(A11YC_CACHE_PATH))
 		{
-			unlink(A11YC_CACHE_PATH);
+			unlink(A11YC_CACHE_PATH.'/checked');
+			unlink(A11YC_CACHE_PATH.'/.htaccess');
+			rmdir(A11YC_CACHE_PATH);
 		}
 
 		// check
