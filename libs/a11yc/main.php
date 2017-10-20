@@ -28,9 +28,6 @@ define('KONTIKI_DEFAULT_LANG', A11YC_LANG);
 define('KONTIKI_DEFAULT_TIMZONE', A11YC_TIMEZONE);
 require A11YC_LIB_PATH.'/kontiki/main.php';
 
-// load Spyc - YAML lib.
-include A11YC_LIB_PATH.'/spyc/Spyc.php';
-
 // Autoloader - this must be use Kontiki namespace.
 \Kontiki\Util::add_autoloader_path(__DIR__.'/classes/', 'a11yc');
 

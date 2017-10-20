@@ -20,6 +20,9 @@ class Db extends \Kontiki\Db
 	 */
 	public static function init_table($name = 'default')
 	{
+		// return
+		if (static::is_fields_exist(A11YC_TABLE_SETUP, array('version'), $name)) return;
+
 		// base tables
 		static::init_pages($name);
 		static::init_checks($name);
