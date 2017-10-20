@@ -84,6 +84,11 @@ class Yaml
 	 */
 	public static function each($file)
 	{
+		// load Spyc - YAML lib.
+		if ( ! class_exists('Spyc'))
+		{
+			include A11YC_LIB_PATH.'/spyc/Spyc.php';
+		}
 		if ( ! class_exists('Spyc')) Util::error('Spyc is not found');
 		$file = basename($file);
 
