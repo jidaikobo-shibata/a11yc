@@ -131,8 +131,10 @@ class Util
 	 */
 	public static function is_ssl()
 	{
-		return isset($_SERVER['HTTP_X_SAKURA_FORWARDED_FOR']) ||
-			(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS']);
+		return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on');
+
+		// return isset($_SERVER['HTTP_X_SAKURA_FORWARDED_FOR']) ||
+		// 	(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on');
 	}
 
 	/**
