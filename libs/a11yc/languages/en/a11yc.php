@@ -125,6 +125,7 @@ define('A11YC_LANG_TARGET_LEVEL', 'Target Level');
 define('A11YC_LANG_POLICY', 'Accessibility Policy');
 define('A11YC_LANG_POLICY_DESC', 'Why you work in web accessibility ensure, goal date, corresponding policies, exceptions, please write and achieve grade to which you want to add to goal.');
 define('A11YC_LANG_REPORT', 'Accessibility Report');
+define('A11YC_LANG_OPINION', 'Opinion');
 define('A11YC_LANG_REPORT_DESC', 'If you have any findings, etc., please describe.');
 define('A11YC_LANG_CONTACT', 'Contact Us About Accessibility');
 define('A11YC_LANG_CONTACT_DESC', 'Such as for accessibility of deficiencies, contact details of when that could not get the information, or please write the contact information on the web accessibility.');

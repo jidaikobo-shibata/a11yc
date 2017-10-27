@@ -141,15 +141,25 @@ class Controller_Pages
 	{
 		if (Input::get('purge'))
 		{
-			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ? and `trash` = 1'.Controller_Setup::curent_version_sql().';';
+			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ? and `trash` = 1';
+			$sql.= Controller_Setup::curent_version_sql().';';
 			if (Db::fetch($sql, array($url)))
 			{
-				$sql = 'DELETE FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?'.Controller_Setup::curent_version_sql().';';
+				$sql = 'DELETE FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?';
+				$sql.= Controller_Setup::curent_version_sql().';';
 				Db::execute($sql, array($url));
 				Session::add(
 					'messages',
 					'messages',
 					sprintf(A11YC_LANG_PAGES_PURGE_DONE, Util::s($page_title.' ('.$url.') ')));
+
+				$sql = 'DELETE FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = ?';
+				$sql.= Controller_Setup::curent_version_sql().';';
+				Db::execute($sql, array($url));
+
+				$sql = 'DELETE FROM '.A11YC_TABLE_CHECKS_NGS.' WHERE `url` = ?';
+				$sql.= Controller_Setup::curent_version_sql().';';
+				Db::execute($sql, array($url));
 			}
 			else
 			{
@@ -334,6 +344,7 @@ class Controller_Pages
 		}
 
 		echo '</div>';
+		echo '</div>';
 
 		// add to session
 		// sort($urls); // yousu-mi
@@ -458,7 +469,7 @@ class Controller_Pages
 
 		// pagination
 		$total = count($pages);
-		$num = Input::get('num') ? intval(Input::get('num')) : 25 ;
+		$num = Input::get('num') ? intval(Input::get('num')) : 50 ;
 		$paged = Input::get('paged') ? intval(Input::get('paged')) : 1 ;
 
 		// offset

@@ -1,13 +1,6 @@
 <?php namespace A11yc; ?>
 <h2><?php echo $title ?></h2>
 
-<?php
-// report
-if ($is_total):
-	echo $setup['report'];
-endif;
-?>
-
 <table class="a11yc_table">
 
 	<!-- target level -->
@@ -157,6 +150,15 @@ endif;
 	</tr>
 	<?php endif; ?>
 	<!-- /contact -->
+
+	<!-- report -->
+	<?php if ($is_total && $setup['report']): ?>
+	<tr>
+		<th scope="row"><?php echo A11YC_LANG_OPINION ?></th>
+		<td><?php echo $setup['report']; ?></td>
+	</tr>
+	<?php endif; ?>
+	<!-- /report -->
 
 </table>
 

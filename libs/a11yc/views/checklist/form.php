@@ -49,7 +49,14 @@
 		</tr>
 		<tr>
 			<th><?php echo A11YC_LANG_PAGES_URLS ?></th>
-			<td><a href="<?php echo Util::urldec($url) ?>"><?php echo Util::urldec($url) ?></a></td>
+			<td><?php echo Util::urldec($url) ?></td>
+<?php /* ?>
+<?php // 振る舞いが怪しいので、ちょっと様子見 ?>
+			<th><label for="a11yc_mod_url"><?php echo A11YC_LANG_PAGES_URLS ?></label></th>
+			<td>
+				<input type="text" name="mod_url" id="a11yc_mod_url" size="30" value="<?php echo Util::urldec($url) ?>" />
+			</td>
+<?php */ ?>
 		</tr>
 		</table>
 

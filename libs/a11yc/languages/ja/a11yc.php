@@ -125,6 +125,7 @@ define('A11YC_LANG_TARGET_LEVEL', '目標とする適合レベル');
 define('A11YC_LANG_POLICY', 'アクセシビリティ方針');
 define('A11YC_LANG_POLICY_DESC', 'ウェブアクセシビリティ確保に取り組む理由、達成目標日、対応方針、例外事項などを書いてください。');
 define('A11YC_LANG_REPORT', 'アクセシビリティ報告書');
+define('A11YC_LANG_OPINION', '所見');
 define('A11YC_LANG_REPORT_DESC', '所見等があったら、記述してください。');
 define('A11YC_LANG_CONTACT', 'アクセシビリティに関する連絡先');
 define('A11YC_LANG_CONTACT_DESC', 'アクセシビリティの不備等のため、情報を取得できなかった時の問い合わせ先、あるいはウェブアクセシビリティに関する問い合わせ先を書いてください。');
