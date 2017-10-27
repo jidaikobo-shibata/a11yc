@@ -5,7 +5,10 @@
 	<form action="<?php echo A11YC_CHECKLIST_URL ?>&amp;url=<?php echo Util::urlenc($url) ?>" method="POST" id="a11yc_form_checklist">
 <?php endif; ?>
 
-<?php echo $form ?>
+<?php
+// see form.php
+echo $form
+?>
 	<div id="a11y_submit">
 <?php
 	// is done

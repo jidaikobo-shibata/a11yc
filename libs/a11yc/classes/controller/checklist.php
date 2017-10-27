@@ -85,7 +85,7 @@ class Controller_Checklist
 	 */
 	public static function update_page_level($url)
 	{
-		$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET `level` = ? WHERE `url` = ?;';
+		$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET `level` = ? WHERE `url` = ?'.Controller_Setup::curent_version_sql().';';
 		Db::execute($sql, array(Evaluate::check_level_url($url), $url));
 	}
 
@@ -102,21 +102,24 @@ class Controller_Checklist
 		if (Input::is_post_exists())
 		{
 			// NGs
-			$sql = 'DELETE FROM '.A11YC_TABLE_CHECKS_NGS.' WHERE `url` = ?;';
+			$sql = 'DELETE FROM '.A11YC_TABLE_CHECKS_NGS.' WHERE `url` = ?';
+			$sql.= Controller_Setup::curent_version_sql().';';
 			Db::execute($sql, array($url));
 
 			$post_ngs = Input::post_arr('ngs');
 			foreach ($post_ngs as $criterion => $v)
 			{
 				if ( ! trim($v['memo'])) continue;
-				$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS_NGS.' (`url`, `criterion`, `uid`, `memo`)';
-				$sql.= ' VALUES (?, ?, ?, ?);';
+				$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS_NGS;
+				$sql.= ' (`url`, `criterion`, `uid`, `memo`, `version`)';
+				$sql.= ' VALUES (?, ?, ?, ?, "");';
 				$memo = stripslashes($v['memo']);
 				Db::execute($sql, array($url, $criterion, (int) $v['uid'], $memo));
 			}
 
 			// delete all from checks
-			$sql = 'DELETE FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = ?;';
+			$sql = 'DELETE FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = ?';
+			$sql.= Controller_Setup::curent_version_sql().';';
 			Db::execute($sql, array($url));
 
 			// insert checks
@@ -125,8 +128,9 @@ class Controller_Checklist
 			{
 				if ( ! isset($v['on']) && empty($v['memo'])) continue;
 				$passed = isset($v['on']);
-				$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS.' (`url`, `code`, `uid`, `memo`, `passed`)';
-				$sql.= ' VALUES (?, ?, ?, ?, ?);';
+				$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS;
+				$sql.= ' (`url`, `code`, `uid`, `memo`, `passed`, `version`)';
+				$sql.= ' VALUES (?, ?, ?, ?, ?, "");';
 				$memo = stripslashes($v['memo']);
 				Db::execute($sql, array($url, $code, (int) $v['uid'], $memo, (int) $passed));
 			}
@@ -143,15 +147,21 @@ class Controller_Checklist
 			{
 				$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET ';
 				$sql.= '`date` = ?, `done` = ?, `standard` = ?, `page_title` = ?, `selection_reason` = ?';
-				$sql.= ' WHERE `url` = ?;';
-				$r = Db::execute($sql, array($date, $done, $standard, $page_title, $selection_reason, $url));
+				$sql.= ' WHERE `url` = ?'.Controller_Setup::curent_version_sql().';';
+				$r = Db::execute(
+					$sql,
+					array($date, $done, $standard, $page_title, $selection_reason, $url)
+				);
 			}
 			else
 			{
 				$sql = 'INSERT INTO '.A11YC_TABLE_PAGES;
-				$sql.= ' (`url`, `date`, `done`, `standard`, `trash`, `page_title`, `add_date`, `selection_reason`)';
-				$sql.= ' VALUES (?, ?, ?, ?, 0, ?, ?, ?);';
-				$r = Db::execute($sql, array($url, $date, $done, $standard, $page_title, date('Y-m-d H:i:s'), $selection_reason));
+				$sql.= ' (`url`, `date`, `done`, `standard`, `trash`, `page_title`, `add_date`, `selection_reason`, `version`)';
+				$sql.= ' VALUES (?, ?, ?, ?, 0, ?, ?, ?, "");';
+				$r = Db::execute(
+					$sql,
+					array($url, $date, $done, $standard, $page_title, date('Y-m-d H:i:s'), $selection_reason)
+				);
 			}
 
 			// update page level
@@ -191,6 +201,9 @@ class Controller_Checklist
 			}
 		}
 
+		// change url?
+		// $url = static::change_url($url);
+
 		// users
 		$users = array();
 		foreach (Users::fetch_users() as $k => $v)
@@ -219,6 +232,48 @@ class Controller_Checklist
 
 		static::form($url, $users, Arr::get($current_user, 'id'));
 		View::assign('body', View::fetch_tpl('checklist/checklist.php'), FALSE);
+	}
+
+	/**
+	 * change url
+	 * suspicious activation. so, pending.
+	 *
+	 * @param string $url
+	 * @return string
+	 */
+	public static function change_url($url)
+	{
+		// post only
+		$mod_url = Input::post('mod_url', '', FILTER_VALIDATE_URL);
+		if ( ! $mod_url) return $url;
+
+		// no cahnge
+		$old_url = $url;
+		if ($old_url == $mod_url) return $url;
+
+		// is exists?
+		$sql = 'SELECT `url` FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?';
+		$sql.= Controller_Setup::curent_version_sql().';';
+		$results = Db::fetch_all($sql, array($old_url));
+
+		// no record to change
+		if (empty($results)) return $url;
+
+		// change url
+		$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET `url` = %s WHERE `url` = %s';
+		$sql.= Controller_Setup::curent_version_sql().';';
+		$result = Db::fetch_all($sql, array($mod_url, $old_url));
+
+		// change checks
+		$sql = 'UPDATE '.A11YC_TABLE_CHECKS_NGS.' SET `url` = %s WHERE `url` = %s';
+		$sql.= Controller_Setup::curent_version_sql().';';
+		$result = Db::fetch_all($sql, array($mod_url, $old_url));
+
+		$sql = 'UPDATE '.A11YC_TABLE_CHECKS.' SET `url` = %s WHERE `url` = %s';
+		$sql.= Controller_Setup::curent_version_sql().';';
+		$result = Db::fetch_all($sql, array($mod_url, $old_url));
+
+		return $mod_url;
 	}
 
 	/**

@@ -76,7 +76,7 @@
 	</tr>
 
 	<tr>
-		<th scope="row"><label for="a11yc_report"><?php echo A11YC_LANG_REPORT ?></label></th>
+		<th scope="row"><label for="a11yc_report"><?php echo A11YC_LANG_OPINION ?></label></th>
 		<td>
 			<p><?php echo A11YC_LANG_REPORT_DESC ?></p>
 			<textarea name="report" id="a11yc_report" style="width:100%;" rows="7"><?php echo s(@$setup['report']) ?></textarea>

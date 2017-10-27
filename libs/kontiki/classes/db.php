@@ -112,7 +112,8 @@ class Db
 	 */
 	public static function get_fields($table, $name = 'default')
 	{
-		$table = ucfirst($table);
+//		$table = ucfirst($table);
+		if ( ! static::is_table_exist($table, $name)) return array();
 		$instance = static::instance($name);
 
 		if ($instance->dbtype == 'sqlite')
@@ -169,18 +170,14 @@ class Db
 	 */
 	public static function is_table_exist($table, $name = 'default')
 	{
-		$instance = static::instance($name);
-
-		if($instance->dbtype == 'sqlite')
+		$sql = 'show tables;';
+		$results = static::fetch_all($sql);
+		$tables = array();
+		foreach ($results as $row)
 		{
-			$table = static::escape($table, $name);
-			$sql = 'PRAGMA table_info('.$table.');';
+			$tables[] = reset($row);
 		}
-		elseif($instance->dbtype == 'mysql')
-		{
-			$sql = 'SHOW COLUMNS FROM `'.$table.'`;';
-		}
-		return static::fetch_all($sql, array(), $name) ? TRUE : FALSE;
+		return in_array($table, $tables);
 	}
 
 	/**
@@ -193,6 +190,8 @@ class Db
 	 */
 	public static function is_fields_exist($table, $fields = array(), $name = 'default')
 	{
+		if ( ! static::is_table_exist($table, $name)) return false;
+
 		foreach ($fields as $field)
 		{
 			$retvals[$field] = FALSE;

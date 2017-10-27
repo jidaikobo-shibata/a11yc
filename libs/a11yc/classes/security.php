@@ -25,8 +25,7 @@ class Security extends \Kontiki\Security
 		// use constant only
 		$dirs = array(
 			A11YC_CONFIG_PATH,
-			A11YC_CACHE_PATH,
-			A11YC_DATA_PATH,
+//			A11YC_DATA_PATH,
 		);
 
 		// deny from all

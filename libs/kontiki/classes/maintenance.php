@@ -22,6 +22,8 @@ class Maintenance
 	 */
 	public static function sqlite ($path, $file, $is_force = FALSE)
 	{
+		if (defined('A11YC_DB_TYPE') && A11YC_DB_TYPE == 'mysql') return;
+
 		if ( ! file_exists($path.$file))
 		{
 			Util::error('sqlite file is missing.');

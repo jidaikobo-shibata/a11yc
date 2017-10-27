@@ -57,12 +57,27 @@ class Controller_Disclosure
 	public static function get_versions()
 	{
 		$files = array();
-		foreach (glob(A11YC_DATA_PATH.'/'.'*') as $file)
+		if (defined('A11YC_DB_TYPE') && A11YC_DB_TYPE == 'mysql')
 		{
-			$file = basename($file);
-			if (substr($file, 0, 4) == 'fix.')
+			$sql = 'SELECT `version` FROM '.A11YC_TABLE_SETUP.' GROUP BY `version`;';
+			$versions = Db::fetch_all($sql);
+			if ( ! $versions) return array();
+
+			foreach ($versions as $version)
 			{
-				$files[] = substr($file, 4, 8);
+				if ($version['version'] == 0) continue;
+				$files[] = $version['version'];
+			}
+		}
+		else
+		{
+			foreach (glob(A11YC_DATA_PATH.'/'.'*') as $file)
+			{
+				$file = basename($file);
+				if (substr($file, 0, 4) == 'fix.')
+				{
+					$files[] = substr($file, 4, 8);
+				}
 			}
 		}
 		return $files;

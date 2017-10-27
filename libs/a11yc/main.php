@@ -11,8 +11,8 @@
 namespace A11yc;
 
 // version
-define('A11YC_VERSION', '0.9.8');
-// git tag 0.9.8 & git push origin --tags
+define('A11YC_VERSION', '0.9.9');
+// git tag 0.9.9 & git push origin --tags
 
 // config
 $config_path = dirname(dirname(__DIR__)).'/config/config.php';
@@ -28,9 +28,6 @@ define('KONTIKI_DEFAULT_LANG', A11YC_LANG);
 define('KONTIKI_DEFAULT_TIMZONE', A11YC_TIMEZONE);
 require A11YC_LIB_PATH.'/kontiki/main.php';
 
-// load Spyc - YAML lib.
-include A11YC_LIB_PATH.'/spyc/Spyc.php';
-
 // Autoloader - this must be use Kontiki namespace.
 \Kontiki\Util::add_autoloader_path(__DIR__.'/classes/', 'a11yc');
 
@@ -43,10 +40,25 @@ include A11YC_PATH.'/languages/'.$lang.'/a11yc.php';
 Startup::install();
 
 // database
-Db::forge(array(
-		'dbtype' => 'sqlite',
-		'path' => A11YC_DATA_PATH.A11YC_DATA_FILE,
-	));
+if (defined('A11YC_DB_TYPE') && A11YC_DB_TYPE == 'mysql')
+{
+	// forge MySQL
+	Db::forge(
+		array(
+			'dbtype'   => 'mysql',
+			'db'       => A11YC_DB_NAME,
+			'user'     => A11YC_DB_USER,
+			'host'     => A11YC_DB_HOST,
+			'password' => A11YC_DB_PASSWORD,
+		));
+}
+else
+{
+	Db::forge(array(
+			'dbtype' => 'sqlite',
+			'path' => A11YC_DATA_PATH.A11YC_DATA_FILE,
+		));
+}
 Db::init_table();
 
 // startup a11yc

@@ -61,12 +61,13 @@ define('A11YC_DATA_PATH', dirname(__DIR__).'/db');
 define('A11YC_DATA_FILE', '/db.sqlite');
 
 // tables
-define('A11YC_TABLE_SETUP',      'a11y_setup');
-define('A11YC_TABLE_PAGES',      'a11y_pages');
-define('A11YC_TABLE_CHECKS',     'a11y_checks');
-define('A11YC_TABLE_CHECKS_NGS', 'a11y_checks_ngs');
-define('A11YC_TABLE_BULK',       'a11y_bulk');
-define('A11YC_TABLE_BULK_NGS',   'a11y_bulk_ngs');
+define('A11YC_TABLE_SETUP',       'a11y_setup');
+define('A11YC_TABLE_PAGES',       'a11y_pages');
+define('A11YC_TABLE_CHECKS',      'a11y_checks');
+define('A11YC_TABLE_CHECKS_NGS',  'a11y_checks_ngs');
+define('A11YC_TABLE_BULK',        'a11y_bulk');
+define('A11YC_TABLE_BULK_NGS',    'a11y_bulk_ngs');
+define('A11YC_TABLE_MAINTENANCE', 'a11y_maintenance');
 
 // urls
 define('A11YC_VALIDATE_URL',  dirname(A11YC_URL));
