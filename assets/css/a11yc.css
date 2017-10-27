@@ -496,12 +496,14 @@ table.a11yc_table_info {
 	-webkit-box-sizing: border-box;
 	background-color: #e6e6e6;
 	border-top: 1px solid #ccc;
+	z-index: 100;
 }
 #a11y_submit label[for="a11yc_done"] {
 	margin-right: 1em;
 }
 #a11y_submit [type="submit"] {
 	display: inline;
+	vertical-align: middle;
 }
 
 /* menu */
