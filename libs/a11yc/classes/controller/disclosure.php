@@ -1,6 +1,6 @@
 <?php
 /**
- * A11yc\Disclosure
+ * A11yc\Controller_Disclosure
  *
  * @package    part of A11yc
  * @author     Jidaikobo Inc.
@@ -137,17 +137,20 @@ class Controller_Disclosure
 				$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `trash` = 0 AND `done` = 1';
 				if ($k <= 5 && $k != 0)
 				{
-					$sql.= ' AND `selection_reason` = ? ORDER BY `url` ASC;';
+					$sql.= ' AND `selection_reason` = ?';
+					$sql.= Controller_Setup::version_sql().' ORDER BY `url` ASC;';
 					$pages[$k] = Db::fetch_all($sql, array($k));
 				}
 				else
 				{
 					$sql.= ' AND (`selection_reason` = 6 OR `selection_reason` = 0';
-					$sql.= ' OR `selection_reason`) is null ORDER BY `url` ASC;';
+					$sql.= ' OR `selection_reason` is null)';
+					$sql.= Controller_Setup::version_sql().' ORDER BY `url` ASC;';
 					$pages[6] = Db::fetch_all($sql);
 				}
 			}
 			ksort($pages);
+
 			View::assign('selection_reasons', Controller_Checklist::selection_reasons());
 			View::assign('pages', $pages);
 			View::assign('title', A11YC_LANG_CHECKED_PAGES);
@@ -195,9 +198,10 @@ class Controller_Disclosure
 		{
 			$is_total = TRUE;
 			// count
-			$sql = 'SELECT count(`url`) as num FROM '.A11YC_TABLE_PAGES.' WHERE ';
-			$done =  $sql.' `done` = 1 and (`trash` = 0 OR `trash` is null);';
-			$total = $sql.' (`trash` = 0 OR `trash` is null);';
+			$sql = 'SELECT count(`url`) as num FROM '.A11YC_TABLE_PAGES;
+			$sql.= Controller_Setup::version_sql(false);
+			$done =  $sql.' AND `done` = 1 and (`trash` = 0 OR `trash` is null);';
+			$total = $sql.' AND (`trash` = 0 OR `trash` is null);';
 			View::assign('done', Db::fetch($done));
 			View::assign('total', Db::fetch($total));
 		}

@@ -49,7 +49,7 @@
 		</tr>
 		<tr>
 			<th><?php echo A11YC_LANG_PAGES_URLS ?></th>
-			<td><?php echo Util::urldec($url) ?></td>
+			<td><?php echo '<a href="'.Util::s(Util::urldec($url)).'">'.Util::s(Util::urldec($url)).'</a>' ?></td>
 <?php /* ?>
 <?php // 振る舞いが怪しいので、ちょっと様子見 ?>
 			<th><label for="a11yc_mod_url"><?php echo A11YC_LANG_PAGES_URLS ?></label></th>

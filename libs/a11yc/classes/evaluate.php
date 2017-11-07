@@ -74,17 +74,16 @@ class Evaluate
 		$yml = Yaml::fetch();
 		foreach ($yml['codes'] as $code => $criterion)
 		{
-			$results[$criterion] = Arr::get($results, $criterion) ?: array();
-			$results[$criterion]['memo'] = Arr::get($results, "{$criterion}.memo") ?: '';
+			$results[$criterion] = Arr::get($results, $criterion, array());
+			$results[$criterion]['memo'] = Arr::get($results, "{$criterion}.memo", '');
 			if ( ! isset($cs[$code])) continue;
-			if ($results[$criterion]['passed'] == 0 && isset($ngs[$criterion]['memo']))
-			{
-				$results[$criterion]['memo'] = $ngs[$criterion]['memo'];
-			}
-			else
-			{
-				$results[$criterion]['memo'].= Arr::get($cs, "{$code}.memo");
-			}
+			$results[$criterion]['memo'].= Arr::get($cs, "{$code}.memo");
+		}
+
+		foreach (array_keys($yml['criterions']) as $criterion)
+		{
+			if ( ! isset($ngs[$criterion]['memo'])) continue;
+			$results[$criterion]['memo'].= $ngs[$criterion]['memo'];
 		}
 
 		return $results;
@@ -224,12 +223,26 @@ class Evaluate
 	{
 		$cs = static::fetch_results($url);
 		$ngs = static::fetch_ngs($url);
+		$yml = Yaml::fetch();
 
 		$passed = array();
 		foreach (static::passed($cs) as $criterion => $codes)
 		{
 			if (array_key_exists($criterion, $ngs)) continue;
 			$passed = array_merge($passed, $codes);
+		}
+
+		// NGコメントがあれば合格しない
+		// non-pass when ng comment exists
+		foreach (array_keys($ngs) as $code)
+		{
+			foreach ($passed as $k => $v)
+			{
+				if (in_array($v, array_keys($yml['checks'][$code])))
+				{
+					unset($passed[$k]);
+				}
+			}
 		}
 
 		return self::check_level($passed);

@@ -16,8 +16,8 @@ define('A11YC_LANG_PASS', 'Conformance ');
 define('A11YC_LANG_CRITERION', 'Criterion');
 define('A11YC_LANG_HERE', 'here, click here, click');
 define('A11YC_LANG_TEST_RESULT', 'Test result');
-define('A11YC_LANG_CURRENT_LEVEL', 'Current Level');
-define('A11YC_LANG_CURRENT_LEVEL_WEBPAGES', 'Level that has been achieved at the site');
+define('A11YC_LANG_CURRENT_LEVEL', 'Current level of the page');
+define('A11YC_LANG_CURRENT_LEVEL_WEBPAGES', 'Achieved level of the site');
 define('A11YC_LANG_NUM_OF_CHECKED', 'Number of checked pages');
 define('A11YC_LANG_CHECKED_PAGES', 'Target pages');
 define('A11YC_LANG_UNPASSED_PAGES', 'Page less than the achievement grade as a target');
@@ -230,6 +230,8 @@ define('A11YC_LANG_DISCLOSURE_DELETE_SAMEDATE', 'Since there was protected data 
 define('A11YC_LANG_DISCLOSURE_PROTECT_DATA_SAVED', 'Data was protected.');
 define('A11YC_LANG_DISCLOSURE_PROTECT_DATA_FAILD', 'Data protection failed.');
 define('A11YC_LANG_DISCLOSURE_PROTECT_DATA_CONFIRM', 'Do you really want to protect your data?');
+define('A11YC_LANG_DISCLOSURE_VERSION_EXISTS', 'Versions');
+define('A11YC_LANG_DISCLOSURE_VERSION_EXISTS_EXP', 'Each version can be switched on the page displaying the accessibility report.');
 
 // sample
 define('A11YC_LANG_SAMPLE_POLICY', 'sample:\n<p>[Your Name / Organization Name] will endeavor to create an accessible website that anyone can use in the same way regardless of the presence or absence of disability or age.</p>\n<p>[Please describe the meaning of this website to secure accessibility.]</p>\n<p>We set up accessibility policy as follows and will constantly secure accessibility.</p>\n\n<h2>Policy</h2>\n<p>[Please describe the accessibility policy.]</p>\n\n<h2>Scope of coverage</h2>\n<p>[Please describe as "target pages below http://example.com".]</p>\n\n<h2>Achievement target date</h2>\n<p>[Please describe the target date of accomplishment.]</p>\n\n<h2>Exceptions</h2>\n<p>[Please list if any.]</p>');

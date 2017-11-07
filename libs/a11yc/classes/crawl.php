@@ -273,7 +273,11 @@ class Crawl
 		if (isset($htmls[$url])) return $htmls[$url];
 
 		\A11yc\Guzzle::forge($url);
-		\A11yc\Guzzle::instance($url)->set_config('User-Agent', Util::s(Input::user_agent()));
+		\A11yc\Guzzle::instance($url)
+			->set_config(
+				'User-Agent',
+				Util::s(Input::user_agent().' GuzzleHttp/a11yc (+http://www.jidaikobo.com)')
+			);
 
 		$htmls[$url] = \A11yc\Guzzle::instance($url)->is_html ?
 								 \A11yc\Guzzle::instance($url)->body :

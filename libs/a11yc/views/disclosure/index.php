@@ -1,7 +1,7 @@
 <?php namespace A11yc; ?>
 <h2><?php echo $title ?></h2>
 
-<table class="a11yc_table">
+<table class="a11yc_table a11yc_table_report">
 
 	<!-- target level -->
 	<tr>
@@ -155,7 +155,7 @@
 	<?php if ($is_total && $setup['report']): ?>
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_OPINION ?></th>
-		<td><?php echo $setup['report']; ?></td>
+		<td><?php echo htmlspecialchars_decode($setup['report']); ?></td>
 	</tr>
 	<?php endif; ?>
 	<!-- /report -->

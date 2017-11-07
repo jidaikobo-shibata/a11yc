@@ -1,6 +1,6 @@
 <?php
 /**
- * A11yc\Auth
+ * A11yc\Controller_Auth
  *
  * @package    part of A11yc
  * @author     Jidaikobo Inc.

@@ -1,6 +1,6 @@
 <?php
 /**
- * A11yc\Pages
+ * A11yc\Controller_Pages
  *
  * @package    part of A11yc
  * @author     Jidaikobo Inc.
@@ -35,7 +35,8 @@ class Controller_Pages
 	 */
 	public static function fetch_page($url)
 	{
-		$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?'.Controller_Setup::version_sql().';';
+		$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?';
+		$sql.= Controller_Setup::version_sql().';';
 		return Db::fetch($sql, array($url));
 	}
 

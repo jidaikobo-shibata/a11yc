@@ -1,6 +1,6 @@
 <?php
 /**
- * A11yc\Checklist
+ * A11yc\Controller_Checklist
  *
  * @package    part of A11yc
  * @author     Jidaikobo Inc.
