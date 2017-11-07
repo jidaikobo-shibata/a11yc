@@ -13,6 +13,14 @@ namespace A11yc;
 class Controller_Pages
 {
 	/**
+	 * target mime types
+	 */
+	public static $target_mimes = array(
+		'text/html',
+		'application/pdf',
+	);
+
+	/**
 	 * Show Pages Index
 	 *
 	 * @return Void
@@ -217,7 +225,7 @@ class Controller_Pages
 				}
 
 				// is html?
-				if ( ! Crawl::is_html($url)) continue;
+				if ( ! Crawl::is_target_webpage($url)) continue;
 
 				// page title
 				$page_title = Util::fetch_page_title($url);
@@ -328,7 +336,7 @@ class Controller_Pages
 				strpos($url, '#') !== false || // fragment included
 				! Crawl::is_same_host($base_url, $url) || // out of host
 				! Crawl::is_page_exist($url) || // page not exists
-				! Crawl::is_html($url) // non html
+				! Crawl::is_target_webpage($url) // non html or pdf or so
 			)
 			{
 				echo "<strong>Ignored</strong>\n";

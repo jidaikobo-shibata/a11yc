@@ -234,8 +234,8 @@ class Crawl
 	{
 		if (isset(static::$real_urls[$url])) return static::$real_urls[$url];
 
-		\A11yc\Guzzle::forge($url);
-		$real_url = \A11yc\Guzzle::instance($url)->real_url;
+		Guzzle::forge($url);
+		$real_url = Guzzle::instance($url)->real_url;
 
 		if ($real_url)
 		{
@@ -262,6 +262,25 @@ class Crawl
 	}
 
 	/**
+	 * is target webpage
+	 *
+	 * @param  String  $url
+	 * @return Bool
+	 */
+	public static function is_target_webpage($url)
+	{
+		if (static::fetch_html($url)) return true;
+
+		if (isset(Guzzle::instance($url)->headers['Content-Type'][0]))
+		{
+			return in_array(
+				Guzzle::instance($url)->headers['Content-Type'][0],
+				Controller_Pages::$target_mimes
+			);
+		}
+	}
+
+	/**
 	 * fetch html
 	 *
 	 * @param  String $url
@@ -272,16 +291,14 @@ class Crawl
 		static $htmls = array();
 		if (isset($htmls[$url])) return $htmls[$url];
 
-		\A11yc\Guzzle::forge($url);
-		\A11yc\Guzzle::instance($url)
+		Guzzle::forge($url);
+		Guzzle::instance($url)
 			->set_config(
 				'User-Agent',
 				Util::s(Input::user_agent().' GuzzleHttp/a11yc (+http://www.jidaikobo.com)')
 			);
 
-		$htmls[$url] = \A11yc\Guzzle::instance($url)->is_html ?
-								 \A11yc\Guzzle::instance($url)->body :
-								 false;
+		$htmls[$url] = Guzzle::instance($url)->is_html ? Guzzle::instance($url)->body : false;
 
 		return $htmls[$url];
 	}
@@ -294,7 +311,7 @@ class Crawl
 	 */
 	public static function is_page_exist($url)
 	{
-		\A11yc\Guzzle::forge($url);
-		return \A11yc\Guzzle::instance($url)->is_exists;
+		Guzzle::forge($url);
+		return Guzzle::instance($url)->is_exists;
 	}
 }

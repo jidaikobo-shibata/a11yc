@@ -96,7 +96,9 @@ class Evaluate
 	 */
 	public static function evaluate_total()
 	{
-		$ps = Db::fetch_all('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `done` = 1 and `trash` = 0;');
+		$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `done` = 1 and `trash` = 0';
+		$sql.= Controller_Setup::version_sql().';';
+		$ps = Db::fetch_all($sql);
 
 		// calculate percentage
 		$results = array();
@@ -105,7 +107,16 @@ class Evaluate
 		$total = array();
 		foreach ($ps as $p)
 		{
-			foreach (static::evaluate_url($p['url']) as $criterion => $result)
+			if (empty($p['alt_url']))
+			{
+				$url = $p['url'];
+			}
+			else
+			{
+				$url = $p['alt_url'];
+			}
+
+			foreach (static::evaluate_url($url) as $criterion => $result)
 			{
 				// initialize
 				$total[$criterion] = Arr::get($total, $criterion, 0);
@@ -344,8 +355,24 @@ class Evaluate
 	 */
 	public static function check_site_level()
 	{
-		$min = Db::fetch('SELECT MIN(`level`) as min FROM '.A11YC_TABLE_PAGES.' WHERE `done` = 1;');
-		return $min['min'];
+		$sql = 'SELECT MIN(`level`) as min FROM '.A11YC_TABLE_PAGES.' WHERE `done` = 1';
+		$sql.= Controller_Setup::version_sql();
+		$sql.= ' AND `alt_url` = ""';
+		$min = Db::fetch($sql);
+		return is_null($min['min']) ? 0 : $min['min'];
+	}
+
+	/**
+	 * check_alt_url_exception
+	 *
+	 * @return bool
+	 */
+	public static function check_alt_url_exception()
+	{
+		$sql = 'SELECT `level` FROM '.A11YC_TABLE_PAGES.' WHERE `done` = 1';
+		$sql.= Controller_Setup::version_sql();
+		$sql.= ' AND `alt_url` <> ""';
+		return Db::fetch_all($sql) ? true : false;
 	}
 
 	/**

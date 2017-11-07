@@ -151,6 +151,25 @@ class Controller_Disclosure
 			}
 			ksort($pages);
 
+			// pdf
+			$pdfs = array();
+			foreach ($pages as $k => $each_pages)
+			{
+				foreach ($each_pages as $kk => $vv)
+				{
+					if (substr($vv['url'], -4) == '.pdf')
+					{
+						if ( ! empty($vv['alt_url']))
+						{
+							$vv['level'] = Evaluate::check_level_url($vv['alt_url']);
+						}
+						$pdfs[] = $vv;
+						unset($pages[$k][$kk]);
+					}
+				}
+			}
+			$pages['pdfs'] = $pdfs;
+
 			View::assign('selection_reasons', Controller_Checklist::selection_reasons());
 			View::assign('pages', $pages);
 			View::assign('title', A11YC_LANG_CHECKED_PAGES);
