@@ -63,7 +63,7 @@ define('A11YC_LANG_PAGES_INDEX', '対象ページ一覧');
 define('A11YC_LANG_PAGES_PAGETITLE', '対象ページのtitle');
 define('A11YC_LANG_PAGES_URLS', '対象ページのURL');
 define('A11YC_LANG_PAGES_URLS_ADD', 'URLを追加する');
-define('A11YC_LANG_PAGES_NOT_FOUND', '対象となるページが存在しません');
+define('A11YC_LANG_PAGES_NOT_FOUND', '対象となるページが存在しないか、一般非表示です。');
 define('A11YC_LANG_PAGES_ALREADY_EXISTS', 'すでに登録されています');
 define('A11YC_LANG_PAGES_ADDED_NORMALLY', '登録しました');
 define('A11YC_LANG_PAGES_ADD_FAILED', '登録に失敗しました');
