@@ -250,6 +250,33 @@ checks:
         "This sound is an example of sounds that people feel fear", "When looking at it is an image that loses sense of equilibrium", you explain that.
         It is almost impossible to transcribe "specific senses" and reproduce them in text, so these are out of the scope of accessibility checks.
 
+    1-1-1m:
+      criterion: *c1-1-1
+      pass:
+        1-1-1:
+          - 1-1-1a
+          - 1-1-1m
+          - 1-1-1n
+      level: *lv1
+      non-exist:
+        - 1-1-1
+      name: such as PDF, Word, Excel files do not exist in the page
+      tech: |
+        If there are no HTML, PDF, Word, Excel, etc files in the page, the relevant success criteria will be "Not present".
+
+    1-1-1n:
+      criterion: *c1-1-1
+      pass:
+        1-1-1:
+          - 1-1-1a
+          - 1-1-1m
+          - 1-1-1n
+      level: *lv1
+      name: There are PDF, Word, Excel files, but whether accessibility is secured, whether the file is equivalent to HTML, alternative content exists
+      tech: |
+        As for actual, PDF, Word, Excel files, accessibility guaranteeing know-how and accessibility supported situation are not so good, after all, preparing HTML of equivalent contents is the most accessible so far is.
+        Please consider the accessible application method (telephone correspondence etc. for visually impaired people) separately in the case of operation like "Fax transmission after filling in" in the application application etc. for the file concerned.
+
   1-2-1:
     1-2-1a:
       criterion: *c1-2-1
