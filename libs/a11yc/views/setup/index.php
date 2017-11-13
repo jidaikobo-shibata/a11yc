@@ -15,3 +15,15 @@
 	<input type="submit" value="<?php echo A11YC_LANG_DISCLOSURE_PROTECT_VERSION_TITLE ?>" data-a11yc-confirm="<?php echo A11YC_LANG_DISCLOSURE_PROTECT_DATA_CONFIRM ?>" />
 	</div>
 </form>
+
+if ($versions)
+{
+	$html.= '<h3>'.A11YC_LANG_DISCLOSURE_VERSION_EXISTS.'</h3>';
+	$html.= '<p>'.A11YC_LANG_DISCLOSURE_VERSION_EXISTS_EXP.'</p><ul>';
+	foreach ($versions as $version)
+	{
+		$html.= '<li>'.date('Y-m-d', strtotime($version)).'</li>';
+	}
+	$html.= '</ul>';
+	echo $html;
+}

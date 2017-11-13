@@ -1,6 +1,6 @@
 <?php
 /**
- * A11yc\Setup
+ * A11yc\Controller_Setup
  *
  * @package    part of A11yc
  * @author     Jidaikobo Inc.
@@ -23,6 +23,7 @@ class Controller_Setup
 	{
 		static::form();
 		View::assign('form', View::fetch('form'), false);
+		View::assign('versions', Controller_Disclosure::get_versions());
 		View::assign('body', View::fetch_tpl('setup/index.php'), false);
 	}
 
@@ -60,9 +61,9 @@ class Controller_Setup
 		if ( ! is_null(static::$version)) return static::$version;
 
 		// check get request
-		$version = \A11yc\Input::get('a11yc_version', '');
+		$version = \A11yc\Input::get('a11yc_version', '0');
 		$version = $version ? intval($version) : $version;
-		if (empty($version)) return '';
+		if ($version == 0) return $version;
 
 		// check db
 		$sql = 'SELECT `version` FROM '.A11YC_TABLE_SETUP.' GROUP BY `version`;';

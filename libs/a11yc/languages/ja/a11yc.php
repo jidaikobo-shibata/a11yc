@@ -16,7 +16,9 @@ define('A11YC_LANG_PASS', '適合');
 define('A11YC_LANG_CRITERION', '達成基準');
 define('A11YC_LANG_HERE', 'こちら,ここ,ここをクリック,コチラ');
 define('A11YC_LANG_TEST_RESULT', '試験結果');
-define('A11YC_LANG_CURRENT_LEVEL', '達成しているレベル');
+define('A11YC_LANG_CURRENT_LEVEL', 'ページで達成しているレベル');
+define('A11YC_LANG_ALT_URL_LEVEL', '<a href="%s">代替コンテンツ</a>で達成しているレベル');
+define('A11YC_LANG_ALT_URL_EXCEPTION', '代替コンテンツを含む達成状況');
 define('A11YC_LANG_CURRENT_LEVEL_WEBPAGES', 'サイトで達成しているレベル');
 define('A11YC_LANG_NUM_OF_CHECKED', 'チェック済みのページ数');
 define('A11YC_LANG_CHECKED_PAGES', 'アクセシビリティチェック対象のページ');
@@ -63,7 +65,7 @@ define('A11YC_LANG_PAGES_INDEX', '対象ページ一覧');
 define('A11YC_LANG_PAGES_PAGETITLE', '対象ページのtitle');
 define('A11YC_LANG_PAGES_URLS', '対象ページのURL');
 define('A11YC_LANG_PAGES_URLS_ADD', 'URLを追加する');
-define('A11YC_LANG_PAGES_NOT_FOUND', '対象となるページが存在しません');
+define('A11YC_LANG_PAGES_NOT_FOUND', '対象となるページが存在しないか、一般非表示です。');
 define('A11YC_LANG_PAGES_ALREADY_EXISTS', 'すでに登録されています');
 define('A11YC_LANG_PAGES_ADDED_NORMALLY', '登録しました');
 define('A11YC_LANG_PAGES_ADD_FAILED', '登録に失敗しました');
@@ -159,6 +161,7 @@ define('A11YC_LANG_CHECKLIST_CONFORMANCE', '%s 準拠');
 define('A11YC_LANG_CHECKLIST_CONFORMANCE_PARTIAL', '%s 一部準拠');
 define('A11YC_LANG_CHECKLIST_CONFORMANCE_ADDITIONAL', '目標とする達成基準以上の達成項目');
 define('A11YC_LANG_CHECKLIST_NON_INTERFERENCE', '非干渉');
+define('A11YC_LANG_CHECKLIST_ALT_URL', '代替コンテンツURL');
 define('A11YC_LANG_CHECKLIST_DO_LINK_CHECK', 'リンク切れをチェック');
 define('A11YC_LANG_CHECKLIST_SOURCE', 'ソースコード');
 define('A11YC_LANG_CHECKLIST_VIEW_SOURCE', 'ソースコードを見る');
@@ -230,6 +233,8 @@ define('A11YC_LANG_DISCLOSURE_DELETE_SAMEDATE', '本日作成の保護された�
 define('A11YC_LANG_DISCLOSURE_PROTECT_DATA_SAVED', 'データを保護しました。');
 define('A11YC_LANG_DISCLOSURE_PROTECT_DATA_FAILD', 'データの保護に失敗しました。');
 define('A11YC_LANG_DISCLOSURE_PROTECT_DATA_CONFIRM', '本当にデータを保護してよいですか？');
+define('A11YC_LANG_DISCLOSURE_VERSION_EXISTS', '存在するバージョン');
+define('A11YC_LANG_DISCLOSURE_VERSION_EXISTS_EXP', 'それぞれのバージョンはアクセシビリティ報告書を表示しているページで切り替えられます。');
 
 // sample
 define('A11YC_LANG_SAMPLE_POLICY', '例文：\n<p>【あなたの名前／団体名】は、障害の有無や年齢などに関係なく、だれもが同じように利用できるアクセシブルなウェブサイトづくりに努めます。</p>\n<p>【このウェブサイトがアクセシビリティを確保することの意味を記載してください。】</p>\n<p>以下のとおりアクセシビリティ方針を定め、恒常的にアクセシビリティを確保してゆきます。</p>\n\n<h2>対応方針</h2>\n<p>当サイトは、日本工業規格JIS X 8341-3:2016「高齢者・障害者等配慮設計指針-情報通信における機器、ソフトウェア及びサービス-第3部:ウェブコンテンツ」の等級「AA」に準拠することを目標とします。</p>\n<p>本方針における「準拠」という対応度の表記は、情報通信アクセス協議会ウェブアクセシビリティ基盤委員会「<a href="http://waic.jp/docs/jis2016/compliance-guidelines/201603/">ウェブコンテンツのJIS X 8341-3:2016 対応度表記ガイドライン - 2016年3月版</a>」で定められた表記によります。</p>\n\n<h2>対象範囲</h2>\n<p>【「http://example.com 以下のページを対象とする」というように記載してください。】</p>\n\n<h2>達成目標日</h2>\n<p>【達成目標日を記載してください。】</p>\n\n<h2>例外事項</h2>\n<p>【もしあれば記載してください。】</p>');

@@ -1,6 +1,6 @@
 <?php
 /**
- * A11yc\Checklist
+ * A11yc\Controller_Checklist
  *
  * @package    part of A11yc
  * @author     Jidaikobo Inc.
@@ -140,27 +140,30 @@ class Controller_Checklist
 			$date = Input::post('done_date', date('Y-m-d'));
 			$date = date('Y-m-d', strtotime($date));
 			$page_title = stripslashes(Input::post('page_title'));
+			$alt_url = Util::urldec(Input::post('alt_url'));
 			$standard = intval(Input::post('standard'));
 			$selection_reason = intval(Input::post('selection_reason'));
 			$r = FALSE;
 			if (Controller_Pages::fetch_page($url))
 			{
 				$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET ';
-				$sql.= '`date` = ?, `done` = ?, `standard` = ?, `page_title` = ?, `selection_reason` = ?';
+				$sql.= '`date` = ?, `done` = ?, `standard` = ?,';
+				$sql.= ' `page_title` = ?, `selection_reason` = ?, `alt_url` = ?';
 				$sql.= ' WHERE `url` = ?'.Controller_Setup::curent_version_sql().';';
 				$r = Db::execute(
 					$sql,
-					array($date, $done, $standard, $page_title, $selection_reason, $url)
+					array($date, $done, $standard, $page_title, $selection_reason, $alt_url, $url)
 				);
 			}
 			else
 			{
 				$sql = 'INSERT INTO '.A11YC_TABLE_PAGES;
-				$sql.= ' (`url`, `date`, `done`, `standard`, `trash`, `page_title`, `add_date`, `selection_reason`, `version`)';
+				$sql.= ' (`url`, `date`, `done`, `standard`, `trash`,';
+				$sql.= ' `page_title`, `add_date`, `selection_reason`, `alt_url`, `version`)';
 				$sql.= ' VALUES (?, ?, ?, ?, 0, ?, ?, ?, "");';
 				$r = Db::execute(
 					$sql,
-					array($url, $date, $done, $standard, $page_title, date('Y-m-d H:i:s'), $selection_reason)
+					array($url, $date, $done, $standard, $page_title, date('Y-m-d H:i:s'), $selection_reason, $alt_url)
 				);
 			}
 
@@ -224,10 +227,14 @@ class Controller_Checklist
 			$title = A11YC_LANG_CHECKLIST_TITLE.':'.Util::fetch_page_title($url);
 		}
 
+		// page
+		$page = Controller_Pages::fetch_page($url);
+
 		// assign
 		View::assign('current_user', $current_user);
 		View::assign('users', $users);
 		View::assign('url', $url);
+		View::assign('alt_url', $page['alt_url']);
 		View::assign('title', $title);
 
 		static::form($url, $users, Arr::get($current_user, 'id'));

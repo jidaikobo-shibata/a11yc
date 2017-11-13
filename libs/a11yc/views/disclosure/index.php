@@ -1,7 +1,7 @@
 <?php namespace A11yc; ?>
 <h2><?php echo $title ?></h2>
 
-<table class="a11yc_table">
+<table class="a11yc_table a11yc_table_report">
 
 	<!-- target level -->
 	<tr>
@@ -17,6 +17,10 @@
 		<?php
 		$site_level = Evaluate::check_site_level();
 		echo Evaluate::result_str($site_level, $target_level);
+
+		if (Evaluate::check_alt_url_exception()):
+			echo ' ('.A11YC_LANG_ALT_URL_EXCEPTION.')';
+		endif;
 		?>
 		</td>
 	</tr>
@@ -29,6 +33,17 @@
 		<td>
 		<?php
 		echo Evaluate::result_str($page['level'], $target_level);
+		if ( ! empty($page['alt_url'])):
+		$chk = Util::remove_query_strings(Util::uri(), array('url', 'a11yc_pages'));
+		$chk = Util::add_query_strings(
+			$chk,
+			array(
+				array('url', Util::urlenc($page['alt_url'])),
+			));
+
+			echo ' ('.sprintf(A11YC_LANG_ALT_URL_LEVEL, $chk).': '.Evaluate::result_str(Evaluate::check_level_url($page['alt_url']), $target_level).')';
+		endif;
+
 		?>
 		</td>
 	</tr>
@@ -155,7 +170,7 @@
 	<?php if ($is_total && $setup['report']): ?>
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_OPINION ?></th>
-		<td><?php echo $setup['report']; ?></td>
+		<td><?php echo htmlspecialchars_decode($setup['report']); ?></td>
 	</tr>
 	<?php endif; ?>
 	<!-- /report -->

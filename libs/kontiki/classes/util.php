@@ -227,7 +227,7 @@ class Util
 	 * @return String
 	 * @link http://qiita.com/git6_com/items/ecaafb1afb42fc207814
 	 */
-	function byte2Str($bytes)
+	public static function byte2Str($bytes)
 	{
 		if ( ! is_numeric($bytes)) return $bytes;
 

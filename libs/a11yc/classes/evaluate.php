@@ -74,17 +74,16 @@ class Evaluate
 		$yml = Yaml::fetch();
 		foreach ($yml['codes'] as $code => $criterion)
 		{
-			$results[$criterion] = Arr::get($results, $criterion) ?: array();
-			$results[$criterion]['memo'] = Arr::get($results, "{$criterion}.memo") ?: '';
+			$results[$criterion] = Arr::get($results, $criterion, array());
+			$results[$criterion]['memo'] = Arr::get($results, "{$criterion}.memo", '');
 			if ( ! isset($cs[$code])) continue;
-			if ($results[$criterion]['passed'] == 0 && isset($ngs[$criterion]['memo']))
-			{
-				$results[$criterion]['memo'] = $ngs[$criterion]['memo'];
-			}
-			else
-			{
-				$results[$criterion]['memo'].= Arr::get($cs, "{$code}.memo");
-			}
+			$results[$criterion]['memo'].= Arr::get($cs, "{$code}.memo");
+		}
+
+		foreach (array_keys($yml['criterions']) as $criterion)
+		{
+			if ( ! isset($ngs[$criterion]['memo'])) continue;
+			$results[$criterion]['memo'].= $ngs[$criterion]['memo'];
 		}
 
 		return $results;
@@ -97,7 +96,9 @@ class Evaluate
 	 */
 	public static function evaluate_total()
 	{
-		$ps = Db::fetch_all('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `done` = 1 and `trash` = 0;');
+		$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `done` = 1 and `trash` = 0';
+		$sql.= Controller_Setup::version_sql().';';
+		$ps = Db::fetch_all($sql);
 
 		// calculate percentage
 		$results = array();
@@ -106,7 +107,16 @@ class Evaluate
 		$total = array();
 		foreach ($ps as $p)
 		{
-			foreach (static::evaluate_url($p['url']) as $criterion => $result)
+			if (empty($p['alt_url']))
+			{
+				$url = $p['url'];
+			}
+			else
+			{
+				$url = $p['alt_url'];
+			}
+
+			foreach (static::evaluate_url($url) as $criterion => $result)
 			{
 				// initialize
 				$total[$criterion] = Arr::get($total, $criterion, 0);
@@ -224,12 +234,26 @@ class Evaluate
 	{
 		$cs = static::fetch_results($url);
 		$ngs = static::fetch_ngs($url);
+		$yml = Yaml::fetch();
 
 		$passed = array();
 		foreach (static::passed($cs) as $criterion => $codes)
 		{
 			if (array_key_exists($criterion, $ngs)) continue;
 			$passed = array_merge($passed, $codes);
+		}
+
+		// NGコメントがあれば合格しない
+		// non-pass when ng comment exists
+		foreach (array_keys($ngs) as $code)
+		{
+			foreach ($passed as $k => $v)
+			{
+				if (in_array($v, array_keys($yml['checks'][$code])))
+				{
+					unset($passed[$k]);
+				}
+			}
 		}
 
 		return self::check_level($passed);
@@ -331,8 +355,24 @@ class Evaluate
 	 */
 	public static function check_site_level()
 	{
-		$min = Db::fetch('SELECT MIN(`level`) as min FROM '.A11YC_TABLE_PAGES.' WHERE `done` = 1;');
-		return $min['min'];
+		$sql = 'SELECT MIN(`level`) as min FROM '.A11YC_TABLE_PAGES.' WHERE `done` = 1';
+		$sql.= Controller_Setup::version_sql();
+		$sql.= ' AND `alt_url` = ""';
+		$min = Db::fetch($sql);
+		return is_null($min['min']) ? 0 : $min['min'];
+	}
+
+	/**
+	 * check_alt_url_exception
+	 *
+	 * @return bool
+	 */
+	public static function check_alt_url_exception()
+	{
+		$sql = 'SELECT `level` FROM '.A11YC_TABLE_PAGES.' WHERE `done` = 1';
+		$sql.= Controller_Setup::version_sql();
+		$sql.= ' AND `alt_url` <> ""';
+		return Db::fetch_all($sql) ? true : false;
 	}
 
 	/**

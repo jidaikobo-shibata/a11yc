@@ -6,6 +6,7 @@ if ($versions):
 	$html.= '<form action="'.$disclosure_link.'" method="GET">';
 	$html.= '<div><label for="a11yc_version">'.A11YC_LANG_DISCLOSURE_CHANGE_VERSION.'</label>';
 	$html.= '<select name="a11yc_version" id="a11yc_version">';
+	$html.= '<option value="">'.A11YC_LANG_DISCLOSURE_NEWEST_VERSION.'</option>';
 	foreach ($versions as $version):
 		$selected = Input::get('a11yc_version', '') == $version ? ' selected="selected"' : '';
 		$html.= '<option'.$selected.' value="'.$version.'">'.date('Y-m-d', strtotime($version)).'</option>';

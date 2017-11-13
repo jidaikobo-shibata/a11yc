@@ -131,6 +131,7 @@ echo $v."\n";
 endforeach;
 endif;
 ?></textarea>
+<?php echo isset($add_nonce) ? $add_nonce : ''; ?>
 <input type="submit" value="<?php echo A11YC_LANG_PAGES_URLS_ADD ?>" />
 </form>
 
@@ -140,5 +141,6 @@ endif;
 <p><?php echo A11YC_LANG_PAGES_GET_URLS_EXP ?></p>
 
 <input type="text" name="get_urls" id="a11yc_get_urls" size="60" value="<?php echo $get_urls ?>" />
+<?php echo isset($get_nonce) ? $get_nonce : ''; ?>
 <input type="submit" value="<?php echo A11YC_LANG_PAGES_GET_URLS_BTN ?>" />
 </form>

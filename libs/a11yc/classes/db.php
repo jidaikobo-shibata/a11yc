@@ -21,6 +21,22 @@ class Db extends \Kontiki\Db
 	public static function init_table($name = 'default')
 	{
 		// return
+		if (static::is_fields_exist(A11YC_TABLE_PAGES, array('alt_url'), $name)) return;
+
+		// update
+		if (static::is_table_exist(A11YC_TABLE_PAGES, $name))
+		{
+			if ( ! static::is_fields_exist(A11YC_TABLE_PAGES, array('alt_url'), $name))
+			{
+				$sql = 'ALTER TABLE '.A11YC_TABLE_PAGES.' ADD `alt_url` text;';
+				static::execute($sql, array(), $name);
+
+				$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET `alt_url` = "";';
+				static::execute($sql, array(), $name);
+			}
+		}
+
+		// return
 		if (static::is_fields_exist(A11YC_TABLE_SETUP, array('version'), $name)) return;
 
 		// base tables
