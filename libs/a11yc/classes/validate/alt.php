@@ -13,6 +13,23 @@ namespace A11yc;
 class Validate_Alt extends Validate
 {
 	/**
+	 * img exists
+	 *
+	 * @return Void
+	 */
+	public static function notice_img_exists()
+	{
+		$str = static::ignore_elements(static::$hl_html);
+
+		$ms = static::get_elements_by_re($str, 'ignores', 'imgs');
+		if ( ! $ms[1]) return;
+
+		static::$error_ids['notice_img_exists'][0]['id'] = 0;
+		static::$error_ids['notice_img_exists'][0]['str'] = A11YC_LANG_IMAGE.' '.sprintf(A11YC_LANG_COUNT_ITEMS, count($ms[1]));
+		static::add_error_to_html('notice_img_exists', static::$error_ids, 'ignores');
+	}
+
+	/**
 	 * alt attr of img
 	 *
 	 * @return Void

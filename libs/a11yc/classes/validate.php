@@ -69,6 +69,8 @@ class Validate
 			'duplicated_ids_and_accesskey'    => '\A11yc\Validate_Attr',
 			'must_be_numeric_attr'            => '\A11yc\Validate_Attr',
 			'same_page_title_in_same_site'    => '\A11yc\Validate_Head',
+			'notice_img_exists'               => '\A11yc\Validate_Alt',
+			'notice_non_html_exists'          => '\A11yc\Validate_Link',
 		);
 
 	/**

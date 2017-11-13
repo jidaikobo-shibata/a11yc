@@ -260,7 +260,7 @@ checks:
       level: *lv1
       non-exist:
         - 1-1-1
-      name: such as PDF, Word, Excel files do not exist in the page
+      name: such as PDF, Word, Excel, PowerPoint files do not exist in the page
       tech: |
         If there are no HTML, PDF, Word, Excel, etc files in the page, the relevant success criteria will be "Not present".
 
@@ -272,7 +272,7 @@ checks:
           - 1-1-1m
           - 1-1-1n
       level: *lv1
-      name: There are PDF, Word, Excel files, but whether accessibility is secured, whether the file is equivalent to HTML, alternative content exists
+      name: There are PDF, Word, Excel, PowerPoint files, but whether accessibility is secured, whether the file is equivalent to HTML, alternative content exists
       tech: |
         As for actual, PDF, Word, Excel files, accessibility guaranteeing know-how and accessibility supported situation are not so good, after all, preparing HTML of equivalent contents is the most accessible so far is.
         Please consider the accessible application method (telephone correspondence etc. for visually impaired people) separately in the case of operation like "Fax transmission after filling in" in the application application etc. for the file concerned.

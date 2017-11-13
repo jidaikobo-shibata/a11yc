@@ -693,6 +693,9 @@ dl#a11yc_validation_code {
 	margin-top: -1px;
 	background-color: #ffdfdf;
 }
+#a11yc_validation_errors dt.a11yc_validation_notice {
+	background-color: #ffffdf;
+}
 #a11yc_validation_errors dd,
 #a11yc_validation_code dd {
 	margin-left: 0;

@@ -442,13 +442,15 @@ class Controller_Checklist
 			static::$err_cnts[$lv]++;
 
 			// dt
-			$ret = '<dt id="index_'.$anchor.'" tabindex="-1" class="a11yc_level_'.$lv.'">'.$yml['errors'][$code_str]['message'];
+			$notice_class = isset($yml['errors'][$code_str]['notice']) ? ' a11yc_validation_notice' : '';
+			$ret = '<dt id="index_'.$anchor.'" tabindex="-1" class="a11yc_level_'.$lv.$notice_class.'">'.$yml['errors'][$code_str]['message'];
 
 			// dt - information
 			$criterion_code = $yml['errors'][$code_str]['criterion'];
 			$code = $yml['errors'][$code_str]['code'];
 			$level = $yml['checks'][$criterion_code][$code]['criterion']['level']['name'];
 			$criterion = $yml['checks'][$criterion_code][$code]['criterion'];
+
 			$ret.= ' ('.strtoupper($lv).' ';
 			$ret.= '<a href="'.$docpath.$code.'&amp;criterion='.$yml['errors'][$code_str]['criterion'].'"'.A11YC_TARGET.'>Doc</a> ';
 			$ret.= '<a href="'.$criterion['url'].'"'.A11YC_TARGET.' title="'.$criterion['name'].'">'.Util::key2code($criterion['code']).'</a>)';
