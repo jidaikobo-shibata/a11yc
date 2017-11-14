@@ -247,7 +247,7 @@ class Controller_Pages
 
 				$sql = 'INSERT INTO '.A11YC_TABLE_PAGES;
 				$sql.= '(`url`, `trash`, `add_date`, `page_title`, `version`) VALUES ';
-				$sql.= '(?, 0, ?, ?, "");';
+				$sql.= '(?, 0, ?, ?, 0);';
 				$success = Db::execute($sql, array($url, date('Y-m-d H:i:s'), $page_title));
 				if ($success)
 				{
@@ -511,10 +511,10 @@ class Controller_Pages
 		);
 
 		// assign nums
-		View::assign('yetcnt', Db::fetch($cntsql.$yetwhr));
-		View::assign('donecnt', Db::fetch($cntsql.$donewhr));
-		View::assign('trashcnt', Db::fetch($cntsql.$trashwhr));
-		View::assign('allcnt', Db::fetch($cntsql.$allwhr));
+		View::assign('yetcnt', Db::fetch($cntsql.$yetwhr.Controller_Setup::curent_version_sql()));
+		View::assign('donecnt', Db::fetch($cntsql.$donewhr.Controller_Setup::curent_version_sql()));
+		View::assign('trashcnt', Db::fetch($cntsql.$trashwhr.Controller_Setup::curent_version_sql()));
+		View::assign('allcnt', Db::fetch($cntsql.$allwhr.Controller_Setup::curent_version_sql()));
 
 		// crawled urls
 		$from_session = Session::fetch('values', 'urls');

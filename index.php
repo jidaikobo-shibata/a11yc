@@ -31,7 +31,7 @@ if (Auth::auth())
 		Maintenance::sqlite(A11YC_DATA_PATH, A11YC_DATA_FILE);
 
 		// version check
-		Maintenance::version_check();
+//		Maintenance::version_check();
 
 		// security check
 		Security::deny_http_directories();
