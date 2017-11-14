@@ -57,6 +57,7 @@ define('A11YC_CLASSES_PATH',  A11YC_PATH.'/classes');
 define('A11YC_CACHE_PATH',    dirname(__DIR__).'/cache');
 
 // database
+define('A11YC_DB_TYPE', 'sqlite');
 define('A11YC_DATA_PATH', dirname(__DIR__).'/db');
 define('A11YC_DATA_FILE', '/db.sqlite');
 
