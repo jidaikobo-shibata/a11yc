@@ -20,7 +20,9 @@ class Evaluate
 	 */
 	public static function fetch_results($url)
 	{
-		$sql = 'SELECT * FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = ?;';
+		$sql = 'SELECT * FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = ?';
+		$sql.= Controller_Setup::curent_version_sql().';';
+
 		$cs = array();
 		foreach (Db::fetch_all($sql, array($url)) as $v)
 		{
@@ -39,7 +41,9 @@ class Evaluate
 	 */
 	public static function fetch_ngs($url)
 	{
-		$sql = 'SELECT * FROM '.A11YC_TABLE_CHECKS_NGS.' WHERE `url` = ?;';
+		$sql = 'SELECT * FROM '.A11YC_TABLE_CHECKS_NGS.' WHERE `url` = ?';
+		$sql.= Controller_Setup::curent_version_sql().';';
+
 		$ngs = array();
 		foreach (Db::fetch_all($sql, array($url)) as $v)
 		{
@@ -158,11 +162,13 @@ class Evaluate
 		foreach ($yml['passes'] as $code => $codes)
 		{
 			if ( ! isset($cs[$code]) || ! $cs[$code]['passed']) continue;
+
 			foreach ($codes as $each_code)
 			{
 				$criterion = $yml['codes'][$each_code];
 				$passed[$criterion] = Arr::get($passed, $criterion, array());
-				$passed[$criterion] = array_merge($passed[$criterion], $yml['passes'][$each_code]);
+//				$passed[$criterion] = array_merge($passed[$criterion], $yml['passes'][$each_code]);
+				$passed[$criterion] = array_merge($passed[$criterion], $yml['passes'][$code]);
 			}
 		}
 		return array_map('array_unique', $passed);

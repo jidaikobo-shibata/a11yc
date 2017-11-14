@@ -254,7 +254,6 @@ checks:
       criterion: *c1-1-1
       pass:
         1-1-1:
-          - 1-1-1a
           - 1-1-1m
           - 1-1-1n
       level: *lv1
@@ -268,7 +267,6 @@ checks:
       criterion: *c1-1-1
       pass:
         1-1-1:
-          - 1-1-1a
           - 1-1-1m
           - 1-1-1n
       level: *lv1
