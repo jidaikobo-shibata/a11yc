@@ -46,10 +46,14 @@ class Controller_Checklist
 	{
 		$content = Crawl::fetch_html($url);
 		if ( ! $content) return array();
-		$all_errs = array();
+		$all_errs = array(
+			'notices' => array(),
+			'errors' => array()
+		);
 		Validate::set_html($content);
 		Crawl::set_target_path($url); // for same_urls_should_have_same_text
 		$codes = Validate::$codes;
+		$yml = Yaml::fetch();
 
 		// link check
 		if ( ! $link_check)
@@ -70,10 +74,18 @@ class Controller_Checklist
 			{
 				foreach ($errs as $key => $err)
 				{
-					$all_errs[] = static::message($code, $err, $key);
+					if (isset($yml['errors'][$code]['notice']))
+					{
+						$all_errs['notices'][] = static::message($code, $err, $key);
+					}
+					else
+					{
+						$all_errs['errors'][] = static::message($code, $err, $key);
+					}
 				}
 			}
 		}
+
 		return $all_errs;
 	}
 
@@ -439,11 +451,10 @@ class Controller_Checklist
 			$lv = strtolower($yml['criterions'][$yml['errors'][$code_str]['criterion']]['level']['name']);
 
 			// count errors
-			static::$err_cnts[$lv]++;
+			if ( ! isset($yml['errors'][$code_str]['notice'])) static::$err_cnts[$lv]++;
 
 			// dt
-			$notice_class = isset($yml['errors'][$code_str]['notice']) ? ' a11yc_validation_notice' : '';
-			$ret = '<dt id="index_'.$anchor.'" tabindex="-1" class="a11yc_level_'.$lv.$notice_class.'">'.$yml['errors'][$code_str]['message'];
+			$ret = '<dt id="index_'.$anchor.'" tabindex="-1" class="a11yc_level_'.$lv.'">'.$yml['errors'][$code_str]['message'];
 
 			// dt - information
 			$criterion_code = $yml['errors'][$code_str]['criterion'];

@@ -240,7 +240,8 @@ class Validate_Head extends Validate
 	public static function same_page_title_in_same_site()
 	{
 		$title = Util::fetch_page_title_from_html(static::$hl_html);
-		$sql = 'SELECT count(*) as num FROM '.A11YC_TABLE_PAGES.' WHERE `page_title` = ?;';
+		$sql = 'SELECT count(*) as num FROM '.A11YC_TABLE_PAGES.' WHERE `page_title` = ?';
+		$sql.= Controller_Setup::version_sql().';';
 		$results = Db::fetch($sql, array($title));
 
 		if (intval($results['num']) >= 2)

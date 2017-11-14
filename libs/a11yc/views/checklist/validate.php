@@ -3,7 +3,7 @@ namespace A11yc;
 // call from post
 $is_call_from_post = isset($is_call_from_post);
 
-if ($errs):
+if ($errs['errors']):
 // error
 	$html = '';
 	$class_str = $is_call_from_post ? '' : ' a11yc_disclosure';
@@ -28,11 +28,12 @@ if ($errs):
 			<div class="a11yc_controller">
 			</div>
 			<dl id="a11yc_validation_list">
-			<?php foreach ($errs as $err): ?>
+			<?php foreach ($errs['errors'] as $err): ?>
 				<?php echo $err ?>
 			<?php endforeach; ?>
 			</dl>
 		</div><!-- /#a11yc_validation_errors -->
+
 		<dl id="a11yc_validation_code">
 			<dt>
 <?php
@@ -40,6 +41,7 @@ if ($errs):
 ?>
 				<a role="button" class="a11yc_resetstyle<?php echo $class_str ?>" tabindex="0"><?php echo A11YC_LANG_CHECKLIST_SOURCE ?></a>
 			</dt>
+
 			<dd class="a11yc_disclosure_target show">
 				<div class="a11yc_controller"></div>
 				<div class="a11yc_source">
@@ -61,4 +63,21 @@ if ($errs):
 </div><!-- /.a11yc_disclosure_target -->
 <?php else:
 	echo '<p id="a11yc_validation_not_found_error"><span class="a11yc_icon_fa" role="presentation" aria-hidden="true"></span>'.A11YC_LANG_CHECKLIST_NOT_FOUND_ERR.'</p>';
-endif; ?>
+endif;
+
+// notices
+if ($errs['notices']):
+?>
+<div class="<?php echo $class_str ?>">
+	<dl id="a11yc_validation_notices_list">
+	<?php foreach ($errs['notices'] as $err): ?>
+		<?php echo $err ?>
+	<?php endforeach; ?>
+	</dl>
+</div><!-- /.a11yc_disclosure_target -->
+
+<?php
+endif;
+
+
+?>
