@@ -170,7 +170,10 @@ class Db
 	 */
 	public static function is_table_exist($table, $name = 'default')
 	{
-		$sql = 'show tables;';
+		$sql = A11YC_DB_TYPE == 'sqlite' ?
+				 'select name from sqlite_master where type = "table";' :
+				 'show tables;';
+
 		$results = static::fetch_all($sql);
 		$tables = array();
 		foreach ($results as $row)
