@@ -174,7 +174,7 @@ class Db
 				 'select name from sqlite_master where type = "table";' :
 				 'show tables;';
 
-		$results = static::fetch_all($sql);
+		$results = static::fetch_all($sql, array(), $name);
 		$tables = array();
 		foreach ($results as $row)
 		{
