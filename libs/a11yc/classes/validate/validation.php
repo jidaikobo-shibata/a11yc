@@ -172,7 +172,10 @@ class Validate_Validation extends Validate
 		$str = str_replace(array("\n", "\r"), '', static::$hl_html);
 		$str = static::ignore_elements(static::$hl_html);
 
-		preg_match_all("/([^\x01-\x7E][ 　]{2,}[^\x01-\x7E])/iu", $str, $ms);
+		$search = '[^\x01-\x7E][ 　]{2,}[^\x01-\x7E]'; // MB+spaces+MB
+		$search.= '|[^\x01-\x7E][ 　]+[^\x01-\x7E][ 　]'; // MB+space(s)+MB+space
+
+		preg_match_all("/(".$search.")/iu", $str, $ms);
 		foreach ($ms[1] as $k => $m)
 		{
 			static::$error_ids['ja_word_breaking_space'][$k]['id'] = $ms[0][$k];
