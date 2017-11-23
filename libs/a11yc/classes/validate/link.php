@@ -106,7 +106,7 @@ class Validate_Link extends Validate
 			if (empty($text))
 			{
 				static::$error_ids['empty_link_element'][0]['id'] = $ms[0][$k];
-				static::$error_ids['empty_link_element'][0]['str'] = esc_html($ms[0][$k]);
+				static::$error_ids['empty_link_element'][0]['str'] = Util::s($ms[0][$k]);
 			}
 		}
 		static::add_error_to_html('empty_link_element', static::$error_ids, 'ignores');
