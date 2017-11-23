@@ -232,9 +232,13 @@ class Controller_Post
 
 		// validation
 		$raw = '';
-		$all_errs = array();
+		$all_errs = array(
+			'notices' => array(),
+			'errors' => array()
+		);
 		$errs_cnts = array();
 		$target_html = '';
+		$yml = Yaml::fetch();
 
 		if (Input::post('source'))
 		{
@@ -296,7 +300,6 @@ class Controller_Post
 		// Do Validate
 		if ($target_html)
 		{
-			$all_errs = array();
 			Validate::set_html($target_html);
 			$codes = Validate::$codes;
 
@@ -340,14 +343,16 @@ class Controller_Post
 					{
 						foreach ($errs as $key => $err)
 						{
-							$all_errs[] = Controller_Checklist::message($err_code, $err, $key, $err_link);
+							$err_type = isset($yml['errors'][$err_code]['notice']) ? 'notices' : 'errors';
+							$all_errs[$err_type][] = Controller_Checklist::message($err_code, $err, $key, $err_link);
+//							$all_errs[] = Controller_Checklist::message($err_code, $err, $key, $err_link);
 						}
 					}
 				}
 
 				// message
 				Session::add('messages', 'messages', A11YC_LANG_POST_DONE);
-				if (count($all_errs) == 0)
+				if (count($all_errs['errors']) == 0)
 				{
 					Session::add('messages', 'messages',
 						A11YC_LANG_CHECKLIST_NOT_FOUND_ERR);
@@ -355,7 +360,12 @@ class Controller_Post
 				else
 				{
 					Session::add('messages', 'messages',
-						sprintf(A11YC_LANG_POST_DONE_POINTS, count($all_errs)));
+						sprintf(A11YC_LANG_POST_DONE_POINTS, count($all_errs['errors'])));
+				}
+				if (count($all_errs['notices']) != 0)
+				{
+					Session::add('messages', 'messages',
+						sprintf(A11YC_LANG_POST_DONE_NOTICE_POINTS, count($all_errs['notices'])));
 				}
 			}
 
@@ -364,7 +374,7 @@ class Controller_Post
 
 			// results
 			$errs_cnts = array_merge(
-				array('total' => count($all_errs)),
+				array('total' => count($all_errs['errors'])),
 				Controller_Checklist::$err_cnts
 			);
 			$raw = nl2br(Validate::revert_html(Util::s(Validate::get_hl_html())));

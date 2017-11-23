@@ -42,7 +42,8 @@ define('A11YC_LANG_POST_FEEDBACK_TITLE', 'Feedback');
 define('A11YC_LANG_POST_FEEDBACK_EXP', 'If there is a request or correction part on the expression of the function, commentary, etc., please send us email (<a href="mailto:info@jidaikobo.com">info@jidaikobo.com</a>) or Twitter.');
 
 define('A11YC_LANG_POST_DONE', 'Done.');
-define('A11YC_LANG_POST_DONE_POINTS', 'Warnned %s Points.');
+define('A11YC_LANG_POST_DONE_POINTS', '%s Warnned Points.');
+define('A11YC_LANG_POST_DONE_NOTICE_POINTS', '%s Noitced Points.');
 define('A11YC_LANG_POST_DONE_IMAGE_LIST', 'Displaying list of images and alt. Depending on the referrer settings, images may not be displayed.');
 
 define('A11YC_LANG_POST_DO_CHECK', 'Do Accessibility check');
