@@ -37,8 +37,10 @@ if ( ! $url) Util::error('invalid access');
 
 // assign
 $errs = Controller_Checklist::validate_page($url, $link_check);
+$non_notice = isset($errs['errors']) ? $errs['errors'] : array();
+
 View::assign('errs', $errs, false);
-View::assign('errs_cnts', array_merge(array('total' => count($errs)), Controller_Checklist::$err_cnts));
+View::assign('errs_cnts', array_merge(array('total' => count($non_notice)), Controller_Checklist::$err_cnts));
 
 $raw = Util::s(Validate::get_hl_html());
 

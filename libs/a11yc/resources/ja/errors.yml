@@ -15,11 +15,6 @@ errors:
     criterion: 1-1-1
     code: 1-1-1b
 
-  alt_attr_of_empty:
-    message: 空のaltですが、意味を持たない画像ですか？
-    criterion: 1-1-1
-    code: 1-1-1b
-
   empty_alt_attr_of_img_inside_a:
     message: a要素の中にimg要素しかない場合、img要素のalt属性値は空文字でなくリンクの目的を表す文字を入れてください
     criterion: 1-1-1
@@ -34,6 +29,11 @@ errors:
     message: input要素のalt属性が存在しないか、alt属性値が空文字です。input要素のtypeがimageの時には目的を表す文字を入れてください
     criterion: 1-1-1
     code: 1-1-1c
+
+  empty_link_element:
+    message: リンク先があるのにリンク文字列のない要素があります
+    criterion: 2-4-4
+    code: 2-4-4a
 
   here_link:
     message: 「こちら」のような文字列をリンクにしないでください
@@ -74,11 +74,6 @@ errors:
     message: 動き、点滅をHTMLでマークアップしないでください
     criterion: 2-2-2
     code: 2-2-2b
-
-  tell_user_file_type:
-    message: リンク先がファイルの場合、ファイルの形式やファイルサイズを明記した方が親切です
-    criterion: 2-4-4
-    code: 2-4-4a
 
   titleless:
     message: title要素が存在しないか、title要素の中身が空（あるいは空文字）です
@@ -253,4 +248,16 @@ errors:
     message: 空白による整形の可能性があります
     criterion: 1-3-2
     code: 1-3-2b
+    notice: true
+
+  alt_attr_of_empty:
+    message: 空のaltですが、意味を持たない画像ですか？
+    criterion: 1-1-1
+    code: 1-1-1b
+    notice: true
+
+  tell_user_file_type:
+    message: リンク先がファイルの場合、ファイルの形式やファイルサイズを明記した方が親切です
+    criterion: 2-4-4
+    code: 2-4-4a
     notice: true

@@ -67,6 +67,56 @@ class Validate_Link extends Validate
 	 *
 	 * @return Void
 	 */
+	public static function empty_link_element()
+	{
+		$str = static::ignore_elements(static::$hl_html);
+
+		$ms = static::get_elements_by_re($str, 'ignores', 'anchors_and_values');
+		if ( ! $ms[1]) return;
+
+		foreach ($ms[0] as $k => $m)
+		{
+			if (strpos($m, 'href') === false) continue;
+
+			// img's alt
+			$text = '';
+			if (strpos($ms[2][$k], 'img') !== false)
+			{
+				$imgs = explode('>', $ms[2][$k]);
+				foreach ($imgs as $img)
+				{
+					if (strpos($img, 'img') === false) continue;
+					$attrs = static::get_attributes($img.">");
+
+					foreach ($attrs as $kk => $vv)
+					{
+						if (strpos($kk, 'alt') !== false)
+						{
+							$text.= $vv;
+						}
+					}
+				}
+				$text = trim($text);
+			}
+			else
+			{
+				$text = strip_tags($m);
+			}
+
+			if (empty($text))
+			{
+				static::$error_ids['empty_link_element'][0]['id'] = $ms[0][$k];
+				static::$error_ids['empty_link_element'][0]['str'] = esc_html($ms[0][$k]);
+			}
+		}
+		static::add_error_to_html('empty_link_element', static::$error_ids, 'ignores');
+	}
+
+	/**
+	 * tell user file type
+	 *
+	 * @return Void
+	 */
 	public static function tell_user_file_type()
 	{
 		$str = static::ignore_elements(static::$hl_html);

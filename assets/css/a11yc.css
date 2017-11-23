@@ -125,6 +125,7 @@
 	font-weight: bold;
 }
 #a11yc_validation_list .a11yc_validation_error_link span:before,
+#a11yc_validation_notices_list .a11yc_validation_error_link span:before,
 .a11yc_source .a11yc_back_link span:before {
 	color: #006ab6;
 }
@@ -641,6 +642,7 @@ table#a11yc_rest {
 	margin: 1em 0;
 }
 #a11yc_validation_list,
+#a11yc_validation_notices_list,
 .a11yc_source {
 	max-height: 200px;
 	max-height: calc(50vh - 9em);
@@ -648,6 +650,7 @@ table#a11yc_rest {
 	overflow: auto;
 }
 #a11yc_post #a11yc_validation_list,
+#a11yc_post #a11yc_validation_notices_list,
 #a11yc_post .a11yc_source {
 	max-height: initial;
 }
@@ -655,10 +658,19 @@ table#a11yc_rest {
 .a11yc_source.expand {
 	max-height: initial;
 }
-#a11yc_validation_list {
+#a11yc_validation_list,
+#a11yc_validation_notices_list {
 	margin: 0;
 	padding: 10px 5px;
 	background-color: #fee;
+}
+#a11yc_validation_notices_list {
+	margin: 5px 0 0;
+	border: 1px #aaa solid;
+	background-color: #ffffdf;
+}
+#a11yc_validation_errors #a11yc_validation_notices_list dt {
+	background-color: #f0f0cb;
 }
 dl#a11yc_validation_code {
 	margin-top: 0;
@@ -671,18 +683,24 @@ dl#a11yc_validation_code {
 */
 
 #a11yc_validation_errors dt,
-#a11yc_validation_errors dd {
+#a11yc_validation_errors dd,
+#a11yc_validation_notices dt,
+#a11yc_validation_notices dd {
 	border-color:#aaa;
 	border-style: solid;
 	padding: 2px 5px;
 }
-#a11yc_validation_errors dt {
+
+#a11yc_validation_errors dt,
+#a11yc_validation_notices dt {
 	word-break: normal;
 }
-#a11yc_validation_errors dd {
+#a11yc_validation_errors dd,
+#a11yc_validation_notices dd {
 	word-break: break-all;
 }
-#a11yc_validation_errors dt {
+#a11yc_validation_errors dt,
+#a11yc_validation_notices dt {
 	padding-right: 4.75em;
 	border-width: 1px;
 	border-bottom-style: dotted;
@@ -693,20 +711,25 @@ dl#a11yc_validation_code {
 	margin-top: -1px;
 	background-color: #ffdfdf;
 }
-#a11yc_validation_errors dt.a11yc_validation_notice {
+#a11yc_validation_notices dt {
+	margin-top: -1px;
 	background-color: #ffffdf;
 }
 #a11yc_validation_errors dd,
+#a11yc_validation_notices dd,
 #a11yc_validation_code dd {
 	margin-left: 0;
-	border-width: 0 1px 1px 1px;
+	border: none;
+/*	border-width: 0 1px 1px 1px;*/
 }
+
 #a11yc_validator_results dl dt {
 	font-weight: bold;
 }
 #a11yc_validator_results dd {
 	margin-left: 0;
 }
+
 .a11yc_validation_error_link {
 	position: absolute;
 	right: 5px;

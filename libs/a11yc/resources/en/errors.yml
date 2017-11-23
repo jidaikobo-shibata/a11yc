@@ -15,11 +15,6 @@ errors:
     criterion: 1-1-1
     code: 1-1-1b
 
-  alt_attr_of_empty:
-    message: Is it an empty alt, but does not have any meaning?
-    criterion: 1-1-1
-    code: 1-1-1b
-
   empty_alt_attr_of_img_inside_a:
     message: If there is only an img element in the a element, the alt attribute value of the img element is not an empty character but a character indicating the purpose of the link should be included
     criterion: 1-1-1
@@ -34,6 +29,11 @@ errors:
     message: The alt attribute of input element does not exist or the alt attribute value is null. When the type of the input element is image, please enter the character representing purpose
     criterion: 1-1-1
     code: 1-1-1c
+
+  empty_link_element:
+    message: There is an element that has a link destination but no link string
+    criterion: 2-4-4
+    code: 2-4-4a
 
   here_link:
     message: Do not link something like "here" as a link
@@ -74,11 +74,6 @@ errors:
     message: Do not mark up movement, flashing in HTML
     criterion: 2-2-2
     code: 2-2-2b
-
-  tell_user_file_type:
-    message: If the link destination is a file, it is more nice to specify the file format and file size
-    criterion: 2-4-4
-    code: 2-4-4a
 
   titleless:
     message: The title element does not exist or the content of the title element is empty (or blank)
@@ -253,4 +248,16 @@ errors:
     message: There is a possibility of formatting by blank
     criterion: 1-3-2
     code: 1-3-2b
+    notice: true
+
+  alt_attr_of_empty:
+    message: Is it an empty alt, but does not have any meaning?
+    criterion: 1-1-1
+    code: 1-1-1b
+    notice: true
+
+  tell_user_file_type:
+    message: If the link destination is a file, it is more nice to specify the file format and file size
+    criterion: 2-4-4
+    code: 2-4-4a
     notice: true

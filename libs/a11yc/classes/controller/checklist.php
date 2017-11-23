@@ -74,14 +74,8 @@ class Controller_Checklist
 			{
 				foreach ($errs as $key => $err)
 				{
-					if (isset($yml['errors'][$code]['notice']))
-					{
-						$all_errs['notices'][] = static::message($code, $err, $key);
-					}
-					else
-					{
-						$all_errs['errors'][] = static::message($code, $err, $key);
-					}
+					$err_type = isset($yml['errors'][$code]['notice']) ? 'notices' : 'errors';
+					$all_errs[$err_type][] = static::message($code, $err, $key);
 				}
 			}
 		}
