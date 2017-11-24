@@ -136,10 +136,20 @@
 	margin: 0 .25em;
 	padding: 0 2px;
 	font-weight: normal;
+	color: #ffffff;
+	background-color: #990000;
+/*
 	color: #900;
 	background-color: #fee;
+*/
 	font-size: .9em;
 	white-space: nowrap;
+}
+
+.a11yc_source .a11yc_validation_code_notice {
+	border: 1px solid #fea05a;
+	color: #000000;
+	background-color: #fea05a;
 }
 
 div.a11yc_disclosure_target {

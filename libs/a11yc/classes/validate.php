@@ -638,17 +638,21 @@ class Validate
 		$results = array();
 		$replaces = array();
 
+		// notice
+		$is_notice = isset($yml['errors'][$error_id]['notice']) && $yml['errors'][$error_id]['notice'];
+
 		foreach ($errors as $k => $error)
 		{
 			$offset = 0;
 			$error_len = mb_strlen($error, "UTF-8");
 
 			// hash strgings to avoid wrong replace
-			$original = '[===a11yc_rplc==='.$error_id.'_'.$k.'===a11yc_rplc_title==='.$yml['errors'][$error_id]['message'].'===a11yc_rplc_class==='.$lv.'===a11yc_rplc===][===a11yc_rplc_strong_class==='.$lv.'===a11yc_rplc_strong===]';
-			$replaced = '===a11yc_rplc==='.hash("sha256", $original).'===/a11yc_rplc===';
+			$rplc = $is_notice ? 'a11yc_notice_rplc' : 'a11yc_rplc';
+			$original = '[==='.$rplc.'==='.$error_id.'_'.$k.'==='.$rplc.'_title==='.$yml['errors'][$error_id]['message'].'==='.$rplc.'_class==='.$lv.'==='.$rplc.'===][==='.$rplc.'_strong_class==='.$lv.'==='.$rplc.'_strong===]';
+			$replaced = '==='.$rplc.'==='.hash("sha256", $original).'===/'.$rplc.'===';
 
-			$end_original = '[===end_a11yc_rplc==='.$error_id.'_'.$k.'===a11yc_rplc_back_class==='.$lv.'===end_a11yc_rplc===]';
-			$end_replaced = '===end_a11yc_rplc==='.hash("sha256", $end_original).'===/end_a11yc_rplc===';
+			$end_original = '[===end_'.$rplc.'==='.$error_id.'_'.$k.'==='.$rplc.'_back_class==='.$lv.'===end_'.$rplc.'===]';
+			$end_replaced = '===end_'.$rplc.'==='.hash("sha256", $end_original).'===/end_'.$rplc.'===';
 
 			$replaces[$k] = array(
 				'original' => $original,
@@ -675,8 +679,10 @@ class Validate
 			}
 			else
 			{
+				// cannot define error place
+				continue;
 				// always search first tag
-				$pos = static::$first_tag ? mb_strpos($html, static::$first_tag, 0, "UTF-8") : 0;
+				// $pos = static::$first_tag ? mb_strpos($html, static::$first_tag, 0, "UTF-8") : 0;
 			}
 
 			// add error
@@ -723,6 +729,7 @@ class Validate
 	{
 		$retval = str_replace(
 			array(
+				// ERROR!
 				// span
 				'[===a11yc_rplc===',
 				'===a11yc_rplc_title===',
@@ -735,9 +742,25 @@ class Validate
 				// strong to end
 				'[===end_a11yc_rplc===',
 				'===a11yc_rplc_back_class===',
-				'===end_a11yc_rplc===]'
+				'===end_a11yc_rplc===]',
+
+				// NOTICE
+				// span
+				'[===a11yc_notice_rplc===',
+				'===a11yc_notice_rplc_title===',
+				'===a11yc_notice_rplc_class===',
+
+				// strong
+				'===a11yc_notice_rplc===][===a11yc_notice_rplc_strong_class===',
+				'===a11yc_notice_rplc_strong===]',
+
+				// strong to end
+				'[===end_a11yc_notice_rplc===',
+				'===a11yc_notice_rplc_back_class===',
+				'===end_a11yc_notice_rplc===]'
 			),
 			array(
+				// ERROR!
 				// span
 				'<span id="',
 				'" title="',
@@ -750,7 +773,22 @@ class Validate
 				// strong to end
 				'</strong><a href="#index_',
 				'" class="a11yc_back_link a11yc_hasicon a11yc_level_',
-				'" title="back to error"><span class="a11yc_icon_fa a11yc_icon_arrow_u" role="presentation" aria-hidden="true"></span><span class="a11yc_skip">back</span></a>',
+				'" title="'.A11YC_LANG_CHECKLIST_BACK_TO_MESSAGE.'"><span class="a11yc_icon_fa a11yc_icon_arrow_u" role="presentation" aria-hidden="true"></span><span class="a11yc_skip">back</span></a>',
+
+				// NOTICE
+				// span
+				'<span id="',
+				'" title="',
+				'" class="a11yc_validation_code_error a11yc_validation_code_notice a11yc_level_',
+
+				// span to strong
+				'" tabindex="0">NOTICE</span><strong class="a11yc_level_',
+				'">',
+
+				// strong to end
+				'</strong><a href="#index_',
+				'" class="a11yc_back_link a11yc_hasicon a11yc_level_',
+				'" title="'.A11YC_LANG_CHECKLIST_BACK_TO_MESSAGE.'"><span class="a11yc_icon_fa a11yc_icon_arrow_u" role="presentation" aria-hidden="true"></span><span class="a11yc_skip">back</span></a>',
 			),
 			$html);
 		return $retval;

@@ -189,6 +189,7 @@ define('A11YC_LANG_CHECKLIST_ALT_EMPTY', 'alt attribute is empty');
 define('A11YC_LANG_CHECKLIST_ALT_BLANK', 'alt attribute is blank character');
 define('A11YC_LANG_CHECKLIST_SRC_NONE', 'src attribute is empty or does not exist');
 define('A11YC_LANG_CHECKLIST_MUST_BE_NUMERIC', 'value of %s must be numeric');
+define('A11YC_LANG_CHECKLIST_BACK_TO_MESSAGE', 'back to message');
 
 // bulk
 define('A11YC_LANG_BULK_TITLE', 'Batch');
