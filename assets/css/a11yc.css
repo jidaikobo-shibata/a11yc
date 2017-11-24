@@ -124,6 +124,12 @@
 	background-color: #fea05a;
 	font-weight: bold;
 }
+#a11yc_validation_notices_list .a11yc_validation_reference_info {
+	font-weight: normal;
+	display: block;
+	font-size: 90%;
+}
+
 #a11yc_validation_list .a11yc_validation_error_link span:before,
 #a11yc_validation_notices_list .a11yc_validation_error_link span:before,
 .a11yc_source .a11yc_back_link span:before {

@@ -190,6 +190,8 @@ define('A11YC_LANG_CHECKLIST_ALT_BLANK', 'alt属性値が空白文字です');
 define('A11YC_LANG_CHECKLIST_SRC_NONE', 'src属性値が空か存在しません');
 define('A11YC_LANG_CHECKLIST_MUST_BE_NUMERIC', '%sの値は数値のみにしてください');
 define('A11YC_LANG_CHECKLIST_BACK_TO_MESSAGE', 'メッセージに戻る');
+define('A11YC_LANG_CHECKLIST_SEE_DETAIL', 'エラーの対処法を見る');
+define('A11YC_LANG_CHECKLIST_SEE_UNDERSTANDING', 'WCAG解説書');
 
 // bulk
 define('A11YC_LANG_BULK_TITLE', '一括処理');

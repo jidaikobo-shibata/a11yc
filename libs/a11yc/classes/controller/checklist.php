@@ -456,10 +456,15 @@ class Controller_Checklist
 			$level = $yml['checks'][$criterion_code][$code]['criterion']['level']['name'];
 			$criterion = $yml['checks'][$criterion_code][$code]['criterion'];
 
-			$ret.= ' ('.strtoupper($lv).' ';
-			$ret.= '<a href="'.$docpath.$code.'&amp;criterion='.$yml['errors'][$code_str]['criterion'].'"'.A11YC_TARGET.'>Doc</a> ';
-			$ret.= '<a href="'.$criterion['url'].'"'.A11YC_TARGET.' title="'.$criterion['name'].'">'.Util::key2code($criterion['code']).'</a>)';
-			$ret.= '<a href="#'.$anchor .'" class="a11yc_validation_error_link a11yc_level_'.$lv.' a11yc_hasicon"><span class="a11yc_icon_fa a11yc_icon_arrow_b" role="presentation" aria-hidden="true"></span>Code</a></dt>';
+			$ret.= '<span class="a11yc_validation_reference_info">[<strong>'.A11YC_LANG_LEVEL.strtoupper($lv).'</strong> ';
+			$ret.= '<a href="'.$docpath.$code.'&amp;criterion='.$yml['errors'][$code_str]['criterion'].'"'.A11YC_TARGET.'>'.A11YC_LANG_CHECKLIST_SEE_DETAIL.'</a> ';
+			$ret.= '<a href="'.$criterion['url'].'"'.A11YC_TARGET.' title="'.$criterion['name'].'">'.A11YC_LANG_CHECKLIST_SEE_UNDERSTANDING.' '.Util::key2code($criterion['code']).'</a>]</span>';
+
+			if ($place['id'])
+			{
+				$ret.= '<a href="#'.$anchor .'" class="a11yc_validation_error_link a11yc_level_'.$lv.' a11yc_hasicon"><span class="a11yc_icon_fa a11yc_icon_arrow_b" role="presentation" aria-hidden="true"></span>Code</a>';
+			}
+			$ret.= '</dt>';
 
 			// dd
 			$ret.= '<dd class="a11yc_validation_error_str a11yc_level_'.$lv.'" data-level="'.$level.'" data-place="'.Util::s($place['id']).'">'.Util::s($place['str']).'</dd>';
