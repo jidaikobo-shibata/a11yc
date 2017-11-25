@@ -98,10 +98,8 @@ class Validate_Link extends Validate
 				}
 				$text = trim($text);
 			}
-			else
-			{
-				$text = strip_tags($m);
-			}
+
+			$text.= strip_tags($m);
 
 			if (empty($text))
 			{

@@ -456,9 +456,10 @@ class Controller_Checklist
 			$level = $yml['checks'][$criterion_code][$code]['criterion']['level']['name'];
 			$criterion = $yml['checks'][$criterion_code][$code]['criterion'];
 
-			$ret.= '<span class="a11yc_validation_reference_info">[<strong>'.A11YC_LANG_LEVEL.strtoupper($lv).'</strong> ';
+			$ret.= '<span class="a11yc_validation_reference_info"><strong>'.A11YC_LANG_LEVEL.strtoupper($lv).'</strong> <strong>'.Util::key2code($criterion['code']).'</strong> ';
 			$ret.= '<a href="'.$docpath.$code.'&amp;criterion='.$yml['errors'][$code_str]['criterion'].'"'.A11YC_TARGET.'>'.A11YC_LANG_CHECKLIST_SEE_DETAIL.'</a> ';
-			$ret.= '<a href="'.$criterion['url'].'"'.A11YC_TARGET.' title="'.$criterion['name'].'">'.A11YC_LANG_CHECKLIST_SEE_UNDERSTANDING.' '.Util::key2code($criterion['code']).'</a>]</span>';
+//			$ret.= '<a href="'.$criterion['url'].'"'.A11YC_TARGET.' title="'.$criterion['name'].'">'.A11YC_LANG_CHECKLIST_SEE_UNDERSTANDING.' '.Util::key2code($criterion['code']).'</a>';
+			$ret.= '</span>';
 
 			if ($place['id'])
 			{

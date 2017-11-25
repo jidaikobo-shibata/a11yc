@@ -124,10 +124,20 @@
 	background-color: #fea05a;
 	font-weight: bold;
 }
-#a11yc_validation_notices_list .a11yc_validation_reference_info {
+
+.a11yc_validation_reference_info {
 	font-weight: normal;
 	display: block;
 	font-size: 90%;
+}
+.a11yc_validation_reference_info strong {
+	font-weight: normal;
+}
+.a11yc_validation_reference_info a {
+	text-decoration: none;
+}
+.a11yc_validation_reference_info a:hover {
+	text-decoration: underline;
 }
 
 #a11yc_validation_list .a11yc_validation_error_link span:before,
@@ -697,6 +707,12 @@ dl#a11yc_validation_code {
 #a11yc_validation_code .a11yc_disclosure_target.active {
 }
 */
+#jwp_a11y_error .a11yc_errs_cnt {
+	font-size: 1.5em;
+	font-weight: bold;
+	display: inline-block;
+	padding-right: 10px;
+}
 
 #a11yc_validation_errors dt,
 #a11yc_validation_errors dd,
@@ -705,6 +721,7 @@ dl#a11yc_validation_code {
 	border-color:#aaa;
 	border-style: solid;
 	padding: 2px 5px;
+	font-size: 105%;
 }
 
 #a11yc_validation_errors dt,
