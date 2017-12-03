@@ -174,7 +174,7 @@ class Validate_Validation extends Validate
 
 		$search = '[^\x01-\x7E][ 　]{2,}[^\x01-\x7E]'; // MB+spaces+MB
 		$search.= '|[^\x01-\x7E][ 　]+[^\x01-\x7E][ 　]'; // MB+space(s)+MB+space
-		$search.= '|(?<![^\x01-\x7E])[^\x01-\x7E][ 　]+[^\x01-\x7E]'; // single MB+space(s)+MB
+		$search.= '|(?<![^\x01-\x7E])[^\x01-\x7E][ 　]+[^\x01-\x7E](?![^\x01-\x7E])'; // single MB+space(s)+single MB
 
 		preg_match_all("/(".$search.")/iu", $str, $ms);
 		foreach ($ms[1] as $k => $m)
