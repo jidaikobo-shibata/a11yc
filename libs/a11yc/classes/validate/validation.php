@@ -360,7 +360,7 @@ class Validate_Validation extends Validate
 			if ( ! preg_match("/\<h\d/", $v))
 			{
 				static::$error_ids['headerless_section'][$k]['id'] = $v;
-				static::$error_ids['headerless_section'][$k]['str'] = $ms[1][$k];
+				static::$error_ids['headerless_section'][$k]['str'] = $secs[1][$k];
 			}
 		}
 		static::add_error_to_html('headerless_section', static::$error_ids, 'ignores');

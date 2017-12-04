@@ -187,6 +187,7 @@ class Validate_Form extends Validate
 						foreach ($mmms[0] as $ele)
 						{
 							$ele_attrs = static::get_attributes($ele);
+							if ( ! isset($ele_attrs['type'])) continue;
 							if (strtolower($ele_attrs['type']) == 'hidden') continue;
 							$ele_types[] = $ele_attrs['type'];
 						}
