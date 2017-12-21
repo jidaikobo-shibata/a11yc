@@ -148,8 +148,11 @@ class Validate_Form extends Validate
 			preg_match_all("/\<label[^\>]*?\>(.+?)\<\/label\>/is", $whole_form, $ms);
 			if (isset($ms[1]) && count($ms[1]) != count(array_unique($ms[1])))
 			{
+				$suspicion_labels = array_diff_assoc($ms[1],array_unique($ms[1]));
+				$suspicion_labels = join(', ', array_unique($suspicion_labels));
+
 				static::$error_ids['unique_label'][$k]['id'] = $v['form'];
-				static::$error_ids['unique_label'][$k]['str'] = $action;
+				static::$error_ids['unique_label'][$k]['str'] = $suspicion_labels;
 			}
 
 			// duplicated_names
