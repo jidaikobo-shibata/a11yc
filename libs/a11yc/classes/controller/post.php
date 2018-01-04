@@ -581,14 +581,16 @@ class Controller_Post
 	private static function replace_strs($url, $html)
 	{
 		// replace root relative
+		$roots = explode('/', $url);
+		$root = $roots[0].'//'.$roots[2];
 		$html = preg_replace(
 			array(
 				'/src *?= *?"\/(?!\/)/i',
 				'/href *?= *?"\/(?!\/)/i'
 			),
 			array(
-				'src="'.$url.'/',
-				'href="'.$url.'/'
+				'src="'.$root.'/',
+				'href="'.$root.'/'
 			),
 			htmlspecialchars_decode($html, ENT_QUOTES)
 		);
