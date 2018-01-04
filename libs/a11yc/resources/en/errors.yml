@@ -190,11 +190,6 @@ errors:
     criterion: 2-4-1
     code: 2-4-1a
 
-  cannot_contain_newline:
-    message: A line feed code can not be included in an attribute value
-    criterion: 4-1-1
-    code: 4-1-1a
-
   user_scalable_no:
     message: If you set user-scalable=no in the viewport setting, users can not change it to the size they like, so avoid it.
     criterion: 1-4-4
@@ -214,6 +209,12 @@ errors:
     message: section should include h1-6 element
     criterion: 1-3-1
     code: 1-3-1a
+
+  cannot_contain_newline:
+    message: A line feed code can not be included in an attribute value
+    criterion: 1-3-2
+    code: 1-3-2b
+    notice: true
 
   check_doctype:
     message: Use Doctype Declarations to specify DTD

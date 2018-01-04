@@ -632,6 +632,8 @@ checks:
       name: Have not formatted sentences using spaces or line feeds
       tech: |
         Please do layout that makes use of line breaks and spaces so as not to disturb understanding of meaning. Not only does it make it difficult to obtain information with a screen reader if you align the end of a line with a new line, or arrange lines with spaces, it becomes hard to read even when changing font size. Also, as a measure against search engines, I will never work plus.
+        In order to keep the readability of HTML, markup-engineers shaping by linefeed in attribute values such as alt. remember that there are cases where some screen readers do not intentionally read for each new line.
+
   1-3-3:
     1-3-3a:
       criterion: *c1-3-3

@@ -190,11 +190,6 @@ errors:
     criterion: 2-4-1
     code: 2-4-1a
 
-  cannot_contain_newline:
-    message: 属性値の中に改行コードを含めることはできません
-    criterion: 4-1-1
-    code: 4-1-1a
-
   user_scalable_no:
     message: viewport設定でuser-scalable=noを設定すると、好みの大きさに変更できないので、避けましょう
     criterion: 1-4-4
@@ -214,6 +209,12 @@ errors:
     message: sectionタグはh1-6要素を含めることをおすすめします
     criterion: 1-3-1
     code: 1-3-1a
+
+  cannot_contain_newline:
+    message: 属性値の中に改行コードを含めることはできません
+    criterion: 4-1-1
+    code: 4-1-1a
+    notice: true
 
   check_doctype:
     message: DOCTYPE宣言を使用してDTDを指定してください
