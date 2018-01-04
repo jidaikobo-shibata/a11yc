@@ -279,17 +279,18 @@ class Validate_Validation extends Validate
 		foreach ($ms[0] as $k => $m)
 		{
 			// newline character must not exists in attr
-			$attrs = static::get_attributes($m);
+			// this was jidaikobo's mistake. thx @momdo_!
+			// $attrs = static::get_attributes($m);
 
-			foreach ($attrs as $val)
-			{
-				if (strpos($val, "\n") !== false)
-				{
-					static::$error_ids['cannot_contain_newline'][$k]['id'] = $ms[0][$k];
-					static::$error_ids['cannot_contain_newline'][$k]['str'] = $m;
-					break;
-				}
-			}
+			// foreach ($attrs as $val)
+			// {
+			// 	if (strpos($val, "\n") !== false)
+			// 	{
+			// 		static::$error_ids['cannot_contain_newline'][$k]['id'] = $ms[0][$k];
+			// 		static::$error_ids['cannot_contain_newline'][$k]['str'] = $m;
+			// 		break;
+			// 	}
+			// }
 
 			// unbalanced_quotation
 			// delete qouted quotation
