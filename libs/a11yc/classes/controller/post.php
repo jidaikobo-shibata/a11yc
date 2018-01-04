@@ -393,7 +393,7 @@ class Controller_Post
 			$raw = nl2br($render);
 
 			// fix (root) relative link
-			$render = self::replace_relative_link($url, $render);
+			$render = self::replace_strs($url, $render);
 
 			View::assign('errs'              , $all_errs, false);
 			View::assign('errs_cnts'         , $errs_cnts);
@@ -464,6 +464,9 @@ class Controller_Post
 		static::Validation_Core('http://'.$target);
 		$html = View::fetch_tpl('post/render.php');
 
+		// revert quotation
+		$html = str_replace('&#039;', "'", $html);
+
 		// css
 		$html = str_replace(
 			'</head>',
@@ -509,20 +512,47 @@ class Controller_Post
 	}
 
 	/**
-	 * replace relative link
+	 * replace strs
 	 *
 	 * @param  String $url
 	 * @param  String $html
 	 * @return String
 	 */
-	private static function replace_relative_link($url, $html)
+	private static function replace_strs($url, $html)
 	{
+		// replace root relative
 		$html = preg_replace(
-			'/src *?= *?"\/(?!\/)/i',
-			'src="'.$url.'/',
-			htmlspecialchars_decode($html)
+			array(
+				'/src *?= *?"\/(?!\/)/i',
+				'/href *?= *?"\/(?!\/)/i'
+			),
+			array(
+				'src="'.$url.'/',
+				'href="'.$url.'/'
+			),
+			htmlspecialchars_decode($html, ENT_QUOTES)
 		);
-//		$html = str_replace('class="a11yc_validation_code_error', 'style="" class="a11yc_validation_code_error', $html);
+
+		// replace relative
+
+		// remove "back" link
+		$html = preg_replace(
+			'/\<a href="#index_.+?a11yc_back_link.+?\<\/a\>/i',
+			'',
+			$html
+		);
+
+		// replace errors
+		$html = preg_replace(
+			'/strong class="a11yc_level_(a+?)"/i',
+			'div class="a11yc_live_error_wrapper a11yc_level_\1"',
+			$html
+		);
+		$html = str_replace(
+			'</strong><!-- a11yc_strong_end -->',
+			'</div><!-- a11yc_strong_end -->',
+			$html
+		);
 
 		return $html;
 	}

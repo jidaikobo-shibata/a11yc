@@ -771,7 +771,7 @@ class Validate
 				'">',
 
 				// strong to end
-				'</strong><a href="#index_',
+				'</strong><!-- a11yc_strong_end --><a href="#index_',
 				'" class="a11yc_back_link a11yc_hasicon a11yc_level_',
 				'" title="'.A11YC_LANG_CHECKLIST_BACK_TO_MESSAGE.'"><span class="a11yc_icon_fa a11yc_icon_arrow_u" role="presentation" aria-hidden="true"></span><span class="a11yc_skip">back</span></a>',
 
@@ -786,7 +786,7 @@ class Validate
 				'">',
 
 				// strong to end
-				'</strong><a href="#index_',
+				'</strong><!-- a11yc_strong_end --><a href="#index_',
 				'" class="a11yc_back_link a11yc_hasicon a11yc_level_',
 				'" title="'.A11YC_LANG_CHECKLIST_BACK_TO_MESSAGE.'"><span class="a11yc_icon_fa a11yc_icon_arrow_u" role="presentation" aria-hidden="true"></span><span class="a11yc_skip">back</span></a>',
 			),
