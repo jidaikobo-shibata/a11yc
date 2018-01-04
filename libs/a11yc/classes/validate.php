@@ -561,13 +561,19 @@ class Validate
 
 		preg_match("/\<!DOCTYPE [^\>]+?\>/", static::$hl_html, $ms);
 
+		// html5
+		if ( ! isset($ms[0]))
+		{
+			preg_match("/\<!DOCTYPE html\>/i", static::$hl_html, $ms);
+		}
+
 		if ( ! isset($ms[0])) return false; // doctypeless
 
 		// doctype
 		$doctype = false;
 
 		// html5
-		if($ms[0] == '<!DOCTYPE html>')
+		if(strtolower($ms[0]) == '<!doctype html>')
 		{
 			$doctype = 'html5';
 		}
