@@ -1,4 +1,91 @@
+@charset "utf-8";
+/*
+ * head
+ */
+head {
+	display: block;
+	border-bottom: 2px solid #ccc;
+	color: #000;
+	background: #fefefe;
+	padding: 5px;
+}
+head > * {
+	display: block;
+	white-space: pre;
+	font-family: monospace;
+	font-size: 12px;
+}
+
+/* prefix and suffix for head elements */
+head title:before {
+	content: "<title>"; 
+}
+head title:after {
+	content: "</title>"; 
+}
+head script:before {
+	content: "<script>"; 
+}
+head script[src]:before {
+	content: "<script src=\"" attr(src) "\">"; 
+}
+head script[type]:before {
+	content: "<script type=\"" attr(type) "\">"; 
+}
+head script[type][src]:before {
+	content: "<script src=\"" attr(src) "\" type=\"" attr(type) "\">"; 
+}
+head script:after {
+	content: "</script>";
+}
+head style:before {
+	content: "<style>"; 
+}
+
+head style[type]:before {
+	content: "<style type=\"" attr(type) "\">"; 
+}
+head style:after {
+	content: "</style>";
+}
+
+head link:before {
+    content: "<link rel=\"" attr(rel) "\" type=\"" attr(type) "\" href=\"" attr(href) "\" />";
+}
+
+/* for a11yc assets */
+head link[href$="a11yc_live.css"],
+head script[src$="a11yc_live.js"]
+{
+	display: none !important;
+	color: red;
+}
+
+
+/*
+ * body
+ */
+
 .a11yc_validation_code_error
 {
-	border: 5px #900 solid;
+	display: block;
+	position: absolute;
+	left: auto;
+	right: auto;
+	top: auto;
+	bottom: auto;
+	padding: 2px 5px 1px;
+	background-color: #900;
+	color: #fff;
+	border-radius: 3px;
+	font-size: 13px;
+	font-weight: bold;
+	font-family: Arial;
+	line-height: 1.5em;
+	outline: 2px solid rgba( 255,255,255,.75 );
+}
+.a11yc_validation_code_notice
+{
+	color: #000;
+	background-color: #fea05a;
 }
