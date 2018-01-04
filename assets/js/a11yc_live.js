@@ -12,6 +12,12 @@ jQuery(function($){
 		$(this).wrap('<span class="a11yc_live_img_wrapper">');
 		$('<span class="a11yc_live_alt" />').text('alt="'+$(this).attr('alt')+'"').insertBefore(this);
 	});
+	
+	//tabindex
+	$(document).find('a, :input, [tabindex]').attr('tabindex', -1);
+
+	var $labels = $(document).find('.a11yc_validation_code_error, .a11yc_live_alt');
+	$labels.attr('tabindex', 0);
 });
 
 
