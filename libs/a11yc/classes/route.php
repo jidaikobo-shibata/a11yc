@@ -93,6 +93,7 @@ class Route extends \Kontiki\Route
 	{
     return static::$action;
 	}
+
 	/**
 	 * set_controller
 	 *

@@ -89,8 +89,18 @@ class Controller_Post
 		$action = Route::get_action();
 		static::$action();
 
+
 		// render
 		View::assign('mode', 'post');
+
+		if ($action == 'Action_Ajax')
+		{
+			View::display(array(
+					'body.php',
+				));
+			return;
+		}
+
 		View::display(array(
 				'post/header.php',
 				'messages.php',
@@ -203,15 +213,16 @@ class Controller_Post
 	}
 
 	/**
-	 * Action_Validation
+	 * Validation_Core
 	 *
+	 * @param  String $url
 	 * @return Void
 	 */
-	public static function Action_Validation()
+	public static function Validation_Core($url = '')
 	{
 		// vals
 		$ip         = Input::server('REMOTE_ADDR', '');
-		$url        = Input::post('url', '', FILTER_VALIDATE_URL);
+		$url        = Input::post('url', $url, FILTER_VALIDATE_URL);
 		$user_agent = Input::post('user_agent', '');
 		$default_ua = Util::s(Input::user_agent());
 		$page_title = '';
@@ -377,7 +388,11 @@ class Controller_Post
 				array('total' => count($all_errs['errors'])),
 				Controller_Checklist::$err_cnts
 			);
-			$raw = nl2br(Validate::revert_html(Util::s(Validate::get_hl_html())));
+			$render = Validate::revert_html(Util::s(Validate::get_hl_html()));
+			$raw = nl2br($render);
+
+			// fix (root) relative link
+			$render = self::replace_relative_link($url, $render);
 
 			View::assign('errs'              , $all_errs, false);
 			View::assign('errs_cnts'         , $errs_cnts);
@@ -423,7 +438,30 @@ class Controller_Post
 		View::assign('target_url'         , static::$url);
 		View::assign('url'                , $url);
 		View::assign('target_html'        , $target_html);
+		View::assign('render'             , $render, false);
 		View::assign('body'               , View::fetch_tpl('post/index.php'), false);
+	}
+
+	/**
+	 * Action_Validation
+	 *
+	 * @return Void
+	 */
+	public static function Action_Validation()
+	{
+		static::Validation_Core();
+	}
+
+	/**
+	 * Action_Ajax
+	 *
+	 * @return Void
+	 */
+	public static function Action_Ajax()
+	{
+		$target = Input::get('target');
+		static::Validation_Core('http://'.$target);
+		View::assign('body' , View::fetch_tpl('post/render.php'), false);
 	}
 
 	/**
@@ -441,6 +479,25 @@ class Controller_Post
 			Util::error('Not found.');
 		}
 		include A11YC_PATH.'/languages/'.$lang.'/post.php';
+	}
+
+	/**
+	 * replace relative link
+	 *
+	 * @param  String $url
+	 * @param  String $html
+	 * @return String
+	 */
+	private static function replace_relative_link($url, $html)
+	{
+		$html = preg_replace(
+			'/src *?= *?"\/(?!\/)/i',
+			'src="'.$url.'/',
+			htmlspecialchars_decode($html)
+		);
+		$html = str_replace('class="a11yc_validation_code_error', 'style="border: 5px #900 solid;" class="a11yc_validation_code_error', $html);
+
+		return $html;
 	}
 
 	/**
