@@ -1,6 +1,6 @@
 jQuery(function($){
 	// overlay for disable buttons
-	$('body').append('<div id="a11yc_overlay">');
+	$('body').append('<div id="a11yc_overlay" />');
 
 	// alt
 	$('img').each(function(){

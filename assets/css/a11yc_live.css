@@ -67,7 +67,6 @@ head script[src$="a11yc_live.js"]
 /*
  * body
  */
-
 .a11yc_validation_code_error
 {
 	display: block;
@@ -86,7 +85,6 @@ head script[src$="a11yc_live.js"]
 	font-family: Arial;
 	line-height: 1.5em;
 	outline: 2px solid rgba( 255,255,255,.75 );
-	z-index: 100;
 }
 .a11yc_validation_code_error:after {
 	content: attr(title);
@@ -107,7 +105,7 @@ head script[src$="a11yc_live.js"]
 .a11yc_live_error_wrapper
 {
 	display: inline;
-	outline: 2px dashed #900 ;
+	outline: 2px dashed #900;
 }
 .a11yc_validation_code_notice + .a11yc_live_error_wrapper
 {
@@ -137,7 +135,16 @@ head script[src$="a11yc_live.js"]
 /* Overlay */
 #a11yc_overlay {
 	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
 	width: 100vw;
 	height: 100vh;
-	rgba( 0,0,0,.2 );
+	z-index: 2147483646;
+}
+.a11yc_validation_code_error,
+.a11yc_live_img_wrapper .a11yc_live_alt 
+{
+	z-index: 2147483647;
 }
