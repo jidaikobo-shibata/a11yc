@@ -2,6 +2,7 @@
 /*
  * head
  */
+/*
 head {
 	display: block;
 	border-bottom: 2px solid #ccc;
@@ -9,6 +10,7 @@ head {
 	background: #fefefe;
 	padding: 5px;
 }
+*/
 head > * {
 	display: block;
 	white-space: pre;
@@ -78,14 +80,64 @@ head script[src$="a11yc_live.js"]
 	background-color: #900;
 	color: #fff;
 	border-radius: 3px;
+	text-align: left;
 	font-size: 13px;
 	font-weight: bold;
 	font-family: Arial;
 	line-height: 1.5em;
 	outline: 2px solid rgba( 255,255,255,.75 );
+	z-index: 100;
+}
+.a11yc_validation_code_error:after {
+	content: attr(title);
+	display: block;
+	font-weight: normal;
+}
+
+.a11yc_validation_code_error:hover + .a11yc_live_error_wrapper
+{
+	outline-color: #000;
 }
 .a11yc_validation_code_notice
 {
 	color: #000;
 	background-color: #fea05a;
+}
+
+.a11yc_live_error_wrapper
+{
+	display: inline;
+	outline: 2px dashed #900 ;
+}
+.a11yc_validation_code_notice + .a11yc_live_error_wrapper
+{
+	outline-color: #fea05a;
+}
+
+/*
+ * alt attributes of image
+ */
+.a11yc_live_img_wrapper {
+	position: relative;
+	padding-bottom: 16px;
+}
+.a11yc_live_img_wrapper .a11yc_live_alt {
+	color: #000;
+	display: inline-block;
+	background-color: #fefebb;
+	font-size: 12px !important;
+	font-weight: normal !important;
+	line-height: 1.2em;
+	text-align: left;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}
+
+/* Overlay */
+#a11yc_overlay {
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+	rgba( 0,0,0,.2 );
 }
