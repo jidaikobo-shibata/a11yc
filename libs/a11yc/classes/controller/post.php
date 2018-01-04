@@ -89,7 +89,6 @@ class Controller_Post
 		$action = Route::get_action();
 		static::$action();
 
-
 		// render
 		View::assign('mode', 'post');
 
@@ -249,6 +248,7 @@ class Controller_Post
 		);
 		$errs_cnts = array();
 		$target_html = '';
+		$target_html_head = '';
 		$yml = Yaml::fetch();
 		$render = '';
 
@@ -392,8 +392,12 @@ class Controller_Post
 			$render = Validate::revert_html(Util::s(Validate::get_hl_html()));
 			$raw = nl2br($render);
 
-			// fix (root) relative link
+			// header
+			$target_html_head = self::keep_head($target_html);
+
+			// fix links and errors
 			$render = self::replace_strs($url, $render);
+			$render = self::replace_error_strs($render);
 
 			View::assign('errs'              , $all_errs, false);
 			View::assign('errs_cnts'         , $errs_cnts);
@@ -438,6 +442,7 @@ class Controller_Post
 		View::assign('user_agent'         , $user_agent);
 		View::assign('target_url'         , static::$url);
 		View::assign('url'                , $url);
+		View::assign('target_html_head'   , $target_html_head, true);
 		View::assign('target_html'        , $target_html);
 		View::assign('render'             , $render, false);
 		View::assign('body'               , View::fetch_tpl('post/index.php'), false);
@@ -461,33 +466,21 @@ class Controller_Post
 	public static function Action_Ajax()
 	{
 		$target = Input::get('target');
-		static::Validation_Core('http://'.$target);
+		static::Validation_Core(Util::urldec($target));
 		$html = View::fetch_tpl('post/render.php');
 
-		// revert quotation
-		$html = str_replace('&#039;', "'", $html);
+		// replace raw head
+		$head = Validate::revert_html(Util::s(Validate::get_hl_html()));
+		$head = self::replace_error_strs($head);
+		$head ='<pre class="a11yc_live_head">'.mb_substr($head, 0, mb_strpos($head, '&lt;/head&gt;') + 13).'</pre>';
+		$html = mb_substr($html, mb_strpos($html, '</head>') + 7);
+		$raw_head = self::replace_strs($target, htmlspecialchars_decode(View::fetch('target_html_head'), ENT_QUOTES));
+		$html = $raw_head.$html;
 
-		// css
+		// add altered head
 		$html = str_replace(
-			'</head>',
-			'<link rel="stylesheet" type="text/css" media="all" href="'.A11YC_ASSETS_URL.'/css/a11yc_live.css" />'."\n".'</head>',
-			$html
-		);
-
-		// jQuery
-		if (strpos($html, 'jquery') === false)
-		{
-			$html = str_replace(
-				'</head>',
-				'<script type="text/javascript" src="'.A11YC_ASSETS_URL.'/js/jquery-1.11.1.min.js"></script>'."\n".'</head>',
-				$html
-			);
-		}
-
-		// js
-		$html = str_replace(
-			'</head>',
-			'<script type="text/javascript" src="'.A11YC_ASSETS_URL.'/js/a11yc_live.js"></script>'."\n".'</head>',
+			'</body>',
+			$head.'</body>',
 			$html
 		);
 
@@ -509,6 +502,73 @@ class Controller_Post
 			Util::error('Not found.');
 		}
 		include A11YC_PATH.'/languages/'.$lang.'/post.php';
+	}
+
+	/**
+	 * keep head
+	 *
+	 * @param  String $html
+	 * @return String
+	 */
+	private static function keep_head($html)
+	{
+		$head = mb_substr($html, 0, mb_strpos($html, '</head>') + 7);
+
+		// css
+		$head = str_replace(
+			'</head>',
+			'<link rel="stylesheet" type="text/css" media="all" href="'.A11YC_ASSETS_URL.'/css/a11yc_live.css" />'."\n".'</head>',
+			$head
+		);
+
+		// jQuery
+		if (strpos($head, 'jquery') === false)
+		{
+			$head = str_replace(
+				'</head>',
+				'<script type="text/javascript" src="'.A11YC_ASSETS_URL.'/js/jquery-1.11.1.min.js"></script>'."\n".'</head>',
+				$head
+			);
+		}
+
+		// js
+		$head = str_replace(
+			'</head>',
+			'<script type="text/javascript" src="'.A11YC_ASSETS_URL.'/js/a11yc_live.js"></script>'."\n".'</head>',
+			$head
+		);
+
+		return $head;
+	}
+
+	/**
+	 * replace a11yc error strs
+	 *
+	 * @param  String $html
+	 * @return String
+	 */
+	private static function replace_error_strs($html)
+	{
+		// remove "back" link
+		$html = preg_replace(
+			'/\<a href="#index_.+?a11yc_back_link.+?\<\/a\>/i',
+			'',
+			$html
+		);
+
+		// replace errors
+		$html = preg_replace(
+			'/strong class="a11yc_level_(a+?)"/i',
+			'span class="a11yc_live_error_wrapper a11yc_level_\1"',
+			$html
+		);
+		$html = str_replace(
+			'</strong><!-- a11yc_strong_end -->',
+			'</span><!-- a11yc_strong_end -->',
+			$html
+		);
+
+		return $html;
 	}
 
 	/**
@@ -534,25 +594,6 @@ class Controller_Post
 		);
 
 		// replace relative
-
-		// remove "back" link
-		$html = preg_replace(
-			'/\<a href="#index_.+?a11yc_back_link.+?\<\/a\>/i',
-			'',
-			$html
-		);
-
-		// replace errors
-		$html = preg_replace(
-			'/strong class="a11yc_level_(a+?)"/i',
-			'div class="a11yc_live_error_wrapper a11yc_level_\1"',
-			$html
-		);
-		$html = str_replace(
-			'</strong><!-- a11yc_strong_end -->',
-			'</div><!-- a11yc_strong_end -->',
-			$html
-		);
 
 		return $html;
 	}
