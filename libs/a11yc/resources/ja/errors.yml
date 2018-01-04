@@ -212,8 +212,8 @@ errors:
 
   cannot_contain_newline:
     message: 属性値の中に改行コードを含めることはできません
-    criterion: 4-1-1
-    code: 4-1-1a
+    criterion: 1-3-2
+    code: 1-3-2b
     notice: true
 
   check_doctype:

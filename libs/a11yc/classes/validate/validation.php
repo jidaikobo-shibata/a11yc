@@ -279,6 +279,7 @@ class Validate_Validation extends Validate
 		foreach ($ms[0] as $k => $m)
 		{
 			// newline character must not exists in attr
+			// thx https://twitter.com/sbtnbfm/status/948881557233713152
 			$attrs = static::get_attributes($m);
 
 			foreach ($attrs as $val)
