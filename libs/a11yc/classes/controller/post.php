@@ -250,6 +250,7 @@ class Controller_Post
 		$errs_cnts = array();
 		$target_html = '';
 		$yml = Yaml::fetch();
+		$render = '';
 
 		if (Input::post('source'))
 		{
@@ -461,7 +462,33 @@ class Controller_Post
 	{
 		$target = Input::get('target');
 		static::Validation_Core('http://'.$target);
-		View::assign('body' , View::fetch_tpl('post/render.php'), false);
+		$html = View::fetch_tpl('post/render.php');
+
+		// css
+		$html = str_replace(
+			'</head>',
+			'<link rel="stylesheet" type="text/css" media="all" href="'.A11YC_ASSETS_URL.'/css/a11yc_live.css" />'."\n".'</head>',
+			$html
+		);
+
+		// jQuery
+		if (strpos($html, 'jquery') === false)
+		{
+			$html = str_replace(
+				'</head>',
+				'<script type="text/javascript" src="'.A11YC_ASSETS_URL.'/js/jquery-1.11.1.min.js"></script>'."\n".'</head>',
+				$html
+			);
+		}
+
+		// js
+		$html = str_replace(
+			'</head>',
+			'<script type="text/javascript" src="'.A11YC_ASSETS_URL.'/js/a11yc_live.js"></script>'."\n".'</head>',
+			$html
+		);
+
+		View::assign('body', $html, false);
 	}
 
 	/**
@@ -495,7 +522,7 @@ class Controller_Post
 			'src="'.$url.'/',
 			htmlspecialchars_decode($html)
 		);
-		$html = str_replace('class="a11yc_validation_code_error', 'style="border: 5px #900 solid;" class="a11yc_validation_code_error', $html);
+//		$html = str_replace('class="a11yc_validation_code_error', 'style="" class="a11yc_validation_code_error', $html);
 
 		return $html;
 	}
