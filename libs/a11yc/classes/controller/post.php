@@ -472,7 +472,8 @@ class Controller_Post
 		// replace raw head
 		$head = Validate::revert_html(Util::s(Validate::get_hl_html()));
 		$head = self::replace_error_strs($head);
-		$head ='<pre class="a11yc_live_head">'.mb_substr($head, 0, mb_strpos($head, '&lt;/head&gt;') + 13).'</pre>';
+		$head = mb_substr($head, 0, mb_strpos($head, '&lt;/head&gt;') + 13);
+		$head ='<div class="a11yc_live_head">'.str_replace(array("\n\r", "\n"), '<br />', $head).'</div>';
 		$html = mb_substr($html, mb_strpos($html, '</head>') + 7);
 		$raw_head = self::replace_strs($target, htmlspecialchars_decode(View::fetch('target_html_head'), ENT_QUOTES));
 		$html = $raw_head.$html;
