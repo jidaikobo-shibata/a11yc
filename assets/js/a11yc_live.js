@@ -18,6 +18,11 @@ jQuery(function($){
 
 	var $labels = $(document).find('.a11yc_validation_code_error, .a11yc_live_alt');
 	$labels.attr('tabindex', 0);
+
+	$(window).on('load', function(){
+		console.log($labels);
+	});
+
 });
 
 
