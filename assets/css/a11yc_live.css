@@ -1,5 +1,32 @@
 @charset "utf-8";
-
+html
+{
+	margin-top: 240px;
+}
+/* head */
+.a11yc_live_head
+{
+	clear: both;
+	z-index: 2147483642;
+	font-family: monospace;
+	font-size: 12px;
+	line-height: 1.2em;
+	position: absolute;
+	padding: 5px;
+	border-bottom: 2px solid #ccc;
+	color: #000;
+	background: #fefefe;
+	overflow: auto;
+	width: 100%;
+	box-sizing: border-box;
+	height: 240px;
+	top: -240px;
+}
+.a11yc_live_head br
+{
+	line-height: 1.2;
+}
+/* body */
 .a11yc_validation_code_error
 {
 	display: block;
@@ -24,9 +51,11 @@
 	font-weight: normal;
 }
 
-.a11yc_validation_code_error:hover + .a11yc_live_error_wrapper
+.a11yc_validation_code_error:hover + .a11yc_live_error_wrapper,
+.a11yc_live_error_wrapper.on
 {
 	outline-color: #000;
+	opacity: .7;
 }
 .a11yc_validation_code_notice
 {
