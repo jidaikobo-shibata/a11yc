@@ -3,7 +3,7 @@ jQuery(function($){
 	    $wrappers = $('.a11yc_live_error_wrapper');
 
 	// overlay for disable buttons
-	$('body').append('<div id="a11yc_overlay" />');
+//	$('body').append('<div id="a11yc_overlay" />');
 
 	// error text
 	$labels.each(function(){
@@ -17,9 +17,18 @@ jQuery(function($){
 	});
 	
 	//tabindex
-	$(document).find('a, :input, [tabindex]').attr('tabindex', -1);
+	setTimeout(function(){
+		$(document).find('a, :input, [tabindex]').attr('tabindex', -1).on('click', function(e){
+			var e = e ? e : event;
+			e.preventDefault();
+			e.stopPropagation();
+			return false;
+		});
+	}, 1000);
 	$labels.attr('tabindex', 0);
 
+	
+	
 //	$(window).on('load', function(){
 //		console.log($labels);
 //	});
@@ -34,7 +43,7 @@ jQuery(function($){
 	}
 	var $obj,
 	location_origin = window.location.origin,
-	location_target = decodeURIComponent(arg.target);
+	location_target = decodeURIComponent(arg.url);
 	setTimeout(function(){
 		$(document).find('*').each(function(){
 			$obj = $(this);
