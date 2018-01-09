@@ -44,6 +44,7 @@ define('A11YC_LANG_CTRL_NUM', 'Number');
 define('A11YC_LANG_CTRL_EXPAND', 'Expand');
 define('A11YC_LANG_CTRL_COMPRESS', 'Compress');
 define('A11YC_LANG_COUNT_ITEMS', '%s items');
+define('A11YC_LANG_EXPORT_ERRORS_CSV',  'Export CSV');
 
 // login
 define('A11YC_LANG_AUTH_TITLE', 'Login');

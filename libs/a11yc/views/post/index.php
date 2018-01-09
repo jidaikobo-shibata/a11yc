@@ -31,6 +31,7 @@ $uas = array(
 		<select name="behaviour" id="behaviour">
 		<option value="check"><?php echo A11YC_LANG_POST_DO_CHECK ?></option>
 		<option value="images"><?php echo A11YC_LANG_POST_SHOW_LIST_IMAGES ?></option>
+		<option value="csv"><?php echo A11YC_LANG_EXPORT_ERRORS_CSV ?></option>
 	</select>
 	</label>
 	<input type="submit" value="<?php echo A11YC_LANG_CTRL_SEND ?>">
@@ -42,7 +43,15 @@ $uas = array(
 <h2><label for="source">HTML Source</label></h2>
 <p><?php echo A11YC_LANG_POST_CANT_SHOW_LIST_IMAGES ?></p>
 <textarea name="source" id="source" style="width: 100%; min-height: 10em;"><?php echo $target_html ?></textarea>
-<input type="submit" value="<?php echo A11YC_LANG_CTRL_SEND ?>">
+<div class="a11yc_submit_group">
+	<label for="behaviour"><?php echo A11YC_LANG_POST_BEHAVIOUR ?>
+		<select name="behaviour" id="behaviour">
+		<option value="check"><?php echo A11YC_LANG_POST_DO_CHECK ?></option>
+		<option value="csv"><?php echo A11YC_LANG_EXPORT_ERRORS_CSV ?></option>
+	</select>
+	</label>
+	<input type="submit" value="<?php echo A11YC_LANG_CTRL_SEND ?>">
+</div>
 </form>
 
 <?php

@@ -28,11 +28,11 @@ class Controller_Post
 	private static $url;
 
 	/**
-	 * forge
+	 * set_consts
 	 *
 	 * @return Void
 	 */
-	public static function forge()
+	public static function set_consts()
 	{
 		// max post a day by ip
 		defined('A11YC_POST_IP_MAX_A_DAY') or define('A11YC_POST_IP_MAX_A_DAY', 150);
@@ -43,6 +43,17 @@ class Controller_Post
 
 		// Google Analytics
 		defined('A11YC_POST_GOOGLE_ANALYTICS_CODE') or define('A11YC_POST_GOOGLE_ANALYTICS_CODE', '');
+	}
+
+	/**
+	 * forge
+	 *
+	 * @return Void
+	 */
+	public static function forge()
+	{
+		// set const
+		self::set_consts();
 
 		// a11yc
 		require (dirname(dirname(__DIR__)).'/main.php');
@@ -91,14 +102,6 @@ class Controller_Post
 
 		// render
 		View::assign('mode', 'post');
-
-		if ($action == 'Action_Ajax')
-		{
-			View::display(array(
-					'body.php',
-				));
-			return;
-		}
 
 		View::display(array(
 				'post/header.php',
@@ -174,12 +177,68 @@ class Controller_Post
 	}
 
 	/**
+	 * is in white list
+	 *
+	 * @return Bool
+	 */
+	public static function is_in_white_list()
+	{
+		$ip = Input::server('REMOTE_ADDR', '');
+
+		// performed IPs
+		$is_in_white_list = false;
+		if (defined('A11YC_APPROVED_GUEST_IPS'))
+		{
+			$is_in_white_list = in_array($ip, unserialize(A11YC_APPROVED_GUEST_IPS));
+		}
+
+		return $is_in_white_list;
+	}
+
+	/**
+	 * auth
+	 *
+	 * @return Void
+	 */
+	public static function auth()
+	{
+		if (Auth::auth()) return true;
+
+		// ip check for guest users
+		if ( ! self::is_in_white_list())
+		{
+			// die if at limit
+			static::ip_check_for_guest_users($ip);
+		}
+		return true;
+	}
+
+	/**
+	 * count up for guest users
+	 *
+	 * @return Void
+	 */
+	public static function count_up_for_guest_users()
+	{
+		if ( ! Auth::auth() && ! self::is_in_white_list())
+		{
+			// ip
+			$sql = 'INSERT INTO ip (ip, datetime) VALUES (?, ?);';
+			$ip = Input::server('REMOTE_ADDR', '');
+			Db::execute($sql, array($ip, date('Y-m-d H:i:s')), A11YC_POST_DB);
+
+			// cookie (session)
+			Session::add('a11yc_post', 'count', time());
+		}
+	}
+
+	/**
 	 * ip check for guest users
 	 *
 	 * @param  String $ip
 	 * @return Void
 	 */
-	private static function ip_check_for_guest_users($ip)
+	public static function ip_check_for_guest_users($ip)
 	{
 		// database
 		define('A11YC_POST_DB', 'post_log');
@@ -207,7 +266,7 @@ class Controller_Post
 			count($cookie_count) >= A11YC_POST_COOKIE_A_10MIN
 		)
 		{
-			Util::error('too much access.');
+			Util::error('too much accesses.');
 		}
 	}
 
@@ -220,25 +279,14 @@ class Controller_Post
 	public static function Validation_Core($url = '')
 	{
 		// vals
-		$ip         = Input::server('REMOTE_ADDR', '');
 		$url        = Input::post('url', $url, FILTER_VALIDATE_URL);
 		$user_agent = Input::post('user_agent', '');
 		$default_ua = Util::s(Input::user_agent());
 		$page_title = '';
 		$real_url   = '';
 
-		// performed IPs
-		$is_in_white_list = false;
-		if (defined('A11YC_APPROVED_GUEST_IPS'))
-		{
-			$is_in_white_list = in_array($ip, unserialize(A11YC_APPROVED_GUEST_IPS));
-		}
-
-		// ip check for guest users
-		if ( ! Auth::auth() && ! $is_in_white_list)
-		{
-			static::ip_check_for_guest_users($ip);
-		}
+		// auth - if limit die here
+		self::auth();
 
 		// validation
 		$raw = '';
@@ -312,6 +360,13 @@ class Controller_Post
 		// Do Validate
 		if ($target_html)
 		{
+			// export CSV
+			if (Input::post('behaviour') == 'csv')
+			{
+				include(dirname(dirname(A11YC_PATH)).'/export.php');
+			}
+
+			// check or image list
 			Validate::set_html($target_html);
 			$codes = Validate::$codes;
 
@@ -414,15 +469,7 @@ class Controller_Post
 			}
 
 			// count up for guest users
-			if ( ! Auth::auth() && ! $is_in_white_list)
-			{
-				// ip
-				$sql = 'INSERT INTO ip (ip, datetime) VALUES (?, ?);';
-				Db::execute($sql, array($ip, date('Y-m-d H:i:s')), A11YC_POST_DB);
-
-				// cookie (session)
-				Session::add('a11yc_post', 'count', time());
-			}
+			self::count_up_for_guest_users();
 		}
 
 		// error
@@ -459,41 +506,11 @@ class Controller_Post
 	}
 
 	/**
-	 * Action_Ajax
-	 *
-	 * @return Void
-	 */
-	public static function Action_Ajax()
-	{
-		$target = Input::get('target');
-		static::Validation_Core(Util::urldec($target));
-		$html = View::fetch_tpl('post/render.php');
-
-		// replace raw head
-		$head = Validate::revert_html(Util::s(Validate::get_hl_html()));
-		$head = self::replace_error_strs($head);
-		$head = mb_substr($head, 0, mb_strpos($head, '&lt;/head&gt;') + 13);
-		$head ='<div class="a11yc_live_head">'.str_replace(array("\n\r", "\n"), '<br />', $head).'</div>';
-		$html = mb_substr($html, mb_strpos($html, '</head>') + 7);
-		$raw_head = self::replace_strs($target, htmlspecialchars_decode(View::fetch('target_html_head'), ENT_QUOTES));
-		$html = $raw_head.$html;
-
-		// add altered head
-		$html = str_replace(
-			'</body>',
-			$head.'</body>',
-			$html
-		);
-
-		View::assign('body', $html, false);
-	}
-
-	/**
 	 * load language
 	 *
 	 * @return Void
 	 */
-	private static function load_language()
+	public static function load_language()
 	{
 		// load language
 		$lang = Lang::get_lang();
@@ -548,7 +565,7 @@ class Controller_Post
 	 * @param  String $html
 	 * @return String
 	 */
-	private static function replace_error_strs($html)
+	public static function replace_error_strs($html)
 	{
 		// remove "back" link
 		$html = preg_replace(
@@ -579,7 +596,7 @@ class Controller_Post
 	 * @param  String $html
 	 * @return String
 	 */
-	private static function replace_strs($url, $html)
+	public static function replace_strs($url, $html)
 	{
 		// replace root relative
 		$roots = explode('/', $url);

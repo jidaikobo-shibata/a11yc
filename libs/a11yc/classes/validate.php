@@ -12,6 +12,7 @@ namespace A11yc;
 
 class Validate
 {
+	private static $instance;
 	protected static $is_partial = false;
 	protected static $do_link_check = false;
 	protected static $error_ids = array();
@@ -128,6 +129,19 @@ class Validate
 	}
 
 	/**
+	 * get_instance
+	 *
+	 * @return Array
+	 */
+	public static function get_instance()
+	{
+		if (self::$instance === null) {
+			self::$instance = new self();
+		}
+		return self::$instance;
+	}
+
+	/**
 	 * get_error_ids
 	 *
 	 * @return Array
@@ -161,6 +175,7 @@ class Validate
 
 	/**
 	 * get_hl_html
+	 * get High-Lighted html
 	 *
 	 * @return String
 	 */
