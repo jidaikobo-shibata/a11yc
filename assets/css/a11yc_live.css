@@ -63,15 +63,22 @@ html
 	background-color: #fea05a;
 }
 
-.a11yc_live_error_wrapper
+.a11yc_live_error_wrapper,
+.a11yc_live_error_wrapper_noheight
 {
 	display: inline;
 	outline: 2px dashed #900;
-	outline-offset: -2px;
+	outline-offset: -1px;
 }
-.a11yc_validation_code_notice + .a11yc_live_error_wrapper
+.a11yc_live_notice_wrapper
 {
 	outline-color: #fea05a;
+}
+.a11yc_live_error_wrapper.on,
+.a11yc_live_error_wrapper_noheight.on
+{
+	outline: 2px dashed #000;
+	opacity: .6;
 }
 
 /*
@@ -94,20 +101,20 @@ html
 	right: 0;
 }
 
-/* Overlay */
+/* z-index */
 /* max of z-index: 2147483647 */
-#a11yc_overlay {
-	position: fixed;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	width: 100vw;
-	height: 100vh;
-	z-index: 2147483640;
+.a11yc_overlay {
+	position: absolute;
+	outline: 1px dotted blue;	
+	z-index: 2147483600;
 }
 .a11yc_validation_code_error,
 .a11yc_live_img_wrapper .a11yc_live_alt 
+{
+	z-index: 2147483640;
+}
+.a11yc_live_error_wrapper.on,
+.a11yc_live_error_wrapper_noheight.on
 {
 	z-index: 2147483645;
 }
