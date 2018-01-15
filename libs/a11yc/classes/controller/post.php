@@ -574,7 +574,7 @@ class Controller_Post
 			$html
 		);
 
-		// replace errors
+		// replace strong to span
 		$html = preg_replace(
 			'/strong class="a11yc_level_(a+?)"/i',
 			'span class="a11yc_live_error_wrapper a11yc_level_\1"',
@@ -585,6 +585,32 @@ class Controller_Post
 			'</span><!-- a11yc_strong_end -->',
 			$html
 		);
+
+		// make live valid - style_for_structure
+		$error_codes = array(
+			'meanless_element',
+			'style_for_structure',
+			'invalid_tag',
+			'suspicious_attributes',
+			'titleless_frame',
+//			'must_be_numeric_attr',
+		);
+
+		foreach ($error_codes as $error_code)
+		{
+			preg_match_all('/\<span id="'.$error_code.'(.+?) class="([^"]+?)"\>(ERROR!|NOTICE)\<\/span\>\<span class="a11yc_live_error_wrapper a11yc_level_(.+?)"\>\<([^\>]+?)\>\<\/span\>\<!-- a11yc_strong_end --\>/', $html, $ms);
+			preg_match_all('/\<span id="'.$error_code.'([^\>]+?)\>(ERROR!|NOTICE)\<\/span\>\<span class="a11yc_live_error_wrapper a11yc_level_(.+?)"\>\<([^\>]+?)\>\<\/span\>\<!-- a11yc_strong_end --\>/', $html, $ms);
+
+			if (isset($ms[0][0]))
+			{
+				foreach ($ms[0] as $k => $v)
+				{
+					$replace = '<span id="'.$error_code.''.$ms[1][$k].'>'.$ms[2][$k].'</span><span class="a11yc_live_error_wrapper a11yc_level_'.$ms[3][$k].'"></span><!-- a11yc_strong_end --><'.$ms[4][$k].'>';
+
+					$html = str_replace($v, $replace, $html);
+				}
+			}
+		}
 
 		return $html;
 	}
