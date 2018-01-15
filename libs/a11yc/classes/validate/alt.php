@@ -94,16 +94,21 @@ class Validate_Alt extends Validate
 			if (static::is_ignorable($ms[0][$k])) continue; // ignorable
 			$t = trim(strip_tags($m)); // php <= 5.5 cannot use function return value
 			if ( ! empty($t)) continue; // not image only
-			$attrs = static::get_attributes($m);
-			$alt = '';
 
-			foreach ($attrs as $kk => $vv)
+			$mms = static::get_elements_by_re($m, 'ignores', 'imgs', true);
+			$alt = '';
+			foreach ($mms[0] as $in_img)
 			{
-				if (strpos($kk, 'alt') !== false)
+				$attrs = static::get_attributes($in_img);
+				foreach ($attrs as $kk => $vv)
 				{
-					$alt.= $vv;
+					if (strpos($kk, 'alt') !== false)
+					{
+						$alt.= $vv;
+					}
 				}
 			}
+
 			$alt = trim($alt);
 
 			if ( ! $alt)
@@ -112,6 +117,7 @@ class Validate_Alt extends Validate
 				static::$error_ids['empty_alt_attr_of_img_inside_a'][$k]['str'] = @basename(@$attrs['src']);
 			}
 		}
+
 		static::add_error_to_html('empty_alt_attr_of_img_inside_a', static::$error_ids, 'ignores');
 	}
 
