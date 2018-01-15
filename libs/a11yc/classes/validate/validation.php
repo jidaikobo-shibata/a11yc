@@ -352,7 +352,7 @@ class Validate_Validation extends Validate
 	{
 		$str = static::ignore_elements(static::$hl_html);
 
-		preg_match_all("/\<section[^\>]*?\>(.+?)\<\/section/is", $str, $secs);
+		preg_match_all("/\<section[^\>]*?\>(.+?)\<\/section\>/is", $str, $secs);
 
 		if ( ! $secs[0]) return;
 
