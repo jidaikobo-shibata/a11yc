@@ -786,7 +786,7 @@ checks:
       urls:
         -
           name: G18 テキスト（及び画像化された文字）とその背景の間に、少なくとも4.5:1以上のコントラスト比をもたせる
-          url: http://www.ciaj.or.jp/access/web/docs/WCAG-TECHS/G18.html
+          url: https://waic.jp/docs/WCAG-TECHS/G18.html
 
   1-4-4:
     1-4-4a:
@@ -1534,10 +1534,10 @@ checks:
       urls:
         -
           name: H69 コンテンツの各セクションの開始位置に見出し要素を提供する
-          url: http://www.ciaj.or.jp/access/web/docs/WCAG-TECHS/H69.html
+          url: https://waic.jp/docs/WCAG-TECHS/H69.html
         -
           name: G1 メインコンテンツエリアへ直接移動するリンクを各ページの先頭に追加する
-          url: http://www.ciaj.or.jp/access/web/docs/WCAG-TECHS/G1.html
+          url: https://waic.jp/docs/WCAG-TECHS/G1.html
 
   2-4-2:
     2-4-2a:
@@ -1590,7 +1590,7 @@ checks:
       urls:
         -
           name: G53 リンクテキストとそれが含まれている文章中のテキストとを組み合わせて、リンクの目的を特定する
-          url: http://www.ciaj.or.jp/access/web/docs/WCAG-TECHS/G53.html
+          url: https://waic.jp/docs/WCAG-TECHS/G53.html
 
   2-4-5:
     2-4-5a:
@@ -1945,7 +1945,7 @@ checks:
           url: http://waic.jp/docs/UNDERSTANDING-WCAG20/consistent-behavior-consistent-functionality.html
         -
           name: G197 同じ機能を有するコンテンツに対して、一貫したラベル、識別名及び代替テキストを用いる
-          url: http://www.ciaj.or.jp/access/web/docs/WCAG-TECHS/G197.html
+          url: https://waic.jp/docs/WCAG-TECHS/G197.html
 
   3-2-5:
     3-2-5a:
