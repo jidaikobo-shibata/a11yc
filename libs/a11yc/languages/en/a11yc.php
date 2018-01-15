@@ -152,6 +152,7 @@ define('A11YC_LANG_CANDIDATES_ETC', 'Pages selected based on other criteria');
 // checklist
 define('A11YC_LANG_CHECKLIST_TARGETPAGE', 'Target Page');
 define('A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR', 'The page does not exist');
+define('A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR_NO_SCHEME', 'do not omit http(s)://');
 define('A11YC_LANG_CHECKLIST_NOT_FOUND_ERR', 'Could not find an error in the automatic check');
 define('A11YC_LANG_CHECKLIST_COULD_NOT_DRAW_HTML', 'Failed to acquire HTML for some reason');
 define('A11YC_LANG_CHECKLIST_TITLE', 'Checklist');

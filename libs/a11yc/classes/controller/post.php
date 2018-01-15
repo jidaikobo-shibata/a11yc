@@ -280,6 +280,7 @@ class Controller_Post
 	{
 		// vals
 		$url        = Input::post('url', $url, FILTER_VALIDATE_URL);
+		$raw_url    = Input::post('url');
 		$user_agent = Input::post('user_agent', '');
 		$default_ua = Util::s(Input::user_agent());
 		$page_title = '';
@@ -473,9 +474,14 @@ class Controller_Post
 		}
 
 		// error
-		if (Input::is_post_exists() && ! $target_html)
+		if (Input::is_post_exists() && ! $target_html && $raw_url)
 		{
 			Session::add('messages', 'errors', A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR);
+
+			if (strpos($raw_url, 'http') === false)
+			{
+				Session::add('messages', 'errors', A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR_NO_SCHEME);
+			}
 		}
 
 		// title
@@ -488,7 +494,7 @@ class Controller_Post
 		View::assign('current_user_agent' , $default_ua);
 		View::assign('user_agent'         , $user_agent);
 		View::assign('target_url'         , static::$url);
-		View::assign('url'                , $url);
+		View::assign('url'                , $url ?: $raw_url);
 		View::assign('target_html_head'   , $target_html_head, true);
 		View::assign('target_html'        , $target_html);
 		View::assign('render'             , $render, false);
