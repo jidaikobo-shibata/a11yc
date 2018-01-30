@@ -294,7 +294,7 @@ class Controller_Setup
 						serialize($additional_criterions),
 						$checklist_behaviour,
 						$stop_guzzle,
-						''
+						'0'
 					));
 			}
 			else
@@ -335,9 +335,8 @@ class Controller_Setup
 						serialize($additional_criterions),
 						$checklist_behaviour,
 						$stop_guzzle,
-						''
+						'0'
 					));
-
 			}
 
 			if ($r)
