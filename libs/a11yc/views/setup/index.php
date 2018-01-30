@@ -16,8 +16,10 @@
 	</div>
 </form>
 
+<?php
 if ($versions)
 {
+	$html = '';
 	$html.= '<h3>'.A11YC_LANG_DISCLOSURE_VERSION_EXISTS.'</h3>';
 	$html.= '<p>'.A11YC_LANG_DISCLOSURE_VERSION_EXISTS_EXP.'</p><ul>';
 	foreach ($versions as $version)
@@ -27,3 +29,4 @@ if ($versions)
 	$html.= '</ul>';
 	echo $html;
 }
+?>
