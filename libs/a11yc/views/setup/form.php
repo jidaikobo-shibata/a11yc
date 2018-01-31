@@ -144,6 +144,11 @@
 	</tr>
 
 	<tr>
+		<th><label for="a11yc_base_url"><?php echo A11YC_LANG_SETUP_BASE_URL ?></label></th>
+		<td><input type="text" name="base_url" id="a11yc_base_url" style="width: 100%;" value="<?php echo s($setup['base_url']) ?>" /><p>ex) http://example.com</p></td>
+	</tr>
+
+	<tr>
 		<th scope="row"><?php echo A11YC_LANG_SETUP_BASIC_AUTH_TITLE ?></th>
 		<td>
 			<p><?php echo A11YC_LANG_SETUP_BASIC_AUTH_EXP ?></p>

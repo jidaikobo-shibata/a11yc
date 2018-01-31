@@ -630,22 +630,48 @@ class Controller_Post
 	 */
 	public static function replace_strs($url, $html)
 	{
+
+		$setups = Controller_Setup::fetch_setup();
+		if ($setups['base_url'])
+		{
+			$root = $setups['base_url'];
+		}
+		else
+		{
+			$roots = explode('/', $url);
+			$root = $roots[0].'//'.$roots[2];
+		}
+		$html = htmlspecialchars_decode($html, ENT_QUOTES);
+
+
+		// check depth
+		if ($url == $root)
+		{
+		}
+		else
+		{
+// あとで！
+
+
+
+		}
+
 		// replace root relative
-		$roots = explode('/', $url);
-		$root = $roots[0].'//'.$roots[2];
 		$html = preg_replace(
 			array(
 				'/src *?= *?"\/(?!\/)/i',
-				'/href *?= *?"\/(?!\/)/i'
+				'/src *?= *?"(?!http|\/)/i',
+				'/href *?= *?"\/(?!\/)/i',
+				'/href *?= *?"(?!http|\/|#)/i'
 			),
 			array(
 				'src="'.$root.'/',
+				'src="'.$root.'/',
+				'href="'.$root.'/',
 				'href="'.$root.'/'
 			),
-			htmlspecialchars_decode($html, ENT_QUOTES)
+			$html
 		);
-
-		// replace relative
 
 		return $html;
 	}

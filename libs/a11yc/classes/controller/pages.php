@@ -535,6 +535,7 @@ class Controller_Pages
 		// assign
 		View::assign('crawled', $crawled);
 		View::assign('get_urls', $get_urls);
+		View::assign('setups', Controller_Setup::fetch_setup());
 		View::assign('pages', $pages);
 		View::assign('current_qs', $qs.'&amp;paged='.$paged.'&amp;s='.$word);
 		View::assign('prev', $prev_qs ? A11YC_PAGES_URL.$qs.$prev_qs : false);

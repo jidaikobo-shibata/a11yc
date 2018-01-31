@@ -7,6 +7,8 @@
 
 // base url
 define('A11YC_URL', 'http://example.com/a11yc/index.php');
+define('A11YC_LIVE_URL', 'http://example.com/a11yc/live.php');
+define('A11YC_EXPORT_URL', 'http://example.com/a11yc/export.php');
 
 // language
 // en, ja
@@ -75,4 +77,5 @@ define('A11YC_VALIDATE_URL',  dirname(A11YC_URL));
 define('A11YC_BULK_URL',      A11YC_URL.'?c=bulk&amp;a=index');
 define('A11YC_PAGES_URL',     A11YC_URL.'?c=pages&amp;a=index');
 define('A11YC_CHECKLIST_URL', A11YC_URL.'?c=checklist&amp;a=index&amp;url=');
+define('A11YC_IMAGELIST_URL', A11YC_URL.'?c=checklist&amp;a=images&amp;url=');
 define('A11YC_DOC_URL',       A11YC_URL.'?c=docs&amp;a=each&amp;code=');

@@ -132,21 +132,38 @@ foreach ($pages as $page)
 	{
 		foreach ($errs as $key => $err)
 		{
-			$err_type = isset($yml['errors'][$err_code]['notice']) ? 'notice' : 'error';
+			// Yaml not exist
+			$current_err = array();
+			if ( ! isset($yml['errors'][$err_code]))
+			{
+				$current_err['message'] = Validate_Human::$humans[$err_code]['message'];
+				$current_err['criterion'] = Validate_Human::$humans[$err_code]['criterion'];
+				$current_err['code'] = Validate_Human::$humans[$err_code]['code'];
+				if (Validate_Human::$humans[$err_code]['e_or_n'] == 'notice')
+				{
+					$current_err['notice'] = true;
+				}
+			}
+			else
+			{
+				$current_err = $yml['errors'][$err_code];
+			}
+
+			$err_type = isset($current_err['notice']) ? 'notice' : 'error';
 
 			// alt mention is not need. alt will be revealed
 			if ($err_code == 'notice_img_exists') continue;
 
 			// level
-			$criterion = $yml['errors'][$err_code]['criterion'];
+			$criterion = $current_err['criterion'];
 
 			$csv[] = array(
 				$url,
 				$n,
 				$yml['criterions'][$criterion]['level']['name'],
 				$err_type,
-				Util::key2code($yml['errors'][$err_code]['criterion']),
-				$yml['errors'][$err_code]['message'],
+				Util::key2code($current_err['criterion']),
+				$current_err['message'],
 				$err['id'],
 				$err['str'] == $err['id'] ? '' : $err['str'],
 			);

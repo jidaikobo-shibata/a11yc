@@ -73,6 +73,8 @@ define('A11YC_LANG_PAGES_ADDED_NORMALLY', 'Add');
 define('A11YC_LANG_PAGES_ADD_FAILED', 'Failed');
 define('A11YC_LANG_PAGES_DONE', 'Done');
 define('A11YC_LANG_PAGES_CHECK', 'Check');
+define('A11YC_LANG_PAGES_LIVE', 'LIVE');
+define('A11YC_LANG_PAGES_EXPORT', 'CSV');
 define('A11YC_LANG_PAGES_DELETE', 'Delete');
 define('A11YC_LANG_PAGES_UNDELETE', 'Undelete');
 define('A11YC_LANG_PAGES_PURGE', 'Purge');
@@ -112,6 +114,7 @@ define('A11YC_LANG_PAGES_IT_TAKES_TIME', 'This process takes time.');
 define('A11YC_LANG_SETUP_TITLE', 'Setup');
 define('A11YC_LANG_SETUP_TITLE_ETC', 'etc.');
 define('A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR', 'Checklist Behaviour');
+define('A11YC_LANG_SETUP_BASE_URL', 'URL of Document Root');
 define('A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR_DISAPPEAR', 'Disappear when check');
 define('A11YC_LANG_SETUP_BASIC_AUTH_TITLE', 'Basic Auth');
 define('A11YC_LANG_SETUP_BASIC_AUTH_EXP', 'If the site to be tested is protected by basic authentication, please enter the user name and password for basic authentication here.');
@@ -194,6 +197,7 @@ define('A11YC_LANG_CHECKLIST_MUST_BE_NUMERIC', 'value of %s must be numeric');
 define('A11YC_LANG_CHECKLIST_BACK_TO_MESSAGE', 'back to message');
 define('A11YC_LANG_CHECKLIST_SEE_DETAIL', 'See How to resolve');
 define('A11YC_LANG_CHECKLIST_SEE_UNDERSTANDING', 'See understanding WCAG');
+define('A11YC_LANG_CHECKLIST_HUMAN_SRC_NOTICE', 'Use <code>##A11YC_SRC_DIV##</code> as delimiter. Completion criteria such as (E)rror or (N)otice in the first line, 1.1.1 in the second line, Corresponding code such as 1-1-1a in the third line, commentary sentences in the forth line, write HTML from the fifth line to the next delimiter. HTML can not include a comment-out part, inside of script.');
 
 // bulk
 define('A11YC_LANG_BULK_TITLE', 'Batch');

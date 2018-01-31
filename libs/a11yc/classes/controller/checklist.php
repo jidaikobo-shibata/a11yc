@@ -15,11 +15,11 @@ class Controller_Checklist
 	static public $err_cnts = array('a' => 0, 'aa' => 0, 'aaa' => 0);
 
 	/**
-	 * action index
+	 * prepare_action
 	 *
-	 * @return Void
+	 * @return string
 	 */
-	public static function Action_Index()
+	private static function prepare_action()
 	{
 		$setup = Controller_Setup::fetch_setup();
 		if ( ! isset($setup['target_level']))
@@ -31,8 +31,39 @@ class Controller_Checklist
 		$post_url = Input::post('url', '', FILTER_VALIDATE_URL);
 		$url = ! empty($get_url) && is_string($get_url) ? Util::urldec($get_url) : '';
 		$url = empty($url) && ! empty($post_url) && is_string($post_url) ? Util::urldec($post_url) : $url;
+		return $url;
+	}
 
+	/**
+	 * action index
+	 *
+	 * @return Void
+	 */
+	public static function Action_Index()
+	{
+		$url = self::prepare_action();
 		static::checklist($url);
+	}
+
+	/**
+	 * action images
+	 *
+	 * @return Void
+	 */
+	public static function Action_Images()
+	{
+		$url = self::prepare_action();
+		Guzzle::forge($url);
+		Guzzle::instance($url)->set_config(
+			'User-Agent',
+			Input::user_agent().' Service/a11yc (+http://www.jidaikobo.com)'
+		);
+		$target_html = Guzzle::instance($url)->is_html ? Guzzle::instance($url)->body : false;
+		Validate::set_html($target_html);
+		Crawl::set_target_path($url);
+		View::assign('images', Validate_Alt::get_images());
+		View::assign('title' , 'Image List');
+		View::assign('body' , View::fetch_tpl('checklist/images.php'), false);
 	}
 
 	/**
@@ -118,7 +149,7 @@ class Controller_Checklist
 				if ( ! trim($v['memo'])) continue;
 				$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS_NGS;
 				$sql.= ' (`url`, `criterion`, `uid`, `memo`, `version`)';
-				$sql.= ' VALUES (?, ?, ?, ?, "");';
+				$sql.= ' VALUES (?, ?, ?, ?, 0);';
 				$memo = stripslashes($v['memo']);
 				Db::execute($sql, array($url, $criterion, (int) $v['uid'], $memo));
 			}
@@ -149,27 +180,31 @@ class Controller_Checklist
 			$alt_url = Util::urldec(Input::post('alt_url'));
 			$standard = intval(Input::post('standard'));
 			$selection_reason = intval(Input::post('selection_reason'));
+			$human_src = Input::post('human_src');
+
 			$r = FALSE;
 			if (Controller_Pages::fetch_page($url))
 			{
 				$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET ';
 				$sql.= '`date` = ?, `done` = ?, `standard` = ?,';
-				$sql.= ' `page_title` = ?, `selection_reason` = ?, `alt_url` = ?';
+				$sql.= ' `page_title` = ?, `selection_reason` = ?, `alt_url` = ?, ';
+				$sql.= ' `human_src` = ?';
 				$sql.= ' WHERE `url` = ?'.Controller_Setup::curent_version_sql().';';
 				$r = Db::execute(
 					$sql,
-					array($date, $done, $standard, $page_title, $selection_reason, $alt_url, $url)
+					array($date, $done, $standard, $page_title, $selection_reason, $alt_url, $human_src, $url)
 				);
 			}
 			else
 			{
 				$sql = 'INSERT INTO '.A11YC_TABLE_PAGES;
 				$sql.= ' (`url`, `date`, `done`, `standard`, `trash`,';
-				$sql.= ' `page_title`, `add_date`, `selection_reason`, `alt_url`, `version`)';
-				$sql.= ' VALUES (?, ?, ?, ?, 0, ?, ?, ?, 0);';
+				$sql.= ' `page_title`, `add_date`, `selection_reason`, `alt_url`,';
+				$sql.= ' `human_src`, `version`)';
+				$sql.= ' VALUES (?, ?, ?, ?, 0, ?, ?, ?, ?, 0);';
 				$r = Db::execute(
 					$sql,
-					array($url, $date, $done, $standard, $page_title, date('Y-m-d H:i:s'), $selection_reason, $alt_url)
+					array($url, $date, $done, $standard, $page_title, date('Y-m-d H:i:s'), $selection_reason, $alt_url, $human_src)
 				);
 			}
 
@@ -435,29 +470,48 @@ class Controller_Checklist
 	public static function message($code_str, $place, $key, $docpath = '')
 	{
 		$yml = Yaml::fetch();
-		if (isset($yml['errors'][$code_str]))
+
+		// Yaml not exist
+		$current_err = array();
+		if ( ! isset($yml['errors'][$code_str]))
+		{
+			$current_err['message'] = Validate_Human::$humans[$code_str]['message'];
+			$current_err['criterion'] = Validate_Human::$humans[$code_str]['criterion'];
+			$current_err['code'] = Validate_Human::$humans[$code_str]['code'];
+			if (Validate_Human::$humans[$code_str]['e_or_n'] == 'notice')
+			{
+				$current_err['notice'] = true;
+			}
+		}
+		else
+		{
+			$current_err = $yml['errors'][$code_str];
+		}
+
+		// set error to message
+		if ($current_err)
 		{
 			$docpath = $docpath ?: A11YC_DOC_URL;
 
 			$anchor = $code_str.'_'.$key;
 
 			// level
-			$lv = strtolower($yml['criterions'][$yml['errors'][$code_str]['criterion']]['level']['name']);
+			$lv = strtolower($yml['criterions'][$current_err['criterion']]['level']['name']);
 
 			// count errors
-			if ( ! isset($yml['errors'][$code_str]['notice'])) static::$err_cnts[$lv]++;
+			if ( ! isset($current_err['notice'])) static::$err_cnts[$lv]++;
 
 			// dt
-			$ret = '<dt id="index_'.$anchor.'" tabindex="-1" class="a11yc_level_'.$lv.'">'.$yml['errors'][$code_str]['message'];
+			$ret = '<dt id="index_'.$anchor.'" tabindex="-1" class="a11yc_level_'.$lv.'">'.$current_err['message'];
 
 			// dt - information
-			$criterion_code = $yml['errors'][$code_str]['criterion'];
-			$code = $yml['errors'][$code_str]['code'];
+			$criterion_code = $current_err['criterion'];
+			$code = $current_err['code'];
 			$level = $yml['checks'][$criterion_code][$code]['criterion']['level']['name'];
 			$criterion = $yml['checks'][$criterion_code][$code]['criterion'];
 
 			$ret.= '<span class="a11yc_validation_reference_info"><strong>'.A11YC_LANG_LEVEL.strtoupper($lv).'</strong> <strong>'.Util::key2code($criterion['code']).'</strong> ';
-			$ret.= '<a href="'.$docpath.$code.'&amp;criterion='.$yml['errors'][$code_str]['criterion'].'"'.A11YC_TARGET.'>'.A11YC_LANG_CHECKLIST_SEE_DETAIL.'</a> ';
+			$ret.= '<a href="'.$docpath.$code.'&amp;criterion='.$current_err['criterion'].'"'.A11YC_TARGET.'>'.A11YC_LANG_CHECKLIST_SEE_DETAIL.'</a> ';
 //			$ret.= '<a href="'.$criterion['url'].'"'.A11YC_TARGET.' title="'.$criterion['name'].'">'.A11YC_LANG_CHECKLIST_SEE_UNDERSTANDING.' '.Util::key2code($criterion['code']).'</a>';
 			$ret.= '</span>';
 

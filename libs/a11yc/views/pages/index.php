@@ -66,6 +66,9 @@ if ($pages):
 		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_CHECKLIST_DONE ?></th>
 		<?php if ($list != 'trash'): ?>
 		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGES_CHECK ?></th>
+		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGES_LIVE ?></th>
+		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_IMAGE ?></th>
+		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGES_EXPORT ?></th>
 		<?php endif; ?>
 		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGES_CTRL ?></th>
 		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGES_ADD_DATE ?></th>
@@ -93,9 +96,17 @@ if ($pages):
 			$done = @$page['done'] == 1 ? A11YC_LANG_PAGES_DONE : '' ;
 		?>
 		<td class="a11yc_result"><?php echo $done ?></td>
+
 		<?php if ($list != 'trash'): ?>
 		<td class="a11yc_result"><a href="<?php echo A11YC_CHECKLIST_URL.Util::urlenc($url) ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_CHECK ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
+
+		<td class="a11yc_result"><a href="<?php echo A11YC_LIVE_URL.'?url='.Util::urlenc($url).'&amp;base_url='.Util::urlenc($setups['base_url']) ?>" class="a11yc_hasicon" target="a11yc_live"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_LIVE ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
+
+		<td class="a11yc_result"><a href="<?php echo A11YC_IMAGELIST_URL.Util::urlenc($url) ?>" class="a11yc_hasicon" target="a11yc_images"><span class="a11yc_skip"><?php echo A11YC_LANG_IMAGE ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
+
+		<td class="a11yc_result"><a href="<?php echo A11YC_EXPORT_URL.'?url='.Util::urlenc($url) ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_EXPORT ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
 		<?php endif; ?>
+
 		<?php if ($list == 'trash'): ?>
 			<td class="a11yc_result">
 				<a href="<?php echo A11YC_PAGES_URL ?>&amp;undel=1&amp;url=<?php echo Util::urlenc($url).$current_qs ?>"><?php echo A11YC_LANG_PAGES_UNDELETE ?></a>

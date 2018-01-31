@@ -1,6 +1,6 @@
 <?php
 /**
- * A11yc\Validation_Link
+ * A11yc\Validate_Link
  *
  * @package    part of A11yc
  * @author     Jidaikobo Inc.

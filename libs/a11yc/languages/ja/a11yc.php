@@ -73,6 +73,8 @@ define('A11YC_LANG_PAGES_ADDED_NORMALLY', '登録しました');
 define('A11YC_LANG_PAGES_ADD_FAILED', '登録に失敗しました');
 define('A11YC_LANG_PAGES_DONE', '終了');
 define('A11YC_LANG_PAGES_CHECK', 'チェック');
+define('A11YC_LANG_PAGES_LIVE', 'ライブ');
+define('A11YC_LANG_PAGES_EXPORT', 'CSV');
 define('A11YC_LANG_PAGES_DELETE', '削除');
 define('A11YC_LANG_PAGES_UNDELETE', '復活');
 define('A11YC_LANG_PAGES_PURGE', '完全に削除');
@@ -112,6 +114,7 @@ define('A11YC_LANG_PAGES_IT_TAKES_TIME', 'この処理には、時間がかか�
 define('A11YC_LANG_SETUP_TITLE', '設定');
 define('A11YC_LANG_SETUP_TITLE_ETC', 'その他の設定');
 define('A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR', 'チェックリストの振る舞い');
+define('A11YC_LANG_SETUP_BASE_URL', 'ドキュメントルートURL');
 define('A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR_DISAPPEAR', 'チェック時にパスした項目は表示しない');
 define('A11YC_LANG_SETUP_BASIC_AUTH_TITLE', '基本認証');
 define('A11YC_LANG_SETUP_BASIC_AUTH_EXP', '試験対象のサイトが基本認証で守られている場合、ここに基本認証用のユーザ名とパスワードを入力してください');
@@ -194,6 +197,7 @@ define('A11YC_LANG_CHECKLIST_MUST_BE_NUMERIC', '%sの値は数値のみにして
 define('A11YC_LANG_CHECKLIST_BACK_TO_MESSAGE', 'メッセージに戻る');
 define('A11YC_LANG_CHECKLIST_SEE_DETAIL', '対処法を見る');
 define('A11YC_LANG_CHECKLIST_SEE_UNDERSTANDING', 'WCAG解説書');
+define('A11YC_LANG_CHECKLIST_HUMAN_SRC_NOTICE', '<code>##A11YC_SRC_DIV##</code>を区切り文字として、1行目に(E)rrorか(N)otice、2行目に1-1-1などの達成基準、3行目に1-1-1aなどの対処法コード、4行目に解説文章、4行目から次の区切り文字までにHTMLを記入してください。HTMLにはコメントアウト部分、scriptの内部等は含めることができません。');
 
 // bulk
 define('A11YC_LANG_BULK_TITLE', '一括処理');

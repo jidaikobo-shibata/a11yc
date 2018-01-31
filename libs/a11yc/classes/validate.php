@@ -41,6 +41,7 @@ class Validate
 			'empty_link_element'              => '\A11yc\Validate_Link',
 			'form_and_labels'                 => '\A11yc\Validate_Form',
 			'headerless_section'              => '\A11yc\Validate_Validation',
+			'elements'                        => '\A11yc\Validate_Human',
 
 			// single tag
 			'alt_attr_of_img'                 => '\A11yc\Validate_Alt',
@@ -60,6 +61,7 @@ class Validate
 			'titleless'                       => '\A11yc\Validate_Head',
 			'langless'                        => '\A11yc\Validate_Head',
 			'viewport'                        => '\A11yc\Validate_Head',
+			'single'                          => '\A11yc\Validate_Human',
 
 			// link check
 			'link_check'                      => '\A11yc\Validate_Link',
@@ -73,6 +75,7 @@ class Validate
 			'same_page_title_in_same_site'    => '\A11yc\Validate_Head',
 			'notice_img_exists'               => '\A11yc\Validate_Alt',
 			'notice_non_html_exists'          => '\A11yc\Validate_Link',
+			'nontag'                          => '\A11yc\Validate_Human',
 		);
 
 	/**
@@ -620,6 +623,23 @@ class Validate
 		$yml = Yaml::fetch();
 		$html = static::$hl_html;
 
+		// Yaml not exist
+		$current_err = array();
+		if ( ! isset($yml['errors'][$error_id]))
+		{
+			$current_err['message'] = Validate_Human::$humans[$error_id]['message'];
+			$current_err['criterion'] = Validate_Human::$humans[$error_id]['criterion'];
+			$current_err['code'] = Validate_Human::$humans[$error_id]['code'];
+			if (Validate_Human::$humans[$error_id]['e_or_n'] == 'notice')
+			{
+				$current_err['notice'] = true;
+			}
+		}
+		else
+		{
+			$current_err = $yml['errors'][$error_id];
+		}
+
 		// errors
 		if ( ! isset($s_errors[$error_id])) return;
 		$errors = array();
@@ -653,14 +673,14 @@ class Validate
 			}
 		}
 
-		$lv = strtolower($yml['criterions'][$yml['errors'][$error_id]['criterion']]['level']['name']);
+		$lv = strtolower($yml['criterions'][$current_err['criterion']]['level']['name']);
 
 		// replace errors
 		$results = array();
 		$replaces = array();
 
 		// notice
-		$is_notice = isset($yml['errors'][$error_id]['notice']) && $yml['errors'][$error_id]['notice'];
+		$is_notice = isset($current_err['notice']) && $current_err['notice'];
 
 		foreach ($errors as $k => $error)
 		{
@@ -669,7 +689,7 @@ class Validate
 
 			// hash strgings to avoid wrong replace
 			$rplc = $is_notice ? 'a11yc_notice_rplc' : 'a11yc_rplc';
-			$original = '[==='.$rplc.'==='.$error_id.'_'.$k.'==='.$rplc.'_title==='.$yml['errors'][$error_id]['message'].'==='.$rplc.'_class==='.$lv.'==='.$rplc.'===][==='.$rplc.'_strong_class==='.$lv.'==='.$rplc.'_strong===]';
+			$original = '[==='.$rplc.'==='.$error_id.'_'.$k.'==='.$rplc.'_title==='.$current_err['message'].'==='.$rplc.'_class==='.$lv.'==='.$rplc.'===][==='.$rplc.'_strong_class==='.$lv.'==='.$rplc.'_strong===]';
 			$replaced = '==='.$rplc.'==='.hash("sha256", $original).'===/'.$rplc.'===';
 
 			$end_original = '[===end_'.$rplc.'==='.$error_id.'_'.$k.'==='.$rplc.'_back_class==='.$lv.'===end_'.$rplc.'===]';

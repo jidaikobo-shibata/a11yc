@@ -242,6 +242,7 @@ class Controller_Setup
 			$policy = stripslashes(Input::post('policy'));
 			$report = stripslashes(Input::post('report'));
 			$contact = stripslashes(Input::post('contact'));
+			$base_url = stripslashes(Input::post('base_url'));
 
 			// additional_criterions
 			$additional_criterions = array();
@@ -277,6 +278,7 @@ class Controller_Setup
 				$sql.= '`additional_criterions` = ?,';
 				$sql.= '`checklist_behaviour` = ?,';
 				$sql.= '`stop_guzzle` = ?,';
+				$sql.= '`base_url` = ?,';
 				$sql.= '`version` = ?;';
 				$r = Db::execute($sql, array(
 						$target_level,
@@ -294,6 +296,7 @@ class Controller_Setup
 						serialize($additional_criterions),
 						$checklist_behaviour,
 						$stop_guzzle,
+						$base_url,
 						'0'
 					));
 			}
@@ -317,8 +320,9 @@ class Controller_Setup
 				$sql.= '`additional_criterions`, ';
 				$sql.= '`checklist_behaviour`,';
 				$sql.= '`stop_guzzle`,';
+				$sql.= '`base_url`,';
 				$sql.= '`version`)';
-				$sql.= ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+				$sql.= ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
 				$r = Db::execute($sql, array(
 						$target_level,
 						$standard,
@@ -335,6 +339,7 @@ class Controller_Setup
 						serialize($additional_criterions),
 						$checklist_behaviour,
 						$stop_guzzle,
+						$base_url,
 						'0'
 					));
 			}
