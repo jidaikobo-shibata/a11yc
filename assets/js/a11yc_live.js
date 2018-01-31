@@ -146,10 +146,15 @@ function a11yc_js(){
 		}
 		var $obj,
 		location_origin = window.location.origin,
-		location_target = decodeURIComponent(arg.url);
+		location_path = window.location.pathname;
+		location_path = location_path.substring(0,location_path.lastIndexOf('/'));
+		location_path = location_origin+location_path;
+		location_target = decodeURIComponent(arg.baseurl);
+		if(!location_target) return;
 		setTimeout(function(){
 			$(document).find('*').each(function(){
 				$obj = $(this);
+				var needle = '';
 				if( $obj.css('backgroundImage') != 'none')
 				{
 					var url = /^url\((['"]?)(.*)\1\)$/.exec($(this).css('backgroundImage'));
@@ -157,6 +162,7 @@ function a11yc_js(){
 					url = url[2];
 					if (url.indexOf(location_origin) == 0)
 					{
+						needle = url.indexOf(location_path) == 0 ? location_path : location_origin;
 						url = url.replace(location_origin,  location_target);
 						$obj.css('backgroundImage', 'url("'+url+'")');
 					}
@@ -166,7 +172,8 @@ function a11yc_js(){
 					var url = $obj[0].src;
 					if (url.indexOf(location_origin) == 0)
 					{
-						url = url.replace(location_origin,  location_target);
+						needle = url.indexOf(location_path) == 0 ? location_path : location_origin;
+						url = url.replace(needle,  location_target);
 						$obj.attr('src', url);
 					}
 				}
