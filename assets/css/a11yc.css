@@ -1135,6 +1135,21 @@ span.a11yc_icon_check:before {
 	font-size: 1.5em;
 	color: #333;
 }
+span.a11yc_icon_live:before {
+	content: '\f06e';
+	font-size: 1.5em;
+	color: #333;
+}
+span.a11yc_icon_images:before {
+	content: '\f03e';
+	font-size: 1.5em;
+	color: #333;
+}
+span.a11yc_icon_export:before {
+	content: '\f019';
+	font-size: 1.5em;
+	color: #333;
+}
 .a11yc_table.a11yc_report span.a11yc_icon_check:before {
 	content: '\f0f6';
 }

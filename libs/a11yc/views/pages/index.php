@@ -100,11 +100,11 @@ if ($pages):
 		<?php if ($list != 'trash'): ?>
 		<td class="a11yc_result"><a href="<?php echo A11YC_CHECKLIST_URL.Util::urlenc($url) ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_CHECK ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
 
-		<td class="a11yc_result"><a href="<?php echo A11YC_LIVE_URL.'?url='.Util::urlenc($url).'&amp;base_url='.Util::urlenc($setups['base_url']) ?>" class="a11yc_hasicon" target="a11yc_live"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_LIVE ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
+		<td class="a11yc_result"><a href="<?php echo A11YC_LIVE_URL.'?url='.Util::urlenc($url).'&amp;base_url='.Util::urlenc($setups['base_url']) ?>" class="a11yc_hasicon" target="a11yc_live"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_LIVE ?></span><span class="a11yc_icon_live a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
 
-		<td class="a11yc_result"><a href="<?php echo A11YC_IMAGELIST_URL.Util::urlenc($url) ?>" class="a11yc_hasicon" target="a11yc_images"><span class="a11yc_skip"><?php echo A11YC_LANG_IMAGE ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
+		<td class="a11yc_result"><a href="<?php echo A11YC_IMAGELIST_URL.Util::urlenc($url) ?>" class="a11yc_hasicon" target="a11yc_images"><span class="a11yc_skip"><?php echo A11YC_LANG_IMAGE ?></span><span class="a11yc_icon_images a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
 
-		<td class="a11yc_result"><a href="<?php echo A11YC_EXPORT_URL.'?url='.Util::urlenc($url) ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_EXPORT ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
+		<td class="a11yc_result"><a href="<?php echo A11YC_EXPORT_URL.'?url='.Util::urlenc($url) ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_EXPORT ?></span><span class="a11yc_icon_export a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
 		<?php endif; ?>
 
 		<?php if ($list == 'trash'): ?>
