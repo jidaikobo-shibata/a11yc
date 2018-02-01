@@ -122,7 +122,11 @@ class Validate_Form extends Validate
 			// submitless
 			if (
 				( ! in_array('input', $uniqued_eles) && ! in_array('button', $uniqued_eles)) ||
-				( ! in_array('submit', $uniqued_types) && ! in_array('image', $uniqued_types))
+				(
+					! in_array('button', $uniqued_eles) &&
+					! in_array('submit', $uniqued_types) &&
+					! in_array('image', $uniqued_types)
+				)
 			)
 			{
 				static::$error_ids['submitless'][$n]['id'] = $v['form'];
@@ -146,13 +150,40 @@ class Validate_Form extends Validate
 
 			// unique_label
 			preg_match_all("/\<label[^\>]*?\>(.+?)\<\/label\>/is", $whole_form, $ms);
-			if (isset($ms[1]) && count($ms[1]) != count(array_unique($ms[1])))
-			{
-				$suspicion_labels = array_diff_assoc($ms[1],array_unique($ms[1]));
-				$suspicion_labels = join(', ', array_unique($suspicion_labels));
 
-				static::$error_ids['unique_label'][$k]['id'] = $v['form'];
-				static::$error_ids['unique_label'][$k]['str'] = $suspicion_labels;
+			if (isset($ms[1]))
+			{
+				foreach ($ms[1] as $k => $each_label)
+				{
+					$alt = '';
+					if (strpos($each_label, '<img') !== false)
+					{
+						$mms = static::get_elements_by_re($each_label, 'ignores', 'imgs', true);
+						foreach ($mms[0] as $in_img)
+						{
+							$attrs = static::get_attributes($in_img);
+							foreach ($attrs as $kk => $vv)
+							{
+								if (strpos($kk, 'alt') !== false)
+								{
+									$alt.= $vv;
+								}
+							}
+						}
+						$alt = trim($alt);
+					}
+					$ms[1][$k] = trim(strip_tags($each_label)).$alt;
+				}
+
+
+				if (count($ms[1]) != count(array_unique($ms[1])))
+				{
+					$suspicion_labels = array_diff_assoc($ms[1],array_unique($ms[1]));
+					$suspicion_labels = join(', ', array_unique($suspicion_labels));
+
+					static::$error_ids['unique_label'][$k]['id'] = $v['form'];
+					static::$error_ids['unique_label'][$k]['str'] = $suspicion_labels;
+				}
 			}
 
 			// duplicated_names
