@@ -25,12 +25,13 @@ class Validate_Human extends Validate
 		if ( ! empty(static::$humans)) return static::$humans;
 
 		// get target url
-		$url = Crawl::get_target_path();
+		$url = Crawl::get_target_path(true);
 		if ( ! $url) return false;
 
 		// get errors
 		$sql = 'SELECT `human_src` FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?'.Controller_Setup::curent_version_sql().';';
 		$human_src = Db::fetch($sql, array($url));
+
 		if ( ! isset($human_src['human_src']) || empty($human_src['human_src'])) return false;
 
 		// divide strings

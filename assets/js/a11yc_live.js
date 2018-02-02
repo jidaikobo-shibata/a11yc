@@ -18,16 +18,22 @@ function a11yc_js(){
 	jQuery(function($){
 		var $labels = $('.a11yc_validation_code_error'),
 		    $wrappers = $('.a11yc_live_error_wrapper');
-		if($('html').css('position') == 'static')
+
+		if($('body').css('position') == 'static')
 		{
-			$('html').css('position', 'relative');
+			$('body').css('position', 'relative');
+
+		// if($('html').css('position') == 'static')
+		// {
+		// 	$('html').css('position', 'relative');
+
 		}
-	
+
 		// error text
 		$labels.each(function(){
 			$('<span class="a11yc_error_text a11yc_live" />').text($(this).attr('title')).appendTo(this);
 		});
-		
+
 		// alt
 		$('img').each(function(){
 			$(this).wrap('<span class="a11yc_live_img_wrapper a11yc_live">');
@@ -43,7 +49,7 @@ function a11yc_js(){
 				$('<span class="a11yc_live_alt a11yc_live" title="'+alt_str+'" />').text('alt="'+alt_str+'"').insertBefore(this);
 			}
 		});
-		
+
 		//tabindex
 		setTimeout(function(){
 			$(document).find('[tabindex]:not(.a11yc_validation_code_error)').removeAttr('tabindex');
@@ -55,8 +61,9 @@ function a11yc_js(){
 			});
 		}, 1000);
 		$labels.attr('tabindex', 0);
-		
+
 		// set wrapper position
+		/*
 		$wrappers.each(function(){
 			var height = $(this).height();
 			if( height == 0 )
@@ -64,19 +71,23 @@ function a11yc_js(){
 				$(this).addClass('a11yc_live_noheight');
 			}
 		});
+		*/
 		$(window, 'iframe').on('load', function(){
 			$wrappers.each(set_wrapper_position);
 		});
 		function set_wrapper_position(){
 		// need relocate wrapper for changing objs height by load images
-			if(! $(this).hasClass('a11yc_live_noheight')) return;
+
+//			if(! $(this).hasClass('a11yc_live_noheight')) return;
 			var offset,
 			    left,
 			    top,
 			    height = 0,
 			    width = 0,
 			    class_str = $(this).hasClass('a11yc_live_notice') ? ' a11yc_live_notice' : '';
+
 			$(this).find(':not(".a11yc_live")').each(function(){
+			console.log($(this));
 				if($(this).height() != 0)
 				{
 					height = $(this).height();
@@ -87,7 +98,7 @@ function a11yc_js(){
 				}
 			});
 			$('<span class="a11yc_live_error_wrapper_noheight a11yc_live'+class_str+'" />').css({
-				'height': height , 
+				'height': height ,
 				'position' : 'absolute',
 				'display' : 'block',
 				'height' :  height+'px',
@@ -96,7 +107,7 @@ function a11yc_js(){
 				'top' : top
 			}).appendTo('body');
 		}
-	
+
 		// relocate error labels
 		$labels.each(function(index){
 			var $wrapper = $(this).next();
@@ -106,7 +117,7 @@ function a11yc_js(){
 			}
 			a11yc_relocate($(this), $wrapper);
 		});
-		
+
 		// for iframes
 		// add overlay and relocate labels
 		$('iframe').on('load', function(){
@@ -116,8 +127,8 @@ function a11yc_js(){
 				'height' : $(this).height()+'px',
 			});
 			a11yc_relocate($obj, $(this));
-			
-			// relocate labels 
+
+			// relocate labels
 			$labels.each(function(){
 				var $wrapper = $wrappers.eq($(this).data('a11yc_error_index'));
 				$(this).css({
@@ -127,13 +138,13 @@ function a11yc_js(){
 				a11yc_relocate($(this), $(this).next());
 			});
 		});
-	
+
 		/*
 		// catch window resize
 		$(window).on('resize', function(){
 		});
 		*/
-	
+
 		function a11yc_relocate($obj, $parent){
 			var $parent = $parent ? $parent : $obj,
 			    offset = $parent.offset(),
@@ -148,7 +159,7 @@ function a11yc_js(){
 				'top' : top
 			}).appendTo('body');
 		}
-	
+
 		// replace url (CSS background-image and inserted images)
 		// need target root pass
 		var arg  = {};
@@ -191,7 +202,7 @@ function a11yc_js(){
 					}
 				}
 			});
-			
+
 		//	relocate wrappers and labels
 			$wrappers.each(set_wrapper_position);
 			$labels.each(function(index){
@@ -200,14 +211,14 @@ function a11yc_js(){
 			});
 		},1000);
 
-		
-	
+
+
 		// outline for hover|focus
 		$labels.mouseenter(function(){
 			$wrappers.eq($(this).data('a11yc_error_index')).addClass('on');
 		}).mouseleave(function(){
 			$wrappers.eq($(this).data('a11yc_error_index')).removeClass('on');
 		});
-	
+
 	});
 }

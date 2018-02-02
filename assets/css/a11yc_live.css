@@ -98,23 +98,29 @@ html
 	font-weight: normal !important;
 	line-height: 16px !important;
 	text-align: left !important;
+
+	position: absolute !important;
+	white-space: nowrap !important;
+
+/*
 	position: absolute;
 	top: auto;
 	bottom: 0;
 	left: auto;
 	right: 0;
 	white-space: nowrap;
+*/
 }
 
 /* z-index */
 /* max of z-index: 2147483647 */
 .a11yc_overlay {
 	position: absolute;
-	outline: 1px dotted blue;	
+	outline: 1px dotted blue;
 	z-index: 2147483600;
 }
 .a11yc_validation_code_error,
-.a11yc_live_img_wrapper .a11yc_live_alt 
+.a11yc_live_img_wrapper .a11yc_live_alt
 {
 	z-index: 2147483640;
 }
