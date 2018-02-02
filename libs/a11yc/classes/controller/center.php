@@ -34,9 +34,10 @@ class Controller_Center
 		$body = '';
 		if ( ! empty($setup))
 		{
+			$url = Util::urldec(Input::get('url', '', FILTER_VALIDATE_URL));
 			// report page
 			View::assign('is_center', TRUE);
-			Controller_Disclosure::report();
+			Controller_Disclosure::report($url);
 			$body = View::fetch('body');
 		}
 
