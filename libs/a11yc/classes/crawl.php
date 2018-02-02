@@ -13,6 +13,7 @@ namespace A11yc;
 class Crawl
 {
 	protected static $target_path = '';
+	protected static $target_path_raw = '';
 	protected static $real_urls = array();
 
 	/**
@@ -24,15 +25,18 @@ class Crawl
 	public static function set_target_path($target_path)
 	{
 		static::$target_path = static::remove_filename($target_path, '/');
+		static::$target_path_raw = $target_path;
 	}
 
 	/**
 	 * get_target_path
 	 *
+	 * @param  Bool $is_raw
 	 * @return  string
 	 */
-	public static function get_target_path()
+	public static function get_target_path($is_raw = false)
 	{
+		if ($is_raw) return static::$target_path_raw;
 		return static::$target_path;
 	}
 

@@ -3,7 +3,7 @@
 	<p><strong><?php echo A11YC_LANG_LOGIN_ERROR0 ?></strong></p>
 <?php endif; ?>
 
-<form action="<?php echo Util::remove_query_strings(Util::uri()) ?>" method="POST">
+<form action="<?php echo A11YC_URL ?>" method="POST">
 	<label for="a11yc_username"><?php echo A11YC_LANG_LOGIN_USERNAME ?></label>
 	<input type="text" name="username" id="a11yc_username" size="20" value="" />
 

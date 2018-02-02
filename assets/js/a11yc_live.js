@@ -17,8 +17,11 @@ else
 function a11yc_js(){
 	jQuery(function($){
 		var $labels = $('.a11yc_validation_code_error'),
-		    $wrappers = $('.a11yc_live_error_wrapper'),
-		    header_margin = 240;
+		    $wrappers = $('.a11yc_live_error_wrapper');
+		if($('body').css('position') == 'static')
+		{
+			$('body').css('position', 'relative');
+		}
 	
 		// error text
 		$labels.each(function(){
@@ -28,7 +31,17 @@ function a11yc_js(){
 		// alt
 		$('img').each(function(){
 			$(this).wrap('<span class="a11yc_live_img_wrapper a11yc_live">');
-			$('<span class="a11yc_live_alt a11yc_live" />').text('alt="'+$(this).attr('alt')+'"').insertBefore(this);
+			var error_msg = "Missing Alt attribute !!!";
+			var alt_str = $(this).attr('alt');
+			if( typeof alt_str == 'undefined' )
+			{ // missing alt ( insert error tip !!! )
+				$('<span class="a11yc_live_alt a11yc_live_alt_not_exsit a11yc_live" title="'+error_msg+'">').text(error_msg).insertBefore(this);
+			}
+			else
+			{
+				// alt exist
+				$('<span class="a11yc_live_alt a11yc_live" title="'+alt_str+'" />').text('alt="'+alt_str+'"').insertBefore(this);
+			}
 		});
 		
 		//tabindex
@@ -44,6 +57,7 @@ function a11yc_js(){
 		$labels.attr('tabindex', 0);
 		
 		// set wrapper position
+		/*
 		$wrappers.each(function(){
 			var height = $(this).height();
 			if( height == 0 )
@@ -51,26 +65,30 @@ function a11yc_js(){
 				$(this).addClass('a11yc_live_noheight');
 			}
 		});
+		*/
 		$(window, 'iframe').on('load', function(){
 			$wrappers.each(set_wrapper_position);
 		});
 		function set_wrapper_position(){
 		// need relocate wrapper for changing objs height by load images
-			if(! $(this).hasClass('a11yc_live_noheight')) return;
+
+//			if(! $(this).hasClass('a11yc_live_noheight')) return;
 			var offset,
 			    left,
 			    top,
 			    height = 0,
 			    width = 0,
 			    class_str = $(this).hasClass('a11yc_live_notice') ? ' a11yc_live_notice' : '';
+
 			$(this).find(':not(".a11yc_live")').each(function(){
+			console.log($(this));
 				if($(this).height() != 0)
 				{
 					height = $(this).height();
 					width = $(this).width();
 					offset = $(this).offset();
 					left = offset.left;
-					top = offset.top-header_margin;
+					top = offset.top;
 				}
 			});
 			$('<span class="a11yc_live_error_wrapper_noheight a11yc_live'+class_str+'" />').css({
@@ -125,7 +143,7 @@ function a11yc_js(){
 			var $parent = $parent ? $parent : $obj,
 			    offset = $parent.offset(),
 			    left = offset.left,
-			    top = offset.top-header_margin;
+			    top = offset.top;
 			if($obj.is($labels))
 			{
 				top = top + 16;
@@ -149,7 +167,7 @@ function a11yc_js(){
 		location_path = window.location.pathname;
 		location_path = location_path.substring(0,location_path.lastIndexOf('/'));
 		location_path = location_origin+location_path;
-		location_target = decodeURIComponent(arg.baseurl);
+		location_target = decodeURIComponent(arg.base_url);
 		if(!location_target) return;
 		setTimeout(function(){
 			$(document).find('*').each(function(){

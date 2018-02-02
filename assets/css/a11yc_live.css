@@ -1,8 +1,8 @@
 @charset "utf-8";
 html
 {
-	margin-top: 240px;
 }
+
 /* head */
 .a11yc_live_head
 {
@@ -11,16 +11,18 @@ html
 	font-family: monospace;
 	font-size: 12px;
 	line-height: 1.2em;
-	position: absolute;
 	padding: 5px;
-	border-bottom: 2px solid #ccc;
+	border-top: 2px solid #ccc;
 	color: #000;
 	background: #fefefe;
 	overflow: auto;
 	width: 100%;
 	box-sizing: border-box;
-	height: 240px;
+	text-align: left !important;
+/*	height: 240px;
+	position: absolute;
 	top: -240px;
+	*/
 }
 .a11yc_live_head br
 {
@@ -90,15 +92,14 @@ html
 }
 .a11yc_live_img_wrapper .a11yc_live_alt {
 	color: #000;
-	display: inline-block;
-	background-color: #fefebb;
+	display: block;
+	background-color: #fefebb !important;
 	font-size: 12px !important;
 	font-weight: normal !important;
-	line-height: 1.2em;
-	text-align: left;
-	position: absolute;
-	bottom: 0;
-	right: 0;
+	line-height: 16px !important;
+	text-align: left !important;
+	position: absolute !important;
+	white-space: nowrap !important;
 }
 
 /* z-index */
