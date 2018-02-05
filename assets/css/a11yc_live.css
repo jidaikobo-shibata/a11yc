@@ -65,22 +65,22 @@ html
 	background-color: #fea05a;
 }
 
-.a11yc_live_error_wrapper,
-.a11yc_live_error_wrapper_noheight
+.a11yc_live_error_outline,
+.a11yc_live_notice_outline
 {
 	display: inline;
 	outline: 2px dashed #900;
 	outline-offset: -1px;
 }
-.a11yc_live_notice_wrapper
+.a11yc_live_notice_outline
 {
 	outline-color: #fea05a;
 }
-.a11yc_live_error_wrapper.on,
-.a11yc_live_error_wrapper_noheight.on
+.a11yc_live_error_outline.a11yc_live_on,
+.a11yc_live_notice_outline.a11yc_live_on
 {
 	outline: 2px dashed #000;
-	opacity: .6;
+	background-color: rgba( 240, 60, 60, .5 );
 }
 
 /*
@@ -98,34 +98,35 @@ html
 	font-weight: normal !important;
 	line-height: 16px !important;
 	text-align: left !important;
-
 	position: absolute !important;
 	white-space: nowrap !important;
-
-/*
-	position: absolute;
-	top: auto;
-	bottom: 0;
-	left: auto;
+	top: 0;
 	right: 0;
-	white-space: nowrap;
-*/
+	
+/* need control position */
 }
 
 /* z-index */
 /* max of z-index: 2147483647 */
+/*
 .a11yc_overlay {
 	position: absolute;
 	outline: 1px dotted blue;
 	z-index: 2147483600;
+}
+*/
+
+.a11yc_live_error_outline
+{
+	z-index: 2147483630;
 }
 .a11yc_validation_code_error,
 .a11yc_live_img_wrapper .a11yc_live_alt
 {
 	z-index: 2147483640;
 }
-.a11yc_live_error_wrapper.on,
-.a11yc_live_error_wrapper_noheight.on
+.a11yc_live_error_outline.a11yc_live_on,
+.a11yc_live_notice_outline.a11yc_live_on
 {
 	z-index: 2147483645;
 }

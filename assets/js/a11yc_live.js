@@ -16,24 +16,20 @@ else
 
 function a11yc_js(){
 	jQuery(function($){
-		var $labels = $('.a11yc_validation_code_error'),
-		    $wrappers = $('.a11yc_live_error_wrapper');
-
+		// set position base
 		if($('body').css('position') == 'static')
 		{
 			$('body').css('position', 'relative');
-
-		// if($('html').css('position') == 'static')
-		// {
-		// 	$('html').css('position', 'relative');
-
 		}
+	
+		var $labels = $('.a11yc_validation_code_error'),
+		    $wrappers = $('.a11yc_live_error_wrapper');
 
 		// error text
 		$labels.each(function(){
 			$('<span class="a11yc_error_text a11yc_live" />').text($(this).attr('title')).appendTo(this);
 		});
-
+		
 		// alt
 		$('img').each(function(){
 			$(this).wrap('<span class="a11yc_live_img_wrapper a11yc_live">');
@@ -49,7 +45,7 @@ function a11yc_js(){
 				$('<span class="a11yc_live_alt a11yc_live" title="'+alt_str+'" />').text('alt="'+alt_str+'"').insertBefore(this);
 			}
 		});
-
+		
 		//tabindex
 		setTimeout(function(){
 			$(document).find('[tabindex]:not(.a11yc_validation_code_error)').removeAttr('tabindex');
@@ -61,7 +57,7 @@ function a11yc_js(){
 			});
 		}, 1000);
 		$labels.attr('tabindex', 0);
-
+		
 		// set wrapper position
 		/*
 		$wrappers.each(function(){
@@ -78,27 +74,48 @@ function a11yc_js(){
 		function set_wrapper_position(){
 		// need relocate wrapper for changing objs height by load images
 
+			
 //			if(! $(this).hasClass('a11yc_live_noheight')) return;
+			if( $(this).is(':empty') ) $(this).next().wrap(this);
 			var offset,
 			    left,
 			    top,
-			    height = 0,
-			    width = 0,
+			    height = $(this).outerHeight(),
+			    width = $(this).outerWidth(),
+			    index = $wrappers.index(this);
+			    title_str = $labels.eq(index).attr('title'),
 			    class_str = $(this).hasClass('a11yc_live_notice') ? ' a11yc_live_notice' : '';
-
-			$(this).find(':not(".a11yc_live")').each(function(){
-			console.log($(this));
-				if($(this).height() != 0)
+			    
+			if( height != 0 )
+			{
+				if( $(this).css('display', 'block').height() > height )
 				{
-					height = $(this).height();
-					width = $(this).width();
-					offset = $(this).offset();
-					left = offset.left;
-					top = offset.top;
+					height = 0;
 				}
-			});
-			$('<span class="a11yc_live_error_wrapper_noheight a11yc_live'+class_str+'" />').css({
-				'height': height ,
+				else
+				{
+						offset = $(this).offset();
+						left = offset.left;
+						top = offset.top;
+					}
+				$(this).css('display', 'inline');
+			}
+
+			if( height == 0 )
+			{
+				$(this).find(':not(".a11yc_live")').each(function(){
+					if($(this).height() != 0)
+					{
+						height = $(this).outerHeight();
+						width = $(this).outerWidth();
+						offset = $(this).offset();
+						left = offset.left;
+						top = offset.top;
+					}
+				});
+			}
+			$('<span class="a11yc_live_error_outline a11yc_live'+class_str+'" title="'+title_str+'" />').css({
+//				'height': height , 
 				'position' : 'absolute',
 				'display' : 'block',
 				'height' :  height+'px',
@@ -106,8 +123,9 @@ function a11yc_js(){
 				'left' : left,
 				'top' : top
 			}).appendTo('body');
+//			$(this).removeClass('a11yc_live_error_outline');
 		}
-
+	
 		// relocate error labels
 		$labels.each(function(index){
 			var $wrapper = $(this).next();
@@ -117,7 +135,7 @@ function a11yc_js(){
 			}
 			a11yc_relocate($(this), $wrapper);
 		});
-
+		
 		// for iframes
 		// add overlay and relocate labels
 		$('iframe').on('load', function(){
@@ -127,8 +145,8 @@ function a11yc_js(){
 				'height' : $(this).height()+'px',
 			});
 			a11yc_relocate($obj, $(this));
-
-			// relocate labels
+			
+			// relocate labels 
 			$labels.each(function(){
 				var $wrapper = $wrappers.eq($(this).data('a11yc_error_index'));
 				$(this).css({
@@ -138,13 +156,13 @@ function a11yc_js(){
 				a11yc_relocate($(this), $(this).next());
 			});
 		});
-
+	
 		/*
 		// catch window resize
 		$(window).on('resize', function(){
 		});
 		*/
-
+	
 		function a11yc_relocate($obj, $parent){
 			var $parent = $parent ? $parent : $obj,
 			    offset = $parent.offset(),
@@ -159,7 +177,7 @@ function a11yc_js(){
 				'top' : top
 			}).appendTo('body');
 		}
-
+	
 		// replace url (CSS background-image and inserted images)
 		// need target root pass
 		var arg  = {};
@@ -202,7 +220,7 @@ function a11yc_js(){
 					}
 				}
 			});
-
+			
 		//	relocate wrappers and labels
 			$wrappers.each(set_wrapper_position);
 			$labels.each(function(index){
@@ -211,14 +229,14 @@ function a11yc_js(){
 			});
 		},1000);
 
-
-
+		
+	
 		// outline for hover|focus
 		$labels.mouseenter(function(){
-			$wrappers.eq($(this).data('a11yc_error_index')).addClass('on');
+			$wrappers.eq($(this).data('a11yc_error_index')).addClass('a11yc_live_on');
 		}).mouseleave(function(){
-			$wrappers.eq($(this).data('a11yc_error_index')).removeClass('on');
+			$wrappers.eq($(this).data('a11yc_error_index')).removeClass('a11yc_live_on');
 		});
-
+	
 	});
 }
