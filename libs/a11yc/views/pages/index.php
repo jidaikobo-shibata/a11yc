@@ -58,6 +58,7 @@ if ($pages):
 	endif;
 	echo $pagination;
 ?>
+
 	<table class="a11yc_table">
 	<thead>
 	<tr>
@@ -66,7 +67,7 @@ if ($pages):
 		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_CHECKLIST_DONE ?></th>
 		<?php if ($list != 'trash'): ?>
 		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGES_CHECK ?></th>
-		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGES_CHECK ?></th>
+		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_CHECKLIST_CHECK_RESULT ?></th>
 		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGES_LIVE ?></th>
 		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_IMAGE ?></th>
 		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGES_EXPORT ?></th>
@@ -76,6 +77,7 @@ if ($pages):
 		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_TEST_DATE ?></th>
 	</tr>
 	</thead>
+
 	<tbody>
 	<?php
 	$i = 0;
@@ -84,6 +86,7 @@ if ($pages):
 	$url = Util::s($page['url']);
 	$not_found_class = $no_url == $url ? ' not_found_url' : '';
 	$page_title = Util::s($page['page_title']);
+	$not_found_class.= $page['done'] ? ' done' : '';
 	$class_str = ++$i%2==0 ? ' class="even'.$not_found_class.'"' : ' class="odd'.$not_found_class.'"';
 	?>
 	<tr<?php echo $class_str ?>>
@@ -101,7 +104,11 @@ if ($pages):
 		<?php if ($list != 'trash'): ?>
 		<td class="a11yc_result"><a href="<?php echo A11YC_CHECKLIST_URL.Util::urlenc($url) ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_CHECK ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
 
-		<td class="a11yc_result"><a href="<?php echo A11YC_URL.'?c=center&amp;a=index&amp;url='.Util::urlenc($url) ?>" class="a11yc_hasicon" target="a11yc_live"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_CHECK ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
+		<td class="a11yc_result">
+		<?php if ($page['done']): ?>
+<a href="<?php echo A11YC_URL.'?c=center&amp;a=index&amp;url='.Util::urlenc($url) ?>" class="a11yc_hasicon" target="a11yc_live"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_CHECK ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a>
+		<?php endif; ?>
+		</td>
 
 		<td class="a11yc_result"><a href="<?php echo A11YC_LIVE_URL.'?url='.Util::urlenc($url).'&amp;base_url='.Util::urlenc($setups['base_url']) ?>" class="a11yc_hasicon" target="a11yc_live"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_LIVE ?></span><span class="a11yc_icon_live a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
 

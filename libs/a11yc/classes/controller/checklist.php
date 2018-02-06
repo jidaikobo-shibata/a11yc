@@ -180,19 +180,17 @@ class Controller_Checklist
 			$alt_url = Util::urldec(Input::post('alt_url'));
 			$standard = intval(Input::post('standard'));
 			$selection_reason = intval(Input::post('selection_reason'));
-			$human_src = Input::post('human_src');
 
 			$r = FALSE;
 			if (Controller_Pages::fetch_page($url))
 			{
 				$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET ';
 				$sql.= '`date` = ?, `done` = ?, `standard` = ?,';
-				$sql.= ' `page_title` = ?, `selection_reason` = ?, `alt_url` = ?, ';
-				$sql.= ' `human_src` = ?';
+				$sql.= ' `page_title` = ?, `selection_reason` = ?, `alt_url` = ?';
 				$sql.= ' WHERE `url` = ?'.Controller_Setup::curent_version_sql().';';
 				$r = Db::execute(
 					$sql,
-					array($date, $done, $standard, $page_title, $selection_reason, $alt_url, $human_src, $url)
+					array($date, $done, $standard, $page_title, $selection_reason, $alt_url, $url)
 				);
 			}
 			else
@@ -200,11 +198,11 @@ class Controller_Checklist
 				$sql = 'INSERT INTO '.A11YC_TABLE_PAGES;
 				$sql.= ' (`url`, `date`, `done`, `standard`, `trash`,';
 				$sql.= ' `page_title`, `add_date`, `selection_reason`, `alt_url`,';
-				$sql.= ' `human_src`, `version`)';
-				$sql.= ' VALUES (?, ?, ?, ?, 0, ?, ?, ?, ?, 0);';
+				$sql.= ' `version`)';
+				$sql.= ' VALUES (?, ?, ?, ?, 0, ?, ?, ?, 0);';
 				$r = Db::execute(
 					$sql,
-					array($url, $date, $done, $standard, $page_title, date('Y-m-d H:i:s'), $selection_reason, $alt_url, $human_src)
+					array($url, $date, $done, $standard, $page_title, date('Y-m-d H:i:s'), $selection_reason, $alt_url)
 				);
 			}
 

@@ -274,7 +274,7 @@ class Validate_Link extends Validate
 			if (in_array(strtolower($m), $heres))
 			{
 				static::$error_ids['here_link'][$k]['id'] = $ms[0][$k];
-				static::$error_ids['here_link'][$k]['str'] = esc_html($ms[0][$k]);
+				static::$error_ids['here_link'][$k]['str'] = Util::s($ms[0][$k]);
 			}
 		}
 		static::add_error_to_html('here_link', static::$error_ids, 'ignores');
