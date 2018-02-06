@@ -70,7 +70,7 @@
 				echo ' (<a href="'.$pages_link.'">'.A11YC_LANG_CHECKED_PAGES.'</a>)';
 			endif;
 		else:
-			echo $selection_reasons[$page['selection_reason']];
+			echo isset($selection_reasons[$page['selection_reason']]) and $selection_reasons[$page['selection_reason']];
 		endif;
 		?>
 		</td>

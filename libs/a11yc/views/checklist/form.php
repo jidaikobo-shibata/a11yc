@@ -279,9 +279,6 @@
 	</div><!--/#section_p_<?php echo $v['code'] ?>.section_guidelines-->
 <?php endforeach; ?>
 
-<p><?php echo A11YC_LANG_CHECKLIST_HUMAN_SRC_NOTICE ?></p>
-<textarea name="human_src" id="human_src" rows="7" style="width: 100%;"><?php echo s($page['human_src']) ?></textarea>
-
 <input type="hidden" name="page_title" value="<?php echo s($target_title) ?>" />
 <input type="hidden" name="url" value="<?php echo s($url) ?>" />
 

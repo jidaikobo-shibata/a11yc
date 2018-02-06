@@ -24,17 +24,17 @@ class Db extends \Kontiki\Db
 		if (static::is_fields_exist(A11YC_TABLE_PAGES, array('human_src'), $name)) return;
 
 		// update
-		if (static::is_table_exist(A11YC_TABLE_PAGES, $name))
-		{
-			if ( ! static::is_fields_exist(A11YC_TABLE_PAGES, array('human_src'), $name))
-			{
-				$sql = 'ALTER TABLE '.A11YC_TABLE_PAGES.' ADD `human_src` text;';
-				static::execute($sql, array(), $name);
+		// if (static::is_table_exist(A11YC_TABLE_PAGES, $name))
+		// {
+		// 	if ( ! static::is_fields_exist(A11YC_TABLE_PAGES, array('human_src'), $name))
+		// 	{
+		// 		$sql = 'ALTER TABLE '.A11YC_TABLE_PAGES.' ADD `human_src` text;';
+		// 		static::execute($sql, array(), $name);
 
-				$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET `human_src` = "";';
-				static::execute($sql, array(), $name);
-			}
-		}
+		// 		$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET `human_src` = "";';
+		// 		static::execute($sql, array(), $name);
+		// 	}
+		// }
 
 		// update
 		if (static::is_table_exist(A11YC_TABLE_SETUP, $name))
@@ -297,6 +297,39 @@ class Db extends \Kontiki\Db
 				$sql.= '("'.date('Y-m-d').'", "'.A11YC_VERSION.'");';
 				static::execute($sql, array(), $name);
 			}
+		}
+	}
+
+	/**
+	 * init issue table
+	 *
+	 * @param  String $name
+	 * @return Void
+	 */
+	private static function init_issue($name = 'default')
+	{
+		if (defined('A11YC_TABLE_ISSUE'))
+		{
+			if ( ! static::is_table_exist(A11YC_TABLE_ISSUE, $name))
+			{
+				$sql = 'CREATE TABLE '.A11YC_TABLE_ISSUE.' (';
+				$sql.= '`id`            INTEGER NOT NULL PRIMARY KEY,';
+				$sql.= '`issue_id`      INTEGER NOT NULL DEFAULT 0,';
+				$sql.= '`url`           text NOT NULL DEFAULT "",';
+				$sql.= '`criterion`     text NOT NULL DEFAULT "",';
+				$sql.= '`html`          text NOT NULL DEFAULT "",';
+				$sql.= '`e_or_n`        INTEGER NOT NULL DEFAULT 0,'; // error or notice
+				$sql.= '`status`        INTEGER NOT NULL DEFAULT 0,';
+				// status: 0 not yet, 1 in progress, 2 finish
+				$sql.= '`error_id`      text NOT NULL DEFAULT "",';
+				$sql.= '`error_message` text NOT NULL DEFAULT "",';
+				$sql.= '`message`       text NOT NULL DEFAULT "",';
+				$sql.= '`eng_message`   text NOT NULL DEFAULT "",';
+				$sql.= '`version`       TEXT NOT NULL DEFAULT "0"';
+				$sql.= ');';
+				static::execute($sql, array(), $name);
+			}
+
 		}
 	}
 
