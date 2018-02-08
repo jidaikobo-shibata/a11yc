@@ -1135,6 +1135,11 @@ span.a11yc_icon_check:before {
 	font-size: 1.5em;
 	color: #333;
 }
+span.a11yc_icon_html:before {
+	content: '\f15c';
+	font-size: 1.5em;
+	color: #333;
+}
 span.a11yc_icon_live:before {
 	content: '\f06e';
 	font-size: 1.5em;

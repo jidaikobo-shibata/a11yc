@@ -106,7 +106,7 @@ if ($pages):
 
 		<td class="a11yc_result">
 		<?php if ($page['done']): ?>
-<a href="<?php echo A11YC_URL.'?c=center&amp;a=index&amp;url='.Util::urlenc($url) ?>" class="a11yc_hasicon" target="a11yc_live"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_CHECK ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a>
+<a href="<?php echo A11YC_URL.'?c=center&amp;a=index&amp;url='.Util::urlenc($url) ?>" class="a11yc_hasicon" target="a11yc_live"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_CHECK ?></span><span class="a11yc_icon_html a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a>
 		<?php endif; ?>
 		</td>
 
