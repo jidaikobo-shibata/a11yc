@@ -488,7 +488,7 @@ criterions:
     code: 3-2-5
     name: 要求による変化
     guideline: *g3-2
-    level: *lv2
+    level: *lv3
     url: http://waic.jp/docs/UNDERSTANDING-WCAG20/consistent-behavior-no-extreme-changes-context.html
     summary: |
       コンテキストの変化は利用者の要求によってだけ生じるか、又は、そのような変化を止めるメカニズムが利用できる。

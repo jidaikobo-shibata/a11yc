@@ -289,7 +289,7 @@ criterions:
     level: *lv3
     url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/seizure-three-times.html
     summary: |
-      Web pages do not contain anything that flashes more than three times in any one second period. 
+      Web pages do not contain anything that flashes more than three times in any one second period.
 
   2-4-1: &c2-4-1
     code: 2-4-1
@@ -475,7 +475,7 @@ criterions:
     code: 3-2-5
     name: Change on Request
     guideline: *g3-2
-    level: *lv2
+    level: *lv3
     url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/consistent-behavior-no-extreme-changes-context.html
     summary: |
       A change in context only occurs at the request of the user, or a mechanism for stopping such change is available.
