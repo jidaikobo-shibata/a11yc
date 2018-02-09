@@ -105,11 +105,6 @@ errors:
     criterion: 2-4-4
     code: 2-4-4a
 
-  same_urls_should_have_same_text:
-    message: 同じURLなのにリンク文字列が異なります
-    criterion: 3-2-4
-    code: 3-2-4a
-
   duplicated_attributes:
     message: 属性値が重複している可能性があります
     criterion: 4-1-1
@@ -263,4 +258,10 @@ errors:
     message: リンク先がファイルの場合、ファイルの形式やファイルサイズを明記した方が親切です
     criterion: 2-4-4
     code: 2-4-4a
+    notice: true
+
+  same_urls_should_have_same_text:
+    message: 同じURLなのにリンク文字列が異なります
+    criterion: 3-2-4
+    code: 3-2-4a
     notice: true

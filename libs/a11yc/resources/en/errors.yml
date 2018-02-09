@@ -105,11 +105,6 @@ errors:
     criterion: 2-4-4
     code: 2-4-4a
 
-  same_urls_should_have_same_text:
-    message: The link string is different although it is the same URL
-    criterion: 3-2-4
-    code: 3-2-4a
-
   duplicated_attributes:
     message: There is a possibility that attributes are duplicated
     criterion: 4-1-1
@@ -263,4 +258,10 @@ errors:
     message: If the link destination is a file, it is more nice to specify the file format and file size
     criterion: 2-4-4
     code: 2-4-4a
+    notice: true
+
+  same_urls_should_have_same_text:
+    message: The link string is different although it is the same URL
+    criterion: 3-2-4
+    code: 3-2-4a
     notice: true
