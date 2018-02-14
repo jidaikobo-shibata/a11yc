@@ -99,4 +99,23 @@ class Yaml
 
 		return $rets[$file];
 	}
+
+	/**
+	 * Non-interferences
+	 *
+	 * @return Array
+	 */
+	public static function non_interferences()
+	{
+		static $non_interferences = array();
+		if ($non_interferences) return $non_interferences;
+
+		$yml = self::fetch();
+		foreach ($yml['criterions'] as $criterion => $v)
+		{
+			if ( ! isset($v['non-interference'])) continue;
+			$non_interferences[] = $criterion;
+		}
+		return $non_interferences;
+	}
 }

@@ -32,7 +32,19 @@
 		<th scope="row"><?php echo A11YC_LANG_CURRENT_LEVEL ?></th>
 		<td>
 		<?php
-		echo Evaluate::result_str($page['level'], $target_level);
+		// Non-inter
+		$sql = 'SELECT * FROM '.A11YC_TABLE_CHECKS_NGS.' WHERE `url` = ?';
+		$sql.= Controller_Setup::curent_version_sql().';';
+		$all = Db::fetch_all($sql, array($page['url']));
+		if (Evaluate::is_non_interferences($all))
+		{
+			echo A11YC_LANG_CHECKLIST_CONFORMANCE_FAILED;
+		}
+		else
+		{
+			echo Evaluate::result_str($page['level'], $target_level);
+		}
+
 		if ( ! empty($page['alt_url'])):
 		$chk = Util::remove_query_strings(Util::uri(), array('url', 'a11yc_pages'));
 		$chk = Util::add_query_strings(
@@ -59,23 +71,25 @@
 	<!-- /dependencies -->
 	<?php endif; ?>
 
+	<?php if ($page['selection_reason'] != '0'): ?>
 	<!-- selected method -->
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_CANDIDATES_TITLE ?></th>
 		<td>
 		<?php
 		if ($is_total):
-			echo $selected_methods[$selected_method];
+			echo Controller_Setup::selected_methods()[$selected_method];
 			if ( ! $is_center):
 				echo ' (<a href="'.$pages_link.'">'.A11YC_LANG_CHECKED_PAGES.'</a>)';
 			endif;
 		else:
-			echo isset($selection_reasons[$page['selection_reason']]) and $selection_reasons[$page['selection_reason']];
+			echo isset(Controller_Checklist::selection_reasons()[$page['selection_reason']]) and $selection_reasons[$page['selection_reason']];
 		endif;
 		?>
 		</td>
 	</tr>
 	<!-- /selected method -->
+	<?php endif; ?>
 
 	<?php if (isset($page) && Arr::get($page, 'url')): ?>
 	<!-- target page -->

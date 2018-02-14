@@ -335,6 +335,12 @@ class Evaluate
 				sprintf(A11YC_LANG_CHECKLIST_CONFORMANCE_PARTIAL, 'AAA') :
 				'AAA-';
 		}
+		elseif ($level == -1)
+		{
+			return $is_str ?
+				A11YC_LANG_CHECKLIST_CONFORMANCE_FAILED :
+				'A--';
+		}
 		else
 		{
 			$ls =  $is_str ?
@@ -365,7 +371,41 @@ class Evaluate
 		$sql.= Controller_Setup::version_sql();
 		$sql.= ' AND `alt_url` = ""';
 		$min = Db::fetch($sql);
-		return is_null($min['min']) ? 0 : $min['min'];
+
+		$min_level = is_null($min['min']) ? 0 : $min['min'];
+
+		// check Non-interference when min_level equal 0
+		if ($min_level == 0)
+		{
+			// get Non-interferences code
+			$sql = 'SELECT * FROM '.A11YC_TABLE_CHECKS_NGS;
+			$sql.= Controller_Setup::curent_version_sql(false).';';
+			$all = Db::fetch_all($sql);
+			if (self::is_non_interferences($all))
+			{
+				$min_level = -1;
+			}
+		}
+
+		return $min_level;
+	}
+
+	/**
+	 * is_non_interferences
+	 *
+	 * @param  array $checks
+	 * @return bool
+	 */
+	public static function is_non_interferences($checks)
+	{
+		foreach ($checks as $each)
+		{
+			if (in_array($each['criterion'], Yaml::non_interferences()))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**

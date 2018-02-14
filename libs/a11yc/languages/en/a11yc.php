@@ -163,6 +163,7 @@ define('A11YC_LANG_CHECKLIST_DONE', 'Done');
 define('A11YC_LANG_CHECKLIST_RESTOFNUM', 'Rest Of Numbers');
 define('A11YC_LANG_CHECKLIST_TOTAL', 'Total');
 define('A11YC_LANG_CHECKLIST_ACHIEVEMENT', 'Achieve Grade');
+define('A11YC_LANG_CHECKLIST_CONFORMANCE_FAILED', 'A nonconformity (noninterference conflict)');
 define('A11YC_LANG_CHECKLIST_CONFORMANCE', 'Conformance with %s');
 define('A11YC_LANG_CHECKLIST_CONFORMANCE_PARTIAL', 'Partial Conformance with %s');
 define('A11YC_LANG_CHECKLIST_CONFORMANCE_ADDITIONAL', 'Additional Conformance');

@@ -30,7 +30,7 @@ foreach ($yml['criterions'] as $criterion => $v):
 
 	// memo or percentage
 	$html.= $is_total ? '	<td class="a11yc_result">' : '	<td>';
-	$html.= $memo;
+	$html.= nl2br($memo);
 	$html.= '	</td>';
 	$html.= '</tr>';
 	endif;
