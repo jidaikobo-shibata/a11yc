@@ -40,7 +40,8 @@ class Security extends \Kontiki\Security
 		// faild
 		if ( ! $result)
 		{
-			Session::add('messages', 'error', 'failred to put .htaccess. add .htaccess with "deny from all"'.A11YC_CONFIG_PATH.''.A11YC_CACHE_PATH.''.A11YC_DATA_PATH);
+
+Session::add('messages', 'error', 'failred to put .htaccess. add .htaccess with "deny from all"'.A11YC_CONFIG_PATH.''.A11YC_DATA_PATH);
 		}
 	}
 }

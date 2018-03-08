@@ -7,8 +7,6 @@
 
 // base url
 define('A11YC_URL', 'http://example.com/a11yc/index.php');
-define('A11YC_LIVE_URL', 'http://example.com/a11yc/live.php');
-define('A11YC_EXPORT_URL', 'http://example.com/a11yc/export.php');
 
 // language
 // en, ja
@@ -57,7 +55,6 @@ define('A11YC_LIB_PATH',      dirname(__DIR__).'/libs');
 define('A11YC_PATH',          A11YC_LIB_PATH.'/a11yc');
 define('A11YC_CONFIG_PATH',   dirname(__FILE__));
 define('A11YC_CLASSES_PATH',  A11YC_PATH.'/classes');
-define('A11YC_CACHE_PATH',    dirname(__DIR__).'/cache');
 
 // database
 define('A11YC_DB_TYPE', 'sqlite');
