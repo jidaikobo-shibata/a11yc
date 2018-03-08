@@ -16,17 +16,13 @@ define('KONTIKI_PATH', __DIR__);
 // mb_internal_encoding()
 mb_internal_encoding('UTF-8');
 
-// performance
-include_once KONTIKI_PATH.'/classes/performance.php';
-Performance::set_time();
-Performance::set_memory();
-
-// load functions
-include_once KONTIKI_PATH.'/functions.php';
-include_once KONTIKI_PATH.'/classes/util.php';
-
 // Autoloader
-Util::add_autoloader_path(KONTIKI_PATH.'/classes/', 'kontiki');
+include_once KONTIKI_PATH.'/classes/Autoloader.php';
+Autoloader::addPath(KONTIKI_PATH.'/classes/', 'Kontiki');
+
+// performance
+Performance::setBegTime();
+Performance::setBegMemory();
 
 // constants
 defined('KONTIKI_DEFAULT_LANG') or Util::error('set KONTIKI_DEFAULT_LANG');

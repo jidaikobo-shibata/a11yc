@@ -9,7 +9,7 @@
 // see form.php
 echo $form
 ?>
-	<div id="a11y_submit">
+	<div id="a11yc_submit">
 <?php
 	// is done
 	if ($url != 'bulk'):

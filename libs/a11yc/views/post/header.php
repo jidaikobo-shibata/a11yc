@@ -25,7 +25,7 @@
 	<meta property="og:locale" content="<?php echo A11YC_LANG == 'ja' ? 'ja_JP' : 'en_US'  ?>" />
 	<meta property="og:title" content="<?php echo $title ?: A11YC_LANG_POST_SERVICE_NAME ?>" />
 	<meta property="og:type" content="website" />
-	<meta property="og:url" content="<?php echo s(Util::uri()) ?>" />
+	<meta property="og:url" content="<?php echo Util::s(Util::uri()) ?>" />
 	<meta property="og:site_name" content="<?php echo A11YC_LANG_POST_SERVICE_NAME ?>" />
 	<meta property="og:description" content="<?php echo A11YC_LANG_POST_DESCRIPTION ?>" />
 	<meta property="og:image" content="https://a11yc.com/logo.png" />
@@ -56,7 +56,7 @@ if (A11YC_POST_GOOGLE_ANALYTICS_CODE)
 <?php else: ?>
 		<li class="a11yc_menu_item a11yc_login a11yc_fr"><a href="<?php echo $base_url ?>?a=login" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_AUTH_TITLE ?></a></li>
 			<?php if (in_array(Input::server('REMOTE_ADDR'), array('180.235.36.239', '::1'))): ?>
-			<li class="a11yc_menu_item a11yc_dev_info a11yc_fr"><span role="presentation"><?php echo \Kontiki\Performance::calc_time().' '.\Kontiki\Performance::calc_memory() ?></span></li>
+			<li class="a11yc_menu_item a11yc_dev_info a11yc_fr"><span role="presentation"><?php echo Performance::calcTime().' '.Performance::calcMemory() ?></span></li>
 			<?php endif; ?>
 <?php endif; ?>
 		<li id="social_buttons" class="a11yc_fr">
@@ -67,7 +67,7 @@ if (A11YC_POST_GOOGLE_ANALYTICS_CODE)
 			fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 
 			<!--facebook-->
-			<iframe title="<?php echo A11YC_LANG_POST_SOCIAL_FACEBOOK ?>" src="//www.facebook.com/plugins/like.php?href=<?php echo urlencode(s(Util::uri())) ?>&amp;width=72&amp;layout=button&amp;action=like&amp;show_faces=false&amp;share=false&amp;height=21&amp;" style="border:none; overflow:hidden; width:72px; height:21px;" id="facebook_like_button"></iframe>
+			<iframe title="<?php echo A11YC_LANG_POST_SOCIAL_FACEBOOK ?>" src="//www.facebook.com/plugins/like.php?href=<?php echo urlencode(Util::s(Util::uri())) ?>&amp;width=72&amp;layout=button&amp;action=like&amp;show_faces=false&amp;share=false&amp;height=21&amp;" style="border:none; overflow:hidden; width:72px; height:21px;" id="facebook_like_button"></iframe>
 			<!--?-->
 			<a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="basic" title="<?php echo A11YC_LANG_POST_SOCIAL_HATENA ?>"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="<?php echo A11YC_LANG_POST_SOCIAL_HATENA ?>" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
 		</li>

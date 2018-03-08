@@ -1,6 +1,6 @@
 <?php
 /**
- * A11yc\Arr
+ * A11yc\Maintenance
  *
  * @package    part of A11yc
  * @author     Jidaikobo Inc.
@@ -12,37 +12,33 @@ namespace A11yc;
 
 class Maintenance extends \Kontiki\Maintenance
 {
-	private static $github_api = 'https://api.github.com/repos/jidaikobo-shibata/a11yc';
+	public static $is_first_of_day = null;
+	public static $is_using_lower  = null;
+	private static $github_api     = 'https://api.github.com/repos/jidaikobo-shibata/a11yc';
 
 	/**
 	 * leave at least a day
 	 *
 	 * @return Bool
 	 */
-	public static function leave_at_least_a_day ()
+	public static function isFisrtOfToday ()
 	{
-		// old version
-		if (file_exists(A11YC_CACHE_PATH))
-		{
-			unlink(A11YC_CACHE_PATH.'/checked');
-			unlink(A11YC_CACHE_PATH.'/.htaccess');
-			rmdir(A11YC_CACHE_PATH);
-		}
+		if ( ! is_null(static::$is_first_of_day)) return static::$is_first_of_day;
 
 		// check
 		$sql = 'SELECT `last_checked` FROM '.A11YC_TABLE_MAINTENANCE.';';
 		$ret = Db::fetch($sql);
+		static::$is_first_of_day = true;
 		if ( ! $ret)
 		{
 			$sql = 'UPDATE '.A11YC_TABLE_MAINTENANCE.' set `last_checked` = '.date('Y-m-d').';';
 			Db::execute($sql);
-			return true;
 		}
 		elseif (isset($ret['last_checked']) && strtotime($ret['last_checked']) >= time() - 86400)
 		{
-			return false;
+			static::$is_first_of_day = false;
 		}
-		return true;
+		return static::$is_first_of_day;
 	}
 
 	/**
@@ -50,8 +46,11 @@ class Maintenance extends \Kontiki\Maintenance
 	 *
 	 * @return Bool
 	 */
-	public static function is_uging_lower ()
+	public static function isUgingLower ()
 	{
+		if ( ! self::isFisrtOfToday()) return false;
+		if ( ! is_null(static::$is_using_lower)) return static::$is_using_lower;
+
 		$sql = 'SELECT `version` FROM '.A11YC_TABLE_MAINTENANCE.';';
 		$ret = Db::fetch($sql);
 		if ( ! $ret)
@@ -64,22 +63,19 @@ class Maintenance extends \Kontiki\Maintenance
 
 		// ask Github API and update stored version
 		ini_set('user_agent', 'file_get_contents');
-		$tags = json_decode(
-			file_get_contents(static::$github_api.'/tags'),
-			true
-		);
-		$max = $tags[max(array_keys($tags))];
+		$strs = @file_get_contents(static::$github_api.'/tags');
 
-		// lower: return true
-		return version_compare(A11YC_VERSION, $ret['version']) == -1;
-	}
+		if ($strs)
+		{
+			$tags = json_decode($strs, true);
+			$max = $tags[max(array_keys($tags))];
+			// lower: return true
+			static::$is_using_lower = version_compare(A11YC_VERSION, $ret['version']) == -1;
+			return static::$is_using_lower;
+		}
 
-	/**
-	 * self upgrade
-	 *
-	 * @return Void
-	 */
-	public static function self_upgrade ()
-	{
+		// couldn't check version
+		error_log('Notice: \A11yc\Maintenance::isUgingLower could not get version.');
+		return true;
 	}
 }

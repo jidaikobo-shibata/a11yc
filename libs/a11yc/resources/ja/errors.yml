@@ -1,267 +1,219 @@
 errors:
 
   alt_attr_of_img:
-    message: img要素のalt属性がありません。装飾目的の画像であってもalt属性値そのものを省略しないでください
+    message: img要素のalt属性がありません。装飾目的の画像であってもalt属性そのものを省略しないでください
     criterion: 1-1-1
-    code: 1-1-1b
-
-  alt_attr_of_blank_only:
-    message: 装飾目的の画像の場合、altは空白文字でなく、空にしてください
-    criterion: 1-1-1
-    code: 1-1-1b
 
   empty_alt_attr_of_img_inside_a:
-    message: a要素の中にimg要素しかない場合、img要素のalt属性値は空文字でなくリンクの目的を表す文字を入れてください
+    message: a要素の中にimg要素しかない場合、img要素のalt属性値（代替テキスト）は空文字でなくリンクの目的を表す文字を入れてください
     criterion: 1-1-1
-    code: 1-1-1c
 
   area_has_alt:
-    message: area要素のalt属性が存在しないか、alt属性値は空文字です。area要素の目的を表す文字を入れてください
+    message: area要素のalt属性が存在しないか、alt属性値（代替テキスト）は空文字です。area要素の目的を表す文字を入れてください
     criterion: 1-1-1
-    code: 1-1-1c
 
   img_input_has_alt:
-    message: input要素のalt属性が存在しないか、alt属性値が空文字です。input要素のtypeがimageの時には目的を表す文字を入れてください
+    message: input要素のalt属性が存在しないか、alt属性値（代替テキスト）が空文字です。input要素のtypeがimageの時には目的を表す文字を入れてください
     criterion: 1-1-1
-    code: 1-1-1c
 
   empty_link_element:
     message: リンク先があるのにリンク文字列のない要素があります
     criterion: 2-4-4
-    code: 2-4-4a
 
   here_link:
     message: 「こちら」のような文字列をリンクにしないでください
-    criterion: 2-4-4
-    code: 2-4-4a
+    criterion: 2-4-9
 
   too_much_opens:
     message: 開始タグが多すぎるようです。このエラーは場所の特定に失敗するので、ブラウザのDOM閲覧などで構造を確認してください
     criterion: 4-1-1
-    code: 4-1-1a
 
   too_much_ends:
     message: 終了タグが多すぎるようです。このエラーは場所の特定に失敗するので、ブラウザのDOM閲覧などで構造を確認してください
     criterion: 4-1-1
-    code: 4-1-1a
 
   unclosed_elements:
     message: 不完全なタグのようです
     criterion: 4-1-1
-    code: 4-1-1a
 
   suspicious_ends:
     message: 疑わしい終了タグがあります
     criterion: 4-1-1
-    code: 4-1-1a
 
   appropriate_heading_descending:
     message: 見出しの降順が妥当ではありません
     criterion: 1-3-1
-    code: 1-3-1a
 
   meanless_element_timing:
     message: 動き、点滅をHTMLでマークアップしないでください
     criterion: 2-2-2
-    code: 2-2-2b
 
   titleless:
     message: title要素が存在しないか、title要素の中身が空（あるいは空文字）です
     criterion: 2-4-2
-    code: 2-4-2a
 
   langless:
     message: html要素で文書の基本言語を特定してください
     criterion: 3-1-1
-    code: 3-1-1a
 
   different_lang:
     message: langの値が矛盾しています
     criterion: 4-1-1
-    code: 4-1-1a
 
   invalid_page_lang:
     message: ページの基本的な言語指定におけるlangの値が妥当でありません
     criterion: 3-1-1
-    code: 3-1-1a
 
   invalid_partial_lang:
     message: 一部分の言語指定におけるlangの値が妥当でありません
     criterion: 3-1-2
-    code: 3-1-2a
-
-  same_page_title_in_same_site:
-    message: チェック対象のサイトに同じtitle要素のページが存在します
-    criterion: 2-4-2
-    code: 2-4-2a
 
   link_check:
     message: リンク切れの疑いがあります
     criterion: 2-4-4
-    code: 2-4-4a
 
   no_broken_link_found:
     message: リンク切れは見つかりませんでした
     criterion: 2-4-4
-    code: 2-4-4a
 
   duplicated_attributes:
     message: 属性値が重複している可能性があります
     criterion: 4-1-1
-    code: 4-1-1a
 
   suspicious_attributes:
     message: 疑わしい属性値があります
     criterion: 4-1-1
-    code: 4-1-1a
 
   duplicated_ids:
     message: idが重複しています
     criterion: 4-1-1
-    code: 4-1-1a
 
   duplicated_accesskeys:
     message: accesskeyが重複しています
     criterion: 4-1-1
-    code: 4-1-1a
 
   unbalanced_quotation:
     message: 引用符の数が一致していないようです
     criterion: 4-1-1
-    code: 4-1-1a
 
   cannot_contain_multibyte_space:
     message: タグの中に全角スペースが存在します
     criterion: 4-1-1
-    code: 4-1-1a
 
   contain_plural_form_elements:
     message: labelは、複数のラベル付け可能な要素を含まないほうが良いです
     criterion: 2-4-6
-    code: 2-4-6a
 
   labelless:
     message: form要素を使う時には、labelを使いましょう
     criterion: 1-3-1
-    code: 1-3-1a
 
   not_label_but_title:
     message: input/textarea/select要素を使う時には、labelを使いましょう。labelが使えない場合は、title属性を使ってください
     criterion: 1-3-1
-    code: 1-3-1a
 
   lackness_of_form_ends:
-    message: きちんとネストしていないform要素があるようです
+    message: ネストしていないform要素があるようです
     criterion: 4-1-1
-    code: 4-1-1a
-
-  unique_label:
-    message: labelの文字列に重複があり、識別性が損なわれている可能性があります
-    criterion: 2-4-6
-    code: 2-4-6a
 
   submitless:
     message: formに送信ボタンがありません。予告なしに状況が変化する状態になっていませんか？
     criterion: 3-2-2
-    code: 3-2-2a
 
   duplicated_names:
     message: ひとつのform内でcheckboxやradio以外の要素について、name属性値に重複があるようです
     criterion: 4-1-1
-    code: 4-1-1a
 
   meta_refresh:
     message: meta要素のrefreshによる自動更新は避けてください
     criterion: 2-2-1
-    code: 2-2-1b
 
   titleless_frame:
     message: frame/iframe要素にtitle属性がありません
     criterion: 2-4-1
-    code: 2-4-1a
 
   user_scalable_no:
     message: viewport設定でuser-scalable=noを設定すると、好みの大きさに変更できないので、避けましょう
     criterion: 1-4-4
-    code: 1-4-4a
 
   must_be_numeric_attr:
     message: 数値でなければいけない値があります
     criterion: 4-1-1
-    code: 4-1-1a
 
   invalid_single_tag_close:
     message: 単独タグを明示する際、"/>"の前には空白を入れましょう
     criterion: 4-1-1
-    code: 4-1-1a
 
   headerless_section:
-    message: sectionタグはh1-6要素を含めることをおすすめします
-    criterion: 1-3-1
-    code: 1-3-1a
+    message: section要素はh1-6要素を含めることをおすすめします
+    criterion: 2-4-10
 
   meanless_element:
     message: 意味づけのないHTML要素を使っています
     criterion: 1-3-1
-    code: 1-3-1a
     notice: true
 
   cannot_contain_newline:
     message: 属性値の中に改行コードを含めることはできません
     criterion: 1-3-2
-    code: 1-3-2b
     notice: true
 
   check_doctype:
     message: DOCTYPE宣言を使用してDTDを指定してください
     criterion: 4-1-1
-    code: 4-1-1a
     notice: true
 
   notice_img_exists:
-    message: img要素がありますが、altは妥当ですか？
+    message: img要素がありますが、alt属性値（代替テキスト）は妥当ですか？
     criterion: 1-1-1
-    code: 1-1-1b
     notice: true
 
   notice_non_html_exists:
     message: 以下項目が存在しますが、アクセシブルですか？
     criterion: 1-1-1
-    code: 1-1-1n
     notice: true
 
   style_for_structure:
     message: 色や大きさに依存した情報提供の可能性があります
     criterion: 1-3-1
-    code: 1-3-1a
     notice: true
 
   same_alt_and_filename_of_img:
-    message: img要素のalt属性値がファイル名と同一です。問題でない場合もあります
+    message: img要素のalt属性値（代替テキスト）がファイル名と同一です。問題でない場合もあります
     criterion: 1-1-1
-    code: 1-1-1b
     notice: true
 
   ja_word_breaking_space:
     message: 空白による整形の可能性があります
     criterion: 1-3-2
-    code: 1-3-2b
     notice: true
 
   alt_attr_of_empty:
     message: 空のaltですが、意味を持たない画像ですか？
     criterion: 1-1-1
-    code: 1-1-1b
     notice: true
 
   tell_user_file_type:
     message: リンク先がファイルの場合、ファイルの形式やファイルサイズを明記した方が親切です
     criterion: 2-4-4
-    code: 2-4-4a
     notice: true
 
   same_urls_should_have_same_text:
     message: 同じURLなのにリンク文字列が異なります
     criterion: 3-2-4
-    code: 3-2-4a
+    notice: true
+
+  alt_attr_of_blank_only:
+    message: 装飾目的の画像の場合、altは空白文字でなく、空にしてください
+    criterion: 1-1-1
+    notice: true
+
+  same_page_title_in_same_site:
+    message: チェック対象のサイトに同じtitle要素のページが存在します
+    criterion: 2-4-2
+    notice: true
+
+  unique_label:
+    message: labelの文字列に重複があり、識別性が損なわれている可能性があります
+    criterion: 2-4-6
     notice: true

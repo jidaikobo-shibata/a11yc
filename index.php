@@ -9,13 +9,13 @@
  * @link       http://www.jidaikobo.com
  */
 
-//error_reporting
-//ini_set('error_reporting', E_ALL | ~E_STRICT);
-//error_reporting(0);
-
 // a11yc
 namespace A11yc;
 require (__DIR__.'/libs/a11yc/main.php');
+
+// is ip allowed
+$allowed = unserialize(A11YC_APPROVED_IPS);
+if ( ! in_array($_SERVER['REMOTE_ADDR'], $allowed)) Util::error();
 
 // set users before authentication
 Users::forge(unserialize(A11YC_USERS));
@@ -25,37 +25,44 @@ Auth::forge();
 if (Auth::auth())
 {
 	// backup and version check, this must not run so frequently.
-	if (Maintenance::leave_at_least_a_day())
+	if (Maintenance::isFisrtOfToday())
 	{
 		// backup
 		Maintenance::sqlite(A11YC_DATA_PATH, A11YC_DATA_FILE);
 
-		// version check
-//		Maintenance::version_check();
-
 		// security check
-		Security::deny_http_directories();
+		Security::denyHttpDirectories();
 	}
 
 	// login user
-	$login_user = Users::fetch_current_user();
+	$login_user = Users::fetchCurrentUser();
 	View::assign('login_user', $login_user);
 }
 
 // route
 Route::forge();
-$controller = Route::get_controller();
-$action = Route::get_action();
+$controller = Route::getController();
+$action = Route::getAction();
 $controller::$action();
 
 // assign mode
-$mode = strtolower(substr($controller, strpos($controller, '_') + 1));
+$controllers = explode('\\', $controller);
+$mode = strtolower(end($controllers));
 View::assign('mode', $mode);
 
 // render
-View::display(array(
-		'header.php',
-		'messages.php',
-		'body.php',
-		'footer.php',
-	));
+if ($mode == 'live')
+{
+	View::display(array(
+			'body.php',
+		));
+}
+else
+{
+	View::display(array(
+			'header.php',
+			'messages.php',
+			'body.php',
+			'footer.php',
+		));
+}

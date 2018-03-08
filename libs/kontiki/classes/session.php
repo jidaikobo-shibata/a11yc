@@ -34,9 +34,9 @@ class Session
 		}
 
 		// SESSION start
-		if (static::is_started() === FALSE && ! headers_sent())
+		if (static::isStarted() === FALSE && ! headers_sent())
 		{
-			if (Util::is_ssl())
+			if (Util::isSsl())
 			{
 				ini_set('session.cookie_secure', 1);
 			}
@@ -54,7 +54,7 @@ class Session
 	 *
 	 * @return Bool
 	 */
-	public static function is_started()
+	public static function isStarted()
 	{
 		$is_session_started = false;
 		if (version_compare(phpversion(), '5.4.0', '>='))

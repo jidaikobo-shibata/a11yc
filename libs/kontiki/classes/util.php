@@ -13,48 +13,6 @@ namespace Kontiki;
 class Util
 {
 	/**
-	 * add autoloader path
-	 *
-	 * @param  String $path
-	 * @param  String $namespace
-	 * @return Void
-	 */
-	public static function add_autoloader_path($path, $namespace = '')
-	{
-		spl_autoload_register(
-			function ($class_name) use ($path, $namespace)
-			{
-				// check namespace
-				$class = strtolower($class_name);
-				$strlen = strlen($namespace);
-
-				if (substr($class, 0, $strlen) !== $namespace) return;
-				$class = substr($class, $strlen + 1);
-
-				// underscores are directories
-				$path.= str_replace('_', '/', $class);
-
-				// require
-				$file_path = $path.'.php';
-				if (file_exists($file_path))
-				{
-					require $path.'.php';
-				}
-				else
-				{
-					return false;
-				}
-
-				// init
-				if (method_exists($class_name, '_init') and is_callable($class_name.'::_init'))
-				{
-					call_user_func($class_name.'::_init');
-				}
-			}
-		);
-	}
-
-	/**
 	 * get current uri
 	 *
 	 * @return String
@@ -63,7 +21,7 @@ class Util
 	{
 		if (isset($_SERVER["HTTP_HOST"]) && isset($_SERVER["REQUEST_URI"]))
 		{
-			$uri = static::is_ssl() ? 'https' : 'http';
+			$uri = static::isSsl() ? 'https' : 'http';
 			$uri.= '://'.$_SERVER["HTTP_HOST"].rtrim($_SERVER["REQUEST_URI"], '/');
 			return static::s($uri);
 		}
@@ -78,7 +36,7 @@ class Util
 	 * @param  Array $query_strings array(array('key', 'val'),...)
 	 * @return String
 	 */
-	public static function add_query_strings($uri, $query_strings = array())
+	public static function addQueryStrings($uri, $query_strings = array())
 	{
 		$delimiter = strpos($uri, '?') !== false ? '&amp;' : '?';
 		$qs = array();
@@ -97,7 +55,7 @@ class Util
 	 * @param  Array $query_strings array('key',....)
 	 * @return String
 	 */
-	public static function remove_query_strings($uri, $query_strings = array())
+	public static function removeQueryStrings($uri, $query_strings = array())
 	{
 		if (strpos($uri, '?') !== false)
 		{
@@ -129,12 +87,9 @@ class Util
 	 *
 	 * @return Bool
 	 */
-	public static function is_ssl()
+	public static function isSsl()
 	{
 		return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on');
-
-		// return isset($_SERVER['HTTP_X_SAKURA_FORWARDED_FOR']) ||
-		// 	(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on');
 	}
 
 	/**
@@ -180,10 +135,7 @@ class Util
 		}
 		else
 		{
-			$url = str_replace(
-				'://',
-				'%3A%2F%2F',
-				$url);
+			$url = str_replace('://', '%3A%2F%2F', $url);
 		}
 		return $url;
 	}
@@ -203,6 +155,20 @@ class Util
 		$url = urldecode($url);
 		$url = str_replace('&amp;', '&', $url);
 		return $url;
+	}
+
+	/**
+	 * redirect
+	 *
+	 * @param  String $url
+	 * @return Void
+	 */
+	public static function redirect($url)
+	{
+		$url = self::urldec($url);
+		if (strpos($url, Input::server('HTTP_HOST')) === false) self::error();
+		header('location: '.$url);
+		exit();
 	}
 
 	/**

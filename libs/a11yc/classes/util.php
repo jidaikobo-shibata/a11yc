@@ -13,6 +13,80 @@ namespace A11yc;
 class Util extends \Kontiki\Util
 {
 	/**
+	 * search words
+	 *
+	 * @param  String $word
+	 * @return Array
+	 */
+	public static function searchWords2Arr($word)
+	{
+		$word  = mb_convert_kana($word, 'asKV');
+		$words = array();
+		foreach (explode(' ', $word) as $v)
+		{
+			$v = trim($v);
+			if (empty($v)) continue;
+			$words[] = $v;
+		}
+		return $words;
+	}
+
+	/**
+	 * enunique Uri
+	 *
+	 * @param  String $uri
+	 * @return String
+	 */
+	public static function enuniqueUri($uri)
+	{
+		if (empty($uri)) return '';
+		$base_url = Model\Settings::fetch('base_url');
+
+		if (strlen($uri) >= 2 && $uri[0] == '/' && $uri[1] != '/')
+		{
+			$uri = $base_url.$uri;
+		}
+		// started with "./"
+		elseif (strlen($uri) >= 2 && $uri[0] == '.' && $uri[1] == '/')
+		{
+			$uri = $base_url.substr($uri, 1);
+		}
+		// started with "../"
+		elseif (strlen($uri) >= 3 && $uri[0] == '.' && $uri[1] == '.' && $uri[2] == '/')
+		{
+			$strs = explode('../', $uri);
+			$uri = $base_url.'/'.end($strs);
+		}
+		elseif (strpos($uri, 'http') !== 0)
+		{
+			$uri = $base_url.'/'.$uri;
+		}
+
+		return self::urldec($uri);
+	}
+
+	/**
+	 * doc Html Whitelist
+	 *
+	 * @param  String $word
+	 * @return Array
+	 */
+	public static function docHtmlWhitelist($txt)
+	{
+		return str_replace(
+			array(
+				'&lt;code&gt;',
+				'&lt;/code&gt;',
+			),
+			array(
+				'<code>',
+				'</code>',
+			),
+			$txt
+		);
+	}
+
+	/**
 	 * number to 'A' or 'AA' or 'AAA'
 	 * to get conformance level string
 	 *
@@ -23,6 +97,7 @@ class Util extends \Kontiki\Util
 	public static function num2str($num, $default = '-')
 	{
 		$num = intval($num);
+		if ($num == -1) return '';
 		return $num ? str_repeat('A', $num) : $default ;
 	}
 
@@ -38,6 +113,17 @@ class Util extends \Kontiki\Util
 	}
 
 	/**
+	 * replace '.' to '-' to convert '1.1.1' to '1-1-1'
+	 *
+	 * @param  String $str
+	 * @return String
+	 */
+	public static function code2key($str)
+	{
+		return str_replace('.', '-', $str);
+	}
+
+	/**
 	 * create doc link of '\d-\d-\d\w' in the text
 	 *
 	 * @param  String $text
@@ -45,36 +131,41 @@ class Util extends \Kontiki\Util
 	 */
 	public static function key2link($text)
 	{
-		if (defined('A11YC_POST_SCRIPT_NAME')) return $text;
+		preg_match_all("/\[[^\]]+?\]/", $text, $ms);
+
+		if ( ! $ms[0]) return $text;
 
 		$yml = Yaml::fetch();
 
-		preg_match_all("/\d-\d-\d+?\w/", $text, $ms);
-
-		$replaces = array();
-		if (isset($ms[0][0]) && $ms[0][0])
+		foreach ($ms[0] as $str)
 		{
-			foreach ($ms[0] as $m)
+			// prepare
+			$code = ltrim($str, '[');
+			$code = rtrim($code, ']');
+			$tech = preg_replace('/[\.\d]/', '', $code);
+			$search = $str;
+			$url = '';
+			$str = '';
+
+			// criterion
+			if (is_numeric($code[0]))
 			{
-				$criterion = static::get_criterion_from_code($m);
-				if ( ! isset($yml['checks'][$criterion][$m])) continue;
-				$original = $m;
-				$replaced = hash("sha256", $m);
-				$replaces[] = array(
-					'original' => $original,
-					'replaced' => $replaced,
-				);
-				$text = str_replace($original, $replaced, $text);
+				$criterion = self::code2key($code);
+				$url = A11YC_DOC_URL.Util::s($criterion);
+				$str = Arr::get($yml['criterions'][$criterion], 'name');
 			}
 
-			foreach ($replaces as $v)
+			// Techniques
+			elseif (in_array($tech, Values::techsTypes()))
 			{
-				$criterion = static::get_criterion_from_code($v['original']);
-				$text = str_replace(
-					$v['replaced'],
-					'<a href="'.A11YC_DOC_URL.$v['original'].'&criterion='.$criterion.'"'.A11YC_TARGET.' title="'.$yml['checks'][$criterion][$v['original']]['name'].' ('.$yml['checks'][$criterion][$v['original']]['level']['name'].')">'.static::key2code($criterion).'</a>',
-					$text);
+				$url = A11YC_REF_WCAG20_TECH_URL.Util::s($code);
+				$str = Arr::get($yml['techs'][$code], 'title');
 			}
+
+			if (empty($url)) return;
+			$replace = '"<a href="'.$url.'">'.$str.'</a>"';
+
+			$text = str_replace($search, $replace, $text);
 		}
 
 		return $text;
@@ -102,55 +193,5 @@ class Util extends \Kontiki\Util
 			}
 		}
 		return false;
-	}
-
-	/**
-	 * fetch page title
-	 * do not use DB. because page title is possible to be changed.
-	 *
-	 * @param  String $url
-	 * @return String
-	 */
-	public static function fetch_page_title($url)
-	{
-		static $titles = array();
-		if (isset($titles[$url])) return $titles[$url];
-		$html = Crawl::fetch_html($url);
-		$titles[$url] = static::fetch_page_title_from_html($html);
-		return $titles[$url];
-	}
-
-	/**
-	 * fetch page title from html
-	 *
-	 * @param  String $html
-	 * @return String
-	 */
-	public static function fetch_page_title_from_html($html)
-	{
-		preg_match("/<title.*?>(.+?)<\/title>/si", $html, $m);
-		$tmp = isset($m[1]) ? $m[1] : '';
-		$title = str_replace(array("\n", "\r"), '', $tmp);
-		return $title;
-	}
-
-	/**
-	 * fetch page title from DB
-	 *
-	 * @param  String $url
-	 * @return String
-	 */
-	public static function fetch_page_title_from_db($url)
-	{
-		static $titles = array();
-		if (isset($titles[$url])) return $titles[$url];
-		$url = Util::urldec(Input::post('url', '', FILTER_VALIDATE_URL));
-		$exist = Db::fetch('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?;', array($url));
-		if ($exist)
-		{
-			$titles[$url] = $exist['page_title'];
-			return $titles[$url];
-		}
-		$titles[$url] = false;
 	}
 }

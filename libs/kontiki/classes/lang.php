@@ -12,12 +12,12 @@ namespace Kontiki;
 class Lang
 {
 	/**
-	 * get_langs
+	 * getLangs
 	 *
 	 * @param  String $dir
 	 * @return Array
 	 */
-	public static function get_langs($dir)
+	public static function getLangs($dir)
 	{
 		static $langs = array();
 		if ($langs) return $langs;
@@ -27,11 +27,11 @@ class Lang
 	}
 
 	/**
-	 * get_lang
+	 * getLang
 	 *
 	 * @return String
 	 */
-	public static function get_lang()
+	public static function getLang()
 	{
 	}
 }

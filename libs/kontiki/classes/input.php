@@ -14,6 +14,17 @@ namespace Kontiki;
 class Input
 {
 	/**
+	 * delete null-byte
+	 *
+	 * @param  String $str
+	 * @return String
+	 */
+	public static function deleteNullByte($str = '')
+	{
+		return str_replace("\0", '', $str);
+	}
+
+	/**
 	 * Return's the referrer
 	 *
 	 * @param  String $default
@@ -30,7 +41,7 @@ class Input
 	 * @param  String $default
 	 * @return String
 	 */
-	public static function user_agent($default = '')
+	public static function userAgent($default = '')
 	{
 		return static::server('HTTP_USER_AGENT', $default);
 	}
@@ -40,9 +51,33 @@ class Input
 	 *
 	 * @return Bool
 	 */
-	public static function is_post_exists()
+	public static function isPostExists()
 	{
 		return (static::server('REQUEST_METHOD') == 'POST');
+	}
+
+	/**
+	 * Gets the specified GET or Post variable.
+	 *
+	 * @param  String $index The index to get
+	 * @param  String $default The default value
+	 * @param  String $filter default: FILTER_DEFAULT
+	 * @param  String $options for filter_input()
+	 * @return String|Array
+	 */
+	public static function param(
+		$index,
+		$default = null,
+		$filter = FILTER_DEFAULT,
+		$options = array()
+	)
+	{
+		$val = self::get($index, $default, $filter, $options);
+		if ( ! $val)
+		{
+			$val = self::post($index, $default, $filter, $options);
+		}
+		return $val ? $val : $default;
 	}
 
 	/**
@@ -62,7 +97,7 @@ class Input
 	)
 	{
 		$val = filter_input(INPUT_GET, $index, $filter, $options);
-		return $val ? $val : $default;
+		return $val ? self::deleteNullByte($val) : $default;
 	}
 
 	/**
@@ -73,7 +108,7 @@ class Input
 	 * @param  String $filter default: FILTER_DEFAULT
 	 * @return String|Array
 	 */
-	public static function get_arr(
+	public static function getArr(
 		$index,
 		$default = null,
 		$filter = FILTER_DEFAULT
@@ -99,7 +134,7 @@ class Input
 	)
 	{
 		$val = filter_input(INPUT_POST, $index, $filter, $options);
-		return $val ? $val : $default;
+		return $val ? self::deleteNullByte($val) : $default;
 	}
 
 	/**
@@ -110,7 +145,7 @@ class Input
 	 * @param  String $filter default: FILTER_DEFAULT
 	 * @return String|Array
 	 */
-	public static function post_arr(
+	public static function postArr(
 		$index,
 		$default = null,
 		$filter = FILTER_DEFAULT
@@ -136,7 +171,7 @@ class Input
 	)
 	{
 		$val = filter_input(INPUT_COOKIE, $index, $filter, $options);
-		return $val ? $val : $default;
+		return $val ? self::deleteNullByte($val) : $default;
 	}
 
 	/**

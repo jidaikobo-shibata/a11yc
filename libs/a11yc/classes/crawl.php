@@ -12,6 +12,45 @@ namespace A11yc;
 
 class Crawl
 {
+
+	/**
+	 * is target webpage
+	 *
+	 * @param  String  $url
+	 * @return Bool
+	 */
+	public static function isTargetMime($url)
+	{
+		Guzzle::forge($url);
+
+		if (isset(Guzzle::instance($url)->headers['Content-Type'][0]))
+		{
+			$mime = Guzzle::instance($url)->headers['Content-Type'][0];
+			if (strpos($mime, ';') !== false)
+			{
+				$mime = substr($mime, 0 ,strrpos($mime, ';'));
+			}
+
+			return in_array($mime, Values::targetMimes());
+		}
+		return false;
+	}
+
+	/**
+	 * is page exist
+	 *
+	 * @param  String $url
+	 * @return Bool
+	 */
+	public static function isPageExist($url)
+	{
+		Guzzle::forge($url);
+		return Guzzle::instance($url)->is_exists;
+	}
+
+
+
+
 	protected static $target_path = '';
 	protected static $target_path_raw = '';
 	protected static $real_urls = array();
@@ -22,7 +61,7 @@ class Crawl
 	 * @param  String $target_path
 	 * @return Void
 	 */
-	public static function set_target_path($target_path)
+	public static function setTargetPath($target_path)
 	{
 		static::$target_path = static::remove_filename($target_path, '/');
 		static::$target_path_raw = $target_path;
@@ -34,7 +73,7 @@ class Crawl
 	 * @param  Bool $is_raw
 	 * @return  string
 	 */
-	public static function get_target_path($is_raw = false)
+	public static function getTargetPath($is_raw = false)
 	{
 		if ($is_raw) return static::$target_path_raw;
 		return static::$target_path;
@@ -46,7 +85,7 @@ class Crawl
 	 * @param  String $url
 	 * @return Bool
 	 */
-	public static function is_valid_scheme($url)
+	public static function isValidScheme($url)
 	{
 		$url = Util::urldec($url);
 
@@ -68,7 +107,7 @@ class Crawl
 	 * @param  String $url
 	 * @return String
 	 */
-	public static function remove_filename($url)
+	public static function removeFilename($url)
 	{
 		$url = trim($url);
 
@@ -214,19 +253,6 @@ class Crawl
 	}
 
 	/**
-	 * is_same_host
-	 *
-	 * @param  String $url
-	 * @return Bool
-	 */
-	public static function is_same_host($base_url, $url)
-	{
-		$host = static::get_host_from_url($base_url);
-		if ($host === false) return false;
-		return (substr($url, 0, mb_strlen($host)) === $host);
-	}
-
-	/**
 	 * real_url
 	 * if this function returns false, real url is not exists.
 	 * therefore if this returns sting (url), then target url returned 200.
@@ -263,59 +289,5 @@ class Crawl
 	public static function is_html($url)
 	{
 		return static::fetch_html($url) ? true : false;
-	}
-
-	/**
-	 * is target webpage
-	 *
-	 * @param  String  $url
-	 * @return Bool
-	 */
-	public static function is_target_webpage($url)
-	{
-		if (static::fetch_html($url)) return true;
-
-		if (isset(Guzzle::instance($url)->headers['Content-Type'][0]))
-		{
-			return in_array(
-				Guzzle::instance($url)->headers['Content-Type'][0],
-				Controller_Pages::$target_mimes
-			);
-		}
-	}
-
-	/**
-	 * fetch html
-	 *
-	 * @param  String $url
-	 * @return String
-	 */
-	public static function fetch_html($url)
-	{
-		static $htmls = array();
-		if (isset($htmls[$url])) return $htmls[$url];
-
-		Guzzle::forge($url);
-		Guzzle::instance($url)
-			->set_config(
-				'User-Agent',
-				Util::s(Input::user_agent().' GuzzleHttp/a11yc (+http://www.jidaikobo.com)')
-			);
-
-		$htmls[$url] = Guzzle::instance($url)->is_html ? Guzzle::instance($url)->body : false;
-
-		return $htmls[$url];
-	}
-
-	/**
-	 * is page exist
-	 *
-	 * @param  String $url
-	 * @return Bool
-	 */
-	public static function is_page_exist($url)
-	{
-		Guzzle::forge($url);
-		return Guzzle::instance($url)->is_exists;
 	}
 }

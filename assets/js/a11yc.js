@@ -4,8 +4,8 @@ if(!$('.a11yc')[0]) return;
 	a11yc_env = {
 		$a11yc_content : $('.a11yc').eq(0),
 		fixed_height : 0,
-		$footer : $('#a11y_submit')[0] ? $('#a11y_submit') : $(),
-		fixed_footer_top : $('#a11y_submit')[0] ? $('#a11y_submit').offset().top : 0 ,
+		$footer : $('#a11yc_submit')[0] ? $('#a11yc_submit') : $(),
+		fixed_footer_top : $('#a11yc_submit')[0] ? $('#a11yc_submit').offset().top : 0 ,
 		menu_height : 0,
 		pagemenu_height : 0,
 		pagemenu_top : 0,
@@ -238,7 +238,7 @@ jQuery(function($){
 		e.stopPropagation();
 		setTimeout(function(){
 			var $t = $(e.target);
-			if(!$t[0] || $t.closest($('#a11yc_menu, .a11yc_fixed_header #a11yc_header, #a11y_submit'))[0]) return;
+			if(!$t[0] || $t.closest($('#a11yc_menu, .a11yc_fixed_header #a11yc_header, #a11yc_submit'))[0]) return;
 			var scroll = $(window).scrollTop();
 			var h_position = scroll+a11yc_env.fixed_height;
 			var t_position = $t.offset().top;
@@ -588,6 +588,8 @@ if(!$('#a11yc_checks')[0]) return;
 	function a11yc_toggle_item(e){
 //		console.log('function:'+'a11yc_toggle_item');
 		var input = e ? $(e.target) : '',
+				input_name = input ? $(input).attr('name').replace('[','\\[').replace(']','\\]') : '',
+				$same_name = input ? $(document).find("[name="+input_name+"]:not(#"+input.id+")") : $(),
 		    $checked = $('.a11yc_table_check th :checked'),
 		    data_pass_arr = [],
 		    $show_items = $();
@@ -599,6 +601,7 @@ if(!$('#a11yc_checks')[0]) return;
 		{
 			//位置調整用。チェックした行の表示がずれないように位置を取得しておく
 			a11yc_env.current_position = input.offset().top;
+
 			if(input.prop('checked'))
 			{
 				a11yc_set_pass_items(input);
@@ -607,6 +610,8 @@ if(!$('#a11yc_checks')[0]) return;
 			{
 				a11yc_set_pass_items($checked, input);
 			}
+			// 同じnameのアイテムにも同じ値を反映
+			$same_name.prop('checked', input.prop('checked'))
 		}
 	}
 	function a11yc_set_pass_items($target, $passed){

@@ -31,9 +31,24 @@ class Users
 	 *
 	 * @return Array
 	 */
-	public static function fetch_users()
+	public static function fetchUsers()
 	{
 		return static::$users;
+	}
+
+	/**
+	 * fetch users for options
+	 *
+	 * @return Array
+	 */
+	public static function fetchUsersOpt()
+	{
+		$users = array();
+		foreach (static::$users as $k => $v)
+		{
+			$users[$k] = Util::s($v[2]);
+		}
+		return $users;
 	}
 
 	/**
@@ -41,11 +56,11 @@ class Users
 	 *
 	 * @return Array
 	 */
-	public static function fetch_current_user()
+	public static function fetchCurrentUser()
 	{
 		if ( ! Session::show('auth', 'uid')[0]) return array();
 		$uid = Session::show('auth', 'uid')[0];
-		$users = static::fetch_users();
+		$users = static::fetchUsers();
 		foreach (array_keys($users) as $k)
 		{
 			$users[$k]['id'] = $k;

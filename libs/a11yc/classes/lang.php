@@ -13,17 +13,17 @@ namespace A11yc;
 class Lang extends \Kontiki\Lang
 {
 	/**
-	 * get_lang
+	 * get lang
 	 *
 	 * @return String
 	 */
-	public static function get_lang()
+	public static function getLang()
 	{
 		// get languages
-		$langs = Lang::get_langs(A11YC_PATH.'/languages');
+		$langs = self::getLangs(A11YC_PATH.'/languages');
 
 		// parse url
-		$requests = explode('/', substr(\A11yc\Util::uri(), strlen(dirname(A11YC_URL)) + 1));
+		$requests = explode('/', substr(Util::uri(), strlen(dirname(A11YC_URL)) + 1));
 
 		// is available language?
 		$lang = '';

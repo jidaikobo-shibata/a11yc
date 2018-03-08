@@ -1,0 +1,1359 @@
+checks:
+  1-1-1:
+    1-1-1a:
+      criterion: 1-1-1
+      pass:
+        1-1-1:
+          - 1-1-1a
+          - 1-1-1b
+          - 1-1-1c
+          - 1-1-1d
+          - 1-1-1e
+          - 1-1-1f
+          - 1-1-1g
+          - 1-1-1h
+          - 1-1-1i
+          - 1-1-1j
+          - 1-1-1k
+          - 1-1-1l
+        1-2-1:
+          - 1-2-1a
+          - 1-2-1b
+          - 1-2-1c
+          - 1-2-1d
+        1-2-2:
+          - 1-2-2a
+          - 1-2-2b
+        1-2-3:
+          - 1-2-3a
+        1-2-4:
+          - 1-2-4a
+          - 1-2-4b
+        1-2-5:
+          - 1-2-5a
+        1-2-6:
+          - 1-2-6a
+        1-2-7:
+          - 1-2-7a
+        1-2-8:
+          - 1-2-8a
+        1-2-9:
+          - 1-2-9a
+        1-4-2:
+          - 1-4-2a
+          - 1-4-2b
+        1-4-5:
+          - 1-4-5a
+          - 1-4-5b
+          - 1-4-5c
+        1-4-7:
+          - 1-4-7a
+          - 1-4-7b
+          - 1-4-7c
+        1-4-9:
+          - 1-4-9a
+      non-exist:
+        - 1-1-1
+        - 1-2-1
+        - 1-2-2
+        - 1-2-3
+        - 1-2-4
+        - 1-2-5
+        - 1-2-6
+        - 1-2-7
+        - 1-2-8
+        - 1-2-9
+        - 1-4-2
+        - 1-4-5
+        - 1-4-7
+        - 1-4-9
+      level: lv1
+
+    1-1-1b:
+      criterion: 1-1-1
+      pass:
+        1-1-1:
+          - 1-1-1a
+          - 1-1-1b
+      level: lv1
+
+    1-1-1c:
+      criterion: 1-1-1
+      pass:
+        1-1-1:
+          - 1-1-1a
+          - 1-1-1c
+          - 1-1-1d
+      level: lv1
+
+    1-1-1d:
+      criterion: 1-1-1
+      pass:
+        1-1-1:
+          - 1-1-1a
+          - 1-1-1c
+          - 1-1-1d
+      level: lv1
+
+    1-1-1e:
+      criterion: 1-1-1
+      pass:
+        1-1-1:
+          - 1-1-1a
+          - 1-1-1e
+          - 1-1-1f
+        1-4-7:
+          - 1-4-7a
+          - 1-4-7b
+          - 1-4-7c
+      non-exist:
+        - 1-2-1
+        - 1-2-2
+        - 1-2-3
+        - 1-2-4
+        - 1-2-5
+        - 1-2-6
+        - 1-2-7
+        - 1-2-8
+        - 1-2-9
+        - 1-4-7
+      level: lv1
+
+    1-1-1f:
+      criterion: 1-1-1
+      pass:
+        1-1-1:
+          - 1-1-1a
+          - 1-1-1e
+          - 1-1-1f
+      level: lv1
+
+    1-1-1g:
+      criterion: 1-1-1
+      pass:
+        1-1-1:
+          - 1-1-1a
+          - 1-1-1g
+          - 1-1-1h
+      level: lv1
+
+    1-1-1h:
+      criterion: 1-1-1
+      pass:
+        1-1-1:
+          - 1-1-1a
+          - 1-1-1g
+          - 1-1-1h
+      level: lv1
+
+    1-1-1i:
+      criterion: 1-1-1
+      pass:
+        1-1-1:
+          - 1-1-1a
+          - 1-1-1i
+          - 1-1-1j
+      level: lv1
+
+    1-1-1j:
+      criterion: 1-1-1
+      pass:
+        1-1-1:
+          - 1-1-1a
+          - 1-1-1i
+          - 1-1-1j
+      level: lv1
+
+    1-1-1k:
+      criterion: 1-1-1
+      pass:
+        1-1-1:
+          - 1-1-1a
+          - 1-1-1k
+          - 1-1-1l
+      level: lv1
+
+    1-1-1l:
+      criterion: 1-1-1
+      pass:
+        1-1-1:
+          - 1-1-1a
+          - 1-1-1k
+          - 1-1-1l
+      level: lv1
+
+    1-1-1m:
+      criterion: 1-1-1
+      pass:
+        1-1-1:
+          - 1-1-1m
+          - 1-1-1n
+      level: lv1
+
+    1-1-1n:
+      criterion: 1-1-1
+      pass:
+        1-1-1:
+          - 1-1-1m
+          - 1-1-1n
+      level: lv1
+
+  1-2-1:
+    1-2-1a:
+      criterion: 1-2-1
+      pass:
+        1-2-1:
+          - 1-2-1a
+          - 1-2-1b
+          - 1-2-1c
+          - 1-2-1d
+        1-4-7:
+          - 1-4-7a
+          - 1-4-7b
+          - 1-4-7c
+      non-exist:
+        - 1-2-1
+        - 1-4-7
+      level: lv1
+
+    1-2-1b:
+      criterion: 1-2-1
+      pass:
+        1-1-1:
+          - 1-1-1a
+        1-2-1:
+          - 1-2-1a
+          - 1-2-1c
+          - 1-2-1d
+      level: lv1
+
+    1-2-1c:
+      criterion: 1-2-1
+      pass:
+        1-1-1:
+          - 1-1-1a
+        1-2-1:
+          - 1-2-1a
+      level: lv1
+
+    1-2-1d:
+      criterion: 1-2-1
+      pass:
+        1-1-1:
+          - 1-1-1a
+        1-2-1:
+          - 1-2-1a
+          - 1-2-1b
+          - 1-2-1d
+      level: lv1
+
+  1-2-2:
+    1-2-2a:
+      criterion: 1-2-2
+      pass:
+        1-2-2:
+          - 1-2-2a
+          - 1-2-2b
+        1-2-3:
+          - 1-2-3a
+        1-2-4:
+          - 1-2-4a
+          - 1-2-4b
+        1-2-5:
+          - 1-2-5a
+        1-2-6:
+          - 1-2-6a
+        1-2-7:
+          - 1-2-7a
+        1-2-8:
+          - 1-2-8a
+        1-2-9:
+          - 1-2-9a
+      non-exist:
+        - 1-2-2
+      level: lv1
+
+    1-2-2b:
+      criterion: 1-2-2
+      pass:
+        1-1-1:
+          - 1-1-1a
+        1-2-2:
+          - 1-2-2a
+          - 1-2-2b
+      level: lv1
+
+  1-2-3:
+    1-2-3a:
+      criterion: 1-2-3
+      pass:
+        1-1-1:
+          - 1-1-1a
+        1-2-2:
+          - 1-2-2a
+        1-2-3:
+          - 1-2-3a
+      level: lv1
+
+  1-2-4:
+    1-2-4a:
+      criterion: 1-2-4
+      pass:
+        1-2-4:
+          - 1-2-4a
+          - 1-2-4b
+      level: lv2
+      non-exist:
+        - 1-2-4
+
+    1-2-4b:
+      criterion: 1-2-4
+      pass:
+        1-1-1:
+          - 1-1-1a
+        1-2-4:
+          - 1-2-4a
+          - 1-2-4b
+      level: lv2
+
+  1-2-5:
+    1-2-5a:
+      criterion: 1-2-5
+      pass:
+        1-1-1:
+          - 1-1-1a
+        1-2-2:
+          - 1-2-2a
+        1-2-5:
+          - 1-2-5a
+      level: lv2
+
+  1-2-6:
+    1-2-6a:
+      criterion: 1-2-6
+      pass:
+        1-1-1:
+          - 1-1-1a
+        1-2-2:
+          - 1-2-2a
+        1-2-6:
+          - 1-2-6a
+      level: lv3
+
+  1-2-7:
+    1-2-7a:
+      criterion: 1-2-7
+      pass:
+        1-1-1:
+          - 1-1-1a
+        1-2-2:
+          - 1-2-2a
+        1-2-7:
+          - 1-2-7a
+      level: lv3
+
+  1-2-8:
+    1-2-8a:
+      criterion: 1-2-8
+      pass:
+        1-1-1:
+          - 1-1-1a
+        1-2-2:
+          - 1-2-2a
+        1-2-8:
+          - 1-2-8a
+      level: lv3
+
+  1-2-9:
+    1-2-9a:
+      criterion: 1-2-9
+      pass:
+        1-1-1:
+          - 1-1-1a
+        1-2-9:
+          - 1-2-9a
+      level: lv3
+
+  1-3-1:
+    1-3-1a:
+      criterion: 1-3-1
+      pass:
+        1-3-1:
+          - 1-3-1a
+      level: lv1
+
+    1-3-1b:
+      criterion: 1-3-1
+      level: lv1
+      pass:
+        1-3-1:
+          - 1-3-1b
+          - 1-3-1c
+
+    1-3-1c:
+      criterion: 1-3-1
+      level: lv1
+      pass:
+        1-3-1:
+          - 1-3-1b
+          - 1-3-1c
+
+    1-3-1d:
+      criterion: 1-3-1
+      level: lv1
+      pass:
+        1-3-1:
+          - 1-3-1d
+          - 1-3-1e
+
+    1-3-1e:
+      criterion: 1-3-1
+      level: lv1
+      pass:
+        1-3-1:
+          - 1-3-1d
+          - 1-3-1e
+
+  1-3-2:
+    1-3-2a:
+      criterion: 1-3-2
+      level: lv1
+      pass:
+        1-3-2:
+          - 1-3-2a
+
+    1-3-2b:
+      criterion: 1-3-2
+      level: lv1
+      pass:
+        1-3-2:
+          - 1-3-2b
+
+  1-3-3:
+    1-3-3a:
+      criterion: 1-3-3
+      level: lv1
+      pass:
+        1-3-3:
+          - 1-3-3a
+
+  1-4-1:
+    1-4-1a:
+      criterion: 1-4-1
+      level: lv1
+      pass:
+        1-4-1:
+          - 1-4-1a
+
+  1-4-2:
+    1-4-2a:
+      criterion: 1-4-2
+      pass:
+        1-4-2:
+          - 1-4-2a
+          - 1-4-2b
+      level: lv1
+      non-exist:
+        - 1-4-2
+      non-interference: TRUE
+
+    1-4-2b:
+      criterion: 1-4-2
+      pass:
+        1-1-1:
+          - 1-1-1a
+        1-4-2:
+          - 1-4-2a
+          - 1-4-2b
+      level: lv1
+      non-interference: TRUE
+
+  1-4-3:
+    1-4-3a:
+      criterion: 1-4-3
+      pass:
+        1-4-3:
+          - 1-4-3a
+          - 1-4-3b
+          - 1-4-3c
+      level: lv2
+
+    1-4-3b:
+      criterion: 1-4-3
+      pass:
+        1-4-3:
+          - 1-4-3a
+          - 1-4-3b
+          - 1-4-3c
+      level: lv2
+
+    1-4-3c:
+      criterion: 1-4-3
+      level: lv2
+      pass:
+        1-4-3:
+          - 1-4-3a
+          - 1-4-3b
+          - 1-4-3c
+
+  1-4-4:
+    1-4-4a:
+      criterion: 1-4-4
+      pass:
+        1-4-4:
+          - 1-4-4a
+      level: lv2
+
+    1-4-4b:
+      criterion: 1-4-4
+      pass:
+        1-4-4:
+          - 1-4-4b
+        1-4-8:
+          - 1-4-8e
+      level: lv2
+
+  1-4-5:
+    1-4-5a:
+      criterion: 1-4-5
+      pass:
+        1-4-5:
+          - 1-4-5a
+          - 1-4-5b
+          - 1-4-5c
+        1-4-9:
+          - 1-4-9a
+      level: lv2
+      non-exist:
+        - 1-4-5
+        - 1-4-9
+
+    1-4-5b:
+      criterion: 1-4-5
+      pass:
+        1-1-1:
+          - 1-1-1a
+        1-4-5:
+          - 1-4-5a
+          - 1-4-5b
+          - 1-4-5c
+      level: lv2
+
+    1-4-5c:
+      criterion: 1-4-5
+      pass:
+        1-1-1:
+          - 1-1-1a
+        1-4-5:
+          - 1-4-5a
+          - 1-4-5b
+          - 1-4-5c
+      level: lv2
+
+  1-4-6:
+    1-4-6a:
+      criterion: 1-4-6
+      pass:
+        1-4-3:
+          - 1-4-3a
+          - 1-4-3b
+          - 1-4-3c
+        1-4-6:
+          - 1-4-6a
+          - 1-4-6b
+      relations:
+        1-4-3:
+          - 1-4-3a
+      level: lv3
+
+    1-4-6b:
+      criterion: 1-4-6
+      pass:
+        1-4-6:
+          - 1-4-6a
+          - 1-4-6b
+      relations:
+        1-4-3:
+          - 1-4-3b
+      level: lv3
+
+  1-4-7:
+    1-4-7a:
+      criterion: 1-4-7
+      pass:
+        1-1-1:
+          - 1-1-1a
+          - 1-1-1e
+        1-2-1:
+          - 1-2-1a
+        1-4-7:
+          - 1-4-7a
+          - 1-4-7b
+          - 1-4-7c
+      level: lv3
+      non-exist:
+        - 1-4-7
+
+    1-4-7b:
+      criterion: 1-4-7
+      pass:
+        1-1-1:
+          - 1-1-1a
+          - 1-1-1e
+        1-2-1:
+          - 1-2-1a
+        1-4-7:
+          - 1-4-7a
+          - 1-4-7b
+          - 1-4-7c
+      level: lv3
+
+    1-4-7c:
+      criterion: 1-4-7
+      pass:
+        1-1-1:
+          - 1-1-1a
+          - 1-1-1e
+        1-2-1:
+          - 1-2-1a
+        1-4-7:
+          - 1-4-7a
+          - 1-4-7b
+          - 1-4-7c
+      level: lv3
+
+  1-4-8:
+    1-4-8a:
+      criterion: 1-4-8
+      pass:
+        1-4-8:
+          - 1-4-8a
+      level: lv3
+
+    1-4-8b:
+      criterion: 1-4-8
+      pass:
+        1-4-8:
+          - 1-4-8b
+      level: lv3
+
+    1-4-8c:
+      criterion: 1-4-8
+      pass:
+        1-4-8:
+          - 1-4-8c
+      level: lv3
+
+    1-4-8d:
+      criterion: 1-4-8
+      pass:
+        1-4-8:
+          - 1-4-8d
+      level: lv3
+
+    1-4-8e:
+      criterion: 1-4-8
+      pass:
+        1-4-4:
+          - 1-4-4b
+        1-4-8:
+          - 1-4-8e
+      level: lv3
+
+  1-4-9:
+    1-4-9a:
+      criterion: 1-4-9
+      pass:
+        1-1-1:
+          - 1-1-1a
+        1-4-5:
+          - 1-4-5a
+          - 1-4-5b
+          - 1-4-5c
+        1-4-9:
+          - 1-4-9a
+      level: lv3
+      non-exist:
+        - 1-4-9
+
+  2-1-1:
+    2-1-1a:
+      criterion: 2-1-1
+      pass:
+        2-1-1:
+          - 2-1-1a
+          - 2-1-1c
+        2-1-3:
+          - 2-1-3a
+          - 2-1-3c
+      level: lv1
+
+    2-1-1b:
+      criterion: 2-1-1
+      pass:
+        2-1-1:
+          - 2-1-1b
+        2-1-3:
+          - 2-1-3b
+      level: lv1
+
+    2-1-1c:
+      criterion: 2-1-1
+      pass:
+        2-1-1:
+          - 2-1-1a
+          - 2-1-1c
+        2-1-3:
+          - 2-1-3a
+          - 2-1-3c
+      level: lv1
+
+    2-1-1d:
+      criterion: 2-1-1
+      pass:
+        2-1-1:
+          - 2-1-1d
+          - 2-1-1e
+        2-1-3:
+          - 2-1-3d
+      level: lv1
+
+    2-1-1e:
+      criterion: 2-1-1
+      pass:
+        2-1-1:
+         - 2-1-1d
+         - 2-1-1e
+      level: lv1
+
+  2-1-2:
+    2-1-2a:
+      criterion: 2-1-2
+      pass:
+        2-1-2:
+          - 2-1-2a
+      level: lv1
+      non-interference: TRUE
+
+  2-1-3:
+    2-1-3a:
+      criterion: 2-1-3
+      pass:
+        2-1-1:
+          - 2-1-1a
+          - 2-1-1c
+        2-1-3:
+          - 2-1-3a
+          - 2-1-3c
+      level: lv3
+
+    2-1-3b:
+      criterion: 2-1-3
+      pass:
+        2-1-1:
+          - 2-1-1b
+        2-1-3:
+          - 2-1-3b
+      level: lv3
+
+    2-1-3c:
+      criterion: 2-1-3
+      pass:
+        2-1-1:
+          - 2-1-1a
+          - 2-1-1c
+        2-1-3:
+          - 2-1-3a
+          - 2-1-3c
+      level: lv3
+
+    2-1-3d:
+      criterion: 2-1-3
+      pass:
+        2-1-1:
+          - 2-1-1d
+          - 2-1-1e
+        2-1-3:
+          - 2-1-3d
+      relations:
+        2-1-1:
+          - 2-1-1d
+      level: lv3
+
+  2-2-1:
+    2-2-1a:
+      criterion: 2-2-1
+      pass:
+        2-2-1:
+          - 2-2-1a
+          - 2-2-1b
+          - 2-2-1c
+        2-2-2:
+          - 2-2-2a
+          - 2-2-2b
+        2-2-3:
+          - 2-2-3a
+          - 2-2-3b
+          - 2-2-3c
+          - 2-2-3d
+      level: lv1
+
+    2-2-1b:
+      criterion: 2-2-1
+      pass:
+        2-2-1:
+          - 2-2-1a
+          - 2-2-1b
+          - 2-2-1c
+        2-2-3:
+          - 2-2-3a
+      level: lv1
+
+    2-2-1c:
+      criterion: 2-2-1
+      pass:
+        2-2-1:
+          - 2-2-1a
+          - 2-2-1b
+          - 2-2-1c
+      level: lv1
+
+  2-2-2:
+    2-2-2a:
+      criterion: 2-2-2
+      pass:
+        2-2-2:
+          - 2-2-2a
+          - 2-2-2b
+        2-2-3:
+          - 2-2-3a
+      level: lv1
+      non-interference: TRUE
+      non-exist:
+        - 2-2-2
+
+    2-2-2b:
+      criterion: 2-2-2
+      pass:
+        2-2-2:
+          - 2-2-2a
+          - 2-2-2b
+      level: lv1
+      non-interference: TRUE
+
+  2-2-3:
+    2-2-3a:
+      criterion: 2-2-3
+      pass:
+        2-2-1:
+          - 2-2-1a
+          - 2-2-1b
+          - 2-2-1c
+        2-2-2:
+          - 2-2-2a
+        2-2-3:
+          - 2-2-3a
+          - 2-2-3b
+          - 2-2-3c
+          - 2-2-3d
+      level: lv3
+      non-exist:
+        - 2-2-1
+        - 2-2-3
+
+    2-2-3b:
+      criterion: 2-2-3
+      pass:
+        2-2-2:
+          - 2-2-2a
+        2-2-3:
+          - 2-2-3a
+          - 2-2-3b
+          - 2-2-3c
+          - 2-2-3d
+      level: lv3
+
+    2-2-3c:
+      criterion: 2-2-3
+      pass:
+        2-2-2:
+          - 2-2-2a
+        2-2-3:
+          - 2-2-3a
+          - 2-2-3b
+          - 2-2-3c
+          - 2-2-3d
+      level: lv3
+
+    2-2-3d:
+      criterion: 2-2-3
+      pass:
+        2-2-2:
+          - 2-2-2a
+        2-2-3:
+          - 2-2-3a
+          - 2-2-3b
+          - 2-2-3c
+          - 2-2-3d
+      level: lv3
+
+  2-2-4:
+    2-2-4a:
+      criterion: 2-2-4
+      pass:
+        2-2-4:
+          - 2-2-4a
+          - 2-2-4b
+          - 2-2-4c
+      level: lv3
+      non-exist:
+        - 2-2-4
+
+    2-2-4b:
+      criterion: 2-2-4
+      pass:
+        2-2-4:
+          - 2-2-4a
+          - 2-2-4b
+      level: lv3
+
+    2-2-4c:
+      criterion: 2-2-4
+      pass:
+        2-2-4:
+          - 2-2-4a
+          - 2-2-4c
+      level: lv3
+
+  2-2-5:
+    2-2-5a:
+      criterion: 2-2-5
+      pass:
+        2-2-5:
+          - 2-2-5a
+          - 2-2-5b
+      level: lv3
+      non-exist:
+        - 2-2-5
+
+    2-2-5b:
+      criterion: 2-2-5
+      pass:
+        2-2-5:
+          - 2-2-5a
+          - 2-2-5b
+      level: lv3
+
+  2-3-1:
+    2-3-1a:
+      criterion: 2-3-1
+      pass:
+        2-3-1:
+          - 2-3-1a
+          - 2-3-1b
+      level: lv1
+      non-interference: true
+      non-exist:
+        - 2-3-1
+
+    2-3-1b:
+      criterion: 2-3-1
+      pass:
+        2-3-1:
+          - 2-3-1a
+          - 2-3-1b
+      level: lv1
+      non-interference: true
+
+  2-3-2:
+    2-3-2a:
+      criterion: 2-3-2
+      pass:
+        2-3-2:
+          - 2-3-2a
+      level: lv3
+      relations:
+        2-3-1:
+          - 2-3-1a
+      non-exist:
+        - 2-3-2
+
+  2-4-1:
+    2-4-1a:
+      criterion: 2-4-1
+      pass:
+        2-4-1:
+          - 2-4-1a
+      level: lv1
+
+  2-4-2:
+    2-4-2a:
+      criterion: 2-4-2
+      pass:
+        2-4-2:
+          - 2-4-2a
+      level: lv1
+
+  2-4-3:
+    2-4-3a:
+      criterion: 2-4-3
+      pass:
+        2-4-3:
+          - 2-4-3a
+      level: lv1
+
+  2-4-4:
+    2-4-4a:
+      criterion: 2-4-4
+      pass:
+        2-4-4:
+          - 2-4-4a
+      level: lv1
+
+  2-4-5:
+    2-4-5a:
+      criterion: 2-4-5
+      pass:
+        2-4-5:
+          - 2-4-5a
+      level: lv2
+
+  2-4-6:
+    2-4-6a:
+      criterion: 2-4-6
+      pass:
+        2-4-6:
+          - 2-4-6a
+      level: lv2
+
+  2-4-7:
+    2-4-7a:
+      criterion: 2-4-7
+      pass:
+        2-4-7:
+          - 2-4-7a
+      level: lv2
+
+  2-4-8:
+    2-4-8a:
+      criterion: 2-4-8
+      pass:
+        2-4-8:
+          - 2-4-8a
+      level: lv3
+
+  2-4-9:
+    2-4-9a:
+      criterion: 2-4-9
+      pass:
+        2-4-9:
+          - 2-4-9a
+      level: lv3
+
+  2-4-10:
+    2-4-10a:
+      criterion: 2-4-10
+      pass:
+        2-4-10:
+          - 2-4-10a
+      level: lv3
+
+  3-1-1:
+    3-1-1a:
+      criterion: 3-1-1
+      pass:
+        3-1-1:
+          - 3-1-1a
+      level: lv1
+
+  3-1-2:
+    3-1-2a:
+      criterion: 3-1-2
+      pass:
+        3-1-2:
+          - 3-1-2a
+          - 3-1-2b
+      non-exist:
+        - 3-1-2
+      level: lv2
+
+    3-1-2b:
+      criterion: 3-1-2
+      pass:
+        3-1-2:
+          - 3-1-2a
+          - 3-1-2b
+      level: lv2
+
+  3-1-3:
+    3-1-3a:
+      criterion: 3-1-3
+      pass:
+        3-1-3:
+          - 3-1-3a
+          - 3-1-3b
+      level: lv3
+
+    3-1-3b:
+      criterion: 3-1-3
+      pass:
+        3-1-3:
+          - 3-1-3a
+          - 3-1-3b
+      level: lv3
+
+  3-1-4:
+    3-1-4a:
+      criterion: 3-1-4
+      pass:
+        3-1-4:
+          - 3-1-4a
+          - 3-1-4b
+      level: lv3
+      non-exist:
+        - 3-1-4
+
+    3-1-4b:
+      criterion: 3-1-4
+      pass:
+        3-1-4:
+          - 3-1-4a
+          - 3-1-4b
+      level: lv3
+
+  3-1-5:
+    3-1-5a:
+      criterion: 3-1-5
+      pass:
+        3-1-5:
+          - 3-1-5a
+      level: lv3
+
+  3-1-6:
+    3-1-6a:
+      criterion: 3-1-6
+      pass:
+        3-1-6:
+          - 3-1-6a
+          - 3-1-6b
+      non-exist:
+        - 3-1-6
+      level: lv3
+
+    3-1-6b:
+      criterion: 3-1-6
+      pass:
+        3-1-6:
+          - 3-1-6a
+          - 3-1-6b
+      level: lv3
+
+  3-2-1:
+    3-2-1a:
+      criterion: 3-2-1
+      pass:
+        3-2-1:
+          - 3-2-1a
+      level: lv1
+
+  3-2-2:
+    3-2-2a:
+      criterion: 3-2-2
+      pass:
+        3-2-2:
+          - 3-2-2a
+      level: lv1
+
+  3-2-3:
+    3-2-3a:
+      criterion: 3-2-3
+      pass:
+        3-2-3:
+          - 3-2-3a
+      level: lv2
+
+  3-2-4:
+    3-2-4a:
+      criterion: 3-2-4
+      pass:
+        3-2-4:
+          - 3-2-4a
+      level: lv2
+
+  3-2-5:
+    3-2-5a:
+      criterion: 3-2-5
+      pass:
+        3-2-5:
+          - 3-2-5a
+      level: lv3
+
+  3-3-1:
+    3-3-1a:
+      criterion: 3-3-1
+      pass:
+        3-3-1:
+          - 3-3-1a
+          - 3-3-1b
+          - 3-3-1c
+        3-3-2:
+          - 3-3-2a
+        3-3-3:
+          - 3-3-3a
+          - 3-3-3b
+        3-3-4:
+          - 3-3-4a
+          - 3-3-4b
+        3-3-5:
+          - 3-3-5a
+          - 3-3-5b
+        3-3-6:
+          - 3-3-6a
+          - 3-3-6b
+      level: lv1
+      non-exist:
+        - 3-3-1
+        - 3-3-2
+        - 3-3-3
+        - 3-3-4
+        - 3-3-5
+        - 3-3-6
+
+    3-3-1b:
+      criterion: 3-3-1
+      pass:
+        3-3-1:
+          - 3-3-1a
+          - 3-3-1b
+          - 3-3-1c
+      non-exist:
+        - 3-3-1
+        - 3-3-3
+        - 3-3-4
+        - 3-3-6
+      level: lv1
+
+    3-3-1c:
+      criterion: 3-3-1
+      pass:
+        3-3-1:
+          - 3-3-1a
+          - 3-3-1b
+          - 3-3-1c
+      level: lv1
+
+  3-3-2:
+    3-3-2a:
+      criterion: 3-3-2
+      pass:
+        3-3-1:
+          - 3-3-1a
+        3-3-2:
+          - 3-3-2a
+      level: lv1
+
+  3-3-3:
+    3-3-3a:
+      criterion: 3-3-3
+      pass:
+        3-3-1:
+          - 3-3-1a
+        3-3-3:
+          - 3-3-3a
+          - 3-3-3b
+      level: lv2
+      non-exist:
+        - 3-3-3
+
+    3-3-3b:
+      criterion: 3-3-3
+      pass:
+        3-3-1:
+          - 3-3-1a
+        3-3-3:
+          - 3-3-3a
+          - 3-3-3b
+      level: lv2
+
+  3-3-4:
+    3-3-4a:
+      criterion: 3-3-4
+      pass:
+        3-3-1:
+          - 3-3-1a
+        3-3-4:
+          - 3-3-4a
+          - 3-3-4b
+      level: lv2
+      non-exist:
+        - 3-3-4
+
+    3-3-4b:
+      criterion: 3-3-4
+      pass:
+        3-3-1:
+          - 3-3-1a
+        3-3-4:
+          - 3-3-4a
+          - 3-3-4b
+      level: lv2
+
+  3-3-5:
+    3-3-5a:
+      criterion: 3-3-5
+      pass:
+        3-3-1:
+          - 3-3-1a
+        3-3-5:
+          - 3-3-5a
+          - 3-3-5b
+      level: lv3
+
+    3-3-5b:
+      criterion: 3-3-5
+      pass:
+        3-3-1:
+          - 3-3-1a
+        3-3-5:
+          - 3-3-5a
+          - 3-3-5b
+      level: lv3
+
+  3-3-6:
+    3-3-6a:
+      criterion: 3-3-6
+      pass:
+        3-3-1:
+          - 3-3-1a
+        3-3-6:
+          - 3-3-6a
+          - 3-3-6b
+      level: lv3
+      non-exist:
+        - 3-3-6
+
+    3-3-6b:
+      criterion: 3-3-6
+      pass:
+        3-3-1:
+          - 3-3-1a
+        3-3-6:
+          - 3-3-6a
+          - 3-3-6b
+      level: lv3
+
+  4-1-1:
+    4-1-1a:
+      criterion: 4-1-1
+      pass:
+        4-1-1:
+          - 4-1-1a
+      level: lv1
+
+  4-1-2:
+    4-1-2a:
+      criterion: 4-1-2
+      pass:
+        4-1-2:
+          - 4-1-2a
+      level: lv1

@@ -11,8 +11,8 @@
 namespace A11yc;
 
 // version
-define('A11YC_VERSION', '1.1.2');
-// git tag 1.1.2 & git push origin --tags
+define('A11YC_VERSION', '2.0.0');
+// git tag 2.0.0 & git push origin --tags
 
 // config
 $config_path = dirname(dirname(__DIR__)).'/config/config.php';
@@ -21,23 +21,23 @@ if ( ! file_exists($config_path))
 	header('Content-Type: text/plain; charset=UTF-8', true, 403);
 	die('set config.');
 }
-require ($config_path);
+include $config_path;
 
 // load kontiki
-define('KONTIKI_DEFAULT_LANG', A11YC_LANG);
+define('KONTIKI_DEFAULT_LANG',    A11YC_LANG);
 define('KONTIKI_DEFAULT_TIMZONE', A11YC_TIMEZONE);
-require A11YC_LIB_PATH.'/kontiki/main.php';
+define('KONTIKI_DB_TYPE',         A11YC_DB_TYPE);
+include A11YC_LIB_PATH.'/kontiki/main.php';
 
 // Autoloader - this must be use Kontiki namespace.
-\Kontiki\Util::add_autoloader_path(__DIR__.'/classes/', 'a11yc');
+\Kontiki\Autoloader::addCoreNamespace(KONTIKI_PATH.'/classes/', 'Kontiki');
+\Kontiki\Autoloader::addCoreNamespace(A11YC_PATH.'/classes/', 'A11yc');
+\Kontiki\Autoloader::addPath(A11YC_PATH.'/classes/', 'A11yc');
 
 // language
-$lang = Lang::get_lang() ?: A11YC_LANG;
+$lang = Lang::getLang() ?: A11YC_LANG;
 define('A11YC_RESOURCE_PATH', A11YC_PATH.'/resources/'.$lang);
 include A11YC_PATH.'/languages/'.$lang.'/a11yc.php';
-
-// install a11yc if not yet
-Startup::install();
 
 // database
 if (defined('A11YC_DB_TYPE') && A11YC_DB_TYPE == 'mysql')
@@ -59,10 +59,22 @@ else
 			'path' => A11YC_DATA_PATH.A11YC_DATA_FILE,
 		));
 }
-Db::init_table();
 
-// startup a11yc
-Startup::check_progress();
+// update
+Update::check();
+
+// init
+Db::initTable();
+
+// setup
+if ( ! Input::post('target_level') && ! Arr::get(Model\Settings::fetchAll(), 'target_level'))
+{
+	Session::add('messages', 'errors', A11YC_LANG_ERROR_NON_TARGET_LEVEL);
+}
+if ( ! Input::post('base_url') && ! Arr::get(Model\Settings::fetchAll(), 'base_url'))
+{
+	Session::add('messages', 'errors', A11YC_LANG_ERROR_NON_BASE_URL);
+}
 
 // view
 View::forge(A11YC_PATH.'/views/');

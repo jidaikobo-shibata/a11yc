@@ -34,20 +34,20 @@ class Guzzle
 	 */
 	public static function _init()
 	{
-		if (static::env_check() && ! class_exists('GuzzleHttp'))
+		if (static::envCheck() && ! class_exists('GuzzleHttp'))
 		{
 			require (A11YC_LIB_PATH.'/guzzle/vendor/autoload.php');
 		}
 	}
 
 	/**
-	 * env_check
+	 * envCheck
 	 *
 	 * @return Bool
 	 */
-	public static function env_check()
+	public static function envCheck()
 	{
-		$setup = Controller_Setup::fetch_setup();
+		$setup = Model\Settings::fetchAll();
 		if (Arr::get($setup, 'stop_guzzle')) return false;
 		if (version_compare(PHP_VERSION, '5.6.0') <= 0) return false;
 		return true;
@@ -80,7 +80,7 @@ class Guzzle
 			static::$_instances[$url] = new static($url, $cons);
 
 			// set basic auth from setup
-			$setup = Controller_Setup::fetch_setup();
+			$setup = Model\Settings::fetchAll();
 			$basic_user = Arr::get($setup, 'basic_user');
 			$basic_pass = Arr::get($setup, 'basic_pass');
 			if ($basic_user && $basic_pass)

@@ -1,62 +1,16 @@
 <?php namespace A11yc; ?>
 <!-- list -->
 <h2 id="a11yc_checklist_index_title"><?php echo A11YC_LANG_PAGES_INDEX ?></h2>
-<ul class="a11yc_checklist_pages">
-<?php
-	$index_lists = array('all', 'yet', 'done', 'trash');
-	foreach ($index_lists as $index_list):
-		if ($index_list == 'all'):
-			$class_str = ! $list ? ' class="current"' : '' ;
-			$q = '';
-		else:
-			$class_str = $index_list == $list ? ' class="current"' : '' ;
-			$q = '&amp;list='.$index_list;
-		endif;
-		switch ($index_list):
-			case 'yet':
-				$cnt = $yetcnt['num'];
-				break;
-			case 'done':
-				$cnt = $donecnt['num'];
-				break;
-			case 'trash':
-				$cnt = $trashcnt['num'];
-				break;
-			default:
-				$cnt = $allcnt['num'];
-				break;
-		endswitch;
 
-		echo "\t".'<li><a href="'.A11YC_PAGES_URL.$q.'"'.$class_str.'>'.constant('A11YC_LANG_PAGES_'.strtoupper($index_list)).'('.$cnt.')</a></li>';
-	endforeach;
-?>
-</ul>
 <!-- /.a11yc_checklist_pages -->
 <?php
 
-// show search and order form
-echo $search_form;
+echo $submenu;
 
 if ($pages):
-	// index information
-	echo '<p id="a11yc_pagenate_info">'.$index_information.'</p>';
-	// pagination
-	$pagination = '';
-	if ($prev || $next):
-		$pagination.= '<ul class="a11yc_pagenation">';
-	if ($prev):
-		$pagination.= '<li class="a11yc_pagenation_prev"><a href="'.$prev.'" class="a11yc_hasicon"><span class="a11yc_icon_tr_l a11yc_icon_fa" role="presentation" aria-hidden="true"></span><span>'.A11YC_LANG_CTRL_PREV.'</span></a></li>';
-	else:
-		$pagination.= '<li class="a11yc_pagenation_prev" role="presentation" aria-hidden="true"><span class="a11yc_icon_tr_l a11yc_icon_fa" role="presentation" aria-hidden="true"></span><span>'.A11YC_LANG_CTRL_PREV.'</span></li>';
-	endif;
-	if ($next):
-		$pagination.= '<li class="a11yc_pagenation_next"><a href="'.$next.'" class="a11yc_hasicon"><span>'.A11YC_LANG_CTRL_NEXT.'</span><span class="a11yc_icon_tr_r a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></li>';
-	else:
-		$pagination.= '<li class="a11yc_pagenation_next" role="presentation" aria-hidden="true"><span>'.A11YC_LANG_CTRL_NEXT.'</span><span class="a11yc_icon_tr_r a11yc_icon_fa" role="presentation" aria-hidden="true"></span></li>';
-	endif;
-		$pagination.= '</ul><!-- /.a11yc_pagenation -->';
-	endif;
-	echo $pagination;
+
+	// show search and order form
+	echo $search_form;
 ?>
 
 	<table class="a11yc_table">
@@ -73,7 +27,7 @@ if ($pages):
 		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGES_EXPORT ?></th>
 		<?php endif; ?>
 		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGES_CTRL ?></th>
-		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGES_ADD_DATE ?></th>
+		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGES_CREATED_AT ?></th>
 		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_TEST_DATE ?></th>
 	</tr>
 	</thead>
@@ -85,14 +39,14 @@ if ($pages):
 	foreach ($pages as $page):
 	$url = Util::s($page['url']);
 	$not_found_class = $no_url == $url ? ' not_found_url' : '';
-	$page_title = Util::s($page['page_title']);
+	$title = Util::s($page['title']);
 	$not_found_class.= $page['done'] ? ' done' : '';
 	$class_str = ++$i%2==0 ? ' class="even'.$not_found_class.'"' : ' class="odd'.$not_found_class.'"';
 	?>
 	<tr<?php echo $class_str ?>>
 		<th scope="row">
 			<?php echo $no_url == $url ? '<div><strong>'.A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR.'</strong></div>' : '' ?>
-			<?php echo $page_title.'<br /><a href="'.$url.'">'.$url ?></a>
+			<?php echo $title.'<br /><a href="'.$url.'">'.$url ?></a>
 		</th>
 
 		<td class="a11yc_result"><?php echo Util::num2str($page['level']) ?></td>
@@ -106,62 +60,25 @@ if ($pages):
 
 		<td class="a11yc_result">
 		<?php if ($page['done']): ?>
-<a href="<?php echo A11YC_URL.'?c=center&amp;a=index&amp;url='.Util::urlenc($url) ?>" class="a11yc_hasicon" target="a11yc_live"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_CHECK ?></span><span class="a11yc_icon_html a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a>
+<a href="<?php echo A11YC_RESULTS_EACH_URL.Util::urlenc($url) ?>" class="a11yc_hasicon" target="a11yc_live"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_CHECK ?></span><span class="a11yc_icon_html a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a>
 		<?php endif; ?>
 		</td>
 
-		<td class="a11yc_result"><a href="<?php echo A11YC_LIVE_URL.'?url='.Util::urlenc($url).'&amp;base_url='.Util::urlenc($setups['base_url']) ?>" class="a11yc_hasicon" target="a11yc_live"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_LIVE ?></span><span class="a11yc_icon_live a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
+		<td class="a11yc_result"><a href="<?php echo A11YC_LIVE_URL.Util::urlenc($url).'&amp;base_url='.Util::urlenc($settings['base_url']) ?>" class="a11yc_hasicon" target="a11yc_live"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_LIVE ?></span><span class="a11yc_icon_live a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
 
 		<td class="a11yc_result"><a href="<?php echo A11YC_IMAGELIST_URL.Util::urlenc($url) ?>" class="a11yc_hasicon" target="a11yc_images"><span class="a11yc_skip"><?php echo A11YC_LANG_IMAGE ?></span><span class="a11yc_icon_images a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
 
-		<td class="a11yc_result"><a href="<?php echo A11YC_EXPORT_URL.'?url='.Util::urlenc($url) ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_EXPORT ?></span><span class="a11yc_icon_export a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
+		<td class="a11yc_result"><a href="<?php echo A11YC_EXPORT_URL.Util::urlenc($url) ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_EXPORT ?></span><span class="a11yc_icon_export a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
 		<?php endif; ?>
 
-		<?php if ($list == 'trash'): ?>
-			<td class="a11yc_result">
-				<a href="<?php echo A11YC_PAGES_URL ?>&amp;undel=1&amp;url=<?php echo Util::urlenc($url).$current_qs ?>"><?php echo A11YC_LANG_PAGES_UNDELETE ?></a>
-				<a href="<?php echo A11YC_PAGES_URL ?>&amp;purge=1&amp;url=<?php echo Util::urlenc($url).$current_qs ?>" data-a11yc-confirm="<?php echo sprintf( A11YC_LANG_CTRL_CONFIRM, A11YC_LANG_PAGES_PURGE) ?>"><?php echo A11YC_LANG_PAGES_PURGE ?></a>
-			</td>
+		<td class="a11yc_result"><a href="<?php echo A11YC_PAGES_EDIT_URL ?>&amp;url=<?php echo Util::urlenc($url) ?>" class="a11yc_hasicon"><?php echo A11YC_LANG_PAGES_CTRL ?><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_DELETE ?></span><!-- <span class="a11yc_icon_delete a11yc_icon_fa" role="presentation" aria-hidden="true"></span> --></a></td>
 
-		<?php else: ?>
-			<td class="a11yc_result"><a href="<?php echo A11YC_PAGES_URL ?>&amp;del=1&amp;url=<?php echo Util::urlenc($url).$current_qs ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_DELETE ?></span><span class="a11yc_icon_delete a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
-		<?php endif; ?>
-		<td class="a11yc_result"><?php echo $page['add_date'] ? date('Y-m-d', strtotime($page['add_date'])) : '-' ?></td>
+		<td class="a11yc_result"><?php echo $page['created_at'] ? date('Y-m-d', strtotime($page['created_at'])) : '-' ?></td>
 		<td class="a11yc_result"><?php echo $page['date'] ?></td>
 	</tr>
 	<?php endforeach; ?>
 	</tbody>
 	</table>
-<?php
-	// pagination
-	echo $pagination;
-else:
-?>
+<?php else: ?>
 	<p><?php echo A11YC_LANG_PAGES_NOT_FOUND ?></p>
 <?php endif; ?>
-
-<!-- add pages form -->
-<form action="<?php echo A11YC_PAGES_URL ?>" method="POST">
-<h2><label for="a11yc_add_pages"><?php echo A11YC_LANG_PAGES_URLS ?></label></h2>
-<p><?php echo A11YC_LANG_PAGES_URL_FOR_EACH_LINE ?></p>
-
-<textarea id="a11yc_add_pages" name="pages" rows="7" style="width: 100%;"><?php
-if ($crawled):
-foreach ($crawled as $v):
-echo $v."\n";
-endforeach;
-endif;
-?></textarea>
-<?php echo isset($add_nonce) ? $add_nonce : ''; ?>
-<input type="submit" value="<?php echo A11YC_LANG_PAGES_URLS_ADD ?>" />
-</form>
-
-<!-- get site urls -->
-<form action="<?php echo A11YC_PAGES_URL ?>" method="POST">
-<h2><label for="a11yc_get_urls"><?php echo A11YC_LANG_PAGES_GET_URLS ?></label></h2>
-<p><?php echo A11YC_LANG_PAGES_GET_URLS_EXP ?></p>
-
-<input type="text" name="get_urls" id="a11yc_get_urls" size="60" value="<?php echo $get_urls ?>" />
-<?php echo isset($get_nonce) ? $get_nonce : ''; ?>
-<input type="submit" value="<?php echo A11YC_LANG_PAGES_GET_URLS_BTN ?>" />
-</form>

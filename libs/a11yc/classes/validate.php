@@ -10,9 +10,10 @@
  */
 namespace A11yc;
 
+use A11yc\Model;
+
 class Validate
 {
-	private static $instance;
 	protected static $is_partial = false;
 	protected static $do_link_check = false;
 	protected static $error_ids = array();
@@ -32,51 +33,193 @@ class Validate
 		"/\<!--.+?--\>/si",
 	);
 
-	public static $codes                  = array(
+	public static $codes = array(
 			// elements
-			'empty_alt_attr_of_img_inside_a'  => '\A11yc\Validate_Alt',
-			'here_link'                       => '\A11yc\Validate_Link',
-			'tell_user_file_type'             => '\A11yc\Validate_Link',
-			'same_urls_should_have_same_text' => '\A11yc\Validate_Link',
-			'empty_link_element'              => '\A11yc\Validate_Link',
-			'form_and_labels'                 => '\A11yc\Validate_Form',
-			'headerless_section'              => '\A11yc\Validate_Validation',
-			'elements'                        => '\A11yc\Validate_Human',
+			'EmptyAltAttrOfImgInsideA',
+			'HereLink',
+			'TellUserFileType',
+			'SameUrlsShouldHaveSameText',
+			'EmptyLinkElement',
+			'FormAndLabels',
+			'HeaderlessSection',
+			'IsseusElements',
 
 			// single tag
-			'alt_attr_of_img'                 => '\A11yc\Validate_Alt',
-			'img_input_has_alt'               => '\A11yc\Validate_Alt',
-			'area_has_alt'                    => '\A11yc\Validate_Alt',
-			'same_alt_and_filename_of_img'    => '\A11yc\Validate_Alt',
-			'not_label_but_title'             => '\A11yc\Validate_Form',
-			'unclosed_elements'               => '\A11yc\Validate_Validation',
-			'invalid_single_tag_close'        => '\A11yc\Validate_Validation',
-			'suspicious_elements'             => '\A11yc\Validate_Validation',
-			'meanless_element'                => '\A11yc\Validate_Validation',
-			'style_for_structure'             => '\A11yc\Validate_Validation',
-			'invalid_tag'                     => '\A11yc\Validate_Validation',
-			'titleless_frame'                 => '\A11yc\Validate_Attr',
-			'check_doctype'                   => '\A11yc\Validate_Head',
-			'meta_refresh'                    => '\A11yc\Validate_Head',
-			'titleless'                       => '\A11yc\Validate_Head',
-			'langless'                        => '\A11yc\Validate_Head',
-			'viewport'                        => '\A11yc\Validate_Head',
-			'single'                          => '\A11yc\Validate_Human',
+			'AltAttrOfImg',
+			'ImgInputHasAlt',
+			'AreaHasAlt',
+			'SameAltAndFilenameOfImg',
+			'NotLabelButTitle',
+			'UnclosedElements',
+			'InvalidSingleTagClose',
+			'SuspiciousElements',
+			'MeanlessElement',
+			'StyleForStructure',
+			'InvalidTag',
+			'TitlelessFrame',
+			'CheckDoctype',
+			'MetaRefresh',
+			'Titleless',
+			'Langless',
+			'Viewport',
+			'IssuesSingle',
 
 			// link check
-			'link_check'                      => '\A11yc\Validate_Link',
+			'LinkCheck',
 
 			// non tag
-			'appropriate_heading_descending'  => '\A11yc\Validate_Validation',
-			'ja_word_breaking_space'          => '\A11yc\Validate_Validation',
-			'suspicious_attributes'           => '\A11yc\Validate_Attr',
-			'duplicated_ids_and_accesskey'    => '\A11yc\Validate_Attr',
-			'must_be_numeric_attr'            => '\A11yc\Validate_Attr',
-			'same_page_title_in_same_site'    => '\A11yc\Validate_Head',
-			'notice_img_exists'               => '\A11yc\Validate_Alt',
-			'notice_non_html_exists'          => '\A11yc\Validate_Link',
-			'nontag'                          => '\A11yc\Validate_Human',
+			'AppropriateHeadingDescending',
+			'JaWordBreakingSpace',
+			'SuspiciousAttributes',
+			'DuplicatedIdsAndAccesskey',
+			'MustBeNumericAttr',
+			'SamePageTitleInSameSite',
+			'NoticeImgExists',
+			'NoticeNonHtmlExists',
+			'IssuesNonTag',
 		);
+
+	protected static $results = array();
+	protected static $hl_htmls = array();
+	static public $err_cnts = array('a' => 0, 'aa' => 0, 'aaa' => 0);
+
+	/**
+	 * codes2name
+	 *
+	 * @param  Array  $codes
+	 * @return String
+	 */
+	public static function codes2name($codes = array())
+	{
+		return md5(join($codes));
+	}
+
+	/**
+	 * html2id
+	 *
+	 * @param  String $html
+	 * @return String
+	 */
+	public static function html2id($html)
+	{
+		return str_replace(array('+', '/', '*', '='), '', base64_encode($html));
+	}
+
+	/**
+	 * url
+	 *
+	 * @param  String $url
+	 * @param  Array  $codes
+	 * @param  String $ua
+	 * @param  Bool   $force
+	 * @return Void
+	 */
+	public static function url($url, $codes = array(), $ua = 'using', $force = 0)
+	{
+		// cache
+		$codes = $codes ?: self::$codes;
+		$name = static::codes2name($codes);
+		if (isset(static::$results[$url][$name][$ua]) && ! $force) return static::$results[$url][$name][$ua];
+
+		// get html and set it to temp value
+		$html = Model\Html::getHtml($url, $ua);
+		static::$hl_htmls[$url] = $html;
+
+		// errors
+		static::$error_ids[$url] = array();
+
+		// validate
+		foreach ($codes as $class)
+		{
+			$class = 'A11yc\\Validate\\'.$class;
+			$class::check($url);
+		}
+
+		// errors
+		$yml = Yaml::fetch();
+		$all_errs = array(
+			'notices' => array(),
+			'errors' => array()
+		);
+		if (static::$error_ids[$url])
+		{
+			foreach (static::$error_ids[$url] as $code => $errs)
+			{
+				foreach ($errs as $key => $err)
+				{
+					$err_type = isset($yml['errors'][$code]['notice']) ? 'notices' : 'errors';
+					$all_errs[$err_type][] = static::message($url, $code, $err, $key);
+				}
+			}
+		}
+		static::$results[$url][$name][$ua]['html'] = $html;
+		static::$results[$url][$name][$ua]['hl_html'] = self::revertHtml(Util::s(static::$hl_htmls[$url]));
+		static::$results[$url][$name][$ua]['errors'] = $all_errs;
+		static::$results[$url][$name][$ua]['errs_cnts'] = static::$err_cnts;
+	}
+
+	/**
+	 * getErrorCnts
+	 *
+	 * @param  String $url
+	 * @param  Array  $codes
+	 * @param  String $ua
+	 * @param  Bool   $force
+	 * @return Array
+	 */
+	public static function getErrorCnts($url, $codes = array(), $ua = 'using', $force = 0)
+	{
+		$codes = $codes ?: self::$codes;
+		$name = static::codes2name($codes);
+		if (isset(static::$results[$url][$name][$ua]['errs_cnts'])) return static::$results[$url][$name][$ua]['errs_cnts'];
+		return array();
+	}
+
+	/**
+	 * getErrors
+	 *
+	 * @param  String $url
+	 * @param  Array  $codes
+	 * @param  String $ua
+	 * @param  Bool   $force
+	 * @return String
+	 */
+	public static function getErrors($url, $codes = array(), $ua = 'using', $force = 0)
+	{
+		$codes = $codes ?: self::$codes;
+		$name = static::codes2name($codes);
+		if (isset(static::$results[$url][$name][$ua]['errors'])) return static::$results[$url][$name][$ua]['errors'];
+		return false;
+	}
+
+	/**
+	 * getHighLightedHtml
+	 *
+	 * @param  String $url
+	 * @param  Array  $codes
+	 * @param  String $ua
+	 * @param  Bool   $force
+	 * @return String
+	 */
+	public static function getHighLightedHtml($url, $codes = array(), $ua = 'using', $force = 0)
+	{
+		$codes = $codes ?: self::$codes;
+		$name = static::codes2name($codes);
+
+		if (isset(static::$results[$url][$name][$ua]['hl_html'])) return static::$results[$url][$name][$ua]['hl_html'];
+		return false;
+	}
+
+	/**
+	 * get error ids
+	 *
+	 * @param  String $url
+	 * @return Array
+	 */
+	public static function getErrorIds($url)
+	{
+		return isset(static::$error_ids[$url]) ? static::$error_ids[$url] : array();
+	}
 
 	/**
 	 * set_do_link_check
@@ -84,7 +227,7 @@ class Validate
 	 * @param  bool
 	 * @return  void
 	 */
-	public static function set_do_link_check($bool)
+	public static function setDoLinkCheck($bool)
 	{
 		static::$do_link_check = $bool;
 	}
@@ -94,9 +237,9 @@ class Validate
 	 *
 	 * @return  bool
 	 */
-	public static function do_link_check()
+	public static function doLinkCheck()
 	{
-		if ( ! \A11yc\Guzzle::env_check()) return false;
+		if ( ! \A11yc\Guzzle::envCheck()) return false;
 		return static::$do_link_check;
 	}
 
@@ -106,7 +249,7 @@ class Validate
 	 * @param  bool
 	 * @return  void
 	 */
-	public static function set_is_partial($bool)
+	public static function setIsPartial($bool)
 	{
 		static::$is_partial = $bool;
 	}
@@ -116,122 +259,9 @@ class Validate
 	 *
 	 * @return  bool
 	 */
-	public static function is_partial()
+	public static function isPartial()
 	{
 		return static::$is_partial;
-	}
-
-	/**
-	 * get_errors
-	 *
-	 * @return Array
-	 */
-	public static function get_errors()
-	{
-		return static::$errors;
-	}
-
-	/**
-	 * get_instance
-	 *
-	 * @return Array
-	 */
-	public static function get_instance()
-	{
-		if (self::$instance === null) {
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
-	/**
-	 * get_error_ids
-	 *
-	 * @return Array
-	 */
-	public static function get_error_ids()
-	{
-		return static::$error_ids;
-	}
-
-	/**
-	 * set_html
-	 *
-	 * @param  String $str
-	 * @return Void
-	 */
-	public static function set_html($str)
-	{
-		static::$html = $str;
-		static::$hl_html = $str;
-	}
-
-	/**
-	 * get_html
-	 *
-	 * @return String
-	 */
-	public static function get_html()
-	{
-		return static::$html;
-	}
-
-	/**
-	 * get_hl_html
-	 * get High-Lighted html
-	 *
-	 * @return String
-	 */
-	public static function get_hl_html()
-	{
-		return static::$hl_html;
-	}
-
-	/**
-	 * ignore_elements
-	 *
-	 * @param  String $str
-	 * @param  Bool $force
-	 * @return String
-	 */
-	public static function ignore_elements($str, $force = false)
-	{
-		if (static::$ignored_str && ! $force) return static::$ignored_str;
-
-		// ignore comment out, script, style
-		$ignores = array_merge(static::$ignores, static::$ignores_comment_out);
-
-		foreach ($ignores as $ignore)
-		{
-			$str = preg_replace($ignore, '', $str);
-		}
-
-		// set first tag
-		$first_tags = static::get_elements_by_re($str, 'ignores', 'tags');
-		static::$first_tag = Arr::get($first_tags, '0.0');
-
-		static::$ignored_str = $str;
-		return $str;
-	}
-
-	/**
-	 * ignore_comment_out
-	 *
-	 * @param  String $str
-	 * @return String
-	 */
-	public static function ignore_comment_out($str)
-	{
-		static $retval = '';
-		if ($retval) return $retval;
-
-		// ignore comment out only
-		foreach (static::$ignores_comment_out as $ignore)
-		{
-			$str = preg_replace($ignore, '', $str);
-		}
-		$retval = $str;
-		return $retval;
 	}
 
 	/**
@@ -240,9 +270,9 @@ class Validate
 	 * @param  String $str
 	 * @return Bool
 	 */
-	public static function is_ignorable($str)
+	public static function isIgnorable($str)
 	{
-		$attrs = static::get_attributes($str);
+		$attrs = static::getAttributes($str);
 
 		if (
 			// Strictly this is not so correct. but it seems be considered.
@@ -266,12 +296,59 @@ class Validate
 	}
 
 	/**
-	 * get_attributes
+	 * ignoreElements
+	 *
+	 * @param  String $str
+	 * @param  Bool $force
+	 * @return String
+	 */
+	public static function ignoreElements($str, $force = false)
+	{
+		if (static::$ignored_str && ! $force) return static::$ignored_str;
+
+		// ignore comment out, script, style
+		$ignores = array_merge(static::$ignores, static::$ignores_comment_out);
+
+		foreach ($ignores as $ignore)
+		{
+			$str = preg_replace($ignore, '', $str);
+		}
+
+		// set first tag
+		$first_tags = static::getElementsByRe($str, 'ignores', 'tags');
+		static::$first_tag = Arr::get($first_tags, '0.0');
+
+		static::$ignored_str = $str;
+		return $str;
+	}
+
+	/**
+	 * ignoreCommentOut
+	 *
+	 * @param  String $str
+	 * @return String
+	 */
+	public static function ignoreCommentOut($str)
+	{
+		static $retval = '';
+		if ($retval) return $retval;
+
+		// ignore comment out only
+		foreach (static::$ignores_comment_out as $ignore)
+		{
+			$str = preg_replace($ignore, '', $str);
+		}
+		$retval = $str;
+		return $retval;
+	}
+
+	/**
+	 * getAttributes
 	 *
 	 * @param  String $str
 	 * @return Array
 	 */
-	public static function get_attributes($str)
+	public static function getAttributes($str)
 	{
 		static $retvals = array();
 		if (isset($retvals[$str])) return $retvals[$str];
@@ -509,7 +586,7 @@ class Validate
 	 * @param  Bool $force
 	 * @return Array
 	 */
-	public static function get_elements_by_re($str, $ignore_type, $type = 'tags', $force = false)
+	public static function getElementsByRe($str, $ignore_type, $type = 'tags', $force = false)
 	{
 		if (isset(static::$res[$ignore_type][$type]) && $force == false)
 		{
@@ -569,20 +646,21 @@ class Validate
 	}
 
 	/**
-	 * get_doctype
+	 * get doctype
 	 *
+	 * @param  String $url
 	 * @return String|Bool
 	 */
-	public static function get_doctype()
+	public static function getDoctype($url)
 	{
-		if (empty(static::$hl_html)) Util::error('invalid access at A11yc\Validate::get_doctype().');
+		if (empty(static::$hl_htmls[$url])) Util::error('invalid access at A11yc\Validate::getDoctype().');
 
-		preg_match("/\<!DOCTYPE [^\>]+?\>/", static::$hl_html, $ms);
+		preg_match("/\<!DOCTYPE [^\>]+?\>/", static::$hl_htmls[$url], $ms);
 
 		// html5
 		if ( ! isset($ms[0]))
 		{
-			preg_match("/\<!DOCTYPE html\>/i", static::$hl_html, $ms);
+			preg_match("/\<!DOCTYPE html\>/i", static::$hl_htmls[$url], $ms);
 		}
 
 		if ( ! isset($ms[0])) return false; // doctypeless
@@ -612,28 +690,35 @@ class Validate
 	/**
 	 * add error to html
 	 *
+	 * @param  String $url
 	 * @param  String $error_id
-	 * @param  Array $errors
+	 * @param  Array  $errors
 	 * @param  String $ignore_vals
+	 * @param  String $issue_html
 	 * @return Void
 	 */
-	public static function add_error_to_html($error_id, $s_errors, $ignore_vals = '')
+	public static function addErrorToHtml(
+		$url,
+		$error_id,
+		$s_errors,
+		$ignore_vals = '',
+		$issue_html = ''
+	)
 	{
 		// values
 		$yml = Yaml::fetch();
-		$html = static::$hl_html;
+		$html = static::$hl_htmls[$url];
 
 		// Yaml not exist
 		$current_err = array();
 		if ( ! isset($yml['errors'][$error_id]))
 		{
-			$current_err['message'] = Validate_Human::$humans[$error_id]['message'];
-			$current_err['criterion'] = Validate_Human::$humans[$error_id]['criterion'];
-			$current_err['code'] = Validate_Human::$humans[$error_id]['code'];
-			if (Validate_Human::$humans[$error_id]['e_or_n'] == 'notice')
-			{
-				$current_err['notice'] = true;
-			}
+			$issue = Model\Issues::fetch4Validation($url, $issue_html);
+			if ( ! $issue) return;
+			$current_err['message']   = $issue['error_message'];
+			$current_err['criterion'] = $issue['criterion'];
+			$current_err['code']      = '';
+			$current_err['notice']    = ($issue['n_or_e'] == 0);
 		}
 		else
 		{
@@ -757,7 +842,7 @@ class Validate
 			}
 		}
 
-		static::$hl_html = $html;
+		static::$hl_htmls[$url] = $html;
 	}
 
 	/**
@@ -766,7 +851,7 @@ class Validate
 	 * @param  String $html
 	 * @return String
 	 */
-	public static function revert_html($html)
+	public static function revertHtml($html)
 	{
 		$retval = str_replace(
 			array(
@@ -833,5 +918,76 @@ class Validate
 			),
 			$html);
 		return $retval;
+	}
+
+	/**
+	 * message
+	 *
+	 * @param String $url
+	 * @param String $code_str
+	 * @param Array $place
+	 * @param String $key
+	 * @param String $docpath
+	 * @return String|Bool
+	 */
+	public static function message($url, $code_str, $place, $key, $docpath = '')
+	{
+		$yml = Yaml::fetch();
+
+		// Yaml not exist
+		$current_err = array();
+
+		if ( ! isset($yml['errors'][$code_str]))
+		{
+			$issue = Model\Issues::fetch4Validation($url, $place['str']);
+			if ( ! $issue) return;
+
+			$current_err['message']   = $issue['error_message'];
+			$current_err['criterion'] = $issue['criterion'];
+			$current_err['notice']    = ($issue['n_or_e'] == 0);
+		}
+		else
+		{
+			$current_err = $yml['errors'][$code_str];
+		}
+
+		// set error to message
+		if ($current_err)
+		{
+			$docpath = $docpath ?: A11YC_DOC_URL;
+
+			$anchor = $code_str.'_'.$key;
+
+			// level
+			$lv = strtolower($yml['criterions'][$current_err['criterion']]['level']['name']);
+
+			// count errors
+			if ( ! isset($current_err['notice'])) static::$err_cnts[$lv]++;
+
+			// dt
+			$ret = '<dt id="index_'.$anchor.'" tabindex="-1" class="a11yc_level_'.$lv.'">'.$current_err['message'];
+
+			// dt - information
+			$criterion_code = $current_err['criterion'];
+			$level = $yml['criterions'][$current_err['criterion']]['level']['name'];
+			$criterion = $yml['criterions'][$current_err['criterion']];
+
+			$ret.= '<span class="a11yc_validation_reference_info"><strong>'.A11YC_LANG_LEVEL.strtoupper($lv).'</strong> <strong>'.Util::key2code($criterion['code']).'</strong> ';
+			$ret.= '<a href="'.$docpath.$current_err['criterion'].'"'.A11YC_TARGET.'>'.A11YC_LANG_CHECKLIST_SEE_DETAIL.'</a> ';
+//			$ret.= '<a href="'.$criterion['url'].'"'.A11YC_TARGET.' title="'.$criterion['name'].'">'.A11YC_LANG_CHECKLIST_SEE_UNDERSTANDING.' '.Util::key2code($criterion['code']).'</a>';
+			$ret.= '</span>';
+
+			if ($place['id'])
+			{
+				$ret.= '<a href="#'.$anchor .'" class="a11yc_validation_error_link a11yc_level_'.$lv.' a11yc_hasicon"><span class="a11yc_icon_fa a11yc_icon_arrow_b" role="presentation" aria-hidden="true"></span>Code</a>';
+			}
+			$ret.= '</dt>';
+
+			// dd
+			$ret.= '<dd class="a11yc_validation_error_str a11yc_level_'.$lv.'" data-level="'.$level.'" data-place="'.Util::s($place['id']).'">'.Util::s($place['str']).'</dd>';
+//			$ret.= '<dd class="a11yc_validation_error_link a11yc_level_'.$lv.'"><a href="#'.$anchor .'" class="a11yc_hasicon">Code</a></dd>';
+			return $ret;
+		}
+		return FALSE;
 	}
 }

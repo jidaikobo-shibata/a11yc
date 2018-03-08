@@ -1,6 +1,6 @@
 <?php
 /**
- * A11yc\Controller_Checklist
+ * A11yc\Controller\Checklist
  *
  * @package    part of A11yc
  * @author     Jidaikobo Inc.
@@ -8,122 +8,73 @@
  * @copyright  Jidaikobo Inc.
  * @link       http://www.jidaikobo.com
  */
-namespace A11yc;
+namespace A11yc\Controller;
 
-class Controller_Checklist
+use A11yc\Model;
+
+class Checklist
 {
-	static public $err_cnts = array('a' => 0, 'aa' => 0, 'aaa' => 0);
-
-	/**
-	 * prepare_action
-	 *
-	 * @return string
-	 */
-	private static function prepare_action()
-	{
-		$setup = Controller_Setup::fetch_setup();
-		if ( ! isset($setup['target_level']))
-		{
-			Session::add('messages', 'errors', A11YC_LANG_ERROR_NON_TARGET_LEVEL);
-		}
-
-		$get_url = Input::get('url', '', FILTER_VALIDATE_URL);
-		$post_url = Input::post('url', '', FILTER_VALIDATE_URL);
-		$url = ! empty($get_url) && is_string($get_url) ? Util::urldec($get_url) : '';
-		$url = empty($url) && ! empty($post_url) && is_string($post_url) ? Util::urldec($post_url) : $url;
-		return $url;
-	}
-
 	/**
 	 * action index
 	 *
 	 * @return Void
 	 */
-	public static function Action_Index()
+	public static function actionCheck()
 	{
-		$url = self::prepare_action();
-		static::checklist($url);
+		$url = Util::enuniqueUri(Input::param('url', '', FILTER_VALIDATE_URL));
+		static::check($url);
 	}
 
 	/**
-	 * action images
-	 *
-	 * @return Void
-	 */
-	public static function Action_Images()
-	{
-		$url = self::prepare_action();
-		Guzzle::forge($url);
-		Guzzle::instance($url)->set_config(
-			'User-Agent',
-			Input::user_agent().' Service/a11yc (+http://www.jidaikobo.com)'
-		);
-		$target_html = Guzzle::instance($url)->is_html ? Guzzle::instance($url)->body : false;
-		Validate::set_html($target_html);
-		Crawl::set_target_path($url);
-		View::assign('images', Validate_Alt::get_images());
-		View::assign('title' , 'Image List');
-		View::assign('body' , View::fetch_tpl('checklist/images.php'), false);
-	}
-
-	/**
-	 * validate page
+	 * check
 	 *
 	 * @param  String $url
-	 * @param  Bool $link_check
-	 * @return Array
+	 * @return Void
 	 */
-	public static function validate_page($url, $link_check = FALSE)
+	public static function check($url)
 	{
-		$content = Crawl::fetch_html($url);
-		if ( ! $content) return array();
-		$all_errs = array(
-			'notices' => array(),
-			'errors' => array()
-		);
-		Validate::set_html($content);
-		Crawl::set_target_path($url); // for same_urls_should_have_same_text
-		$codes = Validate::$codes;
-		$yml = Yaml::fetch();
+		// url
+		if ( ! $url) Util::error('Invalid Access');
 
-		// link check
-		if ( ! $link_check)
+		// page existence
+		if ($url != 'bulk' && ! Crawl::isPageExist($url))
 		{
-			unset($codes['link_check']);
-		}
-
-		// validate
-		foreach ($codes as $method => $class)
-		{
-			$class::$method();
-		}
-
-		// errors
-		if (Validate::get_error_ids())
-		{
-			foreach (Validate::get_error_ids() as $code => $errs)
+			Session::add('messages', 'errors', A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR);
+			if ( ! headers_sent())
 			{
-				foreach ($errs as $key => $err)
-				{
-					$err_type = isset($yml['errors'][$code]['notice']) ? 'notices' : 'errors';
-					$all_errs[$err_type][] = static::message($code, $err, $key);
-				}
+				header('location:'.A11YC_PAGES_URL.'&list=list&no_url='.Util::urlenc($url));
+				exit();
 			}
 		}
 
-		return $all_errs;
-	}
+		// users
+		$users = Users::fetchUsersOpt();
+		$current_user = Users::fetchCurrentUser();
 
-	/**
-	 * update_page_level
-	 *
-	 * @param  String $url
-	 * @return Void
-	 */
-	public static function update_page_level($url)
-	{
-		$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET `level` = ? WHERE `url` = ?'.Controller_Setup::curent_version_sql().';';
-		Db::execute($sql, array(Evaluate::check_level_url($url), $url));
+		// title and page
+		$page = array();
+		if ($url == 'bulk')
+		{
+			$title = A11YC_LANG_BULK_TITLE;
+		}
+		else
+		{
+			$title = A11YC_LANG_CHECKLIST_TITLE.':'.Model\Html::fetchPageTitle($url);
+			$page = Model\Pages::fetchPage($url);
+		}
+
+		// assign
+		View::assign('statuses',     Values::issueStatus());
+		View::assign('current_user', $current_user);
+		View::assign('users',        $users);
+		View::assign('url',          $url);
+		View::assign('alt_url',      Arr::get($page, 'alt_url'));
+		View::assign('title',        $title);
+
+		// core form
+		self::form($url, $users, Arr::get($current_user, 'id'));
+
+		View::assign('body', View::fetchTpl('checklist/checklist.php'), FALSE);
 	}
 
 	/**
@@ -134,214 +85,36 @@ class Controller_Checklist
 	 */
 	public static function dbio($url)
 	{
-		$url = Util::urldec($url);
+		Model\Checklist::update($url, Input::postArr('chk'));
+		Model\Results::update($url, Input::postArr('results'));
 
-		if (Input::is_post_exists())
-		{
-			// NGs
-			$sql = 'DELETE FROM '.A11YC_TABLE_CHECKS_NGS.' WHERE `url` = ?';
-			$sql.= Controller_Setup::curent_version_sql().';';
-			Db::execute($sql, array($url));
+		// update page
+		$page_title       = stripslashes(Input::post('page_title'));
+		$done             = intval(Input::post('done', 0));
+		$done_date        = Input::post('done_date') ?
+											date('Y-m-d', strtotime(Input::post('done_date'))) :
+											date('Y-m-d');
+		$alt_url          = Util::urldec(Input::post('alt_url'));
+		$standard         = intval(Input::post('standard'));
+		$selection_reason = intval(Input::post('selection_reason'));
+		$type             = substr($url, -4) == '.pdf' ? 2 : 1; // 1: html
 
-			$post_ngs = Input::post_arr('ngs');
-			foreach ($post_ngs as $criterion => $v)
-			{
-				if ( ! trim($v['memo'])) continue;
-				$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS_NGS;
-				$sql.= ' (`url`, `criterion`, `uid`, `memo`, `version`)';
-				$sql.= ' VALUES (?, ?, ?, ?, 0);';
-				$memo = stripslashes($v['memo']);
-				Db::execute($sql, array($url, $criterion, (int) $v['uid'], $memo));
-			}
+		Model\Pages::updateField($url, 'title', $page_title);
+		Model\Pages::updateField($url, 'type', $type);
+		Model\Pages::updateField($url, 'done', $done);
+		Model\Pages::updateField($url, 'date', $done_date);
+		Model\Pages::updateField($url, 'updated_at', date('Y-m-d H:i:s'));
+		Model\Pages::updateField($url, 'alt_url', $alt_url);
+		Model\Pages::updateField($url, 'standard', $standard);
+		Model\Pages::updateField($url, 'selection_reason', $selection_reason);
+		Model\Pages::updateField($url, 'level', Evaluate::getLevelByUrl($url));
 
-			// delete all from checks
-			$sql = 'DELETE FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = ?';
-			$sql.= Controller_Setup::curent_version_sql().';';
-			Db::execute($sql, array($url));
-
-			// insert checks
-			$post_chk = Input::post_arr('chk');
-			foreach ($post_chk as $code => $v)
-			{
-				if ( ! isset($v['on']) && empty($v['memo'])) continue;
-				$passed = isset($v['on']);
-				$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS;
-				$sql.= ' (`url`, `code`, `uid`, `memo`, `passed`, `version`)';
-				$sql.= ' VALUES (?, ?, ?, ?, ?, 0);';
-				$memo = stripslashes($v['memo']);
-				Db::execute($sql, array($url, $code, (int) $v['uid'], $memo, (int) $passed));
-			}
-
-			// update/create page
-			$done = Input::post('done') ? 1 : 0;
-			$date = Input::post('done_date', date('Y-m-d'));
-			$date = date('Y-m-d', strtotime($date));
-			$page_title = stripslashes(Input::post('page_title'));
-			$alt_url = Util::urldec(Input::post('alt_url'));
-			$standard = intval(Input::post('standard'));
-			$selection_reason = intval(Input::post('selection_reason'));
-
-			$r = FALSE;
-			if (Controller_Pages::fetch_page($url))
-			{
-				$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET ';
-				$sql.= '`date` = ?, `done` = ?, `standard` = ?,';
-				$sql.= ' `page_title` = ?, `selection_reason` = ?, `alt_url` = ?';
-				$sql.= ' WHERE `url` = ?'.Controller_Setup::curent_version_sql().';';
-				$r = Db::execute(
-					$sql,
-					array($date, $done, $standard, $page_title, $selection_reason, $alt_url, $url)
-				);
-			}
-			else
-			{
-				$sql = 'INSERT INTO '.A11YC_TABLE_PAGES;
-				$sql.= ' (`url`, `date`, `done`, `standard`, `trash`,';
-				$sql.= ' `page_title`, `add_date`, `selection_reason`, `alt_url`,';
-				$sql.= ' `version`)';
-				$sql.= ' VALUES (?, ?, ?, ?, 0, ?, ?, ?, 0);';
-				$r = Db::execute(
-					$sql,
-					array($url, $date, $done, $standard, $page_title, date('Y-m-d H:i:s'), $selection_reason, $alt_url)
-				);
-			}
-
-			// update page level
-			static::update_page_level($url);
-
-			// message
-			if ($r)
-			{
-				Session::add('messages', 'messages', A11YC_LANG_UPDATE_SUCCEED);
-			}
-			else
-			{
-				Session::add('messages', 'errors', A11YC_LANG_UPDATE_FAILED);
-			}
-		}
+		// message
+		Session::add('messages', 'messages', A11YC_LANG_UPDATE_SUCCEED);
 	}
 
 	/**
-	 * checklist
-	 *
-	 * @param  String $url
-	 * @return Void
-	 */
-	public static function checklist($url)
-	{
-		// url
-		if ( ! $url) Util::error('Invalid Access');
-
-		// page existence
-		if ($url != 'bulk' && ! Crawl::is_page_exist($url))
-		{
-			Session::add('messages', 'errors', A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR);
-			if ( ! headers_sent())
-			{
-				header('location:'.A11YC_PAGES_URL.'&list=list&no_url='.Util::urlenc($url));
-				exit();
-			}
-		}
-
-		// change url?
-		// $url = static::change_url($url);
-
-		// users
-		$users = array();
-		foreach (Users::fetch_users() as $k => $v)
-		{
-			$users[$k] = Util::s($v[0]);
-		}
-
-		// current user
-		$current_user = Users::fetch_current_user();
-
-		// title
-		if ($url == 'bulk')
-		{
-			$title = A11YC_LANG_BULK_TITLE;
-		}
-		else
-		{
-			$title = A11YC_LANG_CHECKLIST_TITLE.':'.Util::fetch_page_title($url);
-		}
-
-		// page
-		$page = Controller_Pages::fetch_page($url);
-
-		// assign
-		View::assign('current_user', $current_user);
-		View::assign('users', $users);
-		View::assign('url', $url);
-		View::assign('alt_url', $page['alt_url']);
-		View::assign('title', $title);
-
-		static::form($url, $users, Arr::get($current_user, 'id'));
-		View::assign('body', View::fetch_tpl('checklist/checklist.php'), FALSE);
-	}
-
-	/**
-	 * change url
-	 * suspicious activation. so, pending.
-	 *
-	 * @param string $url
-	 * @return string
-	 */
-	public static function change_url($url)
-	{
-		// post only
-		$mod_url = Input::post('mod_url', '', FILTER_VALIDATE_URL);
-		if ( ! $mod_url) return $url;
-
-		// no cahnge
-		$old_url = $url;
-		if ($old_url == $mod_url) return $url;
-
-		// is exists?
-		$sql = 'SELECT `url` FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?';
-		$sql.= Controller_Setup::curent_version_sql().';';
-		$results = Db::fetch_all($sql, array($old_url));
-
-		// no record to change
-		if (empty($results)) return $url;
-
-		// change url
-		$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET `url` = %s WHERE `url` = %s';
-		$sql.= Controller_Setup::curent_version_sql().';';
-		$result = Db::fetch_all($sql, array($mod_url, $old_url));
-
-		// change checks
-		$sql = 'UPDATE '.A11YC_TABLE_CHECKS_NGS.' SET `url` = %s WHERE `url` = %s';
-		$sql.= Controller_Setup::curent_version_sql().';';
-		$result = Db::fetch_all($sql, array($mod_url, $old_url));
-
-		$sql = 'UPDATE '.A11YC_TABLE_CHECKS.' SET `url` = %s WHERE `url` = %s';
-		$sql.= Controller_Setup::curent_version_sql().';';
-		$result = Db::fetch_all($sql, array($mod_url, $old_url));
-
-		return $mod_url;
-	}
-
-	/**
-	 * get selection reasons
-	 *
-	 * @return Array
-	 */
-	public static function selection_reasons()
-	{
-		return array(
-//			0 => '-',
-			1 => A11YC_LANG_CANDIDATES_IMPORTANT,
-			2 => A11YC_LANG_CANDIDATES_RANDOM,
-			3 => A11YC_LANG_CANDIDATES_ALL,
-			4 => A11YC_LANG_CANDIDATES_PAGEVIEW,
-			5 => A11YC_LANG_CANDIDATES_NEW,
-			6 => A11YC_LANG_CANDIDATES_ETC,
-		);
-	}
-
-	/**
-	 * form html
+	 * form
 	 * need to wrap <form> and add a submit button
 	 * this method also used by bulk
 	 *
@@ -353,43 +126,48 @@ class Controller_Checklist
 	public static function form($url, $users = array(), $current_user_id = null)
 	{
 		// dbio
-		static::dbio($url);
+		if (Input::isPostExists())
+		{
+			static::dbio($url);
+		}
 
-		// vals
-		$page = Controller_Pages::fetch_page($url);
-		$setup = Controller_Setup::fetch_setup();
+		// is bulk
+		$is_bulk = ($url == 'bulk');
+
+		// page
+		$page = false;
+		if ( ! $is_bulk)
+		{
+			$page = Model\Pages::fetchPage($url);
+
+			if ( ! $page)
+			{
+				$title = Model\Html::fetchPageTitle($url);
+				Model\Pages::addPage($url, $title);
+				$page = Model\Pages::fetchPage($url, $force = true);
+				if ( ! $title)
+				{
+					Session::add(
+						'messages',
+						'errors',
+						A11YC_LANG_ERROR_COULD_NOT_GET_HTML.': '. Util::s($url));
+				}
+			}
+		}
+
+		// is new
+		$is_new = is_array($page) && Arr::get($page, 'updated_at') !== NULL ? FALSE : TRUE;
+
+		// settings
+		$settings = Model\Settings::fetchAll();
 
 		// selection reason
-		$selection_reasons = static::selection_reasons();
-		$selected_method = Arr::get($setup, 'selected_method');
-		switch ($selected_method)
-		{
-			case 0: // not site unit
-				$selection_reasons = array($selection_reasons[6]);
-				break;
-			case 1: // all
-				$selection_reasons = array($selection_reasons[3]);
-				break;
-			case 2: // random
-				$selection_reasons = array($selection_reasons[2]);
-				break;
-			case 3: // representative
-				$selection_reasons = array($selection_reasons[1]);
-				break;
-			case 4: // representative and other pages
-				unset($selection_reasons[3]);
-				break;
-		}
+		$selection_reasons = Values::filteredSelectionReasons();
 
 		// standards
 		$standards = Yaml::each('standards');
-		$standard = Arr::get($setup, 'standard');
-		if (is_null($standard))
-		{
-			Session::add('messages', 'errors', A11YC_LANG_ERROR_NON_TARGET_LEVEL);
-			return;
-		}
-		$standards = array($standards['standards'][$standard]);
+		$standard = Arr::get($settings, 'standard', 0);
+		$standards = array(Arr::get($standards, $standard, array()));
 
 		// done
 		$done_date = is_array($page) ? Arr::get($page, 'date') : 0;
@@ -399,131 +177,60 @@ class Controller_Checklist
 			$done_date = date('Y-m-d', strtotime($done_date));
 		}
 
+		// issues
+		$yml = Yaml::fetch();
+		$issues = array();
+		foreach (array_keys($yml['criterions']) as $criterion)
+		{
+			$issues[$criterion] = Model\Issues::fetch4Checklist($url, $criterion);
+		}
+
+		// automatic check
+		Validate::setDoLinkCheck(Input::post('do_link_check', false));
+		Validate::url($url);
+
+		// reference urls
+		$refs = Values::getRefUrls();
+
 		// assign
+		View::assign('issues', $issues);
 		View::assign('selection_reasons', $selection_reasons);
+		View::assign('refs', $refs[$standard]);
 		View::assign('url', $url);
-		View::assign('target_title', Util::fetch_page_title($url));
+		View::assign('target_title', Model\Html::fetchPageTitle($url));
 		View::assign('users', $users);
 		View::assign('current_user_id', $current_user_id);
-		View::assign('yml', Yaml::fetch(), FALSE);
+		View::assign('yml', $yml, FALSE);
 		View::assign('standards', $standards);
-		View::assign('setup', $setup);
+		View::assign('settings', $settings);
 		View::assign('done_date', $done_date);
-		View::assign('checklist_behaviour', intval(@$setup['checklist_behaviour']));
-		View::assign('target_level', intval(@$setup['target_level']));
+		View::assign('checklist_behaviour', intval(@$settings['checklist_behaviour']));
+		View::assign('target_level', intval(@$settings['target_level']));
 		View::assign('page', $page);
 		View::assign('link_check', Input::post('do_link_check', FALSE));
-		View::assign('additional_criterions', join('","',Controller_Setup::additional_criterions()));
-
-		// cs
-		$bulk = Controller_Bulk::fetch_results();
-		$cs = Evaluate::fetch_results($url);
-		View::assign('bulk', $bulk);
-		View::assign('cs', $url == 'bulk' ? array() : $cs);
-
-		// ngs
-		$bulk_ngs = Controller_Bulk::fetch_ngs();
-		$ngs = Evaluate::fetch_ngs($url);
-		View::assign('bulk_ngs', $bulk_ngs);
-		View::assign('cs_ngs', $url == 'bulk' ? array() : $ngs);
-
-		// is new
-		View::assign('is_new', is_array($page) && Arr::get($page, 'level') !== NULL ? FALSE : TRUE);
-
-		// validation
-		View::assign('ajax_validation', View::fetch_tpl('checklist/ajax.php'), FALSE);
-
-		// form
-		View::assign('form', View::fetch_tpl('checklist/form.php'), FALSE);
-	}
-
-	/**
-	 * part of result html
-	 *
-	 * @param  Array $results
-	 * @param  Integer $target_level
-	 * @param  Bool $include
-	 * @return Void
-	 */
-	public static function part_result($results, $target_level, $include = TRUE)
-	{
-		View::assign('is_total', ! Input::get('url'));
-		View::assign('setup', Controller_Setup::fetch_setup());
-		View::assign('results', $results);
-		View::assign('target_level', $target_level);
-		View::assign('include', $include);
-		View::assign('yml', Yaml::fetch(), FALSE);
-		View::assign('result', View::fetch_tpl('checklist/part_result.php'), FALSE);
-	}
-
-	/**
-	 * message
-	 *
-	 * @param String $code_str
-	 * @param Array $place
-	 * @param String $key
-	 * @param String $docpath
-	 * @return String|Bool
-	 */
-	public static function message($code_str, $place, $key, $docpath = '')
-	{
-		$yml = Yaml::fetch();
-
-		// Yaml not exist
-		$current_err = array();
-		if ( ! isset($yml['errors'][$code_str]))
+		View::assign('additional_criterions', join('","',Values::additionalCriterions()));
+		View::assign('is_new', $is_new);
+		View::assign('is_bulk', $is_bulk);
+		if ($is_bulk || $is_new)
 		{
-			$current_err['message'] = Validate_Human::$humans[$code_str]['message'];
-			$current_err['criterion'] = Validate_Human::$humans[$code_str]['criterion'];
-			$current_err['code'] = Validate_Human::$humans[$code_str]['code'];
-			if (Validate_Human::$humans[$code_str]['e_or_n'] == 'notice')
-			{
-				$current_err['notice'] = true;
-			}
+			View::assign('results', Model\Bulk::fetchResults());
+			View::assign('cs', Model\Bulk::fetchChecks());
 		}
 		else
 		{
-			$current_err = $yml['errors'][$code_str];
+			View::assign('results', Model\Results::fetch($url));
+			View::assign('cs', Model\Checklist::fetch($url));
 		}
 
-		// set error to message
-		if ($current_err)
-		{
-			$docpath = $docpath ?: A11YC_DOC_URL;
+		// validation
+		View::assign('is_call_from_post', true);
+		View::assign('errs_cnts', Validate::getErrorCnts($url));
+		View::assign('errs', Validate::getErrors($url), FALSE);
+		View::assign('raw', nl2br(Validate::getHighLightedHtml($url)), FALSE);
+		View::assign('validation_result', View::fetchTpl('checklist/validate.php'), FALSE);
 
-			$anchor = $code_str.'_'.$key;
-
-			// level
-			$lv = strtolower($yml['criterions'][$current_err['criterion']]['level']['name']);
-
-			// count errors
-			if ( ! isset($current_err['notice'])) static::$err_cnts[$lv]++;
-
-			// dt
-			$ret = '<dt id="index_'.$anchor.'" tabindex="-1" class="a11yc_level_'.$lv.'">'.$current_err['message'];
-
-			// dt - information
-			$criterion_code = $current_err['criterion'];
-			$code = $current_err['code'];
-			$level = $yml['checks'][$criterion_code][$code]['criterion']['level']['name'];
-			$criterion = $yml['checks'][$criterion_code][$code]['criterion'];
-
-			$ret.= '<span class="a11yc_validation_reference_info"><strong>'.A11YC_LANG_LEVEL.strtoupper($lv).'</strong> <strong>'.Util::key2code($criterion['code']).'</strong> ';
-			$ret.= '<a href="'.$docpath.$code.'&amp;criterion='.$current_err['criterion'].'"'.A11YC_TARGET.'>'.A11YC_LANG_CHECKLIST_SEE_DETAIL.'</a> ';
-//			$ret.= '<a href="'.$criterion['url'].'"'.A11YC_TARGET.' title="'.$criterion['name'].'">'.A11YC_LANG_CHECKLIST_SEE_UNDERSTANDING.' '.Util::key2code($criterion['code']).'</a>';
-			$ret.= '</span>';
-
-			if ($place['id'])
-			{
-				$ret.= '<a href="#'.$anchor .'" class="a11yc_validation_error_link a11yc_level_'.$lv.' a11yc_hasicon"><span class="a11yc_icon_fa a11yc_icon_arrow_b" role="presentation" aria-hidden="true"></span>Code</a>';
-			}
-			$ret.= '</dt>';
-
-			// dd
-			$ret.= '<dd class="a11yc_validation_error_str a11yc_level_'.$lv.'" data-level="'.$level.'" data-place="'.Util::s($place['id']).'">'.Util::s($place['str']).'</dd>';
-//			$ret.= '<dd class="a11yc_validation_error_link a11yc_level_'.$lv.'"><a href="#'.$anchor .'" class="a11yc_hasicon">Code</a></dd>';
-			return $ret;
-		}
-		return FALSE;
+		// form
+		View::assign('form', View::fetchTpl('checklist/form.php'), FALSE);
 	}
+
 }

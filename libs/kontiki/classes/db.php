@@ -112,14 +112,13 @@ class Db
 	 */
 	public static function get_fields($table, $name = 'default')
 	{
-//		$table = ucfirst($table);
-		if ( ! static::is_table_exist($table, $name)) return array();
+		if ( ! static::isTableExist($table, $name)) return array();
 		$instance = static::instance($name);
 
 		if ($instance->dbtype == 'sqlite')
 		{
 			$sql = "PRAGMA table_info('".$table."');";
-			$retvals = self::fetch_all($sql, array(), $name);
+			$retvals = self::fetchAll($sql, array(), $name);
 			foreach ($retvals as $k => $v)
 			{
 				if($v['name'])
@@ -131,10 +130,10 @@ class Db
 		elseif ($instance->dbtype == 'mysql')
 		{
 			$sql = "SHOW COLUMNS FROM ".$table.";";
-			$retvals = self::fetch_all($sql, array(), $name);
+			$retvals = self::fetchAll($sql, array(), $name);
 
 			$sql2 = "SHOW INDEX FROM ".$table.";";
-			$indexes = self::fetch_all($sql2, array(), $name);
+			$indexes = self::fetchAll($sql2, array(), $name);
 
 			foreach ($retvals as $k => $v)
 			{
@@ -162,19 +161,19 @@ class Db
 	}
 
 	/**
-	 * is_table_exist
+	 * isTableExist
 	 *
 	 * @param   string  $table
 	 * @param   string  $name
 	 * @return  bool
 	 */
-	public static function is_table_exist($table, $name = 'default')
+	public static function isTableExist($table, $name = 'default')
 	{
-		$sql = A11YC_DB_TYPE == 'sqlite' ?
+		$sql = KONTIKI_DB_TYPE == 'sqlite' ?
 				 'select name from sqlite_master where type = "table";' :
 				 'show tables;';
 
-		$results = static::fetch_all($sql, array(), $name);
+		$results = static::fetchAll($sql, array(), $name);
 		$tables = array();
 		foreach ($results as $row)
 		{
@@ -191,9 +190,9 @@ class Db
 	 * @param  String $name
 	 * @return Bool
 	 */
-	public static function is_fields_exist($table, $fields = array(), $name = 'default')
+	public static function isFieldsExist($table, $fields = array(), $name = 'default')
 	{
-		if ( ! static::is_table_exist($table, $name)) return false;
+		if ( ! static::isTableExist($table, $name)) return false;
 
 		foreach ($fields as $field)
 		{
@@ -258,7 +257,7 @@ class Db
 	 * @param  String $name
 	 * @return Array
 	 */
-	public static function fetch_all
+	public static function fetchAll
 		(
 			$sql,
 			$placeholders = array(),

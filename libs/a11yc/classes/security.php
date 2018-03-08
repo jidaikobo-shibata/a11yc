@@ -13,11 +13,11 @@ namespace A11yc;
 class Security extends \Kontiki\Security
 {
 	/**
-	 * deny_http_directories
+	 * deny http directories
 	 *
 	 * @return Void
 	 */
-	public static function deny_http_directories()
+	public static function denyHttpDirectories()
 	{
 		$result = true;
 		$content = 'Deny From All';
@@ -25,7 +25,8 @@ class Security extends \Kontiki\Security
 		// use constant only
 		$dirs = array(
 			A11YC_CONFIG_PATH,
-//			A11YC_DATA_PATH,
+			A11YC_DATA_PATH,
+			A11YC_LIB_PATH,
 		);
 
 		// deny from all
@@ -34,13 +35,6 @@ class Security extends \Kontiki\Security
 			$path = $dir.'/.htaccess';
 			if (file_exists($path)) continue;
 			$result = file_put_contents($path, $content);
-		}
-
-		// deny some files
-		$path = A11YC_LIB_PATH.'/.htaccess';
-		if ( ! file_exists($path))
-		{
-			$result = file_put_contents($path, '<Files ~ "\.(php|yml)$">\n  '.$content.'\n</Files>');
 		}
 
 		// faild

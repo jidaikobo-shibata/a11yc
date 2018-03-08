@@ -1,6 +1,6 @@
 <?php
 /**
- * A11yc\Controller_Post
+ * A11yc\Controller\Post
  *
  * @package    part of A11yc
  * @author     Jidaikobo Inc.
@@ -21,18 +21,20 @@ at .htaccess
 php_value post_max_size "2M"
 
  */
-namespace A11yc;
+namespace A11yc\Controller;
 
-class Controller_Post
+use A11yc\Model;
+
+class Post
 {
 	private static $url;
 
 	/**
-	 * set_consts
+	 * set consts
 	 *
 	 * @return Void
 	 */
-	public static function set_consts()
+	public static function setConsts()
 	{
 		// max post a day by ip
 		defined('A11YC_POST_IP_MAX_A_DAY') or define('A11YC_POST_IP_MAX_A_DAY', 150);
@@ -53,20 +55,14 @@ class Controller_Post
 	public static function forge()
 	{
 		// set const
-		self::set_consts();
+		self::setConsts();
 
 		// a11yc
 		require (dirname(dirname(__DIR__)).'/main.php');
 
-		// ua
-		require (A11YC_PATH.'/resources/ua.php');
-
 		// set application url
-		static::$url = Util::remove_query_strings(Util::uri());
+		static::$url = Util::removeQueryStrings(Util::uri());
 		static::$url.= strpos(static::$url, A11YC_POST_SCRIPT_NAME) === false ? A11YC_POST_SCRIPT_NAME : '';
-
-		// load language
-		static::load_language();
 
 		// session
  	Session::forge('A11YCONLINEVALIDATE');
@@ -82,22 +78,22 @@ class Controller_Post
 		}
 
 		// auth
-		if (Auth::auth())
+		if (A11yc\Auth::auth())
 		{
 			// login user
-			$login_user = Users::fetch_current_user();
+			$login_user = Users::fetchCurrentUser();
 			View::assign('login_user', $login_user);
 		}
 
 		// view
-		View::add_tpl_path(A11YC_PATH.'/views/post');
+		View::addTplPath(A11YC_PATH.'/views/post');
 
 		// set base url before call controllers
 		View::assign('base_url', static::$url);
 
 		// routing
 		static::routing();
-		$action = Route::get_action();
+		$action = Route::getAction();
 		static::$action();
 
 		// render
@@ -116,9 +112,9 @@ class Controller_Post
 	 *
 	 * @return Void
 	 */
-	public static function Action_Login()
+	public static function actionLogin()
 	{
-		\A11yc\Controller_Auth::Action_Login();
+		Auth::actionLogin();
 		define('A11YC_LANG_POST_TITLE', A11YC_LANG_AUTH_TITLE);
 	}
 
@@ -127,9 +123,9 @@ class Controller_Post
 	 *
 	 * @return Void
 	 */
-	public static function Action_Logout()
+	public static function actionLogout()
 	{
-		\A11yc\Controller_Auth::Action_Logout(static::$url);
+		Auth::actionLogout(static::$url);
 	}
 
 	/**
@@ -137,9 +133,9 @@ class Controller_Post
 	 *
 	 * @return Void
 	 */
-	public static function Action_Docs()
+	public static function actionDocs()
 	{
-		Controller_Docs::index(); // $body set
+		Docs::index(); // $body set
 		define('A11YC_LANG_POST_TITLE', A11YC_LANG_DOCS_TITLE);
 	}
 
@@ -148,13 +144,12 @@ class Controller_Post
 	 *
 	 * @return Void
 	 */
-	public static function Action_Doc()
+	public static function actionDoc()
 	{
-		$code = Input::get('code');
 		$criterion = Input::get('criterion');
-		if ($code && $criterion)
+		if ($criterion)
 		{
-			Controller_Docs::each($criterion, $code); // $body set
+			Docs::each($criterion); // $body set
 			$doc = View::fetch('doc');
 			define('A11YC_LANG_POST_TITLE', $doc['name']);
 		}
@@ -169,9 +164,9 @@ class Controller_Post
 	 *
 	 * @return Void
 	 */
-	public static function Action_Readme()
+	public static function actionReadme()
 	{
-		View::assign('body', View::fetch_tpl('post/readme.php'), false);
+		View::assign('body', View::fetchTpl('post/readme.php'), false);
 		View::assign('title', A11YC_LANG_POST_README);
 		define('A11YC_LANG_POST_TITLE', A11YC_LANG_POST_README);
 	}
@@ -181,7 +176,7 @@ class Controller_Post
 	 *
 	 * @return Bool
 	 */
-	public static function is_in_white_list()
+	public static function isInWhiteList()
 	{
 		$ip = Input::server('REMOTE_ADDR', '');
 
@@ -202,13 +197,13 @@ class Controller_Post
 	 */
 	public static function auth()
 	{
-		if (Auth::auth()) return true;
+		if (A11yc\Auth::auth()) return true;
 
 		// ip check for guest users
-		if ( ! self::is_in_white_list())
+		if ( ! self::isInWhiteList())
 		{
 			// die if at limit
-			static::ip_check_for_guest_users($ip);
+			static::ipCheckForGuestUsers($ip);
 		}
 		return true;
 	}
@@ -218,9 +213,9 @@ class Controller_Post
 	 *
 	 * @return Void
 	 */
-	public static function count_up_for_guest_users()
+	private static function countUpForGuestUsers()
 	{
-		if ( ! Auth::auth() && ! self::is_in_white_list())
+		if ( ! A11yc\Auth::auth() && ! self::isInWhiteList())
 		{
 			// ip
 			$sql = 'INSERT INTO ip (ip, datetime) VALUES (?, ?);';
@@ -238,7 +233,7 @@ class Controller_Post
 	 * @param  String $ip
 	 * @return Void
 	 */
-	public static function ip_check_for_guest_users($ip)
+	private static function ipCheckForGuestUsers($ip)
 	{
 		// database
 		define('A11YC_POST_DB', 'post_log');
@@ -249,7 +244,7 @@ class Controller_Post
 				'dbtype' => 'sqlite',
 				'path' => A11YC_DATA_PATH.A11YC_POST_DATA_FILE,
 			));
-		static::init_table();
+		static::initTable();
 
 		// ip check
 		$past_24h = time() - 86400;
@@ -271,18 +266,17 @@ class Controller_Post
 	}
 
 	/**
-	 * Validation_Core
+	 * Action_Validation
 	 *
-	 * @param  String $url
 	 * @return Void
 	 */
-	public static function Validation_Core($url = '')
+	public static function actionValidation($url = '')
 	{
 		// vals
 		$url        = Input::post('url', $url, FILTER_VALIDATE_URL);
 		$raw_url    = Input::post('url');
 		$user_agent = Input::post('user_agent', '');
-		$default_ua = Util::s(Input::user_agent());
+		$default_ua = Util::s(Input::userAgent());
 		$page_title = '';
 		$real_url   = '';
 
@@ -307,42 +301,11 @@ class Controller_Post
 		}
 		elseif ($url)
 		{
-			Guzzle::forge($url);
-
-			// User Agent
-			switch ($user_agent)
-			{
-				case 'iphone':
-					$ua = A11YC_UA_IPHONE;
-					break;
-				case 'android':
-					$ua = A11YC_UA_ANDROID;
-					break;
-				case 'ipad':
-					$ua = A11YC_UA_IPAD;
-					break;
-				case 'tablet':
-					$ua = A11YC_UA_ANDROID_TABLET;
-					break;
-				case 'featurephone':
-					$ua = A11YC_UA_FEATUREPHONE;
-					break;
-				default:
-					$ua = $default_ua;
-					break;
-			}
-			$default_ua = $ua;
-			// thx https://twitter.com/tadsan/status/910431111120961536
-			Guzzle::instance($url)->set_config(
-				'User-Agent',
-				$ua.' Service/a11yc (+http://www.jidaikobo.com)'
-			);
-
-			// html
-			$target_html = Guzzle::instance($url)->is_html ? Guzzle::instance($url)->body : false;
-
-			// real url
-			$real_url = $target_html ? Guzzle::instance($url)->real_url : '';
+			$uas = Values::uas();
+			$ua = Arr::get($uas, $user_agent) ? $user_agent : $default_ua;
+			$current_ua = Arr::get($uas, "{$user_agent}.str");
+			$current_ua = $current_ua ?: $default_ua;
+			$target_html = Model\Html::fetchHtml($url, $ua);
 
 			// basic auth failed
 			if (Guzzle::instance($url)->status_code == 401)
@@ -364,29 +327,26 @@ class Controller_Post
 			// export CSV
 			if (Input::post('behaviour') == 'csv')
 			{
-				include(dirname(dirname(A11YC_PATH)).'/export.php');
+				Export::cvs($url);
 			}
 
 			// check or image list
-			Validate::set_html($target_html);
 			$codes = Validate::$codes;
+			Validate::url($url, $codes, $ua);
 
 			// for same_urls_should_have_same_text
 			$do_validate = true;
 			if ($url)
 			{
-				Crawl::set_target_path($url);
 				if (Input::post('behaviour') == 'images')
 				{
 					$do_validate = false;
-					View::assign('images', Validate_Alt::get_images());
+					View::assign('images', A11yc\Images::getImages($url));
 					Session::add('messages', 'messages', A11YC_LANG_POST_DONE_IMAGE_LIST);
 				}
 			}
 			else
 			{
-				// just for "same_urls_should_have_same_text".
-				Crawl::set_target_path('http://example.com');
 				// unset($codes['same_urls_should_have_same_text']);
 				// Session::add('messages', 'errors', A11YC_LANG_ERROR_NO_URL_NO_CHECK_SAME);
 			}
@@ -398,22 +358,15 @@ class Controller_Post
 				unset($codes['link_check']);
 				unset($codes['same_page_title_in_same_site']);
 
-				// validate
-				foreach ($codes as $method => $class)
+				if (Validate::getErrors($url, $codes, $ua))
 				{
-					$class::$method();
-				}
-
-				if (Validate::get_error_ids())
-				{
-					$err_link = static::$url.'?a=doc&code=';
-					foreach (Validate::get_error_ids() as $err_code => $errs)
+					$err_link = static::$url.'?a=doc&criterion=';
+					foreach (Validate::getErrorIds($url) as $err_code => $errs)
 					{
 						foreach ($errs as $key => $err)
 						{
 							$err_type = isset($yml['errors'][$err_code]['notice']) ? 'notices' : 'errors';
-							$all_errs[$err_type][] = Controller_Checklist::message($err_code, $err, $key, $err_link);
-//							$all_errs[] = Controller_Checklist::message($err_code, $err, $key, $err_link);
+							$all_errs[$err_type][] = Validate::message($url, $err_code, $err, $key, $err_link);
 						}
 					}
 				}
@@ -438,22 +391,15 @@ class Controller_Post
 			}
 
 			// page_title
-			$page_title = Util::fetch_page_title_from_html($target_html);
+			$page_title = Model\Html::fetchPageTitle($url);
 
 			// results
 			$errs_cnts = array_merge(
 				array('total' => count($all_errs['errors'])),
-				Controller_Checklist::$err_cnts
+				Validate::getErrorCnts($url, $codes, $ua)
 			);
-			$render = Validate::revert_html(Util::s(Validate::get_hl_html()));
+			$render = Util::s(Validate::getHighLightedHtml($url, $codes, $ua));
 			$raw = nl2br($render);
-
-			// header
-			$target_html_head = self::keep_head($target_html);
-
-			// fix links and errors
-			$render = self::replace_strs($url, $render);
-			$render = self::replace_error_strs($render);
 
 			View::assign('errs'              , $all_errs, false);
 			View::assign('errs_cnts'         , $errs_cnts);
@@ -462,19 +408,19 @@ class Controller_Post
 			View::assign('do_validate'       , $do_validate);
 			if ($do_validate)
 			{
-				View::assign('result' , View::fetch_tpl('checklist/validate.php'), false);
+				View::assign('result' , View::fetchTpl('checklist/validate.php'), false);
 			}
 			else
 			{
-				View::assign('result' , View::fetch_tpl('checklist/images.php'), false);
+				View::assign('result' , View::fetchTpl('checklist/images.php'), false);
 			}
 
 			// count up for guest users
-			self::count_up_for_guest_users();
+			self::countUpForGuestUsers();
 		}
 
 		// error
-		if (Input::is_post_exists() && ! $target_html && $raw_url)
+		if (Input::isPostExists() && ! $target_html && $raw_url)
 		{
 			Session::add('messages', 'errors', A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR);
 
@@ -491,189 +437,14 @@ class Controller_Post
 		View::assign('title'              , '');
 		View::assign('page_title'         , $page_title);
 		View::assign('real_url'           , $real_url ?: $url);
-		View::assign('current_user_agent' , $default_ua);
+		View::assign('current_user_agent' , $current_ua);
 		View::assign('user_agent'         , $user_agent);
 		View::assign('target_url'         , static::$url);
 		View::assign('url'                , $url ?: $raw_url);
 		View::assign('target_html_head'   , $target_html_head, true);
 		View::assign('target_html'        , $target_html);
 		View::assign('render'             , $render, false);
-		View::assign('body'               , View::fetch_tpl('post/index.php'), false);
-	}
-
-	/**
-	 * Action_Validation
-	 *
-	 * @return Void
-	 */
-	public static function Action_Validation()
-	{
-		static::Validation_Core();
-	}
-
-	/**
-	 * load language
-	 *
-	 * @return Void
-	 */
-	public static function load_language()
-	{
-		// load language
-		$lang = Lang::get_lang();
-
-		if (empty($lang))
-		{
-			Util::error('Not found.');
-		}
-		include A11YC_PATH.'/languages/'.$lang.'/post.php';
-	}
-
-	/**
-	 * keep head
-	 *
-	 * @param  String $html
-	 * @return String
-	 */
-	private static function keep_head($html)
-	{
-		$head = mb_substr($html, 0, mb_strpos($html, '</head>') + 7);
-
-		// css
-		$head = str_replace(
-			'</head>',
-			'<link rel="stylesheet" type="text/css" media="all" href="'.A11YC_ASSETS_URL.'/css/a11yc_live.css" />'."\n".'</head>',
-			$head
-		);
-
-		// jQuery
-		if (strpos($head, 'jquery') === false)
-		{
-			$head = str_replace(
-				'</head>',
-				'<script type="text/javascript" src="'.A11YC_ASSETS_URL.'/js/jquery-1.11.1.min.js"></script>'."\n".'</head>',
-				$head
-			);
-		}
-
-		// js
-		$head = str_replace(
-			'</head>',
-			'<script type="text/javascript" src="'.A11YC_ASSETS_URL.'/js/a11yc_live.js"></script>'."\n".'</head>',
-			$head
-		);
-
-		return $head;
-	}
-
-	/**
-	 * replace a11yc error strs
-	 *
-	 * @param  String $html
-	 * @return String
-	 */
-	public static function replace_error_strs($html)
-	{
-		// remove "back" link
-		$html = preg_replace(
-			'/\<a href="#index_.+?a11yc_back_link.+?\<\/a\>/i',
-			'',
-			$html
-		);
-
-		// replace strong to span
-		$html = preg_replace(
-			'/strong class="a11yc_level_(a+?)"/i',
-			'span class="a11yc_live_error_wrapper a11yc_level_\1"',
-			$html
-		);
-		$html = str_replace(
-			'</strong><!-- a11yc_strong_end -->',
-			'</span><!-- a11yc_strong_end -->',
-			$html
-		);
-
-		// make live valid - style_for_structure
-		$error_codes = array(
-			'meanless_element',
-			'style_for_structure',
-			'invalid_tag',
-			'suspicious_attributes',
-			'titleless_frame',
-//			'must_be_numeric_attr',
-		);
-
-		foreach ($error_codes as $error_code)
-		{
-			preg_match_all('/\<span id="'.$error_code.'(.+?) class="([^"]+?)"\>(ERROR!|NOTICE)\<\/span\>\<span class="a11yc_live_error_wrapper a11yc_level_(.+?)"\>\<([^\>]+?)\>\<\/span\>\<!-- a11yc_strong_end --\>/', $html, $ms);
-			preg_match_all('/\<span id="'.$error_code.'([^\>]+?)\>(ERROR!|NOTICE)\<\/span\>\<span class="a11yc_live_error_wrapper a11yc_level_(.+?)"\>\<([^\>]+?)\>\<\/span\>\<!-- a11yc_strong_end --\>/', $html, $ms);
-
-			if (isset($ms[0][0]))
-			{
-				foreach ($ms[0] as $k => $v)
-				{
-					$replace = '<span id="'.$error_code.''.$ms[1][$k].'>'.$ms[2][$k].'</span><span class="a11yc_live_error_wrapper a11yc_level_'.$ms[3][$k].'"></span><!-- a11yc_strong_end --><'.$ms[4][$k].'>';
-
-					$html = str_replace($v, $replace, $html);
-				}
-			}
-		}
-
-		return $html;
-	}
-
-	/**
-	 * replace strs
-	 *
-	 * @param  String $url
-	 * @param  String $html
-	 * @return String
-	 */
-	public static function replace_strs($url, $html)
-	{
-
-		$setups = Controller_Setup::fetch_setup();
-		if ($setups['base_url'])
-		{
-			$root = $setups['base_url'];
-		}
-		else
-		{
-			$roots = explode('/', $url);
-			$root = $roots[0].'//'.$roots[2];
-		}
-		$html = htmlspecialchars_decode($html, ENT_QUOTES);
-
-
-		// check depth
-		if ($url == $root)
-		{
-		}
-		else
-		{
-// あとで！
-
-
-
-		}
-
-		// replace root relative
-		$html = preg_replace(
-			array(
-				'/src *?= *?"\/(?!\/)/i',
-				'/src *?= *?"(?!http|\/)/i',
-				'/href *?= *?"\/(?!\/)/i',
-				'/href *?= *?"(?!http|\/|#)/i'
-			),
-			array(
-				'src="'.$root.'/',
-				'src="'.$root.'/',
-				'href="'.$root.'/',
-				'href="'.$root.'/'
-			),
-			$html
-		);
-
-		return $html;
+		View::assign('body'               , View::fetchTpl('post/index.php'), false);
 	}
 
 	/**
@@ -685,24 +456,24 @@ class Controller_Post
 	{
 		// vals
 		$a = Input::get('a', '');
-		$controller = '\A11yc\Controller_Post';
+		$controller = '\A11yc\Controller\Post';
 		$action = '';
 		$is_index = empty(Input::server('QUERY_STRING'));
 
 		// top page
 		if ($is_index)
 		{
-			$action = 'Action_Validation';
+			$action = 'actionValidation';
 		}
 
 		// safe access?
 		if ( ! $is_index && ctype_alnum($a))
 		{
-			$action = 'Action_'.ucfirst($a);
+			$action = 'action'.ucfirst($a);
 		}
 
 		// auth - already logged in
-		if (Auth::auth() && $a == 'login')
+		if (A11yc\Auth::auth() && $a == 'login')
 		{
 			header('location:'.static::$url);
 		}
@@ -710,7 +481,7 @@ class Controller_Post
 		// auth - post
 		if (Input::post('username') || Input::post('password'))
 		{
-			$action = 'Action_Login';
+			$action = 'actionLogin';
 		}
 
 		// class and methods exists
@@ -719,8 +490,8 @@ class Controller_Post
 			is_callable($controller.'::'.$action)
 		)
 		{
-			Route::set_controller($controller);
-			Route::set_action($action);
+			Route::setController($controller);
+			Route::setAction($action);
 			return;
 		}
 
@@ -733,7 +504,7 @@ class Controller_Post
 	 *
 	 * @return Void
 	 */
-	private static function init_table()
+	private static function initTable()
 	{
 		if ( ! DB::is_table_exist('ip', A11YC_POST_DB))
 		{

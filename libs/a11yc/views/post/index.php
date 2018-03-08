@@ -55,7 +55,7 @@ $uas = array(
 </form>
 
 <?php
-if (Input::is_post_exists() && isset($result)):
+if (Input::isPostExists() && isset($result)):
 ?>
 <div id="a11yc_validator_results">
 <h2><?php echo A11YC_LANG_CHECKLIST_CHECK_RESULT ?></h2>

@@ -1,6 +1,6 @@
 <?php
 /**
- * A11yc\Controller_Center
+ * A11yc\Controller\Center
  *
  * @package    part of A11yc
  * @author     Jidaikobo Inc.
@@ -8,18 +8,31 @@
  * @copyright  Jidaikobo Inc.
  * @link       http://www.jidaikobo.com
  */
-namespace A11yc;
+namespace A11yc\Controller;
 
-class Controller_Center
+use A11yc\Model;
+
+class Center
 {
 	/**
 	 * action
 	 *
 	 * @return Void
 	 */
-	public static function Action_Index()
+	public static function actionIndex()
 	{
-		static::index();
+		if (Input::get('a11yc_pages', false))
+		{
+			static::pages();
+		}
+		elseif (Input::get('url'))
+		{
+			static::each();
+		}
+		else
+		{
+			static::index();
+		}
 	}
 
 	/**
@@ -29,21 +42,36 @@ class Controller_Center
 	 */
 	public static function index()
 	{
-		$setup = Controller_Setup::fetch_setup();
-
 		$body = '';
-		if ( ! empty($setup))
+		if ( ! empty(Model\Settings::fetchAll()))
 		{
-			$url = Util::urldec(Input::get('url', '', FILTER_VALIDATE_URL));
-			// report page
-			View::assign('is_center', TRUE);
-			Controller_Disclosure::report($url);
+			Results::all();
 			$body = View::fetch('body');
 		}
 
-		// add report to center information
-		$center = View::fetch_tpl('center/index.php');
+		$center = View::fetchTpl('center/index.php');
 		View::assign('title', A11YC_LANG_CENTER_TITLE);
 		View::assign('body', $body.$center, false);
+	}
+
+	/**
+	 * Show pages
+	 *
+	 * @return Void
+	 */
+	public static function pages()
+	{
+		Results::pages();
+	}
+
+	/**
+	 * Show each page
+	 *
+	 * @return Void
+	 */
+	public static function each()
+	{
+		$url = Util::urldec(Input::get('url', '', FILTER_VALIDATE_URL));
+		Results::each($url);
 	}
 }

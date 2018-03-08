@@ -1,0 +1,2190 @@
+techs:
+  G1:
+    title: 'G1: Adding a link at the top of each page that goes directly to the main content area'
+    type: G
+    apps:
+      - 2-4-1
+  G4:
+    title: 'G4: Allowing the content to be paused and restarted from where it was paused'
+    type: G
+    apps:
+      - 2-2-1
+      - 2-2-2
+  G5:
+    title: 'G5: Allowing users to complete an activity without any time limit'
+    type: G
+    apps:
+      - 2-2-3
+  G8:
+    title: 'G8: Providing a movie with extended audio descriptions'
+    type: G
+    apps:
+      - 1-2-3
+      - 1-2-5
+      - 1-2-7
+  G9:
+    title: 'G9: Creating captions for live synchronized media'
+    type: G
+    apps:
+      - 1-2-4
+  G10:
+    title: |
+      G10: Creating components using a technology that supports the accessibility
+      API features of the platforms on which the user agents will be run to expose the
+      names and roles, allow user-settable properties to be directly set, and provide
+      notification of changes
+    type: G
+    apps:
+      - 4-1-2
+  G11:
+    title: 'G11: Creating content that blinks for less than 5 seconds'
+    type: G
+    apps:
+      - 2-2-2
+  G13:
+    title: 'G13: Describing what will happen before a change to a form control that causes a change of context to occur is made'
+    type: G
+    apps:
+      - 3-2-2
+      - 3-3-2
+  G14:
+    title: 'G14: Ensuring that information conveyed by color differences is also available in text'
+    type: G
+    apps:
+      - 1-4-1
+  G15:
+    title: 'G15: Using a tool to ensure that content does not violate the general flash threshold or red flash threshold'
+    type: G
+    apps:
+      - 2-3-1
+  G17:
+    title: |
+      G17: Ensuring that a contrast ratio of at least 7:1 exists between text (and images of text)
+      and background behind the text
+    type: G
+    apps:
+      - 1-4-6
+  G18:
+    title: |
+      G18: Ensuring that a contrast ratio of at least 4.5:1 exists between text (and images of text)
+      and background behind the text
+    type: G
+    apps:
+      - 1-4-3
+      - 1-4-6
+  G19:
+    title: 'G19: Ensuring that no component of the content flashes more than three times in any 1-second period'
+    type: G
+    apps:
+      - 2-3-1
+      - 2-3-2
+  G21:
+    title: 'G21: Ensuring that users are not trapped in content'
+    type: G
+    apps:
+      - 2-1-2
+  G53:
+    title: 'G53: Identifying the purpose of a link using link text combined with the text of the enclosing sentence'
+    type: G
+    apps:
+      - 2-4-4
+  G54:
+    title: 'G54: Including a sign language interpreter in the video stream'
+    type: G
+    apps:
+      - 1-2-6
+  G55:
+    title: 'G55: Linking to definitions'
+    type: G
+    apps:
+      - 3-1-3
+      - 3-1-4
+  G56:
+    title: |
+      G56: Mixing audio files so that non-speech sounds are at least 20 decibels
+      lower than the speech audio content
+    type: G
+    apps:
+      - 1-4-7
+  G57:
+    title: 'G57: Ordering the content in a meaningful sequence'
+    type: G
+    apps:
+      - 1-3-2
+  G58:
+    title: 'G58: Placing a link to the alternative for time-based media immediately next to the non-text content'
+    type: G
+    apps:
+      - 1-2-3
+      - 1-2-8
+  G59:
+    title: 'G59: Placing the interactive elements in an order that follows sequences and relationships within the content'
+    type: G
+    apps:
+      - 2-4-3
+  G60:
+    title: 'G60: Playing a sound that turns off automatically within three seconds'
+    type: G
+    apps:
+      - 1-4-2
+  G61:
+    title: |
+      G61: Presenting repeated components in the same relative order each time they
+      appear
+    type: G
+    apps:
+      - 3-2-3
+  G62:
+    title: 'G62: Providing a glossary'
+    type: G
+    apps:
+      - 3-1-3
+      - 3-1-4
+      - 3-1-6
+  G63:
+    title: 'G63: Providing a site map'
+    type: G
+    apps:
+      - 2-4-5
+      - 2-4-8
+  G64:
+    title: 'G64: Providing a Table of Contents'
+    type: G
+    apps:
+      - 2-4-5
+  G65:
+    title: 'G65: Providing a breadcrumb trail'
+    type: G
+    apps:
+      - 2-4-8
+  G68:
+    title: |
+      G68: Providing a short text alternative that describes the purpose of live
+      audio-only and live video-only content
+    type: G
+    apps:
+      - 1-1-1
+  G69:
+    title: 'G69: Providing an alternative for time based media'
+    type: G
+    apps:
+      - 1-2-3
+      - 1-2-8
+  G70:
+    title: 'G70: Providing a function to search an online dictionary'
+    type: G
+    apps:
+      - 3-1-3
+      - 3-1-4
+  G71:
+    title: 'G71: Providing a help link on every Web page'
+    type: G
+    apps:
+      - 3-3-5
+  G73:
+    title: |
+      G73: Providing a long description in another location with a link to it that
+      is immediately adjacent to the non-text content
+    type: G
+    apps:
+      - 1-1-1
+  G74:
+    title: |
+      G74: Providing a long description in text near the non-text content, with a
+      reference to the location of the long description in the short description
+    type: G
+    apps:
+      - 1-1-1
+  G75:
+    title: 'G75: Providing a mechanism to postpone any updating of content'
+    type: G
+    apps:
+      - 2-2-4
+  G76:
+    title: |
+      G76: Providing a mechanism to request an update of the content instead of
+      updating automatically
+    type: G
+    apps:
+      - 2-2-4
+      - 3-2-5
+  G78:
+    title: 'G78: Providing a second, user-selectable, audio track that includes audio descriptions'
+    type: G
+    apps:
+      - 1-2-3
+      - 1-2-5
+  G79:
+    title: 'G79: Providing a spoken version of the text'
+    type: G
+    apps:
+      - 3-1-5
+  G80:
+    title: 'G80: Providing a submit button to initiate a change of context'
+    type: G
+    apps:
+      - 3-2-2
+  G81:
+    title: |
+      G81: Providing a synchronized video of the sign language interpreter that can
+      be displayed in a different viewport or overlaid on the image by the player
+    type: G
+    apps:
+      - 1-2-6
+  G82:
+    title: 'G82: Providing a text alternative that identifies the purpose of the non-text content'
+    type: G
+    apps:
+      - 1-1-1
+  G83:
+    title: 'G83: Providing text descriptions to identify required fields that were not completed'
+    type: G
+    apps:
+      - 3-3-1
+      - 3-3-2
+      - 3-3-3
+  G84:
+    title: 'G84: Providing a text description when the user provides information that is not in the list of allowed values'
+    type: G
+    apps:
+      - 3-3-1
+      - 3-3-3
+  G85:
+    title: 'G85: Providing a text description when user input falls outside the required format or values'
+    type: G
+    apps:
+      - 3-3-1
+      - 3-3-3
+  G86:
+    title: 'G86: Providing a text summary that can be understood by people with lower secondary education level reading ability'
+    type: G
+    apps:
+      - 3-1-5
+  G87:
+    title: 'G87: Providing closed captions'
+    type: G
+    apps:
+      - 1-2-2
+      - 1-2-4
+  G88:
+    title: 'G88: Providing descriptive titles for Web pages'
+    type: G
+    apps:
+      - 2-4-2
+  G89:
+    title: 'G89: Providing expected data format and example'
+    type: G
+    apps:
+      - 3-3-2
+      - 3-3-5
+  G90:
+    title: 'G90: Providing keyboard-triggered event handlers'
+    type: G
+    apps:
+      - 2-1-1
+      - 2-1-3
+  G91:
+    title: 'G91: Providing link text that describes the purpose of a link'
+    type: G
+    apps:
+      - 2-4-4
+      - 2-4-9
+  G92:
+    title: |
+      G92: Providing long description for non-text content that serves the same
+      purpose and presents the same information
+    type: G
+    apps:
+      - 1-1-1
+  G93:
+    title: 'G93: Providing open (always visible) captions'
+    type: G
+    apps:
+      - 1-2-2
+      - 1-2-4
+  G94:
+    title: 'G94: Providing short text alternative for non-text content that serves the same purpose and presents the same information as the non-text content'
+    type: G
+    apps:
+      - 1-1-1
+  G95:
+    title: |
+      G95: Providing short text alternatives that provide a brief description of
+      the non-text content
+    type: G
+    apps:
+      - 1-1-1
+  G96:
+    title: 'G96: Providing textual identification of items that otherwise rely only on sensory information to be understood'
+    type: G
+    apps:
+      - 1-3-3
+  G97:
+    title: 'G97: Providing the first use of an abbreviation immediately before or after the expanded form'
+    type: G
+    apps:
+      - 3-1-4
+  G98:
+    title: 'G98: Providing the ability for the user to review and correct answers before submitting'
+    type: G
+    apps:
+      - 3-3-4
+      - 3-3-6
+  G99:
+    title: 'G99: Providing the ability to recover deleted information'
+    type: G
+    apps:
+      - 3-3-4
+      - 3-3-6
+  G100:
+    title: 'G100: Providing a short text alternative which is the accepted name or a descriptive name of the non-text content'
+    type: G
+    apps:
+      - 1-1-1
+  G101:
+    title: 'G101: Providing the definition of a word or phrase used in an unusual or restricted way'
+    type: G
+    apps:
+      - 3-1-3
+  G102:
+    title: 'G102: Providing the expansion or explanation of an abbreviation'
+    type: G
+    apps:
+      - 3-1-4
+  G103:
+    title: 'G103: Providing visual illustrations, pictures, and symbols to help explain ideas, events, and processes'
+    type: G
+    apps:
+      - 3-1-5
+  G105:
+    title: 'G105: Saving data so that it can be used after a user re-authenticates'
+    type: G
+    apps:
+      - 2-2-5
+  G107:
+    title: 'G107: Using "activate" rather than "focus" as a trigger for changes of context'
+    type: G
+    apps:
+      - 3-2-1
+  G108:
+    title: 'G108: Using markup features to expose the name and role, allow user-settable properties to be directly set, and provide notification of changes'
+    type: G
+    apps:
+      - 4-1-2
+  G110:
+    title: 'G110: Using an instant client-side redirect'
+    type: G
+    apps:
+      - 3-2-5
+  G111:
+    title: 'G111: Using color and pattern'
+    type: G
+    apps:
+      - 1-4-1
+  G112:
+    title: 'G112: Using inline definitions'
+    type: G
+    apps:
+      - 3-1-3
+  G115:
+    title: 'G115: Using semantic elements to mark up structure'
+    type: G
+    apps:
+      - 1-3-1
+  G117:
+    title: 'G117: Using text to convey information that is conveyed by variations in presentation of text'
+    type: G
+    apps:
+      - 1-3-1
+  G120:
+    title: 'G120: Providing the pronunciation immediately following the word'
+    type: G
+    apps:
+      - 3-1-6
+  G121:
+    title: 'G121: Linking to pronunciations'
+    type: G
+    apps:
+      - 3-1-6
+  G123:
+    title: 'G123: Adding a link at the beginning of a block of repeated content to go to the end of the block'
+    type: G
+    apps:
+      - 2-4-1
+  G124:
+    title: 'G124: Adding links at the top of the page to each area of the content'
+    type: G
+    apps:
+      - 2-4-1
+  G125:
+    title: 'G125: Providing links to navigate to related Web pages'
+    type: G
+    apps:
+      - 2-4-5
+  G126:
+    title: 'G126: Providing a list of links to all other Web pages'
+    type: G
+    apps:
+      - 2-4-5
+  G127:
+    title: "G127: Identifying a Web page's relationship to a larger collection of Web pages"
+    type: G
+    apps:
+      - 2-4-2
+      - 2-4-8
+  G128:
+    title: 'G128: Indicating current location within navigation bars'
+    type: G
+    apps:
+      - 2-4-8
+  G130:
+    title: 'G130: Providing descriptive headings'
+    type: G
+    apps:
+      - 2-4-6
+  G131:
+    title: 'G131: Providing descriptive labels'
+    type: G
+    apps:
+      - 2-4-6
+      - 3-3-2
+  G133:
+    title: 'G133: Providing a checkbox on the first page of a multipart form that allows users to ask for longer session time limit or no session time limit'
+    type: G
+    apps:
+      - 2-2-1
+  G134:
+    title: 'G134: Validating Web pages'
+    type: G
+    apps:
+      - 4-1-1
+  G135:
+    title: |
+      G135: Using the accessibility API features of a technology to expose names and
+      roles, to allow user-settable properties to be directly set, and to provide
+      notification of changes
+    type: G
+    apps:
+      - 4-1-2
+  G136:
+    title: 'G136: Providing a link at the beginning of a nonconforming Web page that points to a conforming alternate version'
+    type: G
+    apps: [ ]
+  G138:
+    title: 'G138: Using semantic markup whenever color cues are used'
+    type: G
+    apps:
+      - 1-3-1
+  G139:
+    title: 'G139: Creating a mechanism that allows users to jump to errors'
+    type: G
+    apps:
+      - 3-3-1
+      - 3-3-3
+  G140:
+    title: 'G140: Separating information and structure from presentation to enable different presentations'
+    type: G
+    apps:
+      - 1-3-1
+      - 1-4-5
+      - 1-4-9
+  G141:
+    title: 'G141: Organizing a page using headings'
+    type: G
+    apps:
+      - 1-3-1
+      - 2-4-10
+  G142:
+    title: 'G142: Using a technology that has commonly-available user agents that support zoom'
+    type: G
+    apps:
+      - 1-4-4
+  G143:
+    title: 'G143: Providing a text alternative that describes the purpose of the CAPTCHA'
+    type: G
+    apps:
+      - 1-1-1
+  G144:
+    title: 'G144: Ensuring that the Web Page contains another CAPTCHA serving the same purpose using a different modality'
+    type: G
+    apps:
+      - 1-1-1
+  G145:
+    title: |
+      G145: Ensuring that a contrast ratio of at least 3:1 exists between text (and images of text)
+      and background behind the text
+    type: G
+    apps:
+      - 1-4-3
+  G146:
+    title: 'G146: Using liquid layout'
+    type: G
+    apps:
+      - 1-4-4
+      - 1-4-8
+  G148:
+    title: 'G148: Not specifying background color, not specifying text color, and not using technology features that change those defaults'
+    type: G
+    apps:
+      - 1-4-3
+      - 1-4-6
+      - 1-4-8
+  G149:
+    title: 'G149: Using user interface components that are highlighted by the user agent when they receive focus'
+    type: G
+    apps:
+      - 2-4-7
+  G150:
+    title: 'G150: Providing text based alternatives for live audio-only content'
+    type: G
+    apps:
+      - 1-2-9
+  G151:
+    title: 'G151: Providing a link to a text transcript of a prepared statement or script if the script is followed'
+    type: G
+    apps:
+      - 1-2-9
+  G152:
+    title: 'G152: Setting animated gif images to stop blinking after n cycles (within 5 seconds)'
+    type: G
+    apps:
+      - 2-2-2
+  G153:
+    title: 'G153: Making the text easier to read'
+    type: G
+    apps:
+      - 3-1-5
+  G155:
+    title: 'G155: Providing a checkbox in addition to a submit button'
+    type: G
+    apps:
+      - 3-3-4
+      - 3-3-6
+  G156:
+    title: 'G156: Using a technology that has commonly-available user agents that can change the foreground and background of blocks of text'
+    type: G
+    apps:
+      - 1-4-3
+      - 1-4-6
+      - 1-4-8
+  G157:
+    title: 'G157: Incorporating a live audio captioning service into a Web page'
+    type: G
+    apps:
+      - 1-2-9
+  G158:
+    title: 'G158: Providing an alternative for time-based media for audio-only content'
+    type: G
+    apps:
+      - 1-2-1
+  G159:
+    title: 'G159: Providing an alternative for time-based media for video-only content'
+    type: G
+    apps:
+      - 1-2-1
+      - 1-2-8
+  G160:
+    title: 'G160: Providing sign language versions of information, ideas, and processes that must be understood in order to use the content'
+    type: G
+    apps:
+      - 3-1-5
+  G161:
+    title: 'G161: Providing a search function to help users find content'
+    type: G
+    apps:
+      - 2-4-5
+  G162:
+    title: 'G162: Positioning labels to maximize predictability of relationships'
+    type: G
+    apps:
+      - 1-3-1
+      - 3-3-2
+  G163:
+    title: 'G163: Using standard diacritical marks that can be turned off'
+    type: G
+    apps:
+      - 3-1-6
+  G164:
+    title: 'G164: Providing a stated time within which an online request (or transaction) may be amended or canceled by the user after making the request'
+    type: G
+    apps:
+      - 3-3-4
+      - 3-3-6
+  G165:
+    title: 'G165: Using the default focus indicator for the platform so that high visibility default focus indicators will carry over'
+    type: G
+    apps:
+      - 2-4-7
+  G166:
+    title: 'G166: Providing audio that describes the important video content and describing it as such'
+    type: G
+    apps:
+      - 1-2-1
+  G167:
+    title: 'G167: Using an adjacent button to label the purpose of a field'
+    type: G
+    apps:
+      - 3-3-2
+  G168:
+    title: 'G168: Requesting confirmation to continue with selected action'
+    type: G
+    apps:
+      - 3-3-4
+      - 3-3-6
+  G169:
+    title: 'G169: Aligning text on only one side'
+    type: G
+    apps:
+      - 1-4-8
+  G170:
+    title: 'G170: Providing a control near the beginning of the Web page that turns off sounds that play automatically'
+    type: G
+    apps:
+      - 1-4-2
+  G171:
+    title: 'G171: Playing sounds only on user request'
+    type: G
+    apps:
+      - 1-4-2
+  G172:
+    title: 'G172: Providing a mechanism to remove full justification of text'
+    type: G
+    apps:
+      - 1-4-8
+  G173:
+    title: 'G173: Providing a version of a movie with audio descriptions'
+    type: G
+    apps:
+      - 1-2-3
+      - 1-2-5
+  G174:
+    title: 'G174: Providing a control with a sufficient contrast ratio that allows users to switch to a presentation that uses sufficient contrast'
+    type: G
+    apps:
+      - 1-4-3
+      - 1-4-6
+  G175:
+    title: 'G175: Providing a multi color selection tool on the page for foreground and background colors'
+    type: G
+    apps:
+      - 1-4-8
+  G176:
+    title: 'G176: Keeping the flashing area small enough'
+    type: G
+    apps:
+      - 2-3-1
+  G177:
+    title: 'G177: Providing suggested correction text'
+    type: G
+    apps:
+      - 3-3-3
+  G178:
+    title: 'G178: Providing controls on the Web page that allow users to incrementally change the size of all text on the page up to 200 percent'
+    type: G
+    apps:
+      - 1-4-4
+  G179:
+    title: 'G179: Ensuring that there is no loss of content or functionality when the text resizes and text containers do not change their width'
+    type: G
+    apps:
+      - 1-4-4
+  G180:
+    title: 'G180: Providing the user with a means to set the time limit to 10 times the default time limit'
+    type: G
+    apps:
+      - 2-2-1
+  G181:
+    title: 'G181: Encoding user data as hidden or encrypted data in a re-authorization page'
+    type: G
+    apps:
+      - 2-2-5
+  G182:
+    title: 'G182: Ensuring that additional visual cues are available when text color differences are used to convey information'
+    type: G
+    apps:
+      - 1-4-1
+  G183:
+    title: 'G183: Using a contrast ratio of 3:1 with surrounding text and providing additional visual cues on focus for links or controls where color alone is used to identify them'
+    type: G
+    apps:
+      - 1-4-1
+  G184:
+    title: 'G184: Providing text instructions at the beginning of a form or set of fields that describes the necessary input'
+    type: G
+    apps:
+      - 3-3-2
+      - 3-3-5
+  G185:
+    title: 'G185: Linking to all of the pages on the site from the home page'
+    type: G
+    apps:
+      - 2-4-5
+  G186:
+    title: 'G186: Using a control in the Web page that stops moving, blinking, or auto-updating content'
+    type: G
+    apps:
+      - 2-2-2
+  G187:
+    title: 'G187: Using a technology to include blinking content that can be turned off via the user agent'
+    type: G
+    apps:
+      - 2-2-2
+  G188:
+    title: 'G188: Providing a button on the page to increase line spaces and paragraph spaces'
+    type: G
+    apps:
+      - 1-4-8
+  G189:
+    title: 'G189: Providing a control near the beginning of the Web page that changes the link text'
+    type: G
+    apps:
+      - 2-4-4
+      - 2-4-9
+  G190:
+    title: 'G190: Providing a link adjacent to or associated with a non-conforming object that links to a conforming alternate version'
+    type: G
+    apps: [ ]
+  G191:
+    title: 'G191: Providing a link, button, or other mechanism that reloads the page without any blinking content'
+    type: G
+    apps:
+      - 2-2-2
+  G192:
+    title: 'G192: Fully conforming to specifications'
+    type: G
+    apps:
+      - 4-1-1
+  G193:
+    title: 'G193: Providing help by an assistant in the Web page'
+    type: G
+    apps:
+      - 3-3-5
+  G194:
+    title: 'G194: Providing spell checking and suggestions for text input'
+    type: G
+    apps:
+      - 3-3-5
+  G195:
+    title: 'G195: Using an author-supplied, highly visible focus indicator'
+    type: G
+    apps:
+      - 2-4-7
+  G196:
+    title: 'G196: Using a text alternative on one item within a group of images that describes all items in the group'
+    type: G
+    apps:
+      - 1-1-1
+  G197:
+    title: 'G197: Using labels, names, and text alternatives consistently for content that has the same functionality'
+    type: G
+    apps:
+      - 3-2-4
+  G198:
+    title: 'G198: Providing a way for the user to turn the time limit off'
+    type: G
+    apps:
+      - 2-2-1
+  G199:
+    title: 'G199: Providing success feedback when data is submitted successfully'
+    type: G
+    apps:
+      - 3-3-1
+      - 3-3-3
+      - 3-3-4
+      - 3-3-6
+  G200:
+    title: 'G200: Opening new windows and tabs from a link only when necessary'
+    type: G
+    apps: [ ]
+  G201:
+    title: 'G201: Giving users advanced warning when opening a new window'
+    type: G
+    apps: [ ]
+  G202:
+    title: 'G202: Ensuring keyboard control for all functionality'
+    type: G
+    apps:
+      - 2-1-1
+      - 2-1-3
+  G203:
+    title: 'G203: Using a static text alternative to describe a talking head video'
+    type: G
+    apps:
+      - 1-2-3
+      - 1-2-5
+  G204:
+    title: "G204: Not interfering with the user agent's reflow of text as the viewing window is narrowed"
+    type: G
+    apps:
+      - 1-4-8
+  G205:
+    title: 'G205: Including a text cue for colored form control labels'
+    type: G
+    apps:
+      - 1-4-1
+  G206:
+    title: 'G206: Providing options within the content to switch to a layout that does not require the user to scroll horizontally to read a line of text'
+    type: G
+    apps:
+      - 1-4-8
+  H2:
+    title: 'H2: Combining adjacent image and text links for the same resource'
+    type: H
+    apps:
+      - 1-1-1
+      - 2-4-4
+      - 2-4-9
+  H4:
+    title: 'H4: Creating a logical tab order through links, form controls, and objects'
+    type: H
+    apps:
+      - 2-4-3
+  H24:
+    title: 'H24:  Providing text alternatives for the area elements of image maps'
+    type: H
+    apps:
+      - 1-1-1
+      - 2-4-4
+      - 2-4-9
+  H25:
+    title: 'H25: Providing a title using the title element'
+    type: H
+    apps:
+      - 2-4-2
+  H28:
+    title: 'H28: Providing definitions for abbreviations by using the abbr element'
+    type: H
+    apps:
+      - 3-1-4
+  H30:
+    title: 'H30: Providing link text that describes the purpose of a link for anchor elements'
+    type: H
+    apps:
+      - 1-1-1
+      - 2-4-4
+      - 2-4-9
+  H32:
+    title: 'H32: Providing submit buttons'
+    type: H
+    apps:
+      - 3-2-2
+  H33:
+    title: 'H33: Supplementing link text with the title attribute'
+    type: H
+    apps:
+      - 2-4-4
+      - 2-4-9
+  H34:
+    title: |
+      H34: Using a Unicode right-to-left mark (RLM) or left-to-right mark (LRM) to mix text
+      direction inline
+    type: H
+    apps:
+      - 1-3-2
+  H35:
+    title: 'H35:  Providing text alternatives on applet elements'
+    type: H
+    apps:
+      - 1-1-1
+  H36:
+    title: 'H36: Using alt attributes on images used as submit buttons'
+    type: H
+    apps:
+      - 1-1-1
+  H37:
+    title: 'H37: Using alt attributes on img elements'
+    type: H
+    apps:
+      - 1-1-1
+  H39:
+    title: 'H39: Using caption elements to associate data table captions with data tables'
+    type: H
+    apps:
+      - 1-3-1
+  H40:
+    title: 'H40: Using description lists'
+    type: H
+    apps:
+      - 3-1-3
+  H42:
+    title: 'H42: Using h1-h6 to identify headings'
+    type: H
+    apps:
+      - 1-3-1
+  H43:
+    title: |
+      H43: Using id and headers attributes to associate data cells with header cells in
+      data tables
+    type: H
+    apps:
+      - 1-3-1
+  H44:
+    title: 'H44: Using label elements to associate text labels with form controls'
+    type: H
+    apps:
+      - 1-1-1
+      - 1-3-1
+      - 3-3-2
+      - 4-1-2
+  H45:
+    title: 'H45: Using longdesc'
+    type: H
+    apps:
+      - 1-1-1
+  H46:
+    title: 'H46: Using noembed with embed'
+    type: H
+    apps:
+      - 1-1-1
+      - 1-2-8
+  H48:
+    title: 'H48: Using ol, ul and dl for lists or groups of links'
+    type: H
+    apps:
+      - 1-3-1
+  H49:
+    title: 'H49: Using semantic markup to mark emphasized or special text'
+    type: H
+    apps:
+      - 1-3-1
+  H51:
+    title: 'H51: Using table markup to present tabular information'
+    type: H
+    apps:
+      - 1-3-1
+  H53:
+    title: 'H53: Using the body of the object element'
+    type: H
+    apps:
+      - 1-1-1
+      - 1-2-3
+      - 1-2-8
+  H54:
+    title: 'H54: Using the dfn element to identify the defining instance of a word'
+    type: H
+    apps:
+      - 3-1-3
+  H56:
+    title: |
+      H56: Using the dir attribute on an inline element to resolve problems
+      with nested directional runs
+    type: H
+    apps:
+      - 1-3-2
+  H57:
+    title: 'H57:  Using language attributes on the html element'
+    type: H
+    apps:
+      - 3-1-1
+  H58:
+    title: 'H58: Using language attributes to identify changes in the human language'
+    type: H
+    apps:
+      - 3-1-2
+  H59:
+    title: 'H59: Using the link element and navigation tools'
+    type: H
+    apps:
+      - 2-4-5
+      - 2-4-8
+  H60:
+    title: 'H60: Using the link element to link to a glossary'
+    type: H
+    apps:
+      - 3-1-3
+      - 3-1-4
+  H62:
+    title: 'H62: Using the ruby element'
+    type: H
+    apps:
+      - 3-1-6
+  H63:
+    title: |
+      H63: Using the scope attribute to associate header cells and data cells in data
+      tables
+    type: H
+    apps:
+      - 1-3-1
+  H64:
+    title: 'H64: Using the title attribute of the frame and iframe elements'
+    type: H
+    apps:
+      - 2-4-1
+      - 4-1-2
+  H65:
+    title: |
+      H65: Using the title attribute to identify form controls when the label element
+      cannot be used
+    type: H
+    apps:
+      - 1-1-1
+      - 1-3-1
+      - 3-3-2
+      - 4-1-2
+  H67:
+    title: |
+      H67: Using null alt text and no title attribute on img elements for images that AT
+      should ignore
+    type: H
+    apps:
+      - 1-1-1
+  H69:
+    title: 'H69: Providing heading elements at the beginning of each section of content'
+    type: H
+    apps:
+      - 2-4-1
+      - 2-4-10
+  H70:
+    title: 'H70: Using frame elements to group blocks of repeated material'
+    type: H
+    apps:
+      - 2-4-1
+  H71:
+    title: |
+      H71:  Providing a description for groups of form controls using fieldset and legend
+      elements
+    type: H
+    apps:
+      - 1-3-1
+      - 3-3-2
+  H73:
+    title: |
+      H73: Using the summary attribute of the table element to give an overview of data
+      tables
+    type: H
+    apps:
+      - 1-3-1
+  H74:
+    title: 'H74: Ensuring that opening and closing tags are used according to specification'
+    type: H
+    apps:
+      - 4-1-1
+  H75:
+    title: 'H75: Ensuring that Web pages are well-formed'
+    type: H
+    apps:
+      - 4-1-1
+  H76:
+    title: 'H76: Using meta refresh to create an instant client-side redirect'
+    type: H
+    apps:
+      - 3-2-5
+  H77:
+    title: |
+      H77: Identifying the purpose of a link using link text combined with its enclosing
+      list item
+    type: H
+    apps:
+      - 2-4-4
+  H78:
+    title: |
+      H78: Identifying the purpose of a link using link text combined with its enclosing
+      paragraph
+    type: H
+    apps:
+      - 2-4-4
+  H79:
+    title: 'H79: Identifying the purpose of a link in a data table using the link text combined with its enclosing table cell and associated table header cells'
+    type: H
+    apps:
+      - 2-4-4
+  H80:
+    title: |
+      H80: Identifying the purpose of a link using link text combined with the preceding
+      heading element
+    type: H
+    apps:
+      - 2-4-4
+  H81:
+    title: |
+      H81: Identifying the purpose of a link in a nested list using link text combined with
+      the parent list item under which the list is nested
+    type: H
+    apps:
+      - 2-4-4
+  H83:
+    title: 'H83: Using the target attribute to open a new window on user request and indicating this in link text'
+    type: H
+    apps:
+      - 3-2-5
+  H84:
+    title: 'H84: Using a button with a select element to perform an action'
+    type: H
+    apps:
+      - 3-2-2
+  H85:
+    title: 'H85: Using OPTGROUP to group OPTION elements inside a SELECT'
+    type: H
+    apps:
+      - 1-3-1
+  H86:
+    title: 'H86: Providing text alternatives for ASCII art, emoticons, and leetspeak'
+    type: H
+    apps:
+      - 1-1-1
+  H88:
+    title: 'H88: Using HTML according to spec'
+    type: H
+    apps:
+      - 4-1-1
+      - 4-1-2
+  H89:
+    title: 'H89: Using the title attribute to provide context-sensitive help'
+    type: H
+    apps:
+      - 3-3-5
+  H90:
+    title: 'H90: Indicating required form controls using label or legend'
+    type: H
+    apps:
+      - 3-3-2
+  H91:
+    title: 'H91: Using HTML form controls and links'
+    type: H
+    apps:
+      - 2-1-1
+      - 2-1-3
+      - 4-1-2
+  H93:
+    title: 'H93: Ensuring that id attributes are unique on a Web page'
+    type: H
+    apps:
+      - 4-1-1
+  H94:
+    title: 'H94: Ensuring that elements do not contain duplicate attributes'
+    type: H
+    apps:
+      - 4-1-1
+  H95:
+    title: 'H95: Using the track element to provide captions'
+    type: H
+    apps:
+      - 1-2-2
+  H96:
+    title: 'H96: Using the track element to provide audio descriptions'
+    type: H
+    apps:
+      - 1-2-1
+      - 1-2-3
+      - 1-2-5
+      - 1-2-7
+  H97:
+    title: 'H97: Grouping related links using the nav element'
+    type: H
+    apps:
+      - 1-3-1
+  C6:
+    title: 'C6: Positioning content based on structural markup'
+    type: C
+    apps:
+      - 1-3-2
+      - 1-4-5
+      - 1-4-9
+      - 2-4-1
+  C7:
+    title: 'C7: Using CSS to hide a portion of the link text'
+    type: C
+    apps:
+      - 2-4-4
+      - 2-4-9
+  C8:
+    title: 'C8: Using CSS letter-spacing to control spacing within a word'
+    type: C
+    apps:
+      - 1-3-2
+      - 1-4-5
+      - 1-4-9
+  C9:
+    title: 'C9: Using CSS to include decorative images'
+    type: C
+    apps:
+      - 1-1-1
+  C12:
+    title: 'C12: Using percent for font sizes'
+    type: C
+    apps:
+      - 1-4-4
+      - 1-4-5
+      - 1-4-8
+      - 1-4-9
+  C13:
+    title: 'C13: Using named font sizes'
+    type: C
+    apps:
+      - 1-4-4
+      - 1-4-5
+      - 1-4-8
+      - 1-4-9
+  C14:
+    title: 'C14: Using em units for font sizes'
+    type: C
+    apps:
+      - 1-4-4
+      - 1-4-5
+      - 1-4-8
+      - 1-4-9
+  C15:
+    title: 'C15: Using CSS to change the presentation of a user interface component when it receives focus'
+    type: C
+    apps:
+      - 1-4-1
+      - 2-4-7
+  C17:
+    title: 'C17: Scaling form elements which contain text'
+    type: C
+    apps:
+      - 1-4-4
+  C18:
+    title: 'C18: Using CSS margin and padding rules instead of spacer images for layout design'
+    type: C
+    apps:
+      - 1-1-1
+  C19:
+    title: 'C19: Specifying alignment either to the left OR right in CSS'
+    type: C
+    apps:
+      - 1-4-8
+  C20:
+    title: 'C20: Using relative measurements to set column widths so that lines can average 80 characters or less when the browser is resized'
+    type: C
+    apps:
+      - 1-4-4
+      - 1-4-8
+  C21:
+    title: 'C21: Specifying line spacing in CSS'
+    type: C
+    apps:
+      - 1-4-8
+  C22:
+    title: 'C22: Using CSS to control visual presentation of text'
+    type: C
+    apps:
+      - 1-3-1
+      - 1-4-4
+      - 1-4-5
+      - 1-4-9
+  C23:
+    title: 'C23: Specifying text and background colors of secondary content such as banners, features and navigation in CSS while not specifying text and background colors of the main content'
+    type: C
+    apps:
+      - 1-4-8
+  C24:
+    title: 'C24: Using percentage values in CSS for container sizes'
+    type: C
+    apps:
+      - 1-4-8
+  C25:
+    title: 'C25: Specifying borders and layout in CSS to delineate areas of a Web page while not specifying text and text-background colors'
+    type: C
+    apps:
+      - 1-4-8
+  C27:
+    title: 'C27: Making the DOM order match the visual order'
+    type: C
+    apps:
+      - 1-3-2
+      - 2-4-3
+  C28:
+    title: 'C28: Specifying the size of text containers using em units'
+    type: C
+    apps:
+      - 1-4-4
+  C29:
+    title: 'C29: Using a style switcher to provide a conforming alternate version'
+    type: C
+    apps: [ ]
+  C30:
+    title: 'C30: Using CSS to replace text with images of text and providing user interface controls to switch'
+    type: C
+    apps:
+      - 1-4-5
+      - 1-4-9
+  SCR1:
+    title: 'SCR1: Allowing the user to extend the default time limit'
+    type: SCR
+    apps:
+      - 2-2-1
+  SCR2:
+    title: 'SCR2: Using redundant keyboard and mouse event handlers'
+    type: SCR
+    apps:
+      - 2-1-1
+      - 2-1-3
+  SCR14:
+    title: 'SCR14: Using scripts to make nonessential alerts optional'
+    type: SCR
+    apps:
+      - 2-2-4
+  SCR16:
+    title: 'SCR16: Providing a script that warns the user a time limit is about to expire'
+    type: SCR
+    apps:
+      - 2-2-1
+  SCR18:
+    title: 'SCR18: Providing client-side validation and alert'
+    type: SCR
+    apps:
+      - 3-3-1
+      - 3-3-3
+      - 3-3-4
+  SCR19:
+    title: |
+      SCR19: Using an onchange event on a select element without causing a change of
+      context
+    type: SCR
+    apps:
+      - 3-2-2
+      - 3-2-5
+  SCR20:
+    title: 'SCR20: Using both keyboard and other device-specific functions'
+    type: SCR
+    apps:
+      - 2-1-1
+      - 2-1-3
+  SCR21:
+    title: 'SCR21: Using functions of the Document Object Model (DOM) to add content to a page'
+    type: SCR
+    apps:
+      - 1-3-1
+  SCR22:
+    title: 'SCR22: Using scripts to control blinking and stop it in five seconds or less'
+    type: SCR
+    apps:
+      - 2-2-2
+  SCR24:
+    title: 'SCR24: Using progressive enhancement to open new windows on user request'
+    type: SCR
+    apps:
+      - 3-2-5
+  SCR26:
+    title: 'SCR26: Inserting dynamic content into the Document Object Model immediately following its trigger element'
+    type: SCR
+    apps:
+      - 2-4-3
+  SCR27:
+    title: 'SCR27: Reordering page sections using the Document Object Model'
+    type: SCR
+    apps:
+      - 2-4-3
+  SCR28:
+    title: 'SCR28: Using an expandable and collapsible menu to bypass block of content'
+    type: SCR
+    apps:
+      - 2-4-1
+  SCR29:
+    title: 'SCR29: Adding keyboard-accessible actions to static HTML elements'
+    type: SCR
+    apps:
+      - 2-1-1
+      - 2-1-3
+  SCR30:
+    title: 'SCR30: Using scripts to change the link text'
+    type: SCR
+    apps:
+      - 2-4-4
+      - 2-4-9
+  SCR31:
+    title: 'SCR31: Using script to change the background color or border of the element with focus'
+    type: SCR
+    apps:
+      - 2-4-7
+  SCR32:
+    title: 'SCR32: Providing client-side validation and adding error text via the DOM'
+    type: SCR
+    apps:
+      - 3-3-1
+      - 3-3-3
+  SCR33:
+    title: 'SCR33: Using script to scroll content, and providing a mechanism to pause it'
+    type: SCR
+    apps:
+      - 2-2-1
+      - 2-2-2
+  SCR34:
+    title: 'SCR34: Calculating size and position in a way that scales with text size'
+    type: SCR
+    apps:
+      - 1-4-4
+      - 1-4-8
+  SCR35:
+    title: 'SCR35: Making actions keyboard accessible by using the onclick event of anchors and buttons'
+    type: SCR
+    apps:
+      - 2-1-1
+      - 2-1-3
+  SCR36:
+    title: 'SCR36: Providing a mechanism to allow users to display moving, scrolling, or auto-updating text in a static window or area'
+    type: SCR
+    apps:
+      - 2-2-1
+  SCR37:
+    title: 'SCR37: Creating Custom Dialogs in a Device Independent Way'
+    type: SCR
+    apps:
+      - 2-4-3
+  SCR38:
+    title: 'SCR38: Creating a conforming alternate version for a web page designed with progressive enhancement'
+    type: SCR
+    apps: [ ]
+  SVR1:
+    title: |
+      SVR1: Implementing automatic redirects on the server side instead of on the
+      client side
+    type: SVR
+    apps:
+      - 3-2-5
+  SVR2:
+    title: 'SVR2: Using .htaccess to ensure that the only way to access non-conforming content is from conforming content'
+    type: SVR
+    apps: [ ]
+  SVR3:
+    title: 'SVR3: Using HTTP referer to ensure that the only way to access non-conforming content is from conforming content'
+    type: SVR
+    apps: [ ]
+  SVR4:
+    title: 'SVR4: Allowing users to provide preferences for the display of conforming alternate versions'
+    type: SVR
+    apps: [ ]
+  SVR5:
+    title: 'SVR5: Specifying the default language in the HTTP header'
+    type: SVR
+    apps:
+      - 3-1-1
+  T1:
+    title: 'T1: Using standard text formatting conventions for paragraphs'
+    type: T
+    apps:
+      - 1-3-1
+  T2:
+    title: 'T2: Using standard text formatting conventions for lists'
+    type: T
+    apps:
+      - 1-3-1
+  T3:
+    title: 'T3: Using standard text formatting conventions for headings'
+    type: T
+    apps:
+      - 1-3-1
+  ARIA1:
+    title: 'ARIA1: Using the aria-describedby property to provide a descriptive label for user interface controls'
+    type: ARIA
+    apps:
+      - 1-3-1
+      - 3-3-2
+  ARIA2:
+    title: 'ARIA2: Identifying a required field with the aria-required property'
+    type: ARIA
+    apps:
+      - 1-3-1
+      - 3-3-3
+  ARIA4:
+    title: 'ARIA4: Using a WAI-ARIA role to expose the role of a user interface component'
+    type: ARIA
+    apps:
+      - 4-1-2
+  ARIA5:
+    title: 'ARIA5: Using WAI-ARIA state and property attributes to expose the state of a user interface component'
+    type: ARIA
+    apps:
+      - 4-1-2
+  ARIA6:
+    title: 'ARIA6: Using aria-label to provide labels for objects'
+    type: ARIA
+    apps:
+      - 1-1-1
+  ARIA7:
+    title: 'ARIA7: Using aria-labelledby for link purpose'
+    type: ARIA
+    apps:
+      - 2-4-4
+  ARIA8:
+    title: 'ARIA8: Using aria-label for link purpose'
+    type: ARIA
+    apps:
+      - 2-4-4
+      - 2-4-9
+  ARIA9:
+    title: 'ARIA9: Using aria-labelledby to concatenate a label from several text nodes'
+    type: ARIA
+    apps:
+      - 1-1-1
+      - 3-3-2
+  ARIA10:
+    title: 'ARIA10: Using aria-labelledby to provide a text alternative for non-text content'
+    type: ARIA
+    apps:
+      - 1-1-1
+  ARIA11:
+    title: 'ARIA11: Using ARIA landmarks to identify regions of a page'
+    type: ARIA
+    apps:
+      - 1-3-1
+      - 2-4-1
+  ARIA12:
+    title: 'ARIA12: Using role=heading to identify headings'
+    type: ARIA
+    apps:
+      - 1-3-1
+  ARIA13:
+    title: 'ARIA13: Using aria-labelledby to name regions and landmarks'
+    type: ARIA
+    apps:
+      - 1-3-1
+  ARIA14:
+    title: 'ARIA14: Using aria-label to provide an invisible label where a visible label cannot be used'
+    type: ARIA
+    apps:
+      - 4-1-2
+  ARIA15:
+    title: 'ARIA15: Using aria-describedby to provide descriptions of images'
+    type: ARIA
+    apps:
+      - 1-1-1
+  ARIA16:
+    title: 'ARIA16: Using aria-labelledby to provide a name for user interface controls'
+    type: ARIA
+    apps:
+      - 1-3-1
+      - 4-1-2
+  ARIA17:
+    title: 'ARIA17: Using grouping roles to identify related form controls'
+    type: ARIA
+    apps:
+      - 1-3-1
+      - 3-3-2
+  ARIA18:
+    title: 'ARIA18: Using aria-alertdialog to Identify Errors'
+    type: ARIA
+    apps:
+      - 3-3-1
+      - 3-3-3
+  ARIA19:
+    title: 'ARIA19: Using ARIA role=alert or Live Regions to Identify Errors'
+    type: ARIA
+    apps:
+      - 3-3-1
+  ARIA20:
+    title: 'ARIA20: Using the region role to identify a region of the page'
+    type: ARIA
+    apps:
+      - 1-3-1
+  ARIA21:
+    title: 'ARIA21: Using Aria-Invalid to Indicate An Error Field'
+    type: ARIA
+    apps:
+      - 3-3-1
+  PDF1:
+    title: 'PDF1: Applying text alternatives to images with the Alt entry in PDF documents'
+    type: PDF
+    apps:
+      - 1-1-1
+  PDF2:
+    title: 'PDF2: Creating bookmarks in PDF documents'
+    type: PDF
+    apps:
+      - 2-4-5
+  PDF3:
+    title: 'PDF3: Ensuring correct tab and reading order in PDF documents'
+    type: PDF
+    apps:
+      - 1-3-2
+      - 2-1-1
+      - 2-1-3
+      - 2-4-3
+  PDF4:
+    title: 'PDF4: Hiding decorative images with the Artifact tag in PDF documents'
+    type: PDF
+    apps:
+      - 1-1-1
+  PDF5:
+    title: 'PDF5: Indicating required form controls in PDF forms'
+    type: PDF
+    apps:
+      - 3-3-1
+      - 3-3-2
+      - 3-3-3
+  PDF6:
+    title: 'PDF6: Using table elements for table markup in PDF Documents'
+    type: PDF
+    apps:
+      - 1-3-1
+  PDF7:
+    title: 'PDF7: Performing OCR on a scanned PDF document to provide actual text'
+    type: PDF
+    apps:
+      - 1-4-5
+      - 1-4-9
+  PDF8:
+    title: |
+      PDF8: Providing definitions for abbreviations via an E entry for a structure
+      element
+    type: PDF
+    apps:
+      - 3-1-4
+  PDF9:
+    title: 'PDF9: Providing headings by marking content with heading tags in PDF documents'
+    type: PDF
+    apps:
+      - 1-3-1
+      - 2-4-1
+  PDF10:
+    title: 'PDF10: Providing labels for interactive form controls in PDF documents'
+    type: PDF
+    apps:
+      - 1-3-1
+      - 3-3-2
+      - 4-1-2
+  PDF11:
+    title: 'PDF11: Providing links and link text using the Link annotation and the /Link structure element in PDF documents'
+    type: PDF
+    apps:
+      - 1-3-1
+      - 2-1-1
+      - 2-1-3
+      - 2-4-4
+      - 2-4-9
+  PDF12:
+    title: 'PDF12: Providing name, role, value information for form fields in PDF documents'
+    type: PDF
+    apps:
+      - 1-3-1
+      - 4-1-2
+  PDF13:
+    title: |
+      PDF13: Providing replacement text using the /Alt entry for links in PDF
+      documents
+    type: PDF
+    apps:
+      - 2-4-4
+      - 2-4-9
+  PDF14:
+    title: 'PDF14: Providing running headers and footers in PDF documents'
+    type: PDF
+    apps:
+      - 2-4-8
+      - 3-2-3
+  PDF15:
+    title: 'PDF15: Providing submit buttons with the submit-form action in PDF forms'
+    type: PDF
+    apps:
+      - 3-2-2
+  PDF16:
+    title: |
+      PDF16: Setting the default language using the /Lang entry in the document
+      catalog of a PDF document
+    type: PDF
+    apps:
+      - 3-1-1
+  PDF17:
+    title: 'PDF17: Specifying consistent page numbering for PDF documents'
+    type: PDF
+    apps:
+      - 1-3-1
+      - 2-4-8
+      - 3-2-3
+  PDF18:
+    title: |
+      PDF18: Specifying the document title using the Title entry in the document
+      information dictionary of a PDF document
+    type: PDF
+    apps:
+      - 2-4-2
+  PDF19:
+    title: |
+      PDF19: Specifying the language for a passage or phrase with the Lang entry
+      in PDF documents
+    type: PDF
+    apps:
+      - 3-1-1
+      - 3-1-2
+  PDF20:
+    title: "PDF20: Using Adobe Acrobat Pro's Table Editor to repair mistagged tables"
+    type: PDF
+    apps:
+      - 1-3-1
+  PDF21:
+    title: 'PDF21: Using List tags for lists in PDF documents'
+    type: PDF
+    apps:
+      - 1-3-1
+  PDF22:
+    title: |
+      PDF22: Indicating when user input falls outside the required format or
+      values in PDF forms
+    type: PDF
+    apps:
+      - 3-3-1
+      - 3-3-3
+  PDF23:
+    title: 'PDF23: Providing interactive form controls in PDF documents'
+    type: PDF
+    apps:
+      - 2-1-1
+      - 2-1-3
+  F1:
+    title: |
+      F1: Failure of Success Criterion 1.3.2 due to changing the meaning of content by
+      positioning information with CSS
+    type: F
+    apps:
+      - 1-3-2
+  F2:
+    title: 'F2: Failure of Success Criterion 1.3.1 due to using changes in text presentation to convey information without using the appropriate markup or text'
+    type: F
+    apps:
+      - 1-3-1
+  F3:
+    title: |
+      F3: Failure of Success Criterion 1.1.1 due to using CSS to include images that convey
+      important information
+    type: F
+    apps:
+      - 1-1-1
+  F4:
+    title: |
+      F4: Failure of Success Criterion 2.2.2 due to using text-decoration:blink without a
+      mechanism to stop it in less than five seconds
+    type: F
+    apps:
+      - 2-2-2
+  F7:
+    title: |
+      F7: Failure of Success Criterion 2.2.2 due to an object or applet, such as Java or Flash,
+      that has blinking content without a mechanism to pause the content that blinks
+      for more than five seconds
+    type: F
+    apps:
+      - 2-2-2
+  F8:
+    title: |
+      F8: Failure of Success Criterion 1.2.2 due to captions omitting some dialogue or important
+      sound effects
+    type: F
+    apps:
+      - 1-2-2
+  F9:
+    title: |
+      F9: Failure of Success Criterion 3.2.5 due to changing the context when the user removes
+      focus from a form element
+    type: F
+    apps:
+      - 3-2-5
+  F10:
+    title: |
+      F10: Failure of Success Criterion 2.1.2 and Conformance Requirement 5 due to combining multiple content formats in a way
+      that traps users inside one format type
+    type: F
+    apps:
+      - 2-1-2
+  F12:
+    title: |
+      F12: Failure of Success Criterion 2.2.5 due to having a session time limit without a mechanism
+      for saving user's input and re-establishing that information upon
+      re-authentication
+    type: F
+    apps:
+      - 2-2-5
+  F13:
+    title: |
+      F13: Failure of Success Criterion 1.1.1 and 1.4.1 due to having a text alternative that does not
+      include information that is conveyed by color differences in the image
+    type: F
+    apps:
+      - 1-1-1
+      - 1-4-1
+  F14:
+    title: |
+      F14: Failure of Success Criterion 1.3.3 due to identifying content only by its shape or
+      location
+    type: F
+    apps:
+      - 1-3-3
+  F15:
+    title: 'F15: Failure of Success Criterion 4.1.2 due to implementing custom controls that do not use an accessibility API for the technology, or do so incompletely'
+    type: F
+    apps:
+      - 4-1-2
+  F16:
+    title: 'F16: Failure of Success Criterion 2.2.2 due to including scrolling content where movement is not essential to the activity without also including a mechanism to pause and restart the content'
+    type: F
+    apps:
+      - 2-2-2
+  F19:
+    title: 'F19: Failure of Conformance Requirement 1 due to not providing a method for the user to find the alternative conforming version of a non-conforming Web page'
+    type: F
+    apps: [ ]
+  F20:
+    title: |
+      F20: Failure of Success Criterion 1.1.1 and 4.1.2 due to not updating text alternatives when
+      changes to non-text content occur
+    type: F
+    apps:
+      - 1-1-1
+      - 4-1-2
+  F22:
+    title: |
+      F22: Failure of Success Criterion 3.2.5 due to opening windows that are not requested by the
+      user
+    type: F
+    apps:
+      - 3-2-5
+  F23:
+    title: |
+      F23: Failure of  1.4.2 due to playing a sound longer than 3 seconds where
+      there is no mechanism to turn it off
+    type: F
+    apps:
+      - 1-4-2
+  F24:
+    title: |
+      F24: Failure of Success Criterion 1.4.3, 1.4.6 and 1.4.8 due to specifying foreground colors without
+      specifying background colors or vice versa
+    type: F
+    apps:
+      - 1-4-3
+      - 1-4-6
+      - 1-4-8
+  F25:
+    title: |
+      F25: Failure of Success Criterion 2.4.2 due to the title of a Web page not identifying the
+      contents
+    type: F
+    apps:
+      - 2-4-2
+  F26:
+    title: |
+      F26:
+      Failure of Success Criterion 1.3.3 due to using a graphical symbol alone to convey information
+    type: F
+    apps:
+      - 1-3-3
+  F30:
+    title: |
+      F30: Failure of Success Criterion 1.1.1 and 1.2.1 due to using text alternatives that are not
+      alternatives (e.g., filenames or placeholder text)
+    type: F
+    apps:
+      - 1-1-1
+      - 1-2-1
+  F31:
+    title: 'F31: Failure of Success Criterion 3.2.4 due to using two different labels for the same function on different Web pages within a set of Web pages'
+    type: F
+    apps:
+      - 3-2-4
+  F32:
+    title: |
+      F32: Failure of Success Criterion 1.3.2 due to using white space characters to control
+      spacing within a word
+    type: F
+    apps:
+      - 1-3-2
+  F33:
+    title: |
+      F33: Failure of Success Criterion 1.3.1 and 1.3.2 due to using white space characters to
+      create multiple columns in plain text content
+    type: F
+    apps:
+      - 1-3-1
+      - 1-3-2
+  F34:
+    title: |
+      F34: Failure of Success Criterion 1.3.1 and 1.3.2 due to using white space characters to
+      format tables in plain text content
+    type: F
+    apps:
+      - 1-3-1
+      - 1-3-2
+  F36:
+    title: |
+      F36: Failure of Success Criterion 3.2.2 due to automatically submitting a form and
+      presenting new content without prior warning when the last field in the form is
+      given a value
+    type: F
+    apps:
+      - 3-2-2
+  F37:
+    title: |
+      F37: Failure of Success Criterion 3.2.2 due to launching a new window without prior warning
+      when the selection of a radio button, check box or select list is changed
+    type: F
+    apps:
+      - 3-2-2
+  F38:
+    title: 'F38: Failure of Success Criterion 1.1.1 due to not marking up decorative images in HTML in a way that allows assistive technology to ignore them'
+    type: F
+    apps:
+      - 1-1-1
+  F39:
+    title: 'F39: Failure of Success Criterion 1.1.1 due to providing a text alternative that is not null (e.g., alt="spacer" or alt="image") for images that should be ignored by assistive technology'
+    type: F
+    apps:
+      - 1-1-1
+  F40:
+    title: 'F40: Failure of Success Criterion 2.2.1 and 2.2.4 due to using meta redirect with a time limit'
+    type: F
+    apps:
+      - 2-2-1
+      - 2-2-4
+  F41:
+    title: 'F41: Failure of Success Criterion 2.2.1, 2.2.4, and 3.2.5 due to using meta refresh to reload the page'
+    type: F
+    apps:
+      - 2-2-1
+      - 2-2-4
+      - 3-2-5
+  F42:
+    title: 'F42: Failure of Success Criteria 1.3.1, 2.1.1, 2.1.3, or 4.1.2 when emulating links'
+    type: F
+    apps:
+      - 1-3-1
+      - 2-1-1
+      - 2-1-3
+      - 4-1-2
+  F43:
+    title: |
+      F43: Failure of Success Criterion 1.3.1 due to using structural markup in a way that does
+      not represent relationships in the content
+    type: F
+    apps:
+      - 1-3-1
+  F44:
+    title: |
+      F44: Failure of Success Criterion 2.4.3 due to using tabindex to create a tab order that
+      does not preserve meaning and operability
+    type: F
+    apps:
+      - 2-4-3
+  F46:
+    title: |
+      F46: Failure of Success Criterion 1.3.1 due to using th elements,
+      caption elements, or non-empty summary attributes in
+      layout tables
+    type: F
+    apps:
+      - 1-3-1
+  F47:
+    title: 'F47: Failure of Success Criterion 2.2.2 due to using the blink element'
+    type: F
+    apps:
+      - 2-2-2
+  F48:
+    title: |
+      F48: Failure of Success Criterion 1.3.1 due to using the pre element to markup
+      tabular information
+    type: F
+    apps:
+      - 1-3-1
+  F49:
+    title: |
+      F49:
+      Failure of Success Criterion 1.3.2 due to using an HTML layout table that does not make sense when linearized
+    type: F
+    apps:
+      - 1-3-2
+  F50:
+    title: |
+      F50: Failure of Success Criterion 2.2.2 due to a script that causes a blink effect without a
+      mechanism to stop the blinking at 5 seconds or less
+    type: F
+    apps:
+      - 2-2-2
+  F52:
+    title: 'F52: Failure of Success Criterion 3.2.1 and 3.2.5 due to opening a new window as soon as a new page is loaded'
+    type: F
+    apps:
+      - 3-2-1
+      - 3-2-5
+  F54:
+    title: |
+      F54: Failure of Success Criterion 2.1.1 due to using only pointing-device-specific event
+      handlers (including gesture) for a function
+    type: F
+    apps:
+      - 2-1-1
+      - 2-1-3
+  F55:
+    title: |
+      F55:
+      Failure of Success Criteria 2.1.1, 2.4.7, and 3.2.1 due to using script to remove focus when focus is received
+    type: F
+    apps:
+      - 2-1-1
+      - 2-1-3
+      - 2-4-7
+      - 3-2-1
+  F58:
+    title: |
+      F58: Failure of Success Criterion 2.2.1 due to using server-side techniques to automatically
+      redirect pages after a time-out
+    type: F
+    apps:
+      - 2-2-1
+  F59:
+    title: 'F59: Failure of Success Criterion 4.1.2 due to using script to make div or span a user interface control in HTML without providing a role for the control'
+    type: F
+    apps:
+      - 4-1-2
+  F60:
+    title: |
+      F60: Failure of Success Criterion 3.2.5 due to launching a new window when a user enters
+      text into an input field
+    type: F
+    apps:
+      - 3-2-5
+  F61:
+    title: |
+      F61: Failure of Success Criterion 3.2.5 due to complete change of main content through an
+      automatic update that the user cannot disable from within the content
+    type: F
+    apps:
+      - 3-2-5
+  F63:
+    title: 'F63: Failure of Success Criterion 2.4.4 due to providing link context only in content that is not related to the link'
+    type: F
+    apps:
+      - 2-4-4
+  F65:
+    title: 'F65: Failure of Success Criterion 1.1.1 due to omitting the alt attribute or text alternative on img elements, area elements, and input elements of type "image"'
+    type: F
+    apps:
+      - 1-1-1
+  F66:
+    title: 'F66: Failure of Success Criterion 3.2.3 due to presenting navigation links in a different relative order on different pages'
+    type: F
+    apps:
+      - 3-2-3
+  F67:
+    title: 'F67: Failure of Success Criterion 1.1.1 and 1.2.1 due to providing long descriptions for non-text content that does not serve the same purpose or does not present the same information'
+    type: F
+    apps:
+      - 1-1-1
+      - 1-2-1
+  F68:
+    title: 'F68: Failure of Success Criterion 4.1.2 due to a user interface control not having a programmatically determined name'
+    type: F
+    apps:
+      - 4-1-2
+  F69:
+    title: 'F69: Failure of Success Criterion 1.4.4 when resizing visually rendered text up to 200 percent causes the text, image or controls to be clipped, truncated or obscured'
+    type: F
+    apps:
+      - 1-4-4
+  F70:
+    title: 'F70: Failure of Success Criterion 4.1.1 due to incorrect use of start and end tags or attribute markup'
+    type: F
+    apps:
+      - 4-1-1
+  F71:
+    title: 'F71: Failure of Success Criterion 1.1.1 due to using text look-alikes to represent text without providing a text alternative'
+    type: F
+    apps:
+      - 1-1-1
+  F72:
+    title: 'F72: Failure of Success Criterion 1.1.1 due to using ASCII art without providing a text alternative'
+    type: F
+    apps:
+      - 1-1-1
+  F73:
+    title: 'F73: Failure of Success Criterion 1.4.1 due to creating links that are not visually evident without color vision'
+    type: F
+    apps:
+      - 1-4-1
+  F74:
+    title: 'F74: Failure of  Success Criterion 1.2.2 and 1.2.8 due to not labeling a synchronized media alternative to text as an alternative'
+    type: F
+    apps:
+      - 1-2-2
+      - 1-2-8
+  F75:
+    title: 'F75: Failure of Success Criterion 1.2.2 by providing synchronized media without captions when the synchronized media presents more information than is presented on the page'
+    type: F
+    apps:
+      - 1-2-2
+  F77:
+    title: 'F77: Failure of Success Criterion 4.1.1 due to duplicate values of type ID'
+    type: F
+    apps:
+      - 4-1-1
+  F78:
+    title: 'F78: Failure of Success Criterion 2.4.7 due to styling element outlines and borders in a way that removes or renders non-visible the visual focus indicator'
+    type: F
+    apps:
+      - 2-4-7
+  F79:
+    title: 'F79: Failure of Success Criterion 4.1.2 due to the focus state of a user interface component not being programmatically determinable or no notification of change of focus state available'
+    type: F
+    apps:
+      - 4-1-2
+  F80:
+    title: 'F80: Failure of Success Criterion 1.4.4 when text-based form controls do not resize when visually rendered text is resized up to 200%'
+    type: F
+    apps:
+      - 1-4-4
+  F81:
+    title: 'F81: Failure of Success Criterion 1.4.1 due to identifying required or error fields using color differences only'
+    type: F
+    apps:
+      - 1-4-1
+  F82:
+    title: 'F82: Failure of Success Criterion 3.3.2 by visually formatting a set of phone number fields but not including a text label'
+    type: F
+    apps:
+      - 3-3-2
+  F83:
+    title: 'F83: Failure of Success Criterion 1.4.3 and 1.4.6 due to using background images that do not provide sufficient contrast with foreground text (or images of text)'
+    type: F
+    apps:
+      - 1-4-3
+      - 1-4-6
+  F84:
+    title: 'F84: Failure of Success Criterion 2.4.9 due to using a non-specific link such as "click here" or "more" without a mechanism to change the link text to specific text.'
+    type: F
+    apps:
+      - 2-4-9
+  F85:
+    title: 'F85: Failure of Success Criterion 2.4.3 due to using dialogs or menus that are not adjacent to their trigger control in the sequential navigation order'
+    type: F
+    apps:
+      - 2-4-3
+  F86:
+    title: 'F86: Failure of Success Criterion 4.1.2 due to not providing names for each part of a multi-part form field, such as a US telephone number'
+    type: F
+    apps:
+      - 4-1-2
+  F87:
+    title: "F87: Failure of Success Criterion 1.3.1 due to inserting non-decorative content by using :before and :after pseudo-elements and the 'content' property in CSS"
+    type: F
+    apps:
+      - 1-3-1
+  F88:
+    title: 'F88: Failure of Success Criterion 1.4.8 due to using text that is justified (aligned to both the left and the right margins)'
+    type: F
+    apps:
+      - 1-4-8
+  F89:
+    title: 'F89: Failure of Success Criteria 2.4.4, 2.4.9 and 4.1.2 due to not providing an accessible name for an image which is the only content in a link'
+    type: F
+    apps:
+      - 2-4-4
+      - 2-4-9
+      - 4-1-2
+  F90:
+    title: 'F90: Failure of Success Criterion 1.3.1 for incorrectly associating table headers and content via the headers and id attributes'
+    type: F
+    apps:
+      - 1-3-1
+  F91:
+    title: 'F91: Failure of Success Criterion 1.3.1 for not correctly marking up table headers'
+    type: F
+    apps:
+      - 1-3-1
+  F92:
+    title: 'F92: Failure of Success Criterion 1.3.1 due to the use of role presentation on content which conveys semantic information'
+    type: F
+    apps:
+      - 1-3-1
+  F93:
+    title: 'F93: Failure of Success Criterion 1.4.2 for absence of a way to pause or stop an HTML5 media element that autoplays'
+    type: F
+    apps:
+      - 1-4-2

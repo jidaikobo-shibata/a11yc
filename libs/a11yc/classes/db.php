@@ -12,325 +12,306 @@ namespace A11yc;
 
 class Db extends \Kontiki\Db
 {
+	protected static $version = null;
+
 	/**
 	 * init table
 	 *
 	 * @param  String $name
 	 * @return Void
 	 */
-	public static function init_table($name = 'default')
+	public static function initTable($name = 'default')
 	{
-		// return - human_src and base_url
-		if (static::is_fields_exist(A11YC_TABLE_PAGES, array('human_src'), $name)) return;
-
-		// update
-		// if (static::is_table_exist(A11YC_TABLE_PAGES, $name))
-		// {
-		// 	if ( ! static::is_fields_exist(A11YC_TABLE_PAGES, array('human_src'), $name))
-		// 	{
-		// 		$sql = 'ALTER TABLE '.A11YC_TABLE_PAGES.' ADD `human_src` text;';
-		// 		static::execute($sql, array(), $name);
-
-		// 		$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET `human_src` = "";';
-		// 		static::execute($sql, array(), $name);
-		// 	}
-		// }
-
-		// update
-		if (static::is_table_exist(A11YC_TABLE_SETUP, $name))
-		{
-			if ( ! static::is_fields_exist(A11YC_TABLE_SETUP, array('base_url'), $name))
-			{
-				$sql = 'ALTER TABLE '.A11YC_TABLE_SETUP.' ADD `base_url` text;';
-				static::execute($sql, array(), $name);
-
-				$sql = 'UPDATE '.A11YC_TABLE_SETUP.' SET `base_url` = "";';
-				static::execute($sql, array(), $name);
-			}
-		}
-
-		// return
-		if (static::is_fields_exist(A11YC_TABLE_PAGES, array('alt_url'), $name)) return;
-
-		// update
-		if (static::is_table_exist(A11YC_TABLE_PAGES, $name))
-		{
-			if ( ! static::is_fields_exist(A11YC_TABLE_PAGES, array('alt_url'), $name))
-			{
-				$sql = 'ALTER TABLE '.A11YC_TABLE_PAGES.' ADD `alt_url` text;';
-				static::execute($sql, array(), $name);
-
-				$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET `alt_url` = "";';
-				static::execute($sql, array(), $name);
-			}
-		}
-
-		// return
-		if (static::is_fields_exist(A11YC_TABLE_SETUP, array('version'), $name)) return;
-
-		// base tables
-		static::init_pages($name);
-		static::init_checks($name);
-		static::init_bulk($name);
-		static::init_setup($name);
-		static::init_maintenance($name);
+		// init default tables
+		if (static::isTableExist(A11YC_TABLE_CACHES, $name)) return;
+		static::initDefault($name);
 	}
 
 	/**
-	 * init pages table
+	 * init tables
 	 *
 	 * @param  String $name
 	 * @return Void
 	 */
-	private static function init_pages($name = 'default')
+	private static function initDefault($name = 'default')
 	{
-		if (defined('A11YC_TABLE_PAGES'))
+		// init pages
+		// type: 1 HTML, 2 PDF
+		// level: -1 Non-Interferences, 0 A-, 1 A, 2 AA, 3 AAA
+		$sql = 'CREATE TABLE '.A11YC_TABLE_PAGES.' (';
+		// $sql.= '`id`               INTEGER NOT NULL PRIMARY KEY,';
+		$sql.= '`url`              VARCHAR(2048) NOT NULL DEFAULT "",';
+		$sql.= '`alt_url`          VARCHAR(2048) NOT NULL DEFAULT "",';
+		$sql.= '`type`             INTEGER NOT NULL DEFAULT 1,';
+		$sql.= '`title`            TEXT,';
+		$sql.= '`level`            INTEGER NOT NULL DEFAULT 0,';
+		$sql.= '`standard`         INTEGER NOT NULL DEFAULT 1,';
+		$sql.= '`selection_reason` INTEGER NOT NULL DEFAULT 1,';
+		$sql.= '`done`             BOOL NOT NULL DEFAULT 0,';
+		$sql.= '`trash`            BOOL NOT NULL DEFAULT 0,';
+		$sql.= '`date`             DATE,';
+		$sql.= '`created_at`       DATETIME,';
+		$sql.= '`updated_at`       DATETIME,';
+		$sql.= '`version`          INTEGER NOT NULL DEFAULT 0';
+		$sql.= ');';
+		static::execute($sql, array(), $name);
+
+		if (A11YC_DB_TYPE == 'mysql')
 		{
-			if ( ! static::is_table_exist(A11YC_TABLE_PAGES, $name))
-			{
-				$sql = 'CREATE TABLE '.A11YC_TABLE_PAGES.' (';
-				$sql.= '`url`        text NOT NULL,';
-				$sql.= '`standard`   INTEGER,';
-				$sql.= '`level`      INTEGER,';
-				$sql.= '`done`       bool,';
-				$sql.= '`date`       date,';
-				$sql.= '`add_date`   datetime,';
-				$sql.= '`page_title` text,';
-				$sql.= '`trash`      bool NOT NULL';
-				$sql.= ');';
-				static::execute($sql, array(), $name);
-			}
-
-			if ( ! static::is_fields_exist(A11YC_TABLE_PAGES, array('selection_reason'), $name))
-			{
-				$sql = 'ALTER TABLE '.A11YC_TABLE_PAGES.' ADD `selection_reason` INTEGER;';
-				static::execute($sql, array(), $name);
-			}
-
-			if ( ! static::is_fields_exist(A11YC_TABLE_PAGES, array('version'), $name))
-			{
-				$sql = 'ALTER TABLE '.A11YC_TABLE_PAGES.' ADD `version` INTEGER DEFAULT 0;';
-				static::execute($sql, array(), $name);
-			}
+			$sql = 'ALTER TABLE '.A11YC_TABLE_PAGES.' ADD INDEX a11yc_url_idx(`url`, `version`)';
+			static::execute($sql, array(), $name);
 		}
+		else
+		{
+			$sql = 'CREATE INDEX a11yc_url_idx ON '.A11YC_TABLE_PAGES.' (`url`, `version`)';
+			static::execute($sql, array(), $name);
+		}
+
+		// init ua
+		$sql = 'CREATE TABLE '.A11YC_TABLE_UAS.' (';
+		$sql.= '`id`   INTEGER NOT NULL PRIMARY KEY,';
+		$sql.= '`name` TEXT,';
+		$sql.= '`str`  TEXT';
+		$sql.= ');';
+		static::execute($sql, array(), $name);
+
+		// add default ua
+		foreach (Values::uas() as $v)
+		{
+			$sql = 'INSERT INTO '.A11YC_TABLE_UAS;
+			$sql.= ' (`name`, `str`) VALUES (?, ?);';
+			static::execute($sql, array($v['name'], $v['str']), $name);
+		}
+
+		// init cache
+		// type: raw, high-lighted, ignored, ignored_comments or something
+		// don't use page_id because one time using.
+		// don't use ua_id because ua can be deleted
+		$sql = 'CREATE TABLE '.A11YC_TABLE_CACHES.' (';
+		$sql.= '`url`        VARCHAR(2048) NOT NULL DEFAULT "",';
+		$sql.= '`ua`         VARCHAR(2048) NOT NULL DEFAULT "",';
+		$sql.= '`type`       VARCHAR(20) NOT NULL,';
+		$sql.= '`data`       TEXT,';
+		$sql.= '`updated_at` DATETIME';
+		$sql.= ');';
+		static::execute($sql, array(), $name);
+
+		if (A11YC_DB_TYPE == 'mysql')
+		{
+			$sql = 'ALTER TABLE '.A11YC_TABLE_CACHES;
+			$sql.= ' ADD INDEX a11yc_caches_idx(`url`, `type`, `ua`)';
+			static::execute($sql, array(), $name);
+		}
+		else
+		{
+			$sql = 'CREATE INDEX a11yc_caches_idx ON '.A11YC_TABLE_CACHES;
+			$sql.= ' (`url`, `type`, `ua`)';
+			static::execute($sql, array(), $name);
+		}
+
+		// init version status
+		$sql = 'CREATE TABLE '.A11YC_TABLE_VERSIONS.' (';
+		$sql.= '`version` INTEGER NOT NULL PRIMARY KEY,';
+		$sql.= '`name`    TEXT,';
+		$sql.= '`trash`   INTEGER NOT NULL DEFAULT 0';
+		$sql.= ');';
+		static::execute($sql, array(), $name);
+
+		// init checks
+		$sql = 'CREATE TABLE '.A11YC_TABLE_CHECKS.' (';
+		$sql.= '`url`        VARCHAR(2048) NOT NULL DEFAULT "",';
+		$sql.= '`code`       VARCHAR(10) NOT NULL,';
+		$sql.= '`is_checked` BOOL NOT NULL DEFAULT 0,';
+		$sql.= '`is_failure` BOOL NOT NULL DEFAULT 0,';
+		$sql.= '`version`    INTEGER NOT NULL DEFAULT 0';
+		$sql.= ');';
+		static::execute($sql, array(), $name);
+
+		if (A11YC_DB_TYPE == 'mysql')
+		{
+			$sql = 'ALTER TABLE '.A11YC_TABLE_CHECKS.' ADD INDEX a11yc_checks_idx(`url`, `version`)';
+			static::execute($sql, array(), $name);
+
+			$sql = 'ALTER TABLE '.A11YC_TABLE_CHECKS.' ADD INDEX a11yc_checks_idx2(`url`, `code`, `version`)';
+			static::execute($sql, array(), $name);
+		}
+		else
+		{
+			$sql = 'CREATE INDEX a11yc_checks_idx ON '.A11YC_TABLE_CHECKS.' (`url`, `version`)';
+			static::execute($sql, array(), $name);
+
+			$sql = 'CREATE INDEX a11yc_checks_idx2 ON '.A11YC_TABLE_CHECKS.' (`url`, `code`, `version`)';
+			static::execute($sql, array(), $name);
+		}
+
+		// init results
+		// result: 0 not yet, -1 not passed, 1 non-exist and passed, 2 passed
+		// method: 0 not yet, 1 AC, 2 AF, 3 HC
+		$sql = 'CREATE TABLE '.A11YC_TABLE_RESULTS.' (';
+		$sql.= '`url`       VARCHAR(2048) NOT NULL DEFAULT "",';
+		$sql.= '`criterion` VARCHAR(10) NOT NULL,';
+		$sql.= '`memo`      text,';
+		$sql.= '`uid`       INTEGER NOT NULL,';
+		$sql.= '`result`    INTEGER NOT NULL,';
+		$sql.= '`method`    INTEGER NOT NULL,';
+		$sql.= '`version`   INTEGER NOT NULL DEFAULT 0';
+		$sql.= ');';
+		static::execute($sql, array(), $name);
+
+		if (A11YC_DB_TYPE == 'mysql')
+		{
+			$sql = 'ALTER TABLE '.A11YC_TABLE_RESULTS.' ADD INDEX a11yc_results_idx(`url`, `version`)';
+			static::execute($sql, array(), $name);
+
+			$sql = 'ALTER TABLE '.A11YC_TABLE_RESULTS.' ADD INDEX a11yc_results_idx2(`criterion`, `url`, `version`)';
+			static::execute($sql, array(), $name);
+		}
+		else
+		{
+			$sql = 'CREATE INDEX a11yc_results_idx ON '.A11YC_TABLE_RESULTS.' (`url`, `version`)';
+			static::execute($sql, array(), $name);
+
+			$sql = 'CREATE INDEX a11yc_results_idx2 ON '.A11YC_TABLE_RESULTS.' (`criterion`, `url`, `version`)';
+			static::execute($sql, array(), $name);
+		}
+
+		// init bulk results
+		$sql = 'CREATE TABLE '.A11YC_TABLE_BRESULTS.' (';
+		$sql.= '`criterion` VARCHAR(10) NOT NULL,';
+		$sql.= '`memo`      text,';
+		$sql.= '`uid`       INTEGER NOT NULL,';
+		$sql.= '`result`    INTEGER NOT NULL,';
+		$sql.= '`method`    INTEGER NOT NULL';
+		$sql.= ');';
+		static::execute($sql, array(), $name);
+
+		// init bchecks
+		$sql = 'CREATE TABLE '.A11YC_TABLE_BCHECKS.' (';
+		$sql.= '`code`       VARCHAR(10) NOT NULL,';
+		$sql.= '`is_checked` BOOL NOT NULL DEFAULT 0';
+		$sql.= ');';
+		static::execute($sql, array(), $name);
+
+		// init issues
+		// status: 0 not yet, 1 in progress, 2 finish
+		// n_or_e: 0 notice, 1 error
+		$sql = 'CREATE TABLE '.A11YC_TABLE_ISSUES.' (';
+		$sql.= '`id`            INTEGER NOT NULL PRIMARY KEY,';
+		$sql.= '`is_common`     BOOL NOT NULL DEFAULT 0,';
+		$sql.= '`url`           TEXT NOT NULL DEFAULT "",';
+		$sql.= '`criterion`     VARCHAR(10) NOT NULL,';
+		$sql.= '`html`          TEXT,';
+		$sql.= '`n_or_e`        INTEGER NOT NULL DEFAULT 0,'; // notice or error
+		$sql.= '`status`        INTEGER NOT NULL DEFAULT 0,';
+		$sql.= '`tech_url`      VARCHAR(255) NOT NULL,'; // some unique strings
+		$sql.= '`error_message` TEXT,';
+		$sql.= '`created_at`    DATETIME,';
+		$sql.= '`uid`           INTEGER NOT NULL DEFAULT 0,';
+		$sql.= '`version`       INTEGER NOT NULL DEFAULT 0';
+		$sql.= ');';
+		static::execute($sql, array(), $name);
+
+		if (A11YC_DB_TYPE == 'mysql')
+		{
+			$sql = 'ALTER TABLE '.A11YC_TABLE_ISSUES.' ADD INDEX a11yc_issues_idx(`url`, `version`)';
+			static::execute($sql, array(), $name);
+		}
+		else
+		{
+			$sql = 'CREATE INDEX a11yc_issues_idx ON '.A11YC_TABLE_ISSUES.' (`url`, `version`)';
+			static::execute($sql, array(), $name);
+		}
+
+		// init issues bbs
+		$sql = 'CREATE TABLE '.A11YC_TABLE_ISSUESBBS.' (';
+		$sql.= '`id`         INTEGER NOT NULL PRIMARY KEY,';
+		$sql.= '`issue_id`   INTEGER NOT NULL DEFAULT 0,';
+		$sql.= '`uid`        INTEGER NOT NULL DEFAULT 0,';
+		$sql.= '`created_at` DATETIME,';
+		$sql.= '`message`    TEXT';
+		$sql.= ');';
+		static::execute($sql, array(), $name);
+
+		// init setups
+		$sql = 'CREATE TABLE '.A11YC_TABLE_SETTINGS.' (';
+		$sql.= '`target_level`          INTEGER NOT NULL DEFAULT 0,';
+		$sql.= '`standard`              INTEGER NOT NULL DEFAULT 0,';
+		$sql.= '`selected_method`       INTEGER NOT NULL DEFAULT 0,';
+		$sql.= '`declare_date`          DATE,';
+		$sql.= '`test_period`           TEXT,';
+		$sql.= '`dependencies`          TEXT,';
+		$sql.= '`contact`               TEXT,';
+		$sql.= '`policy`                TEXT,';
+		$sql.= '`report`                TEXT,';
+		$sql.= '`additional_criterions` TEXT,';
+		$sql.= '`base_url`              VARCHAR(255) NOT NULL,';
+		$sql.= '`basic_user`            TEXT,';
+		$sql.= '`basic_pass`            TEXT,';
+		$sql.= '`checklist_behaviour`   BOOL NOT NULL DEFAULT 0,';
+		$sql.= '`stop_guzzle`           BOOL NOT NULL DEFAULT 0,';
+		$sql.= '`version`               INTEGER NOT NULL DEFAULT 0';
+		$sql.= ');';
+		static::execute($sql, array(), $name);
+
+		// init maintenance
+		$sql = 'CREATE TABLE '.A11YC_TABLE_MAINTENANCE.' (';
+		$sql.= '`last_checked` DATE,';
+		$sql.= '`version`      VARCHAR(10) NOT NULL';
+		$sql.= ');';
+		static::execute($sql, array(), $name);
+
+		$sql = 'INSERT INTO '.A11YC_TABLE_MAINTENANCE;
+		$sql.= ' (`last_checked`, `version`) VALUES';
+		$sql.= ' ("'.date('Y-m-d').'", "'.A11YC_VERSION.'");';
+		static::execute($sql, array(), $name);
 	}
 
 	/**
-	 * init checks table
+	 * build version sql
 	 *
-	 * @param  String $name
-	 * @return Void
+	 * @param bool $is_and
+	 * @return string
 	 */
-	private static function init_checks($name = 'default')
+	public static function versionSql($is_and = true)
 	{
-		if (defined('A11YC_TABLE_CHECKS'))
-		{
-			if ( ! static::is_table_exist(A11YC_TABLE_CHECKS, $name))
-			{
-				$sql = 'CREATE TABLE '.A11YC_TABLE_CHECKS.' (';
-				$sql.= '`url`  text NOT NULL,';
-				$sql.= '`code` text NOT NULL,';
-				$sql.= '`uid`  INTEGER NOT NULL,';
-				$sql.= '`memo` text NOT NULL';
-				$sql.= ');';
-				static::execute($sql, array(), $name);
-			}
-
-			// switch to passed flag
-			if ( ! static::is_fields_exist(A11YC_TABLE_CHECKS, array('passed'), $name))
-			{
-				$sql = 'ALTER TABLE '.A11YC_TABLE_CHECKS.' ADD `passed` INTEGER;';
-				static::execute($sql, array(), $name);
-
-				// update database structure
-				$sql = 'UPDATE '.A11YC_TABLE_CHECKS.' SET `passed` = 1;';
-				static::execute($sql, array(), $name);
-			}
-
-			if ( ! static::is_fields_exist(A11YC_TABLE_CHECKS, array('version'), $name))
-			{
-				$sql = 'ALTER TABLE '.A11YC_TABLE_CHECKS.' ADD `version` INTEGER DEFAULT 0;';
-				static::execute($sql, array(), $name);
-			}
-		}
-
-		if (defined('A11YC_TABLE_CHECKS_NGS'))
-		{
-			if ( ! static::is_table_exist(A11YC_TABLE_CHECKS_NGS, $name))
-			{
-				$sql = 'CREATE TABLE '.A11YC_TABLE_CHECKS_NGS.' (';
-				$sql.= '`url`       text NOT NULL,';
-				$sql.= '`criterion` text NOT NULL,';
-				$sql.= '`uid`       INTEGER NOT NULL,';
-				$sql.= '`memo`      text NOT NULL';
-				$sql.= ');';
-				static::execute($sql, array(), $name);
-
-				// update database structure
-				$yml = Yaml::fetch();
-				foreach (array_keys($yml['criterions']) as $criterion)
-				{
-					$sql = 'SELECT url FROM '.A11YC_TABLE_PAGES.' WHERE `done` = 1';
-					foreach (Db::fetch_all($sql, array(), $name) as $url)
-					{
-						$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS_NGS;
-						$sql.= ' (`url`, `criterion`, `uid`, `memo`) VALUES (?, ?, ?, ?);';
-						static::execute($sql, array($url['url'], $criterion, '1', ''), $name);
-					}
-				}
-			}
-
-			if ( ! static::is_fields_exist(A11YC_TABLE_CHECKS_NGS, array('version'), $name))
-			{
-				$sql = 'ALTER TABLE '.A11YC_TABLE_CHECKS_NGS.' ADD `version` INTEGER DEFAULT 0;';
-				static::execute($sql, array(), $name);
-			}
-		}
+		$sql = ' `version` = '.self::getVersion();
+		return $is_and ? ' AND'.$sql : ' WHERE'.$sql ;
 	}
 
 	/**
-	 * init bulk table
+	 * build version sql
 	 *
-	 * @param  String $name
-	 * @return Void
+	 * @param bool $is_and
+	 * @return string
 	 */
-	private static function init_bulk($name = 'default')
+	public static function currentVersionSql($is_and = true)
 	{
-		if (defined('A11YC_TABLE_BULK'))
-		{
-			if ( ! static::is_table_exist(A11YC_TABLE_BULK, $name))
-			{
-				$sql = 'CREATE TABLE '.A11YC_TABLE_BULK.' (';
-				$sql.= '`code` text NOT NULL,';
-				$sql.= '`uid`  INTEGER NOT NULL,';
-				$sql.= '`memo` text NOT NULL';
-				$sql.= ');';
-				static::execute($sql, array(), $name);
-			}
-		}
-
-		if (defined('A11YC_TABLE_BULK_NGS'))
-		{
-			if ( ! static::is_table_exist(A11YC_TABLE_BULK_NGS, $name))
-			{
-				$sql = 'CREATE TABLE '.A11YC_TABLE_BULK_NGS.' (';
-				$sql.= '`criterion` text NOT NULL,';
-				$sql.= '`uid`       INTEGER NOT NULL,';
-				$sql.= '`memo`      text NOT NULL';
-				$sql.= ');';
-				static::execute($sql, array(), $name);
-			}
-		}
+		$sql = ' `version` = 0';
+		return $is_and ? ' AND'.$sql : ' WHERE'.$sql ;
 	}
 
 	/**
-	 * init setup table
+	 * get version
+	 * depend on user request value
 	 *
-	 * @param  String $name
-	 * @return Void
+	 * @return string
 	 */
-	private static function init_setup($name = 'default')
+	public static function getVersion()
 	{
-		if (defined('A11YC_TABLE_SETUP'))
+		if ( ! is_null(static::$version)) return static::$version;
+
+		// check get request - zero is current
+		$version = intval(Input::get('a11yc_version', '0'));
+		if (static::$version == 0) return static::$version = $version;
+
+		// check db
+		$sql = 'SELECT `version` FROM '.A11YC_TABLE_SETUP.' GROUP BY `version`;';
+		$versions = Db::fetchAll($sql);
+		if (in_array($version, $versions['version']))
 		{
-			if ( ! static::is_table_exist(A11YC_TABLE_SETUP, $name))
-			{
-				$sql = 'CREATE TABLE '.A11YC_TABLE_SETUP.' (';
-				$sql.= '`target_level`        INTEGER NOT NULL,';
-				$sql.= '`standard`            INTEGER NOT NULL,';
-				$sql.= '`selected_method`     INTEGER NOT NULL,';
-				$sql.= '`declare_date`        date NOT NULL,';
-				$sql.= '`test_period`         text NOT NULL,';
-				$sql.= '`dependencies`        text NOT NULL,';
-				$sql.= '`contact`             text NOT NULL,';
-				$sql.= '`policy`              text NOT NULL,';
-				$sql.= '`report`              text NOT NULL,';
-				$sql.= '`basic_user`          text NOT NULL,';
-				$sql.= '`basic_pass`          text NOT NULL,';
-				$sql.= '`trust_ssl_url`       text NOT NULL,'; // this is unused column. but unfortunately SQLITE cannot drop column.
-				$sql.= '`checklist_behaviour` INTEGER NOT NULL';
-				$sql.= ');';
-				static::execute($sql, array(), $name);
-			}
-
-			if ( ! static::is_fields_exist(A11YC_TABLE_SETUP, array('additional_criterions'), $name))
-			{
-				$sql = 'ALTER TABLE '.A11YC_TABLE_SETUP.' ADD `additional_criterions` text;';
-				static::execute($sql, array(), $name);
-			}
-
-			if ( ! static::is_fields_exist(A11YC_TABLE_SETUP, array('stop_guzzle'), $name))
-			{
-				$sql = 'ALTER TABLE '.A11YC_TABLE_SETUP.' ADD `stop_guzzle` INTEGER NOT NULL DEFAULT 0;';
-				static::execute($sql, array(), $name);
-			}
-
-			if ( ! static::is_fields_exist(A11YC_TABLE_SETUP, array('version'), $name))
-			{
-				$sql = 'ALTER TABLE '.A11YC_TABLE_SETUP.' ADD `version` INTEGER DEFAULT 0;';
-				static::execute($sql, array(), $name);
-			}
+			static::$version = $version;
 		}
+
+		return static::$version;
 	}
-
-	/**
-	 * init maintenance table
-	 *
-	 * @param  String $name
-	 * @return Void
-	 */
-	private static function init_maintenance($name = 'default')
-	{
-		if (defined('A11YC_TABLE_MAINTENANCE'))
-		{
-			if ( ! static::is_table_exist(A11YC_TABLE_MAINTENANCE, $name))
-			{
-				$sql = 'CREATE TABLE '.A11YC_TABLE_MAINTENANCE.' (';
-				$sql.= '`last_checked` date,';
-				$sql.= '`version` TEXT NOT NULL';
-				$sql.= ');';
-				static::execute($sql, array(), $name);
-
-				// default value
-				$sql = 'INSERT INTO '.A11YC_TABLE_MAINTENANCE;
-				$sql.= ' (`last_checked`, `version`) VALUES';
-				$sql.= '("'.date('Y-m-d').'", "'.A11YC_VERSION.'");';
-				static::execute($sql, array(), $name);
-			}
-		}
-	}
-
-	/**
-	 * init issue table
-	 *
-	 * @param  String $name
-	 * @return Void
-	 */
-	private static function init_issue($name = 'default')
-	{
-		if (defined('A11YC_TABLE_ISSUE'))
-		{
-			if ( ! static::is_table_exist(A11YC_TABLE_ISSUE, $name))
-			{
-				$sql = 'CREATE TABLE '.A11YC_TABLE_ISSUE.' (';
-				$sql.= '`id`            INTEGER NOT NULL PRIMARY KEY,';
-				$sql.= '`issue_id`      INTEGER NOT NULL DEFAULT 0,';
-				$sql.= '`url`           text NOT NULL DEFAULT "",';
-				$sql.= '`criterion`     text NOT NULL DEFAULT "",';
-				$sql.= '`html`          text NOT NULL DEFAULT "",';
-				$sql.= '`e_or_n`        INTEGER NOT NULL DEFAULT 0,'; // error or notice
-				$sql.= '`status`        INTEGER NOT NULL DEFAULT 0,';
-				// status: 0 not yet, 1 in progress, 2 finish
-				$sql.= '`error_id`      text NOT NULL DEFAULT "",';
-				$sql.= '`error_message` text NOT NULL DEFAULT "",';
-				$sql.= '`message`       text NOT NULL DEFAULT "",';
-				$sql.= '`eng_message`   text NOT NULL DEFAULT "",';
-				$sql.= '`version`       TEXT NOT NULL DEFAULT "0"';
-				$sql.= ');';
-				static::execute($sql, array(), $name);
-			}
-
-		}
-	}
-
 }

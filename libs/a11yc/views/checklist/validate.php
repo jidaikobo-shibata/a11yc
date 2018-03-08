@@ -2,6 +2,7 @@
 namespace A11yc;
 // call from post
 $is_call_from_post = isset($is_call_from_post);
+$is_call_from_post = false;
 
 if (empty($errs['errors'])):
 	echo '<p id="a11yc_validation_not_found_error"><span class="a11yc_icon_fa" role="presentation" aria-hidden="true"></span>'.A11YC_LANG_CHECKLIST_NOT_FOUND_ERR.'</p>';
@@ -27,6 +28,8 @@ if ($errs['errors'] || $errs['notices']):
 	echo $html;
 	$class_str = $is_call_from_post ? '' : 'a11yc_disclosure_target a11yc_hide_if_fixedheader hide';
 	?>
+	<div id="_a11yc_validator_results">
+
 	<div class="<?php echo $class_str ?>">
 		<div id="a11yc_validation_errors" class="">
 			<div class="a11yc_controller">
@@ -81,6 +84,8 @@ if ($errs['errors'] || $errs['notices']):
 			</dd>
 		</dl>
 </div><!-- /.a11yc_disclosure_target -->
+
+</div><!-- /#a11yc_validator_results -->
 <?php
 endif;
 ?>

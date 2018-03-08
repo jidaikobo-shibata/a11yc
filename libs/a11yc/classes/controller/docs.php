@@ -1,6 +1,6 @@
 <?php
 /**
- * A11yc\Controller_Docs
+ * A11yc\Controller\Docs
  *
  * @package    part of A11yc
  * @author     Jidaikobo Inc.
@@ -8,16 +8,18 @@
  * @copyright  Jidaikobo Inc.
  * @link       http://www.jidaikobo.com
  */
-namespace A11yc;
+namespace A11yc\Controller;
 
-class Controller_Docs
+use A11yc\Model;
+
+class Docs
 {
 	/**
 	 * action index
 	 *
 	 * @return Void
 	 */
-	public static function Action_Index()
+	public static function actionIndex()
 	{
 		static::index();
 	}
@@ -27,12 +29,12 @@ class Controller_Docs
 	 *
 	 * @return Void
 	 */
-	public static function Action_Search()
+	public static function actionSearch()
 	{
 		View::assign('yml', Yaml::fetch(), FALSE);
-		View::assign('test', Yaml::each('test'));
+		View::assign('tests', Yaml::each('tests'));
 		View::assign('title', A11YC_LANG_DOCS_TITLE);
-		View::assign('body', View::fetch_tpl('docs/index.php'), FALSE);
+		View::assign('body', View::fetchTpl('docs/index.php'), FALSE);
 	}
 
 	/**
@@ -40,11 +42,10 @@ class Controller_Docs
 	 *
 	 * @return Void
 	 */
-	public static function Action_Each()
+	public static function actionEach()
 	{
 		$criterion = Input::get('criterion', '');
-		$code = Input::get('code', '');
-		static::each($criterion, $code);
+		static::each($criterion);
 	}
 
 	/**
@@ -54,7 +55,7 @@ class Controller_Docs
 	 * @param  String $word
 	 * @return Bool
 	 */
-	private static function word_exists($target, $word)
+	private static function wordExists($target, $word)
 	{
 		$words = explode(' ', strtolower($word));
 		$target = strtolower($target);
@@ -84,42 +85,38 @@ class Controller_Docs
 		if (Input::get('s'))
 		{
 			$yaml = Yaml::fetch();
-			$test = Yaml::each('test');
+			$tests = Yaml::each('tests');
 
 			$word = mb_convert_kana(trim(Input::get('s')), "as");
 
-			$r['chks'] = array();
+			$r['criterions'] = array();
 			$r['tests'] = array();
-			foreach ($yaml['checks'] as $v)
+			foreach ($yaml['criterions'] as $k => $v)
 			{
-				foreach ($v as $chk => $vv)
+				if (
+					self::wordExists($v['code'], $word) ||
+					self::wordExists($v['doc'], $word) ||
+					self::wordExists($v['guideline']['principle']['name'], $word) ||
+					self::wordExists($v['guideline']['principle']['summary'], $word) ||
+					self::wordExists($v['guideline']['summary'], $word) ||
+					self::wordExists($v['code'], $word) ||
+					self::wordExists($v['code'], str_replace('.', '-', $word)) ||
+					self::wordExists($v['summary'], $word) ||
+					self::wordExists(@$v['tech'], $word) ||
+					self::wordExists($v['name'], $word)
+				)
 				{
-					if (
-						self::word_exists($chk, $word) ||
-						self::word_exists($vv['criterion']['code'], $word) ||
-						self::word_exists($vv['criterion']['guideline']['principle']['name'], $word) ||
-						self::word_exists($vv['criterion']['guideline']['principle']['summary'], $word) ||
-						self::word_exists($vv['criterion']['guideline']['summary'], $word) ||
-						self::word_exists($vv['criterion']['code'], $word) ||
-						self::word_exists($vv['criterion']['code'], str_replace('.', '-', $word)) ||
-						self::word_exists($vv['criterion']['summary'], $word) ||
-						self::word_exists(@$vv['tech'], $word) ||
-						self::word_exists($vv['name'], $word)
-					)
-					{
-						$r['chks']['principles'][] = $vv['criterion']['guideline']['principle']['code'];
-						$r['chks']['guidelines'][] = $vv['criterion']['guideline']['code'];
-						$r['chks']['criterions'][] = $vv['criterion']['code'];
-						$r['chks']['codes'][] = $chk;
-					}
+					$r['criterions']['principles'][] = $v['guideline']['principle']['code'];
+					$r['criterions']['guidelines'][] = $v['guideline']['code'];
+					$r['criterions']['criterions'][] = $v['code'];
 				}
 			}
 
-			foreach ($test['tests'] as $code => $v)
+			foreach ($tests as $code => $v)
 			{
 				if (
-					self::word_exists($v['name'], $word) ||
-					self::word_exists($v['tech'], $word)
+					self::wordExists($v['name'], $word) ||
+					self::wordExists($v['tech'], $word)
 				)
 				{
 					$r['tests'][] = $code;
@@ -130,28 +127,27 @@ class Controller_Docs
 		View::assign('word', $word);
 		View::assign('results', $r);
 		View::assign('yml', Yaml::fetch(), FALSE);
-		View::assign('test', Yaml::each('test'));
+		View::assign('tests', Yaml::each('tests'));
 		View::assign('title', A11YC_LANG_DOCS_TITLE);
-		View::assign('search_form', View::fetch_tpl('docs/search.php'), FALSE);
-		View::assign('body', View::fetch_tpl('docs/index.php'), FALSE);
+		View::assign('search_form', View::fetchTpl('docs/search.php'), FALSE);
+		View::assign('body', View::fetchTpl('docs/index.php'), FALSE);
 	}
 
 	/**
 	 * Show each
 	 *
 	 * @param String $criterion
-	 * @param String $code
 	 * @return Void
 	 */
-	public static function each($criterion, $code)
+	public static function each($criterion)
 	{
 		$yml = Yaml::fetch();
 		$test = Yaml::each('test');
 		$doc = array();
 
-		if (isset($yml['checks'][$criterion][$code]))
+		if (isset($yml['criterions'][$criterion]))
 		{
-			$doc = $yml['checks'][$criterion][$code];
+			$doc = $yml['criterions'][$criterion];
 		}
 		elseif(isset($test['tests'][$code]))
 		{
@@ -162,10 +158,17 @@ class Controller_Docs
 			Util::error('invalid access.');
 		}
 
+		// reference urls
+		$standards = Yaml::each('standards');
+		$standard = Arr::get(Model\Settings::fetchAll(), 'standard', 0);
+		$refs = Values::getRefUrls();
+		View::assign('refs', $refs[$standard]);
+
+		View::assign('criterion', $criterion);
 		View::assign('yml', $yml, FALSE);
 		View::assign('test', $test);
 		View::assign('title', A11YC_LANG_DOCS_TITLE.': '.$doc['name']);
-		View::assign('doc', $doc, FALSE);
-		View::assign('body', View::fetch_tpl('docs/each.php'), FALSE);
+		View::assign('doc', $doc);
+		View::assign('body', View::fetchTpl('docs/each.php'), FALSE);
 	}
 }

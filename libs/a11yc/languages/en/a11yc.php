@@ -6,13 +6,24 @@
  */
 
 // general
+define('A11YC_REF_WCAG20_URL', 'https://www.w3.org/TR/WCAG20/');
+define('A11YC_REF_WCAG20_UNDERSTANDING_URL', 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/');
+define('A11YC_REF_WCAG20_TECH_URL', 'https://www.w3.org/TR/WCAG20-TECHS/');
+
 define('A11YC_LANG_PRINCIPLE', 'Principle');
 define('A11YC_LANG_GUIDELINE', 'Guideline');
 
 define('A11YC_LANG_LEVEL', 'Level');
 define('A11YC_LANG_EXIST', 'Present');
 define('A11YC_LANG_EXIST_NON', 'Not Present');
-define('A11YC_LANG_PASS', 'Conformance ');
+define('A11YC_LANG_PASS', 'Conformance');
+define('A11YC_LANG_PASS_NON', 'Non Conformance');
+define('A11YC_LANG_PASS_PARTIAL', 'Partial Conformance');
+define('A11YC_LANG_NOT_CHECKED', 'Not Yet');
+define('A11YC_LANG_TEST_METHOD', 'Test Method');
+define('A11YC_LANG_TEST_METHOD_AC', 'Automated Check');
+define('A11YC_LANG_TEST_METHOD_AF', 'Automated Find');
+define('A11YC_LANG_TEST_METHOD_HC', 'Human Check');
 define('A11YC_LANG_CRITERION', 'Criterion');
 define('A11YC_LANG_HERE', 'here, click here, click');
 define('A11YC_LANG_TEST_RESULT', 'Test result');
@@ -25,6 +36,7 @@ define('A11YC_LANG_CHECKED_PAGES', 'Target pages');
 define('A11YC_LANG_UNPASSED_PAGES', 'Page less than the achievement grade as a target');
 define('A11YC_LANG_UNPASSED_PAGES_NO', 'All checked page meet success criteria to target');
 define('A11YC_LANG_RELATED', 'Related');
+define('A11YC_LANG_VALUE', 'Value');
 define('A11YC_LANG_AS', 'Accessibility Supported');
 define('A11YC_LANG_UNDERSTANDING', 'Understanding WCAG2.0');
 define('A11YC_LANG_NO_DOC', 'There is no document');
@@ -32,7 +44,6 @@ define('A11YC_LANG_JUMP_TO_CONTENT', 'Jump to content');
 define('A11YC_LANG_BEGINNING_OF_THE_CONTENT', 'Start of main content');
 define('A11YC_LANG_UPDATE_SUCCEED', 'Update Succeed');
 define('A11YC_LANG_UPDATE_FAILED', 'Update Failed');
-define('A11YC_LANG_ERROR_NON_TARGET_LEVEL', 'Please perform the check from select "Target Level" in setting.');
 define('A11YC_LANG_CTRL_CONFIRM', 'It can not be returned. Are you sure you want to do %s?');
 define('A11YC_LANG_CTRL_KEYWORD_TITLE', 'Keyword');
 define('A11YC_LANG_CTRL_ORDER_TITLE', 'Order');
@@ -40,11 +51,24 @@ define('A11YC_LANG_CTRL_SEARCH', 'Search');
 define('A11YC_LANG_CTRL_SEND', 'Send');
 define('A11YC_LANG_CTRL_PREV', 'Previous');
 define('A11YC_LANG_CTRL_NEXT', 'Next');
-define('A11YC_LANG_CTRL_NUM', 'Number');
 define('A11YC_LANG_CTRL_EXPAND', 'Expand');
 define('A11YC_LANG_CTRL_COMPRESS', 'Compress');
+define('A11YC_LANG_CTRL_VIEW', 'Show');
+define('A11YC_LANG_CTRL_NAME', 'Name');
+define('A11YC_LANG_CTRL_DATE', 'Date');
+define('A11YC_LANG_CTRL_ADDNEW', 'Add New');
+define('A11YC_LANG_CTRL_SAVE', 'Save');
+define('A11YC_LANG_CTRL_PERSONS', 'Person');
 define('A11YC_LANG_COUNT_ITEMS', '%s items');
 define('A11YC_LANG_EXPORT_ERRORS_CSV',  'Export CSV');
+
+// ua
+define('A11YC_LANG_UA_USING',  'Current Browser');
+define('A11YC_LANG_UA_FEATUREPHONE',  'Feature Phone');
+define('A11YC_LANG_UA_IPHONE',  'iPhone');
+define('A11YC_LANG_UA_IPAD',  'iPad');
+define('A11YC_LANG_UA_ANDROID',  'Android');
+define('A11YC_LANG_UA_ANDROID_TABLET',  'Android Tablet');
 
 // login
 define('A11YC_LANG_AUTH_TITLE', 'Login');
@@ -67,6 +91,7 @@ define('A11YC_LANG_PAGES_INDEX', 'Target Pages');
 define('A11YC_LANG_PAGES_PAGETITLE', 'Target Page\'s title');
 define('A11YC_LANG_PAGES_URLS', 'Target Page\'s URL');
 define('A11YC_LANG_PAGES_URLS_ADD', 'Add URL');
+define('A11YC_LANG_PAGES_URLS_ADD_FORCE', 'Add forcibly whether or not it exists');
 define('A11YC_LANG_PAGES_NOT_FOUND', 'No pages to check found');
 define('A11YC_LANG_PAGES_ALREADY_EXISTS', 'Already exists');
 define('A11YC_LANG_PAGES_ADDED_NORMALLY', 'Add');
@@ -78,15 +103,15 @@ define('A11YC_LANG_PAGES_EXPORT', 'CSV');
 define('A11YC_LANG_PAGES_DELETE', 'Delete');
 define('A11YC_LANG_PAGES_UNDELETE', 'Undelete');
 define('A11YC_LANG_PAGES_PURGE', 'Purge');
-define('A11YC_LANG_PAGES_ADD_DATE', 'Add Date');
-define('A11YC_LANG_PAGES_ORDER_ADD_DATE_ASC', 'Add Date Asc.');
-define('A11YC_LANG_PAGES_ORDER_ADD_DATE_DESC', 'Add Date Desc.');
+define('A11YC_LANG_PAGES_CREATED_AT', 'Add Date');
+define('A11YC_LANG_PAGES_ORDER_CREATED_AT_ASC', 'Add Date Asc.');
+define('A11YC_LANG_PAGES_ORDER_CREATED_AT_DESC', 'Add Date Desc.');
 define('A11YC_LANG_PAGES_ORDER_TEST_DATE_ASC', 'Test Date Asc');
 define('A11YC_LANG_PAGES_ORDER_TEST_DATE_DESC', 'Test Date Desc');
 define('A11YC_LANG_PAGES_ORDER_URL_ASC', 'URL Asc.');
 define('A11YC_LANG_PAGES_ORDER_URL_DESC', 'URL Desc.');
-define('A11YC_LANG_PAGES_ORDER_PAGE_NAME_ASC', 'Page name Asc.');
-define('A11YC_LANG_PAGES_ORDER_PAGE_NAME_DESC', 'Page name Desc.');
+define('A11YC_LANG_PAGES_ORDER_TITLE_ASC', 'Page name Asc.');
+define('A11YC_LANG_PAGES_ORDER_TITLE_DESC', 'Page name Desc.');
 define('A11YC_LANG_PAGES_CTRL', 'Action');
 define('A11YC_LANG_PAGES_URL_FOR_EACH_LINE', 'Enter one URL to each line, please press the "'.A11YC_LANG_PAGES_URLS_ADD.'".  Please once the registration is in the order of twenty. The program may be stopped at the registration process and too many.');
 define('A11YC_LANG_PAGES_ALL', 'All');
@@ -109,9 +134,16 @@ define('A11YC_LANG_PAGES_NOT_FOUND_SSL', 'In .htaccess, redirecting access to ht
 define('A11YC_LANG_PAGES_ADD_TO_DATABASE', 'Register the URLs in the database');
 define('A11YC_LANG_PAGES_ADD_TO_CANDIDATE', 'Acquire candidate URLs from HTML');
 define('A11YC_LANG_PAGES_IT_TAKES_TIME', 'This process takes time.');
+define('A11YC_LANG_PAGES_LABEL_EDIT', 'Edit');
+define('A11YC_LANG_PAGES_LABEL_HTML_EXP', 'This HTML is used for judgment, such as when automatic acquisition of HTML fails. It will be rewritten automatically when the automatic acquisition succeeds in the future.');
 
 // setup
-define('A11YC_LANG_SETUP_TITLE', 'Setup');
+define('A11YC_LANG_SETUP_TITLE', 'settings');
+define('A11YC_LANG_SETTINGS_TITLE_BASE', 'BASIC SETTINGS');
+define('A11YC_LANG_SETTINGS_TITLE_UA', 'UA');
+define('A11YC_LANG_SETTINGS_TITLE_UA_EXP', 'You can add a UA by entering it in the last blank line. If '.A11YC_LANG_PAGES_PURGE.' is checked and sent, the user agent will be deleted but '.A11YC_LANG_UA_USING.' can not be deleted or edited except for its name.');
+define('A11YC_LANG_SETTINGS_TITLE_VERSIONS', 'Versions');
+define('A11YC_LANG_SETTINGS_TITLE_VERSIONS_EXP', 'You can name the version. Check '.A11YC_LANG_PAGES_PURGE.' and send it completely to delete that version. Please note that you can not recover. If you do not want general display, please uncheck '.A11YC_LANG_CTRL_VIEW.'.');
 define('A11YC_LANG_SETUP_TITLE_ETC', 'etc.');
 define('A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR', 'Checklist Behaviour');
 define('A11YC_LANG_SETUP_BASE_URL', 'URL of Document Root');
@@ -180,7 +212,6 @@ define('A11YC_LANG_CHECKLIST_MEMO', 'Note');
 define('A11YC_LANG_NO_BROKEN_LINK_FOUND', 'No broken link was found');
 define('A11YC_LANG_CHECKLIST_PERCENTAGE', 'Achievement');
 define('A11YC_LANG_CHECKLIST_NG_REASON', 'Nonconformity Reason');
-define('A11YC_LANG_CHECKLIST_NG_REASON_EXP', 'If there is application of the object of this achievement item and it is nonconformity, please describe the reason here. If the reason is written here, this criterion will be treated as "Nonconformity" or "Partial Conformity".');
 define('A11YC_LANG_IMAGE', 'Image');
 define('A11YC_LANG_IMPORTANCE', 'Importance');
 define('A11YC_LANG_ELEMENT', 'Element');
@@ -198,7 +229,6 @@ define('A11YC_LANG_CHECKLIST_MUST_BE_NUMERIC', 'value of %s must be numeric');
 define('A11YC_LANG_CHECKLIST_BACK_TO_MESSAGE', 'back to message');
 define('A11YC_LANG_CHECKLIST_SEE_DETAIL', 'See How to resolve');
 define('A11YC_LANG_CHECKLIST_SEE_UNDERSTANDING', 'See understanding WCAG');
-define('A11YC_LANG_CHECKLIST_HUMAN_SRC_NOTICE', 'Use <code>##A11YC_SRC_DIV##</code> as delimiter. Completion criteria such as (E)rror or (N)otice in the first line, 1.1.1 in the second line, Corresponding code such as 1-1-1a in the third line, commentary sentences in the forth line, write HTML from the fifth line to the next delimiter. HTML can not include a comment-out part, inside of script.');
 
 // bulk
 define('A11YC_LANG_BULK_TITLE', 'Batch');
@@ -230,30 +260,104 @@ define('A11YC_LANG_ERROR_GET_NEW_A11YC', '<a href="%s">There is a new version of
 define('A11YC_LANG_ERROR_NO_URL_NO_CHECK_SAME', 'Without URL, link destination and link string can not be confirmed. Executed other checks.');
 define('A11YC_LANG_ERROR_COULD_NOT_ESTABLISH_CONNECTION', 'For some reason (ex. SSL certificate), Could not get the source.');
 
-// startup
-define('A11YC_LANG_STARTUP_SETDIRS', 'Set up data storage directory and cache directory.');
-define('A11YC_LANG_STARTUP_ERROR_DIR', 'Failed to install data storage directory and cache directory. Please set '.A11YC_DATA_PATH.' And '.A11YC_CACHE_PATH);
+// results
+define('A11YC_LANG_RESULTS_TITLE', A11YC_LANG_TEST_RESULT);
+define('A11YC_LANG_RESULTS_NEWEST_VERSION', 'Newest version');
+define('A11YC_LANG_RESULTS_CHANGE_VERSION', 'Switch policy, report, exam version');
+define('A11YC_LANG_RESULTS_VERSION_NOT_FOUND', 'Specified version was not found');
+define('A11YC_LANG_RESULTS_PROTECT_VERSION_TITLE', 'Data protection');
+define('A11YC_LANG_RESULTS_PROTECT_VERSION_EXP', 'Protect current policies, tests and reports. Protected data is not subject to editing. Protected data will be laundered and readable when displaying accessibility policy. Protection is on a daily basis. Overwrite existing data if there is today\'s data.');
+define('A11YC_LANG_RESULTS_DELETE_SAMEDATE', 'Since there was protected data created today, overwrote it.');
+define('A11YC_LANG_RESULTS_PROTECT_DATA_SAVED', 'Data was protected.');
+define('A11YC_LANG_RESULTS_PROTECT_DATA_FAILD', 'Data protection failed.');
+define('A11YC_LANG_RESULTS_PROTECT_DATA_CONFIRM', 'Do you really want to protect your data?');
+define('A11YC_LANG_RESULTS_VERSION_EXISTS', 'Versions');
+define('A11YC_LANG_RESULTS_PASSED_CHECKITEM', 'Passed Check Item');
 
-// disclosure
-define('A11YC_LANG_DISCLOSURE_NEWEST_VERSION', 'Newest version');
-define('A11YC_LANG_DISCLOSURE_CHANGE_VERSION', 'Switch policy, report, exam version');
-define('A11YC_LANG_DISCLOSURE_VERSION_NOT_FOUND', 'Specified version was not found');
-define('A11YC_LANG_DISCLOSURE_PROTECT_VERSION_TITLE', 'Data protection');
-define('A11YC_LANG_DISCLOSURE_PROTECT_VERSION_EXP', 'Protect current policies, tests and reports. Protected data is not subject to editing. Protected data will be laundered and readable when displaying accessibility policy. Protection is on a daily basis. Overwrite existing data if there is today\'s data.');
-define('A11YC_LANG_DISCLOSURE_DELETE_SAMEDATE', 'Since there was protected data created today, overwrote it.');
-define('A11YC_LANG_DISCLOSURE_PROTECT_DATA_SAVED', 'Data was protected.');
-define('A11YC_LANG_DISCLOSURE_PROTECT_DATA_FAILD', 'Data protection failed.');
-define('A11YC_LANG_DISCLOSURE_PROTECT_DATA_CONFIRM', 'Do you really want to protect your data?');
-define('A11YC_LANG_DISCLOSURE_VERSION_EXISTS', 'Versions');
-define('A11YC_LANG_DISCLOSURE_VERSION_EXISTS_EXP', 'Each version can be switched on the page displaying the accessibility report.');
+// issues
+define('A11YC_LANG_ISSUES_TITLE', 'Issue');
+define('A11YC_LANG_ISSUES_ADD', 'Add Issue');
+define('A11YC_LANG_ISSUES_EDIT', 'Edit Issue');
+define('A11YC_LANG_ISSUES_IS_COMMON_EXP', 'Please check if there is a common problem in the site. All checklists will be treated as a problem');
+define('A11YC_LANG_ISSUES_IS_COMMON', 'Common Problem');
+define('A11YC_LANG_ISSUES_HTML', 'HTML piece of the problem part');
+define('A11YC_LANG_ISSUES_HTML_EXP', 'When you enter the HTML piece of the problem part, it is displayed in the report etc. HTML can not include a comment-out part, the inside of script, etc.');
+define('A11YC_LANG_ISSUES_N_OR_E', 'Notice/Error');
+define('A11YC_LANG_ISSUES_N_OR_E_EXP', 'Choose Notice or Error');
+define('A11YC_LANG_ISSUES_TECH', 'URL of Techniques for WCAG 2.0');
+define('A11YC_LANG_ISSUES_TECH_EXP', 'Please enter URL of Techniques for WCAG 2.0. If there are multiple, please separate them with line breaks');
+define('A11YC_LANG_ISSUES_STATUS', 'Status');
+define('A11YC_LANG_ISSUES_STATUS_1', 'Not Yet');
+define('A11YC_LANG_ISSUES_STATUS_2', 'Doing');
+define('A11YC_LANG_ISSUES_STATUS_3', 'Done');
+define('A11YC_LANG_ISSUES_ERRMSG', 'Error Message');
+define('A11YC_LANG_ISSUES_ERRMSG_EXP', 'Error messages displayed in Live mode, CSV, etc.');
+define('A11YC_LANG_ISSUES_ADDED', 'Issue was added');
+define('A11YC_LANG_ISSUES_ADDED_FAILED', 'Issue was not added');
+define('A11YC_LANG_ISSUES_EDITED', 'Issue was edited');
+define('A11YC_LANG_ISSUES_EDITED_FAILED', 'Issue was not edited');
+define('A11YC_LANG_ISSUES_MESSAGE', 'Messages');
+define('A11YC_LANG_ISSUES_MESSAGE_ADD', 'Add Message');
+
+// image list
+define('A11YC_LANG_IMAGES_TITLE', 'Image List');
+
+// errors
+define('A11YC_LANG_ERROR_NON_TARGET_LEVEL', 'Please perform the check from select "Target Level" in setting.');
+define('A11YC_LANG_ERROR_NON_BASE_URL', 'Please Input "'.A11YC_LANG_SETTINGS_BASE_URL.'" in setting.');
 
 // sample
 define('A11YC_LANG_SAMPLE_POLICY', 'sample:\n<p>[Your Name / Organization Name] will endeavor to create an accessible website that anyone can use in the same way regardless of the presence or absence of disability or age.</p>\n<p>[Please describe the meaning of this website to secure accessibility.]</p>\n<p>We set up accessibility policy as follows and will constantly secure accessibility.</p>\n\n<h2>Policy</h2>\n<p>[Please describe the accessibility policy.]</p>\n\n<h2>Scope of coverage</h2>\n<p>[Please describe as "target pages below http://example.com".]</p>\n\n<h2>Achievement target date</h2>\n<p>[Please describe the target date of accomplishment.]</p>\n\n<h2>Exceptions</h2>\n<p>[Please list if any.]</p>');
 
-// ua
-define('A11YC_LANG_UA_USING',  'Current Browser');
-define('A11YC_LANG_UA_FEATUREPHONE',  'Feature Phone');
-define('A11YC_LANG_UA_IPHONE',  'Smartphone (iPhone)');
-define('A11YC_LANG_UA_IPAD',  'Tablet (iPad)');
-define('A11YC_LANG_UA_ANDROID',  'Smartphone (Android)');
-define('A11YC_LANG_UA_ANDROID_TABLET',  'Tablet (Android)');
+// stand alones
+define('A11YC_LANG_POST_SERVICE_NAME', 'A11yc Accessibility Validation Service');
+define('A11YC_LANG_POST_SERVICE_NAME_ABBR', 'A11yc AVS');
+
+define('A11YC_LANG_POST_INDEX', 'Validation');
+
+define('A11YC_LANG_POST_DESCRIPTION', 'This is a kind of web accessibility checker. anyone can use.');
+
+define('A11YC_LANG_POST_README', 'Read me');
+
+define('A11YC_LANG_POST_HOWTO', '<p>Mechanical accessibility check for the HTML. Please paste your HTML in the textarea of ​​<code>HTML Source</code> or enter target URL to <code>URL</code> in <a href="%s">Validation</a> and send it. Display accessibility checkpoints and their commentary.</p><p>In the case of check by URL, in addition to checking accessibility, you can check images and alt.</p>');
+
+define('A11YC_LANG_POST_SERVICE_NAME_TITLE', 'Name of service');
+define('A11YC_LANG_POST_SERVICE_NAME_EXP', '"<strong>'.A11YC_LANG_POST_SERVICE_NAME.'</strong>" Short version is "<strong>'.A11YC_LANG_POST_SERVICE_NAME_ABBR.'</strong>".');
+
+define('A11YC_LANG_POST_CONDITION_TITLE', 'Limit');
+define('A11YC_LANG_POST_CONDITION_EXP_FREE', 'It is free.');
+define('A11YC_LANG_POST_CONDITION_EXP_10MIN', 'More than 10 posts in 10 minutes, you can not post for a few minutes.');
+define('A11YC_LANG_POST_CONDITION_EXP_24H', 'More than 150 posts from one IP address in 24 hours, you will not be able to post for a while.');
+
+define('A11YC_LANG_POST_COLLECTION_TITLE', 'Collected information');
+define('A11YC_LANG_POST_COLLECTION_GOOGLE', 'We are using Google Analytics.');
+define('A11YC_LANG_POST_COLLECTION_IP', 'Because of limitation by IP address, IP address and time accessed from that IP address are saved.');
+
+define('A11YC_LANG_POST_VENDOR_TITLE', 'Vendor');
+define('A11YC_LANG_POST_VENDOR_JIDAIKOBO', 'Jidaikobo Inc.');
+define('A11YC_LANG_POST_VENDOR_JIDAIKOBO_TWITTER', 'Twitter of Jidaikobo Inc.');
+
+define('A11YC_LANG_POST_TECH_TITLE', 'Technical information');
+define('A11YC_LANG_POST_TECH_A11YC', 'Based on the library called A11yc. <a href="https://github.com/jidaikobo-shibata/a11yc">A11yc is available on github </a>. Is is also made by Jidaikobo.');
+define('A11YC_LANG_POST_TECH_A11YC_ADD', 'In A11yc, there are functions to prepare reports and test results (check list)');
+define('A11YC_LANG_POST_TECH_JWP_A11YC', 'Plugin for WordPress <a href="https://en.wordpress.org/plugins/jwp-a11y/">jwp-a11y</a> also has the same function as A11yc, so please do it.');
+define('A11YC_LANG_POST_TECH_JWP_A11YC_ADD', 'In Wordpress Plugin, execute validation function of A11yc AVS every time posting, constantly manage the site with accessibility awareness.');
+
+define('A11YC_LANG_POST_FEEDBACK_TITLE', 'Feedback');
+define('A11YC_LANG_POST_FEEDBACK_EXP', 'If there is a request or correction part on the expression of the function, commentary, etc., please send us email (<a href="mailto:info@jidaikobo.com">info@jidaikobo.com</a>) or Twitter.');
+
+define('A11YC_LANG_POST_DONE', 'Done.');
+define('A11YC_LANG_POST_DONE_POINTS', '%s Warnned Points.');
+define('A11YC_LANG_POST_DONE_NOTICE_POINTS', '%s Noitced Points.');
+define('A11YC_LANG_POST_DONE_IMAGE_LIST', 'Displaying list of images and alt. Depending on the referrer settings, images may not be displayed.');
+
+define('A11YC_LANG_POST_DO_CHECK', 'Do Accessibility check');
+define('A11YC_LANG_POST_SHOW_LIST_IMAGES', 'Show list of images and alt');
+define('A11YC_LANG_POST_BEHAVIOUR', 'Behaviour');
+define('A11YC_LANG_POST_CANT_SHOW_LIST_IMAGES', 'can not display images and alt lists with HTML source check.');
+
+define('A11YC_LANG_POST_BASIC_AUTH_EXP', 'Could not pass basic authentication');
+
+define('A11YC_LANG_POST_SOCIAL_TWEET', 'Tweet');
+define('A11YC_LANG_POST_SOCIAL_FACEBOOK', 'Facebook Like Button');
+define('A11YC_LANG_POST_SOCIAL_HATENA', 'Add Hatena Bookmark');

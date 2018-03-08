@@ -34,7 +34,7 @@ class View
 	 * @param  String $tpl_path
 	 * @return Void
 	 */
-	public static function add_tpl_path($tpl_path)
+	public static function addTplPath($tpl_path)
 	{
 		if ( ! file_exists($tpl_path)) Util::error('template path not found: '. s($tpl_path));
 		array_unshift(static::$tpl_paths, rtrim($tpl_path, '/'));
@@ -47,7 +47,7 @@ class View
 	 * @param  String $tpl
 	 * @return String|Bool
 	 */
-	public static function tpl_path($tpl)
+	public static function tplPath($tpl)
 	{
 		foreach (static::$tpl_paths as $tpl_path)
 		{
@@ -81,16 +81,16 @@ class View
 	}
 
 	/**
-	 * fetch_tpl
+	 * fetchTpl
 	 * fetch specified / fallback template
 	 *
 	 * @param  String $tpl
 	 * @return String
 	 */
-	public static function fetch_tpl($tpl)
+	public static function fetchTpl($tpl)
 	{
-		$tpl_path = static::tpl_path($tpl);
-		if ( ! $tpl_path) Util::error('template not found: '. s($tpl));
+		$tpl_path = static::tplPath($tpl);
+		if ( ! $tpl_path) Util::error('template not found: '. Util::s($tpl));
 
 		// extract
 		extract (static::$vals);
@@ -130,7 +130,7 @@ class View
 		// render
 		foreach ($tpls as $tpl)
 		{
-			echo static::fetch_tpl($tpl);
+			echo static::fetchTpl($tpl);
 		}
 	}
 }

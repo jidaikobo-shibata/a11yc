@@ -16,41 +16,41 @@ class Performance
 	public static $beg_memory;
 
 	/**
-	 * set_time
+	 * setBegTime
 	 *
 	 * @return Void
 	 */
-	public static function set_time()
+	public static function setBegTime()
 	{
 		static::$beg_time = microtime(true);
 	}
 
 	/**
-	 * set_memory
+	 * setBegMemory
 	 *
 	 * @return Void
 	 */
-	public static function set_memory()
+	public static function setBegMemory()
 	{
 		static::$beg_memory = memory_get_usage(false);
 	}
 
 	/**
-	 * calc_time
+	 * calcTime
 	 *
 	 * @return String
 	 */
-	public static function calc_time()
+	public static function calcTime()
 	{
 		return number_format(microtime(true) - static::$beg_time, 2).' sec.';
 	}
 
 	/**
-	 * calc_memory
+	 * calcMemory
 	 *
 	 * @return String
 	 */
-	public static function calc_memory()
+	public static function calcMemory()
 	{
 		return round((memory_get_usage(false) - static::$beg_memory) / 1048576, 2).' MB.';
 	}

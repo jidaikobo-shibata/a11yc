@@ -1,6 +1,6 @@
 <?php
 /**
- * A11yc\Controller_Pages
+ * A11yc\Controller\Pages
  *
  * @package    part of A11yc
  * @author     Jidaikobo Inc.
@@ -8,295 +8,134 @@
  * @copyright  Jidaikobo Inc.
  * @link       http://www.jidaikobo.com
  */
-namespace A11yc;
+namespace A11yc\Controller;
 
-class Controller_Pages
+use A11yc\Model;
+
+class Pages
 {
-	/**
-	 * target mime types
-	 */
-	public static $target_mimes = array(
-		'text/html',
-		'application/pdf',
-	);
-
 	/**
 	 * Show Pages Index
 	 *
 	 * @return Void
 	 */
-	public static function Action_Index()
+	public static function actionIndex()
 	{
-		$setup = Controller_Setup::fetch_setup();
-		if ( ! Arr::get($setup, 'target_level'))
-		{
-			Session::add('messages', 'errors', A11YC_LANG_ERROR_NON_TARGET_LEVEL);
-		}
 		static::index();
 	}
 
 	/**
-	 * fetch page from db
-	 *
-	 * @param  String $url
-	 * @return Bool|Array
-	 */
-	public static function fetch_page($url)
-	{
-		$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?';
-		$sql.= Controller_Setup::version_sql().';';
-		return Db::fetch($sql, array($url));
-	}
-
-	/**
-	 * dbio
+	 * add Pages
 	 *
 	 * @return Void
 	 */
-	public static function dbio()
+	public static function actionAdd()
 	{
-		// purge, undelete, delete
-		$url = Input::get('url', null, FILTER_VALIDATE_URL);
-		if ($url)
-		{
-			$url = Util::urldec($url);
-			$page_title = Util::fetch_page_title_from_db($url);
-
-			// purge
-			static::dbio_purge($url, $page_title);
-
-			// undelete
-			static::dbio_undelete($url, $page_title);
-
-			// delete
-			static::dbio_delete($url, $page_title);
-		}
-
-		// update_pages
-		static::dbio_update_pages();
+		static::add();
 	}
 
 	/**
-	 * dbio_delete
+	 * edit Page
 	 *
-	 * @param String $url
-	 * @param String $page_title
 	 * @return Void
 	 */
-	private static function dbio_delete($url, $page_title)
+	public static function actionEdit()
 	{
-		// delete
-		if (Input::get('del'))
+		static::edit();
+	}
+
+	/**
+	 * count pages
+	 *
+	 * @return Void
+	 */
+	private static function count()
+	{
+		$count = array(
+			'all'   => Model\Pages::count('all'),
+			'yet'   => Model\Pages::count('yet'),
+			'done'  => Model\Pages::count('done'),
+			'trash' => Model\Pages::count('trash'),
+		);
+
+		View::assign('count', $count);
+		View::assign('submenu', View::fetchTpl('pages/inc_submenu.php'), FALSE);
+	}
+
+	/**
+	 * Manage Target Pages
+	 *
+	 * @return Void
+	 */
+	public static function index()
+	{
+		// fetch pages
+		$list  = Input::get('list', 'all');
+		$words = Util::searchWords2Arr(Input::get('s', ''));
+		$args = array(
+			'list'    => $list,
+			'words'   => $words,
+			'order'   => Input::get('order', 'created_at_desc'),
+		);
+
+		// count
+		View::assign('list', $list);
+		static::count();
+
+		// assign
+		View::assign('title',       A11YC_LANG_PAGES_TITLE.' '.$list);
+		View::assign('settings',    Model\Settings::fetchAll());
+		View::assign('pages',       Model\Pages::fetch($args));
+		View::assign('word',        join(' ', $words));
+		View::assign('search_form', View::fetchTpl('pages/inc_search.php'), FALSE);
+		View::assign('body',        View::fetchTpl('pages/index.php'), FALSE);
+	}
+
+	/**
+	 * add target pages
+	 *
+	 * @return Void
+	 */
+	public static function add()
+	{
+		$get_urls = Util::urldec(Input::post('get_urls'));
+		$crawled = Session::fetch('values', 'urls');
+		$crawled = is_array($crawled[0]) ? join("\n", $crawled[0]) : '';
+		$is_force = Input::post('force', false);
+
+		if (Input::isPostExists())
 		{
-			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ? and `trash` = 0'.Controller_Setup::curent_version_sql().';';
-			if (Db::fetch($sql, array($url)))
+			if ($get_urls)
 			{
-				$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET `trash` = 1 WHERE `url` = ?'.Controller_Setup::curent_version_sql().';';
-				Db::execute($sql, array($url));
-				Session::add(
-					'messages',
-					'messages',
-					sprintf(A11YC_LANG_PAGES_DELETE_DONE, Util::s($page_title.' ('.$url.') ')));
+				$crawled = self::getUrls($get_urls);
+				Session::add('param', 'get_urls', $get_urls);
 			}
 			else
 			{
-				Session::add(
-					'messages',
-					'errors',
-					sprintf(A11YC_LANG_PAGES_DELETE_FAILED, Util::s($page_title.' ('.$url.') ')));
+				self::addPages($is_force);
 			}
 		}
+
+		// count
+		View::assign('list', 'add');
+		static::count();
+
+		View::assign('crawled', $crawled);
+		View::assign('get_urls', $get_urls);
+		View::assign('title', A11YC_LANG_CTRL_ADDNEW);
+		View::assign('body',  View::fetchTpl('pages/add.php'), FALSE);
 	}
 
 	/**
-	 * dbio_undelete
+	 * add target pages
 	 *
-	 * @param String $url
-	 * @param String $page_title
-	 * @return Void
+	 * @param  string $url
+	 * @return array
 	 */
-	private static function dbio_undelete($url, $page_title)
+	private static function getUrls($url)
 	{
-		if (Input::get('undel'))
-		{
-			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ? and `trash` = 1'.Controller_Setup::curent_version_sql().';';
-			if (Db::fetch($sql, array($url)))
-			{
-				$sql = 'UPDATE '.A11YC_TABLE_PAGES.' SET `trash` = 0 WHERE `url` = ?'.Controller_Setup::curent_version_sql().';';
-				Db::execute($sql, array($url));
-				Session::add(
-					'messages',
-					'messages',
-					sprintf(A11YC_LANG_PAGES_UNDELETE_DONE, Util::s($page_title.' ('.$url.') ')));
-			}
-			else
-			{
-				Session::add(
-					'messages',
-					'errors',
-					sprintf(A11YC_LANG_PAGES_UNDELETE_FAILED, Util::s($page_title.' ('.$url.') ')));
-			}
-		}
-	}
-
-	/**
-	 * dbio_purge
-	 *
-	 * @param String $url
-	 * @param String $page_title
-	 * @return Void
-	 */
-	private static function dbio_purge($url, $page_title)
-	{
-		if (Input::get('purge'))
-		{
-			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ? and `trash` = 1';
-			$sql.= Controller_Setup::curent_version_sql().';';
-			if (Db::fetch($sql, array($url)))
-			{
-				$sql = 'DELETE FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?';
-				$sql.= Controller_Setup::curent_version_sql().';';
-				Db::execute($sql, array($url));
-				Session::add(
-					'messages',
-					'messages',
-					sprintf(A11YC_LANG_PAGES_PURGE_DONE, Util::s($page_title.' ('.$url.') ')));
-
-				$sql = 'DELETE FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = ?';
-				$sql.= Controller_Setup::curent_version_sql().';';
-				Db::execute($sql, array($url));
-
-				$sql = 'DELETE FROM '.A11YC_TABLE_CHECKS_NGS.' WHERE `url` = ?';
-				$sql.= Controller_Setup::curent_version_sql().';';
-				Db::execute($sql, array($url));
-			}
-			else
-			{
-				Session::add(
-					'messages',
-					'errors',
-					sprintf(A11YC_LANG_PAGES_PURGE_FAILED, Util::s($page_title.' ('.$url.') ')));
-			}
-		}
-	}
-
-	/**
-	 * dbio_update_pages
-	 *
-	 * @return Void
-	 */
-	private static function dbio_update_pages()
-	{
-		// update add pages
-		if (Input::post('pages'))
-		{
-			$pages = explode("\n", trim(Input::post('pages')));
-			$pages = is_array($pages) ? $pages : array();
-
-			// draw
-			ob_end_flush();
-			ob_start('mb_output_handler');
-
-			// header
-			View::assign('title', A11YC_LANG_PAGES_ADD_TO_DATABASE);
-			echo View::fetch_tpl('setup/inc_progress_header.php');
-
-			foreach ($pages as $k => $url)
-			{
-				$url = trim($url);
-				if ( ! $url) continue;
-
-				// tidy url
-				Crawl::set_target_path($url);
-				$url = Crawl::keep_url_unique($url);
-				$url = Crawl::real_url($url);
-
-				// fragment included
-				if (strpos($url, '#') !== false) continue;
-
-				// is page exist?
-				if ( ! Crawl::is_page_exist($url))
-				{
-					Session::add(
-						'messages',
-						'errors',
-						A11YC_LANG_PAGES_NOT_FOUND.': '. Util::s($url));
-					continue;
-				}
-
-				// is html?
-				if ( ! Crawl::is_target_webpage($url)) continue;
-
-				// page title
-				$page_title = Util::fetch_page_title($url);
-
-				$current = $k + 1;
-				echo '<p>'.Util::s($url).' ('.$current.'/'.count($pages).')<br />';
-				echo Util::s($page_title).'<br />';
-
-				$url = Util::urldec($url);
-				if (Db::fetch('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?'.Controller_Setup::curent_version_sql().';', array($url)))
-				{
-					Session::add(
-						'messages',
-						'errors',
-						A11YC_LANG_PAGES_ALREADY_EXISTS.': '. Util::s($page_title.' ('.$url.') '));
-					echo 'Already exists.';
-					continue;
-				}
-
-				$sql = 'INSERT INTO '.A11YC_TABLE_PAGES;
-				$sql.= '(`url`, `trash`, `add_date`, `page_title`, `version`) VALUES ';
-				$sql.= '(?, 0, ?, ?, 0);';
-				$success = Db::execute($sql, array($url, date('Y-m-d H:i:s'), $page_title));
-				if ($success)
-				{
-					Session::add(
-						'messages',
-						'messages',
-						A11YC_LANG_PAGES_ADDED_NORMALLY.': '. Util::s($page_title.' ('.$url.') '));
-					echo "<strong style=\"border-radius: 5px; padding: 5px; color: #fff;background-color:#408000;\">Added</strong>\n";
-				}
-				else
-				{
-					Session::add(
-						'messages',
-						'errors',
-						A11YC_LANG_PAGES_ADD_FAILED.': '. Util::s($page_title.' ('.$url.') '));
-					echo 'Failed.';
-				}
-
-				echo '</p>';
-
-				ob_flush();
-				flush();
-			}
-
-			echo '</div>';
-			// done
-			echo '<p><a id="a11yc_back_to_pages" href="'.A11YC_PAGES_URL.'">'.A11YC_LANG_PAGES_DONE.'</a></p>';
-			echo '<script>a11yc_stop_scroll()</script>'."\n";
-			if ( ! headers_sent())
-			{
-				echo '</body>';
-			}
-			exit();
-		}
-	}
-
-	/**
-	 * crawler
-	 *
-	 * @param  String $base_url
-	 * @return Array
-	 */
-	public static function crawler($base_url)
-	{
-		static $urls = array();
-
 		// fetch attributes
-		$html = Crawl::fetch_html($base_url);
-		$html = Validate::ignore_elements($html);
+		$html = Model\Html::getHtml($url, $ua = 'using', $type = 'raw');
 		preg_match_all("/[ \n](?:href|action) *?= *?[\"']([^\"']+?)[\"']/i", $html, $ms);
 
 		// collect url
@@ -308,55 +147,76 @@ class Controller_Pages
 
 		// header
 		View::assign('title', A11YC_LANG_PAGES_ADD_TO_CANDIDATE);
-		echo View::fetch_tpl('setup/inc_progress_header.php');
+		echo View::fetchTpl('inc_progress_header.php');
 
-		Crawl::set_target_path($base_url);
-
+		// adding
 		$urls = array();
-		foreach ($ms[1] as $k => $url)
+		$base_url = Arr::get(Model\Settings::fetchAll(), 'base_url');
+		foreach ($ms[1] as $k => $orig_url)
 		{
-			// tidy url
-			$url = Crawl::keep_url_unique($url);
+			$url = Util::enuniqueUri($orig_url);
 
-			// results
 			$current = $k + 1;
-			echo '<p>'.Util::s($url).' ('.$current.'/'.count($ms[1]).")<br />\n";
+			echo '<p>'.Util::s($url).' ('.Util::s($orig_url).': '.$current.'/'.count($ms[1]).")<br />\n";
 
-			// messages
-			if (
-				// already added
-				in_array($url, $urls) ||
-				// already in db
-				Db::fetch('SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?'.Controller_Setup::curent_version_sql().';', array($url))
-			)
+			// already added
+			if (array_key_exists($url, $urls))
+			{
+				echo "<strong style=\"color: #408000\">Added</strong>\n";
+				continue;
+			}
+
+			// #
+			if ($url[0] == '#')
+			{
+				echo "<strong style=\"color: #408000\">page fragment</strong>\n";
+				continue;
+			}
+
+			// search from db
+			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?'.Db::currentVersionSql().';';
+			if (Db::fetch($sql, array($url)))
 			{
 				echo "<strong style=\"color: #408000\">Already exists</strong>\n";
+				continue;
 			}
-			elseif (
-				strpos($url, '#') !== false || // fragment included
-				! Crawl::is_same_host($base_url, $url) || // out of host
-				! Crawl::is_page_exist($url) || // page not exists
-				! Crawl::is_target_webpage($url) // non html or pdf or so
-			)
+
+			// is same host?
+			if (mb_substr($url, 0, mb_strlen($base_url)) !== $base_url)
 			{
-				echo "<strong>Ignored</strong>\n";
+				echo "<strong style=\"color: #408000\">Not in same host</strong>\n";
+				continue;
 			}
-			else
+
+			// page not exists
+			if ( ! Crawl::isPageExist($url))
 			{
-				$urls[] = $url;
-				echo "<strong style=\"border-radius: 5px; padding: 5px; color: #fff;background-color:#408000;\">Add to candidate</strong>\n";
+				echo "<strong style=\"color: #408000\">Page not exist</strong>\n";
+				continue;
 			}
+
+			// page not exists
+			if ( ! Crawl::isTargetMime($url))
+			{
+				echo "<strong style=\"color: #408000\">Not target webpage</strong>\n";
+				continue;
+			}
+
+			echo "<strong style=\"border-radius: 5px; padding: 5px; color: #fff;background-color:#408000;\">Add to candidate</strong>\n";
+
 			echo '</p>';
 
 			ob_flush();
 			flush();
+
+			$urls[] = $url;
 		}
 
 		echo '</div>';
 		echo '</div>';
 
 		// add to session
-		// sort($urls); // yousu-mi
+		Session::remove('values', 'urls');
 		Session::add('values', 'urls', $urls);
 
 		// done
@@ -364,14 +224,6 @@ class Controller_Pages
 		{
 			echo '<p><a id="a11yc_back_to_pages" href="'.A11YC_PAGES_URL.'">'.A11YC_LANG_PAGES_NOT_FOUND_ALL.'</a></p>';
 
-			$errs = Session::fetch('messages', 'errors');
-			if ($errs)
-			{
-				foreach ($errs as $err)
-				{
-					echo '<p>'.$err.'</p>';
-				}
-			}
 			if (strpos($base_url, 'https:') !== false)
 			{
 				echo '<p>'.A11YC_LANG_PAGES_NOT_FOUND_SSL.'</p>';
@@ -379,7 +231,7 @@ class Controller_Pages
 		}
 		else
 		{
-			echo '<p><a id="a11yc_back_to_pages" href="'.A11YC_PAGES_URL.'">'.A11YC_LANG_PAGES_RETURN_TO_PAGES.'</a></p>';
+			echo '<p><a id="a11yc_back_to_pages" href="'.A11YC_PAGES_ADD_URL.'">'.A11YC_LANG_PAGES_RETURN_TO_PAGES.'</a></p>';
 		}
 		echo '<script>a11yc_stop_scroll()</script>'."\n";
 
@@ -391,159 +243,192 @@ class Controller_Pages
 	}
 
 	/**
-	 * get_urls
+	 * addPageMessage
 	 *
+	 * @param  Bool $is_success
+	 * @param  String $url
+	 * @param  String $title
 	 * @return Void
 	 */
-	public static function get_urls()
+	private static function addPageMessage($is_success, $url = '', $title = '')
 	{
-		if ( ! Input::post('get_urls')) return false;
-		$url = Input::post('get_urls');
-		Session::add('param', 'get_urls', $url);
-		static::crawler($url);
+		if ($is_success)
+		{
+			Session::add(
+				'messages',
+				'messages',
+				A11YC_LANG_PAGES_ADDED_NORMALLY.': '. Util::s($title.' ('.$url.') '));
+		}
+		else
+		{
+			Session::add(
+				'messages',
+				'errors',
+				A11YC_LANG_PAGES_ADD_FAILED.': '. Util::s($title.' ('.$url.') '));
+		}
+	}
+
+/**
+ * addPages
+ *
+ * @param  Bool $is_force
+ * @return Void
+ */
+private static function addPages($is_force = false)
+	{
+		$pages = explode("\n", trim(Input::post('pages')));
+
+		// add without check
+		if ( ! Guzzle::envCheck() || $is_force)
+		{
+			foreach ($pages as $url)
+			{
+				$url = trim($url);
+				if (empty($url)) continue;
+				self::addPageMessage(Model\Pages::addPage($url), $url);
+			}
+			return;
+		}
+
+		// use Guzzle
+		ob_end_flush();
+		ob_start('mb_output_handler');
+
+		// header
+		View::assign('title', A11YC_LANG_PAGES_ADD_TO_DATABASE);
+		echo View::fetchTpl('inc_progress_header.php');
+
+		foreach ($pages as $k => $url)
+		{
+			$url = trim($url);
+			if ( ! $url) continue;
+
+			// tidy url
+			$url = Util::enuniqueUri($url);
+
+			// fragment included
+			if (strpos($url, '#') !== false) continue;
+
+			// is page exist?
+			if ( ! Crawl::isPageExist($url))
+			{
+				Session::add(
+					'messages',
+					'errors',
+					A11YC_LANG_PAGES_NOT_FOUND.': '. Util::s($url));
+				continue;
+			}
+
+			// is in target mime?
+			if ( ! Crawl::isTargetMime($url)) continue;
+
+			$current = $k + 1;
+			$title = Util::s(Model\Html::fetchPageTitle($url, $from_internet = true));
+			echo '<p>'.Util::s($url).' ('.$current.'/'.count($pages).')<br />';
+			echo $title.'<br />';
+			echo "<strong style=\"border-radius: 5px; padding: 5px; color: #fff;background-color:#408000;\">Add</strong>\n";
+
+			self::addPageMessage(Model\Pages::addPage($url), $url, $title);
+
+			echo '</p>';
+
+			ob_flush();
+			flush();
+		}
+
+		echo '</div>';
+		// done
+		echo '<p><a id="a11yc_back_to_pages" href="'.A11YC_PAGES_URL.'">'.A11YC_LANG_PAGES_DONE.'</a></p>';
+		echo '<script>a11yc_stop_scroll()</script>'."\n";
+		if ( ! headers_sent())
+		{
+			echo '</body>';
+		}
+		exit();
 	}
 
 	/**
-	 * Manage Target Pages
+	 * edit
 	 *
 	 * @return Void
 	 */
-	public static function index()
+	public static function edit()
 	{
-		// dbio
-		static::dbio();
+		$url = Util::urldec(Input::get('url'));
+		$is_success = false;
+		$redirect_to = '';
+		$message = '';
 
-		// pages
-		$qs = '';
-		$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE ';
-		$list = Input::get('list', false);
-		$yetwhr   = '(`done` = 0 OR `done` is null) AND (`trash` = 0 OR `trash` is null) ';
-		$donewhr  = '`done` = 1 and (`trash` = 0 OR `trash` is null) ';
-		$trashwhr = '`trash` = 1 ';
-		$allwhr   = '(`trash` = 0 OR `trash` is null) ';
-		switch ($list)
+		if (Input::isPostExists())
 		{
-			case 'yet':
-				$sql.= $yetwhr;
-				$qs = '&amp;list=yet';
-				break;
-			case 'done':
-				$sql.= $donewhr;
-				$qs = '&amp;list=done';
-				break;
-			case 'trash':
-				$sql.= $trashwhr;
-				$qs = '&amp;list=trash';
-				break;
-			default:
-				$sql.= $allwhr;
-				break;
-		}
-		$sql.= Controller_Setup::curent_version_sql();
+			switch (Input::post('operation'))
+			{
+				case 'check' :
+					$redirect_to = A11YC_CHECKLIST_URL.Util::urlenc($url);
+					break;
 
-		// order
-		$order = 'DESC';
-		$by    = 'add_date';
+				case 'result' :
+					break;
 
-		$order_whitelist = array(
-			'add_date_asc',
-			'add_date_desc',
-			'date_asc',
-			'date_desc',
-			'url_asc',
-			'url_desc',
-			'page_title_asc',
-			'page_title_desc');
-		$orderby = Input::get('order', false);
-		if (in_array($orderby, $order_whitelist))
-		{
-			$order = strtoupper(substr($orderby, strrpos($orderby, '_') + 1));
-			$by    = strtolower(substr($orderby, 0, strrpos($orderby, '_')));
-			$qs    = '&amp;order='.$orderby;
-		}
-		$sql_odr = 'order by '.$by.' '.$order.';';
+				case 'live' :
+					break;
 
-		// fetch
-		$word = '';
-		if (Input::get('s'))
-		{
-			$word = mb_convert_kana(trim(Input::get('s')), "as");
-			$sql.= $word ? 'and (`url` LIKE ? OR `page_title` LIKE ?) ' : '';
-			$pages = Db::fetch_all($sql.$sql_odr, array('%'.$word.'%', '%'.$word.'%'));
-		}
-		else
-		{
-			$pages = Db::fetch_all($sql.$sql_odr);
+				case 'image' :
+					break;
+
+				case 'export' :
+					break;
+
+				case 'delete' :
+					$is_success = Model\Pages::delete($url);
+					$message = $is_success ? A11YC_LANG_PAGES_DELETE_DONE : A11YC_LANG_PAGES_DELETE_FAILED;
+					$redirect_to = A11YC_PAGES_URL;
+					break;
+
+				case 'undelete' :
+					$is_success = Model\Pages::undelete($url);
+					$message = $is_success ? A11YC_LANG_PAGES_UNDELETE_DONE : A11YC_LANG_PAGES_UNDELETE_FAILED;
+					$redirect_to = A11YC_PAGES_URL;
+					break;
+
+				case 'purge' :
+					$is_success = Model\Pages::purge($url);
+					Model\Checklist::delete($url);
+					$message = $is_success ? A11YC_LANG_PAGES_PURGE_DONE : A11YC_LANG_PAGES_PURGE_FAILED;
+					$redirect_to = A11YC_PAGES_URL;
+					break;
+
+				default :
+					Model\Pages::updateField($url, 'title', Input::post('title'));
+					Model\Html::addHtml($url, $ua = 'using', Input::post('html'));
+					break;
+			}
 		}
 
-		// pagination
-		$total = count($pages);
-		$num = Input::get('num') ? intval(Input::get('num')) : 50 ;
-		$paged = Input::get('paged') ? intval(Input::get('paged')) : 1 ;
-
-		// offset
-		$offset = ($paged - 1) * $num;
-		$offset = $offset <= 0 ? 0 : $offset;
-
-		// prev
-		$prev = $paged > 1 ? $paged - 1 : false;
-		$prev_qs = $prev ? '&amp;paged='.$prev : '';
-
-		// next
-		$result = $offset + $num;
-		$next = $total > $result ? $paged + 1 : false;
-		$next_qs = $next ? '&amp;paged='.$next : '';
-
-		// $pages
-		$pages = array_slice($pages, $offset, $num);
-
-		// consists num by query string
-		$qs.= '&amp;num='.$num; // done with intval()
-
-		// count
-		$cntsql = 'SELECT count(url) AS num FROM '.A11YC_TABLE_PAGES.' WHERE ';
-
-		// assign index information
-		$end_num = $total > $result ? $offset + $num : $total;
-		View::assign(
-			'index_information',
-			sprintf(A11YC_LANG_PAGES_INDEX_INFORMATION, count($pages), $total, $offset + 1, $end_num)
-		);
-
-		// assign nums
-		View::assign('yetcnt', Db::fetch($cntsql.$yetwhr.Controller_Setup::curent_version_sql()));
-		View::assign('donecnt', Db::fetch($cntsql.$donewhr.Controller_Setup::curent_version_sql()));
-		View::assign('trashcnt', Db::fetch($cntsql.$trashwhr.Controller_Setup::curent_version_sql()));
-		View::assign('allcnt', Db::fetch($cntsql.$allwhr.Controller_Setup::curent_version_sql()));
-
-		// crawled urls
-		$from_session = Session::fetch('values', 'urls');
-		$crawled = '';
-		$get_urls = '';
-		if (isset($from_session[0]))
+		// redirect?
+		if ($redirect_to)
 		{
-			$crawled = $from_session[0];
-			Session::add('messages', 'message', A11YC_LANG_PAGES_PRESS_ADD_BUTTON);
-			$get_urls_session = Session::fetch('param', 'get_urls');
-			$get_urls = Arr::get($get_urls_session, 0, '');
-		}
-		else
-		{
-			static::get_urls();
+			if ($message)
+			{
+				$mess_type = $is_success ? 'messages' : 'errors' ;
+				Session::add('messages', $mess_type, sprintf($message, Util::s($url)));
+			}
+			Util::redirect($redirect_to);
 		}
 
-		// assign
-		View::assign('crawled', $crawled);
-		View::assign('get_urls', $get_urls);
-		View::assign('setups', Controller_Setup::fetch_setup());
-		View::assign('pages', $pages);
-		View::assign('current_qs', $qs.'&amp;paged='.$paged.'&amp;s='.$word);
-		View::assign('prev', $prev_qs ? A11YC_PAGES_URL.$qs.$prev_qs : false);
-		View::assign('next', $next_qs ? A11YC_PAGES_URL.$qs.$next_qs : false);
-		View::assign('list', $list);
-		View::assign('title', A11YC_LANG_PAGES_TITLE.' '.$list);
-		View::assign('word', $word);
-		View::assign('search_form', View::fetch_tpl('pages/search.php'), FALSE);
-		View::assign('body', View::fetch_tpl('pages/index.php'), FALSE);
+		// show edit page
+		$page = Model\Pages::fetchPage($url, $force = 1);
+		if ( ! $page) Util::error('Page not found');
+
+		$html = Model\Html::getHtml($url);
+
+		View::assign('list', 'all');
+		static::count();
+		View::assign('url',   Util::urlenc($url));
+		View::assign('title', A11YC_LANG_PAGES_LABEL_EDIT);
+		View::assign('page_title', isset($page['title']) ? $page['title'] : '');
+		View::assign('html',  $html);
+		View::assign('body',  View::fetchTpl('pages/edit.php'), FALSE);
 	}
+
 }

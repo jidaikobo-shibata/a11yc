@@ -1,12 +1,13 @@
 <?php
 namespace A11yc;
 $errors = Session::fetch('messages', 'errors');
-if ($errors || Maintenance::is_uging_lower()):
+
+if ($errors || (Auth::auth() && Maintenance::isUgingLower())):
 ?>
 <ul id="a11yc_msg_error" class="a11yc_msg">
 <?php
 // ordinary errors
-if ($errors):
+if (is_array($errors)):
 foreach ($errors as $error):
 ?>
 	<li><?php echo Util::s($error); ?></li>
@@ -15,13 +16,13 @@ endforeach;
 endif;
 
 // version message
-if (Maintenance::is_uging_lower()):
+if (Auth::auth() && Maintenance::isUgingLower()):
 ?>
 	<li><?php echo sprintf(
 		A11YC_LANG_ERROR_GET_NEW_A11YC,
 		'https://github.com/jidaikobo-shibata/a11yc',
 		A11YC_VERSION,
-		Util::s(Maintenance::get_stored_version())
+		Util::s(Maintenance::getStoredVersion())
 	) ?></li>
 <?php endif; ?>
 </ul>
@@ -29,7 +30,7 @@ if (Maintenance::is_uging_lower()):
 endif;
 
 $messages = Session::fetch('messages', 'messages');
-if ($messages):
+if (is_array($messages)):
 ?>
 <ul id="a11yc_msg_info" class="a11yc_msg">
 <?php foreach ($messages as $message): ?>

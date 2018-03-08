@@ -5,7 +5,7 @@
 <div id="a11yc_header">
 	<div id="a11yc_header_inner">
 		<div id="a11yc_header_ctrl">
-		<?php if ($url != 'bulk'): ?>
+		<?php if ( ! $is_bulk): ?>
 			<!-- standard -->
 			<p id="a11yc_header_done_date" class="">
 				<label for="a11yc_done_date"><?php echo A11YC_LANG_TEST_DATE ?></label>
@@ -30,7 +30,7 @@
 				<select name="selection_reason" id="a11yc_selection_reason">
 				<?php
 				foreach ($selection_reasons as $k => $v):
-					$selected = $k == @$page['selection_reason'] ? ' selected="selected"' : '';
+					$selected = $k == Arr::get($page, 'selection_reason') ? ' selected="selected"' : '';
 				?>
 					<option<?php echo $selected ?> value="<?php echo $k ?>"><?php echo $v ?></option>
 				<?php endforeach; ?>
@@ -40,7 +40,7 @@
 		</div><!-- /#a11yc_header_ctrl -->
 		<div id="a11yc_header_left" class="a11yc_fl">
 			<!-- not for bulk -->
-		<?php if ($url != 'bulk'): ?>
+		<?php if ( ! $is_bulk): ?>
 			<div id="a11yc_targetpage_data">
 			<!-- target page -->
 		<table id="a11yc_targetpage_info">
@@ -63,7 +63,7 @@
 
 		<?php
 			// validation
-			echo $ajax_validation;
+			echo $validation_result;
 		?>
 
 		</div><!-- /#a11yc_targetpage_data -->
@@ -96,10 +96,10 @@
 		?>
 			</p>
 
-		<?php if ($url != 'bulk'): ?>
+		<?php if ( ! $is_bulk): ?>
 			<!-- level -->
 			<p id="a11yc_target_level"><?php echo A11YC_LANG_TARGET_LEVEL ?>: <?php echo Util::num2str($target_level) ?>
-	<?php $current_level = $target_level ? Evaluate::result_str(@$page['level'], $target_level) : '-'; ?><br><?php echo A11YC_LANG_CURRENT_LEVEL ?>: <span id="a11yc_conformance_level"><?php echo $current_level ?></span></p>
+	<?php $current_level = $target_level ? Evaluate::resultStr(@$page['level'], $target_level) : '-'; ?><br><?php echo A11YC_LANG_CURRENT_LEVEL ?>: <span id="a11yc_conformance_level"><?php echo $current_level ?></span></p>
 		<?php endif ?>
 			<!-- rest of num -->
 			<p class="a11yc_hide_if_no_js"><a role="button" class="a11yc_disclosure"><?php echo A11YC_LANG_CHECKLIST_RESTOFNUM ?>&nbsp;:&nbsp;<span id="a11yc_rest_total">&nbsp;-&nbsp;</span></a></p>
@@ -144,7 +144,10 @@
 
 </div><!--/#a11yc_header-->
 
-<?php foreach ($yml['principles'] as $k => $v): ?>
+<?php
+	$fcnt = 0;
+	foreach ($yml['principles'] as $k => $v):
+?>
 	<!-- principles -->
 	<div id="a11yc_p_<?php echo $v['code'] ?>" class="a11yc_section_principle"><h2 id="a11yc_header_p_<?php echo $v['code'] ?>" class="a11yc_header_principle" tabindex="-1"><?php echo $v['code'].' '.$v['name'] ?></h2>
 
@@ -157,15 +160,15 @@
 
 		<!-- criterions -->
 		<?php
-		foreach ($yml['criterions'] as $kkk => $vvv):
-			if (substr($kkk, 0, 3) != $kk) continue;
+		foreach ($yml['criterions'] as $criterion => $vvv):
+			if (substr($criterion, 0, 3) != $kk) continue;
 			$non_interference = isset($vvv['non-interference']) ? '&nbsp;'.A11YC_LANG_CHECKLIST_NON_INTERFERENCE :'';
 			$skip_non_interference = isset($vvv['non-interference']) ? '<span class="a11yc_skip">&nbsp;('.A11YC_LANG_CHECKLIST_NON_INTERFERENCE.')</span>' : '';
 			$class_str = isset($vvv['non-interference']) ? ' non_interference' : '';
 			$class_str.= ' a11yc_level_'.strtolower($vvv['level']['name']);
 			$class_str.= ' a11yc_p_'.$k.'_criterion';
 		?>
-			<div id="a11yc_c_<?php echo $kkk ?>" class="a11yc_section_criterion<?php echo $class_str ?>">
+			<div id="a11yc_c_<?php echo $criterion ?>" class="a11yc_section_criterion<?php echo $class_str ?>">
 			<h4 class="a11yc_header_criterion"><?php echo Util::key2code($vvv['code']).' '.$vvv['name'].' <span class="a11yc_header_criterion_level">('.$vvv['level']['name'].$non_interference.')</span>' ?></h4>
 			<ul class="a11yc_outlink">
 			<?php if (isset($vvv['url_as'])): ?>
@@ -175,35 +178,49 @@
 			</ul>
 			<p class="summary_criterion"><?php echo $vvv['summary'] ?></p>
 
-			<!-- .a11yc_ng NG: NONCONFORMITY -->
-			<div class="a11yc_ng">
-				<?php
-					$ng_id = 'a11yc_ng_'.$kkk;
-				?>
+			<!-- .a11yc_result -->
+			<div class="a11yc_result">
 				<table class="a11yc_table_check">
 				<tbody>
 					<tr>
 						<th scope="row">
-						<span class="a11yc_title_ngreason"><label for="<?php echo $ng_id; ?>"><?php echo A11YC_LANG_CHECKLIST_NG_REASON; ?></label></span>
-							<?php echo A11YC_LANG_CHECKLIST_NG_REASON_EXP; ?>
+							<?php echo A11YC_LANG_TEST_RESULT ?>
 						</th>
+
+						<td>
+							<label for="results_<?php echo $criterion; ?>_result" class="a11yc_skip"><?php echo A11YC_LANG_TEST_RESULT ?></label>
+							<select name="results[<?php echo $criterion; ?>][result]" id="results_<?php echo $criterion; ?>_result">
+							<?php
+							foreach (Values::resultsOptions() as $rk => $rv):
+								$selected = isset($results[$criterion]) && intval($results[$criterion]['result']) == $rk ? ' selected="selected"' : '';
+								echo '<option'.$selected.' value="'.$rk.'">'.$rv.'</option>';
+							endforeach;
+							?>
+							</select>
+						</td>
+
+						<td>
+							<label for="results_<?php echo $criterion; ?>_test_method"><?php echo A11YC_LANG_TEST_METHOD ?></label>
+							<select name="results[<?php echo $criterion; ?>][method]" id="results_<?php echo $criterion; ?>_method">
+							<?php
+							foreach (Values::testMethodsOptions() as $rk => $rv):
+								$selected = isset($results[$criterion]) && intval($results[$criterion]['method']) == $rk ? ' selected="selected"' : '';
+								echo '<option'.$selected.' value="'.$rk.'">'.$rv.'</option>';
+							endforeach;
+							?>
+
+							</select>
+						</td>
+
 						<td class="a11yc_table_check_memo">
-							<textarea name="ngs[<?php echo $kkk; ?>][memo]" id="<?php echo $ng_id; ?>" rows="3"><?php
-							$memo = $is_new ? Arr::get($bulk_ngs, "{$kkk}.memo") : Arr::get($cs_ngs, "{$kkk}.memo") ;
-							echo $memo;
-							?></textarea>
+							<label for="results_<?php echo $criterion; ?>_memo"><?php echo A11YC_LANG_OPINION ?></label>
+							<textarea name="results[<?php echo $criterion; ?>][memo]" id="results_<?php echo $criterion; ?>_memo" rows="3"><?php echo Util::s(Arr::get($results, "{$criterion}.memo")); ?></textarea>
 						</td>
 						<td class="a11yc_table_check_user">
-							<select name="ngs[<?php echo $kkk ?>][uid]">
+							<select name="results[<?php echo $criterion ?>][uid]">
 					<?php
 					foreach ($users as $uid => $name):
-						$selected = '';
-						if (
-							(isset($cs_ngs[$kkk]['uid']) && (int) $cs_ngs[$kkk]['uid'] == $uid) ||
-							(isset($bulk_ngs[$kkk]['uid']) && (int) $bulk_ngs[$kkk]['uid'] == $uid)
-						):
-							$selected = ' selected="selected"';
-						endif;
+						$selected = Arr::get($results, "{$criterion}.uid") == $uid ? ' selected="selected"' : '';
 					?>
 						<option value="<?php echo $uid ?>"<?php echo $selected ?>><?php echo $name ?></option>
 					<?php endforeach; ?>
@@ -213,73 +230,78 @@
 				</tbody>
 				</table>
 			</div>
-			<!-- /.a11yc_ng NG: NONCONFORMITY -->
+			<!-- /.a11yc_result -->
 
-			<!-- checks -->
+			<!-- a11yc_issues -->
+			<div class="a11yc_issues">
+				<a href="<?php echo A11YC_ISSUES_ADD_URL.Util::urlenc($url).'&amp;criterion='.$criterion ?>" target="_blank"><?php echo A11YC_LANG_ISSUES_ADD ?></a>
+
+			<?php
+			if ($issues[$criterion]):
+				echo '<ul>';
+				foreach ($issues[$criterion] as $issue):
+					echo '<li><a href="'.A11YC_ISSUES_VIEW_URL.intval($issue['id']).'" target="_blank">'.Util::s($issue['id'].': '.$issue['error_message']).' ['.$statuses[$issue['status']].']</a></li>';
+				endforeach;
+				echo '</ul>';
+			endif;
+			?>
+
+			</div>
+			<!-- /.a11yc_issues -->
+
+
+			<?php
+			// main check form
+			foreach (array('t', 'f') as $tf):
+			if ( ! isset($yml['techs_codes'][$criterion][$tf])) continue;
+			?>
+			<!-- checks <?php echo $tf ?> -->
 			<table class="a11yc_table_check"><tbody>
 			<?php
 			$i = 0;
-			foreach ($yml['checks'][$kkk] as $code => $val):
-				$class_str = ++$i%2==0 ? ' class="even"' : ' class="odd"';
-				$passes = array();
-				if (isset($val['pass'])):
-					foreach ($val['pass'] as $pass_code => $pass_each):
-						$passes = array_merge($passes, $pass_each);
-					endforeach;
-				endif;
-				$data = $passes ? ' data-pass="'.join(',', $passes).'"' : '';
-				$data.= isset($val["non-exist"]) ? ' data-non-exist="'.join(',', $val["non-exist"]).'"' : '';
-				$checked = '';
 
-				if (
-					($page && isset($cs[$code]) && $cs[$code]['passed']) || // ordinary
-					($page && isset($bulk[$code]) && empty($cs)) || // default
-					( ! $page && isset($bulk[$code])) // bulk
-				):
-					$checked = ' checked="checked"';
-				endif;
+			$type = Arr::get($page, 'type') == 2 ? 'pdf' : 'html';
+
+			foreach ($yml['techs_codes'][$criterion][$tf] as $tcode):
+				$fcnt++;
+				$class_str = ++$i%2==0 ? ' class="even"' : ' class="odd"';
+				$id = $criterion.'_'.$tcode;
+				$data = ' data-pass="'.$tcode.'"';
+
+				$checked = isset($cs[$tcode]) ? ' checked="checked"' : '';
+
+				if ($type == 'html' && $yml['techs'][$tcode]['type'] == 'PDF') continue;
+				if ($type == 'pdf'  && ! in_array($yml['techs'][$tcode]['type'], array('PDF'))) continue;
 			?>
 
 				<tr<?php echo $class_str ?>>
-				<th scope="row">
-				<label for="<?php echo $code ?>"><input type="checkbox"<?php echo $checked ?> id="<?php echo $code ?>" name="chk[<?php echo $code ?>][on]" value="1" <?php echo $data ?> class="<?php echo strtolower($vvv['level']['name']) ?> a11yc_skip"/><span class="a11yc_icon_fa a11yc_icon_checkbox" role="presentation" aria-hidden="true"></span><?php echo $skip_non_interference.$val['name'] ?></label>
-				</th>
+					<th scope="row">
+					<label for="<?php echo $id ?>"><input type="checkbox"<?php echo $checked ?> id="<?php echo $id ?>" name="chk[<?php echo $tcode ?>]" value="1" <?php echo $data ?> class="<?php echo strtolower($vvv['level']['name']) ?> a11yc_skip"/><span class="a11yc_icon_fa a11yc_icon_checkbox" role="presentation" aria-hidden="true"></span><?php echo $yml['techs'][$tcode]['title'] ?></label>
+					</th>
 
-				<td class="a11yc_table_check_memo">
-				<?php $memo = Arr::get($cs, "{$code}.memo", Arr::get($bulk, "{$code}.memo", '')); ?>
-				<textarea name="chk[<?php echo $code ?>][memo]"><?php echo $memo ?></textarea>
-				</td>
-
-				<td class="a11yc_table_check_user">
-				<select name="chk[<?php echo $code ?>][uid]">
-				<?php
-				foreach ($users as $uid => $name):
-					$selected = '';
-					if (
-						(isset($cs[$code]['uid']) && (int) $cs[$code]['uid'] == $uid) ||
-						(isset($bulk[$code]['uid']) && (int) $bulk[$code]['uid'] == $uid)
-					):
-						$selected = ' selected="selected"';
-					endif;
-				?>
-					<option value="<?php echo $uid ?>"<?php echo $selected ?>><?php echo $name ?></option>
-				<?php endforeach; ?>
-				</select>
-				</td>
-				<td class="a11yc_table_check_howto">
-				<a<?php echo A11YC_TARGET ?> href="<?php echo A11YC_DOC_URL.$code ?>&amp;criterion=<?php echo $kkk ?>" title="<?php echo A11YC_LANG_DOCS_TITLE ?>" class="a11yc_link_howto"><span role="presentation" aria-hidden="true" class="a11yc_icon_fa a11yc_icon_howto"></span><span class="a11yc_skip"><?php echo A11YC_LANG_DOCS_TITLE ?></span></a>
-				</td>
+					<td class="a11yc_table_check_howto">
+					<a<?php echo A11YC_TARGET ?> href="<?php echo $refs['t'].$tcode ?>.html" title="<?php echo A11YC_LANG_DOCS_TITLE ?>" class="a11yc_link_howto"><span role="presentation" aria-hidden="true" class="a11yc_icon_fa a11yc_icon_howto"></span><span class="a11yc_skip"><?php echo A11YC_LANG_DOCS_TITLE ?></span></a>
+					</td>
 				</tr>
-			<?php endforeach; ?>
+			<?php
+				endforeach;
+			?>
 			</tbody></table>
-			</div><!--/#c_<?php echo $kkk ?>.l_<?php echo strtolower($vvv['level']['name']) ?>-->
+			<!-- /checks <?php echo $tf ?> -->
+			<?php
+				endforeach;
+				// echo $fcnt;
+			?>
+
+
+			</div><!--/#c_<?php echo $criterion ?>.l_<?php echo strtolower($vvv['level']['name']) ?>-->
 		<?php endforeach; ?>
 		</div><!--/#g_<?php echo $vv['code'] ?>-->
 	<?php endforeach; ?>
 	</div><!--/#section_p_<?php echo $v['code'] ?>.section_guidelines-->
 <?php endforeach; ?>
 
-<input type="hidden" name="page_title" value="<?php echo s($target_title) ?>" />
-<input type="hidden" name="url" value="<?php echo s($url) ?>" />
+<input type="hidden" name="page_title" value="<?php echo Util::s($target_title) ?>" />
+<input type="hidden" name="url" value="<?php echo Util::s($url) ?>" />
 
 </div><!-- /#a11yc_checks -->

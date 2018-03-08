@@ -1,6 +1,6 @@
 <?php
 /**
- * A11yc\Controller_Auth
+ * A11yc\Controller\Auth
  *
  * @package    part of A11yc
  * @author     Jidaikobo Inc.
@@ -8,19 +8,19 @@
  * @copyright  Jidaikobo Inc.
  * @link       http://www.jidaikobo.com
  */
-namespace A11yc;
+namespace A11yc\Controller;
 
-class Controller_Auth
+class Auth
 {
 	/**
 	 * Login
 	 *
 	 * @return Void
 	 */
-	public static function Action_Login()
+	public static function actionLogin()
 	{
-		\A11yc\View::assign('title', A11YC_LANG_AUTH_TITLE);
-		\A11yc\View::assign('body', \A11yc\View::fetch_tpl('auth/login.php'), false);
+		View::assign('title', A11YC_LANG_AUTH_TITLE);
+		View::assign('body', View::fetchTpl('auth/login.php'), false);
 	}
 
 	/**
@@ -29,10 +29,9 @@ class Controller_Auth
 	 * @param String $redirect
 	 * @return Void
 	 */
-	public static function Action_Logout($redirect = A11YC_URL)
+	public static function actionLogout($redirect = A11YC_URL)
 	{
 		\Kontiki\Auth::logout();
-		header('location:'.$redirect);
-		exit();
+		Util::redirect($redirect);
 	}
 }
