@@ -145,7 +145,8 @@
 .a11yc_source .a11yc_back_link span:before {
 	color: #006ab6;
 }
-.a11yc_source .a11yc_validation_code_error {
+
+.a11yc_validation_code_error {
 	display: inline-block;
 	border: 1px solid #900;
 	border-radius: 2px;
@@ -162,10 +163,16 @@
 	white-space: nowrap;
 }
 
-.a11yc_source .a11yc_validation_code_notice {
+.a11yc_validation_code_notice {
+	display: inline-block;
 	border: 1px solid #fea05a;
 	color: #000000;
 	background-color: #fea05a;
+	border-radius: 2px;
+	margin: 0 .25em;
+	padding: 0 2px;
+	font-size: .9em;
+	white-space: nowrap;
 }
 
 div.a11yc_disclosure_target {
@@ -1728,4 +1735,13 @@ tr.a11yc_not_passed th,
 tr.a11yc_not_passed td
 {
 	background-color: #eee;
+}
+
+/* issue */
+
+th.a11yc_issue_url {
+	width: 15em;
+}
+td.a11yc_issue_data {
+	width: 80%;
 }

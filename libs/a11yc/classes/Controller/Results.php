@@ -160,7 +160,6 @@ class Results
 	/**
 	 * Show report
 	 *
-	 * @param String $url
 	 * @return Void
 	 */
 	public static function all()
@@ -194,7 +193,7 @@ class Results
 		$additional = '';
 		if ($target_level != 3)
 		{
-			self::partResult($results, $target_level, false);
+			self::partResult($results, $target_level, '',false);
 			$additional = View::fetch('result');
 		}
 
@@ -259,16 +258,24 @@ class Results
 		// page list
 		if (Input::get('a11yc_pages') && $settings['test_period'])
 		{
+			static::pages();
+			return;
+		}
+		// each report
+		else if ($settings['test_period'] && Input::get('url'))
+		{
+			static::each(Input::get('url', ''));
+			return;
 		}
 		// report
-		else if ($settings['test_period'] && (Input::get('a11yc_report') || Input::get('url')))
+		else if ($settings['test_period'] && Input::get('a11yc_report'))
 		{
-			static::report(Input::get('url', ''));
+			static::all();
 			return;
 		}
 
 		// policy
-		View::assign('versions', static::get_versions());
+		View::assign('versions', Model\Versions::fetch());
 		View::assign('policy', $settings['policy'], false);
 		View::assign('title', A11YC_LANG_POLICY);
 		View::assign('body', View::fetchTpl('results/policy.php'), false);

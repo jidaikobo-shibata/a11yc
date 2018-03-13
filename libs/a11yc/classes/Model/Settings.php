@@ -171,4 +171,28 @@ class Settings
 			}
 		}
 	}
+
+	/**
+	 * update field
+	 *
+	 * @param  String $field
+	 * @param  Mixed  $value
+	 * @return Bool
+	 */
+	public static function updateField($field, $value)
+	{
+		if( ! self::fetch($field))
+		{
+			$sql = 'UPDATE '.A11YC_TABLE_SETTINGS.' SET `'.$field.'` = ?';
+			$sql.= ' WHERE `version` = 0;';
+		}
+		else
+		{
+			$sql = 'INSERT INTO '.A11YC_TABLE_SETTINGS.' (`'.$field.'`, `version`) ';
+			$sql.= ' VALUES (?, 0);';
+		}
+
+		return Db::execute($sql, array($value));
+	}
+
 }

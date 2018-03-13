@@ -1,17 +1,23 @@
 <?php namespace A11yc; ?>
-<?php $level = isset($is_call_form_index) ? 'h5' : 'h2' ; ?>
-<<?php echo $level ?>><?php echo A11YC_LANG_UNDERSTANDING ?></<?php echo $level ?>>
+
+<h2><?php echo A11YC_LANG_UNDERSTANDING ?></h2>
 
 <?php
-$lines = isset($doc['doc']) ? explode("\n", Util::docHtmlWhitelist(stripslashes(Util::key2link($doc['doc'])))) : false;
+$lines = explode("\n", Util::docHtmlWhitelist(stripslashes(Util::key2link($doc['doc']))));
 
-if ($lines): ?>
-	<?php foreach ($lines as $line): ?>
+if ($lines):
+	foreach ($lines as $line): ?>
 		<p><?php echo $line ?></p>
 	<?php endforeach; ?>
+
 <?php else: ?>
 	<p><?php echo A11YC_LANG_NO_DOC ?></p>
-<?php endif; ?>
+<?php endif;
+
+$html = '';
+
+if (! $is_test):
+?>
 
 	<table class="a11yc_table_info a11yc_table">
 	<tr>
@@ -35,7 +41,6 @@ if ($lines): ?>
 
 <!-- Techniques for WCAG 2.0 -->
 <?php
-$html = '';
 $html.= '<h2>'.A11YC_LANG_ISSUES_TECH.'</h2>';
 
 $html.= '<ul>';
@@ -46,4 +51,16 @@ foreach (array('t', 'f') as $tf):
 	endforeach;
 endforeach;
 $html.= '</ul>';
+
+elseif (isset($doc['urls'])):
+// test
+
+$html.= '<h2>'.A11YC_LANG_RELATED.'</h2>';
+$html.= '<ul>';
+foreach ($doc['urls'] as $u):
+	$html.= '<li><a href="'.Util::s($u['url']).'">'.Util::s($u['name']).'</a></li>';
+endforeach;
+$html.= '</ul>';
+endif;
+
 echo $html;

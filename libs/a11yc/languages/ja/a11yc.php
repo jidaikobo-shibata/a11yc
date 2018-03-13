@@ -298,6 +298,10 @@ define('A11YC_LANG_ISSUES_EDITED', '問題点を編集しました');
 define('A11YC_LANG_ISSUES_EDITED_FAILED', '問題点の編集に失敗しました');
 define('A11YC_LANG_ISSUES_MESSAGE', 'メッセージ');
 define('A11YC_LANG_ISSUES_MESSAGE_ADD', 'メッセージを新規追加');
+define('A11YC_LANG_ISSUES_TITLE_YET', '未解決の問題点');
+define('A11YC_LANG_ISSUES_TITLE_PROGRESS', '対応中の問題点');
+define('A11YC_LANG_ISSUES_TITLE_DONE', '対応済みの問題点');
+define('A11YC_LANG_ISSUES_TECH_FAILURE', '達成方法集の不適合事例のチェックがあるページ');
 
 // image list
 define('A11YC_LANG_IMAGES_TITLE', '画像一覧');

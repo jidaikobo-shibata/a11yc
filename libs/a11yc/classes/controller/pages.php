@@ -160,9 +160,9 @@ class Pages
 			echo '<p>'.Util::s($url).' ('.Util::s($orig_url).': '.$current.'/'.count($ms[1]).")<br />\n";
 
 			// already added
-			if (array_key_exists($url, $urls))
+			if (in_array($url, $urls))
 			{
-				echo "<strong style=\"color: #408000\">Added</strong>\n";
+				echo "<strong style=\"color: #408000\">Already Added</strong>\n";
 				continue;
 			}
 

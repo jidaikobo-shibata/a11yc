@@ -55,6 +55,26 @@ class Issues
 	}
 
 	/**
+	 * fetch by status
+	 *
+	 * @param  String $status [0 not yet, 1 in progress, 2 finish]
+	 * @return Bool|Array
+	 */
+	public static function fetchByStatus($status)
+	{
+		$sql = 'SELECT * FROM '.A11YC_TABLE_ISSUES;
+		$sql.= ' WHERE `status` = ? AND `version` = 0;';
+		$rets = array('common' => array());
+		foreach (Db::fetchAll($sql, array($status)) as $v)
+		{
+			$key = $v['is_common'] ? 'common' : $v['url'];
+			$rets[$key][] = $v;
+		}
+		if (empty($rets['common'])) unset($rets['common']);
+		return $rets;
+	}
+
+	/**
 	 * fetch for checklist
 	 *
 	 * @param  String $url
@@ -100,12 +120,13 @@ class Issues
 		$status        = Arr::get($args, 'status', 0);
 		$tech_url      = Arr::get($args, 'tech_url', '');
 		$error_message = Arr::get($args, 'error_message', '');
+		$uid           = Arr::get($args, 'uid', 1);
 
 		if ( ! $url || ! $criterion) return false;
 		$url = Util::urldec($url);
 
 		$sql = 'INSERT INTO '.A11YC_TABLE_ISSUES;
-		$sql.= '(`is_common`,';
+		$sql.= ' (`is_common`,';
 		$sql.= '`url`,';
 		$sql.= '`criterion`,';
 		$sql.= '`html`,';
@@ -113,14 +134,27 @@ class Issues
 		$sql.= '`status`,';
 		$sql.= '`tech_url`,';
 		$sql.= '`error_message`,';
+		$sql.= '`uid`,';
 		$sql.= '`created_at`,';
 		$sql.= '`version`) VALUES ';
-		$sql.= '(?, ?, ?, ?, ?, ?, ?, ?, ?, 0);';
+		$sql.= '(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0);';
 
-		$r =Db::execute(
+		$r = Db::execute(
 			$sql,
-			array($is_common, $url, $criterion, $html, $n_or_e, $status, $tech_url, $error_message, date('Y-m-d H:i:s'))
+			array(
+				intval($is_common),
+				$url,
+				$criterion,
+				$html,
+				intval($n_or_e),
+				intval($status),
+				$tech_url,
+				$error_message,
+				intval($uid),
+				date('Y-m-d H:i:s')
+			)
 		);
+
 		if ( ! $r) return false;
 
 		$sql = 'SELECT `id` FROM '.A11YC_TABLE_ISSUES;

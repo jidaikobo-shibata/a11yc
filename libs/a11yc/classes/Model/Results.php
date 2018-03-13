@@ -19,16 +19,22 @@ class Results
 	 *
 	 * @param  String $url
 	 * @param Bool $force
-	 * @return Bool|Array
+	 * @return Array
 	 */
 	public static function fetch($url, $force = 0)
 	{
 		if (isset(static::$results[$url]) && ! $force) return static::$results[$url];
 		$sql = 'SELECT * FROM '.A11YC_TABLE_RESULTS.' WHERE `url` = ?'.Db::versionSql().';';
+
 		foreach (Db::fetchAll($sql, array($url)) as $v)
 		{
 			static::$results[$url][$v['criterion']] = $v;
 		}
+		if ( ! isset(static::$results[$url]))
+		{
+			static::$results[$url] = array();
+		}
+
 		return static::$results[$url];
 	}
 

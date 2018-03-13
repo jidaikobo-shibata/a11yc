@@ -106,23 +106,22 @@ class Validate
 	}
 
 	/**
-	 * url
+	 * html
 	 *
 	 * @param  String $url
+	 * @param  String $html
 	 * @param  Array  $codes
 	 * @param  String $ua
 	 * @param  Bool   $force
 	 * @return Void
 	 */
-	public static function url($url, $codes = array(), $ua = 'using', $force = 0)
+	public static function html($url, $html, $codes = array(), $ua = 'using', $force = 0)
 	{
-		// cache
 		$codes = $codes ?: self::$codes;
+
 		$name = static::codes2name($codes);
 		if (isset(static::$results[$url][$name][$ua]) && ! $force) return static::$results[$url][$name][$ua];
 
-		// get html and set it to temp value
-		$html = Model\Html::getHtml($url, $ua);
 		static::$hl_htmls[$url] = $html;
 
 		// errors
@@ -156,6 +155,26 @@ class Validate
 		static::$results[$url][$name][$ua]['hl_html'] = self::revertHtml(Util::s(static::$hl_htmls[$url]));
 		static::$results[$url][$name][$ua]['errors'] = $all_errs;
 		static::$results[$url][$name][$ua]['errs_cnts'] = static::$err_cnts;
+	}
+
+	/**
+	 * url
+	 *
+	 * @param  String $url
+	 * @param  Array  $codes
+	 * @param  String $ua
+	 * @param  Bool   $force
+	 * @return Void
+	 */
+	public static function url($url, $codes = array(), $ua = 'using', $force = 0)
+	{
+		// cache
+		$codes = $codes ?: self::$codes;
+		$name = static::codes2name($codes);
+		if (isset(static::$results[$url][$name][$ua]) && ! $force) return static::$results[$url][$name][$ua];
+
+		// get html and set it to temp value
+		self::html($url, Model\Html::getHtml($url, $ua), $codes, $ua, $force);
 	}
 
 	/**
@@ -649,11 +668,11 @@ class Validate
 	 * get doctype
 	 *
 	 * @param  String $url
-	 * @return String|Bool
+	 * @return Mixed|String|Bool|Null
 	 */
 	public static function getDoctype($url)
 	{
-		if (empty(static::$hl_htmls[$url])) Util::error('invalid access at A11yc\Validate::getDoctype().');
+		if (empty(static::$hl_htmls[$url])) return false;
 
 		preg_match("/\<!DOCTYPE [^\>]+?\>/", static::$hl_htmls[$url], $ms);
 
@@ -666,7 +685,7 @@ class Validate
 		if ( ! isset($ms[0])) return false; // doctypeless
 
 		// doctype
-		$doctype = false;
+		$doctype = null;
 
 		// html5
 		if(strtolower($ms[0]) == '<!doctype html>')
@@ -973,7 +992,7 @@ class Validate
 			$criterion = $yml['criterions'][$current_err['criterion']];
 
 			$ret.= '<span class="a11yc_validation_reference_info"><strong>'.A11YC_LANG_LEVEL.strtoupper($lv).'</strong> <strong>'.Util::key2code($criterion['code']).'</strong> ';
-			$ret.= '<a href="'.$docpath.$current_err['criterion'].'"'.A11YC_TARGET.'>'.A11YC_LANG_CHECKLIST_SEE_DETAIL.'</a> ';
+			$ret.= '<a href="'.$docpath.$current_err['criterion'].'" target="a11yc_doc">'.A11YC_LANG_CHECKLIST_SEE_DETAIL.'</a> ';
 //			$ret.= '<a href="'.$criterion['url'].'"'.A11YC_TARGET.' title="'.$criterion['name'].'">'.A11YC_LANG_CHECKLIST_SEE_UNDERSTANDING.' '.Util::key2code($criterion['code']).'</a>';
 			$ret.= '</span>';
 

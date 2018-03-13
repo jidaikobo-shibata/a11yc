@@ -38,7 +38,7 @@ class Pages
 			'done'  => '`done` = 1 and `trash` = 0 ',
 			'trash' => '`trash` = 1 ',
 		);
-		$list = array_key_exists($list, $whrs) ? $list : 'all';
+		$list = is_string($list) && array_key_exists($list, $whrs) ? $list : 'all';
 
 		// selection_reason
 		$sql_reason = '';

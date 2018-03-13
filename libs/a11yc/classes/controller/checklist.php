@@ -21,7 +21,8 @@ class Checklist
 	 */
 	public static function actionCheck()
 	{
-		$url = Util::enuniqueUri(Input::param('url', '', FILTER_VALIDATE_URL));
+//		$url = Util::enuniqueUri(Input::param('url', '', FILTER_VALIDATE_URL));
+		$url = Util::enuniqueUri(Input::param('url', ''));
 		static::check($url);
 	}
 
@@ -40,11 +41,6 @@ class Checklist
 		if ($url != 'bulk' && ! Crawl::isPageExist($url))
 		{
 			Session::add('messages', 'errors', A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR);
-			if ( ! headers_sent())
-			{
-				header('location:'.A11YC_PAGES_URL.'&list=list&no_url='.Util::urlenc($url));
-				exit();
-			}
 		}
 
 		// users
@@ -64,7 +60,6 @@ class Checklist
 		}
 
 		// assign
-		View::assign('statuses',     Values::issueStatus());
 		View::assign('current_user', $current_user);
 		View::assign('users',        $users);
 		View::assign('url',          $url);
@@ -153,6 +148,10 @@ class Checklist
 						A11YC_LANG_ERROR_COULD_NOT_GET_HTML.': '. Util::s($url));
 				}
 			}
+
+			// automatic check
+			Validate::setDoLinkCheck(Input::post('do_link_check', false));
+			Validate::url($url);
 		}
 
 		// is new
@@ -185,14 +184,11 @@ class Checklist
 			$issues[$criterion] = Model\Issues::fetch4Checklist($url, $criterion);
 		}
 
-		// automatic check
-		Validate::setDoLinkCheck(Input::post('do_link_check', false));
-		Validate::url($url);
-
 		// reference urls
 		$refs = Values::getRefUrls();
 
 		// assign
+		View::assign('statuses', Values::issueStatus());
 		View::assign('issues', $issues);
 		View::assign('selection_reasons', $selection_reasons);
 		View::assign('refs', $refs[$standard]);

@@ -28,6 +28,7 @@ class IssuesNonTag extends Validate
 		{
 			if (
 				! preg_match('/\<[^\>]+?\>/', $v['html']) &&
+				! empty($v['html']) &&
 				strpos($str, $v['html']) !== false
 			)
 			{

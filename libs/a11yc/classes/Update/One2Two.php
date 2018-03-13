@@ -73,6 +73,7 @@ class One2Two extends A11yc\Update
 		$sql.= '`stop_guzzle`,';
 		$sql.= '`version`)';
 		$sql.= ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+
 		Db::execute($sql, array(
 				Arr::get($settings[0], 'target_level'),
 				Arr::get($settings[0], 'standard'),
@@ -84,7 +85,7 @@ class One2Two extends A11yc\Update
 				Arr::get($settings[0], 'policy'),
 				Arr::get($settings[0], 'report'),
 				Arr::get($settings[0], 'additional_criterions'),
-				Arr::get($settings[0], 'base_url'),
+				Arr::get($settings[0], 'base_url', ''),
 				'',
 				'',
 				Arr::get($settings[0], 'checklist_behaviour'),
@@ -164,6 +165,14 @@ class One2Two extends A11yc\Update
 				$chks[$chk['code']]['passed'] = 1;
 			}
 
+			// this check list item is special
+			if ( ! isset($chks['1-1-1m']) && ! isset($chks['1-1-1n']))
+			{
+				$chks['1-1-1m']['memo']   = '';
+				$chks['1-1-1m']['uid']    = 0;
+				$chks['1-1-1m']['passed'] = 1;
+			}
+
 			// ngs
 			$sql = 'SELECT * FROM '.A11YC_TABLE_CHECKS_NGS_OLD.' WHERE `url` = ?;';
 			$ngs_db = Db::fetchAll($sql, array($url));
@@ -179,6 +188,7 @@ class One2Two extends A11yc\Update
 			// result
 			$results_vals = self::doEvaluate($chks, $ngs, $yml);
 			$results = array();
+
 			foreach ($results_vals as $criterion => $v)
 			{
 				$memo = '';
@@ -250,6 +260,7 @@ class One2Two extends A11yc\Update
 				$ret['non_exists'][$code] = $vv['non-exist'];
 			}
 		}
+		$ret['conditions'] = array_map('array_unique', $ret['conditions']);
 		return $ret;
 	}
 
@@ -271,11 +282,13 @@ class One2Two extends A11yc\Update
 			foreach ($codes as $each_code)
 			{
 				$criterion = $yml['codes'][$each_code];
+
 				$passed[$criterion] = Arr::get($passed, $criterion, array());
 //				$passed[$criterion] = array_merge($passed[$criterion], $yml['passes'][$each_code]);
 				$passed[$criterion] = array_merge($passed[$criterion], $yml['passes'][$code]);
 			}
 		}
+
 		return array_map('array_unique', $passed);
 	}
 
@@ -307,7 +320,7 @@ class One2Two extends A11yc\Update
 
 		// results
 		$results = array();
-		foreach ($yml['conditions'] as $criterion => $codes)
+		foreach ($yml['conditions'] as $criterion => $conditions)
 		{
 			// check NG
 			if ( ! Arr::get($passed, $criterion) || array_key_exists($criterion, $ngs))
@@ -317,7 +330,7 @@ class One2Two extends A11yc\Update
 			}
 
 			// check criterion
-			$results[$criterion] = array_diff($codes, $passed[$criterion]) ? -1 : 2;
+			$results[$criterion] = array_diff($conditions, $passed[$criterion]) ? -1 : 2;
 		}
 
 		// non exists

@@ -39,7 +39,6 @@ class Db extends \Kontiki\Db
 		// type: 1 HTML, 2 PDF
 		// level: -1 Non-Interferences, 0 A-, 1 A, 2 AA, 3 AAA
 		$sql = 'CREATE TABLE '.A11YC_TABLE_PAGES.' (';
-		// $sql.= '`id`               INTEGER NOT NULL PRIMARY KEY,';
 		$sql.= '`url`              VARCHAR(2048) NOT NULL DEFAULT "",';
 		$sql.= '`alt_url`          VARCHAR(2048) NOT NULL DEFAULT "",';
 		$sql.= '`type`             INTEGER NOT NULL DEFAULT 1,';
@@ -68,8 +67,9 @@ class Db extends \Kontiki\Db
 		}
 
 		// init ua
+		$auto_increment = A11YC_DB_TYPE == 'mysql' ? 'auto_increment' : '' ;
 		$sql = 'CREATE TABLE '.A11YC_TABLE_UAS.' (';
-		$sql.= '`id`   INTEGER NOT NULL PRIMARY KEY,';
+		$sql.= '`id`   INTEGER NOT NULL PRIMARY KEY '.$auto_increment.',';
 		$sql.= '`name` TEXT,';
 		$sql.= '`str`  TEXT';
 		$sql.= ');';
@@ -196,7 +196,7 @@ class Db extends \Kontiki\Db
 		// status: 0 not yet, 1 in progress, 2 finish
 		// n_or_e: 0 notice, 1 error
 		$sql = 'CREATE TABLE '.A11YC_TABLE_ISSUES.' (';
-		$sql.= '`id`            INTEGER NOT NULL PRIMARY KEY,';
+		$sql.= '`id`            INTEGER NOT NULL PRIMARY KEY '.$auto_increment.',';
 		$sql.= '`is_common`     BOOL NOT NULL DEFAULT 0,';
 		$sql.= '`url`           TEXT NOT NULL DEFAULT "",';
 		$sql.= '`criterion`     VARCHAR(10) NOT NULL,';
@@ -224,7 +224,7 @@ class Db extends \Kontiki\Db
 
 		// init issues bbs
 		$sql = 'CREATE TABLE '.A11YC_TABLE_ISSUESBBS.' (';
-		$sql.= '`id`         INTEGER NOT NULL PRIMARY KEY,';
+		$sql.= '`id`         INTEGER NOT NULL PRIMARY KEY '.$auto_increment.',';
 		$sql.= '`issue_id`   INTEGER NOT NULL DEFAULT 0,';
 		$sql.= '`uid`        INTEGER NOT NULL DEFAULT 0,';
 		$sql.= '`created_at` DATETIME,';

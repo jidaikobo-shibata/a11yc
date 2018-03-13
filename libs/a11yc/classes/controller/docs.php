@@ -136,22 +136,24 @@ class Docs
 	/**
 	 * Show each
 	 *
-	 * @param String $criterion
+	 * @param String $code
 	 * @return Void
 	 */
-	public static function each($criterion)
+	public static function each($code)
 	{
 		$yml = Yaml::fetch();
-		$test = Yaml::each('test');
+		$tests = Yaml::each('tests');
 		$doc = array();
+		$is_test = false;
 
-		if (isset($yml['criterions'][$criterion]))
+		if (isset($yml['criterions'][$code]))
 		{
-			$doc = $yml['criterions'][$criterion];
+			$doc = $yml['criterions'][$code];
 		}
-		elseif(isset($test['tests'][$code]))
+		elseif(isset($tests[$code]))
 		{
-			$doc = $test['tests'][$code];
+			$doc = $tests[$code];
+			$is_test = true;
 		}
 		else
 		{
@@ -164,9 +166,9 @@ class Docs
 		$refs = Values::getRefUrls();
 		View::assign('refs', $refs[$standard]);
 
-		View::assign('criterion', $criterion);
+		View::assign('criterion', $code);
 		View::assign('yml', $yml, FALSE);
-		View::assign('test', $test);
+		View::assign('is_test', $is_test);
 		View::assign('title', A11YC_LANG_DOCS_TITLE.': '.$doc['name']);
 		View::assign('doc', $doc);
 		View::assign('body', View::fetchTpl('docs/each.php'), FALSE);

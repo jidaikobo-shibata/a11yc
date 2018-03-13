@@ -15,6 +15,16 @@ use A11yc\Model;
 class Issues
 {
 	/**
+	 * Index
+	 *
+	 * @return Void
+	 */
+	public static function actionIndex()
+	{
+		static::index();
+	}
+
+	/**
 	 * add Issue
 	 *
 	 * @return Void
@@ -45,12 +55,33 @@ class Issues
 	}
 
 	/**
+	 * Issue index
+	 *
+	 * @return Void
+	 */
+	public static function index()
+	{
+		$issues = array(
+			'yet' =>      Model\Issues::fetchByStatus(0),
+			'progress' => Model\Issues::fetchByStatus(1),
+			'done' =>     Model\Issues::fetchByStatus(2),
+		);
+		View::assign('yml',      Yaml::each('techs'));
+		View::assign('issues',   $issues);
+		View::assign('failures', Model\Checklist::fetchFailures());
+		View::assign('title',    A11YC_LANG_ISSUES_TITLE.A11YC_LANG_ISSUES_STATUS);
+		View::assign('body',     View::fetchTpl('issues/index.php'), FALSE);
+	}
+
+	/**
 	 * add/edit Issue
 	 *
 	 * @param  Bool $is_add
+	 * @param  Array $users
+	 * @param  INTEGER $current_user_id
 	 * @return Void
 	 */
-	public static function edit($is_add = false)
+	public static function edit($is_add = false, $users = array(), $current_user_id = NULL)
 	{
 		$issue = array();
 		if ($is_add)
@@ -67,7 +98,12 @@ class Issues
 		}
 		if ( ! $url || ! $criterion) Util::error();
 
-		$user = Users::fetchCurrentUser();
+		if (is_null($current_user_id))
+		{
+			$current_user = Users::fetchCurrentUser();
+			$current_user_id = Arr::get($current_user, 'id', 1);
+			$users = Users::fetchUsersOpt();
+		}
 
 		if (Input::isPostExists())
 		{
@@ -136,8 +172,7 @@ class Issues
 			}
 		}
 
-		$current_user = Users::fetchCurrentUser();
-		View::assign('users',         Users::fetchUsersOpt());
+		View::assign('users',         $users);
 		View::assign('is_new',        $is_add);
 		View::assign('issue_id',      Arr::get($issue, 'id', ''));
 		View::assign('is_common',     Arr::get($issue, 'is_common', ''));
@@ -149,22 +184,33 @@ class Issues
 		View::assign('status',        intval(Arr::get($issue, 'status', 0)));
 		View::assign('tech_url',      Arr::get($issue, 'tech_url', ''));
 		View::assign('error_message', Arr::get($issue, 'error_message', ''));
-		View::assign('uid',           Arr::get($issue, 'uid', $current_user['id']));
+		View::assign('uid',           Arr::get($issue, 'uid', $current_user_id));
 		View::assign('title', $is_add ? A11YC_LANG_ISSUES_ADD : A11YC_LANG_ISSUES_EDIT);
-		View::assign('body',  View::fetchTpl('issues/form.php'), FALSE);
+		View::assign('form',          View::fetchTpl('issues/form.php'), FALSE);
+		View::assign('body',          View::fetchTpl('issues/edit.php'), FALSE);
 	}
 
 	/**
 	 * view Issue
 	 *
+	 * @param  Array $users
+	 * @param  INTEGER $current_user_id
+	 * @param  BOOL $current_user_id
 	 * @return Void
 	 */
-	public static function view()
+	public static function view($users = array(), $current_user_id = NULL, $is_admin = false)
 	{
 		$id = intval(Input::get('id'));
 		$issue = Model\Issues::fetch($id);
 		if ( ! $issue) Util::error('issue not found');
-		$current_user = Users::fetchCurrentUser();
+
+		if (is_null($current_user_id))
+		{
+			$current_user = Users::fetchCurrentUser();
+			$current_user_id = $current_user['id'];
+			$users = Users::fetchUsersOpt();
+			$is_admin = $current_user[0] == 'root';
+		}
 
 		if (Input::isPostExists())
 		{
@@ -179,11 +225,18 @@ class Issues
 			// update message
 			foreach (Input::postArr('a11yc_issuesbbs') as $k => $v)
 			{
+echo '<textarea style="width:100%;height:200px;background-color:#fff;color:#111;font-size:90%;font-family:monospace;position:relative;z-index:9999">';
+var_dump($id);
+var_dump($current_user_id);
+var_dump($k);
+var_dump($v);
+echo '</textarea>';
+
 				if ($k == 'new' && $v)
 				{
 					$args = array(
 						'issue_id' => $id,
-						'uid'      => $current_user['id'],
+						'uid'      => $current_user_id,
 						'message'  => $v,
 					);
 					$r = Model\Issuesbbs::add($args);
@@ -199,12 +252,14 @@ class Issues
 			Session::add('messages', $mess_type, $mess_str);
 		}
 
-		View::assign('current_user', $current_user);
-		View::assign('status',       Values::issueStatus());
-		View::assign('users',        Users::fetchUsersOpt());
-		View::assign('issue',        $issue);
-		View::assign('bbss',         Model\Issuesbbs::fetchAll($issue['id']));
-		View::assign('title',        A11YC_LANG_ISSUES_TITLE);
-		View::assign('body',         View::fetchTpl('issues/view.php'), FALSE);
+		View::assign('current_user_id', $current_user_id);
+		View::assign('status',          Values::issueStatus());
+		View::assign('is_admin',        $is_admin);
+		View::assign('users',           $users);
+		View::assign('issue',           $issue);
+		View::assign('bbss',            Model\Issuesbbs::fetchAll($issue['id']));
+		View::assign('title',           A11YC_LANG_ISSUES_TITLE);
+		View::assign('form',            View::fetchTpl('issues/message.php'), FALSE);
+		View::assign('body',            View::fetchTpl('issues/view.php'), FALSE);
 	}
 }

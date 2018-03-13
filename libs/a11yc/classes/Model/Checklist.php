@@ -33,6 +33,38 @@ class Checklist
 	}
 
 	/**
+	 * fetch failures
+	 *
+	 * @param  String $url
+	 * @return Bool|Array
+	 */
+	public static function fetchFailures($url = '')
+	{
+		$yml = Yaml::each('techs');
+		$codes = array();
+		foreach ($yml as $code => $v)
+		{
+			if ($v['type'] != 'F') continue;
+			$codes[] = '"'.$code.'"';
+		}
+
+		$sql = 'SELECT * FROM '.A11YC_TABLE_CHECKS.' WHERE ';
+		$sql.= ' `code` IN ('.join(', ', $codes).') AND `version` = 0';
+		if ($url)
+		{
+			$sql.= ' AND `url` = ? ;';
+			return Db::fetchAll($sql, array($url));
+		}
+
+		$rets = array();
+		foreach (Db::fetchAll($sql) as $v)
+		{
+			$rets[$v['url']][] = $v;
+		}
+		return $rets;
+	}
+
+	/**
 	 * update
 	 *
 	 * @param  String $url
