@@ -18,6 +18,9 @@ echo $form
 	<!-- alternative content url -->
 	<label for="a11yc_alt_url"><?php echo A11YC_LANG_CHECKLIST_ALT_URL ?> <input type="text" name="alt_url" id="a11yc_alt_url" value="<?php echo $alt_url ?>" /></label>
 
+	<!-- is do_css_check -->
+	<label for="a11yc_do_css_check"><input type="checkbox" name="do_css_check" id="a11yc_do_css_check" value="1" /><?php echo A11YC_LANG_CHECKLIST_DO_CSS_CHECK ?></label>
+
 	<!-- is do_link_check -->
 	<label for="a11yc_do_link_check"><input type="checkbox" name="do_link_check" id="a11yc_do_link_check" value="1" /><?php echo A11YC_LANG_CHECKLIST_DO_LINK_CHECK ?></label>
 

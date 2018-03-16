@@ -16,12 +16,14 @@ class Validate
 {
 	protected static $is_partial = false;
 	protected static $do_link_check = false;
+	protected static $do_css_check = false;
 	protected static $error_ids = array();
 	protected static $first_tag = '';
 	protected static $res = array();
 	protected static $ignored_str = '';
 	protected static $html = '';
 	protected static $hl_html = ''; // HighLighted
+	protected static $csses = array();
 
 	public static $ignores = array(
 		"/\<script.+?\<\/script\>/si",
@@ -43,6 +45,7 @@ class Validate
 			'FormAndLabels',
 			'HeaderlessSection',
 			'IsseusElements',
+			'Table',
 
 			// single tag
 			'AltAttrOfImg',
@@ -77,6 +80,11 @@ class Validate
 			'NoticeImgExists',
 			'NoticeNonHtmlExists',
 			'IssuesNonTag',
+
+			// css
+			'CssTotal',
+			'CssContent',
+			'CssInvisibles',
 		);
 
 	protected static $results = array();
@@ -178,6 +186,19 @@ class Validate
 	}
 
 	/**
+	 * css
+	 *
+	 * @param  String $url
+	 * @param  String $ua
+	 * @return Void
+	 */
+	public static function css($url, $ua = 'using')
+	{
+		if (isset(static::$csses[$url][$ua])) return static::$csses[$url][$ua];
+		return Model\Css::fetchCss($url, $ua);
+	}
+
+	/**
 	 * getErrorCnts
 	 *
 	 * @param  String $url
@@ -260,6 +281,27 @@ class Validate
 	{
 		if ( ! \A11yc\Guzzle::envCheck()) return false;
 		return static::$do_link_check;
+	}
+
+	/**
+	 * set_do_css_check
+	 *
+	 * @param  bool
+	 * @return  void
+	 */
+	public static function setDoCssCheck($bool)
+	{
+		static::$do_css_check = $bool;
+	}
+
+	/**
+	 * do_css_check
+	 *
+	 * @return  bool
+	 */
+	public static function doCssCheck()
+	{
+		return static::$do_css_check;
 	}
 
 	/**
@@ -735,7 +777,15 @@ class Validate
 			$issue = Model\Issues::fetch4Validation($url, $issue_html);
 			if ( ! $issue) return;
 			$current_err['message']   = $issue['error_message'];
-			$current_err['criterion'] = $issue['criterion'];
+			if (strpos($issue['criterion'], ',') !== false)
+			{
+				$issue_criterions = explod(',', $issue['criterion']);
+				$current_err['criterions'] = array(trim($issue_criterions[0])); // use one
+			}
+			else
+			{
+				$current_err['criterions'] = array(trim($issue['criterion']));
+			}
 			$current_err['code']      = '';
 			$current_err['notice']    = ($issue['n_or_e'] == 0);
 		}
@@ -777,7 +827,7 @@ class Validate
 			}
 		}
 
-		$lv = strtolower($yml['criterions'][$current_err['criterion']]['level']['name']);
+		$lv = strtolower($yml['criterions'][$current_err['criterions'][0]]['level']['name']);
 
 		// replace errors
 		$results = array();
@@ -962,8 +1012,16 @@ class Validate
 			if ( ! $issue) return;
 
 			$current_err['message']   = $issue['error_message'];
-			$current_err['criterion'] = $issue['criterion'];
-			$current_err['notice']    = ($issue['n_or_e'] == 0);
+			if (strpos($issue['criterion'], ',') !== false)
+			{
+				$issue_criterions = explod(',', $issue['criterion']);
+				$current_err['criterions'] = array_map('trim', $issue_criterions);
+			}
+			else
+			{
+				$current_err['criterions'] = array(trim($issue['criterion']));
+			}
+			$current_err['notice'] = ($issue['n_or_e'] == 0);
 		}
 		else
 		{
@@ -977,8 +1035,8 @@ class Validate
 
 			$anchor = $code_str.'_'.$key;
 
-			// level
-			$lv = strtolower($yml['criterions'][$current_err['criterion']]['level']['name']);
+			// level - use lower level
+			$lv = strtolower($yml['criterions'][$current_err['criterions'][0]]['level']['name']);
 
 			// count errors
 			if ( ! isset($current_err['notice'])) static::$err_cnts[$lv]++;
@@ -987,14 +1045,18 @@ class Validate
 			$ret = '<dt id="index_'.$anchor.'" tabindex="-1" class="a11yc_level_'.$lv.'">'.$current_err['message'];
 
 			// dt - information
-			$criterion_code = $current_err['criterion'];
-			$level = $yml['criterions'][$current_err['criterion']]['level']['name'];
-			$criterion = $yml['criterions'][$current_err['criterion']];
+			foreach ($current_err['criterions'] as $each_criterion)
+			{
+				$level = $yml['criterions'][$each_criterion]['level']['name'];
+				$criterion = $yml['criterions'][$each_criterion];
 
-			$ret.= '<span class="a11yc_validation_reference_info"><strong>'.A11YC_LANG_LEVEL.strtoupper($lv).'</strong> <strong>'.Util::key2code($criterion['code']).'</strong> ';
-			$ret.= '<a href="'.$docpath.$current_err['criterion'].'" target="a11yc_doc">'.A11YC_LANG_CHECKLIST_SEE_DETAIL.'</a> ';
-//			$ret.= '<a href="'.$criterion['url'].'"'.A11YC_TARGET.' title="'.$criterion['name'].'">'.A11YC_LANG_CHECKLIST_SEE_UNDERSTANDING.' '.Util::key2code($criterion['code']).'</a>';
-			$ret.= '</span>';
+				$ret.= '<span class="a11yc_validation_reference_info"><strong>'.A11YC_LANG_LEVEL.strtoupper($lv).'</strong> <strong>'.Util::key2code($criterion['code']).'</strong> ';
+				$ret.= '<a href="'.$docpath.$each_criterion.'" target="a11yc_doc">'.A11YC_LANG_CHECKLIST_SEE_DETAIL.'('.Util::key2code($criterion['code']).')</a> ';
+
+				$ret.= '[<a href="'.A11YC_ISSUES_ADD_URL.$url.'&amp;criterion='.$each_criterion.'&amp;err_id='.$code_str.'&amp;src='.Util::s($place['str']).'" target="a11yc_issue">'.A11YC_LANG_ISSUES_ADD.'</a>] ';
+
+				$ret.= '</span>';
+			}
 
 			if ($place['id'])
 			{

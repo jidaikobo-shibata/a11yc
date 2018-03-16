@@ -68,7 +68,7 @@ class Crawl
 	}
 
 	/**
-	 * get_target_path
+	 * get target path
 	 *
 	 * @param  Bool $is_raw
 	 * @return  string

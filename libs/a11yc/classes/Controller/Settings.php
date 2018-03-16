@@ -96,11 +96,25 @@ class Settings
 		{
 			if (Input::post('protect_data'))
 			{
-				Model\Versions::protect();
+				if (Model\Versions::protect())
+				{
+					Session::add('messages', 'messages', A11YC_LANG_RESULTS_PROTECT_DATA_SAVED);
+				}
+				elseif($status == 'failed')
+				{
+					Session::add('messages', 'errors', A11YC_LANG_RESULTS_PROTECT_DATA_FAILD);
+				}
 			}
 			else
 			{
-				Model\Versions::update();
+				if (Model\Versions::update())
+				{
+					Session::add('messages', 'messages', A11YC_LANG_UPDATE_SUCCEED);
+				}
+				else
+				{
+					Session::add('messages', 'errors', A11YC_LANG_UPDATE_FAILED);
+				}
 			}
 		}
 

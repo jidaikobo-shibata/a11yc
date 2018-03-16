@@ -181,15 +181,15 @@ class Settings
 	 */
 	public static function updateField($field, $value)
 	{
-		if( ! self::fetch($field))
-		{
-			$sql = 'UPDATE '.A11YC_TABLE_SETTINGS.' SET `'.$field.'` = ?';
-			$sql.= ' WHERE `version` = 0;';
-		}
-		else
+		if(empty(self::fetchAll()))
 		{
 			$sql = 'INSERT INTO '.A11YC_TABLE_SETTINGS.' (`'.$field.'`, `version`) ';
 			$sql.= ' VALUES (?, 0);';
+		}
+		else
+		{
+			$sql = 'UPDATE '.A11YC_TABLE_SETTINGS.' SET `'.$field.'` = ?';
+			$sql.= ' WHERE `version` = 0;';
 		}
 
 		return Db::execute($sql, array($value));

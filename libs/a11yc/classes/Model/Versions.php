@@ -49,7 +49,7 @@ class Versions
 		if (Db::fetch($sql, array($version)))
 		{
 			static::delete($version);
-			Session::add('messages', 'messages', A11YC_LANG_DISCLOSURE_DELETE_SAMEDATE);
+			Session::add('messages', 'messages', A11YC_LANG_RESULTS_DELETE_SAMEDATE);
 		}
 
 		// insert
@@ -85,13 +85,9 @@ class Versions
 			// update version table
 			$sql = 'INSERT INTO '.A11YC_TABLE_VERSIONS.' (`version`, `name`) VALUES (?, ?);';
 			Db::execute($sql, array($version, $version));
+		}
 
-			Session::add('messages', 'messages', A11YC_LANG_DISCLOSURE_PROTECT_DATA_SAVED);
-		}
-		elseif($status == 'failed')
-		{
-			Session::add('messages', 'errors', A11YC_LANG_DISCLOSURE_PROTECT_DATA_FAILD);
-		}
+		return $status;
 	}
 
 	/**
@@ -128,14 +124,7 @@ class Versions
 			);
 		}
 
-		if ($r)
-		{
-			Session::add('messages', 'messages', A11YC_LANG_UPDATE_SUCCEED);
-		}
-		else
-		{
-			Session::add('messages', 'errors', A11YC_LANG_UPDATE_FAILED);
-		}
+		return $r;
 	}
 
 	/**

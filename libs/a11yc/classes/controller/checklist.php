@@ -150,6 +150,7 @@ class Checklist
 			}
 
 			// automatic check
+			Validate::setDoCssCheck(Input::post('do_css_check', false));
 			Validate::setDoLinkCheck(Input::post('do_link_check', false));
 			Validate::url($url);
 		}
@@ -203,7 +204,6 @@ class Checklist
 		View::assign('checklist_behaviour', intval(@$settings['checklist_behaviour']));
 		View::assign('target_level', intval(@$settings['target_level']));
 		View::assign('page', $page);
-		View::assign('link_check', Input::post('do_link_check', FALSE));
 		View::assign('additional_criterions', join('","',Values::additionalCriterions()));
 		View::assign('is_new', $is_new);
 		View::assign('is_bulk', $is_bulk);

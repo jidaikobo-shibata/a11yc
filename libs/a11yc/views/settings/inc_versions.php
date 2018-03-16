@@ -1,4 +1,5 @@
 <?php namespace A11yc; ?>
+<?php if ( ! empty($versions)): ?>
 <h2><?php echo A11YC_LANG_SETTINGS_TITLE_VERSIONS ?></h2>
 <p><?php echo A11YC_LANG_SETTINGS_TITLE_VERSIONS_EXP ?></p>
 <table class="a11yc_table">
@@ -40,3 +41,4 @@ endforeach;
 
 	</tbody>
 </table>
+<?php endif; ?>

@@ -178,12 +178,35 @@ class Issues
 		View::assign('is_common',     Arr::get($issue, 'is_common', ''));
 		View::assign('url',           Arr::get($issue, 'url', $url));
 		View::assign('criterion',     Arr::get($issue, 'criterion', $criterion));
-		View::assign('html',          Arr::get($issue, 'html', ''));
-		View::assign('n_or_e',        intval(Arr::get($issue, 'n_or_e', 0)));
 		View::assign('statuses',      Values::issueStatus());
 		View::assign('status',        intval(Arr::get($issue, 'status', 0)));
-		View::assign('tech_url',      Arr::get($issue, 'tech_url', ''));
-		View::assign('error_message', Arr::get($issue, 'error_message', ''));
+
+		if ($is_add)
+		{
+			$errs = Yaml::each('errors');
+			$err_id    = Input::get('err_id', '');
+
+			$techs = Yaml::each('techs');
+			$err_techs = Arr::get($errs, "{$err_id}.techs", array());
+			$techs_links = array();
+			foreach ($err_techs as $err_tech)
+			{
+				$techs_links[] = A11YC_REF_WCAG20_TECH_URL.$err_tech.'.html';
+			}
+
+			View::assign('tech_url',      join("\n", $techs_links));
+			View::assign('error_message', Arr::get($errs, "{$err_id}.message"));
+			View::assign('html',          Input::get('src', ''));
+			View::assign('n_or_e',        intval(Arr::get($errs, "{$err_id}.n_or_e", 1)));
+		}
+		else
+		{
+			View::assign('tech_url',      Arr::get($issue, 'tech_url', ''));
+			View::assign('error_message', Arr::get($issue, 'error_message', ''));
+			View::assign('html',          Arr::get($issue, 'html', ''));
+			View::assign('n_or_e',        intval(Arr::get($issue, 'n_or_e', 0)));
+		}
+
 		View::assign('uid',           Arr::get($issue, 'uid', $current_user_id));
 		View::assign('title', $is_add ? A11YC_LANG_ISSUES_ADD : A11YC_LANG_ISSUES_EDIT);
 		View::assign('form',          View::fetchTpl('issues/form.php'), FALSE);

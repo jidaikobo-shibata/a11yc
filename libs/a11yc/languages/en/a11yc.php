@@ -202,6 +202,7 @@ define('A11YC_LANG_CHECKLIST_CONFORMANCE_ADDITIONAL', 'Additional Conformance');
 define('A11YC_LANG_CHECKLIST_NON_INTERFERENCE', 'Non interference');
 define('A11YC_LANG_CHECKLIST_ALT_URL', 'URL of alternative content');
 define('A11YC_LANG_CHECKLIST_DO_LINK_CHECK', 'Do link check');
+define('A11YC_LANG_CHECKLIST_DO_CSS_CHECK', 'Do external CSS check');
 define('A11YC_LANG_CHECKLIST_SOURCE', 'Source code');
 define('A11YC_LANG_CHECKLIST_VIEW_SOURCE', 'View source code');
 define('A11YC_LANG_CHECKLIST_MACHINE_CHECK', 'Automatic Check');
