@@ -268,15 +268,16 @@ class Pages
 		}
 	}
 
-/**
- * addPages
- *
- * @param  Bool $is_force
- * @return Void
- */
-private static function addPages($is_force = false)
+	/**
+	 * addPages
+	 *
+	 * @param  Bool $is_force
+	 * @param  Array $pages
+	 * @return Void
+	 */
+	protected static function addPages($is_force = false, $pages = array())
 	{
-		$pages = explode("\n", trim(Input::post('pages')));
+		$pages = $pages ?: explode("\n", trim(Input::post('pages')));
 
 		// add without check
 		if ( ! Guzzle::envCheck() || $is_force)
