@@ -39,6 +39,10 @@ engines:
     checks:
       CyclomaticComplexity:
         enabled: false
+      Design/WeightedMethodCount:
+        enabled: false
+      Design/TooManyPublicMethods:
+        enabled: false
       Design/ExitExpression:
         enabled: false
       Design/NpathComplexity:
