@@ -68,7 +68,7 @@ class Maintenance extends \Kontiki\Maintenance
 		if ($strs)
 		{
 			$tags = json_decode($strs, true);
-//			$max = $tags[max(array_keys($tags))];
+			$max = $tags[max(array_keys($tags))];
 			// lower: return true
 			static::$is_using_lower = version_compare(A11YC_VERSION, $ret['version']) == -1;
 			return static::$is_using_lower;

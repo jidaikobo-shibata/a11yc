@@ -249,13 +249,6 @@ class Issues
 			// update message
 			foreach (Input::postArr('a11yc_issuesbbs') as $k => $v)
 			{
-echo '<textarea style="width:100%;height:200px;background-color:#fff;color:#111;font-size:90%;font-family:monospace;position:relative;z-index:9999">';
-var_dump($id);
-var_dump($current_user_id);
-var_dump($k);
-var_dump($v);
-echo '</textarea>';
-
 				if ($k == 'new' && $v)
 				{
 					$args = array(

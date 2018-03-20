@@ -99,7 +99,8 @@ class Images
 		}
 
 		// input and img
-		$ms = Validate::getElementsByRe($str, 'ignores', 'tags', $force = true);
+		$force = true;
+		$ms = Validate::getElementsByRe($str, 'ignores', 'tags', $force);
 
 		if ( ! is_array($ms[1])) return $retvals;
 

@@ -21,7 +21,7 @@ class Issues
 	 * @param Bool $force
 	 * @return Array
 	 */
-	public static function fetch($id, $force = 0)
+	public static function fetch($id, $force = false)
 	{
 		if (isset(static::$issues[$id]) && ! $force) return static::$issues[$id];
 		$sql = 'SELECT * FROM '.A11YC_TABLE_ISSUES.' WHERE `id` = ?;';
