@@ -116,7 +116,7 @@ class Docs
 			{
 				if (
 					self::wordExists($v['name'], $word) ||
-					self::wordExists($v['tech'], $word)
+					self::wordExists($v['doc'], $word)
 				)
 				{
 					$r['tests'][] = $code;
@@ -124,6 +124,10 @@ class Docs
 			}
 		}
 
+		if ( ! View::fetch('a11yc_doc_url'))
+		{
+			View::assign('a11yc_doc_url', A11YC_DOC_URL);
+		}
 		View::assign('word', $word);
 		View::assign('results', $r);
 		View::assign('yml', Yaml::fetch(), FALSE);
@@ -166,6 +170,10 @@ class Docs
 		$refs = Values::getRefUrls();
 		View::assign('refs', $refs[$standard]);
 
+		if ( ! View::fetch('a11yc_doc_url'))
+		{
+			View::assign('a11yc_doc_url', A11YC_DOC_URL);
+		}
 		View::assign('criterion', $code);
 		View::assign('yml', $yml, FALSE);
 		View::assign('is_test', $is_test);

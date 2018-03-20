@@ -25,7 +25,7 @@ foreach ($tests as $code => $v):
 	if ($word && ! Arr::get($results, 'tests')) continue;
 	if ($word && ! in_array($code, $results['tests'])) continue;
 	View::assign('doc', $v, false);
-	$html.= '<li><a href="'.A11YC_DOC_URL.$code.'">'.$v['name'].'</a></li>';
+	$html.= '<li><a href="'.$a11yc_doc_url.$code.'">'.$v['name'].'</a></li>';
 endforeach;
 
 if ($html):
@@ -66,7 +66,7 @@ $msg = '';
 			$class_str.= ' a11yc_criterion_l_'.strtolower($vvv['level']['name']);
 			 ?>
 			<div id="a11yc_c_<?php echo $kkk ?>" class="a11yc_section_criterion<?php echo $class_str ?> a11yc_level_<?php echo strtolower($vvv['level']['name']) ?>" data-a11yc-lebel="l_<?php echo strtolower($vvv['level']['name']) ?>">
-			<h4 class="a11yc_header_criterion"><a href="<?php echo A11YC_DOC_URL.$vvv['code'] ?>"><?php echo Util::key2code($vvv['code']).' '.$vvv['name'].' <span class="a11yc_header_criterion_level">('.$vvv['level']['name'].$non_interference.')</span>' ?></a></h4>
+			<h4 class="a11yc_header_criterion"><a href="<?php echo $a11yc_doc_url.$vvv['code'] ?>"><?php echo Util::key2code($vvv['code']).' '.$vvv['name'].' <span class="a11yc_header_criterion_level">('.$vvv['level']['name'].$non_interference.')</span>' ?></a></h4>
 			<ul class="a11yc_outlink">
 			<?php if (isset($vvv['url_as'])): ?>
 				<li class="a11yc_outlink_as"><a<?php echo A11YC_TARGET ?> href="<?php echo $vvv['url_as'] ?>" title="Accessibility Supported"><span class="a11yc_skip">Accessibility Supported</span></a></li>

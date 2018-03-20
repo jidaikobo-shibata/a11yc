@@ -35,12 +35,13 @@ class Util extends \Kontiki\Util
 	 * enunique Uri
 	 *
 	 * @param  String $uri
+	 * @param  String $base_uri
 	 * @return String
 	 */
-	public static function enuniqueUri($uri)
+	public static function enuniqueUri($uri, $base_uri = '')
 	{
 		if (empty($uri)) return '';
-		$base_url = Model\Settings::fetch('base_url');
+		$base_url = $base_uri ?: Model\Settings::fetch('base_url');
 
 		if (strlen($uri) >= 2 && $uri[0] == '/' && $uri[1] != '/')
 		{
@@ -127,15 +128,17 @@ class Util extends \Kontiki\Util
 	 * create doc link of '\d-\d-\d\w' in the text
 	 *
 	 * @param  String $text
+	 * @param  String $doc_url
 	 * @return String
 	 */
-	public static function key2link($text)
+	public static function key2link($text, $doc_url = '')
 	{
 		preg_match_all("/\[[^\]]+?\]/", $text, $ms);
 
 		if ( ! $ms[0]) return $text;
 
 		$yml = Yaml::fetch();
+		$doc_url = $doc_url ?: A11YC_DOC_URL;
 
 		foreach ($ms[0] as $str)
 		{
@@ -151,7 +154,7 @@ class Util extends \Kontiki\Util
 			if (is_numeric($code[0]))
 			{
 				$criterion = self::code2key($code);
-				$url = A11YC_DOC_URL.Util::s($criterion);
+				$url = $doc_url.Util::s($criterion);
 				$str = Arr::get($yml['criterions'][$criterion], 'name');
 			}
 

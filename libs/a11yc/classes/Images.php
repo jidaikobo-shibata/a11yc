@@ -14,9 +14,12 @@ class Images
 {
 	/**
 	 * get images
+	 *
+	 * @param  String $uri
+	 * @param  String $base_uri
 	 * @return  Array
 	 */
-	public static function getImages($url)
+	public static function getImages($url, $base_uri = '')
 	{
 		$retvals = array();
 		$str = Validate::ignoreElements(Validate::getHighLightedHtml($url));
@@ -29,10 +32,10 @@ class Images
 			if (strpos($v, '<img ') === false) continue;
 
 			// link
-			$attrs = Validate::getAttributes($v);
-			$href = Arr::get($attrs, 'href');
+			$attrs       = Validate::getAttributes($v);
+			$href        = Arr::get($attrs, 'href');
 			$aria_hidden = Arr::get($attrs, 'aria-hidden');
-			$tabindex = Arr::get($attrs, 'tabindex');
+			$tabindex    = Arr::get($attrs, 'tabindex');
 
 			// plural images can be exist.
 			preg_match_all('/\<img[^\>]+\>/is', $v, $ass);
@@ -120,7 +123,7 @@ class Images
 			// src exists
 			if (isset($v['attrs']['src']))
 			{
-				$retvals[$k]['attrs']['src'] = Util::enuniqueUri($v['attrs']['src']);
+				$retvals[$k]['attrs']['src'] = Util::enuniqueUri($v['attrs']['src'], $base_uri);
 			}
 
 			// alt exists

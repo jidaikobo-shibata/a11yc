@@ -3,7 +3,7 @@
 <h2><?php echo A11YC_LANG_UNDERSTANDING ?></h2>
 
 <?php
-$lines = explode("\n", Util::docHtmlWhitelist(stripslashes(Util::key2link($doc['doc']))));
+$lines = explode("\n", Util::docHtmlWhitelist(stripslashes(Util::key2link($doc['doc'], $a11yc_doc_url))));
 
 if ($lines):
 	foreach ($lines as $line): ?>

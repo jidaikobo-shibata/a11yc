@@ -135,6 +135,7 @@ class Post
 	 */
 	public static function actionDocs()
 	{
+		View::assign('a11yc_doc_url', static::$url.'?a=doc&amp;criterion=');
 		Docs::index(); // $body set
 		define('A11YC_LANG_POST_TITLE', A11YC_LANG_DOCS_TITLE);
 	}
@@ -149,6 +150,7 @@ class Post
 		$criterion = Input::get('criterion');
 		if ($criterion)
 		{
+			View::assign('a11yc_doc_url', static::$url.'?a=doc&amp;criterion=');
 			Docs::each($criterion); // $body set
 			$doc = View::fetch('doc');
 			define('A11YC_LANG_POST_TITLE', $doc['name']);
@@ -279,6 +281,7 @@ class Post
 		$default_ua = Util::s(Input::userAgent());
 		$page_title = '';
 		$real_url   = '';
+		$doc_root   = Input::post('doc_root', '');
 
 		// auth - if limit die here
 		self::auth();
@@ -289,11 +292,12 @@ class Post
 			'notices' => array(),
 			'errors' => array()
 		);
-		$errs_cnts = array();
-		$target_html = '';
+		$errs_cnts        = array();
+		$target_html      = '';
 		$target_html_head = '';
-		$yml = Yaml::fetch();
-		$render = '';
+		$yml              = Yaml::fetch();
+		$render           = '';
+		$current_ua       = '';
 
 		if (Input::post('source'))
 		{
@@ -341,7 +345,7 @@ class Post
 				if (Input::post('behaviour') == 'images')
 				{
 					$do_validate = false;
-					View::assign('images', A11yc\Images::getImages($url));
+					View::assign('images', A11yc\Images::getImages($url, $doc_root));
 					Session::add('messages', 'messages', A11YC_LANG_POST_DONE_IMAGE_LIST);
 				}
 			}
@@ -438,6 +442,7 @@ class Post
 		View::assign('page_title'         , $page_title);
 		View::assign('real_url'           , $real_url ?: $url);
 		View::assign('current_user_agent' , $current_ua);
+		View::assign('doc_root'           , $doc_root);
 		View::assign('user_agent'         , $user_agent);
 		View::assign('target_url'         , static::$url);
 		View::assign('url'                , $url ?: $raw_url);

@@ -26,6 +26,12 @@ $uas = array(
 	</select>
 </label>
 
+<section>
+	<label for="doc_root"><?php echo A11YC_LANG_SETTINGS_BASE_URL ?> (ex: <code>http://example.com</code>)
+		<input type="text" name="doc_root" id="doc_root" size="30" value="<?php echo $doc_root ?>">
+	</label>
+</section>
+
 <div class="a11yc_submit_group">
 	<label for="behaviour"><?php echo A11YC_LANG_POST_BEHAVIOUR ?>
 		<select name="behaviour" id="behaviour">
