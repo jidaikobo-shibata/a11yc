@@ -1,9 +1,13 @@
 ---
 engines:
   csslint:
-    enabled: true
+    enabled: false
     checks:
       overqualified-elements:
+        enabled: false
+      order-alphabetical:
+        enabled: false
+      ids:
         enabled: false
   duplication:
     enabled: true
@@ -82,4 +86,4 @@ exclude_paths:
 - db/
 - libs/spyc
 - libs/guzzle
-- libs/a11yc/css/font-awesome
+- assets/css/font-awesome
