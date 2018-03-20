@@ -309,7 +309,7 @@ class Post
 			$ua = Arr::get($uas, $user_agent) ? $user_agent : $default_ua;
 			$current_ua = Arr::get($uas, "{$user_agent}.str");
 			$current_ua = $current_ua ?: $default_ua;
-			$target_html = Model\Html::fetchHtml($url, $ua);
+			$target_html = Model\Html::fetchHtml($url, $ua); // not use Database
 
 			// basic auth failed
 			if (Guzzle::instance($url)->status_code == 401)
