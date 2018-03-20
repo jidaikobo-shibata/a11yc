@@ -25,7 +25,6 @@ class Security extends \Kontiki\Security
 		// use constant only
 		$dirs = array(
 			A11YC_CONFIG_PATH,
-			A11YC_DATA_PATH,
 			A11YC_LIB_PATH,
 		);
 
@@ -41,7 +40,7 @@ class Security extends \Kontiki\Security
 		if ( ! $result)
 		{
 
-Session::add('messages', 'error', 'failred to put .htaccess. add .htaccess with "deny from all"'.A11YC_CONFIG_PATH.''.A11YC_DATA_PATH);
+Session::add('messages', 'error', 'failred to put .htaccess. add .htaccess with "deny from all"'.A11YC_CONFIG_PATH.', '.A11YC_LIB_PATH);
 		}
 	}
 }
