@@ -207,11 +207,11 @@ class Validate
 	 * @param  Bool   $force
 	 * @return Array
 	 */
-	public static function getErrorCnts($url, $codes = array(), $ua = 'using', $force = 0)
+	public static function getErrorCnts($url, $codes = array(), $ua = 'using', $force = false)
 	{
 		$codes = $codes ?: self::$codes;
 		$name = static::codes2name($codes);
-		if (isset(static::$results[$url][$name][$ua]['errs_cnts'])) return static::$results[$url][$name][$ua]['errs_cnts'];
+		if (isset(static::$results[$url][$name][$ua]['errs_cnts']) && ! $force) return static::$results[$url][$name][$ua]['errs_cnts'];
 		return array();
 	}
 

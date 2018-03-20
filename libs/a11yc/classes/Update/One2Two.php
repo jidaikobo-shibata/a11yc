@@ -193,7 +193,7 @@ class One2Two extends A11yc\Update
 			{
 				$memo = '';
 				$uid = '';
-				foreach ($yml['conditions'] as $critrion => $codes)
+				foreach ($yml['conditions'] as $codes)
 				{
 					foreach ($codes as $code)
 					{

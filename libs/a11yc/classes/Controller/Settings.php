@@ -60,9 +60,10 @@ class Settings
 		Model\Settings::dbio();
 
 		// assign
+		$force = true;
 		View::assign('title',         A11YC_LANG_SETTINGS_TITLE_BASE);
 		View::assign('sample_policy', str_replace("\\n", "\n", A11YC_LANG_SAMPLE_POLICY));
-		View::assign('settings',      Model\Settings::fetchAll($force = 1));
+		View::assign('settings',      Model\Settings::fetchAll($force));
 		View::assign('standards',     Yaml::each('standards'));
 		View::assign('yml',           Yaml::fetch());
 		View::assign('submenu',       View::fetchTpl('settings/inc_submenu.php'), FALSE);
@@ -79,8 +80,9 @@ class Settings
 		Model\Uas::dbio();
 
 		// assign
+		$force = true;
 		View::assign('title',   A11YC_LANG_SETTINGS_TITLE_UA);
-		View::assign('uas',     Model\Uas::fetch($force = true));
+		View::assign('uas',     Model\Uas::fetch($force));
 		View::assign('submenu', View::fetchTpl('settings/inc_submenu.php'), FALSE);
 		View::assign('form',    View::fetchTpl('settings/inc_ua.php'), FALSE);
 	}
@@ -100,7 +102,7 @@ class Settings
 				{
 					Session::add('messages', 'messages', A11YC_LANG_RESULTS_PROTECT_DATA_SAVED);
 				}
-				elseif($status == 'failed')
+				else
 				{
 					Session::add('messages', 'errors', A11YC_LANG_RESULTS_PROTECT_DATA_FAILD);
 				}

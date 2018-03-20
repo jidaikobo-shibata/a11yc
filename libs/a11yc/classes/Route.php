@@ -54,7 +54,7 @@ class Route extends \Kontiki\Route
 		{
 			if ( ! in_array(Input::server('REMOTE_ADDR'), unserialize(A11YC_APPROVED_IPS)))
 			{
-				$ontroller = '';
+				$controller = '';
 			}
 		}
 

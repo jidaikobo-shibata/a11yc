@@ -28,7 +28,7 @@ class CssInvisibles extends Validate
 		if ( ! $csses) return;
 
 		$k = 0;
-		foreach ($csses as $type => $each_csses)
+		foreach ($csses as $each_csses)
 		{
 			foreach ($each_csses as $selector => $props)
 			{

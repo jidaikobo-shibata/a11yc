@@ -45,16 +45,6 @@ class Issues
 	}
 
 	/**
-	 * fetch by criterion
-	 *
-	 * @param  String $criterion
-	 * @return Bool|Array
-	 */
-	public static function fetchByCriterion($criterion)
-	{
-	}
-
-	/**
 	 * fetch by status
 	 *
 	 * @param  String $status [0 not yet, 1 in progress, 2 finish]
