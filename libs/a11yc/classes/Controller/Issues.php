@@ -186,7 +186,6 @@ class Issues
 			$errs = Yaml::each('errors');
 			$err_id    = Input::get('err_id', '');
 
-			$techs = Yaml::each('techs');
 			$err_techs = Arr::get($errs, "{$err_id}.techs", array());
 			$techs_links = array();
 			foreach ($err_techs as $err_tech)

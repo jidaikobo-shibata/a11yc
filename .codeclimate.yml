@@ -37,6 +37,16 @@ engines:
   phpmd:
     enabled: true
     checks:
+      CyclomaticComplexity:
+        enabled: false
+      Design/ExitExpression:
+        enabled: false
+      Design/NpathComplexity:
+        enabled: false
+      Design/LongMethod:
+        enabled: false
+      CleanCode/BooleanArgumentFlag:
+        enabled: false
       CleanCode/StaticAccess:
         enabled: false
       Controversial/CamelCaseClassName:
@@ -49,9 +59,9 @@ engines:
         enabled: false
       Controversial/CamelCaseParameterName:
         enabled: false
-      Naming/ShortVariable:
-        enabled: false
       CleanCode/ElseExpression:
+        enabled: false
+      Naming/ShortVariable:
         enabled: false
 ratings:
   paths:

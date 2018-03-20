@@ -205,7 +205,7 @@ class Post
 		if ( ! self::isInWhiteList())
 		{
 			// die if at limit
-			static::ipCheckForGuestUsers($ip);
+			static::ipCheckForGuestUsers(Input::server('REMOTE_ADDR', ''));
 		}
 		return true;
 	}
