@@ -1,4 +1,0 @@
-filter:
-  excluded_paths:
-    - "libs/guzzle/"
-    - "libs/spyc/"
