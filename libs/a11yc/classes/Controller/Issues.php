@@ -31,7 +31,8 @@ class Issues
 	 */
 	public static function actionAdd()
 	{
-		static::edit($is_add = true);
+		$is_add = true;
+		static::edit($is_add);
 	}
 
 	/**
@@ -168,7 +169,8 @@ class Issues
 				{
 					Session::add('messages', 'errors', A11YC_LANG_ISSUES_EDITED_FAILED);
 				}
-				$issue = Model\Issues::fetch($id, $force = 1);
+				$force = true;
+				$issue = Model\Issues::fetch($id, $force);
 			}
 		}
 

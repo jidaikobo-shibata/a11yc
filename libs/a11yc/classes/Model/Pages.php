@@ -58,7 +58,6 @@ class Pages
 		}
 
 		// pages
-		$qs = '';
 		$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE '.$whrs[$list];
 
 		// version

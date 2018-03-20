@@ -27,11 +27,13 @@ class Bulk extends Checklist
 	/**
 	 * dbio
 	 *
-	 * @param  String $url - unused but this is child method
+	 * @param  String $url
 	 * @return Void
 	 */
 	public static function dbio($url)
 	{
+		if ($url != 'bulk') Util::error();
+
 		if (Input::isPostExists())
 		{
 			// update default only

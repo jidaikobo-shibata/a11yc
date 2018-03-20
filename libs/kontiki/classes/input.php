@@ -110,11 +110,11 @@ class Input
 	 */
 	public static function getArr(
 		$index,
-		$default = null,
+		$default = array(),
 		$filter = FILTER_DEFAULT
 	)
 	{
-		return static::get($index, array(), $filter, FILTER_REQUIRE_ARRAY);
+		return static::get($index, $default, $filter, FILTER_REQUIRE_ARRAY);
 	}
 
 	/**
@@ -147,11 +147,11 @@ class Input
 	 */
 	public static function postArr(
 		$index,
-		$default = null,
+		$default = array(),
 		$filter = FILTER_DEFAULT
 	)
 	{
-		return static::post($index, array(), $filter, FILTER_REQUIRE_ARRAY);
+		return static::post($index, $default, $filter, FILTER_REQUIRE_ARRAY);
 	}
 
 	/**

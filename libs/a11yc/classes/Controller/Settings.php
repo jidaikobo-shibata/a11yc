@@ -119,8 +119,9 @@ class Settings
 		}
 
 		// assign
+		$force = true;
 		View::assign('title',        A11YC_LANG_SETTINGS_TITLE_VERSIONS);
-		View::assign('versions',     Model\Versions::fetch($force = true));
+		View::assign('versions',     Model\Versions::fetch($force));
 		View::assign('submenu',      View::fetchTpl('settings/inc_submenu.php'), FALSE);
 		View::assign('protect_form', View::fetchTpl('settings/inc_protect.php'), FALSE);
 		View::assign('form',         View::fetchTpl('settings/inc_versions.php'), FALSE);

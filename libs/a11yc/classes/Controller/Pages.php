@@ -135,7 +135,9 @@ class Pages
 	private static function getUrls($url)
 	{
 		// fetch attributes
-		$html = Model\Html::getHtml($url, $ua = 'using', $type = 'raw');
+		$ua   = 'using';
+		$type = 'raw';
+		$html = Model\Html::getHtml($url, $ua, $type);
 		preg_match_all("/[ \n](?:href|action) *?= *?[\"']([^\"']+?)[\"']/i", $html, $ms);
 
 		// collect url
@@ -324,7 +326,8 @@ class Pages
 			if ( ! Crawl::isTargetMime($url)) continue;
 
 			$current = $k + 1;
-			$title = Util::s(Model\Html::fetchPageTitle($url, $from_internet = true));
+			$from_internet = true;
+			$title = Util::s(Model\Html::fetchPageTitle($url, $from_internet));
 			echo '<p>'.Util::s($url).' ('.$current.'/'.count($pages).')<br />';
 			echo $title.'<br />';
 			echo "<strong style=\"border-radius: 5px; padding: 5px; color: #fff;background-color:#408000;\">Add</strong>\n";
@@ -401,7 +404,8 @@ class Pages
 
 				default :
 					Model\Pages::updateField($url, 'title', Input::post('title'));
-					Model\Html::addHtml($url, $ua = 'using', Input::post('html'));
+					$ua = 'using';
+					Model\Html::addHtml($url, $ua, Input::post('html'));
 					break;
 			}
 		}
@@ -418,7 +422,8 @@ class Pages
 		}
 
 		// show edit page
-		$page = Model\Pages::fetchPage($url, $force = 1);
+		$force = true;
+		$page = Model\Pages::fetchPage($url, $force);
 		if ( ! $page) Util::error('Page not found');
 
 		$html = Model\Html::getHtml($url);

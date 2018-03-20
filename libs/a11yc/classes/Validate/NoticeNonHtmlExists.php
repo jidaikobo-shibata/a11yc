@@ -36,7 +36,7 @@ class NoticeNonHtmlExists extends Validate
 		);
 		$exists = array();
 
-		foreach ($ms[1] as $k => $m)
+		foreach ($ms[1] as $m)
 		{
 			foreach ($suspicious as $vv)
 			{
