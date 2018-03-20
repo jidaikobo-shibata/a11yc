@@ -91,7 +91,7 @@ class Docs
 
 			$r['criterions'] = array();
 			$r['tests'] = array();
-			foreach ($yaml['criterions'] as $k => $v)
+			foreach ($yaml['criterions'] as $v)
 			{
 				if (
 					self::wordExists($v['code'], $word) ||
@@ -165,7 +165,6 @@ class Docs
 		}
 
 		// reference urls
-		$standards = Yaml::each('standards');
 		$standard = Arr::get(Model\Settings::fetchAll(), 'standard', 0);
 		$refs = Values::getRefUrls();
 		View::assign('refs', $refs[$standard]);

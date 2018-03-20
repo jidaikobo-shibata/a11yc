@@ -1,9 +1,13 @@
 ---
 engines:
   csslint:
-    enabled: true
+    enabled: false
     checks:
       overqualified-elements:
+        enabled: false
+      order-alphabetical:
+        enabled: false
+      ids:
         enabled: false
   duplication:
     enabled: true
@@ -37,6 +41,20 @@ engines:
   phpmd:
     enabled: true
     checks:
+      CyclomaticComplexity:
+        enabled: false
+      Design/WeightedMethodCount:
+        enabled: false
+      Design/TooManyPublicMethods:
+        enabled: false
+      Design/ExitExpression:
+        enabled: false
+      Design/NpathComplexity:
+        enabled: false
+      Design/LongMethod:
+        enabled: false
+      CleanCode/BooleanArgumentFlag:
+        enabled: false
       CleanCode/StaticAccess:
         enabled: false
       Controversial/CamelCaseClassName:
@@ -49,9 +67,9 @@ engines:
         enabled: false
       Controversial/CamelCaseParameterName:
         enabled: false
-      Naming/ShortVariable:
-        enabled: false
       CleanCode/ElseExpression:
+        enabled: false
+      Naming/ShortVariable:
         enabled: false
 ratings:
   paths:
@@ -68,4 +86,4 @@ exclude_paths:
 - db/
 - libs/spyc
 - libs/guzzle
-- libs/a11yc/css/font-awesome
+- assets/css/font-awesome

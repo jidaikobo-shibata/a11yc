@@ -27,7 +27,7 @@ class Route extends \Kontiki\Route
 		// vals
 		$c = Input::get('c', '');
 		$a = Input::get('a', '');
-		$is_index = empty(join($_GET));
+		$is_index = empty($c) && empty($a);
 
 		// auth
 		if ($is_index && ! Auth::auth())
@@ -52,9 +52,9 @@ class Route extends \Kontiki\Route
 		// performed IPs
 		if (defined('A11YC_APPROVED_IPS'))
 		{
-			if ( ! in_array(Arr::get($_SERVER, 'REMOTE_ADDR'), unserialize(A11YC_APPROVED_IPS)))
+			if ( ! in_array(Input::server('REMOTE_ADDR'), unserialize(A11YC_APPROVED_IPS)))
 			{
-				$controller = '';
+				$ontroller = '';
 			}
 		}
 

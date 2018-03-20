@@ -224,11 +224,11 @@ class Validate
 	 * @param  Bool   $force
 	 * @return String
 	 */
-	public static function getErrors($url, $codes = array(), $ua = 'using', $force = 0)
+	public static function getErrors($url, $codes = array(), $ua = 'using', $force = false)
 	{
 		$codes = $codes ?: self::$codes;
 		$name = static::codes2name($codes);
-		if (isset(static::$results[$url][$name][$ua]['errors'])) return static::$results[$url][$name][$ua]['errors'];
+		if (isset(static::$results[$url][$name][$ua]['errors']) && ! $force) return static::$results[$url][$name][$ua]['errors'];
 		return false;
 	}
 
@@ -241,12 +241,12 @@ class Validate
 	 * @param  Bool   $force
 	 * @return String
 	 */
-	public static function getHighLightedHtml($url, $codes = array(), $ua = 'using', $force = 0)
+	public static function getHighLightedHtml($url, $codes = array(), $ua = 'using', $force = false)
 	{
 		$codes = $codes ?: self::$codes;
 		$name = static::codes2name($codes);
 
-		if (isset(static::$results[$url][$name][$ua]['hl_html'])) return static::$results[$url][$name][$ua]['hl_html'];
+		if (isset(static::$results[$url][$name][$ua]['hl_html']) && ! $force) return static::$results[$url][$name][$ua]['hl_html'];
 		return false;
 	}
 

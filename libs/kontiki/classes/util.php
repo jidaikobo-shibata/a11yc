@@ -19,7 +19,10 @@ class Util
 	 */
 	public static function uri()
 	{
-		if (isset($_SERVER["HTTP_HOST"]) && isset($_SERVER["REQUEST_URI"]))
+		$http_host = Input::server("HTTP_HOST");
+		$request_uri = Input::server("REQUEST_URI");
+
+		if ($http_host && $request_uri)
 		{
 			$uri = static::isSsl() ? 'https' : 'http';
 			$uri.= '://'.$_SERVER["HTTP_HOST"].rtrim($_SERVER["REQUEST_URI"], '/');
@@ -89,7 +92,7 @@ class Util
 	 */
 	public static function isSsl()
 	{
-		return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on');
+		return (Input::server("HTTPS") == 'on');
 	}
 
 	/**

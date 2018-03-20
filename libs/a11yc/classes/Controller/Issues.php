@@ -31,7 +31,8 @@ class Issues
 	 */
 	public static function actionAdd()
 	{
-		static::edit($is_add = true);
+		$is_add = true;
+		static::edit($is_add);
 	}
 
 	/**
@@ -168,7 +169,8 @@ class Issues
 				{
 					Session::add('messages', 'errors', A11YC_LANG_ISSUES_EDITED_FAILED);
 				}
-				$issue = Model\Issues::fetch($id, $force = 1);
+				$force = true;
+				$issue = Model\Issues::fetch($id, $force);
 			}
 		}
 
@@ -186,7 +188,6 @@ class Issues
 			$errs = Yaml::each('errors');
 			$err_id    = Input::get('err_id', '');
 
-			$techs = Yaml::each('techs');
 			$err_techs = Arr::get($errs, "{$err_id}.techs", array());
 			$techs_links = array();
 			foreach ($err_techs as $err_tech)

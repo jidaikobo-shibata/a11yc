@@ -1,6 +1,7 @@
 # a11yc
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Code Climate](https://codeclimate.com/github/jidaikobo-shibata/a11yc/badges/gpa.svg)](https://codeclimate.com/github/jidaikobo-shibata/a11yc)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jidaikobo-shibata/a11yc/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/jidaikobo-shibata/a11yc/?branch=master)
 [![Build Status](https://travis-ci.org/jidaikobo-shibata/a11yc.svg?branch=master)](https://travis-ci.org/jidaikobo-shibata/a11yc)
 
 ## screenshot

@@ -139,7 +139,8 @@ class Checklist
 			{
 				$title = Model\Html::fetchPageTitle($url);
 				Model\Pages::addPage($url, $title);
-				$page = Model\Pages::fetchPage($url, $force = true);
+				$force = true;
+				$page = Model\Pages::fetchPage($url, $force);
 				if ( ! $title)
 				{
 					Session::add(

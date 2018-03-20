@@ -66,7 +66,7 @@ class Export
 			$n = 1;
 			foreach (Validate::getErrorIds($url) as $err_code => $errs)
 			{
-				foreach ($errs as $key => $err)
+				foreach ($errs as $err)
 				{
 					// Yaml not exist
 					$current_err = array();

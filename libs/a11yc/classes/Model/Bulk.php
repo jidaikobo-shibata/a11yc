@@ -77,13 +77,15 @@ class Bulk
 
 		// insert
 		$r = false;
-		foreach (Input::postArr('chk') as $code => $check)
+		$chks = Input::postArr('chk');
+		foreach ($chks as $code => $check)
 		{
 			$sql = 'INSERT INTO '.A11YC_TABLE_BCHECKS.' (`code`, `is_checked`)';
 			$sql.= ' VALUES (?, ?);';
 			$r = Db::execute($sql, array($code, $check));
 		}
-		if ($r)
+
+		if ($r || empty($chks))
 		{
 			Session::add('messages', 'messages', A11YC_LANG_UPDATE_SUCCEED);
 			return;

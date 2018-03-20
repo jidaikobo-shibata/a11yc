@@ -63,51 +63,6 @@ class Maintenance
 	}
 
 	/**
-	 * mysql
-	 *
-	 * @param  String $path
-	 * @param  Bool $is_force
-	 * @return Void
-	 */
-	public static function mysql ($path, $is_force = FALSE)
-	{
-		// in preparation
-		return;
-
-		$backup_file = $path.'/backup_.'.date('ymd', time()).'.mysql';
-		$path = $path;
-
-		// run backup once in a day
-		if ( ! file_exists($backup_file) || $is_force)
-		{
-			$oView->clearAllCache();
-
-			// CHECK TABLEやREPAIR TABLEすべき？
-			// dump
-			$dump = "SET NAMES UTF8;\n\n";
-			/*
-				foreach(Db::getTables() as $table)
-				{
-				$dump.= Db::dump($table);
-				}
-			*/
-
-			// put file
-			if ( ! file_put_contents($backup_file, $dump))
-			{
-				Session::add('messages', 'errors', 'Auto back up was failed.');
-			}
-			else
-			{
-				Session::add('messages', 'messages', 'Auto back up was succeed.');
-			}
-
-			// garbage collection
-			static::garbage_collection($path);
-		}
-	}
-
-	/**
 	 * garbage_collection
 	 *
 	 * @param  String $path

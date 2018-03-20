@@ -260,7 +260,7 @@ class Crawl
 	 * @param  String $url
 	 * @return String
 	 */
-	public static function real_url($url, $depth = 2)
+	public static function real_url($url)
 	{
 		if (isset(static::$real_urls[$url])) return static::$real_urls[$url];
 
