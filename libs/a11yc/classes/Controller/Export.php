@@ -22,19 +22,20 @@ class Export
 	public static function actionCsv()
 	{
 		$url = Util::enuniqueUri(Input::param('url', '', FILTER_VALIDATE_URL));
-		static::cvs($url);
+		static::csv($url);
 	}
 
 	/**
-	 * cvs
+	 * csv
 	 *
 	 * @param  String $url
 	 * @return Void
 	 */
-	public static function cvs($url)
+	public static function csv($url)
 	{
 		// prepare messages
 		$yml = Yaml::fetch();
+		if ( ! \A11yc\Crawl::isPageExist($url)) Util::error();
 
 		// get Pages
 		$pages = array();
@@ -93,14 +94,14 @@ class Export
 					if ($err_code == 'notice_img_exists') continue;
 
 					// level
-					$criterion = $current_err['criterion'];
+					$criterion = $current_err['criterions'][0];
 
 					$csv[] = array(
 						$url,
 						$n,
 						$yml['criterions'][$criterion]['level']['name'],
 						$err_type,
-						Util::key2code($current_err['criterion']),
+						Util::key2code($criterion),
 						$current_err['message'],
 						$err['id'],
 						$err['str'] == $err['id'] ? '' : $err['str'],

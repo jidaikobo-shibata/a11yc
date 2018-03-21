@@ -22,8 +22,7 @@ class Update
 	public static function check()
 	{
 		// update 1.x.x -> 2.x.x
-		if (Db::isTableExist(A11YC_TABLE_PAGES) && ! Db::isTableExist(A11YC_TABLE_CACHES)
-		)
+		if (Db::isTableExist(A11YC_TABLE_SETUP_OLD) && ! Db::isTableExist(A11YC_TABLE_CACHES))
 		{
 			Update\One2Two::udpate();
 		}

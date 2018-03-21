@@ -10,6 +10,8 @@
  */
 namespace A11yc;
 
+use A11yc\Model;
+
 class Images
 {
 	/**
@@ -22,7 +24,7 @@ class Images
 	public static function getImages($url, $base_uri = '')
 	{
 		$retvals = array();
-		$str = Validate::ignoreElements(Validate::getHighLightedHtml($url));
+		$str = Validate::ignoreElements(Model\Html::getHtml($url));
 
 		// at first, get images in a
 		preg_match_all('/\<a [^\>]+\>.+?\<\/a\>/is', $str, $as);

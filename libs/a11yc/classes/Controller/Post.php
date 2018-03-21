@@ -331,7 +331,7 @@ class Post
 			// export CSV
 			if (Input::post('behaviour') == 'csv')
 			{
-				Export::cvs($url);
+				Export::csv($url);
 			}
 
 			// check or image list

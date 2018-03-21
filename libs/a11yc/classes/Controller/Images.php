@@ -19,7 +19,7 @@ class Images
 	 */
 	public static function actionView()
 	{
-		$url = Util::enuniqueUri(Input::param('url', '', FILTER_VALIDATE_URL));
+		$url = Util::enuniqueUri(Input::param('url', ''));
 		static::view($url);
 	}
 
@@ -31,7 +31,6 @@ class Images
 	 */
 	public static function view($url)
 	{
-		Validate::url($url);
 		View::assign('images', \A11yc\Images::getImages($url));
 		View::assign('title',  'Image List');
 		View::assign('body',   View::fetchTpl('checklist/images.php'), false);
