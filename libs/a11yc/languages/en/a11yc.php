@@ -351,6 +351,7 @@ define('A11YC_LANG_POST_DONE', 'Done.');
 define('A11YC_LANG_POST_DONE_POINTS', '%s Warnned Points.');
 define('A11YC_LANG_POST_DONE_NOTICE_POINTS', '%s Noitced Points.');
 define('A11YC_LANG_POST_DONE_IMAGE_LIST', 'Displaying list of images and alt. Depending on the referrer settings, images may not be displayed.');
+define('A11YC_LANG_POST_NO_IMAGES_FOUND', 'No Images found');
 
 define('A11YC_LANG_POST_DO_CHECK', 'Do Accessibility check');
 define('A11YC_LANG_POST_SHOW_LIST_IMAGES', 'Show list of images and alt');

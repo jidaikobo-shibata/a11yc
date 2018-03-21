@@ -323,6 +323,14 @@ class Post
 			{
 				Session::add('messages', 'errors', A11YC_LANG_ERROR_COULD_NOT_ESTABLISH_CONNECTION);
 			}
+
+			// images
+			if (Input::post('behaviour') == 'images')
+			{
+				$do_validate = false;
+				View::assign('images', A11yc\Images::getImages($url, $doc_root));
+				Session::add('messages', 'messages', A11YC_LANG_POST_DONE_IMAGE_LIST);
+			}
 		}
 
 		// Do Validate
@@ -334,26 +342,9 @@ class Post
 				Export::csv($url);
 			}
 
-			// check or image list
+			// check
 			$codes = Validate::$codes;
-			Validate::url($url, $codes, $ua);
-
-			// for same_urls_should_have_same_text
-			$do_validate = true;
-			if ($url)
-			{
-				if (Input::post('behaviour') == 'images')
-				{
-					$do_validate = false;
-					View::assign('images', A11yc\Images::getImages($url, $doc_root));
-					Session::add('messages', 'messages', A11YC_LANG_POST_DONE_IMAGE_LIST);
-				}
-			}
-			else
-			{
-				// unset($codes['same_urls_should_have_same_text']);
-				// Session::add('messages', 'errors', A11YC_LANG_ERROR_NO_URL_NO_CHECK_SAME);
-			}
+			Validate::html($url, $target_html, $codes, $ua);
 
 			// do validate not image list
 			if ($do_validate)
@@ -412,11 +403,11 @@ class Post
 			View::assign('do_validate'       , $do_validate);
 			if ($do_validate)
 			{
-				View::assign('result' , View::fetchTpl('checklist/validate.php'), false);
+				View::assign('result', View::fetchTpl('checklist/validate.php'), false);
 			}
 			else
 			{
-				View::assign('result' , View::fetchTpl('checklist/images.php'), false);
+				View::assign('result', View::fetchTpl('checklist/images.php'), false);
 			}
 
 			// count up for guest users
