@@ -34,7 +34,6 @@ class Export
 	public static function csv($url)
 	{
 		// prepare messages
-		$yml = Yaml::fetch();
 		if ( ! \A11yc\Crawl::isPageExist($url)) Util::error();
 
 		// get Pages
@@ -65,91 +64,8 @@ class Export
 
 			// csv
 			$n = 1;
-			foreach (Validate::getErrorIds($url) as $err_code => $errs)
-			{
-				foreach ($errs as $err)
-				{
-					// Yaml not exist
-					$current_err = array();
-					if ( ! isset($yml['errors'][$err_code]))
-					{
-						$issue = Model\Issues::fetch4Validation($url, $err['str']);
-						if ( ! $issue) return;
-						$current_err['message'] = $issue['error_message'];
-						$current_err['criterion'] = $issue['criterion'];
-						$current_err['code'] = '';
-						if ($issue['n_or_e'] == 0)
-						{
-							$current_err['notice'] = true;
-						}
-					}
-					else
-					{
-						$current_err = $yml['errors'][$err_code];
-					}
-
-					$err_type = isset($current_err['notice']) ? 'notice' : 'error';
-
-					// alt mention is not need. alt will be revealed
-					if ($err_code == 'notice_img_exists') continue;
-
-					// level
-					$criterion = $current_err['criterions'][0];
-
-					$csv[] = array(
-						$url,
-						$n,
-						$yml['criterions'][$criterion]['level']['name'],
-						$err_type,
-						Util::key2code($criterion),
-						$current_err['message'],
-						$err['id'],
-						$err['str'] == $err['id'] ? '' : $err['str'],
-					);
-					$n++;
-				}
-			}
-
-			// alt list
-			foreach (\A11yc\Images::getImages($url) as $v)
-			{
-				// message
-				$alt = Arr::get($v['attrs'], 'alt');
-				$alt_alert = '';
-
-				// important
-				if ($v['is_important'])
-				{
-					$alt_alert = A11YC_LANG_IMPORTANT;
-				}
-
-				// error
-				if ($alt === NULL)
-				{
-					$alt_alert.= A11YC_LANG_NEED_CHECK.': '.A11YC_LANG_CHECKLIST_ALT_NULL;
-				}
-				elseif (empty($alt))
-				{
-					$alt_alert.= A11YC_LANG_NEED_CHECK.': '.A11YC_LANG_CHECKLIST_ALT_EMPTY;
-				}
-				elseif ($alt == '===a11yc_alt_of_blank_chars===')
-				{
-					$alt_alert.= A11YC_LANG_NEED_CHECK.': '.A11YC_LANG_CHECKLIST_ALT_BLANK;
-				}
-
-				$csv[] = array(
-					$url,
-					$n,
-					'A',
-					'notice',
-					'1.1.1',
-					$alt_alert,
-					$v['attrs']['src'],
-					$alt,
-				);
-				$n++;
-			}
-
+			$csv = self::addErr2Csv($url, $csv, $n);
+			$csv = self::addImgs2Csv($url, $csv, $n);
 			$csv[] = array();
 		}
 
@@ -174,4 +90,116 @@ class Export
 		readfile($filepath);
 		exit();
 	}
+
+	/**
+	 * add errors to csv
+	 *
+	 * @param  String  $url
+	 * @param  Array   $csv
+	 * @param  Integer $n
+	 * @return Array
+	 */
+	private static function addErr2Csv($url, $csv, $n)
+	{
+		$yml = Yaml::fetch();
+		foreach (Validate::getErrorIds($url) as $err_code => $errs)
+		{
+			foreach ($errs as $err)
+			{
+				// Yaml not exist
+				$current_err = array();
+				if ( ! isset($yml['errors'][$err_code]))
+				{
+					$issue = Model\Issues::fetch4Validation($url, $err['str']);
+					if ( ! $issue) return;
+					$current_err['message'] = $issue['error_message'];
+					$current_err['criterion'] = $issue['criterion'];
+					$current_err['code'] = '';
+					if ($issue['n_or_e'] == 0)
+					{
+						$current_err['notice'] = true;
+					}
+				}
+				else
+				{
+					$current_err = $yml['errors'][$err_code];
+				}
+
+				$err_type = isset($current_err['notice']) ? 'notice' : 'error';
+
+				// alt mention is not need. alt will be revealed
+				if ($err_code == 'notice_img_exists') continue;
+
+				// level
+				$criterion = $current_err['criterions'][0];
+
+				$csv[] = array(
+					$url,
+					$n,
+					$yml['criterions'][$criterion]['level']['name'],
+					$err_type,
+					Util::key2code($criterion),
+					$current_err['message'],
+					$err['id'],
+					$err['str'] == $err['id'] ? '' : $err['str'],
+				);
+				$n++;
+			}
+		}
+		return $csv;
+	}
+
+
+	/**
+	 * add images to csv
+	 *
+	 * @param  String  $url
+	 * @param  Array   $csv
+	 * @param  Integer $n
+	 * @return Array
+	 */
+	private static function addImgs2Csv($url, $csv, $n)
+	{
+		// alt list
+		foreach (\A11yc\Images::getImages($url) as $v)
+		{
+			// message
+			$alt = Arr::get($v['attrs'], 'alt');
+			$alt_alert = '';
+
+			// important
+			if ($v['is_important'])
+			{
+				$alt_alert = A11YC_LANG_IMPORTANT;
+			}
+
+			// error
+			if ($alt === NULL)
+			{
+				$alt_alert.= A11YC_LANG_NEED_CHECK.': '.A11YC_LANG_CHECKLIST_ALT_NULL;
+			}
+			elseif (empty($alt))
+			{
+				$alt_alert.= A11YC_LANG_NEED_CHECK.': '.A11YC_LANG_CHECKLIST_ALT_EMPTY;
+			}
+			elseif ($alt == '===a11yc_alt_of_blank_chars===')
+			{
+				$alt_alert.= A11YC_LANG_NEED_CHECK.': '.A11YC_LANG_CHECKLIST_ALT_BLANK;
+			}
+
+			$csv[] = array(
+				$url,
+				$n,
+				'A',
+				'notice',
+				'1.1.1',
+				$alt_alert,
+				$v['attrs']['src'],
+				$alt,
+			);
+			$n++;
+		}
+		return $csv;
+	}
+
 }
