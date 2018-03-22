@@ -48,12 +48,12 @@ class Util extends \Kontiki\Util
 			$uri = $base_url.$uri;
 		}
 		// started with "./"
-		elseif (strlen($uri) >= 2 && $uri[0] == '.' && $uri[1] == '/')
+		elseif (strlen($uri) >= 2 && substr($uri, 0, 2) == './')
 		{
 			$uri = $base_url.substr($uri, 1);
 		}
 		// started with "../"
-		elseif (strlen($uri) >= 3 && $uri[0] == '.' && $uri[1] == '.' && $uri[2] == '/')
+		elseif (strlen($uri) >= 3 && substr($uri, 0, 3) == '../')
 		{
 			$strs = explode('../', $uri);
 			$uri = $base_url.'/'.end($strs);
