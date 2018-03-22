@@ -86,25 +86,24 @@ class Docs
 		{
 			$yaml = Yaml::fetch();
 			$tests = Yaml::each('tests');
-
 			$word = mb_convert_kana(trim(Input::get('s')), "as");
-
 			$r['criterions'] = array();
 			$r['tests'] = array();
+			$text = '';
+
 			foreach ($yaml['criterions'] as $v)
 			{
-				if (
-					self::wordExists($v['code'], $word) ||
-					self::wordExists($v['doc'], $word) ||
-					self::wordExists($v['guideline']['principle']['name'], $word) ||
-					self::wordExists($v['guideline']['principle']['summary'], $word) ||
-					self::wordExists($v['guideline']['summary'], $word) ||
-					self::wordExists($v['code'], $word) ||
-					self::wordExists($v['code'], str_replace('.', '-', $word)) ||
-					self::wordExists($v['summary'], $word) ||
-					self::wordExists(@$v['tech'], $word) ||
-					self::wordExists($v['name'], $word)
-				)
+				$text = '';
+				$text.= Arr::get($v, 'code', '');
+				$text.= Arr::get($v, 'doc', '');
+				$text.= Arr::get($v, 'guideline.principle.name', '');
+				$text.= Arr::get($v, 'guideline.principle.summary', '');
+				$text.= Arr::get($v, 'guideline.summary', '');
+				$text.= Arr::get($v, 'summary', '');
+				$text.= Arr::get($v, 'tech', '');
+				$text.= Arr::get($v, 'name', '');
+
+				if (self::wordExists($text, $word))
 				{
 					$r['criterions']['principles'][] = $v['guideline']['principle']['code'];
 					$r['criterions']['guidelines'][] = $v['guideline']['code'];
