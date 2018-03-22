@@ -255,15 +255,13 @@ class Db extends \Kontiki\Db
 
 		// init maintenance
 		$sql = 'CREATE TABLE '.A11YC_TABLE_MAINTENANCE.' (';
-		$sql.= '`last_checked` DATE,';
-		$sql.= '`version`      VARCHAR(10) NOT NULL';
+		$sql.= '`last_checked` DATE';
 		$sql.= ');';
 		static::execute($sql, array(), $name);
 
 		$sql = 'INSERT INTO '.A11YC_TABLE_MAINTENANCE;
-		$sql.= ' (`last_checked`, `version`) VALUES';
-		$sql.= ' ("'.date('Y-m-d').'", "'.A11YC_VERSION.'");';
-		static::execute($sql, array(), $name);
+		$sql.= ' (`last_checked`) VALUES (?);';
+		static::execute($sql, array(date('Y-m-d')), $name);
 	}
 
 	/**
