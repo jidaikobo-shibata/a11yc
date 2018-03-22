@@ -355,6 +355,7 @@ define('A11YC_LANG_POST_DONE', '検証しました');
 define('A11YC_LANG_POST_DONE_POINTS', '%s点の指摘事項があります');
 define('A11YC_LANG_POST_DONE_NOTICE_POINTS', '%s点の注意事項があります');
 define('A11YC_LANG_POST_DONE_IMAGE_LIST', '画像とaltの一覧を取得しました。リファラの設定などによっては、画像が表示されないことがあります');
+define('A11YC_LANG_POST_NO_IMAGES_FOUND', '画像が見つかりませんでした');
 
 define('A11YC_LANG_POST_BEHAVIOUR', '動作');
 define('A11YC_LANG_POST_DO_CHECK', 'アクセシビリティのチェックを行う');

@@ -9,7 +9,7 @@ if ($images):
 <ul class="a11yc_cmt">
 	<li><?php echo A11YC_LANG_CHECKLIST_IMPORTANT_EMP ?></li>
 	<li><?php echo A11YC_LANG_CHECKLIST_IMPORTANT_EMP2 ?></li>
-	<li><?php echo sprintf(A11YC_LANG_CHECKLIST_IMPORTANT_EMP3, '?a=doc&code=1-1-1b&criterion=1-1-1') ?></li>
+	<li><?php echo sprintf(A11YC_LANG_CHECKLIST_IMPORTANT_EMP3, A11YC_DOC_URL.'1-1-1') ?></li>
 </ul>
 
 <table class="a11yc_image_list" summary="Image and alt">
@@ -109,5 +109,5 @@ endforeach;
 <?php endforeach; ?>
 </table>
 <?php else:
-	echo '<p id="a11yc_validation_not_found_error"><span class="a11yc_icon_fa" role="presentation" aria-hidden="true"></span>'.A11YC_LANG_CHECKLIST_NOT_FOUND_ERR.'</p>';
+	echo '<p id="a11yc_validation_not_found_error">'.A11YC_LANG_POST_NO_IMAGES_FOUND.'</p>';
 endif; ?>
