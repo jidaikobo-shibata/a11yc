@@ -22,7 +22,7 @@ class JaWordBreakingSpace extends Validate
 	{
 		if (A11YC_LANG != 'ja') return false;
 		$str = str_replace(array("\n", "\r"), '', static::$hl_htmls[$url]);
-		$str = static::ignoreElements(static::$hl_htmls[$url]);
+		$str = Element::ignoreElements(static::$hl_htmls[$url]);
 
 		$search = '[^\x01-\x7E][ 　]{2,}[^\x01-\x7E]'; // MB+spaces+MB
 		$search.= '|[^\x01-\x7E][ 　]+[^\x01-\x7E][ 　]'; // MB+space(s)+MB+space

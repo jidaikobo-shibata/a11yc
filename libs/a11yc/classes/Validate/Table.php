@@ -20,7 +20,7 @@ class Table extends Validate
 	 */
 	public static function check($url)
 	{
-		$str = static::ignoreElements(static::$hl_htmls[$url]);
+		$str = Element::ignoreElements(static::$hl_htmls[$url]);
 
 		preg_match_all('/\<table[^\>]*?\>.+?\<\/table\>/ims', $str, $ms);
 
@@ -29,7 +29,7 @@ class Table extends Validate
 		$n = 0;
 		foreach ($ms[0] as $n => $m)
 		{
-			$attrs = static::getAttributes($m);
+			$attrs = Element::getAttributes($m);
 			if (Arr::get($attrs, 'role') == 'presentation') continue;
 
 			preg_match('/\<table[^\>]*?\>/i', $m, $table_tag);

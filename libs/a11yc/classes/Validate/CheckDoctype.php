@@ -22,7 +22,7 @@ class CheckDoctype extends Validate
 	{
 		if (Validate::isPartial() == true) return;
 
-		if (is_null(static::getDoctype($url)))
+		if (is_null(Element::getDoctype($url)))
 		{
 			static::$error_ids[$url]['check_doctype'][0]['id'] = false;
 			static::$error_ids[$url]['check_doctype'][0]['str'] = 'doctype not found';

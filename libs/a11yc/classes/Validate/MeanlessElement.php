@@ -20,7 +20,7 @@ class MeanlessElement extends Validate
 	 */
 	public static function check($url)
 	{
-		$str = static::ignoreElements(static::$hl_htmls[$url]);
+		$str = Element::ignoreElements(static::$hl_htmls[$url]);
 
 		$banneds = array(
 			'big',
@@ -37,7 +37,7 @@ class MeanlessElement extends Validate
 			'basefont',
 		);
 
-		$ms = static::getElementsByRe($str, 'ignores', 'tags');
+		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 
 		$n = 0;

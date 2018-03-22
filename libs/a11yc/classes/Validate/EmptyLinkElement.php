@@ -20,9 +20,9 @@ class EmptyLinkElement extends Validate
 	 */
 	public static function check($url)
 	{
-		$str = static::ignoreElements(static::$hl_htmls[$url]);
+		$str = Element::ignoreElements(static::$hl_htmls[$url]);
 
-		$ms = static::getElementsByRe($str, 'ignores', 'anchors_and_values');
+		$ms = Element::getElementsByRe($str, 'ignores', 'anchors_and_values');
 		if ( ! $ms[1]) return;
 
 		foreach ($ms[0] as $k => $m)
@@ -37,7 +37,7 @@ class EmptyLinkElement extends Validate
 				foreach ($imgs as $img)
 				{
 					if (strpos($img, 'img') === false) continue;
-					$attrs = static::getAttributes($img.">");
+					$attrs = Element::getAttributes($img.">");
 
 					foreach ($attrs as $kk => $vv)
 					{

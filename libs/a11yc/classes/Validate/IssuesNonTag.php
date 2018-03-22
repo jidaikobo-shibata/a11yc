@@ -22,7 +22,7 @@ class IssuesNonTag extends Validate
 	 */
 	public static function check($url)
 	{
-		$str = static::ignoreElements(static::$hl_htmls[$url]);
+		$str = Element::ignoreElements(static::$hl_htmls[$url]);
 		$n = 0;
 		foreach (Model\Issues::fetchByUrl($url) as $v)
 		{

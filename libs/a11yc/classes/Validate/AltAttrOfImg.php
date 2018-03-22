@@ -20,15 +20,15 @@ class AltAttrOfImg extends Validate
 	 */
 	public static function check($url)
 	{
-		$str = static::ignoreElements(static::$hl_htmls[$url]);
+		$str = Element::ignoreElements(static::$hl_htmls[$url]);
 
-		$ms = static::getElementsByRe($str, 'ignores', 'imgs');
+		$ms = Element::getElementsByRe($str, 'ignores', 'imgs');
 		if ( ! $ms[1]) return;
 
 		foreach ($ms[1] as $k => $m)
 		{
 			// alt_attr_of_img
-			$attrs = static::getAttributes($m);
+			$attrs = Element::getAttributes($m);
 			if ( ! array_key_exists('alt', $attrs))
 			{
 				static::$error_ids[$url]['alt_attr_of_img'][$k]['id'] = $ms[0][$k];

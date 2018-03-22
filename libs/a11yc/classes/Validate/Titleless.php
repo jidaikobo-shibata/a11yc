@@ -22,10 +22,10 @@ class Titleless extends Validate
 	{
 		if (Validate::isPartial() == true) return;
 
-		$str = static::ignoreElements(static::$hl_htmls[$url]);
+		$str = Element::ignoreElements(static::$hl_htmls[$url]);
 
 		// to locate first element at the error
-		$ms = static::getElementsByRe($str, 'ignores', 'tags');
+		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
 
 		if (
 			strpos(strtolower($str), '<title') === false || // lacknesss of title element

@@ -20,8 +20,8 @@ class FormAndLabels extends Validate
 	 */
 	public static function check($url)
 	{
-		$str = static::ignoreElements(static::$hl_htmls[$url]);
-		$ms = static::getElementsByRe($str, 'ignores', 'tags');
+		$str = Element::ignoreElements(static::$hl_htmls[$url]);
+		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[1]) return;
 
 		// is form exists?
@@ -76,7 +76,7 @@ class FormAndLabels extends Validate
 				$forms[$n]['eles'][] = $ms[1][$k];
 			}
 
-			$attrs = static::getAttributes($m);
+			$attrs = Element::getAttributes($m);
 			if (isset($attrs['for']))  $forms[$n]['fors'][] = $attrs['for'];
 			if (isset($attrs['id']))   $forms[$n]['ids'][] = $attrs['id'];
 			if (isset($attrs['type'])) $forms[$n]['types'][] = $attrs['type'];
@@ -110,7 +110,7 @@ class FormAndLabels extends Validate
 			}
 
 			// get action attribute to tell user which form cause error
-			$attrs = static::getAttributes($v['form']);
+			$attrs = Element::getAttributes($v['form']);
 			$action = isset($attrs['action']) ? $attrs['action'] : $k;
 
 			// labelless
@@ -159,10 +159,10 @@ class FormAndLabels extends Validate
 					$alt = '';
 					if (strpos($each_label, '<img') !== false)
 					{
-						$mms = static::getElementsByRe($each_label, 'ignores', 'imgs', true);
+						$mms = Element::getElementsByRe($each_label, 'ignores', 'imgs', true);
 						foreach ($mms[0] as $in_img)
 						{
-							$attrs = static::getAttributes($in_img);
+							$attrs = Element::getAttributes($in_img);
 							foreach ($attrs as $kk => $vv)
 							{
 								if (strpos($kk, 'alt') !== false)
@@ -194,7 +194,7 @@ class FormAndLabels extends Validate
 				$name_arrs = array();
 				foreach ($names[0] as $tag)
 				{
-					$attrs = static::getAttributes($tag);
+					$attrs = Element::getAttributes($tag);
 					if ( ! isset($attrs['name'])) continue;
 					if (strpos($tag, 'checkbox') !== false || strpos($tag, 'radio') !== false) continue;
 					if (in_array($attrs['name'], $name_arrs))
@@ -221,7 +221,7 @@ class FormAndLabels extends Validate
 						$ele_types = array();
 						foreach ($mmms[0] as $ele)
 						{
-							$ele_attrs = static::getAttributes($ele);
+							$ele_attrs = Element::getAttributes($ele);
 							if ( ! isset($ele_attrs['type'])) continue;
 							if (strtolower($ele_attrs['type']) == 'hidden') continue;
 							$ele_types[] = $ele_attrs['type'];

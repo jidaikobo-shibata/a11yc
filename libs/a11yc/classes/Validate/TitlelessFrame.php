@@ -20,14 +20,14 @@ class TitlelessFrame extends Validate
 	 */
 	public static function check($url)
 	{
-		$str = static::ignoreElements(static::$hl_htmls[$url]);
-		$ms = static::getElementsByRe($str, 'ignores', 'tags');
+		$str = Element::ignoreElements(static::$hl_htmls[$url]);
+		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 
 		foreach ($ms[0] as $k => $v)
 		{
 			if ($ms[1][$k] != 'frame' && $ms[1][$k] != 'iframe') continue;
-			$attrs = static::getAttributes($v);
+			$attrs = Element::getAttributes($v);
 
 			if ( ! trim(Arr::get($attrs, 'title')))
 			{

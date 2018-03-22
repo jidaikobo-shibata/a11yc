@@ -20,23 +20,23 @@ class EmptyAltAttrOfImgInsideA extends Validate
 	 */
 	public static function check($url)
 	{
-		$str = static::ignoreElements(static::$hl_htmls[$url]);
+		$str = Element::ignoreElements(static::$hl_htmls[$url]);
 
-		$ms = static::getElementsByRe($str, 'ignores', 'anchors_and_values');
+		$ms = Element::getElementsByRe($str, 'ignores', 'anchors_and_values');
 		if ( ! $ms[2]) return;
 
 		foreach ($ms[2] as $k => $m)
 		{
 			if (strpos($m, '<img') === false) continue; // without image
-			if (static::isIgnorable($ms[0][$k])) continue; // ignorable
+			if (Element::isIgnorable($ms[0][$k])) continue; // ignorable
 			$t = trim(strip_tags($m)); // php <= 5.5 cannot use function return value
 			if ( ! empty($t)) continue; // not image only
 
-			$mms = static::getElementsByRe($m, 'ignores', 'imgs', true);
+			$mms = Element::getElementsByRe($m, 'ignores', 'imgs', true);
 			$alt = '';
 			foreach ($mms[0] as $in_img)
 			{
-				$attrs = static::getAttributes($in_img);
+				$attrs = Element::getAttributes($in_img);
 				foreach ($attrs as $kk => $vv)
 				{
 					if (strpos($kk, 'alt') !== false)

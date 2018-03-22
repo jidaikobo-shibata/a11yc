@@ -20,9 +20,9 @@ class NoticeNonHtmlExists extends Validate
 	 */
 	public static function check($url)
 	{
-		$str = static::ignoreElements(static::$hl_htmls[$url]);
+		$str = Element::ignoreElements(static::$hl_htmls[$url]);
 
-		$ms = static::getElementsByRe($str, 'ignores', 'anchors_and_values');
+		$ms = Element::getElementsByRe($str, 'ignores', 'anchors_and_values');
 		if ( ! $ms[1]) return;
 
 		$suspicious = array(

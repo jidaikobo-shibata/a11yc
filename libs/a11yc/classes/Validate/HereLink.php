@@ -19,8 +19,8 @@ class HereLink extends Validate
 	 */
 	public static function check($url)
 	{
-		$str = static::ignoreElements(static::$hl_htmls[$url]);
-		$ms = static::getElementsByRe($str, 'ignores', 'anchors_and_values');
+		$str = Element::ignoreElements(static::$hl_htmls[$url]);
+		$ms = Element::getElementsByRe($str, 'ignores', 'anchors_and_values');
 		if ( ! $ms[2]) return;
 
 		$heres = array_map('trim', explode(',', A11YC_LANG_HERE));

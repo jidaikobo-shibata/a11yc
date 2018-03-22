@@ -19,15 +19,15 @@ class AreaHasAlt extends Validate
 	 */
 	public static function check($url)
 	{
-		$str = static::ignoreElements(static::$hl_htmls[$url]);
+		$str = Element::ignoreElements(static::$hl_htmls[$url]);
 
-		$ms = static::getElementsByRe($str, 'ignores', 'tags');
+		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 
 		foreach ($ms[0] as $k => $m)
 		{
 			if (substr($m, 0, 5) !== '<area') continue;
-			$attrs = static::getAttributes($m);
+			$attrs = Element::getAttributes($m);
 			if ( ! isset($attrs['alt']) || empty($attrs['alt']))
 			{
 				static::$error_ids[$url]['area_has_alt'][$k]['id'] = $ms[0][$k];

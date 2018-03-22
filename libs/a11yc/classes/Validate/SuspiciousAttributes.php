@@ -20,14 +20,14 @@ class SuspiciousAttributes extends Validate
 	 */
 	public static function check($url)
 	{
-		$str = static::ignoreElements(static::$hl_htmls[$url]);
+		$str = Element::ignoreElements(static::$hl_htmls[$url]);
 
-		$ms = static::getElementsByRe($str, 'ignores', 'tags');
+		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 
 		foreach ($ms[0] as $k => $m)
 		{
-			$attrs = static::getAttributes($m);
+			$attrs = Element::getAttributes($m);
 
 			// suspicious attributes
 			if (isset($attrs['suspicious']))

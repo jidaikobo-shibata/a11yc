@@ -19,8 +19,8 @@ class MustBeNumericAttr extends Validate
 	 */
 	public static function check($url)
 	{
-		$str = static::ignoreElements(static::$hl_htmls[$url]);
-		$ms = static::getElementsByRe($str, 'ignores', 'tags');
+		$str = Element::ignoreElements(static::$hl_htmls[$url]);
+		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 
 		$targets = array(
@@ -31,7 +31,7 @@ class MustBeNumericAttr extends Validate
 
 		foreach ($ms[0] as $k => $v)
 		{
-			$attrs = static::getAttributes($v);
+			$attrs = Element::getAttributes($v);
 
 			foreach ($attrs as $attr => $val)
 			{

@@ -20,15 +20,15 @@ class InvalidTag extends Validate
 	 */
 	public static function check($url)
 	{
-		$str = static::ignoreElements(static::$hl_htmls[$url]);
-		$ms = static::getElementsByRe($str, 'ignores', 'tags');
+		$str = Element::ignoreElements(static::$hl_htmls[$url]);
+		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 
 		foreach ($ms[0] as $k => $m)
 		{
 			// newline character must not exists in attr
 			// thx https://twitter.com/sbtnbfm/status/948881557233713152
-			$attrs = static::getAttributes($m);
+			$attrs = Element::getAttributes($m);
 
 			foreach ($attrs as $val)
 			{

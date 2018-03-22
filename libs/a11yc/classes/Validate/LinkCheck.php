@@ -22,8 +22,8 @@ class LinkCheck extends Validate
 	{
 		if (Validate::doLinkCheck() == false) return;
 
-		$str = static::ignoreElements(static::$hl_htmls[$url]);
-		$ms = static::getElementsByRe($str, 'ignores', 'tags');
+		$str = Element::ignoreElements(static::$hl_htmls[$url]);
+		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 
 		// candidates
@@ -43,7 +43,7 @@ class LinkCheck extends Validate
 			$ele = $ms[1][$k];
 
 			if ( ! in_array($ele, $checks)) continue;
-			$attrs = static::getAttributes($tag);
+			$attrs = Element::getAttributes($tag);
 
 			if (isset($attrs['href']))
 			{
@@ -83,7 +83,7 @@ class LinkCheck extends Validate
 			}
 
 			// correct url
-			if (static::isIgnorable($tag)) continue;
+			if (Element::isIgnorable($tag)) continue;
 
 			$url = Util::enuniqueUri($url);
 

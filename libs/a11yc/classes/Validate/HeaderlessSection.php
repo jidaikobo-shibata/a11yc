@@ -20,7 +20,7 @@ class HeaderlessSection extends Validate
 	 */
 	public static function check($url)
 	{
-		$str = static::ignoreElements(static::$hl_htmls[$url]);
+		$str = Element::ignoreElements(static::$hl_htmls[$url]);
 
 		preg_match_all("/\<section[^\>]*?\>(.+?)\<\/section\>/is", $str, $secs);
 

@@ -20,8 +20,8 @@ class TellUserFileType extends Validate
 	 */
 	public static function check($url)
 	{
-		$str = static::ignoreElements(static::$hl_htmls[$url]);
-		$ms = static::getElementsByRe($str, 'ignores', 'anchors_and_values');
+		$str = Element::ignoreElements(static::$hl_htmls[$url]);
+		$ms = Element::getElementsByRe($str, 'ignores', 'anchors_and_values');
 		if ( ! $ms[1]) return;
 
 		$suspicious = array(
@@ -43,7 +43,7 @@ class TellUserFileType extends Validate
 				$m = str_replace("'", '"', $m);
 				if (strpos($m, '.'.$vv.'"') !== false)
 				{
-					$attrs = static::getAttributes($m);
+					$attrs = Element::getAttributes($m);
 
 					if ( ! isset($attrs['href'])) continue;
 					$href = strtolower($attrs['href']);

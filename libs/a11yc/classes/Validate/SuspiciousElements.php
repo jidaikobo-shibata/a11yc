@@ -20,7 +20,7 @@ class SuspiciousElements extends Validate
 	 */
 	public static function check($url)
 	{
-		$str = static::ignoreElements(static::$hl_htmls[$url]);
+		$str = Element::ignoreElements(static::$hl_htmls[$url]);
 
 		// tags
 		preg_match_all("/\<([^\> \n]+)/i", $str, $tags);

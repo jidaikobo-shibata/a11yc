@@ -61,7 +61,7 @@ class Images
 		foreach ($as[0] as $v)
 		{
 			// link
-			$attrs = static::getAttributes($v);
+			$attrs = Element::getAttributes($v);
 			$retvals[$n]['element'] = 'area';
 			$retvals[$n]['is_important'] = true;
 			$retvals[$n]['href'] = Arr::get($attrs, 'href');
@@ -79,7 +79,7 @@ class Images
 			if (strpos($v, '<img ') === false) continue;
 
 			// link
-			$attrs = static::getAttributes($v);
+			$attrs = Element::getAttributes($v);
 			$aria_hidden = Arr::get($attrs, 'aria-hidden');
 			$tabindex = Arr::get($attrs, 'tabindex');
 
@@ -92,7 +92,7 @@ class Images
 				$retvals[$n]['is_important'] = 1;
 				$retvals[$n]['aria_hidden'] = $aria_hidden;
 				$retvals[$n]['tabindex'] = $tabindex;
-				$retvals[$n]['attrs'] = static::getAttributes($vv);
+				$retvals[$n]['attrs'] = Element::getAttributes($vv);
 				$n++;
 			}
 

@@ -23,16 +23,16 @@ class SameUrlsShouldHaveSameText extends Validate
 	public static function check($url)
 	{
 		// urls
-		$str = static::ignoreElements(static::$hl_htmls[$url]);
-		$ms = static::getElementsByRe($str, 'ignores', 'anchors_and_values');
+		$str = Element::ignoreElements(static::$hl_htmls[$url]);
+		$ms = Element::getElementsByRe($str, 'ignores', 'anchors_and_values');
 		if ( ! $ms[1]) return;
 
 		$urls = array();
 		foreach ($ms[1] as $k => $v)
 		{
-			if (static::isIgnorable($ms[0][$k])) continue;
+			if (Element::isIgnorable($ms[0][$k])) continue;
 
-			$attrs = static::getAttributes($v);
+			$attrs = Element::getAttributes($v);
 
 			if ( ! isset($attrs['href'])) continue;
 			$each_url = Util::enuniqueUri($attrs['href']);

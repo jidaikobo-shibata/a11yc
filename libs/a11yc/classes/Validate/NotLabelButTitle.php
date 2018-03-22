@@ -19,8 +19,8 @@ class NotLabelButTitle extends Validate
 	 */
 	public static function check($url)
 	{
-		$str = static::ignoreElements(static::$hl_htmls[$url]);
-		$ms = static::getElementsByRe($str, 'ignores', 'tags');
+		$str = Element::ignoreElements(static::$hl_htmls[$url]);
+		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 
 		// labels_eles
@@ -30,7 +30,7 @@ class NotLabelButTitle extends Validate
 		{
 			if ( ! in_array($m, array('label', 'input', 'textarea', 'select'))) continue;
 
-			$attrs = static::getAttributes($ms[0][$k]);
+			$attrs = Element::getAttributes($ms[0][$k]);
 			if ($m == 'label')
 			{
 				$eles[$k]['tag'] = $ms[0][$k];
