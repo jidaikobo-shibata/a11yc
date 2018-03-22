@@ -15,6 +15,7 @@ class Element
 	protected static $first_tag = '';
 	protected static $ignored_str = '';
 	protected static $res = array();
+	protected static $attrs = array();
 
 	public static $ignores = array(
 		"/\<script.+?\<\/script\>/si",
@@ -25,6 +26,52 @@ class Element
 	public static $ignores_comment_out = array(
 		"/\<!--.+?--\>/si",
 	);
+
+	protected static $ruled_attrs = array(
+			'accept', 'accept-charset', 'accesskey', 'action', 'align', 'alt',
+			'async', 'autocomplete', 'autofocus', 'autoplay', 'bgcolor', 'border',
+			'buffered', 'challenge', 'charset', 'checked', 'cite', 'class', 'code',
+			'codebase', 'color', 'cols', 'colspan', 'content', 'contenteditable',
+			'contextmenu', 'controls', 'coords', 'data', 'datetime', 'default',
+			'defer', 'dir', 'dirname', 'disabled', 'draggable', 'dropzone', 'enctype',
+			'for', 'form', 'headers', 'height', 'hidden', 'high', 'href', 'hreflang',
+			'http-equiv', 'icon', 'id', 'ismap', 'itemprop', 'keytype', 'kind',
+			'label', 'lang', 'language', 'list', 'loop', 'low', 'manifest', 'max',
+			'maxlength', 'media', 'method', 'min', 'multiple', 'name', 'novalidate',
+			'open', 'optimum', 'pattern', 'ping', 'placeholder', 'poster', 'preload',
+			'pubdate', 'radiogroup', 'readonly', 'rel', 'required', 'reversed',
+			'rows', 'rowspan', 'sandbox', 'spellcheck', 'scope', 'scoped', 'seamless',
+			'selected', 'shape', 'size', 'sizes', 'span', 'src', 'srcdoc', 'srclang',
+			'start', 'step', 'style', 'summary', 'tabindex', 'target', 'title',
+			'type', 'usemap', 'value', 'width', 'wrap',
+
+			// ?
+			'cellspacing', 'cellpadding',
+
+			// header
+			'xmlns', 'rev', 'profile', 'property', 'role', 'prefix', 'itemscope', 'xml:lang',
+
+			// JavaScript
+			'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown',
+			'onmouseup', 'onmouseover', 'onmouseout', 'onmousemove', 'onload', 'onunload',
+			'onfocus', 'onblur', 'onsubmit', 'onreset', 'onchange', 'onresize', 'onmove',
+			'ondragdrop', 'onabort', 'onerror', 'onselect',
+		);
+
+		// variables
+		protected static $double = '"';
+		protected static $single = "'";
+		protected static $quoted_double = '[---a11yc_quoted_double---]';
+		protected static $quoted_single = '[---a11yc_quoted_open---]';
+		protected static $open_double   = '[---a11yc_open_double---]';
+		protected static $close_double  = '[---a11yc_close_double---]';
+		protected static $open_single   = '[---a11yc_open_single---]';
+		protected static $close_single  = '[---a11yc_close_single---]';
+		protected static $inner_double  = '[---a11yc_inner_double---]';
+		protected static $inner_single  = '[---a11yc_inner_single---]';
+		protected static $inner_space   = '[---a11yc_inner_space---]';
+		protected static $inner_equal   = '[---a11yc_inner_equal---]';
+		protected static $inner_newline = '[---a11yc_inner_newline---]';
 
 	/**
 	 * is_ignorable
@@ -114,49 +161,13 @@ class Element
 	}
 
 	/**
-	 * getAttributes
+	 * get first tag
 	 *
 	 * @param  String $str
-	 * @return Array
+	 * @return String
 	 */
-	public static function getAttributes($str)
+	public static function getFirstTag($str)
 	{
-		static $retvals = array();
-		if (isset($retvals[$str])) return $retvals[$str];
-		$keep = $str;
-
-		static $ruled_attrs = array(
-			'accept', 'accept-charset', 'accesskey', 'action', 'align', 'alt',
-			'async', 'autocomplete', 'autofocus', 'autoplay', 'bgcolor', 'border',
-			'buffered', 'challenge', 'charset', 'checked', 'cite', 'class', 'code',
-			'codebase', 'color', 'cols', 'colspan', 'content', 'contenteditable',
-			'contextmenu', 'controls', 'coords', 'data', 'datetime', 'default',
-			'defer', 'dir', 'dirname', 'disabled', 'draggable', 'dropzone', 'enctype',
-			'for', 'form', 'headers', 'height', 'hidden', 'high', 'href', 'hreflang',
-			'http-equiv', 'icon', 'id', 'ismap', 'itemprop', 'keytype', 'kind',
-			'label', 'lang', 'language', 'list', 'loop', 'low', 'manifest', 'max',
-			'maxlength', 'media', 'method', 'min', 'multiple', 'name', 'novalidate',
-			'open', 'optimum', 'pattern', 'ping', 'placeholder', 'poster', 'preload',
-			'pubdate', 'radiogroup', 'readonly', 'rel', 'required', 'reversed',
-			'rows', 'rowspan', 'sandbox', 'spellcheck', 'scope', 'scoped', 'seamless',
-			'selected', 'shape', 'size', 'sizes', 'span', 'src', 'srcdoc', 'srclang',
-			'start', 'step', 'style', 'summary', 'tabindex', 'target', 'title',
-			'type', 'usemap', 'value', 'width', 'wrap',
-
-			// ?
-			'cellspacing', 'cellpadding',
-
-			// header
-			'xmlns', 'rev', 'profile', 'property', 'role', 'prefix', 'itemscope', 'xml:lang',
-
-			// JavaScript
-			'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown',
-			'onmouseup', 'onmouseover', 'onmouseout', 'onmousemove', 'onload', 'onunload',
-			'onfocus', 'onblur', 'onsubmit', 'onreset', 'onchange', 'onresize', 'onmove',
-			'ondragdrop', 'onabort', 'onerror', 'onselect',
-		);
-
-		// first tag only
 		$str = trim($str);
 		if (strpos($str, '<') !== false)
 		{
@@ -169,78 +180,57 @@ class Element
 		// blankless
 		$str = str_replace('/>', ' />', $str);
 
-		// variables
-		$double = '"';
-		$single = "'";
-		$quoted_double = '[---a11yc_quoted_double---]';
-		$quoted_single = '[---a11yc_quoted_open---]';
-		$open_double   = '[---a11yc_open_double---]';
-		$close_double  = '[---a11yc_close_double---]';
-		$open_single   = '[---a11yc_open_single---]';
-		$close_single  = '[---a11yc_close_single---]';
-		$inner_double  = '[---a11yc_inner_double---]';
-		$inner_single  = '[---a11yc_inner_single---]';
-		$inner_space   = '[---a11yc_inner_space---]';
-		$inner_equal   = '[---a11yc_inner_equal---]';
-		$inner_newline = '[---a11yc_inner_newline---]';
+		return $str;
+	}
 
+	/**
+	 * prepare strings
+	 *
+	 * @param  String $str
+	 * @return Array
+	 */
+	public static function prepareStrings($str)
+	{
 		// escaped quote
 		$str = str_replace(
 			array("\\'", '\\"'),
-			array($quoted_single, $quoted_double),
-			$str);
-
-		// start with which?
-		$d_offset = mb_strpos($str, '"', 0, 'UTF-8');
-		$s_offset = mb_strpos($str, "'", 0, 'UTF-8');
-
-		$ex_order = array();
-		if ($d_offset && $s_offset)
-		{
-			$ex_order = $d_offset < $s_offset ? array('"', "'") : array("'", '"');
-		}
-		else if($d_offset)
-		{
-			$ex_order = array('"');
-		}
-		else if($s_offset)
-		{
-			$ex_order = array("'");
-		}
+			array(self::$quoted_single, self::$quoted_double),
+			$str
+		);
 
 		$suspicious_end_quote = false;
 
 		$loop = true;
 		while($loop)
 		{
-			// start with which?
+			// start with which quotation?
 			$d_offset = mb_strpos($str, '"', 0, 'UTF-8');
 			$s_offset = mb_strpos($str, "'", 0, 'UTF-8');
 
 			$target = '';
 			if ($d_offset && $s_offset)
 			{
-				$target = $d_offset < $s_offset ? $double : $single;
+				$target = $d_offset < $s_offset ? self::$double : self::$single;
 			}
 			else if($d_offset)
 			{
-				$target = $double;
+				$target = self::$double;
 			}
 			else if($s_offset)
 			{
-				$target = $single;
+				$target = self::$single;
 			}
 			else
 			{
 				$loop = false;
 				break;
 			}
-			$opp = $target == $double ? $single : $double;
+			$opp = $target == self::$double ? self::$single : self::$double;
 
 			// quote
-			$open = $target == $double ? $open_double : $open_single;
-			$close = $target == $double ? $close_double : $close_single;
-			$inner = $target == $double ? $inner_single : $inner_double;
+			$open = $target == self::$double ? self::$open_double : self::$open_single;
+			$close = $target == self::$double ? self::$close_double : self::$close_single;
+			$inner = $target == self::$double ? self::$inner_single : self::$inner_double;
 
 			// search open quote
 			if ($open_pos = mb_strpos($str, $target, 0, 'UTF-8'))
@@ -259,7 +249,7 @@ class Element
 				$search = mb_substr($str, $open_pos, $close_pos - $open_pos + 1, 'UTF-8');
 				$replace = str_replace(
 					array($target, $opp, ' ', '=', "\n", "\r"),
-					array('', $inner, $inner_space, $inner_equal, $inner_newline, $inner_newline),
+					array('', $inner, self::$inner_space, self::$inner_equal, self::$inner_newline, self::$inner_newline),
 					$search);
 				$replace = $open.$replace.$close;
 				// replace value
@@ -270,8 +260,19 @@ class Element
 		$str = preg_replace("/ {2,}/", " ", $str); // remove plural spaces
 		$str = preg_replace("/ *?= */", "=", $str); // remove plural spaces
 		$str = str_replace(array("\n", "\r"), " ", $str); // newline to blank
-		$attrs = array();
 
+		return array($str, $suspicious_end_quote);
+	}
+
+	/**
+	 * explode Strings
+	 *
+	 * @param  String $str
+	 * @return Array
+	 */
+	public static function explodeStrings($str)
+	{
+		$attrs = array();
 		foreach (explode(' ', $str) as $k => $v)
 		{
 			$v = trim($v, '>');
@@ -292,17 +293,17 @@ class Element
 
 			$val = str_replace(
 				array(
-					$quoted_double,
-					$quoted_single,
-					$open_double,
-					$close_double,
-					$open_single,
-					$close_single,
-					$inner_double,
-					$inner_single,
-					$inner_space,
-					$inner_equal,
-					$inner_newline
+					self::$quoted_double,
+					self::$quoted_single,
+					self::$open_double,
+					self::$close_double,
+					self::$open_single,
+					self::$close_single,
+					self::$inner_double,
+					self::$inner_single,
+					self::$inner_space,
+					self::$inner_equal,
+					self::$inner_newline
 				),
 				array(
 					'\\"',
@@ -322,7 +323,7 @@ class Element
 
 			// valid attributes
 			if (
-				in_array($key, $ruled_attrs) ||
+				in_array($key, self::$ruled_attrs) ||
 				substr($key, 0, 5) == 'aria-' ||
 				substr($key, 0, 5) == 'data-' ||
 				substr($key, 0, 4) == 'xml:'
@@ -342,10 +343,34 @@ class Element
 				$attrs['suspicious'][$k] = trim($key, "'");
 			}
 		}
-		$attrs['suspicious_end_quote'] = $suspicious_end_quote;
-		$retvals[$keep] = $attrs;
+		return $attrs;
+	}
 
-		return $retvals[$keep];
+	/**
+	 * getAttributes
+	 *
+	 * @param  String $str
+	 * @return Array
+	 */
+	public static function getAttributes($str)
+	{
+		if (isset(static::$attrs[$str])) return static::$attrs[$str];
+		$keep = $str;
+
+		// first tag only
+		$str = self::getFirstTag($str);
+
+		// prepare strings
+		list($str, $suspicious_end_quote) = self::prepareStrings($str);
+
+		// explode strings
+		$attrs = self::explodeStrings($str);
+
+		// suspicious_end_quote
+		$attrs['suspicious_end_quote'] = $suspicious_end_quote;
+		static::$attrs[$keep] = $attrs;
+
+		return $attrs;
 	}
 
 	/**
