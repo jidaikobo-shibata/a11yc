@@ -239,12 +239,11 @@ class Css
 		return Util::urldec($url);
 	}
 
-
 	/**
 	 * makeArray
 	 *
 	 * @param  String $css
-	 * @return String
+	 * @return Array
 	 */
 	private static function makeArray($css)
 	{
@@ -293,59 +292,12 @@ class Css
 				$properties = trim($properties);
 				if (empty($selectors) || empty($properties)) continue;
 
-				// divide selector
-				if (strpos($selectors, ',') !== false)
-				{
-					$each_selectors = explode(',', $selectors);
-					$each_selectors = array_map('trim', $each_selectors);
-				}
-				else
-				{
-					$each_selectors = array(trim($selectors));
-				}
-
-				// divide properties
-				if (strpos($properties, ';') !== false)
-				{
-					$each_properties = explode(';', $properties);
-					$each_properties = array_map('trim', $each_properties);
-				}
-				else
-				{
-					$each_properties = array(trim($properties));
-				}
+				// divide selector and properties
+				$each_selectors  = self::divideStrs($selectors, ',');
+				$each_properties = self::divideStrs($properties, ';');
 
 				// divide each properties
-				$props = array();
-				foreach ($each_properties as $prop_and_val)
-				{
-					$prop_and_val = trim($prop_and_val);
-					if (
-						strpos($prop_and_val, ':') !== false // property does't have colon
-					)
-					{
-						$prop_and_vals = explode(':', $prop_and_val);
-						$prop_and_vals = array_map('trim', $prop_and_vals);
-					}
-					else if( ! empty($prop_and_val))
-					{
-						static::$suspicious_prop_and_vals[] = $prop_and_val;
-						continue;
-					}
-
-					// suspicious properties
-					if ( ! in_array($prop_and_vals[0], static::$css_props))
-					{
-						static::$suspicious_props[] = $prop_and_vals[0];
-					}
-
-					if ( ! preg_match('/^[a-zA-Z0-9! \.,\(\)\/#"\'%_+\\\-]+$/', $prop_and_vals[1]))
-					{
-						static::$suspicious_val_prop[] = array($prop_and_vals[0], $prop_and_vals[1]);
-					}
-
-					$props[$prop_and_vals[0]] = $prop_and_vals[1];
-				}
+				$props = self::divideEachProperties($each_properties);
 
 				foreach ($each_selectors as $each_selector)
 				{
@@ -371,5 +323,66 @@ class Css
 		}
 
 		return $rets;
+	}
+
+	/**
+	 * divideStr
+	 *
+	 * @param  String $strs
+	 * @param  String $delimiter
+	 * @return Array
+	 */
+	private static function divideStrs($strs, $delimiter)
+	{
+		if (strpos($strs, $delimiter) !== false)
+		{
+			$each_strs = explode($delimiter, $strs);
+			$each_strs = array_map('trim', $each_strs);
+		}
+		else
+		{
+			$each_strs = array(trim($strs));
+		}
+		return $each_strs;
+	}
+	/**
+	 * divide each properties
+	 *
+	 * @param  Array $each_properties
+	 * @return Array
+	 */
+	private static function divideEachProperties($each_properties)
+	{
+		$props = array();
+		foreach ($each_properties as $prop_and_val)
+		{
+			$prop_and_val = trim($prop_and_val);
+
+			// property does't have colon
+			if (strpos($prop_and_val, ':') !== false)
+			{
+				$prop_and_vals = explode(':', $prop_and_val);
+				$prop_and_vals = array_map('trim', $prop_and_vals);
+			}
+			else if( ! empty($prop_and_val))
+			{
+				static::$suspicious_prop_and_vals[] = $prop_and_val;
+				continue;
+			}
+
+			// suspicious properties
+			if ( ! in_array($prop_and_vals[0], static::$css_props))
+			{
+				static::$suspicious_props[] = $prop_and_vals[0];
+			}
+
+			if ( ! preg_match('/^[a-zA-Z0-9! \.,\(\)\/#"\'%_+\\\-]+$/', $prop_and_vals[1]))
+			{
+				static::$suspicious_val_prop[] = array($prop_and_vals[0], $prop_and_vals[1]);
+			}
+
+			$props[$prop_and_vals[0]] = $prop_and_vals[1];
+		}
+		return $props;
 	}
 }
