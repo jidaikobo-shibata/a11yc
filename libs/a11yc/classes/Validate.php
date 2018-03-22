@@ -335,20 +335,29 @@ class Validate
 	{
 		$attrs = static::getAttributes($str);
 
+		// Strictly this is not so correct. but it seems be considered.
 		if (
-			// Strictly this is not so correct. but it seems be considered.
 			(isset($attrs['tabindex']) && $attrs['tabindex'] = -1) ||
-			(isset($attrs['aria-hidden']) && $attrs['tabindex'] = 'true') ||
-
-			// occasionally JavaScript provides function by id or class.
-			(isset($attrs['href']) && strpos($attrs['href'], 'javascript') === 0) ||
-
-			// occasionally JavaScript use #
-			(isset($attrs['href']) && $attrs['href'] == '#') ||
-
-			// mailto
-			(isset($attrs['href']) && substr($attrs['href'], 0, 7) == 'mailto:')
+			(isset($attrs['aria-hidden']) && $attrs['tabindex'] = 'true')
 		)
+		{
+			return true;
+		}
+
+		// occasionally JavaScript provides function by id or class.
+		if (isset($attrs['href']) && strpos($attrs['href'], 'javascript') === 0)
+		{
+			return true;
+		}
+
+		// occasionally JavaScript use #
+		if (isset($attrs['href']) && $attrs['href'] == '#')
+		{
+			return true;
+		}
+
+		// mail to
+		if (isset($attrs['href']) && substr($attrs['href'], 0, 7) == 'mailto:')
 		{
 			return true;
 		}

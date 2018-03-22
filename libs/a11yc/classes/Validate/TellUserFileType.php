@@ -51,14 +51,22 @@ class TellUserFileType extends Validate
 					$inner = str_replace('</a>', '', $inner);
 					$f_inner = $inner;
 
-					// allow application name
-					if (
-						(($vv == 'doc' || $vv == 'docx') && strpos($href, 'word')  !== false) ||
-						(($vv == 'xls' || $vv == 'xlsx') && strpos($href, 'excel') !== false) ||
-						(($vv == 'ppt' || $vv == 'pptx') && strpos($href, 'power') !== false)
-					)
+					// allow application name - word
+					if (($vv == 'doc' || $vv == 'docx') && strpos($href, 'word')  !== false)
 					{
-						$f_inner.= 'doc,docx,xls,xlsx,ppt,pptx';
+						$f_inner.= 'doc,docx';
+					}
+
+					// allow application name - excel
+					if (($vv == 'xls' || $vv == 'xlsx') && strpos($href, 'excel') !== false)
+					{
+						$f_inner.= 'xls,xlsx';
+					}
+
+					// allow application name - ppt
+					if (($vv == 'ppt' || $vv == 'pptx') && strpos($href, 'power') !== false)
+					{
+						$f_inner.= 'ppt,pptx';
 					}
 
 					$len = '';
