@@ -28,16 +28,19 @@ class Maintenance extends \Kontiki\Maintenance
 		// check
 		$sql = 'SELECT `last_checked` FROM '.A11YC_TABLE_MAINTENANCE.';';
 		$ret = Db::fetch($sql);
+
 		static::$is_first_of_day = true;
 		if ( ! $ret)
 		{
-			$sql = 'UPDATE '.A11YC_TABLE_MAINTENANCE.' set `last_checked` = '.date('Y-m-d').';';
-			Db::execute($sql);
+			$sql = 'INSERT INTO '.A11YC_TABLE_MAINTENANCE.' (`last_checked`) VALUES (?);';
+			Db::execute($sql, array(date('Y-m-d')));
 		}
 		elseif (isset($ret['last_checked']) && strtotime($ret['last_checked']) >= time() - 86400)
 		{
 			static::$is_first_of_day = false;
 		}
+		$sql = 'UPDATE '.A11YC_TABLE_MAINTENANCE.' set `last_checked` = ?;';
+		Db::execute($sql, array(date('Y-m-d')));
 		return static::$is_first_of_day;
 	}
 
@@ -51,16 +54,6 @@ class Maintenance extends \Kontiki\Maintenance
 		if ( ! self::isFisrtOfToday()) return false;
 		if ( ! is_null(static::$is_using_lower)) return static::$is_using_lower;
 
-		$sql = 'SELECT `version` FROM '.A11YC_TABLE_MAINTENANCE.';';
-		$ret = Db::fetch($sql);
-		if ( ! $ret)
-		{
-			$sql = 'UPDATE '.A11YC_TABLE_MAINTENANCE.' set `version` = '.A11YC_VERSION.';';
-			Db::execute($sql);
-			$ret = array();
-			$ret['version'] = A11YC_VERSION;
-		}
-
 		// ask Github API and update stored version
 		ini_set('user_agent', 'file_get_contents');
 		$strs = @file_get_contents(static::$github_api.'/tags');
@@ -68,9 +61,9 @@ class Maintenance extends \Kontiki\Maintenance
 		if ($strs)
 		{
 			$tags = json_decode($strs, true);
-			$max = $tags[max(array_keys($tags))];
+			$max = $tags[min(array_keys($tags))];
 			// lower: return true
-			static::$is_using_lower = version_compare(A11YC_VERSION, $ret['version']) == -1;
+			static::$is_using_lower = version_compare(A11YC_VERSION, $max['name']) == -1;
 			return static::$is_using_lower;
 		}
 
