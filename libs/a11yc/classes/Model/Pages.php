@@ -150,8 +150,6 @@ class Pages
 	 */
 	private static function setOrder($orderby)
 	{
-		$sql_odr = '';
-
 		$order = 'DESC';
 		$by    = 'created_at';
 		$order_whitelist = array(
