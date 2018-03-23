@@ -31,7 +31,44 @@ class SuspiciousElements extends Validate
 		$omissionables = array('li', 'dt', 'dd', 'p', 'rt', 'rp', 'optgroup', 'option', 'tr', 'td', 'th', 'thead', 'tfoot', 'tbody', 'colgroup');
 		$ignores = array_merge($ignores, $endless, $omissionables);
 
-		// tags
+		// count tags
+		list($too_much_opens, $too_much_ends) = self::countTags($tags, $ignores);
+
+		// endless
+		$suspicious_ends = self::suspiciousEnds($endless, $str);
+
+		// add errors
+		foreach ($too_much_opens as $k => $v)
+		{
+			static::$error_ids[$url]['too_much_opens'][$k]['id'] = false;
+			static::$error_ids[$url]['too_much_opens'][$k]['str'] = $v;
+		}
+		static::addErrorToHtml($url, 'too_much_opens', static::$error_ids[$url], 'ignores');
+
+		foreach ($too_much_ends as $k => $v)
+		{
+			static::$error_ids[$url]['too_much_ends'][$k]['id'] = false;
+			static::$error_ids[$url]['too_much_ends'][$k]['str'] = $v;
+		}
+		static::addErrorToHtml($url, 'too_much_ends', static::$error_ids[$url], 'ignores');
+
+		foreach ($suspicious_ends as $k => $v)
+		{
+			static::$error_ids[$url]['suspicious_ends'][$k]['id'] = false;
+			static::$error_ids[$url]['suspicious_ends'][$k]['str'] = $v;
+		}
+		static::addErrorToHtml($url, 'suspicious_ends', static::$error_ids[$url], 'ignores');
+	}
+
+	/**
+	 * count tags
+	 *
+	 * @param  Array $tags
+	 * @param  Array $ignores
+	 * @return Array
+	 */
+	public static function countTags($tags, $ignores)
+	{
 		$opens = array();
 		$ends = array();
 		foreach ($tags[1] as $tag)
@@ -67,8 +104,19 @@ class SuspiciousElements extends Validate
 				$too_much_ends[] = $tag;
 			}
 		}
+		return array($too_much_opens, $too_much_ends);
+	}
 
-		// endless
+
+	/**
+	 * suspicious ends
+	 *
+	 * @param  Array $endless
+	 * @param  String $str
+	 * @return Array
+	 */
+	public static function suspiciousEnds($endless, $str)
+	{
 		$suspicious_ends = array();
 		foreach ($endless as $v)
 		{
@@ -77,27 +125,6 @@ class SuspiciousElements extends Validate
 				$suspicious_ends[] = '/'.$v;
 			}
 		}
-
-		// add errors
-		foreach ($too_much_opens as $k => $v)
-		{
-			static::$error_ids[$url]['too_much_opens'][$k]['id'] = false;
-			static::$error_ids[$url]['too_much_opens'][$k]['str'] = $v;
-		}
-		static::addErrorToHtml($url, 'too_much_opens', static::$error_ids[$url], 'ignores');
-
-		foreach ($too_much_ends as $k => $v)
-		{
-			static::$error_ids[$url]['too_much_ends'][$k]['id'] = false;
-			static::$error_ids[$url]['too_much_ends'][$k]['str'] = $v;
-		}
-		static::addErrorToHtml($url, 'too_much_ends', static::$error_ids[$url], 'ignores');
-
-		foreach ($suspicious_ends as $k => $v)
-		{
-			static::$error_ids[$url]['suspicious_ends'][$k]['id'] = false;
-			static::$error_ids[$url]['suspicious_ends'][$k]['str'] = $v;
-		}
-		static::addErrorToHtml($url, 'suspicious_ends', static::$error_ids[$url], 'ignores');
+		return $suspicious_ends;
 	}
 }
