@@ -41,21 +41,12 @@ class Pages
 		$list = is_string($list) && array_key_exists($list, $whrs) ? $list : 'all';
 
 		// selection_reason
-		$sql_reason = '';
-		if (is_numeric($reason))
-		{
-			$sql_reason = ' AND `selection_reason` = ? ';
-			$placeholders = array($reason);
-		}
+		list($sql_reason, $placeholders_reason) = self::setReason($reason);
+		$placeholders = array_merge($placeholders, $placeholders_reason);
 
-		// type
-		$types = Values::getTypes();
-		$sql_type = '';
-		if (array_key_exists(strtolower($type), $types))
-		{
-			$sql_type = ' AND `type` = ? ';
-			$placeholders = array_merge($placeholders, array($types[$type]));
-		}
+		// type - html or pdf?
+		list($sql_type, $placeholders_types) = self::setType($type);
+		$placeholders = array_merge($placeholders, $placeholders_types);
 
 		// pages
 		$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE '.$whrs[$list];
@@ -64,7 +55,78 @@ class Pages
 		$sql.= $is_current ? Db::currentVersionSql() : Db::versionSql();
 
 		// search
+		list($sql_like, $placeholders_likes) = self::setSearch($words);
+		$placeholders = array_merge($placeholders, $placeholders_likes);
+
+		// order
+		$sql_odr = self::setOrder($orderby);
+
+		// fetch pages
+		if ($placeholders)
+		{
+			$whr = '';
+			$whr.= $sql_reason ?: '';
+			$whr.= $sql_type ?: '';
+			$whr.= $sql_like ?: '';
+			$pages = Db::fetchAll($sql.$whr.$sql_odr, $placeholders);
+		}
+		else
+		{
+			$sql.= $sql_odr;
+			$pages = Db::fetchAll($sql);
+		}
+
+		return $pages;
+	}
+
+	/**
+	 * set reason
+	 *
+	 * @param  Mixed $reason
+	 * @return Array
+	 */
+	private static function setReason($reason)
+	{
+		$sql_reason = '';
+		$placeholders = array();
+		if (is_numeric($reason))
+		{
+			$sql_reason = ' AND `selection_reason` = ? ';
+			$placeholders = array($reason);
+		}
+		return array($sql_reason, $placeholders);
+	}
+
+	/**
+	 * set type
+	 *
+	 * @param  Mixed $type
+	 * @return Array
+	 */
+	private static function setType($type)
+	{
+		$sql_type = '';
+		$placeholders = array();
+		$types = Values::getTypes();
+		if (array_key_exists(strtolower($type), $types))
+		{
+			$sql_type = ' AND `type` = ? ';
+			$placeholders = array_merge($placeholders, array($types[$type]));
+		}
+		return array($sql_type, $placeholders);
+	}
+
+	/**
+	 * set Search
+	 *
+	 * @param  Array $words
+	 * @return Array
+	 */
+	private static function setSearch($words)
+	{
 		$sql_like = '';
+		$placeholders = array();
+
 		if ($words)
 		{
 			$sql_likes = array();
@@ -77,7 +139,19 @@ class Pages
 			$sql_like = ' AND ('.join(' OR ', $sql_likes).') ';
 		}
 
-		// order
+		return array($sql_like, $placeholders);
+	}
+
+	/**
+	 * set Search
+	 *
+	 * @param  String $orderby
+	 * @return String
+	 */
+	private static function setOrder($orderby)
+	{
+		$sql_odr = '';
+
 		$order = 'DESC';
 		$by    = 'created_at';
 		$order_whitelist = array(
@@ -98,22 +172,7 @@ class Pages
 		}
 		$sql_odr = ' order by `'.$by.'` '.$order.';';
 
-		// fetch pages
-		if ($placeholders)
-		{
-			$whr = '';
-			$whr.= $sql_reason ?: '';
-			$whr.= $sql_type ?: '';
-			$whr.= $sql_like ?: '';
-			$pages = Db::fetchAll($sql.$whr.$sql_odr, $placeholders);
-		}
-		else
-		{
-			$sql.= $sql_odr;
-			$pages = Db::fetchAll($sql);
-		}
-
-		return $pages;
+		return $sql_odr;
 	}
 
 	/**
