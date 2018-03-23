@@ -133,7 +133,7 @@ class Checklist
 		$page = false;
 		if ( ! $is_bulk)
 		{
-			list($page, $title) = self::getPageAndTitle($url);
+			$page = self::getPage($url);
 
 			// automatic check
 			Validate::setDoCssCheck(Input::post('do_css_check', false));
@@ -216,15 +216,14 @@ class Checklist
 	}
 
 	/**
-	 * get page and title
+	 * get page
 	 *
 	 * @param  String $url
 	 * @return Array
 	 */
-	private static function getPageAndTitle($url)
+	private static function getPage($url)
 	{
 		$page = Model\Pages::fetchPage($url);
-		$title = '';
 
 		if ( ! $page)
 		{
@@ -240,12 +239,7 @@ class Checklist
 			}
 		}
 
-		if ($page)
-		{
-			$title = Model\Html::fetchPageTitle($url);
-		}
-
-		return array($page, $title);
+		return $page;
 	}
 
 }
