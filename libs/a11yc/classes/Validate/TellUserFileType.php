@@ -49,42 +49,9 @@ class TellUserFileType extends Validate
 					$href = strtolower($attrs['href']);
 					$inner = substr($ms[0][$k], strpos($ms[0][$k], '>') + 1);
 					$inner = str_replace('</a>', '', $inner);
-					$f_inner = $inner;
+					$f_inner = self::addCheckStrings($inner, $vv, $href);
 
-					// allow application name - word
-					if (($vv == 'doc' || $vv == 'docx') && strpos($href, 'word')  !== false)
-					{
-						$f_inner.= 'doc,docx';
-					}
-
-					// allow application name - excel
-					if (($vv == 'xls' || $vv == 'xlsx') && strpos($href, 'excel') !== false)
-					{
-						$f_inner.= 'xls,xlsx';
-					}
-
-					// allow application name - ppt
-					if (($vv == 'ppt' || $vv == 'pptx') && strpos($href, 'power') !== false)
-					{
-						$f_inner.= 'ppt,pptx';
-					}
-
-					$len = '';
-					$is_exists = null;
-					if (\A11yc\Guzzle::envCheck())
-					{
-						\A11yc\Guzzle::forge($href);
-						$is_exists = \A11yc\Guzzle::instance($href)->is_exists;
-						if ($is_exists)
-						{
-							$tmps = \A11yc\Guzzle::instance($href)->headers;
-							if (isset($tmps['Content-Length'][0]))
-							{
-								$ext = strtoupper(substr($href, strrpos($href, '.') + 1));
-								$len = ' ('.$ext.', '.Util::byte2Str(intval($tmps['Content-Length'][0])).')';
-							}
-						}
-					}
+					list($len, $is_exists) = self::existCheck($href);
 
 					// better text
 					if (
@@ -112,5 +79,62 @@ class TellUserFileType extends Validate
 		}
 		static::addErrorToHtml($url, 'tell_user_file_type', static::$error_ids[$url], 'ignores');
 		static::addErrorToHtml($url, 'link_check', static::$error_ids[$url], 'ignores_comment_out');
+	}
+
+	/**
+	 * add check strings
+	 *
+	 * @param  String $f_inner
+	 * @param  String $vv
+	 * @param  String $href
+	 * @return Void
+	 */
+	public static function addCheckStrings($f_inner, $vv, $href)
+	{
+		// allow application name - word
+		if (($vv == 'doc' || $vv == 'docx') && strpos($href, 'word')  !== false)
+		{
+			$f_inner.= 'doc,docx';
+		}
+
+		// allow application name - excel
+		if (($vv == 'xls' || $vv == 'xlsx') && strpos($href, 'excel') !== false)
+		{
+			$f_inner.= 'xls,xlsx';
+		}
+
+		// allow application name - ppt
+		if (($vv == 'ppt' || $vv == 'pptx') && strpos($href, 'power') !== false)
+		{
+			$f_inner.= 'ppt,pptx';
+		}
+		return $f_inner;
+	}
+
+	/**
+	 * exist Check
+	 *
+	 * @param  String $href
+	 * @return Void
+	 */
+	public static function existCheck($href)
+	{
+		$len = '';
+		$is_exists = null;
+		if (\A11yc\Guzzle::envCheck())
+		{
+			\A11yc\Guzzle::forge($href);
+			$is_exists = \A11yc\Guzzle::instance($href)->is_exists;
+			if ($is_exists)
+			{
+				$tmps = \A11yc\Guzzle::instance($href)->headers;
+				if (isset($tmps['Content-Length'][0]))
+				{
+					$ext = strtoupper(substr($href, strrpos($href, '.') + 1));
+					$len = ' ('.$ext.', '.Util::byte2Str(intval($tmps['Content-Length'][0])).')';
+				}
+			}
+		}
+		return array($len, $is_exists);
 	}
 }
