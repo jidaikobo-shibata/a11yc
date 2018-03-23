@@ -24,8 +24,65 @@ class NotLabelButTitle extends Validate
 		if ( ! $ms[0]) return;
 
 		// labels_eles
+		list($eles, $fors) = self::setLabelAndElement($ms);
+
+		// no form elements
+		if ( ! $eles) return;
+
+		// find "id" which make pair with existing "for" attribute
+		$del_eles = self::setDeleteElement($eles, $fors);
+
+		// find valid "label"s
+		$del_fors = self::setDeleteFor($eles, $del_eles);
+
+		// first elimination - delete valid pairs
+		foreach ($del_eles as $k)
+		{
+			unset($eles[$k]);
+		}
+		foreach ($del_fors as $k)
+		{
+			unset($eles[$k]);
+		}
+
+		// after here, tacit labels or labelless items remain. I hope so...
+		// check tacit labels
+		$del_eles = self::setSecondaryDeleteElement($str, $eles);
+
+		// second elimination - tacit label
+		foreach ($del_eles as $k)
+		{
+			unset($eles[$k]);
+		}
+
+		// after here, remained labels are meanless.
+		// check title attribute
+		foreach ($eles as $k => $ele)
+		{
+			if ($ele['tag_name'] == 'label') continue;
+
+			// empty or titleless
+			$title = trim(mb_convert_kana($ele['title'], 's'));
+			if (empty($title))
+			{
+				static::$error_ids[$url]['not_label_but_title'][$k]['id'] = $ele['tag'];
+				static::$error_ids[$url]['not_label_but_title'][$k]['str'] = $ele['tag'];
+			}
+		}
+		static::addErrorToHtml($url, 'not_label_but_title', static::$error_ids[$url], 'ignores');
+	}
+
+	/**
+	 * set label and element
+	 *
+	 * @param  Array $ms
+	 * @return Array
+	 */
+	private static function setLabelAndElement($ms)
+	{
 		$eles = array();
 		$fors = array();
+
 		foreach ($ms[1] as $k => $m)
 		{
 			if ( ! in_array($m, array('label', 'input', 'textarea', 'select'))) continue;
@@ -61,11 +118,18 @@ class NotLabelButTitle extends Validate
 				}
 			}
 		}
+		return array($eles, $fors);
+	}
 
-		// no form elements
-		if ( ! $eles) return;
-
-		// find "id" which make pair with existing "for" attribute
+	/**
+	 * set delete element
+	 *
+	 * @param  Array $eles
+	 * @param  Array $fors
+	 * @return Array
+	 */
+	private static function setDeleteElement($eles, $fors)
+	{
 		$del_eles = array();
 		foreach ($fors as $for)
 		{
@@ -80,8 +144,18 @@ class NotLabelButTitle extends Validate
 				}
 			}
 		}
+		return $del_eles;
+	}
 
-		// find valid "label"s
+	/**
+	 * set delete for
+	 *
+	 * @param  Array $eles
+	 * @param  Array $del_eles
+	 * @return Array
+	 */
+	private static function setDeleteFor($eles, $del_eles)
+	{
 		$del_fors = array();
 		foreach (array_keys($del_eles) as $id)
 		{
@@ -95,19 +169,18 @@ class NotLabelButTitle extends Validate
 				}
 			}
 		}
+		return $del_fors;
+	}
 
-		// first elimination - delete valid pairs
-		foreach ($del_eles as $k)
-		{
-			unset($eles[$k]);
-		}
-		foreach ($del_fors as $k)
-		{
-			unset($eles[$k]);
-		}
-
-		// after here, tacit labels or labelless items remain. I hope so...
-		// check tacit labels
+	/**
+	 * set secondary delete element
+	 *
+	 * @param  String $str
+	 * @param  Array $eles
+	 * @return Array
+	 */
+	private static function setSecondaryDeleteElement($str, $eles)
+	{
 		$del_eles = array();
 		$pattern = '/\<label[^\>]*?\>.*?\<\/label\>/is';
 		preg_match_all($pattern, $str, $mms);
@@ -131,27 +204,6 @@ class NotLabelButTitle extends Validate
 				}
 			}
 		}
-
-		// second elimination - tacit label
-		foreach ($del_eles as $k)
-		{
-			unset($eles[$k]);
-		}
-
-		// after here, remained labels are meanless.
-		// check title attribute
-		foreach ($eles as $k => $ele)
-		{
-			if ($ele['tag_name'] == 'label') continue;
-
-			// empty or titleless
-			$title = trim(mb_convert_kana($ele['title'], 's'));
-			if (empty($title))
-			{
-				static::$error_ids[$url]['not_label_but_title'][$k]['id'] = $ele['tag'];
-				static::$error_ids[$url]['not_label_but_title'][$k]['str'] = $ele['tag'];
-			}
-		}
-		static::addErrorToHtml($url, 'not_label_but_title', static::$error_ids[$url], 'ignores');
+		return $del_eles;
 	}
 }

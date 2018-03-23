@@ -87,9 +87,9 @@ class TellUserFileType extends Validate
 	 * @param  String $f_inner
 	 * @param  String $vv
 	 * @param  String $href
-	 * @return Void
+	 * @return String
 	 */
-	public static function addCheckStrings($f_inner, $vv, $href)
+	private static function addCheckStrings($f_inner, $vv, $href)
 	{
 		// allow application name - word
 		if (($vv == 'doc' || $vv == 'docx') && strpos($href, 'word')  !== false)
@@ -115,9 +115,9 @@ class TellUserFileType extends Validate
 	 * exist Check
 	 *
 	 * @param  String $href
-	 * @return Void
+	 * @return Array
 	 */
-	public static function existCheck($href)
+	private static function existCheck($href)
 	{
 		$len = '';
 		$is_exists = null;
