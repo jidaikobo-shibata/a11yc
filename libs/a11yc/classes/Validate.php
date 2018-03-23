@@ -313,29 +313,8 @@ class Validate
 		$yml = Yaml::fetch();
 		$html = static::$hl_htmls[$url];
 
-		// Yaml not exist
-		$current_err = array();
-		if ( ! isset($yml['errors'][$error_id]))
-		{
-			$issue = Model\Issues::fetch4Validation($url, $issue_html);
-			if ( ! $issue) return;
-			$current_err['message']   = $issue['error_message'];
-			if (strpos($issue['criterion'], ',') !== false)
-			{
-				$issue_criterions = explod(',', $issue['criterion']);
-				$current_err['criterions'] = array(trim($issue_criterions[0])); // use one
-			}
-			else
-			{
-				$current_err['criterions'] = array(trim($issue['criterion']));
-			}
-			$current_err['code']      = '';
-			$current_err['notice']    = ($issue['n_or_e'] == 0);
-		}
-		else
-		{
-			$current_err = $yml['errors'][$error_id];
-		}
+		$current_err = self::setCurrentErr($url, $error_id, $issue_html);
+		if ( ! $current_err) return;
 
 		// errors
 		if ( ! isset($s_errors[$error_id])) return;
@@ -346,29 +325,7 @@ class Validate
 		}
 
 		// ignore elements or comments
-		$replaces_ignores = array();
-		if ($ignore_vals)
-		{
-			$ignores = Element::$$ignore_vals;
-
-			foreach ($ignores as $k => $ignore)
-			{
-				preg_match_all($ignore, $html, $ms);
-				if ($ms)
-				{
-					foreach ($ms[0] as $kk => $vv)
-					{
-						$original = $vv;
-						$replaced = hash("sha256", $vv);
-						$replaces_ignores[$k][$kk] = array(
-							'original' => $original,
-							'replaced' => $replaced,
-						);
-						$html = str_replace($original, $replaced, $html);
-					}
-				}
-			}
-		}
+		list($html, $replaces_ignores) = self::ignoreElementsOrComments($ignore_vals, $html);
 
 		$lv = strtolower($yml['criterions'][$current_err['criterions'][0]]['level']['name']);
 
@@ -455,6 +412,72 @@ class Validate
 		}
 
 		static::$hl_htmls[$url] = $html;
+	}
+
+	/**
+	 * set current error
+	 *
+	 * @return  Array|bool
+	 */
+	private static function setCurrentErr($url, $error_id, $issue_html)
+	{
+		$yml = Yaml::fetch();
+		if ( ! isset($yml['errors'][$error_id]))
+		{
+			$issue = Model\Issues::fetch4Validation($url, $issue_html);
+			if ( ! $issue) return false;
+			$current_err['message'] = $issue['error_message'];
+			if (strpos($issue['criterion'], ',') !== false)
+			{
+				$issue_criterions = explod(',', $issue['criterion']);
+				$current_err['criterions'] = array(trim($issue_criterions[0])); // use one
+			}
+			else
+			{
+				$current_err['criterions'] = array(trim($issue['criterion']));
+			}
+			$current_err['code']   = '';
+			$current_err['notice'] = ($issue['n_or_e'] == 0);
+		}
+		else
+		{
+			$current_err = $yml['errors'][$error_id];
+		}
+		return $current_err;
+	}
+
+
+	/**
+	 * ignore Elements Or Comments
+	 *
+	 * @return  Array|bool
+	 */
+	private static function ignoreElementsOrComments($ignore_vals, $html)
+	{
+		$replaces_ignores = array();
+		if ($ignore_vals)
+		{
+			$ignores = Element::$$ignore_vals;
+
+			foreach ($ignores as $k => $ignore)
+			{
+				preg_match_all($ignore, $html, $ms);
+				if ($ms)
+				{
+					foreach ($ms[0] as $kk => $vv)
+					{
+						$original = $vv;
+						$replaced = hash("sha256", $vv);
+						$replaces_ignores[$k][$kk] = array(
+							'original' => $original,
+							'replaced' => $replaced,
+						);
+						$html = str_replace($original, $replaced, $html);
+					}
+				}
+			}
+		}
+		return array($html, $replaces_ignores);
 	}
 
 	/**
