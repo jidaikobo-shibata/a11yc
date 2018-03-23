@@ -24,17 +24,63 @@ class Images
 	public static function getImages($url, $base_uri = '')
 	{
 		$retvals = array();
-		$str = Validate::ignoreElements(Model\Html::getHtml($url));
+		$str = Element::ignoreElements(Model\Html::getHtml($url));
+		$n = 0;
 
 		// at first, get images in a
+		list($retvals, $str) = self::imagesInA($n, $str, $retvals);
+
+		// secondary, get areas
+		list($retvals, $str) = self::getArea($n, $str, $retvals);
+
+		// get buttons
+		list($retvals, $str) = self::getButton($n, $str, $retvals);
+
+		// input and img
+		$retvals = self::getInput($n, $str, $retvals);
+
+		// tidy
+		foreach ($retvals as $k => $v)
+		{
+			// src exists
+			if (isset($v['attrs']['src']))
+			{
+				$retvals[$k]['attrs']['src'] = Util::enuniqueUri($v['attrs']['src'], $base_uri);
+			}
+
+			// alt exists
+			$retvals = self::tidyAlt($k, $v, $retvals);
+
+
+			// aria-*
+			$retvals[$k]['aria'] = array();
+			foreach ($retvals[$k]['attrs'] as $kk => $vv)
+			{
+				if (substr($kk, 0, 5) != 'aria-') continue;
+				$retvals[$k]['aria'][$kk] = $vv;
+			}
+		}
+
+		return $retvals;
+	}
+
+	/**
+	 * imagesInA
+	 *
+	 * @param  Integer $n
+	 * @param  String $str
+	 * @param  Array $retvals
+	 * @return  Array
+	 */
+	private static function imagesInA($n, $str, $retvals)
+	{
 		preg_match_all('/\<a [^\>]+\>.+?\<\/a\>/is', $str, $as);
-		$n = 0;
 		foreach ($as[0] as $v)
 		{
 			if (strpos($v, '<img ') === false) continue;
 
 			// link
-			$attrs       = Validate::getAttributes($v);
+			$attrs       = Element::getAttributes($v);
 			$href        = Arr::get($attrs, 'href');
 			$aria_hidden = Arr::get($attrs, 'aria-hidden');
 			$tabindex    = Arr::get($attrs, 'tabindex');
@@ -48,15 +94,26 @@ class Images
 				$retvals[$n]['href'] = $href;
 				$retvals[$n]['aria_hidden'] = $aria_hidden;
 				$retvals[$n]['tabindex'] = $tabindex;
-				$retvals[$n]['attrs'] = Validate::getAttributes($vv);
+				$retvals[$n]['attrs'] = Element::getAttributes($vv);
 				$n++;
 			}
 
 			// remove a within images
 			$str = str_replace($v, '', $str);
 		}
+		return array($retvals, $str);
+	}
 
-		// secondary, get areas
+	/**
+	 * get Area
+	 *
+	 * @param  Integer $n
+	 * @param  String $str
+	 * @param  Array $retvals
+	 * @return  Array
+	 */
+	private static function getArea($n, $str, $retvals)
+	{
 		preg_match_all('/\<area [^\>]+\>/is', $str, $as);
 		foreach ($as[0] as $v)
 		{
@@ -71,8 +128,19 @@ class Images
 			// remove a within images
 			$str = str_replace($v, '', $str);
 		}
+		return array($retvals, $str);
+	}
 
-		// get buttons
+	/**
+	 * get Button
+	 *
+	 * @param  Integer $n
+	 * @param  String $str
+	 * @param  Array $retvals
+	 * @return  Array
+	 */
+	private static function getButton($n, $str, $retvals)
+	{
 		preg_match_all('/\<button [^\>]+\>.+?\<\/button\>/is', $str, $as);
 		foreach ($as[0] as $v)
 		{
@@ -99,10 +167,21 @@ class Images
 			// remove a within images
 			$str = str_replace($v, '', $str);
 		}
+		return array($retvals, $str);
+	}
 
-		// input and img
+	/**
+	 * get Input
+	 *
+	 * @param  Integer $n
+	 * @param  String $str
+	 * @param  Array $retvals
+	 * @return  Array
+	 */
+	private static function getInput($n, $str, $retvals)
+	{
 		$force = true;
-		$ms = Validate::getElementsByRe($str, 'ignores', 'tags', $force);
+		$ms = Element::getElementsByRe($str, 'ignores', 'tags', $force);
 
 		if ( ! is_array($ms[1])) return $retvals;
 
@@ -110,7 +189,7 @@ class Images
 		foreach ($ms[1] as $k => $v)
 		{
 			if ( ! in_array($v, $targets)) continue;
-			$attrs = Validate::getAttributes($ms[0][$k]);
+			$attrs = Element::getAttributes($ms[0][$k]);
 			if ($v == 'input' && ( ! isset($attrs['type']) || $attrs['type'] != 'image')) continue;
 
 			$retvals[$n]['element'] = $v;
@@ -119,54 +198,46 @@ class Images
 			$retvals[$n]['attrs'] = $attrs;
 			$n++;
 		}
+		return $retvals;
+	}
 
-		// tidy
-		foreach ($retvals as $k => $v)
+	/**
+	 * tidy alt
+	 *
+	 * @param  Integer $k
+	 * @param  Array $v
+	 * @param  Array $retvals
+	 * @return  Array
+	 */
+	private static function tidyAlt($k, $v, $retvals)
+	{
+		if (isset($v['attrs']['alt']))
 		{
-			// src exists
-			if (isset($v['attrs']['src']))
+			// empty alt
+			if (empty($v['attrs']['alt']))
 			{
-				$retvals[$k]['attrs']['src'] = Util::enuniqueUri($v['attrs']['src'], $base_uri);
+				$retvals[$k]['attrs']['alt'] = '';
 			}
-
-			// alt exists
-			if (isset($v['attrs']['alt']))
+			else
 			{
-				// empty alt
-				if (empty($v['attrs']['alt']))
+				// alt of blank chars
+				$alt = str_replace('　', ' ', $v['attrs']['alt']);
+				$alt = trim($alt);
+
+				if (empty($alt))
 				{
-					$retvals[$k]['attrs']['alt'] = '';
+					$retvals[$k]['attrs']['alt'] = '===a11yc_alt_of_blank_chars===';
 				}
+				// alt text
 				else
 				{
-					// alt of blank chars
-					$alt = str_replace('　', ' ', $v['attrs']['alt']);
-					$alt = trim($alt);
-
-					if (empty($alt))
-					{
-						$retvals[$k]['attrs']['alt'] = '===a11yc_alt_of_blank_chars===';
-					}
-					// alt text
-					else
-					{
-						$retvals[$k]['attrs']['alt'] = $v['attrs']['alt'];
-					}
+					$retvals[$k]['attrs']['alt'] = $v['attrs']['alt'];
 				}
-
-				// newline in attr
-				$retvals[$k]['attrs']['newline'] = preg_match("/[\n\r]/is", $v['attrs']['alt']);
 			}
 
-			// aria-*
-			$retvals[$k]['aria'] = array();
-			foreach ($retvals[$k]['attrs'] as $kk => $vv)
-			{
-				if (substr($kk, 0, 5) != 'aria-') continue;
-				$retvals[$k]['aria'][$kk] = $vv;
-			}
+			// newline in attr
+			$retvals[$k]['attrs']['newline'] = preg_match("/[\n\r]/is", $v['attrs']['alt']);
 		}
-
 		return $retvals;
 	}
 }

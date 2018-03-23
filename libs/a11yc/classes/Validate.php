@@ -14,7 +14,7 @@ use A11yc\Model;
 
 class Validate
 {
-	protected static $is_partial = false;
+	public static $is_partial = false;
 	protected static $do_link_check = false;
 	protected static $do_css_check = false;
 	protected static $error_ids = array();
@@ -289,27 +289,6 @@ class Validate
 	public static function doCssCheck()
 	{
 		return static::$do_css_check;
-	}
-
-	/**
-	 * set_is_partial
-	 *
-	 * @param  bool
-	 * @return  void
-	 */
-	public static function setIsPartial($bool)
-	{
-		static::$is_partial = $bool;
-	}
-
-	/**
-	 * is_partial
-	 *
-	 * @return  bool
-	 */
-	public static function isPartial()
-	{
-		return static::$is_partial;
 	}
 
 	/**

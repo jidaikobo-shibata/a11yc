@@ -20,7 +20,7 @@ class Titleless extends Validate
 	 */
 	public static function check($url)
 	{
-		if (Validate::isPartial() == true) return;
+		if (Validate::$is_partial == true) return;
 
 		$str = Element::ignoreElements(static::$hl_htmls[$url]);
 

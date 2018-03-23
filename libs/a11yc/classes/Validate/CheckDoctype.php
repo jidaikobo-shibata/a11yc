@@ -20,7 +20,7 @@ class CheckDoctype extends Validate
 	 */
 	public static function check($url)
 	{
-		if (Validate::isPartial() == true) return;
+		if (Validate::$is_partial == true) return;
 
 		if (is_null(Element::getDoctype($url)))
 		{

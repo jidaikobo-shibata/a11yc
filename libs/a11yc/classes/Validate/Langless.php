@@ -20,7 +20,7 @@ class Langless extends Validate
 	 */
 	public static function check($url)
 	{
-		if (Validate::isPartial() == true) return;
+		if (Validate::$is_partial == true) return;
 
 		// do not use Element::ignoreElements() and Element::getElementsByRe()
 		// in case of "<html>" is in comment out
