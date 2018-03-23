@@ -142,7 +142,7 @@ class Validate
 				foreach ($errs as $key => $err)
 				{
 					$err_type = isset($yml['errors'][$code]['notice']) ? 'notices' : 'errors';
-					$all_errs[$err_type][] = static::message($url, $code, $err, $key);
+					$all_errs[$err_type][] = Message::getText($url, $code, $err, $key);
 				}
 			}
 		}
@@ -551,88 +551,5 @@ class Validate
 			),
 			$html);
 		return $retval;
-	}
-
-	/**
-	 * message
-	 *
-	 * @param String $url
-	 * @param String $code_str
-	 * @param Array $place
-	 * @param String $key
-	 * @param String $docpath
-	 * @return String|Bool
-	 */
-	public static function message($url, $code_str, $place, $key, $docpath = '')
-	{
-		$yml = Yaml::fetch();
-
-		// Yaml not exist
-		$current_err = array();
-
-		if ( ! isset($yml['errors'][$code_str]))
-		{
-			$issue = Model\Issues::fetch4Validation($url, $place['str']);
-			if ( ! $issue) return;
-
-			$current_err['message']   = $issue['error_message'];
-			if (strpos($issue['criterion'], ',') !== false)
-			{
-				$issue_criterions = explod(',', $issue['criterion']);
-				$current_err['criterions'] = array_map('trim', $issue_criterions);
-			}
-			else
-			{
-				$current_err['criterions'] = array(trim($issue['criterion']));
-			}
-			$current_err['notice'] = ($issue['n_or_e'] == 0);
-		}
-		else
-		{
-			$current_err = $yml['errors'][$code_str];
-		}
-
-		// set error to message
-		if ($current_err)
-		{
-			$docpath = $docpath ?: A11YC_DOC_URL;
-
-			$anchor = $code_str.'_'.$key;
-
-			// level - use lower level
-			$lv = strtolower($yml['criterions'][$current_err['criterions'][0]]['level']['name']);
-
-			// count errors
-			if ( ! isset($current_err['notice'])) static::$err_cnts[$lv]++;
-
-			// dt
-			$ret = '<dt id="index_'.$anchor.'" tabindex="-1" class="a11yc_level_'.$lv.'">'.$current_err['message'];
-
-			// dt - information
-			foreach ($current_err['criterions'] as $each_criterion)
-			{
-				$level = $yml['criterions'][$each_criterion]['level']['name'];
-				$criterion = $yml['criterions'][$each_criterion];
-
-				$ret.= '<span class="a11yc_validation_reference_info"><strong>'.A11YC_LANG_LEVEL.strtoupper($lv).'</strong> <strong>'.Util::key2code($criterion['code']).'</strong> ';
-				$ret.= '<a href="'.$docpath.$each_criterion.'" target="a11yc_doc">'.A11YC_LANG_CHECKLIST_SEE_DETAIL.'('.Util::key2code($criterion['code']).')</a> ';
-
-				$ret.= '[<a href="'.A11YC_ISSUES_ADD_URL.$url.'&amp;criterion='.$each_criterion.'&amp;err_id='.$code_str.'&amp;src='.Util::s($place['str']).'" target="a11yc_issue">'.A11YC_LANG_ISSUES_ADD.'</a>] ';
-
-				$ret.= '</span>';
-			}
-
-			if ($place['id'])
-			{
-				$ret.= '<a href="#'.$anchor .'" class="a11yc_validation_error_link a11yc_level_'.$lv.' a11yc_hasicon"><span class="a11yc_icon_fa a11yc_icon_arrow_b" role="presentation" aria-hidden="true"></span>Code</a>';
-			}
-			$ret.= '</dt>';
-
-			// dd
-			$ret.= '<dd class="a11yc_validation_error_str a11yc_level_'.$lv.'" data-level="'.$level.'" data-place="'.Util::s($place['id']).'">'.Util::s($place['str']).'</dd>';
-//			$ret.= '<dd class="a11yc_validation_error_link a11yc_level_'.$lv.'"><a href="#'.$anchor .'" class="a11yc_hasicon">Code</a></dd>';
-			return $ret;
-		}
-		return FALSE;
 	}
 }
