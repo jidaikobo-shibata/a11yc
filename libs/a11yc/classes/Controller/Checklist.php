@@ -133,22 +133,7 @@ class Checklist
 		$page = false;
 		if ( ! $is_bulk)
 		{
-			$page = Model\Pages::fetchPage($url);
-
-			if ( ! $page)
-			{
-				$title = Model\Html::fetchPageTitle($url);
-				Model\Pages::addPage($url, $title);
-				$force = true;
-				$page = Model\Pages::fetchPage($url, $force);
-				if ( ! $title)
-				{
-					Session::add(
-						'messages',
-						'errors',
-						A11YC_LANG_ERROR_COULD_NOT_GET_HTML.': '. Util::s($url));
-				}
-			}
+			list($page, $title) = self::getPageAndTitle($url);
 
 			// automatic check
 			Validate::setDoCssCheck(Input::post('do_css_check', false));
@@ -228,6 +213,39 @@ class Checklist
 
 		// form
 		View::assign('form', View::fetchTpl('checklist/form.php'), FALSE);
+	}
+
+	/**
+	 * get page and title
+	 *
+	 * @param  String $url
+	 * @return Array
+	 */
+	private static function getPageAndTitle($url)
+	{
+		$page = Model\Pages::fetchPage($url);
+		$title = '';
+
+		if ( ! $page)
+		{
+			Model\Pages::addPage($url, $title);
+			$force = true;
+			$page = Model\Pages::fetchPage($url, $force);
+			if ( ! $title)
+			{
+				Session::add(
+					'messages',
+					'errors',
+					A11YC_LANG_ERROR_COULD_NOT_GET_HTML.': '. Util::s($url));
+			}
+		}
+
+		if ($page)
+		{
+			$title = Model\Html::fetchPageTitle($url);
+		}
+
+		return array($page, $title);
 	}
 
 }
