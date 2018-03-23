@@ -272,33 +272,28 @@ class Post
 	 *
 	 * @return Void
 	 */
-	public static function actionValidation($url = '')
+	public static function actionValidation()
 	{
 		// vals
-		$url        = Input::post('url', $url, FILTER_VALIDATE_URL);
-		$raw_url    = Input::post('url');
-		$user_agent = Input::post('user_agent', '');
-		$default_ua = Util::s(Input::userAgent());
-		$page_title = '';
-		$real_url   = '';
-		$doc_root   = Input::post('doc_root', '');
+		$url              = Input::post('url');
+		$raw_url          = $url;
+		$user_agent       = Input::post('user_agent', '');
+		$default_ua       = Input::userAgent();
+		$page_title       = '';
+		$real_url         = '';
+		$doc_root         = Input::post('doc_root', '');
+		$yml              = Yaml::fetch();
+		$raw              = '';
+		$errs_cnts        = array();
+		$target_html      = '';
+		$render           = '';
+		$current_ua       = '';
 
 		// auth - if limit die here
 		self::auth();
 
 		// validation
-		$raw = '';
-		$all_errs = array(
-			'notices' => array(),
-			'errors' => array()
-		);
-		$errs_cnts        = array();
-		$target_html      = '';
-		$target_html_head = '';
-		$yml              = Yaml::fetch();
-		$render           = '';
-		$current_ua       = '';
-
+		$do_validate = true;
 		if (Input::post('source'))
 		{
 			$target_html = Input::post('source');
@@ -314,13 +309,14 @@ class Post
 			// basic auth failed
 			if (Guzzle::instance($url)->status_code == 401)
 			{
-				$target_html = '';
+				$do_validate = false;
 				Session::add('messages', 'errors', A11YC_LANG_POST_BASIC_AUTH_EXP);
 			}
 
 			// connection problems
 			if (Guzzle::instance($url)->errors)
 			{
+				$do_validate = false;
 				Session::add('messages', 'errors', A11YC_LANG_ERROR_COULD_NOT_ESTABLISH_CONNECTION);
 			}
 
@@ -331,87 +327,18 @@ class Post
 				View::assign('images', A11yc\Images::getImages($url, $doc_root));
 				Session::add('messages', 'messages', A11YC_LANG_POST_DONE_IMAGE_LIST);
 			}
-		}
 
-		// Do Validate
-		if ($target_html)
-		{
 			// export CSV
 			if (Input::post('behaviour') == 'csv')
 			{
-				Export::csv($url);
+				Export::csv($url); // exit()
 			}
+		}
 
-			// check
-			$codes = Validate::$codes;
-			Validate::html($url, $target_html, $codes, $ua);
-
-			// do validate not image list
-			if ($do_validate)
-			{
-				// unset uncheck errors
-				unset($codes['link_check']);
-				unset($codes['same_page_title_in_same_site']);
-
-				if (Validate::getErrors($url, $codes, $ua))
-				{
-					$err_link = static::$url.'?a=doc&criterion=';
-					foreach (Validate::getErrorIds($url) as $err_code => $errs)
-					{
-						foreach ($errs as $key => $err)
-						{
-							$err_type = isset($yml['errors'][$err_code]['notice']) ? 'notices' : 'errors';
-							$all_errs[$err_type][] = Validate::message($url, $err_code, $err, $key, $err_link);
-						}
-					}
-				}
-
-				// message
-				Session::add('messages', 'messages', A11YC_LANG_POST_DONE);
-				if (count($all_errs['errors']) == 0)
-				{
-					Session::add('messages', 'messages',
-						A11YC_LANG_CHECKLIST_NOT_FOUND_ERR);
-				}
-				else
-				{
-					Session::add('messages', 'messages',
-						sprintf(A11YC_LANG_POST_DONE_POINTS, count($all_errs['errors'])));
-				}
-				if (count($all_errs['notices']) != 0)
-				{
-					Session::add('messages', 'messages',
-						sprintf(A11YC_LANG_POST_DONE_NOTICE_POINTS, count($all_errs['notices'])));
-				}
-			}
-
-			// page_title
-			$page_title = Model\Html::fetchPageTitle($url);
-
-			// results
-			$errs_cnts = array_merge(
-				array('total' => count($all_errs['errors'])),
-				Validate::getErrorCnts($url, $codes, $ua)
-			);
-			$render = Util::s(Validate::getHighLightedHtml($url, $codes, $ua));
-			$raw = nl2br($render);
-
-			View::assign('errs'              , $all_errs, false);
-			View::assign('errs_cnts'         , $errs_cnts);
-			View::assign('raw'               , $raw, false);
-			View::assign('is_call_from_post' , true);
-			View::assign('do_validate'       , $do_validate);
-			if ($do_validate)
-			{
-				View::assign('result', View::fetchTpl('checklist/validate.php'), false);
-			}
-			else
-			{
-				View::assign('result', View::fetchTpl('checklist/images.php'), false);
-			}
-
-			// count up for guest users
-			self::countUpForGuestUsers();
+		// Do Validate
+		if ($do_validate)
+		{
+			self::validate($url, $target_html, $ua);
 		}
 
 		// error
@@ -424,11 +351,20 @@ class Post
 				Session::add('messages', 'errors', A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR_NO_SCHEME);
 			}
 		}
+		elseif ($do_validate)
+		{
+			View::assign('result', View::fetchTpl('checklist/validate.php'), false);
+		}
+		else
+		{
+			View::assign('result', View::fetchTpl('checklist/images.php'), false);
+		}
 
 		// title
 		define('A11YC_LANG_POST_TITLE', A11YC_LANG_POST_SERVICE_NAME);
 
 		// assign
+		View::assign('do_validate'        , $do_validate);
 		View::assign('title'              , '');
 		View::assign('page_title'         , $page_title);
 		View::assign('real_url'           , $real_url ?: $url);
@@ -437,10 +373,76 @@ class Post
 		View::assign('user_agent'         , $user_agent);
 		View::assign('target_url'         , static::$url);
 		View::assign('url'                , $url ?: $raw_url);
-		View::assign('target_html_head'   , $target_html_head, true);
 		View::assign('target_html'        , $target_html);
 		View::assign('render'             , $render, false);
 		View::assign('body'               , View::fetchTpl('post/index.php'), false);
+	}
+
+	/**
+	 * validate
+	 *
+	 * @return String
+	 */
+	private static function validate($url, $target_html, $ua)
+	{
+		$all_errs = array(
+			'notices' => array(),
+			'errors'  => array()
+		);
+
+		// check
+		$codes = Validate::$codes;
+		Validate::html($url, $target_html, $codes, $ua);
+
+		if (Validate::getErrors($url, $codes, $ua))
+		{
+			$err_link = static::$url.'?a=doc&criterion=';
+			foreach (Validate::getErrorIds($url) as $err_code => $errs)
+			{
+				foreach ($errs as $key => $err)
+				{
+					$err_type = isset($yml['errors'][$err_code]['notice']) ? 'notices' : 'errors';
+					$all_errs[$err_type][] = Message::getText($url, $err_code, $err, $key, $err_link);
+				}
+			}
+		}
+
+		// message
+		Session::add('messages', 'messages', A11YC_LANG_POST_DONE);
+		if (count($all_errs['errors']) == 0)
+		{
+			Session::add('messages', 'messages',
+				A11YC_LANG_CHECKLIST_NOT_FOUND_ERR);
+		}
+		else
+		{
+			Session::add('messages', 'messages',
+				sprintf(A11YC_LANG_POST_DONE_POINTS, count($all_errs['errors'])));
+		}
+		if (count($all_errs['notices']) != 0)
+		{
+			Session::add('messages', 'messages',
+				sprintf(A11YC_LANG_POST_DONE_NOTICE_POINTS, count($all_errs['notices'])));
+		}
+
+		// page_title
+		$page_title = Model\Html::fetchPageTitle($url);
+
+		// results
+		$errs_cnts = array_merge(
+			array('total' => count($all_errs['errors'])),
+			Validate::getErrorCnts($url, $codes, $ua)
+		);
+		$render = Util::s(Validate::getHighLightedHtml($url, $codes, $ua));
+		$raw = nl2br($render);
+
+		View::assign('errs'              , $all_errs, false);
+		View::assign('errs_cnts'         , $errs_cnts);
+		View::assign('raw'               , $raw, false);
+		View::assign('is_call_from_post' , true);
+
+		// count up for guest users
+		self::countUpForGuestUsers();
 	}
 
 	/**
