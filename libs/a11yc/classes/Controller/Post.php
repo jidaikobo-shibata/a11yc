@@ -336,28 +336,33 @@ class Post
 		}
 
 		// Do Validate
-		if ($do_validate)
+		$all_errs = array();
+		if ($target_html && $do_validate)
 		{
-			self::validate($url, $target_html, $ua);
+			$all_errs = self::validate($url, $target_html, $ua);
 		}
 
 		// error
-		if (Input::isPostExists() && ! $target_html && $raw_url)
+		if (Input::isPostExists())
 		{
-			Session::add('messages', 'errors', A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR);
-
-			if (strpos($raw_url, 'http') === false)
+			if ( ! $target_html && $raw_url)
 			{
-				Session::add('messages', 'errors', A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR_NO_SCHEME);
+				Session::add('messages', 'errors', A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR);
+
+				if (strpos($raw_url, 'http') === false)
+				{
+					Session::add('messages', 'errors', A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR_NO_SCHEME);
+				}
 			}
-		}
-		elseif ($do_validate)
-		{
-			View::assign('result', View::fetchTpl('checklist/validate.php'), false);
-		}
-		else
-		{
-			View::assign('result', View::fetchTpl('checklist/images.php'), false);
+
+			if ($do_validate)
+			{
+				View::assign('result', View::fetchTpl('checklist/validate.php'), false);
+			}
+			else
+			{
+				View::assign('result', View::fetchTpl('checklist/images.php'), false);
+			}
 		}
 
 		// title
@@ -381,7 +386,10 @@ class Post
 	/**
 	 * validate
 	 *
-	 * @return String
+	 * @param Strings $url
+	 * @param Strings $target_html
+	 * @param Strings $ua
+	 * @return Array
 	 */
 	private static function validate($url, $target_html, $ua)
 	{
@@ -443,6 +451,8 @@ class Post
 
 		// count up for guest users
 		self::countUpForGuestUsers();
+
+		return $all_errs;
 	}
 
 	/**
