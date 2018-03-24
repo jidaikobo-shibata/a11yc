@@ -293,25 +293,11 @@ class Validate
 
 		foreach ($errors as $k => $error)
 		{
-			$offset = 0;
+			list($replaces, $replaced, $end_replaced) = self::replaceSafeStrings($k, $lv, $error_id, $current_err);
+
 			$error_len = mb_strlen($error, "UTF-8");
-
-			// hash strgings to avoid wrong replace
-			$rplc = $is_notice ? 'a11yc_notice_rplc' : 'a11yc_rplc';
-			$original = '[==='.$rplc.'==='.$error_id.'_'.$k.'==='.$rplc.'_title==='.$current_err['message'].'==='.$rplc.'_class==='.$lv.'==='.$rplc.'===][==='.$rplc.'_strong_class==='.$lv.'==='.$rplc.'_strong===]';
-			$replaced = '==='.$rplc.'==='.hash("sha256", $original).'===/'.$rplc.'===';
-
-			$end_original = '[===end_'.$rplc.'==='.$error_id.'_'.$k.'==='.$rplc.'_back_class==='.$lv.'===end_'.$rplc.'===]';
-			$end_replaced = '===end_'.$rplc.'==='.hash("sha256", $end_original).'===/end_'.$rplc.'===';
-
-			$replaces[$k] = array(
-				'original' => $original,
-				'replaced' => $replaced,
-
-				'end_original' => $end_original,
-				'end_replaced' => $end_replaced,
-			);
 			$err_rep_len = strlen($replaced);
+			$offset = 0;
 
 			// normal search
 			if ($error)
@@ -403,7 +389,6 @@ class Validate
 		return $current_err;
 	}
 
-
 	/**
 	 * ignore Elements Or Comments
 	 *
@@ -435,6 +420,31 @@ class Validate
 			}
 		}
 		return array($html, $replaces_ignores);
+	}
+
+	/**
+	 * replace Safe Strings
+	 *
+	 * @return  Array
+	 */
+	private static function replaceSafeStrings($k, $lv, $error_id, $current_err)
+	{
+			// hash strgings to avoid wrong replace
+			$rplc = $is_notice ? 'a11yc_notice_rplc' : 'a11yc_rplc';
+			$original = '[==='.$rplc.'==='.$error_id.'_'.$k.'==='.$rplc.'_title==='.$current_err['message'].'==='.$rplc.'_class==='.$lv.'==='.$rplc.'===][==='.$rplc.'_strong_class==='.$lv.'==='.$rplc.'_strong===]';
+			$replaced = '==='.$rplc.'==='.hash("sha256", $original).'===/'.$rplc.'===';
+
+			$end_original = '[===end_'.$rplc.'==='.$error_id.'_'.$k.'==='.$rplc.'_back_class==='.$lv.'===end_'.$rplc.'===]';
+			$end_replaced = '===end_'.$rplc.'==='.hash("sha256", $end_original).'===/end_'.$rplc.'===';
+
+			$replaces[$k] = array(
+				'original' => $original,
+				'replaced' => $replaced,
+
+				'end_original' => $end_original,
+				'end_replaced' => $end_replaced,
+			);
+			return array($replaces, $replaced, $end_replaced);
 	}
 
 	/**
