@@ -136,8 +136,8 @@ class Checklist
 			$page = self::getPage($url);
 
 			// automatic check
-			Validate::setDoCssCheck(Input::post('do_css_check', false));
-			Validate::setDoLinkCheck(Input::post('do_link_check', false));
+			Validate::$do_link_check = Input::post('do_link_check', false);
+			Validate::$do_css_check  = Input::post('do_css_check', false);
 			Validate::url($url);
 		}
 

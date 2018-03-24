@@ -14,13 +14,16 @@ use A11yc\Model;
 
 class Validate
 {
-	public static $is_partial = false;
-	protected static $do_link_check = false;
-	protected static $do_css_check = false;
-	protected static $error_ids = array();
-	protected static $html = '';
-	protected static $hl_html = ''; // HighLighted
-	protected static $csses = array();
+	public static $is_partial    = false;
+	public static $do_link_check = false;
+	public static $do_css_check  = false;
+
+	protected static $error_ids  = array();
+	protected static $csses      = array();
+	protected static $results    = array();
+	protected static $hl_htmls   = array();
+
+	static public $err_cnts      = array('a' => 0, 'aa' => 0, 'aaa' => 0);
 
 	public static $codes = array(
 			// elements
@@ -74,10 +77,6 @@ class Validate
 			'CssInvisibles',
 		);
 
-	protected static $results = array();
-	protected static $hl_htmls = array();
-	static public $err_cnts = array('a' => 0, 'aa' => 0, 'aaa' => 0);
-
 	/**
 	 * codes2name
 	 *
@@ -113,7 +112,6 @@ class Validate
 	public static function html($url, $html, $codes = array(), $ua = 'using', $force = 0)
 	{
 		$codes = $codes ?: self::$codes;
-
 		$name = static::codes2name($codes);
 		if (isset(static::$results[$url][$name][$ua]) && ! $force) return static::$results[$url][$name][$ua];
 
@@ -177,7 +175,7 @@ class Validate
 	 *
 	 * @param  String $url
 	 * @param  String $ua
-	 * @return Void
+	 * @return Array
 	 */
 	public static function css($url, $ua = 'using')
 	{
@@ -209,14 +207,14 @@ class Validate
 	 * @param  Array  $codes
 	 * @param  String $ua
 	 * @param  Bool   $force
-	 * @return String
+	 * @return Array
 	 */
 	public static function getErrors($url, $codes = array(), $ua = 'using', $force = false)
 	{
 		$codes = $codes ?: self::$codes;
 		$name = static::codes2name($codes);
 		if (isset(static::$results[$url][$name][$ua]['errors']) && ! $force) return static::$results[$url][$name][$ua]['errors'];
-		return false;
+		return array();
 	}
 
 	/**
@@ -234,7 +232,7 @@ class Validate
 		$name = static::codes2name($codes);
 
 		if (isset(static::$results[$url][$name][$ua]['hl_html']) && ! $force) return static::$results[$url][$name][$ua]['hl_html'];
-		return false;
+		return '';
 	}
 
 	/**
@@ -249,54 +247,11 @@ class Validate
 	}
 
 	/**
-	 * set_do_link_check
-	 *
-	 * @param  bool
-	 * @return  void
-	 */
-	public static function setDoLinkCheck($bool)
-	{
-		static::$do_link_check = $bool;
-	}
-
-	/**
-	 * do_link_check
-	 *
-	 * @return  bool
-	 */
-	public static function doLinkCheck()
-	{
-		if ( ! \A11yc\Guzzle::envCheck()) return false;
-		return static::$do_link_check;
-	}
-
-	/**
-	 * set_do_css_check
-	 *
-	 * @param  bool
-	 * @return  void
-	 */
-	public static function setDoCssCheck($bool)
-	{
-		static::$do_css_check = $bool;
-	}
-
-	/**
-	 * do_css_check
-	 *
-	 * @return  bool
-	 */
-	public static function doCssCheck()
-	{
-		return static::$do_css_check;
-	}
-
-	/**
 	 * add error to html
 	 *
 	 * @param  String $url
 	 * @param  String $error_id
-	 * @param  Array  $errors
+	 * @param  Array  $s_errors
 	 * @param  String $ignore_vals
 	 * @param  String $issue_html
 	 * @return Void
@@ -376,8 +331,6 @@ class Validate
 			{
 				// cannot define error place
 				continue;
-				// always search first tag
-				// $pos = static::$first_tag ? mb_strpos($html, static::$first_tag, 0, "UTF-8") : 0;
 			}
 
 			// add error
@@ -417,11 +370,15 @@ class Validate
 	/**
 	 * set current error
 	 *
+	 * @param  String $url
+	 * @param  String $error_id
+	 * @param  String $issue_html
 	 * @return  Array|bool
 	 */
-	private static function setCurrentErr($url, $error_id, $issue_html)
+	public static function setCurrentErr($url, $error_id, $issue_html)
 	{
 		$yml = Yaml::fetch();
+		$current_err = array();
 		if ( ! isset($yml['errors'][$error_id]))
 		{
 			$issue = Model\Issues::fetch4Validation($url, $issue_html);
@@ -462,7 +419,7 @@ class Validate
 			foreach ($ignores as $k => $ignore)
 			{
 				preg_match_all($ignore, $html, $ms);
-				if ($ms)
+				if ( ! empty($ms))
 				{
 					foreach ($ms[0] as $kk => $vv)
 					{

@@ -101,6 +101,7 @@ class Db
 	 */
 	public static function init_table($name = 'default')
 	{
+		if (empty($name)) Util::error();
 	}
 
 	/**
