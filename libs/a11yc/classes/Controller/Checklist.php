@@ -141,9 +141,49 @@ class Checklist
 			Validate::url($url);
 		}
 
+		// get basic values
+		list($settings, $standards, $standard, $done_date, $issues) = self::getBasicValues($page);
+
 		// is new
 		$is_new = is_array($page) && Arr::get($page, 'updated_at') !== NULL ? FALSE : TRUE;
 
+		// reference url
+		$refs = Values::getRefUrls();
+
+		// assign
+		View::assign('target_title', Model\Html::fetchPageTitle($url));
+		View::assign('url', $url);
+		View::assign('statuses', Values::issueStatus());
+		View::assign('issues', $issues);
+		View::assign('selection_reasons', Values::filteredSelectionReasons());
+		View::assign('refs', $refs[$standard]);
+		View::assign('users', $users);
+		View::assign('current_user_id', $current_user_id);
+		View::assign('yml', Yaml::fetch(), FALSE);
+		View::assign('standards', $standards);
+		View::assign('settings', $settings);
+		View::assign('done_date', $done_date);
+		View::assign('checklist_behaviour', intval(@$settings['checklist_behaviour']));
+		View::assign('target_level', intval(@$settings['target_level']));
+		View::assign('page', $page);
+		View::assign('additional_criterions', join('","',Values::additionalCriterions()));
+		View::assign('is_new', $is_new);
+		View::assign('is_bulk', $is_bulk);
+
+		self::assginValidation($url, $is_new, $is_bulk);
+
+		// form
+		View::assign('form', View::fetchTpl('checklist/form.php'), FALSE);
+	}
+
+	/**
+	 * get basic values
+	 *
+	 * @param  Array $page
+	 * @return Array
+	 */
+	private static function getBasicValues($page)
+	{
 		// settings
 		$settings = Model\Settings::fetchAll();
 
@@ -168,33 +208,7 @@ class Checklist
 			$issues[$criterion] = Model\Issues::fetch4Checklist($url, $criterion);
 		}
 
-		// reference url
-		$refs = Values::getRefUrls();
-
-		// assign
-		View::assign('target_title', Model\Html::fetchPageTitle($url));
-		View::assign('url', $url);
-		View::assign('statuses', Values::issueStatus());
-		View::assign('issues', $issues);
-		View::assign('selection_reasons', Values::filteredSelectionReasons());
-		View::assign('refs', $refs[$standard]);
-		View::assign('users', $users);
-		View::assign('current_user_id', $current_user_id);
-		View::assign('yml', $yml, FALSE);
-		View::assign('standards', $standards);
-		View::assign('settings', $settings);
-		View::assign('done_date', $done_date);
-		View::assign('checklist_behaviour', intval(@$settings['checklist_behaviour']));
-		View::assign('target_level', intval(@$settings['target_level']));
-		View::assign('page', $page);
-		View::assign('additional_criterions', join('","',Values::additionalCriterions()));
-		View::assign('is_new', $is_new);
-		View::assign('is_bulk', $is_bulk);
-
-		self::assginValidation($url, $is_new, $is_bulk);
-
-		// form
-		View::assign('form', View::fetchTpl('checklist/form.php'), FALSE);
+		return array($settings, $standards, $standard, $done_date, $issues);
 	}
 
 	/**
