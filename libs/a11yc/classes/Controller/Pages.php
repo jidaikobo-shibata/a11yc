@@ -161,48 +161,8 @@ class Pages
 			$current = $k + 1;
 			echo '<p>'.Util::s($url).' ('.Util::s($orig_url).': '.$current.'/'.count($ms[1]).")<br />\n";
 
-			// already added
-			if (in_array($url, $urls))
-			{
-				echo "<strong style=\"color: #408000\">Already Added</strong>\n";
-				continue;
-			}
-
-			// #
-			if ($url[0] == '#')
-			{
-				echo "<strong style=\"color: #408000\">page fragment</strong>\n";
-				continue;
-			}
-
-			// search from db
-			$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?'.Db::currentVersionSql().';';
-			if (Db::fetch($sql, array($url)))
-			{
-				echo "<strong style=\"color: #408000\">Already exists</strong>\n";
-				continue;
-			}
-
-			// is same host?
-			if (mb_substr($url, 0, mb_strlen($base_url)) !== $base_url)
-			{
-				echo "<strong style=\"color: #408000\">Not in same host</strong>\n";
-				continue;
-			}
-
-			// page not exists
-			if ( ! Crawl::isPageExist($url))
-			{
-				echo "<strong style=\"color: #408000\">Page not exist</strong>\n";
-				continue;
-			}
-
-			// page not exists
-			if ( ! Crawl::isTargetMime($url))
-			{
-				echo "<strong style=\"color: #408000\">Not target webpage</strong>\n";
-				continue;
-			}
+			// echo error message and continue
+			if ( ! self::echoGetUrls($url, $urls, $base_url)) continue;
 
 			echo "<strong style=\"border-radius: 5px; padding: 5px; color: #fff;background-color:#408000;\">Add to candidate</strong>\n";
 
@@ -242,6 +202,61 @@ class Pages
 			echo '</body>';
 		}
 		exit();
+	}
+
+	/**
+	 * echo getUrls messages
+	 *
+	 * @param  String $url
+	 * @param  Array $urls
+	 * @param  String $base_url
+	 * @return Bool
+	 */
+	private static function echoGetUrls($url, $urls, $base_url)
+	{
+		// already added
+		if (in_array($url, $urls))
+		{
+			echo "<strong style=\"color: #408000\">Already Added</strong>\n";
+			return false;
+		}
+
+		// #
+		if ($url[0] == '#')
+		{
+			echo "<strong style=\"color: #408000\">page fragment</strong>\n";
+			return false;
+		}
+
+		// search from db
+		$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?'.Db::currentVersionSql().';';
+		if (Db::fetch($sql, array($url)))
+		{
+			echo "<strong style=\"color: #408000\">Already exists</strong>\n";
+			return false;
+		}
+
+		// is same host?
+		if (mb_substr($url, 0, mb_strlen($base_url)) !== $base_url)
+		{
+			echo "<strong style=\"color: #408000\">Not in same host</strong>\n";
+			return false;
+		}
+
+		// page not exists
+		if ( ! Crawl::isPageExist($url))
+		{
+			echo "<strong style=\"color: #408000\">Page not exist</strong>\n";
+			return false;
+		}
+
+		// page not exists
+		if ( ! Crawl::isTargetMime($url))
+		{
+			echo "<strong style=\"color: #408000\">Not target webpage</strong>\n";
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -369,18 +384,6 @@ class Pages
 			{
 				case 'check' :
 					$redirect_to = A11YC_CHECKLIST_URL.Util::urlenc($url);
-					break;
-
-				case 'result' :
-					break;
-
-				case 'live' :
-					break;
-
-				case 'image' :
-					break;
-
-				case 'export' :
 					break;
 
 				case 'delete' :
