@@ -168,16 +168,16 @@ class Checklist
 			$issues[$criterion] = Model\Issues::fetch4Checklist($url, $criterion);
 		}
 
-		// reference urls
+		// reference url
 		$refs = Values::getRefUrls();
 
 		// assign
+		View::assign('target_title', Model\Html::fetchPageTitle($url));
+		View::assign('url', $url);
 		View::assign('statuses', Values::issueStatus());
 		View::assign('issues', $issues);
 		View::assign('selection_reasons', Values::filteredSelectionReasons());
 		View::assign('refs', $refs[$standard]);
-		View::assign('url', $url);
-		View::assign('target_title', Model\Html::fetchPageTitle($url));
 		View::assign('users', $users);
 		View::assign('current_user_id', $current_user_id);
 		View::assign('yml', $yml, FALSE);
@@ -190,23 +190,8 @@ class Checklist
 		View::assign('additional_criterions', join('","',Values::additionalCriterions()));
 		View::assign('is_new', $is_new);
 		View::assign('is_bulk', $is_bulk);
-		if ($is_bulk || $is_new)
-		{
-			View::assign('results', Model\Bulk::fetchResults());
-			View::assign('cs', Model\Bulk::fetchChecks());
-		}
-		else
-		{
-			View::assign('results', Model\Results::fetch($url));
-			View::assign('cs', Model\Checklist::fetch($url));
-		}
 
-		// validation
-		View::assign('is_call_from_post', true);
-		View::assign('errs_cnts', Validate::getErrorCnts($url));
-		View::assign('errs', Validate::getErrors($url), FALSE);
-		View::assign('raw', nl2br(Validate::getHighLightedHtml($url)), FALSE);
-		View::assign('validation_result', View::fetchTpl('checklist/validate.php'), FALSE);
+		self::assginValidation($url, $is_new, $is_bulk);
 
 		// form
 		View::assign('form', View::fetchTpl('checklist/form.php'), FALSE);
@@ -239,4 +224,32 @@ class Checklist
 		return $page;
 	}
 
+	/**
+	 * assgin vaidated value
+	 *
+	 * @param  String $url
+	 * @param  Bool $is_new
+	 * @param  Bool $is_bulk
+	 * @return Void
+	 */
+	private static function assginValidation($url, $is_new, $is_bulk)
+	{
+		if ($is_bulk || $is_new)
+		{
+			View::assign('results', Model\Bulk::fetchResults());
+			View::assign('cs', Model\Bulk::fetchChecks());
+		}
+		else
+		{
+			View::assign('results', Model\Results::fetch($url));
+			View::assign('cs', Model\Checklist::fetch($url));
+		}
+
+		// validation
+		View::assign('is_call_from_post', true);
+		View::assign('errs_cnts', Validate::getErrorCnts($url));
+		View::assign('errs', Validate::getErrors($url), FALSE);
+		View::assign('raw', nl2br(Validate::getHighLightedHtml($url)), FALSE);
+		View::assign('validation_result', View::fetchTpl('checklist/validate.php'), FALSE);
+	}
 }
