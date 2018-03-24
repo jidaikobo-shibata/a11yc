@@ -284,6 +284,7 @@ class Post
 		$doc_root         = Input::post('doc_root', '');
 		$target_html      = '';
 		$render           = '';
+		$do_validate      = true;
 
 		// User Agent
 		$uas = Values::uas();
@@ -295,7 +296,6 @@ class Post
 		self::auth();
 
 		// validation
-		$do_validate = true;
 		if (Input::post('source'))
 		{
 			$target_html = Input::post('source');
@@ -303,34 +303,7 @@ class Post
 		elseif ($url)
 		{
 			$target_html = Model\Html::fetchHtml($url, $ua); // not use Database
-
-			// basic auth failed
-			if (Guzzle::instance($url)->status_code == 401)
-			{
-				$do_validate = false;
-				Session::add('messages', 'errors', A11YC_LANG_POST_BASIC_AUTH_EXP);
-			}
-
-			// connection problems
-			if (Guzzle::instance($url)->errors)
-			{
-				$do_validate = false;
-				Session::add('messages', 'errors', A11YC_LANG_ERROR_COULD_NOT_ESTABLISH_CONNECTION);
-			}
-
-			// images
-			if (Input::post('behaviour') == 'images')
-			{
-				$do_validate = false;
-				View::assign('images', A11yc\Images::getImages($url, $doc_root));
-				Session::add('messages', 'messages', A11YC_LANG_POST_DONE_IMAGE_LIST);
-			}
-
-			// export CSV
-			if (Input::post('behaviour') == 'csv')
-			{
-				Export::csv($url); // exit()
-			}
+			$do_validate = self::failedOrDoOtherAction($url, $doc_root, $do_validate);
 		}
 
 		// Do Validate
@@ -378,6 +351,47 @@ class Post
 		View::assign('target_html'        , $target_html);
 		View::assign('render'             , $render, false);
 		View::assign('body'               , View::fetchTpl('post/index.php'), false);
+	}
+
+	/**
+	 * failedOrDoOtherAction
+	 *
+	 * @param String $url
+	 * @param String $doc_root
+	 * @param Bool   $do_validate
+	 * @return Bool|Void
+	 */
+	private static function failedOrDoOtherAction($url, $doc_root, $do_validate)
+	{
+		// basic auth failed
+		if (Guzzle::instance($url)->status_code == 401)
+		{
+			$do_validate = false;
+			Session::add('messages', 'errors', A11YC_LANG_POST_BASIC_AUTH_EXP);
+		}
+
+		// connection problems
+		if (Guzzle::instance($url)->errors)
+		{
+			$do_validate = false;
+			Session::add('messages', 'errors', A11YC_LANG_ERROR_COULD_NOT_ESTABLISH_CONNECTION);
+		}
+
+		// images
+		if (Input::post('behaviour') == 'images')
+		{
+			$do_validate = false;
+			View::assign('images', A11yc\Images::getImages($url, $doc_root));
+			Session::add('messages', 'messages', A11YC_LANG_POST_DONE_IMAGE_LIST);
+		}
+
+		// export CSV
+		if (Input::post('behaviour') == 'csv')
+		{
+			Export::csv($url); // exit()
+		}
+
+		return $do_validate;
 	}
 
 	/**
