@@ -290,7 +290,7 @@ class Validate
 
 		foreach ($errors as $k => $error)
 		{
-			list($replaces, $replaced, $end_replaced) = self::replaceSafeStrings($k, $lv, $error_id, $current_err);
+			list($replaces, $replaced, $end_replaced) = self::replaceSafeStrings($replaces, $k, $lv, $error_id, $current_err);
 
 			$error_len = mb_strlen($error, "UTF-8");
 			$err_rep_len = strlen($replaced);
@@ -423,13 +423,14 @@ class Validate
 	 * replace Safe Strings
 	 * hash strgings to avoid wrong replace
 	 *
+	 * @param  Array $replaces
 	 * @param  Integer $k
 	 * @param  String  $lv
 	 * @param  String  $error_id
 	 * @param  Array   $current_err
 	 * @return  Array
 	 */
-	private static function replaceSafeStrings($k, $lv, $error_id, $current_err)
+	private static function replaceSafeStrings($replaces, $k, $lv, $error_id, $current_err)
 	{
 		//notice
 		$rplc = isset($current_err['notice']) && $current_err['notice'] ?
