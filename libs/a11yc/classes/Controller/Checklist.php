@@ -147,9 +147,6 @@ class Checklist
 		// settings
 		$settings = Model\Settings::fetchAll();
 
-		// selection reason
-		$selection_reasons = Values::filteredSelectionReasons();
-
 		// standards
 		$standards = Yaml::each('standards');
 		$standard = Arr::get($settings, 'standard', 0);
@@ -177,7 +174,7 @@ class Checklist
 		// assign
 		View::assign('statuses', Values::issueStatus());
 		View::assign('issues', $issues);
-		View::assign('selection_reasons', $selection_reasons);
+		View::assign('selection_reasons', Values::filteredSelectionReasons());
 		View::assign('refs', $refs[$standard]);
 		View::assign('url', $url);
 		View::assign('target_title', Model\Html::fetchPageTitle($url));
