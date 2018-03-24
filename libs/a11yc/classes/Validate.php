@@ -288,9 +288,6 @@ class Validate
 		$results = array();
 		$replaces = array();
 
-		// notice
-		$is_notice = isset($current_err['notice']) && $current_err['notice'];
-
 		foreach ($errors as $k => $error)
 		{
 			list($replaces, $replaced, $end_replaced) = self::replaceSafeStrings($k, $lv, $error_id, $current_err);
@@ -424,27 +421,38 @@ class Validate
 
 	/**
 	 * replace Safe Strings
+	 * hash strgings to avoid wrong replace
 	 *
+	 * @param  Integer $k
+	 * @param  String  $lv
+	 * @param  String  $error_id
+	 * @param  Array   $current_err
 	 * @return  Array
 	 */
 	private static function replaceSafeStrings($k, $lv, $error_id, $current_err)
 	{
-			// hash strgings to avoid wrong replace
-			$rplc = $is_notice ? 'a11yc_notice_rplc' : 'a11yc_rplc';
-			$original = '[==='.$rplc.'==='.$error_id.'_'.$k.'==='.$rplc.'_title==='.$current_err['message'].'==='.$rplc.'_class==='.$lv.'==='.$rplc.'===][==='.$rplc.'_strong_class==='.$lv.'==='.$rplc.'_strong===]';
-			$replaced = '==='.$rplc.'==='.hash("sha256", $original).'===/'.$rplc.'===';
+		//notice
+		$rplc = isset($current_err['notice']) && $current_err['notice'] ?
+					'a11yc_notice_rplc' :
+					'a11yc_rplc';
 
-			$end_original = '[===end_'.$rplc.'==='.$error_id.'_'.$k.'==='.$rplc.'_back_class==='.$lv.'===end_'.$rplc.'===]';
-			$end_replaced = '===end_'.$rplc.'==='.hash("sha256", $end_original).'===/end_'.$rplc.'===';
+		// start
+		$original = '[==='.$rplc.'==='.$error_id.'_'.$k.'==='.$rplc.'_title==='.$current_err['message'].'==='.$rplc.'_class==='.$lv.'==='.$rplc.'===][==='.$rplc.'_strong_class==='.$lv.'==='.$rplc.'_strong===]';
+		$replaced = '==='.$rplc.'==='.hash("sha256", $original).'===/'.$rplc.'===';
 
-			$replaces[$k] = array(
-				'original' => $original,
-				'replaced' => $replaced,
+		// end
+		$end_original = '[===end_'.$rplc.'==='.$error_id.'_'.$k.'==='.$rplc.'_back_class==='.$lv.'===end_'.$rplc.'===]';
+		$end_replaced = '===end_'.$rplc.'==='.hash("sha256", $end_original).'===/end_'.$rplc.'===';
 
-				'end_original' => $end_original,
-				'end_replaced' => $end_replaced,
-			);
-			return array($replaces, $replaced, $end_replaced);
+		// replace
+		$replaces[$k] = array(
+			'original' => $original,
+			'replaced' => $replaced,
+
+			'end_original' => $end_original,
+			'end_replaced' => $end_replaced,
+		);
+		return array($replaces, $replaced, $end_replaced);
 	}
 
 	/**
