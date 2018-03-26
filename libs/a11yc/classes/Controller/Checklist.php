@@ -142,7 +142,7 @@ class Checklist
 		}
 
 		// get basic values
-		list($settings, $standards, $standard, $done_date, $issues) = self::getBasicValues($page);
+		list($settings, $standards, $standard, $done_date, $issues) = self::getBasicValues($url, $page);
 
 		// is new
 		$is_new = is_array($page) && Arr::get($page, 'updated_at') !== NULL ? FALSE : TRUE;
@@ -179,10 +179,11 @@ class Checklist
 	/**
 	 * get basic values
 	 *
+	 * @param  String $url
 	 * @param  Array $page
 	 * @return Array
 	 */
-	private static function getBasicValues($page)
+	private static function getBasicValues($url, $page)
 	{
 		// settings
 		$settings = Model\Settings::fetchAll();
