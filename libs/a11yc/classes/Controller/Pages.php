@@ -103,6 +103,7 @@ class Pages
 		$crawled = is_array($crawled[0]) ? join("\n", $crawled[0]) : '';
 		$is_force = Input::post('force', false);
 
+
 		if (Input::isPostExists())
 		{
 			if ($get_urls)

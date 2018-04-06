@@ -122,6 +122,7 @@ class Guzzle
 
 		$client = new \GuzzleHttp\Client(array(
 				'http_errors' => false,
+				'verify' => false,
 			));
 
 		// client
