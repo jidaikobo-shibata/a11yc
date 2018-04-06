@@ -12,7 +12,7 @@ namespace A11yc;
 
 class Element
 {
-	protected static $first_tag = '';
+	public static $first_tag = '';
 	protected static $ignored_str = '';
 	protected static $res = array();
 	protected static $attrs = array();

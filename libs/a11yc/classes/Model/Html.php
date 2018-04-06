@@ -52,6 +52,7 @@ class Html
 		static::$htmls[$url][$ua][$type] = Guzzle::instance($url)->is_html ?
 																			Guzzle::instance($url)->body :
 																			false;
+
 		return static::$htmls[$url][$ua][$type];
 	}
 
