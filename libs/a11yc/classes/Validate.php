@@ -17,11 +17,11 @@ class Validate
 	public static $is_partial    = false;
 	public static $do_link_check = false;
 	public static $do_css_check  = false;
+	public static $hl_htmls   = array();
 
 	protected static $error_ids  = array();
 	protected static $csses      = array();
 	protected static $results    = array();
-	protected static $hl_htmls   = array();
 
 	static public $err_cnts      = array('a' => 0, 'aa' => 0, 'aaa' => 0);
 
