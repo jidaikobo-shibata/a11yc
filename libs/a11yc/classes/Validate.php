@@ -325,7 +325,7 @@ class Validate
 		}
 
 		// ignore elements or comments
-		list($html, $replaces_ignores) = self::ignoreElementsOrComments($ignore_vals, $html);
+		list($html, $replaces_ignores, $replaced) = self::ignoreElementsOrComments($ignore_vals, $html);
 
 		$lv = strtolower($yml['criterions'][$current_err['criterions'][0]]['level']['name']);
 
@@ -333,30 +333,13 @@ class Validate
 		$results = array();
 		$replaces = array();
 
-		// notice
-		$is_notice = isset($current_err['notice']) && $current_err['notice'];
-
 		foreach ($errors as $k => $error)
 		{
 			$offset = 0;
 			$error_len = mb_strlen($error, "UTF-8");
 
 			// hash strgings to avoid wrong replace
-			$rplc = $is_notice ? 'a11yc_notice_rplc' : 'a11yc_rplc';
-			$original = '[==='.$rplc.'==='.$error_id.'_'.$k.'==='.$rplc.'_title==='.$current_err['message'].'==='.$rplc.'_class==='.$lv.'==='.$rplc.'===][==='.$rplc.'_strong_class==='.$lv.'==='.$rplc.'_strong===]';
-			$replaced = '==='.$rplc.'==='.hash("sha256", $original).'===/'.$rplc.'===';
-
-			$end_original = '[===end_'.$rplc.'==='.$error_id.'_'.$k.'==='.$rplc.'_back_class==='.$lv.'===end_'.$rplc.'===]';
-			$end_replaced = '===end_'.$rplc.'==='.hash("sha256", $end_original).'===/end_'.$rplc.'===';
-
-			$replaces[$k] = array(
-				'original' => $original,
-				'replaced' => $replaced,
-
-				'end_original' => $end_original,
-				'end_replaced' => $end_replaced,
-			);
-			$err_rep_len = strlen($replaced);
+			list($replaces, $err_rep_len, $end_replaced) = self::hashStrgingsToAvoidWrongReplace($error_id, $current_err, $k, $lv);
 
 			// normal search
 			if ($error)
@@ -446,7 +429,6 @@ class Validate
 		return $current_err;
 	}
 
-
 	/**
 	 * ignore Elements Or Comments
 	 *
@@ -477,7 +459,40 @@ class Validate
 				}
 			}
 		}
-		return array($html, $replaces_ignores);
+		return array($html, $replaces_ignores, $replaced);
+	}
+
+	/**
+	 * ignore Elements Or Comments
+	 *
+	 * @param  String $error_id
+	 * @param  Array $current_err
+	 * @param  Integer $k
+	 * @param  String $lv
+	 * @param  String $replaced
+	 * @return  Array
+	 */
+	private static function hashStrgingsToAvoidWrongReplace($error_id, $current_err, $k, $lv)
+	{
+		// notice
+		$is_notice = isset($current_err['notice']) && $current_err['notice'];
+
+		$rplc = $is_notice ? 'a11yc_notice_rplc' : 'a11yc_rplc';
+		$original = '[==='.$rplc.'==='.$error_id.'_'.$k.'==='.$rplc.'_title==='.$current_err['message'].'==='.$rplc.'_class==='.$lv.'==='.$rplc.'===][==='.$rplc.'_strong_class==='.$lv.'==='.$rplc.'_strong===]';
+		$replaced = '==='.$rplc.'==='.hash("sha256", $original).'===/'.$rplc.'===';
+
+		$end_original = '[===end_'.$rplc.'==='.$error_id.'_'.$k.'==='.$rplc.'_back_class==='.$lv.'===end_'.$rplc.'===]';
+		$end_replaced = '===end_'.$rplc.'==='.hash("sha256", $end_original).'===/end_'.$rplc.'===';
+
+		$replaces[$k] = array(
+			'original' => $original,
+			'replaced' => $replaced,
+
+			'end_original' => $end_original,
+			'end_replaced' => $end_replaced,
+		);
+		$err_rep_len = strlen($replaced);
+		return array($replaces, $err_rep_len, $replaced, $end_replaced);
 	}
 
 	/**
