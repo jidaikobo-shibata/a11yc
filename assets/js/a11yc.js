@@ -1,5 +1,8 @@
 jQuery(function($){
-if(!$('.a11yc')[0]) return;
+if(!$('.a11yc')[0])
+{
+	return;
+}
 //set grobal
 	a11yc_env = {
 		$a11yc_content : $('.a11yc').eq(0),
@@ -47,12 +50,30 @@ if(!$('.a11yc')[0]) return;
 	$.fn.a11yc_get_height = function(arr){
 //	console.log('fn.a11yc_get_height');
 //	console.log(typeof arr!=='undefined' ? arr : 'get all');
-		if(!arr || $.inArray('mh', arr)) a11yc_env.menu_height = a11yc_env.$menu.outerHeight();
-		if(!arr || $.inArray('pt', arr)) a11yc_env.pagemenu_top = a11yc_env.$pagemenu[0] ? a11yc_env.$pagemenu.offset().top - a11yc_env.menu_height : 0;
-		if(!arr || $.inArray('pmh', arr)) a11yc_env.pagemenu_height = $('#a11yc_menu_principles')[0] ? $('#a11yc_menu_principles').outerHeight() : 0;
-		if(!arr || $.inArray('hh', arr)) a11yc_env.header_height = $('#a11yc_header')[0] ? $('#a11yc_header').outerHeight(true) : 0;
-		if(!arr || $.inArray('fh', arr)) a11yc_env.fixed_height = $('.a11yc_fixed_header')[0] ? $('#a11yc_header').outerHeight(true) : a11yc_env.$menu.outerHeight();
-		if(( !arr || $.inArray('ff', arr)) && a11yc_env.fixed_footer_top !==0 ) a11yc_env.fixed_footer_top = a11yc_env.$footer.offset().top;
+		if(!arr || $.inArray('mh', arr))
+		{
+			a11yc_env.menu_height = a11yc_env.$menu.outerHeight();
+		}
+		if(!arr || $.inArray('pt', arr))
+		{
+			a11yc_env.pagemenu_top = a11yc_env.$pagemenu[0] ? a11yc_env.$pagemenu.offset().top - a11yc_env.menu_height : 0;
+		}
+		if(!arr || $.inArray('pmh', arr))
+		{
+			a11yc_env.pagemenu_height = $('#a11yc_menu_principles')[0] ? $('#a11yc_menu_principles').outerHeight() : 0;
+		}
+		if(!arr || $.inArray('hh', arr))
+		{
+			a11yc_env.header_height = $('#a11yc_header')[0] ? $('#a11yc_header').outerHeight(true) : 0;
+		}
+		if(!arr || $.inArray('fh', arr))
+		{
+			a11yc_env.fixed_height = $('.a11yc_fixed_header')[0] ? $('#a11yc_header').outerHeight(true) : a11yc_env.$menu.outerHeight();
+		}
+		if(( !arr || $.inArray('ff', arr)) && a11yc_env.fixed_footer_top !==0 )
+		{
+			a11yc_env.fixed_footer_top = a11yc_env.$footer.offset().top;
+		}
 	}
 
 	// get contents height all

@@ -147,7 +147,7 @@ class Css
 				$attrs = Validate::getAttributes($m);
 				if ( ! isset($attrs['href'])) continue;
 				$url = $attrs['href'];
-				$url = self::enuniqueUri($url, $html_url);
+				$url = self::enuniqueUri($url);
 				if ( ! Crawl::isPageExist($url)) continue;
 				$current_css = self::fetchFromInternet($url, $ua);
 				$css.= $current_css;
@@ -159,7 +159,7 @@ class Css
 					{
 						$import_url = trim($import_url, '"');
 						$import_url = trim($import_url, "'");
-						$import_url = self::enuniqueUri($import_url, $html_url, $url);
+						$import_url = self::enuniqueUri($import_url, $url);
 						$css.= self::fetchFromInternet($import_url, $ua);
 					}
 				}
@@ -191,11 +191,10 @@ class Css
 	 * enuniqueUri
 	 *
 	 * @param  String $url
-	 * @param  String $html_url
 	 * @param  String $css_url
 	 * @return String
 	 */
-	private static function enuniqueUri($url, $html_url = '', $css_url = '')
+	private static function enuniqueUri($url, $css_url = '')
 	{
 		if (strpos($url, 'http') === 0)
 		{

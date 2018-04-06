@@ -22,6 +22,8 @@ class SamePageTitleInSameSite extends Validate
 	 */
 	public static function check($url)
 	{
+		if (Validate::$is_partial == true) return;
+
 		$title = Model\Html::fetchPageTitle($url);
 		$sql = 'SELECT count(*) as num FROM '.A11YC_TABLE_PAGES.' WHERE `title` = ?';
 		$sql.= Db::versionSql().';';

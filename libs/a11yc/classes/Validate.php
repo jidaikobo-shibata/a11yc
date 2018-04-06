@@ -1,572 +1,249 @@
 <?php
 /**
- * A11yc\Validate
+ * \JwpA11y\Validate
  *
- * @package    part of A11yc
+ * @package    WordPress
+ * @version    1.0
  * @author     Jidaikobo Inc.
- * @license    The MIT License (MIT)
+ * @license    GPL
  * @copyright  Jidaikobo Inc.
  * @link       http://www.jidaikobo.com
  */
-namespace A11yc;
+namespace JwpA11y;
 
-use A11yc\Model;
-
-class Validate
+class Validate extends \A11yc\Validate
 {
-	public static $is_partial = false;
-	protected static $do_link_check = false;
-	protected static $do_css_check = false;
-	protected static $error_ids = array();
-	protected static $html = '';
-	protected static $hl_html = ''; // HighLighted
-	protected static $csses = array();
-
-	public static $codes = array(
-			// elements
-			'EmptyAltAttrOfImgInsideA',
-			'HereLink',
-			'TellUserFileType',
-			'SameUrlsShouldHaveSameText',
-			'EmptyLinkElement',
-			'FormAndLabels',
-			'HeaderlessSection',
-			'IsseusElements',
-			'Table',
-
-			// single tag
-			'AltAttrOfImg',
-			'ImgInputHasAlt',
-			'AreaHasAlt',
-			'SameAltAndFilenameOfImg',
-			'NotLabelButTitle',
-			'UnclosedElements',
-			'InvalidSingleTagClose',
-			'SuspiciousElements',
-			'MeanlessElement',
-			'StyleForStructure',
-			'InvalidTag',
-			'TitlelessFrame',
-			'CheckDoctype',
-			'MetaRefresh',
-			'Titleless',
-			'Langless',
-			'Viewport',
-			'IssuesSingle',
-
-			// link check
-			'LinkCheck',
-
-			// non tag
-			'AppropriateHeadingDescending',
-			'JaWordBreakingSpace',
-			'SuspiciousAttributes',
-			'DuplicatedIdsAndAccesskey',
-			'MustBeNumericAttr',
-			'SamePageTitleInSameSite',
-			'NoticeImgExists',
-			'NoticeNonHtmlExists',
-			'IssuesNonTag',
-
-			// css
-			'CssTotal',
-			'CssContent',
-			'CssInvisibles',
-		);
-
-	protected static $results = array();
-	protected static $hl_htmls = array();
-	static public $err_cnts = array('a' => 0, 'aa' => 0, 'aaa' => 0);
+	static $errors = array();
 
 	/**
-	 * codes2name
+	 * Check accessibility $post->content.
 	 *
-	 * @param  Array  $codes
-	 * @return String
+	 * @param   int     $post_id
+	 * @return  void
 	 */
-	public static function codes2name($codes = array())
+	public static function non_post_validate()
 	{
-		return md5(join($codes));
+		if (substr(\A11yc\Input::server('SCRIPT_NAME'), -18) != '/wp-admin/post.php') return;
+		if ( ! \A11yc\Input::get('jwp-a11y_check_here')) return;
+		global $post;
+		static::set_errors($post);
 	}
 
 	/**
-	 * html2id
+	 * Check accessibility $post->content.
 	 *
-	 * @param  String $html
-	 * @return String
+	 * @param   int     $post_id
+	 * @return  void
 	 */
-	public static function html2id($html)
+	public static function validate($post_id)
 	{
-		return str_replace(array('+', '/', '*', '='), '', base64_encode($html));
-	}
+		if (substr(\A11yc\Input::server('SCRIPT_NAME'), -18) != '/wp-admin/post.php') return;
+		global $wpdb;
 
-	/**
-	 * html
-	 *
-	 * @param  String $url
-	 * @param  String $html
-	 * @param  Array  $codes
-	 * @param  String $ua
-	 * @param  Bool   $force
-	 * @return Void
-	 */
-	public static function html($url, $html, $codes = array(), $ua = 'using', $force = 0)
-	{
-		$codes = $codes ?: self::$codes;
+		$do_nothing = false;
 
-		$name = static::codes2name($codes);
-		if (isset(static::$results[$url][$name][$ua]) && ! $force) return static::$results[$url][$name][$ua];
+		// do nothing with menus
+		if (\A11yc\Input::post('menu-item')) $do_nothing = true;
+		if (\A11yc\Input::post('save_menu')) $do_nothing = true;
 
-		static::$hl_htmls[$url] = $html;
+		// autosave, acl
+		if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) $do_nothing = true;
+		if ( ! current_user_can('edit_post', $post_id)) $do_nothing = true;
 
-		// errors
-		static::$error_ids[$url] = array();
+		// check status
+		$obj = get_post($post_id);
 
-		// validate
-		foreach ($codes as $class)
+		if ( ! in_array($obj->post_status, array('publish', 'private', 'draft', 'future', 'pending')))
 		{
-			$class = 'A11yc\\Validate\\'.$class;
-			$class::check($url);
+			$do_nothing = true;
 		}
 
-		// errors
-		$yml = Yaml::fetch();
-		$all_errs = array(
-			'notices' => array(),
-			'errors' => array()
-		);
-		if (static::$error_ids[$url])
+		// do nothing
+		if ($do_nothing)
 		{
-			foreach (static::$error_ids[$url] as $code => $errs)
+			remove_action('save_post', array('\JwpA11y\Validate', 'check'));
+			return $post_id;
+		}
+
+		static::set_errors($obj);
+	}
+
+	/**
+	 * set_errors
+	 *
+	 * @return  void
+	 */
+	public static function set_errors($obj)
+	{
+		// accessibility check
+		$e = new \WP_Error();
+		$yml = \A11yc\Yaml::fetch();
+
+		// code and function
+		$codes = \A11yc\Validate::$codes;
+		\A11yc\Validate::$is_partial    = true;
+		\A11yc\Validate::$do_link_check = \A11yc\Input::post('jwp_a11y_link_check', false);
+		\A11yc\Validate::$do_css_check  = \A11yc\Input::post('jwp_a11y_css_check', false);
+
+		// get all custom_fields
+		$meta_values = '';
+		foreach (get_post_meta($obj->ID) as $meta_key => $meta_value)
+		{
+			if ($meta_key[0] == '_') continue;
+			if ($meta_key == 'dashi_search') continue; // secret hard coding. but low influential...
+			$meta_values.= wp_specialchars_decode($meta_value[0]);
+		}
+		$url = get_permalink($obj->ID);
+		static::html($url, apply_filters('the_content', $obj->post_content).$meta_values);
+
+		// check same title
+		self::same_page_title_in_same_site($url);
+
+		// add errors
+		if (static::getErrorIds($url))
+		{
+			foreach (static::getErrorIds($url) as $code => $errs)
 			{
 				foreach ($errs as $key => $err)
 				{
 					$err_type = isset($yml['errors'][$code]['notice']) ? 'notices' : 'errors';
-					$all_errs[$err_type][] = Message::getText($url, $code, $err, $key);
+					$e->add(
+						$err_type,
+						array($code => \A11yc\Message::getText($url, $code, $err, $key))
+					);
 				}
 			}
 		}
-		static::$results[$url][$name][$ua]['html'] = $html;
-		static::$results[$url][$name][$ua]['hl_html'] = self::revertHtml(Util::s(static::$hl_htmls[$url]));
-		static::$results[$url][$name][$ua]['errors'] = $all_errs;
-		static::$results[$url][$name][$ua]['errs_cnts'] = static::$err_cnts;
-	}
 
-	/**
-	 * url
-	 *
-	 * @param  String $url
-	 * @param  Array  $codes
-	 * @param  String $ua
-	 * @param  Bool   $force
-	 * @return Void
-	 */
-	public static function url($url, $codes = array(), $ua = 'using', $force = 0)
-	{
-		// cache
-		$codes = $codes ?: self::$codes;
-		$name = static::codes2name($codes);
-		if (isset(static::$results[$url][$name][$ua]) && ! $force) return static::$results[$url][$name][$ua];
-
-		// get html and set it to temp value
-		self::html($url, Model\Html::getHtml($url, $ua), $codes, $ua, $force);
-	}
-
-	/**
-	 * css
-	 *
-	 * @param  String $url
-	 * @param  String $ua
-	 * @return Void
-	 */
-	public static function css($url, $ua = 'using')
-	{
-		if (isset(static::$csses[$url][$ua])) return static::$csses[$url][$ua];
-		return Model\Css::fetchCss($url, $ua);
-	}
-
-	/**
-	 * getErrorCnts
-	 *
-	 * @param  String $url
-	 * @param  Array  $codes
-	 * @param  String $ua
-	 * @param  Bool   $force
-	 * @return Array
-	 */
-	public static function getErrorCnts($url, $codes = array(), $ua = 'using', $force = false)
-	{
-		$codes = $codes ?: self::$codes;
-		$name = static::codes2name($codes);
-		if (isset(static::$results[$url][$name][$ua]['errs_cnts']) && ! $force) return static::$results[$url][$name][$ua]['errs_cnts'];
-		return array();
-	}
-
-	/**
-	 * getErrors
-	 *
-	 * @param  String $url
-	 * @param  Array  $codes
-	 * @param  String $ua
-	 * @param  Bool   $force
-	 * @return String
-	 */
-	public static function getErrors($url, $codes = array(), $ua = 'using', $force = false)
-	{
-		$codes = $codes ?: self::$codes;
-		$name = static::codes2name($codes);
-		if (isset(static::$results[$url][$name][$ua]['errors']) && ! $force) return static::$results[$url][$name][$ua]['errors'];
-		return false;
-	}
-
-	/**
-	 * getHighLightedHtml
-	 *
-	 * @param  String $url
-	 * @param  Array  $codes
-	 * @param  String $ua
-	 * @param  Bool   $force
-	 * @return String
-	 */
-	public static function getHighLightedHtml($url, $codes = array(), $ua = 'using', $force = false)
-	{
-		$codes = $codes ?: self::$codes;
-		$name = static::codes2name($codes);
-
-		if (isset(static::$results[$url][$name][$ua]['hl_html']) && ! $force) return static::$results[$url][$name][$ua]['hl_html'];
-		return false;
-	}
-
-	/**
-	 * get error ids
-	 *
-	 * @param  String $url
-	 * @return Array
-	 */
-	public static function getErrorIds($url)
-	{
-		return isset(static::$error_ids[$url]) ? static::$error_ids[$url] : array();
-	}
-
-	/**
-	 * set_do_link_check
-	 *
-	 * @param  bool
-	 * @return  void
-	 */
-	public static function setDoLinkCheck($bool)
-	{
-		static::$do_link_check = $bool;
-	}
-
-	/**
-	 * do_link_check
-	 *
-	 * @return  bool
-	 */
-	public static function doLinkCheck()
-	{
-		if ( ! \A11yc\Guzzle::envCheck()) return false;
-		return static::$do_link_check;
-	}
-
-	/**
-	 * set_do_css_check
-	 *
-	 * @param  bool
-	 * @return  void
-	 */
-	public static function setDoCssCheck($bool)
-	{
-		static::$do_css_check = $bool;
-	}
-
-	/**
-	 * do_css_check
-	 *
-	 * @return  bool
-	 */
-	public static function doCssCheck()
-	{
-		return static::$do_css_check;
-	}
-
-	/**
-	 * add error to html
-	 *
-	 * @param  String $url
-	 * @param  String $error_id
-	 * @param  Array  $errors
-	 * @param  String $ignore_vals
-	 * @param  String $issue_html
-	 * @return Void
-	 */
-	public static function addErrorToHtml(
-		$url,
-		$error_id,
-		$s_errors,
-		$ignore_vals = '',
-		$issue_html = ''
-	)
-	{
-		// values
-		$yml = Yaml::fetch();
-		$html = static::$hl_htmls[$url];
-
-		$current_err = self::setCurrentErr($url, $error_id, $issue_html);
-		if ( ! $current_err) return;
-
-		// errors
-		if ( ! isset($s_errors[$error_id])) return;
-		$errors = array();
-		foreach ($s_errors[$error_id] as $k => $v)
+		// set transient
+		set_transient('jwp_a11y_notices', $e->get_error_messages('notices'), 10);
+		if ($e->get_error_messages('errors'))
 		{
-			$errors[$k] = $v['id'] === false ? static::$first_tag : $v['id'];
-		}
-
-		// ignore elements or comments
-		list($html, $replaces_ignores, $replaced) = self::ignoreElementsOrComments($ignore_vals, $html);
-
-		$lv = strtolower($yml['criterions'][$current_err['criterions'][0]]['level']['name']);
-
-		// replace errors
-		$results = array();
-		$replaces = array();
-
-		foreach ($errors as $k => $error)
-		{
-			$offset = 0;
-			$error_len = mb_strlen($error, "UTF-8");
-
-			// hash strgings to avoid wrong replace
-			list($replaces, $err_rep_len, $end_replaced) = self::hashStrgingsToAvoidWrongReplace($error_id, $current_err, $k, $lv);
-
-			// normal search
-			if ($error)
-			{
-				// first search
-				$pos = mb_strpos($html, $error, $offset, "UTF-8");
-
-				// is already replaced?
-				if (in_array($pos, $results))
-				{
-					//  search next
-					$offset = max($results) + 1;
-					$pos = mb_strpos($html, $error, $offset, "UTF-8");
-				}
-			}
-			else
-			{
-				// cannot define error place
-				continue;
-				// always search first tag
-				// $pos = static::$first_tag ? mb_strpos($html, static::$first_tag, 0, "UTF-8") : 0;
-			}
-
-			// add error
-			// not use null. see http://php.net/manual/ja/function.mb-substr.php#77515
-			$html = mb_substr($html, 0, $pos, "UTF-8").
-						$replaced.
-						mb_substr($html, $pos, mb_strlen($html), "UTF-8");
-
-			// and end point
-			$end_pos = $pos + $err_rep_len + $error_len;
-			$html = mb_substr($html, 0, $end_pos, "UTF-8").
-						$end_replaced.
-						mb_substr($html, $end_pos, mb_strlen($html), "UTF-8");
-
-			$results[] = $pos + $err_rep_len;
-		}
-
-		// recover error html
-		foreach ($replaces as $v)
-		{
-			$html = str_replace($v['replaced'], $v['original'], $html);
-			$html = str_replace($v['end_replaced'], $v['end_original'], $html);
-		}
-
-		// recover ignores
-		foreach ($replaces_ignores as $v)
-		{
-			foreach ($v as $vv)
-			{
-				$html = str_replace($vv['replaced'], $vv['original'], $html);
-			}
-		}
-
-		static::$hl_htmls[$url] = $html;
-	}
-
-	/**
-	 * set current error
-	 *
-	 * @return  Array|bool
-	 */
-	private static function setCurrentErr($url, $error_id, $issue_html)
-	{
-		$yml = Yaml::fetch();
-		if ( ! isset($yml['errors'][$error_id]))
-		{
-			$issue = Model\Issues::fetch4Validation($url, $issue_html);
-			if ( ! $issue) return false;
-			$current_err['message'] = $issue['error_message'];
-			if (strpos($issue['criterion'], ',') !== false)
-			{
-				$issue_criterions = explod(',', $issue['criterion']);
-				$current_err['criterions'] = array(trim($issue_criterions[0])); // use one
-			}
-			else
-			{
-				$current_err['criterions'] = array(trim($issue['criterion']));
-			}
-			$current_err['code']   = '';
-			$current_err['notice'] = ($issue['n_or_e'] == 0);
+			set_transient('jwp_a11y_errors', $e->get_error_messages('errors'), 10);
 		}
 		else
 		{
-			$current_err = $yml['errors'][$error_id];
-		}
-		return $current_err;
-	}
-
-	/**
-	 * ignore Elements Or Comments
-	 *
-	 * @return  Array|bool
-	 */
-	private static function ignoreElementsOrComments($ignore_vals, $html)
-	{
-		$replaces_ignores = array();
-		if ($ignore_vals)
-		{
-			$ignores = Element::$$ignore_vals;
-
-			foreach ($ignores as $k => $ignore)
+			$messages = array('no_errors' => true);
+			if (\A11yc\Input::post('jwp_a11y_link_check'))
 			{
-				preg_match_all($ignore, $html, $ms);
-				if ($ms)
-				{
-					foreach ($ms[0] as $kk => $vv)
-					{
-						$original = $vv;
-						$replaced = hash("sha256", $vv);
-						$replaces_ignores[$k][$kk] = array(
-							'original' => $original,
-							'replaced' => $replaced,
-						);
-						$html = str_replace($original, $replaced, $html);
-					}
-				}
+				$messages['no_dead_link'] = true;
 			}
+			set_transient('jwp_a11y_no_errors', $messages, 10);
 		}
-		return array($html, $replaces_ignores, $replaced);
 	}
 
 	/**
-	 * ignore Elements Or Comments
+	 * same page title in same site
 	 *
-	 * @param  String $error_id
-	 * @param  Array $current_err
-	 * @param  Integer $k
-	 * @param  String $lv
-	 * @param  String $replaced
-	 * @return  Array
+	 * @param  String $url
+	 * @return Void
 	 */
-	private static function hashStrgingsToAvoidWrongReplace($error_id, $current_err, $k, $lv)
+	private static function same_page_title_in_same_site($url)
 	{
+		global $wpdb;
+		$title = \A11yc\Input::post('post_title');
+		if ( ! $title) return;
+
+		$sql = $wpdb->prepare('SELECT ID FROM '.$wpdb->posts.' WHERE `post_title` = %s and `post_status` = "publish"', \A11yc\Input::post('post_title'));
+		$results = $wpdb->get_results($sql);
+
+		if (count($results) >= 2)
+		{
+			$strs = array();
+			foreach ($results as $v)
+			{
+				$strs[] = $v->ID;
+			}
+
+			static::$error_ids[$url]['same_page_title_in_same_site'][0]['id'] = \A11yc\Util::s($title);
+			static::$error_ids[$url]['same_page_title_in_same_site'][0]['str'] = 'IDs: '.join(', ', $strs);
+		}
+		static::addErrorToHtml($url, 'same_page_title_in_same_site', static::$error_ids[$url]);
+	}
+
+	/**
+	 * Show message to editor.
+	 *
+	 * @return  void
+	 */
+	public static function show_messages()
+	{
+		$html = '';
+		if ($messages = get_transient('jwp_a11y_errors'))
+		{
+			$html.= '<div class="notice error is-dismissible" id="jwp_a11y_error"><section>';
+			$html.= '<a href="#end_line_of_a11y_checklist" class="screen-reader-shortcut">'.__("Skip accessibility checklist messages.", "jwp_a11y").'</a>';
+			$html.= '<h1>'.__("Accessibility Checklist", "jwp_a11y").'</h1>';
+			$html.= '<p>'.__("This checklist is according to WCAG2.0 (Web Content Accessibility Guidelines).", "jwp_a11y").'</p>';
+
+			// count errors
+			$yml = \A11yc\Yaml::fetch();
+			$errs_cnts = array('a' => 0, 'aa' => 0, 'aaa' => 0);
+			foreach ($messages as $message)
+			{
+				$message_keys = array_keys($message);
+				$code = reset($message_keys);
+				$lv = strtolower($yml['criterions'][$yml['errors'][$code]['criterions'][0]]['level']['name']);
+				$errs_cnts[$lv]++;
+			}
+
+			$errs_cnts = array_merge(array('total' => count($messages)), $errs_cnts);
+			foreach ($errs_cnts as $lv => $errs_cnt)
+			{
+				$html.= '<span class="a11yc_errs_lv">'.strtoupper($lv).'</span> <span class="a11yc_errs_cnt">'.intval($errs_cnt).'</span> ';
+			}
+
+			$html.= '<dl id="a11yc_validation_errors" class="a11yc_hide_if_fixedheader">';
+			$html = self::remove_view_src($html, $messages);
+			$html.= '</dl>';
+			$html.= '</section><a id="end_line_of_a11y_checklist" class="screen-reader-text" tabindex="-1">'.__("End line of accessibility checklist.", "jwp_a11y").'</a></div>';
+		}
+
+		// no error
+		elseif($messages = get_transient('jwp_a11y_no_errors'))
+		{
+			$html.= '<div class="notice notice-success is-dismissible" id="jwp_a11y_no_error">';
+			$html.= '<p>'.__("In the automatic check, accessibility problems were not found.", "jwp_a11y").'</p>';
+			if (isset($messages['no_dead_link']))
+			{
+				$html.= '<p>'.__("No dead links were found.", "jwp_a11y").'</p>';
+			}
+			$html.= '</div>';
+		}
+
 		// notice
-		$is_notice = isset($current_err['notice']) && $current_err['notice'];
+		if ($messages = get_transient('jwp_a11y_notices'))
+		{
+			$html.= '<div class="notice notice-warning is-dismissible" id="jwp_a11y_notice">';
+			$html.= '<h2>'.__("There may be no accessibility problems, but just in case, please check.", "jwp_a11y").'</h2>';
+			$html.= '<dl id="a11yc_validation_notices" class="a11yc_hide_if_fixedheader">';
+			$html = self::remove_view_src($html, $messages);
+			$html.= '</dl>';
+			$html.= '</div>';
+		}
 
-		$rplc = $is_notice ? 'a11yc_notice_rplc' : 'a11yc_rplc';
-		$original = '[==='.$rplc.'==='.$error_id.'_'.$k.'==='.$rplc.'_title==='.$current_err['message'].'==='.$rplc.'_class==='.$lv.'==='.$rplc.'===][==='.$rplc.'_strong_class==='.$lv.'==='.$rplc.'_strong===]';
-		$replaced = '==='.$rplc.'==='.hash("sha256", $original).'===/'.$rplc.'===';
-
-		$end_original = '[===end_'.$rplc.'==='.$error_id.'_'.$k.'==='.$rplc.'_back_class==='.$lv.'===end_'.$rplc.'===]';
-		$end_replaced = '===end_'.$rplc.'==='.hash("sha256", $end_original).'===/end_'.$rplc.'===';
-
-		$replaces[$k] = array(
-			'original' => $original,
-			'replaced' => $replaced,
-
-			'end_original' => $end_original,
-			'end_replaced' => $end_replaced,
-		);
-		$err_rep_len = strlen($replaced);
-		return array($replaces, $err_rep_len, $replaced, $end_replaced);
+		echo $html;
+		delete_transient('jwp_a11y_errors');
 	}
 
 	/**
-	 * revert html
+	 * Remove "view source"
 	 *
-	 * @param  String $html
-	 * @return String
+	 * @param string $html
+	 * @param array $messages
+	 * @return  string
 	 */
-	public static function revertHtml($html)
+	private static function remove_view_src($html, $messages)
 	{
-		$retval = str_replace(
-			array(
-				// ERROR!
-				// span
-				'[===a11yc_rplc===',
-				'===a11yc_rplc_title===',
-				'===a11yc_rplc_class===',
-
-				// strong
-				'===a11yc_rplc===][===a11yc_rplc_strong_class===',
-				'===a11yc_rplc_strong===]',
-
-				// strong to end
-				'[===end_a11yc_rplc===',
-				'===a11yc_rplc_back_class===',
-				'===end_a11yc_rplc===]',
-
-				// NOTICE
-				// span
-				'[===a11yc_notice_rplc===',
-				'===a11yc_notice_rplc_title===',
-				'===a11yc_notice_rplc_class===',
-
-				// strong
-				'===a11yc_notice_rplc===][===a11yc_notice_rplc_strong_class===',
-				'===a11yc_notice_rplc_strong===]',
-
-				// strong to end
-				'[===end_a11yc_notice_rplc===',
-				'===a11yc_notice_rplc_back_class===',
-				'===end_a11yc_notice_rplc===]'
-			),
-			array(
-				// ERROR!
-				// span
-				'<span id="',
-				'" title="',
-				'" class="a11yc_validation_code_error a11yc_level_',
-
-				// span to strong
-				'" tabindex="0">ERROR!</span><strong class="a11yc_level_',
-				'">',
-
-				// strong to end
-				'</strong><!-- a11yc_strong_end --><a href="#index_',
-				'" class="a11yc_back_link a11yc_hasicon a11yc_level_',
-				'" title="'.A11YC_LANG_CHECKLIST_BACK_TO_MESSAGE.'"><span class="a11yc_icon_fa a11yc_icon_arrow_u" role="presentation" aria-hidden="true"></span><span class="a11yc_skip">back</span></a>',
-
-				// NOTICE
-				// span
-				'<span id="',
-				'" title="',
-				'" class="a11yc_validation_code_error a11yc_validation_code_notice a11yc_level_',
-
-				// span to strong
-				'" tabindex="0">NOTICE</span><strong class="a11yc_level_',
-				'">',
-
-				// strong to end
-				'</strong><!-- a11yc_strong_end --><a href="#index_',
-				'" class="a11yc_back_link a11yc_hasicon a11yc_level_',
-				'" title="'.A11YC_LANG_CHECKLIST_BACK_TO_MESSAGE.'"><span class="a11yc_icon_fa a11yc_icon_arrow_u" role="presentation" aria-hidden="true"></span><span class="a11yc_skip">back</span></a>',
-			),
-			$html);
-		return $retval;
+		foreach($messages as $message)
+		{
+			$message_keys = array_keys($message);
+			$code = reset($message_keys);
+			$html.= preg_replace(
+				'/\<a href="#.+?\<\/a\>/i',
+				'',
+				$message[$code]);
+		}
+		return $html;
 	}
 }

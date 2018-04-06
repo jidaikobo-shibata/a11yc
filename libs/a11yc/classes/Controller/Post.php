@@ -89,7 +89,7 @@ class Post
 		View::addTplPath(A11YC_PATH.'/views/post');
 
 		// set base url before call controllers
-		View::assign('base_url', static::$url);
+		View::assign('base_url', self::$url);
 
 		// routing
 		static::routing();
@@ -125,7 +125,7 @@ class Post
 	 */
 	public static function actionLogout()
 	{
-		Auth::actionLogout(static::$url);
+		Auth::actionLogout(self::$url);
 	}
 
 	/**
@@ -135,7 +135,7 @@ class Post
 	 */
 	public static function actionDocs()
 	{
-		View::assign('a11yc_doc_url', static::$url.'?a=doc&amp;criterion=');
+		View::assign('a11yc_doc_url', self::$url.'?a=doc&amp;criterion=');
 		Docs::index(); // $body set
 		define('A11YC_LANG_POST_TITLE', A11YC_LANG_DOCS_TITLE);
 	}
@@ -150,7 +150,7 @@ class Post
 		$criterion = Input::get('criterion');
 		if ($criterion)
 		{
-			View::assign('a11yc_doc_url', static::$url.'?a=doc&amp;criterion=');
+			View::assign('a11yc_doc_url', self::$url.'?a=doc&amp;criterion=');
 			Docs::each($criterion); // $body set
 			$doc = View::fetch('doc');
 			define('A11YC_LANG_POST_TITLE', $doc['name']);
@@ -282,64 +282,34 @@ class Post
 		$page_title       = '';
 		$real_url         = '';
 		$doc_root         = Input::post('doc_root', '');
-		$yml              = Yaml::fetch();
-		$raw              = '';
-		$errs_cnts        = array();
 		$target_html      = '';
 		$render           = '';
-		$current_ua       = '';
+		$do_validate      = true;
+
+		// User Agent
+		$uas = Values::uas();
+		$ua = Arr::get($uas, $user_agent) ? $user_agent : $default_ua;
+		$current_ua = Arr::get($uas, "{$user_agent}.str");
+		$current_ua = $current_ua ?: $default_ua;
 
 		// auth - if limit die here
 		self::auth();
 
 		// validation
-		$do_validate = true;
 		if (Input::post('source'))
 		{
 			$target_html = Input::post('source');
 		}
 		elseif ($url)
 		{
-			$uas = Values::uas();
-			$ua = Arr::get($uas, $user_agent) ? $user_agent : $default_ua;
-			$current_ua = Arr::get($uas, "{$user_agent}.str");
-			$current_ua = $current_ua ?: $default_ua;
 			$target_html = Model\Html::fetchHtml($url, $ua); // not use Database
-
-			// basic auth failed
-			if (Guzzle::instance($url)->status_code == 401)
-			{
-				$do_validate = false;
-				Session::add('messages', 'errors', A11YC_LANG_POST_BASIC_AUTH_EXP);
-			}
-
-			// connection problems
-			if (Guzzle::instance($url)->errors)
-			{
-				$do_validate = false;
-				Session::add('messages', 'errors', A11YC_LANG_ERROR_COULD_NOT_ESTABLISH_CONNECTION);
-			}
-
-			// images
-			if (Input::post('behaviour') == 'images')
-			{
-				$do_validate = false;
-				View::assign('images', A11yc\Images::getImages($url, $doc_root));
-				Session::add('messages', 'messages', A11YC_LANG_POST_DONE_IMAGE_LIST);
-			}
-
-			// export CSV
-			if (Input::post('behaviour') == 'csv')
-			{
-				Export::csv($url); // exit()
-			}
+			$do_validate = self::failedOrDoOtherAction($url, $doc_root, $do_validate);
 		}
 
 		// Do Validate
-		$all_errs = array();
 		if ($target_html && $do_validate)
 		{
-			$all_errs = self::validate($url, $target_html, $ua);
+			self::validate($url, $target_html, $ua);
 		}
 
 		// error
@@ -376,11 +346,52 @@ class Post
 		View::assign('current_user_agent' , $current_ua);
 		View::assign('doc_root'           , $doc_root);
 		View::assign('user_agent'         , $user_agent);
-		View::assign('target_url'         , static::$url);
+		View::assign('target_url'         , self::$url);
 		View::assign('url'                , $url ?: $raw_url);
 		View::assign('target_html'        , $target_html);
 		View::assign('render'             , $render, false);
 		View::assign('body'               , View::fetchTpl('post/index.php'), false);
+	}
+
+	/**
+	 * failedOrDoOtherAction
+	 *
+	 * @param String $url
+	 * @param String $doc_root
+	 * @param Bool   $do_validate
+	 * @return Bool|Void
+	 */
+	private static function failedOrDoOtherAction($url, $doc_root, $do_validate)
+	{
+		// basic auth failed
+		if (Guzzle::instance($url)->status_code == 401)
+		{
+			$do_validate = false;
+			Session::add('messages', 'errors', A11YC_LANG_POST_BASIC_AUTH_EXP);
+		}
+
+		// connection problems
+		if (Guzzle::instance($url)->errors)
+		{
+			$do_validate = false;
+			Session::add('messages', 'errors', A11YC_LANG_ERROR_COULD_NOT_ESTABLISH_CONNECTION);
+		}
+
+		// images
+		if (Input::post('behaviour') == 'images')
+		{
+			$do_validate = false;
+			View::assign('images', A11yc\Images::getImages($url, $doc_root));
+			Session::add('messages', 'messages', A11YC_LANG_POST_DONE_IMAGE_LIST);
+		}
+
+		// export CSV
+		if (Input::post('behaviour') == 'csv')
+		{
+			Export::csv($url); // exit()
+		}
+
+		return $do_validate;
 	}
 
 	/**
@@ -404,7 +415,7 @@ class Post
 
 		if (Validate::getErrors($url, $codes, $ua))
 		{
-			$err_link = static::$url.'?a=doc&criterion=';
+			$err_link = self::$url.'?a=doc&criterion=';
 			foreach (Validate::getErrorIds($url) as $err_code => $errs)
 			{
 				foreach ($errs as $key => $err)
@@ -451,8 +462,6 @@ class Post
 
 		// count up for guest users
 		self::countUpForGuestUsers();
-
-		return $all_errs;
 	}
 
 	/**
@@ -483,7 +492,7 @@ class Post
 		// auth - already logged in
 		if (A11yc\Auth::auth() && $a == 'login')
 		{
-			header('location:'.static::$url);
+			header('location:'.self::$url);
 		}
 
 		// auth - post

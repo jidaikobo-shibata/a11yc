@@ -22,7 +22,7 @@ class CssInvisibles extends Validate
 	 */
 	public static function check($url)
 	{
-		if ( ! static::doCssCheck()) return;
+		if ( ! static::$do_css_check) return;
 
 		$csses = static::css($url);
 		if ( ! $csses) return;

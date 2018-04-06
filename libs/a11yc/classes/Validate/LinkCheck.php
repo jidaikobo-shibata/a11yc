@@ -20,7 +20,7 @@ class LinkCheck extends Validate
 	 */
 	public static function check($url)
 	{
-		if (Validate::doLinkCheck() == false) return;
+		if ( ! static::$do_link_check) return;
 
 		$str = Element::ignoreElements(static::$hl_htmls[$url]);
 		$ms = Element::getElementsByRe($str, 'ignores', 'tags');

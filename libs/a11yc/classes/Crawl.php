@@ -12,7 +12,6 @@ namespace A11yc;
 
 class Crawl
 {
-
 	/**
 	 * is target webpage
 	 *

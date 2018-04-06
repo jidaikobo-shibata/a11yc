@@ -26,7 +26,7 @@ class Message
 	{
 		$yml = Yaml::fetch();
 
-		$current_err = self::currentErr($url, $code_str, $place);
+		$current_err = Validate::setCurrentErr($url, $code_str, $place);
 
 		// set error to message
 		if ($current_err)
@@ -47,41 +47,6 @@ class Message
 			return $ret;
 		}
 		return FALSE;
-	}
-
-	/**
-	 * current error
-	 *
-	 * @param String $url
-	 * @param String $code_str
-	 * @param Array $place
-	 * @return Array
-	 */
-	private static function currentErr($url, $code_str, $place)
-	{
-		$yml = Yaml::fetch();
-		if ( ! isset($yml['errors'][$code_str]))
-		{
-			$issue = Model\Issues::fetch4Validation($url, $place['str']);
-			if ( ! $issue) return;
-
-			$current_err['message']   = $issue['error_message'];
-			if (strpos($issue['criterion'], ',') !== false)
-			{
-				$issue_criterions = explod(',', $issue['criterion']);
-				$current_err['criterions'] = array_map('trim', $issue_criterions);
-			}
-			else
-			{
-				$current_err['criterions'] = array(trim($issue['criterion']));
-			}
-			$current_err['notice'] = ($issue['n_or_e'] == 0);
-		}
-		else
-		{
-			$current_err = $yml['errors'][$code_str];
-		}
-		return $current_err;
 	}
 
 	/**
