@@ -25,7 +25,7 @@ class Util
 		if ($http_host && $request_uri)
 		{
 			$uri = static::isSsl() ? 'https' : 'http';
-			$uri.= '://'.$_SERVER["HTTP_HOST"].rtrim($_SERVER["REQUEST_URI"], '/');
+			$uri.= '://'.$http_host.rtrim($request_uri, '/');
 			return static::s($uri);
 		}
 		return '';
@@ -212,17 +212,13 @@ class Util
 		{
 			$bytes = number_format($bytes / 1024, 1) . ' KB';
 		}
-		elseif ($bytes > 1)
+		elseif ($bytes === 0)
 		{
-			$bytes = $bytes . ' bytes';
-		}
-		elseif ($bytes == 1)
-		{
-			$bytes = $bytes . ' byte';
+			$bytes = '0 bytes';
 		}
 		else
 		{
-			$bytes = '0 bytes';
+			$bytes.= $bytes == 1 ? ' byte' : ' bytes';
 		}
 		return $bytes;
 	}

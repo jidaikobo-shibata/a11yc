@@ -71,6 +71,8 @@ engines:
         enabled: false
       Naming/ShortVariable:
         enabled: false
+      Naming/ShortMethodName:
+        enabled: false
 ratings:
   paths:
   - "**.css"
