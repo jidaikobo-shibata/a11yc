@@ -14,8 +14,13 @@
 <textarea id="a11yc_add_pages" name="html" rows="7" style="width: 100%;"><?php echo $html ?></textarea>
 <?php echo isset($add_nonce) ? $add_nonce : ''; ?>
 
-<h2><label for="a11yc_operation"><?php echo A11YC_LANG_PAGES_CTRL ?></label></h2>
+<div id="a11yc_submit">
+<label for="a11yc_operation"><?php echo A11YC_LANG_PAGES_CTRL ?></label>
 <select name="operation" id="a11yc_operation">
+	<?php if ($page['trash'] == 1): ?>
+	<option value="undelete"><?php echo A11YC_LANG_PAGES_UNDELETE ?></option>
+	<option value="purge"><?php echo A11YC_LANG_PAGES_PURGE ?></option>
+	<?php else: ?>
 	<option value="save"><?php echo A11YC_LANG_CTRL_SAVE ?></option>
 	<option value="check"><?php echo A11YC_LANG_PAGES_CHECK ?></option>
 	<option value="result"><?php echo A11YC_LANG_CHECKLIST_CHECK_RESULT ?></option>
@@ -23,6 +28,8 @@
 	<option value="image"><?php echo A11YC_LANG_IMAGE ?></option>
 	<option value="export"><?php echo A11YC_LANG_PAGES_EXPORT ?></option>
 	<option value="delete"><?php echo A11YC_LANG_PAGES_DELETE ?></option>
+	<?php endif; ?>
 </select>
 <input type="submit" value="<?php echo A11YC_LANG_CTRL_SEND ?>" />
+</div>
 </form>

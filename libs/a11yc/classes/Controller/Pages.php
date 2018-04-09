@@ -437,6 +437,7 @@ class Pages
 		View::assign('url',   Util::urlenc($url));
 		View::assign('title', A11YC_LANG_PAGES_LABEL_EDIT);
 		View::assign('page_title', isset($page['title']) ? $page['title'] : '');
+		View::assign('page',  $page);
 		View::assign('html',  $html);
 		View::assign('body',  View::fetchTpl('pages/edit.php'), FALSE);
 	}
