@@ -136,6 +136,9 @@ define('A11YC_LANG_PAGES_ADD_TO_CANDIDATE', 'HTMLから候補になるURLを取�
 define('A11YC_LANG_PAGES_IT_TAKES_TIME', 'この処理には、時間がかかります');
 define('A11YC_LANG_PAGES_LABEL_EDIT', '編集');
 define('A11YC_LANG_PAGES_LABEL_HTML_EXP', 'HTMLの自動取得に失敗するときなど、このHTMLが判定に用いられます。今後、自動取得に成功した時点で自動的に書き換わります。');
+define('A11YC_LANG_PAGES_LABEL_EXPORT_RESULT_HTML', '試験結果HTMLをダウンロード');
+define('A11YC_LANG_PAGES_LABEL_EXPORT_RESULT_HTML_EXP', 'すべての試験結果HTMLを連結した状態で出力します。csplit a11yc_results.txt /====A11YC_RESULTS_CSPLIT====/ {*} で分割してください。');
+define('A11YC_LANG_PAGES_LABEL_BULK_CHECK_ALL', 'すべて選択');
 
 // setup
 define('A11YC_LANG_SETTINGS_TITLE', '設定');

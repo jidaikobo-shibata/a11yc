@@ -260,10 +260,12 @@ class Checklist
 			View::assign('cs', Model\Checklist::fetch($url));
 		}
 
+		$errs = Validate::getErrors($url) ?: array('errors' => array(), 'notices' => array());
+
 		// validation
 		View::assign('is_call_from_post', true);
 		View::assign('errs_cnts', Validate::getErrorCnts($url));
-		View::assign('errs', Validate::getErrors($url), FALSE);
+		View::assign('errs', $errs, FALSE);
 		View::assign('raw', nl2br(Validate::getHighLightedHtml($url)), FALSE);
 		View::assign('validation_result', View::fetchTpl('checklist/validate.php'), FALSE);
 	}

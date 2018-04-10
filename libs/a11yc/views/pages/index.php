@@ -13,9 +13,26 @@ if ($pages):
 	echo $search_form;
 ?>
 
+<form action="<?php echo Util::uri() ?>" method="POST">
+<label for="a11yc_operation"><?php echo A11YC_LANG_BULK_TITLE ?></label>
+<select name="operation" id="a11yc_operation">
+	<?php if ($list == 'trash'): ?>
+	<option></option>
+	<option value="undelete"><?php echo A11YC_LANG_PAGES_UNDELETE ?></option>
+	<option value="purge"><?php echo A11YC_LANG_PAGES_PURGE ?></option>
+	<?php else: ?>
+	<option></option>
+	<option value="result"><?php echo A11YC_LANG_PAGES_LABEL_EXPORT_RESULT_HTML ?></option>
+	<option value="export"><?php echo A11YC_LANG_PAGES_EXPORT ?></option>
+	<option value="delete"><?php echo A11YC_LANG_PAGES_DELETE ?></option>
+	<?php endif; ?>
+</select>
+<input type="submit" value="<?php echo A11YC_LANG_CTRL_SEND ?>" />
+
 	<table class="a11yc_table">
 	<thead>
 	<tr>
+		<td><label><input type="checkbox" /><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_LABEL_BULK_CHECK_ALL ?></span></label></td>
 		<th>URL</th>
 		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_LEVEL ?></th>
 		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_CHECKLIST_DONE ?></th>
@@ -44,6 +61,7 @@ if ($pages):
 	$class_str = ++$i%2==0 ? ' class="even'.$not_found_class.'"' : ' class="odd'.$not_found_class.'"';
 	?>
 	<tr<?php echo $class_str ?>>
+		<td><label><input type="checkbox" name="bulk[<?php echo $url ?>]" value="1" /><span class="a11yc_skip"><?php echo $title ?></span></label></td>
 		<th scope="row">
 			<?php echo $no_url == $url ? '<div><strong>'.A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR.'</strong></div>' : '' ?>
 			<?php echo $title.'<br /><a href="'.$url.'">'.$url ?></a>
@@ -79,6 +97,8 @@ if ($pages):
 	<?php endforeach; ?>
 	</tbody>
 	</table>
+
+</form>
 <?php else: ?>
 	<p><?php echo A11YC_LANG_PAGES_NOT_FOUND ?></p>
 <?php endif; ?>
