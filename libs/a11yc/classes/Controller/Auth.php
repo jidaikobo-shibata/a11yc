@@ -19,6 +19,7 @@ class Auth
 	 */
 	public static function actionLogin()
 	{
+
 		View::assign('title', A11YC_LANG_AUTH_TITLE);
 		View::assign('body', View::fetchTpl('auth/login.php'), false);
 	}
