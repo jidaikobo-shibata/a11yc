@@ -5,7 +5,7 @@
 <table class="a11yc_table">
 <tr>
 <?php foreach ($failures as $url => $pages): ?>
-	<th scope="row" class="a11yc_issue_url"><?php echo Model\Html::fetchPageTitle($url) ?><br><a href="<?php Util::urlenc($url) ?>"><?php echo Util::s($url) ?></a></th>
+	<th scope="row" class="a11yc_issue_url"><?php echo Model\Html::fetchPageTitle($url) ?><br><a href="<?php echo Util::urldec($url) ?>"><?php echo Util::s($url) ?></a></th>
 	<td><a href="<?php echo A11YC_CHECKLIST_URL.Util::urlenc($url) ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_CHECK ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
 	<td class="a11yc_issue_data"><ul>
 	<?php foreach ($pages as $page): ?>
@@ -29,7 +29,7 @@ foreach ($issues as $status => $issue):
 	<?php if ($url == 'common'): ?>
 		<?php echo A11YC_LANG_ISSUES_IS_COMMON ?>
 	<?php else: ?>
-		<?php echo Model\Html::fetchPageTitle($url) ?><br><a href="<?php Util::urlenc($url) ?>"><?php echo Util::s($url) ?></a>
+		<?php echo Model\Html::fetchPageTitle($url) ?><br><a href="<?php echo Util::urldec($url) ?>"><?php echo Util::s($url) ?></a>
 	<?php endif; ?>
 	</th>
 	<td><a href="<?php echo A11YC_CHECKLIST_URL.Util::urlenc($url) ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_CHECK ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
