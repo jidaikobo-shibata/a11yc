@@ -4,7 +4,7 @@
 <!-- header -->
 <div id="a11yc_header">
 	<div id="a11yc_header_inner">
-		<div id="a11yc_header_ctrl">
+		<div id="a11yc_header_ctrl" class="a11yc_hide_if_fixedheader">
 		<?php if ( ! $is_bulk): ?>
 			<!-- standard -->
 			<p id="a11yc_header_done_date" class="">
@@ -45,11 +45,11 @@
 			<!-- target page -->
 		<table id="a11yc_targetpage_info">
 		<tr>
-			<th><?php echo A11YC_LANG_CHECKLIST_TARGETPAGE ?></th>
+			<th class="a11yc_hide_if_fixedheader"><?php echo A11YC_LANG_CHECKLIST_TARGETPAGE ?></th>
 			<td><?php echo $target_title ?></td>
 		</tr>
 		<tr>
-			<th><?php echo A11YC_LANG_PAGES_URLS ?></th>
+			<th class="a11yc_hide_if_fixedheader"><?php echo A11YC_LANG_PAGES_URLS ?></th>
 			<td><?php echo '<a href="'.Util::s(Util::urldec($url)).'">'.Util::s(Util::urldec($url)).'</a>' ?></td>
 <?php /* ?>
 <?php // 振る舞いが怪しいので、ちょっと様子見 ?>
@@ -98,9 +98,10 @@
 
 		<?php if ( ! $is_bulk): ?>
 			<!-- level -->
-			<p id="a11yc_target_level"><?php echo A11YC_LANG_TARGET_LEVEL ?>: <?php echo Util::num2str($target_level) ?>
+			<p id="a11yc_target_level" class="a11yc_hide_if_fixedheader"><?php echo A11YC_LANG_TARGET_LEVEL ?>: <?php echo Util::num2str($target_level) ?>
 	<?php $current_level = $target_level ? Evaluate::resultStr(@$page['level'], $target_level) : '-'; ?><br><?php echo A11YC_LANG_CURRENT_LEVEL ?>: <span id="a11yc_conformance_level"><?php echo $current_level ?></span></p>
 		<?php endif ?>
+		<?php /* ?>
 			<!-- rest of num -->
 			<p class="a11yc_hide_if_no_js"><a role="button" class="a11yc_disclosure"><?php echo A11YC_LANG_CHECKLIST_RESTOFNUM ?>&nbsp;:&nbsp;<span id="a11yc_rest_total">&nbsp;-&nbsp;</span></a></p>
 			<div class="a11yc_disclosure_target show a11yc_hide_if_fixedheader a11yc_hide_if_no_js">
@@ -127,6 +128,7 @@
 				</tbody>
 			</table>
 			</div>
+			<?php */ ?>
 			<?php /*
 				$checked = $setup['checklist_behaviour'] ? ' checked="checked"' : '';
 			?>
@@ -138,7 +140,7 @@
 		<!-- a11yc menu -->
 	<ul id="a11yc_menu_principles">
 	<?php foreach ($yml['principles'] as $v): ?>
-		<li id="a11yc_menuitem_<?php echo $v['code'] ?>"><a href="#a11yc_header_p_<?php echo $v['code'] ?>"><?php echo $v['code'].' '.$v['name'] ?><span></span></a></li>
+		<li id="a11yc_menuitem_<?php echo $v['code'] ?>"><a href="#a11yc_header_p_<?php echo $v['code'] ?>"><span><?php echo /* $v['code'] .' '.*/ $v['name'] ?></span></a></li>
 	<?php endforeach; ?>
 	</ul><!--/#a11yc_menu_principles-->
 
