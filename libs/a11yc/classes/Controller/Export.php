@@ -28,17 +28,20 @@ class Export
 	/**
 	 * csv
 	 *
-	 * @param  String $url
+	 * @param  String|Array $url
 	 * @return Void
 	 */
 	public static function csv($url)
 	{
-		// prepare messages
-		if ( ! \A11yc\Crawl::isPageExist($url)) Util::error();
-
 		// get Pages
-		$pages = array();
-		$pages[0]['url'] = $url;
+		if ( ! is_array($url))
+		{
+			$urls[] = $url;
+		}
+		else
+		{
+			$urls = $url;
+		}
 
 		$csv = array();
 		$csv[] = array(
@@ -53,9 +56,8 @@ class Export
 		);
 
 		// check and generate csv
-		foreach ($pages as $page)
+		foreach ($urls as $url)
 		{
-			$url = $page['url'];
 			$html = Model\Html::getHtml($url);
 			if ( ! $html) continue;
 

@@ -122,6 +122,7 @@ class Guzzle
 
 		$client = new \GuzzleHttp\Client(array(
 				'http_errors' => false,
+				'verify' => false,
 			));
 
 		// client
@@ -173,6 +174,7 @@ class Guzzle
 		$client = new \GuzzleHttp\Client(array(
 				'http_errors' => false,
 				'handler' => $stack,
+				'verify' => false,
 				\GuzzleHttp\RequestOptions::ALLOW_REDIRECTS => true
 			));
 

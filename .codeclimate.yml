@@ -71,6 +71,8 @@ engines:
         enabled: false
       Naming/ShortVariable:
         enabled: false
+      Naming/ShortMethodName:
+        enabled: false
 ratings:
   paths:
   - "**.css"
@@ -87,3 +89,4 @@ exclude_paths:
 - libs/spyc
 - libs/guzzle
 - assets/css/font-awesome
+- libs/kontiki/classes/Session.php

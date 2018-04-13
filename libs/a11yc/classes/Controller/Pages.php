@@ -78,6 +78,28 @@ class Pages
 			'order'   => Input::get('order', 'created_at_desc'),
 		);
 
+		if (Input::isPostExists())
+		{
+			switch (Input::post('operation'))
+			{
+				case 'delete':
+					self::bulkDelete();
+					break;
+				case 'undelete':
+					self::bulkUndelete();
+					break;
+				case 'purge':
+					self::bulkPurge();
+					break;
+				case 'result':
+					self::bulkResult();
+					break;
+				case 'export':
+					Export::csv(array_keys(Input::postArr('bulk')));
+					break;
+			}
+		}
+
 		// count
 		View::assign('list', $list);
 		static::count();
@@ -92,6 +114,126 @@ class Pages
 	}
 
 	/**
+	 * bulk delete
+	 *
+	 * @return Void
+	 */
+	private static function bulkDelete()
+	{
+		foreach (array_keys(Input::postArr('bulk')) as $url)
+		{
+
+			$is_success = Model\Pages::delete($url);
+			if ($is_success)
+			{
+				Session::add('messages', 'messages', sprintf(A11YC_LANG_PAGES_DELETE_DONE, Util::s($url)));
+			}
+		}
+	}
+
+	/**
+	 * bulk purge
+	 *
+	 * @return Void
+	 */
+	private static function bulkPurge()
+	{
+		foreach (array_keys(Input::postArr('bulk')) as $url)
+		{
+			$is_success = Model\Pages::purge($url);
+			if ($is_success)
+			{
+				Session::add('messages', 'messages', sprintf(A11YC_LANG_PAGES_PURGE_DONE, Util::s($url)));
+			}
+		}
+	}
+
+	/**
+	 * bulk undelete
+	 *
+	 * @return Void
+	 */
+	private static function bulkUndelete()
+	{
+		foreach (array_keys(Input::postArr('bulk')) as $url)
+		{
+			$is_success = Model\Pages::undelete($url);
+			if ($is_success)
+			{
+				Session::add('messages', 'messages', sprintf(A11YC_LANG_PAGES_UNDELETE_DONE, Util::s($url)));
+			}
+		}
+	}
+
+	/**
+	 * bulk result
+	 *
+	 * @return Void
+	 */
+	private static function bulkResult()
+	{
+		if (class_exists('ZipArchive'))
+		{
+			if (ini_get('zlib.output_compression'))
+			{
+				ini_set('zlib.output_compression', 'Off');
+			}
+
+			$zip  = new \ZipArchive();
+			$file = 'a11yc.zip';
+			$dir  = '/tmp/a11yc/';
+			if ( ! file_exists($dir))
+			{
+				mkdir($dir);
+			}
+
+			$result = $zip->open($dir.$file, \ZIPARCHIVE::CREATE | \ZIPARCHIVE::OVERWRITE);
+			if ($result !== true) Util::error('zip failed');
+
+			set_time_limit(0);
+			$n =1;
+			foreach (array_keys(Input::postArr('bulk')) as $url)
+			{
+				Results::each($url);
+				$each_filename = str_replace(array('http://', 'https://'), '', $url);
+				$each_filename = str_replace('/', '_', $each_filename);
+				$zip->addFromString('result'.$n.'.html', View::fetch('body'));
+				$n++;
+			}
+			$zip->close();
+
+			// ストリームに出力
+			mb_http_output("pass");
+			header('Content-Type: application/zip; name="' . $file . '"');
+			header('Content-Disposition: attachment; filename="' . $file . '"');
+			header('Content-Length: '.filesize($dir.$file));
+			readfile($dir.$file);
+
+			// 一時ファイルを削除しておく
+			@unlink($dir.$file);
+			@unlink($dir);
+			exit();
+		}
+
+		$str = '';
+		foreach (array_keys(Input::postArr('bulk')) as $url)
+		{
+			Results::each($url);
+			$str.= View::fetch('body');
+			$str.= "\n\n/====A11YC_RESULTS_CSPLIT====/\n\n";
+		}
+
+		// export
+		$filename = 'a11yc_results.txt';
+		header("HTTP/1.1 200 OK");
+		header('Content-Type: text/plain');
+		header('Content-Length: '.mb_strlen($str));
+		header('Content-Disposition: attachment; filename='.$filename);
+		echo $str;
+		exit();
+	}
+
+	/**
 	 * add target pages
 	 *
 	 * @return Void
@@ -102,6 +244,7 @@ class Pages
 		$crawled = Session::fetch('values', 'urls');
 		$crawled = is_array($crawled[0]) ? join("\n", $crawled[0]) : '';
 		$is_force = Input::post('force', false);
+
 
 		if (Input::isPostExists())
 		{
@@ -436,6 +579,7 @@ class Pages
 		View::assign('url',   Util::urlenc($url));
 		View::assign('title', A11YC_LANG_PAGES_LABEL_EDIT);
 		View::assign('page_title', isset($page['title']) ? $page['title'] : '');
+		View::assign('page',  $page);
 		View::assign('html',  $html);
 		View::assign('body',  View::fetchTpl('pages/edit.php'), FALSE);
 	}

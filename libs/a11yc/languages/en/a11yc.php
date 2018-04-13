@@ -136,6 +136,9 @@ define('A11YC_LANG_PAGES_ADD_TO_CANDIDATE', 'Acquire candidate URLs from HTML');
 define('A11YC_LANG_PAGES_IT_TAKES_TIME', 'This process takes time.');
 define('A11YC_LANG_PAGES_LABEL_EDIT', 'Edit');
 define('A11YC_LANG_PAGES_LABEL_HTML_EXP', 'This HTML is used for judgment, such as when automatic acquisition of HTML fails. It will be rewritten automatically when the automatic acquisition succeeds in the future.');
+define('A11YC_LANG_PAGES_LABEL_EXPORT_RESULT_HTML', 'Download result HTML');
+define('A11YC_LANG_PAGES_LABEL_EXPORT_RESULT_HTML_EXP', 'All test results HTML will be outputted with concatenation. use csplit a11yc_results.txt /====A11YC_RESULTS_CSPLIT====/ {*}');
+define('A11YC_LANG_PAGES_LABEL_BULK_CHECK_ALL', 'Check All');
 
 // setup
 define('A11YC_LANG_SETUP_TITLE', 'settings');

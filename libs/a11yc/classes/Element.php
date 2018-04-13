@@ -12,7 +12,7 @@ namespace A11yc;
 
 class Element
 {
-	protected static $first_tag = '';
+	public static $first_tag = '';
 	protected static $ignored_str = '';
 	protected static $res = array();
 	protected static $attrs = array();
@@ -449,14 +449,14 @@ class Element
 	 */
 	public static function getDoctype($url)
 	{
-		if (empty(static::$hl_htmls[$url])) return false;
+		if (empty(Validate::$hl_htmls[$url])) return false;
 
-		preg_match("/\<!DOCTYPE [^\>]+?\>/", static::$hl_htmls[$url], $ms);
+		preg_match("/\<!DOCTYPE [^\>]+?\>/", Validate::$hl_htmls[$url], $ms);
 
 		// html5
 		if ( ! isset($ms[0]))
 		{
-			preg_match("/\<!DOCTYPE html\>/i", static::$hl_htmls[$url], $ms);
+			preg_match("/\<!DOCTYPE html\>/i", Validate::$hl_htmls[$url], $ms);
 		}
 
 		if ( ! isset($ms[0])) return false; // doctypeless
