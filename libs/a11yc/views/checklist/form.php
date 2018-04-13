@@ -183,39 +183,36 @@
 			<!-- .a11yc_result -->
 			<div class="a11yc_result">
 				<table class="a11yc_table_check">
+				<thead>
+					<th class="a11yc_table_check_test_result" scope="col"><?php echo A11YC_LANG_TEST_RESULT ?></th>
+					<th class="a11yc_table_check_test_method" scope="col"><?php echo A11YC_LANG_TEST_METHOD ?></th>
+					<th class="a11yc_table_check_memo" scope="col"><?php echo A11YC_LANG_OPINION ?></th>
+					<th class="a11yc_table_check_user" scope="col">user</th>
+				</thead>
 				<tbody>
 					<tr>
-						<th scope="row">
-							<?php echo A11YC_LANG_TEST_RESULT ?>
-						</th>
-
-						<td>
-							<label for="results_<?php echo $criterion; ?>_result" class="a11yc_skip"><?php echo A11YC_LANG_TEST_RESULT ?></label>
-							<select name="results[<?php echo $criterion; ?>][result]" id="results_<?php echo $criterion; ?>_result">
-							<?php
-							foreach (Values::resultsOptions() as $rk => $rv):
-								$selected = isset($results[$criterion]) && intval($results[$criterion]['result']) == $rk ? ' selected="selected"' : '';
-								echo '<option'.$selected.' value="'.$rk.'">'.$rv.'</option>';
-							endforeach;
-							?>
-							</select>
+						<td class="a11yc_table_check_test_result">
+							<fieldset>
+								<?php
+								foreach (Values::resultsOptions() as $rk => $rv):
+									$selected = isset($results[$criterion]) && intval($results[$criterion]['result']) == $rk ? ' checked="checked"' : '';
+									echo '<input type="radio" name="results['.$criterion.'][result]" id="results['.$criterion.'][result]_'.$rk.'"'.$selected.' value="'.$rk.'" class="a11yc_skip"><label class="a11yc_checkitem" for="results['.$criterion.'][result]_'.$rk.'"><span class="a11yc_icon_fa a11yc_icon_checkbox" role="presentation" aria-hidden="true"></span>'.$rv.'</label>';
+								endforeach;
+								?>
+							</fieldset>
 						</td>
-
-						<td>
-							<label for="results_<?php echo $criterion; ?>_test_method"><?php echo A11YC_LANG_TEST_METHOD ?></label>
-							<select name="results[<?php echo $criterion; ?>][method]" id="results_<?php echo $criterion; ?>_method">
-							<?php
-							foreach (Values::testMethodsOptions() as $rk => $rv):
-								$selected = isset($results[$criterion]) && intval($results[$criterion]['method']) == $rk ? ' selected="selected"' : '';
-								echo '<option'.$selected.' value="'.$rk.'">'.$rv.'</option>';
-							endforeach;
-							?>
-
-							</select>
+						<td class="a11yc_table_check_test_method">
+							<fieldset>
+								<?php
+								foreach (Values::testMethodsOptions() as $rk => $rv):
+									$selected = isset($results[$criterion]) && intval($results[$criterion]['method']) == $rk ? ' checked="checked"' : '';
+									echo '<input type="radio" name="results['.$criterion.'][method]" id="results['.$criterion.'][method]_'.$rk.'"'.$selected.' value="'.$rk.'" class="a11yc_skip"><label class="a11yc_checkitem" for="results['.$criterion.'][method]_'.$rk.'"><span class="a11yc_icon_fa a11yc_icon_checkbox" role="presentation" aria-hidden="true"></span>'.$rv.'</label>';								
+								endforeach;
+								?>
+							</fieldset>
 						</td>
-
 						<td class="a11yc_table_check_memo">
-							<label for="results_<?php echo $criterion; ?>_memo"><?php echo A11YC_LANG_OPINION ?></label>
+							<label for="results_<?php echo $criterion; ?>_memo"></label>
 							<textarea name="results[<?php echo $criterion; ?>][memo]" id="results_<?php echo $criterion; ?>_memo" rows="3"><?php echo Util::s(Arr::get($results, "{$criterion}.memo")); ?></textarea>
 						</td>
 						<td class="a11yc_table_check_user">
@@ -278,7 +275,7 @@
 
 				<tr<?php echo $class_str ?>>
 					<th scope="row">
-					<label for="<?php echo $id ?>"><input type="checkbox"<?php echo $checked ?> id="<?php echo $id ?>" name="chk[<?php echo $tcode ?>]" value="1" <?php echo $data ?> class="<?php echo strtolower($vvv['level']['name']) ?> a11yc_skip"/><span class="a11yc_icon_fa a11yc_icon_checkbox" role="presentation" aria-hidden="true"></span><?php echo $yml['techs'][$tcode]['title'] ?></label>
+					<label for="<?php echo $id ?>" class="a11yc_checkitem"><input type="checkbox"<?php echo $checked ?> id="<?php echo $id ?>" name="chk[<?php echo $tcode ?>]" value="1" <?php echo $data ?> class="<?php echo strtolower($vvv['level']['name']) ?> a11yc_skip"/><span class="a11yc_icon_fa a11yc_icon_checkbox" role="presentation" aria-hidden="true"></span><?php echo $yml['techs'][$tcode]['title'] ?></label>
 					</th>
 
 					<td class="a11yc_table_check_howto">
