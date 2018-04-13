@@ -402,6 +402,9 @@ table.a11yc_table_info {
 #a11yc_menu .a11yc_pages span:after {
 	content: "\f016";
 }
+#a11yc_menu .a11yc_issues span:after {
+	content: "\f0fa";
+}
 #a11yc_menu .a11yc_bulk span:after {
 	content: "\f0c5";
 }
@@ -504,6 +507,10 @@ table.a11yc_table_info {
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
+}
+.a11yc [type="submit"].a11yc_button_inline
+{
+	display: inline-block;
 }
 #a11yc_str {
 	padding: calc( 5px + .15em);
@@ -968,6 +975,20 @@ ul.a11yc_outlink li {
 .a11yc_outlink_u a:after {
 	content: "\f19d";
 }
+.a11yc_section_criterion .a11yc_issues > a
+{
+	position: relative;
+	padding-left: 2.25em;
+}
+.a11yc_section_criterion .a11yc_issues > a:before
+{
+	font-family: FontAwesome;
+	content: "\f0fa";
+	color: #000;
+	font-size: 1.3em;
+	position: absolute;
+	left: 7px;
+}
 .a11yc_section_principle {
 	margin-bottom: 80px;
 }
@@ -1378,12 +1399,6 @@ ul.a11yc_pagenation li {
 	text-align: right;
 	white-space: nowrap;
 }
-#a11yc_search [type="submit"] {
-	display: inline-block;
-	margin-top: .75em;
-	padding: 5px 15px;
-}
-
 #a11yc_docs .a11yc_section_principle,
 #a11yc_post .a11yc_section_principle {
 	margin-bottom: 60px;
