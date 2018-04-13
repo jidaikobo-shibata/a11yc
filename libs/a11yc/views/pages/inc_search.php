@@ -29,6 +29,6 @@
 			<option value="<?php echo $k ?>"<?php echo $checked ?>><?php echo $v ?></option>
 		<?php endforeach; ?>
 		</select>
-		<input type="submit" value="<?php echo A11YC_LANG_CTRL_SEND ?>" />
+		<input type="submit" class="a11yc_button_inline" value="<?php echo A11YC_LANG_CTRL_SEND ?>" />
 	</p>
 </form>

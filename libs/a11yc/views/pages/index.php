@@ -27,7 +27,7 @@ if ($pages):
 	<option value="delete"><?php echo A11YC_LANG_PAGES_DELETE ?></option>
 	<?php endif; ?>
 </select>
-<input type="submit" value="<?php echo A11YC_LANG_CTRL_SEND ?>" />
+<input type="submit" class="a11yc_button_inline" value="<?php echo A11YC_LANG_CTRL_SEND ?>" />
 
 	<table class="a11yc_table">
 	<thead>

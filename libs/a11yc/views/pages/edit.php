@@ -7,7 +7,7 @@
 <!-- add pages form -->
 <form action="<?php echo A11YC_PAGES_EDIT_URL ?>&amp;url=<?php echo $url ?>" method="POST">
 <h2><label for="a11yc_add_pages"><?php echo A11YC_LANG_PAGES_PAGETITLE ?></label></h2>
-<input type="text" name="title" id="title" size="40" value="<?php echo Util::s($page_title) ?>" />
+<input type="text" name="title" id="title" size="120" value="<?php echo Util::s($page_title) ?>" />
 
 <h2><label for="a11yc_add_pages">HTML</label></h2>
 <p><?php echo A11YC_LANG_PAGES_LABEL_HTML_EXP ?></p>

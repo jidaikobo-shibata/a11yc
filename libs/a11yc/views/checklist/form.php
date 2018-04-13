@@ -4,7 +4,7 @@
 <!-- header -->
 <div id="a11yc_header">
 	<div id="a11yc_header_inner">
-		<div id="a11yc_header_ctrl">
+		<div id="a11yc_header_ctrl" class="a11yc_hide_if_fixedheader">
 		<?php if ( ! $is_bulk): ?>
 			<!-- standard -->
 			<p id="a11yc_header_done_date" class="">
@@ -45,11 +45,11 @@
 			<!-- target page -->
 		<table id="a11yc_targetpage_info">
 		<tr>
-			<th><?php echo A11YC_LANG_CHECKLIST_TARGETPAGE ?></th>
+			<th class="a11yc_hide_if_fixedheader"><?php echo A11YC_LANG_CHECKLIST_TARGETPAGE ?></th>
 			<td><?php echo $target_title ?></td>
 		</tr>
 		<tr>
-			<th><?php echo A11YC_LANG_PAGES_URLS ?></th>
+			<th class="a11yc_hide_if_fixedheader"><?php echo A11YC_LANG_PAGES_URLS ?></th>
 			<td><?php echo '<a href="'.Util::s(Util::urldec($url)).'">'.Util::s(Util::urldec($url)).'</a>' ?></td>
 <?php /* ?>
 <?php // 振る舞いが怪しいので、ちょっと様子見 ?>
@@ -98,9 +98,10 @@
 
 		<?php if ( ! $is_bulk): ?>
 			<!-- level -->
-			<p id="a11yc_target_level"><?php echo A11YC_LANG_TARGET_LEVEL ?>: <?php echo Util::num2str($target_level) ?>
+			<p id="a11yc_target_level" class="a11yc_hide_if_fixedheader"><?php echo A11YC_LANG_TARGET_LEVEL ?>: <?php echo Util::num2str($target_level) ?>
 	<?php $current_level = $target_level ? Evaluate::resultStr(@$page['level'], $target_level) : '-'; ?><br><?php echo A11YC_LANG_CURRENT_LEVEL ?>: <span id="a11yc_conformance_level"><?php echo $current_level ?></span></p>
 		<?php endif ?>
+		<?php /* ?>
 			<!-- rest of num -->
 			<p class="a11yc_hide_if_no_js"><a role="button" class="a11yc_disclosure"><?php echo A11YC_LANG_CHECKLIST_RESTOFNUM ?>&nbsp;:&nbsp;<span id="a11yc_rest_total">&nbsp;-&nbsp;</span></a></p>
 			<div class="a11yc_disclosure_target show a11yc_hide_if_fixedheader a11yc_hide_if_no_js">
@@ -127,6 +128,7 @@
 				</tbody>
 			</table>
 			</div>
+			<?php */ ?>
 			<?php /*
 				$checked = $setup['checklist_behaviour'] ? ' checked="checked"' : '';
 			?>
@@ -138,7 +140,7 @@
 		<!-- a11yc menu -->
 	<ul id="a11yc_menu_principles">
 	<?php foreach ($yml['principles'] as $v): ?>
-		<li id="a11yc_menuitem_<?php echo $v['code'] ?>"><a href="#a11yc_header_p_<?php echo $v['code'] ?>"><?php echo $v['code'].' '.$v['name'] ?><span></span></a></li>
+		<li id="a11yc_menuitem_<?php echo $v['code'] ?>"><a href="#a11yc_header_p_<?php echo $v['code'] ?>"><span><?php echo /* $v['code'] .' '.*/ $v['name'] ?></span></a></li>
 	<?php endforeach; ?>
 	</ul><!--/#a11yc_menu_principles-->
 
@@ -181,39 +183,36 @@
 			<!-- .a11yc_result -->
 			<div class="a11yc_result">
 				<table class="a11yc_table_check">
+				<thead>
+					<th class="a11yc_table_check_test_result" scope="col"><?php echo A11YC_LANG_TEST_RESULT ?></th>
+					<th class="a11yc_table_check_test_method" scope="col"><?php echo A11YC_LANG_TEST_METHOD ?></th>
+					<th class="a11yc_table_check_memo" scope="col"><?php echo A11YC_LANG_OPINION ?></th>
+					<th class="a11yc_table_check_user" scope="col">user</th>
+				</thead>
 				<tbody>
 					<tr>
-						<th scope="row">
-							<?php echo A11YC_LANG_TEST_RESULT ?>
-						</th>
-
-						<td>
-							<label for="results_<?php echo $criterion; ?>_result" class="a11yc_skip"><?php echo A11YC_LANG_TEST_RESULT ?></label>
-							<select name="results[<?php echo $criterion; ?>][result]" id="results_<?php echo $criterion; ?>_result">
-							<?php
-							foreach (Values::resultsOptions() as $rk => $rv):
-								$selected = isset($results[$criterion]) && intval($results[$criterion]['result']) == $rk ? ' selected="selected"' : '';
-								echo '<option'.$selected.' value="'.$rk.'">'.$rv.'</option>';
-							endforeach;
-							?>
-							</select>
+						<td class="a11yc_table_check_test_result">
+							<fieldset>
+								<?php
+								foreach (Values::resultsOptions() as $rk => $rv):
+									$selected = isset($results[$criterion]) && intval($results[$criterion]['result']) == $rk ? ' checked="checked"' : '';
+									echo '<input type="radio" name="results['.$criterion.'][result]" id="results['.$criterion.'][result]_'.$rk.'"'.$selected.' value="'.$rk.'" class="a11yc_skip"><label class="a11yc_checkitem" for="results['.$criterion.'][result]_'.$rk.'"><span class="a11yc_icon_fa a11yc_icon_checkbox" role="presentation" aria-hidden="true"></span>'.$rv.'</label>';
+								endforeach;
+								?>
+							</fieldset>
 						</td>
-
-						<td>
-							<label for="results_<?php echo $criterion; ?>_test_method"><?php echo A11YC_LANG_TEST_METHOD ?></label>
-							<select name="results[<?php echo $criterion; ?>][method]" id="results_<?php echo $criterion; ?>_method">
-							<?php
-							foreach (Values::testMethodsOptions() as $rk => $rv):
-								$selected = isset($results[$criterion]) && intval($results[$criterion]['method']) == $rk ? ' selected="selected"' : '';
-								echo '<option'.$selected.' value="'.$rk.'">'.$rv.'</option>';
-							endforeach;
-							?>
-
-							</select>
+						<td class="a11yc_table_check_test_method">
+							<fieldset>
+								<?php
+								foreach (Values::testMethodsOptions() as $rk => $rv):
+									$selected = isset($results[$criterion]) && intval($results[$criterion]['method']) == $rk ? ' checked="checked"' : '';
+									echo '<input type="radio" name="results['.$criterion.'][method]" id="results['.$criterion.'][method]_'.$rk.'"'.$selected.' value="'.$rk.'" class="a11yc_skip"><label class="a11yc_checkitem" for="results['.$criterion.'][method]_'.$rk.'"><span class="a11yc_icon_fa a11yc_icon_checkbox" role="presentation" aria-hidden="true"></span>'.$rv.'</label>';								
+								endforeach;
+								?>
+							</fieldset>
 						</td>
-
 						<td class="a11yc_table_check_memo">
-							<label for="results_<?php echo $criterion; ?>_memo"><?php echo A11YC_LANG_OPINION ?></label>
+							<label for="results_<?php echo $criterion; ?>_memo"></label>
 							<textarea name="results[<?php echo $criterion; ?>][memo]" id="results_<?php echo $criterion; ?>_memo" rows="3"><?php echo Util::s(Arr::get($results, "{$criterion}.memo")); ?></textarea>
 						</td>
 						<td class="a11yc_table_check_user">
@@ -276,7 +275,7 @@
 
 				<tr<?php echo $class_str ?>>
 					<th scope="row">
-					<label for="<?php echo $id ?>"><input type="checkbox"<?php echo $checked ?> id="<?php echo $id ?>" name="chk[<?php echo $tcode ?>]" value="1" <?php echo $data ?> class="<?php echo strtolower($vvv['level']['name']) ?> a11yc_skip"/><span class="a11yc_icon_fa a11yc_icon_checkbox" role="presentation" aria-hidden="true"></span><?php echo $yml['techs'][$tcode]['title'] ?></label>
+					<label for="<?php echo $id ?>" class="a11yc_checkitem"><input type="checkbox"<?php echo $checked ?> id="<?php echo $id ?>" name="chk[<?php echo $tcode ?>]" value="1" <?php echo $data ?> class="<?php echo strtolower($vvv['level']['name']) ?> a11yc_skip"/><span class="a11yc_icon_fa a11yc_icon_checkbox" role="presentation" aria-hidden="true"></span><?php echo $yml['techs'][$tcode]['title'] ?></label>
 					</th>
 
 					<td class="a11yc_table_check_howto">

@@ -13,7 +13,7 @@ if ($errs['errors'] || $errs['notices']):
 	$html = '';
 	$class_str = $is_call_from_post ? '' : ' a11yc_disclosure';
 	$html.= $is_call_from_post ? '<p class="' : '<h1 class="a11yc_resetstyle ';
-	$html.='a11yc_narrow_level'.$class_str.'" data-a11yc-narrow-target="#a11yc_validation_list">';
+	$html.='a11yc_narrow_level a11yc_hide_if_fixedheader'.$class_str.'" data-a11yc-narrow-target="#a11yc_validation_list">';
 	$html.= $is_call_from_post ? '' : A11YC_LANG_CHECKLIST_MACHINE_CHECK;
 
 	//narrow level
@@ -35,7 +35,7 @@ if ($errs['errors'] || $errs['notices']):
 			<div class="a11yc_controller">
 			</div>
 			<?php if ( ! empty($errs['errors'])): ?>
-			<dl id="a11yc_validation_list">
+			<dl id="a11yc_validation_error_list" class="a11yc_validation_list">
 			<?php foreach ($errs['errors'] as $err): ?>
 				<?php echo $err ?>
 			<?php endforeach; ?>
@@ -46,7 +46,7 @@ if ($errs['errors'] || $errs['notices']):
 			// notices
 			if ( ! empty($errs['notices'])):
 			?>
-				<dl id="a11yc_validation_notices_list">
+				<dl id="a11yc_validation_notices_list" class="a11yc_validation_list">
 				<?php foreach ($errs['notices'] as $err): ?>
 					<?php echo $err ?>
 				<?php endforeach; ?>
