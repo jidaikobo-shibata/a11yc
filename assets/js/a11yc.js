@@ -370,6 +370,31 @@ jQuery(function($){
 });
 
 
+jQuery(function($){
+// check all
+	$('.a11yc_check_all, .a11yc_table thead input:checkbox').on('click', function(){
+		var $trigger = $(this), $target = $(), index, prop;
+		if( $trigger.attr('dataA11ycTargetClass') )
+		{
+			$target = $('.'+$trigger.attr('dataA11ycTargetClass'));
+		}
+		else
+		{ // thead内の場合は、あえてclassを与えなくてもtbody内の対応するセルのinputを取得する
+			index = $trigger.closest('tr').children().index($trigger.closest('th, td'));
+			$trigger.attr('dataA11ycTargetClass', 'a11yc_check_all_target_'+index);
+			$trigger.closest('table').find('tbody tr').each(function(){
+				$(this).children().eq(index).find('input:checkbox').addClass('a11yc_check_all_target_'+index);
+				$target = $target.add($(this).children().eq(index).find('input:checkbox'));
+			});
+		}
+		if( !$target[0] )
+		{
+			return;
+		}
+		prop = $trigger.prop('checked');
+		$target.prop('checked', prop);
+	});
+});
 
 /* === pages === */
 // 閉じられていないdivが相手なので、いったん後回し。
