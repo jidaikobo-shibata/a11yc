@@ -46,11 +46,11 @@
 		<table id="a11yc_targetpage_info">
 		<tr>
 			<th class="a11yc_hide_if_fixedheader"><?php echo A11YC_LANG_CHECKLIST_TARGETPAGE ?></th>
-			<td><?php echo $target_title ?></td>
+			<td title="<?php echo $target_title ?>"><?php echo $target_title ?></td>
 		</tr>
 		<tr>
 			<th class="a11yc_hide_if_fixedheader"><?php echo A11YC_LANG_PAGES_URLS ?></th>
-			<td><?php echo '<a href="'.Util::s(Util::urldec($url)).'">'.Util::s(Util::urldec($url)).'</a>' ?></td>
+			<td title="<?php echo Util::s(Util::urldec($url)) ?>"><?php echo '<a href="'.Util::s(Util::urldec($url)).'">'.Util::s(Util::urldec($url)).'</a>' ?></td>
 <?php /* ?>
 <?php // 振る舞いが怪しいので、ちょっと様子見 ?>
 			<th><label for="a11yc_mod_url"><?php echo A11YC_LANG_PAGES_URLS ?></label></th>
