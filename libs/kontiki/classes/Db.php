@@ -184,7 +184,7 @@ class Db
 	}
 
 	/**
-	 * is_fields_exist
+	 * isFieldsExist
 	 *
 	 * @param  String $table
 	 * @param  Array $fields

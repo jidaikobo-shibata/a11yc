@@ -26,5 +26,11 @@ class Update
 		{
 			Update\One2Two::udpate();
 		}
+
+		// update add seq to pages
+		if ( ! Db::isFieldsExist(A11YC_TABLE_PAGES, array('seq')))
+		{
+			Update\AddSeq2Pages::udpate();
+		}
 	}
 }

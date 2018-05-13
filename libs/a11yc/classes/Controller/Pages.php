@@ -97,6 +97,9 @@ class Pages
 				case 'export':
 					Export::csv(array_keys(Input::postArr('bulk')));
 					break;
+				default: // update order
+					self::updateSeq();
+					break;
 			}
 		}
 
@@ -111,6 +114,19 @@ class Pages
 		View::assign('word',        join(' ', $words));
 		View::assign('search_form', View::fetchTpl('pages/inc_search.php'), FALSE);
 		View::assign('body',        View::fetchTpl('pages/index.php'), FALSE);
+	}
+
+	/**
+	 * update order
+	 *
+	 * @return Void
+	 */
+	private static function updateSeq()
+	{
+		foreach (Input::postArr('seq') as $url => $seq)
+		{
+			Model\Pages::updateField($url, 'seq', intval($seq));
+		}
 	}
 
 	/**
@@ -244,7 +260,6 @@ class Pages
 		$crawled = Session::fetch('values', 'urls');
 		$crawled = is_array($crawled[0]) ? join("\n", $crawled[0]) : '';
 		$is_force = Input::post('force', false);
-
 
 		if (Input::isPostExists())
 		{
@@ -550,6 +565,7 @@ class Pages
 
 				default :
 					Model\Pages::updateField($url, 'title', Input::post('title'));
+					Model\Pages::updateField($url, 'seq', intval(Input::post('seq')));
 					$ua = 'using';
 					Model\Html::addHtml($url, $ua, Input::post('html'));
 					break;

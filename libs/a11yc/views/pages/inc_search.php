@@ -11,14 +11,16 @@
 		<label for="a11yc_order" class="a11yc_skip"><?php echo A11YC_LANG_CTRL_ORDER_TITLE ?></label>
 		<?php
 		$opts = array(
-			"created_at_desc" => constant('A11YC_LANG_PAGES_ORDER_CREATED_AT_DESC'),
+			"seq_asc"         => constant('A11YC_LANG_PAGES_ORDER_SEQ_ASC'),
+			"seq_desc"        => constant('A11YC_LANG_PAGES_ORDER_SEQ_DESC'),
 			"created_at_asc"  => constant('A11YC_LANG_PAGES_ORDER_CREATED_AT_ASC'),
-			"date_desc"       => constant('A11YC_LANG_PAGES_ORDER_TEST_DATE_DESC'),
+			"created_at_desc" => constant('A11YC_LANG_PAGES_ORDER_CREATED_AT_DESC'),
 			"date_asc"        => constant('A11YC_LANG_PAGES_ORDER_TEST_DATE_ASC'),
-			"url_desc"        => constant('A11YC_LANG_PAGES_ORDER_URL_DESC'),
+			"date_desc"       => constant('A11YC_LANG_PAGES_ORDER_TEST_DATE_DESC'),
 			"url_asc"         => constant('A11YC_LANG_PAGES_ORDER_URL_ASC'),
-			"title_desc"      => constant('A11YC_LANG_PAGES_ORDER_TITLE_DESC'),
+			"url_desc"        => constant('A11YC_LANG_PAGES_ORDER_URL_DESC'),
 			"title_asc"       => constant('A11YC_LANG_PAGES_ORDER_TITLE_ASC'),
+			"title_desc"      => constant('A11YC_LANG_PAGES_ORDER_TITLE_DESC'),
 		);
 		?>
 		<select name="order" id="a11yc_order">

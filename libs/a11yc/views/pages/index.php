@@ -27,7 +27,7 @@ if ($pages):
 	<option value="delete"><?php echo A11YC_LANG_PAGES_DELETE ?></option>
 	<?php endif; ?>
 </select>
-<input type="submit" class="a11yc_button_inline" value="<?php echo A11YC_LANG_CTRL_SEND ?>" />
+<input type="submit" class="a11yc_button_inline" value="<?php echo A11YC_LANG_BULK_TITLE ?>" />
 
 	<table class="a11yc_table">
 	<thead>
@@ -44,6 +44,7 @@ if ($pages):
 		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGES_EXPORT ?></th>
 		<?php endif; ?>
 		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGES_CTRL ?></th>
+		<th><?php echo A11YC_LANG_PAGES_ORDER_SEQ ?></th>
 		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGES_CREATED_AT ?></th>
 		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_TEST_DATE ?></th>
 	</tr>
@@ -62,6 +63,7 @@ if ($pages):
 	?>
 	<tr<?php echo $class_str ?>>
 		<td><label><input type="checkbox" name="bulk[<?php echo $url ?>]" value="1" /><span class="a11yc_skip"><?php echo $title ?></span></label></td>
+
 		<th scope="row">
 			<?php echo $no_url == $url ? '<div><strong>'.A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR.'</strong></div>' : '' ?>
 			<?php echo $title.'<br /><a href="'.$url.'">'.$url ?></a>
@@ -90,6 +92,8 @@ if ($pages):
 		<?php endif; ?>
 
 		<td class="a11yc_result"><a href="<?php echo A11YC_PAGES_EDIT_URL ?>&amp;url=<?php echo Util::urlenc($url) ?>" class="a11yc_hasicon"><?php echo A11YC_LANG_PAGES_CTRL ?><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_DELETE ?></span><!-- <span class="a11yc_icon_delete a11yc_icon_fa" role="presentation" aria-hidden="true"></span> --></a></td>
+
+		<td class="a11yc_result"><input type="text" name="seq[<?php echo $url ?>]" id="seq" size="3" value="<?php echo intval($page['seq']); ?>" /></td>
 
 		<td class="a11yc_result"><?php echo $page['created_at'] ? date('Y-m-d', strtotime($page['created_at'])) : '-' ?></td>
 		<td class="a11yc_result"><?php echo $page['date'] ?></td>

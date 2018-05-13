@@ -28,7 +28,7 @@ class Pages
 		$is_current   = Arr::get($args,   'is_current', true);
 		$words        = Arr::get($args,   'words', array());
 		$words        = is_array($words) ? $words : array();
-		$orderby      = Arr::get($args,   'order', 'created_at_desc');
+		$orderby      = Arr::get($args,   'order', 'seq_asc');
 		$placeholders = array();
 
 		// whrs
@@ -153,6 +153,8 @@ class Pages
 		$order = 'DESC';
 		$by    = 'created_at';
 		$order_whitelist = array(
+			'seq_asc',
+			'seq_desc',
 			'created_at_asc',
 			'created_at_desc',
 			'date_asc',
