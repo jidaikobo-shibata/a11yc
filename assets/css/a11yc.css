@@ -1658,8 +1658,9 @@ table th.a11yc_result {
 	font-size: 1.55em;
 	color: #fff;
 	position: absolute;
-	top: .165em;
+	top: .2em;
 	left: .175em;
+	line-height: 1;
 }
 #a11yc_post .a11yc_narrow_level a {
 	position: relative;
