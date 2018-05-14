@@ -459,11 +459,11 @@ table.a11yc_table_info {
 	max-width: 960px;
 	margin: auto;
 }
-.a11yc_fixed_header > h1 {
-	clip: rect(1px 1px 1px 1px);
-	clip: rect(1px,1px,1px,1px);
-	position: absolute;
-	left: 0;
+.a11yc_fixed_header > h1,
+.a11yc_fixed_header .a11yc_hide_if_fixedheader {
+	clip: rect(1px,1px,1px,1px) !important;
+	position: absolute !important;
+	left: 0 !important;
 }
 
 /* ===  form === */
