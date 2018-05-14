@@ -4,7 +4,7 @@ if(!$('.a11yc')[0])
 	return;
 }
 //set grobal
-	a11yc_env = {
+	window.a11yc_env = {
 		$a11yc_content : $('.a11yc').eq(0),
 		fixed_height : 0,
 		$footer : $('#a11yc_submit')[0] ? $('#a11yc_submit') : $(),
@@ -84,6 +84,8 @@ if(!$('.a11yc')[0])
 
 /* === common functions === */
 jQuery(function($){
+	if( typeof a11yc_env === "undefined" ) return;
+
 	//ディスクロージャ
 	$.fn.a11yc_disclosure = function(){
 //	console.log('function:'+'$.fn.a11yc_disclosure');
@@ -142,6 +144,8 @@ jQuery(function($){
 });
 
 jQuery(function($){
+	if( typeof a11yc_env === "undefined" ) return;
+
 	//in validation error : add link anchor etc.
 	$.fn.a11yc_format_validation_error = function(){
 //	console.log('function:'+'$.fn.a11yc_format_validation_error');
@@ -209,6 +213,8 @@ jQuery(function($){
 /* === title_tooltip === */
 // replace title attr to aria-label.when element is link, screen reader speach out inner skip str.
 jQuery(function($){
+	if( typeof a11yc_env === "undefined" ) return;
+
 	a11yc_tooltip();
 	function a11yc_tooltip(){
 //	console.log('function:'+'a11yc_tooltip');
@@ -286,6 +292,7 @@ jQuery(function($){
 
 /* === a11yc_adjust_position === */
 jQuery(function($){
+	if( typeof a11yc_env === "undefined" ) return;
 	$.fn.a11yc_adjust_position = function($obj){
 	if(!$obj) return;
 //		console.time('fn.a11yc_adjust_position');
@@ -422,6 +429,7 @@ function a11yc_remove_fixed_header(){
 
 /* === narrow level === */
 jQuery(function($){
+	if( typeof a11yc_env === "undefined" ) return;
 	// load
 	$('.a11yc_narrow_level').each(function(){
 		a11yc_narrow_level( $(this).find('.current'), $($(this).data('a11ycNarrowTarget')));
@@ -573,6 +581,8 @@ jQuery(function($){
 
 /* for checklist */
 jQuery(function($){
+if( typeof a11yc_env === "undefined" ) return;
+
 if(!$('#a11yc_checks')[0]) return;
 	// assist
 	// propagates click event from th to child checkbox
@@ -718,7 +728,9 @@ if(!$('#a11yc_checks')[0]) return;
 
 /* === bulk === */
 jQuery(function($){
+	if( typeof a11yc_env === "undefined" ) return;
 	if(!$('.a11yc')[0]) return;
+
 	// a11yc_update_done
 	$('#a11yc_update_done').parent().addClass('a11yc_hide');
 	$('#a11yc_update_all').on('change', function(){
