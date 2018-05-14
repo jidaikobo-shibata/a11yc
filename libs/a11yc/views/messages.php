@@ -4,7 +4,7 @@ $errors = Session::fetch('messages', 'errors');
 
 if ($errors || (Auth::auth() && Maintenance::isUgingLower())):
 ?>
-<ul id="a11yc_msg_error" class="a11yc_msg">
+<ul id="a11yc_msg_error" class="a11yc_msg a11yc_hide_if_fixedheader">
 <?php
 // ordinary errors
 if (is_array($errors)):
