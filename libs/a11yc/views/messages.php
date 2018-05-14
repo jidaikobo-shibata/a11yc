@@ -32,7 +32,7 @@ endif;
 $messages = Session::fetch('messages', 'messages');
 if (is_array($messages)):
 ?>
-<ul id="a11yc_msg_info" class="a11yc_msg">
+<ul id="a11yc_msg_info" class="a11yc_msg a11yc_hide_if_fixedheader">
 <?php foreach ($messages as $message): ?>
 	<li><?php echo Util::s($message); ?></li>
 <?php endforeach; ?>
