@@ -2,15 +2,9 @@
 !/config/.htaccess
 !/libs/.htaccess
 config/config.php
-db
-cache
 jwp_*
 jwp-*
 readme.txt
-views/
-classes/
-post.php
 composer.json
 composer.lock
 composer.phar
-test.html
