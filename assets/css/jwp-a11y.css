@@ -1,0 +1,108 @@
+#jwp-a11y_error ul li
+{
+	list-style: disc;
+	margin-left: 2em;
+}
+.wp-admin .a11yc_fixed_header #a11yc_header,
+.wp-admin #a11yc_submit {
+	padding-right: 10px;
+	padding-left: 170px;
+}
+@media only screen and (max-width: 960px) {
+	.wp-admin .a11yc_fixed_header #a11yc_header,
+	.wp-admin #a11yc_submit {
+		padding-left: 36px;
+	}
+}
+@media screen and (max-width: 782px) {
+	.wp-admin .a11yc_fixed_header #a11yc_header,
+	.wp-admin #a11yc_submit {
+		padding-left: 0;
+	}
+}
+
+/* ===  footer === */
+.a11y-center_page_jwp-a11y-jwp_a11y_checklist #wpfooter,
+.a11y-center_page_jwp-a11y-jwp_a11y_bulk #wpfooter,
+.a11y-center_page_jwp-a11y-jwp_a11y_setup #wpfooter {
+	display: none;
+}
+.wp-admin #a11yc_form_checklist #a11yc_header_ctrl {
+	top: -4em;
+	right: 12px;
+}
+.a11y-center_page_jwp-a11y-jwp_a11y_checklist .postbox {
+	margin-top: 2.5em !important;
+}
+.wp-admin #a11yc_validation_list {
+	border: 1px solid #aaa;
+/*	border-top: none; */
+}
+.wp-admin #a11yc_validation_errors dt,
+.wp-admin #a11yc_validation_errors dd {
+	border: none;
+}
+.wp-admin #a11yc_validation_errors dt {
+	padding-right: 4.25em;
+	border-width: 1px;
+	border-color: #aaa;
+	border-top-style: solid;
+}
+.wp-admin #a11yc_menu_principles {
+	margin:0 -10px;
+}
+.wp-admin #a11yc_menu_principles a {
+	font-size: 1.65em;
+}
+.wp-admin h2.a11yc_header_principle {
+	font-size: 1.75em;
+	margin: 40px 0 .5em;
+	padding: 7px 9em 4px 5px;
+}
+.wp-admin .postbox h2:after {
+	content: none;
+}
+.wp-admin form.a11yc h2 {
+	margin: 0.5em 0 0.5em;
+}
+.wp-admin form.a11yc h2:first-child {
+	margin: -1.2em 0 0.5em;
+}
+.wp-admin .a11yc_header_principle#a11yc_header_p_1 {
+	margin-top: 30px;
+}
+.wp-admin .a11yc_table_check th,
+.wp-admin .a11yc_table_check td {
+	font-size: 1em;
+}
+.a11y-center_page_jwp-a11y-jwp_a11y_pages .a11yc_table tr:hover th,
+.a11y-center_page_jwp-a11y-jwp_a11y_pages .a11yc_table tr:hover td {
+	background-color: #fefedd;
+}
+/* icon fa */
+.wp-admin :checked+.a11yc_icon_checkbox:after {
+	top: 0;
+}
+li.dashicons.dashicons-yes>a:before
+{
+	vertical-align: bottom;
+	content: "\f147";
+}
+
+#dashboard-widgets-wrap #a11yc_validator_results
+{
+	padding: 0;
+	margin: 0;
+}
+#a11yc_validation_not_found_error span:before
+{
+	line-height: 1.125;
+}
+
+/* hide menu item */
+
+#adminmenu .wp-submenu li a[href$="page=jwp-a11y"],
+#adminmenu .wp-submenu li a[href$="jwp_a11y_checklist"]
+{
+	display: none;
+}
