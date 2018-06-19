@@ -276,7 +276,7 @@ class Validate
 		$errors = array();
 		foreach ($s_errors[$error_id] as $k => $v)
 		{
-			$errors[$k] = $v['id'] === false ? Element::$first_tag : $v['id'];
+			$errors[$k] = $v['id'];
 		}
 
 		// ignore elements or comments
@@ -528,6 +528,7 @@ class Validate
 				'" title="'.A11YC_LANG_CHECKLIST_BACK_TO_MESSAGE.'"><span class="a11yc_icon_fa a11yc_icon_arrow_u" role="presentation" aria-hidden="true"></span><span class="a11yc_skip">back</span></a>',
 			),
 			$html);
+
 		return $retval;
 	}
 }
