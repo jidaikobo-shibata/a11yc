@@ -29,4 +29,5 @@ readme.txt
 views/checklist/ajax.php
 views/docs/search.php
 views/pages/search.php
-
+db/
+test.html
