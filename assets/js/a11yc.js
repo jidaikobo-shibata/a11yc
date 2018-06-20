@@ -350,22 +350,24 @@ jQuery(function($){
 }
 //	remove fixed header
 function a11yc_remove_fixed_header(){
-	if($(window).scrollTop() === 0)
-	{
-		if(!$('.a11yc_fixed_header')[0]) return;
-		a11yc_env.$a11yc_content.removeClass('a11yc_fixed_header');
-//			$('#a11yc_header_ctrl').prependTo('#a11yc_form_checklist');
-		if(!a11yc_env.is_wp)
+	jQuery(function($){
+		if($(window).scrollTop() === 0)
 		{
-			a11yc_env.$a11yc_content.css('paddingTop', a11yc_env.menu_height);
+			if(!$('.a11yc_fixed_header')[0]) return;
+			a11yc_env.$a11yc_content.removeClass('a11yc_fixed_header');
+	//			$('#a11yc_header_ctrl').prependTo('#a11yc_form_checklist');
+			if(!a11yc_env.is_wp)
+			{
+				a11yc_env.$a11yc_content.css('paddingTop', a11yc_env.menu_height);
+			}
+			else
+			{
+				a11yc_env.$a11yc_content.css('paddingTop', 0);
+			}
+			$('#a11yc_header').css('paddingTop', 0);
+			$.fn.a11yc_get_height ();
 		}
-		else
-		{
-			a11yc_env.$a11yc_content.css('paddingTop', 0);
-		}
-		$('#a11yc_header').css('paddingTop', 0);
-		$.fn.a11yc_get_height ();
-	}
+	});
 }
 
 

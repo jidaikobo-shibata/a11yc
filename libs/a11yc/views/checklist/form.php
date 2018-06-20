@@ -101,50 +101,14 @@
 			<p id="a11yc_target_level" class="a11yc_hide_if_fixedheader"><?php echo A11YC_LANG_TARGET_LEVEL ?>: <?php echo Util::num2str($target_level) ?>
 	<?php $current_level = $target_level ? Evaluate::resultStr(@$page['level'], $target_level) : '-'; ?><br><?php echo A11YC_LANG_CURRENT_LEVEL ?>: <span id="a11yc_conformance_level"><?php echo $current_level ?></span></p>
 		<?php endif ?>
-		<?php /* ?>
-			<!-- rest of num -->
-			<details class="a11yc_hide_if_no_js" open><summary><?php echo A11YC_LANG_CHECKLIST_RESTOFNUM ?>&nbsp;:&nbsp;<span id="a11yc_rest_total">&nbsp;-&nbsp;</span></details>
-			<div class="a11yc_hide_if_fixedheader">
-			<table id="a11yc_rest">
-				<thead>
-					<tr>
-						<th scope="col">&nbsp;</th>
-						<th scope="col" class="a11yc_rest_label_lv">A</th>
-						<th scope="col" class="a11yc_rest_label_lv">AA</th>
-						<th scope="col" class="a11yc_rest_label_lv">AAA</th>
-						<th scope="col"><?php echo A11YC_LANG_CHECKLIST_TOTAL ?></th>
-					</tr>
-				</thead>
-				<tbody>
-			<?php foreach ($yml['principles'] as $v): ?>
-					<tr id="a11yc_rest_<?php echo $v['code'] ?>">
-						<th scope="row"><?php echo $v['code'].'&nbsp;'.$v['name'] ?></th>
-						<td data-a11yc-rest-level="a">&nbsp;-&nbsp;</td>
-						<td data-a11yc-rest-level="aa">&nbsp;-&nbsp;</td>
-						<td data-a11yc-rest-level="aaa">&nbsp;-&nbsp;</td>
-						<td class="a11yc_rest_subtotal">&nbsp;-&nbsp;</td>
-					</tr>
-			<?php endforeach; ?>
-				</tbody>
-			</table>
-			</div>
-			</details>
-			<?php */ ?>
-			<?php /*
-				$checked = $setup['checklist_behaviour'] ? ' checked="checked"' : '';
-			?>
-			<label for="a11yc_checklist_behaviour" class="a11yc_label_switch"><span role="presentation" aria-hidden="true"></span><input type="checkbox" name="checklist_behaviour" id="a11yc_checklist_behaviour" value=""<?php echo $checked ?> class="" /><?php echo A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR_DISAPPEAR ?></label>
-			<?php */ ?>
 		</div><!-- /#a11yc_header_right -->
-	</div><!--/#a11yc_header_inner-->
-
 		<!-- a11yc menu -->
-	<ul id="a11yc_menu_principles">
-	<?php foreach ($yml['principles'] as $v): ?>
-		<li id="a11yc_menuitem_<?php echo $v['code'] ?>"><a href="#a11yc_header_p_<?php echo $v['code'] ?>"><span><?php echo /* $v['code'] .' '.*/ $v['name'] ?></span></a></li>
-	<?php endforeach; ?>
-	</ul><!--/#a11yc_menu_principles-->
-
+		<ul id="a11yc_menu_principles">
+		<?php foreach ($yml['principles'] as $v): ?>
+			<li id="a11yc_menuitem_<?php echo $v['code'] ?>"><a href="#a11yc_header_p_<?php echo $v['code'] ?>"><span><?php echo /* $v['code'] .' '.*/ $v['name'] ?></span></a></li>
+		<?php endforeach; ?>
+		</ul><!--/#a11yc_menu_principles-->
+	</div><!--/#a11yc_header_inner-->
 </div><!--/#a11yc_header-->
 
 <?php

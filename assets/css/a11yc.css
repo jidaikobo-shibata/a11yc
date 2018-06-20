@@ -458,8 +458,6 @@ table.a11yc_table_info {
 	margin-bottom: 20px;
 	padding: 26px 8px 0;
 	z-index: 90;
-	max-height: calc( 100vh - 3em);
-	overflow: auto;
 }
 #a11yc_header_inner {
 	max-width: 960px;
