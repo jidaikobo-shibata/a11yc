@@ -77,6 +77,12 @@
 #a11yc_validator_results .a11yc_controller p {
 	margin: 0;
 }
+details summary .a11yc_heading
+{
+	display: inline-block;
+	width: calc( 100% - 20px );
+}
+
 .a11yc_source {
 	padding: 5px 10px 5px 0;
 	background-color: #fff;
@@ -982,6 +988,11 @@ ul.a11yc_outlink li {
 	position: absolute;
 	left: 7px;
 }
+.a11yc_section_criterion .a11yc_check_disclosure summary
+{
+	padding-left: 7px;
+	margin-top: 1em;
+}
 .a11yc_section_principle {
 	margin-bottom: 80px;
 }
@@ -1022,7 +1033,7 @@ ul.a11yc_outlink li {
 label.a11yc_checkitem
 {
 	position: relative;
-	padding-left: 2.5em;
+	padding-left: 1.75em;
 }
 .a11yc .non_interference h4 .a11yc_header_criterion_level {
 	color: #e00;
@@ -1106,56 +1117,14 @@ a:hover .a11yc_icon_fa,
 a:focus .a11yc_icon_fa {
 	opacity: .65;
 }
-/*
-.a11yc_icon_checkbox:before {
-	content: "\f1db";
-	font-weight: normal;
-	color: #aaa;
-}
-input:focus+.a11yc_icon_checkbox:before {
-	outline: 2px solid rgba( 0,115,170,.15 );
-	outline-offset: -2px;
-	box-shadow: 0 0 3px 2px rgba( 0,115,170,.5 );
-	-moz-box-shadow: 0 0 3px 2px rgba( 0,115,170,.5 );
-	-webkit-box-shadow: 0 0 3px 2px rgba( 0,115,170,.5 );
-
-}
-:checked+.a11yc_icon_checkbox:before {
-	content: "\f111";
-	color: #1a5faa;
-}
-#a11yc_p_2 :checked+.a11yc_icon_checkbox:before {
-	color: #14a523;
-}
-#a11yc_p_3 :checked+.a11yc_icon_checkbox:before {
-	color: #e97108;
-}
-#a11yc_p_4 :checked+.a11yc_icon_checkbox:before {
-	color: #e33437;
-}
-:checked+.a11yc_icon_checkbox:after {
-	position: absolute;
-	left: .15em;
-	top: .275em;
-	font-size: .65em;
-	content: "\f00c";
-	color: #fff;
-}
-.a11yc_icon_checkbox {
-	position: absolute;
-	left: 7px;
-	top: calc( 50% - .5em );
-	font-size: 1.75em;
-}
-*/
 .a11yc_result fieldset {
 	border: none;
 	padding: 0;
 }
 input+label.a11yc_checkitem {
 	color: #6a6a6a;
-	padding-top: 4px ;
-	padding-bottom: 3px;
+	margin-left: 5px;
+	margin-bottom: 7px;
 }
 :checked + .a11yc_checkitem {
 	font-weight: bold;
@@ -1207,9 +1176,10 @@ input:focus+ label.a11yc_checkitem {
 	color: #fff;
 }
 .a11yc_icon_checkbox {
-	position: absolute;
-	left: 7px;
-	top: calc( 50% - .5em );
+	position: relative;
+	margin-left: -1em;
+	margin-right: .15em;
+	top: -.075em;
 	font-size: 1.75em;
 }
 

@@ -103,8 +103,8 @@
 		<?php endif ?>
 		<?php /* ?>
 			<!-- rest of num -->
-			<p class="a11yc_hide_if_no_js"><a role="button" class="a11yc_disclosure"><?php echo A11YC_LANG_CHECKLIST_RESTOFNUM ?>&nbsp;:&nbsp;<span id="a11yc_rest_total">&nbsp;-&nbsp;</span></a></p>
-			<div class="a11yc_disclosure_target show a11yc_hide_if_fixedheader a11yc_hide_if_no_js">
+			<details class="a11yc_hide_if_no_js" open><summary><?php echo A11YC_LANG_CHECKLIST_RESTOFNUM ?>&nbsp;:&nbsp;<span id="a11yc_rest_total">&nbsp;-&nbsp;</span></details>
+			<div class="a11yc_hide_if_fixedheader">
 			<table id="a11yc_rest">
 				<thead>
 					<tr>
@@ -128,6 +128,7 @@
 				</tbody>
 			</table>
 			</div>
+			</details>
 			<?php */ ?>
 			<?php /*
 				$checked = $setup['checklist_behaviour'] ? ' checked="checked"' : '';
@@ -248,49 +249,51 @@
 			</div>
 			<!-- /.a11yc_issues -->
 
-
-			<?php
-			// main check form
-			foreach (array('t', 'f') as $tf):
-			if ( ! isset($yml['techs_codes'][$criterion][$tf])) continue;
-			?>
-			<!-- checks <?php echo $tf ?> -->
-			<table class="a11yc_table_check"><tbody>
-			<?php
-			$i = 0;
-
-			$type = Arr::get($page, 'type') == 2 ? 'pdf' : 'html';
-
-			foreach ($yml['techs_codes'][$criterion][$tf] as $tcode):
-				$fcnt++;
-				$class_str = ++$i%2==0 ? ' class="even"' : ' class="odd"';
-				$id = $criterion.'_'.$tcode;
-				$data = ' data-pass="'.$tcode.'"';
-
-				$checked = isset($cs[$tcode]) ? ' checked="checked"' : '';
-
-				if ($type == 'html' && $yml['techs'][$tcode]['type'] == 'PDF') continue;
-				if ($type == 'pdf'  && ! in_array($yml['techs'][$tcode]['type'], array('PDF'))) continue;
-			?>
-
-				<tr<?php echo $class_str ?>>
-					<th scope="row">
-					<label for="<?php echo $id ?>" class="a11yc_checkitem"><input type="checkbox"<?php echo $checked ?> id="<?php echo $id ?>" name="chk[<?php echo $tcode ?>]" value="1" <?php echo $data ?> class="<?php echo strtolower($vvv['level']['name']) ?> a11yc_skip"/><span class="a11yc_icon_fa a11yc_icon_checkbox" role="presentation" aria-hidden="true"></span><?php echo $yml['techs'][$tcode]['title'] ?></label>
-					</th>
-
-					<td class="a11yc_table_check_howto">
-					<a<?php echo A11YC_TARGET ?> href="<?php echo $refs['t'].$tcode ?>.html" title="<?php echo A11YC_LANG_DOCS_TITLE ?>" class="a11yc_link_howto"><span role="presentation" aria-hidden="true" class="a11yc_icon_fa a11yc_icon_howto"></span><span class="a11yc_skip"><?php echo A11YC_LANG_DOCS_TITLE ?></span></a>
-					</td>
-				</tr>
-			<?php
-				endforeach;
-			?>
-			</tbody></table>
-			<!-- /checks <?php echo $tf ?> -->
+			<details class="a11yc_check_disclosure">
+				<summary>THECHS</summary>
+				<?php
+				// main check form
+				foreach (array('t', 'f') as $tf):
+				if ( ! isset($yml['techs_codes'][$criterion][$tf])) continue;
+				?>
+				<!-- checks <?php echo $tf ?> -->
+				<table class="a11yc_table_check"><tbody>
+				<?php
+				$i = 0;
+	
+				$type = Arr::get($page, 'type') == 2 ? 'pdf' : 'html';
+	
+				foreach ($yml['techs_codes'][$criterion][$tf] as $tcode):
+					$fcnt++;
+					$class_str = ++$i%2==0 ? ' class="even"' : ' class="odd"';
+					$id = $criterion.'_'.$tcode;
+					$data = ' data-pass="'.$tcode.'"';
+	
+					$checked = isset($cs[$tcode]) ? ' checked="checked"' : '';
+	
+					if ($type == 'html' && $yml['techs'][$tcode]['type'] == 'PDF') continue;
+					if ($type == 'pdf'  && ! in_array($yml['techs'][$tcode]['type'], array('PDF'))) continue;
+				?>
+	
+					<tr<?php echo $class_str ?>>
+						<th scope="row">
+						<label for="<?php echo $id ?>" class="a11yc_checkitem"><input type="checkbox"<?php echo $checked ?> id="<?php echo $id ?>" name="chk[<?php echo $tcode ?>]" value="1" <?php echo $data ?> class="<?php echo strtolower($vvv['level']['name']) ?> a11yc_skip"/><span class="a11yc_icon_fa a11yc_icon_checkbox" role="presentation" aria-hidden="true"></span><?php echo $yml['techs'][$tcode]['title'] ?></label>
+						</th>
+	
+						<td class="a11yc_table_check_howto">
+						<a<?php echo A11YC_TARGET ?> href="<?php echo $refs['t'].$tcode ?>.html" title="<?php echo A11YC_LANG_DOCS_TITLE ?>" class="a11yc_link_howto"><span role="presentation" aria-hidden="true" class="a11yc_icon_fa a11yc_icon_howto"></span><span class="a11yc_skip"><?php echo A11YC_LANG_DOCS_TITLE ?></span></a>
+						</td>
+					</tr>
+				<?php
+					endforeach;
+				?>
+				</tbody></table>
+				<!-- /checks <?php echo $tf ?> -->
 			<?php
 				endforeach;
 				// echo $fcnt;
 			?>
+			</details>
 
 
 			</div><!--/#c_<?php echo $criterion ?>.l_<?php echo strtolower($vvv['level']['name']) ?>-->

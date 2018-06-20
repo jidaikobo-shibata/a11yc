@@ -18,7 +18,7 @@
 <div class="a11yc_presentation" role="presentation"></div>
 <?php
 $msg = A11YC_LANG_DOCS_SEARCH_RESULT_NONE;
-$class_str_show = $word && $word!='' ? ' show' : '';
+$is_disclosure_open = $word && $word!='' ? ' open' : '';
 
 $html = '';
 foreach ($tests as $code => $v):
@@ -53,10 +53,10 @@ $msg = '';
 	 foreach ($yml['guidelines'] as $kk => $vv):
 		if ($word && ! in_array($kk, $results['criterions']['guidelines'])) continue;
 		if ($kk{0} != $k) continue; ?>
-		<div id="a11yc_g_<?php echo $vv['code'] ?>" class="a11yc_section_guideline"><h3 class="a11yc_header_guideline a11yc_disclosure"><?php echo Util::key2code($vv['code']).' '.$vv['name'] ?></h3>
+		<div id="a11yc_g_<?php echo $vv['code'] ?>" class="a11yc_section_guideline"><details<?php echo $is_disclosure_open ?>><summary><h3 class="a11yc_header_guideline a11yc_heading"><?php echo Util::key2code($vv['code']).' '.$vv['name'] ?></h3></summary>
 
 		<!-- criterions -->
-		<div class="a11yc_section_criterions a11yc_disclosure_target<?php echo $class_str_show ?>">
+		<div class="a11yc_section_criterions">
 		<?php foreach ($yml['criterions'] as $kkk => $vvv):
 		if ($word && ! in_array($kkk, $results['criterions']['criterions'])) continue;
 			if (substr($kkk, 0, 3) != $kk) continue;
@@ -77,7 +77,8 @@ $msg = '';
 
 			</div><!--/#c_<?php echo $kkk ?>.l_<?php echo strtolower($vvv['level']['name']) ?>-->
 		<?php endforeach; ?>
-		</div><!-- /.a11yc_section_criterions.a11yc_disclosure_target -->
+		</div><!-- /.a11yc_section_criterions -->
+		</details>
 		</div><!--/#g_<?php echo $vv['code'] ?>-->
 	<?php endforeach; ?>
 	</div><!--/#section_p_<?php echo $v['code'] ?> a11yc_section_principle-->
