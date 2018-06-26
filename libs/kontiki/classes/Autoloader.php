@@ -13,8 +13,8 @@ namespace Kontiki;
 
 class Autoloader
 {
-	protected static $classes = array();
-	protected static $core_namespaces = array();
+	public static $classes = array();
+	public static $core_namespaces = array();
 
 	/**
 	 * add path
@@ -36,7 +36,7 @@ class Autoloader
 				$class = substr($class, $strlen + 1);
 
 				// backslashes mean directories
-				$file_path = $path.self::prepPath($class);
+				$file_path = $path.\Kontiki\Autoloader::prepPath($class);
 
 				// require
 				if (file_exists($file_path))
@@ -51,10 +51,10 @@ class Autoloader
 					$naked_class = end($classes);
 
 					// search loaded class
-					foreach (array_keys(static::$core_namespaces) as $core_namespace)
+					foreach (array_keys(\Kontiki\Autoloader::$core_namespaces) as $core_namespace)
 					{
 						$ns_class = $core_namespace.'\\'.$naked_class;
-						if (array_key_exists($ns_class, static::$classes))
+						if (array_key_exists($ns_class, \Kontiki\Autoloader::$classes))
 						{
 							$loaded = true;
 							break;
@@ -64,10 +64,10 @@ class Autoloader
 					// search unloaded class
 					if ( ! $loaded)
 					{
-						foreach (static::$core_namespaces as $core_namespace => $core_path)
+						foreach (\Kontiki\Autoloader::$core_namespaces as $core_namespace => $core_path)
 						{
 							$ns_class = $core_namespace.'\\'.$naked_class;
-							$file_path = $core_path.self::prepPath($naked_class);
+							$file_path = $core_path.\Kontiki\Autoloader::prepPath($naked_class);
 
 							if (file_exists($file_path))
 							{
@@ -90,7 +90,7 @@ class Autoloader
 				}
 
 				// loaded classes
-				static::$classes[$class_name] = $file_path;
+				\Kontiki\Autoloader::$classes[$class_name] = $file_path;
 
 				// init
 				if (method_exists($class_name, '_init') and is_callable($class_name.'::_init'))
@@ -127,7 +127,7 @@ class Autoloader
 	 * @param   string  $path  Path to prepare
 	 * @return  string  Prepped path
 	 */
-	protected static function prepPath($path)
+	public static function prepPath($path)
 	{
 		return str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path).'.php';
 	}

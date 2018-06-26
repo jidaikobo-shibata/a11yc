@@ -43,7 +43,8 @@ class Center
 	public static function index()
 	{
 		$body = '';
-		if ( ! empty(Model\Settings::fetchAll()))
+		$settings = Model\Settings::fetchAll();
+		if ( ! empty($settings))
 		{
 			Results::all();
 			$body = View::fetch('body');

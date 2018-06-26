@@ -41,8 +41,9 @@
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_CANDIDATES_TITLE ?></th>
 		<td><?php
-			if (isset(Values::selectionReasons()[$page['selection_reason']])):
-				echo Values::selectionReasons()[$page['selection_reason']];
+			$selectionReasons = Values::selectionReasons();
+			if (isset($selectionReasons[$page['selection_reason']])):
+				echo $selectionReasons[$page['selection_reason']];
 			endif;
 		?></td>
 	</tr>

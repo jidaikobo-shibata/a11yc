@@ -51,6 +51,7 @@ class One2Two extends A11yc\Update
 	{
 		$sql = 'SELECT * FROM '.A11YC_TABLE_SETUP_OLD.';';
 		$settings = Db::fetchAll($sql);
+		if (empty($settings[0])) return;
 
 		$sql = 'DELETE FROM '.A11YC_TABLE_SETTINGS.' WHERE 1 = 1;';
 		Db::execute($sql);

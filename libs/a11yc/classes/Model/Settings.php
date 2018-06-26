@@ -181,7 +181,8 @@ class Settings
 	 */
 	public static function updateField($field, $value)
 	{
-		if(empty(self::fetchAll()))
+		$settings = self::fetchAll();
+		if(empty($settings))
 		{
 			$sql = 'INSERT INTO '.A11YC_TABLE_SETTINGS.' (`'.$field.'`, `version`) ';
 			$sql.= ' VALUES (?, 0);';
