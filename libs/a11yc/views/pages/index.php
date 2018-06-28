@@ -14,6 +14,7 @@ if ($pages):
 ?>
 
 <form action="<?php echo Util::uri() ?>" method="POST">
+<?php echo isset($add_nonce) ? $add_nonce : ''; ?>
 <label for="a11yc_operation"><?php echo A11YC_LANG_BULK_TITLE ?></label>
 <select name="operation" id="a11yc_operation">
 	<?php if ($list == 'trash'): ?>
