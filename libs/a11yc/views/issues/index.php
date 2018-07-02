@@ -44,17 +44,20 @@ foreach ($issues as $status => $issue):
 							'<span class="a11yc_validation_code_notice">NOTICE</span>':
 							'<span class="a11yc_validation_code_error">ERROR!</span>';
 		?>
-			<li><?php echo $type ?><a href="<?php echo A11YC_ISSUES_VIEW_URL.intval($each_issue['id']) ?>"><?php echo $each_issue['id'].': '.Util::s($each_issue['error_message']) ?></a></li>
-		<?php endforeach; ?>
-		</ul></td>
-		<td class="a11yc_issue_ctrl">
-			<?php if ($each_issue['trash'] != 0): ?>
-				<a href="<?php echo A11YC_ISSUES_UNDELETE_URL.intval($each_issue['id']) ?>"><?php echo A11YC_LANG_PAGES_UNDELETE ?></a>
+			<li><?php echo $type ?><a href="<?php echo A11YC_ISSUES_VIEW_URL.intval($each_issue['id']) ?>"><?php echo $each_issue['id'].': '.Util::s($each_issue['error_message']) ?></a>
+
+			 (<?php if ($each_issue['trash'] != 0): ?>
+				<a href="<?php echo A11YC_ISSUES_UNDELETE_URL.intval($each_issue['id']) ?>"><?php echo A11YC_LANG_PAGES_UNDELETE ?></a><?php echo ' - '; ?>
 				<a href="<?php echo A11YC_ISSUES_PURGE_URL.intval($each_issue['id']) ?>" data-a11yc-confirm="<?php echo sprintf(A11YC_LANG_CTRL_CONFIRM, A11YC_LANG_PAGES_PURGE) ?>"><?php echo A11YC_LANG_PAGES_PURGE ?></a>
 			<?php else: ?>
+				<a href="<?php echo A11YC_ISSUES_EDIT_URL.intval($each_issue['id']) ?>"><?php echo A11YC_LANG_PAGES_LABEL_EDIT ?></a><?php echo ' - '; ?>
 				<a href="<?php echo A11YC_ISSUES_DELETE_URL.intval($each_issue['id']) ?>"><?php echo A11YC_LANG_PAGES_DELETE ?></a>
-			<?php endif; ?>
-		</td>
+			<?php endif; ?>)
+
+			</li>
+		<?php endforeach; ?>
+		</ul></td>
+
 	</tr>
 <?php endforeach; ?>
 </table>
