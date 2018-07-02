@@ -32,5 +32,11 @@ class Update
 		{
 			Update\AddSeq2Pages::udpate();
 		}
+
+		// update add trash to issues
+		if ( ! Db::isFieldsExist(A11YC_TABLE_ISSUES, array('trash')))
+		{
+			Update\AddTrash2Issues::udpate();
+		}
 	}
 }

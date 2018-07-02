@@ -53,9 +53,28 @@ class Issues
 	public static function fetchByStatus($status)
 	{
 		$sql = 'SELECT * FROM '.A11YC_TABLE_ISSUES;
-		$sql.= ' WHERE `status` = ? AND `version` = 0;';
+		$sql.= ' WHERE `status` = ? AND `version` = 0 AND `trash` = 0;';
 		$rets = array('common' => array());
 		foreach (Db::fetchAll($sql, array($status)) as $v)
+		{
+			$key = $v['is_common'] ? 'common' : $v['url'];
+			$rets[$key][] = $v;
+		}
+		if (empty($rets['common'])) unset($rets['common']);
+		return $rets;
+	}
+
+	/**
+	 * fetch trashed
+	 *
+	 * @return Bool|Array
+	 */
+	public static function fetchTrashed()
+	{
+		$sql = 'SELECT * FROM '.A11YC_TABLE_ISSUES;
+		$sql.= ' WHERE `version` = 0 AND `trash` = 1;';
+		$rets = array('common' => array());
+		foreach (Db::fetchAll($sql) as $v)
 		{
 			$key = $v['is_common'] ? 'common' : $v['url'];
 			$rets[$key][] = $v;
@@ -174,12 +193,12 @@ class Issues
 	}
 
 	/**
-	 * delete
+	 * purge
 	 *
 	 * @param  Integer $id
 	 * @return Bool
 	 */
-	public static function delete($id)
+	public static function purge($id)
 	{
 		$id = intval($id);
 		$issue = self::fetch($id);

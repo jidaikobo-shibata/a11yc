@@ -86,21 +86,25 @@ define('A11YC_TABLE_SETTINGS',    'a11yc_settings');
 define('A11YC_TABLE_MAINTENANCE', 'a11yc_maintenance');
 
 // urls
-define('A11YC_VALIDATE_URL',     dirname(A11YC_URL));
-define('A11YC_SETTING_URL',      A11YC_URL.'?c=settings&amp;a=');
-define('A11YC_BULK_URL',         A11YC_URL.'?c=bulk&amp;a=index');
-define('A11YC_PAGES_URL',        A11YC_URL.'?c=pages&amp;a=index');
-define('A11YC_PAGES_ADD_URL',    A11YC_URL.'?c=pages&amp;a=add');
-define('A11YC_PAGES_EDIT_URL',   A11YC_URL.'?c=pages&amp;a=edit');
-define('A11YC_CHECKLIST_URL',    A11YC_URL.'?c=checklist&amp;a=check&amp;url=');
-define('A11YC_RESULTS_EACH_URL', A11YC_URL.'?c=results&amp;a=each&amp;url=');
-define('A11YC_ISSUES_ADD_URL',   A11YC_URL.'?c=issues&amp;a=add&amp;url='); // and criterion
-define('A11YC_ISSUES_EDIT_URL',  A11YC_URL.'?c=issues&amp;a=edit&amp;id=');
-define('A11YC_ISSUES_VIEW_URL',  A11YC_URL.'?c=issues&amp;a=view&amp;id=');
-define('A11YC_IMAGELIST_URL',    A11YC_URL.'?c=images&amp;a=view&amp;url=');
-define('A11YC_DOC_URL',          A11YC_URL.'?c=docs&amp;a=each&amp;criterion=');
-define('A11YC_LIVE_URL',         A11YC_URL.'?c=live&amp;a=view&amp;url=');
-define('A11YC_EXPORT_URL',       A11YC_URL.'?c=export&amp;a=csv&amp;url=');
+define('A11YC_VALIDATE_URL',        dirname(A11YC_URL));
+define('A11YC_SETTING_URL',         A11YC_URL.'?c=settings&amp;a=');
+define('A11YC_BULK_URL',            A11YC_URL.'?c=bulk&amp;a=index');
+define('A11YC_PAGES_URL',           A11YC_URL.'?c=pages&amp;a=index');
+define('A11YC_PAGES_ADD_URL',       A11YC_URL.'?c=pages&amp;a=add');
+define('A11YC_PAGES_EDIT_URL',      A11YC_URL.'?c=pages&amp;a=edit');
+define('A11YC_CHECKLIST_URL',       A11YC_URL.'?c=checklist&amp;a=check&amp;url=');
+define('A11YC_RESULTS_EACH_URL',    A11YC_URL.'?c=results&amp;a=each&amp;url=');
+define('A11YC_ISSUES_INDEX_URL',    A11YC_URL.'?c=issues&amp;a=index');
+define('A11YC_ISSUES_ADD_URL',      A11YC_URL.'?c=issues&amp;a=add&amp;url='); // and criterion
+define('A11YC_ISSUES_EDIT_URL',     A11YC_URL.'?c=issues&amp;a=edit&amp;id=');
+define('A11YC_ISSUES_VIEW_URL',     A11YC_URL.'?c=issues&amp;a=view&amp;id=');
+define('A11YC_ISSUES_DELETE_URL',   A11YC_URL.'?c=issues&amp;a=delete&amp;id=');
+define('A11YC_ISSUES_UNDELETE_URL', A11YC_URL.'?c=issues&amp;a=undelete&amp;id=');
+define('A11YC_ISSUES_PURGE_URL',    A11YC_URL.'?c=issues&amp;a=purge&amp;id=');
+define('A11YC_IMAGELIST_URL',       A11YC_URL.'?c=images&amp;a=view&amp;url=');
+define('A11YC_DOC_URL',             A11YC_URL.'?c=docs&amp;a=each&amp;criterion=');
+define('A11YC_LIVE_URL',            A11YC_URL.'?c=live&amp;a=view&amp;url=');
+define('A11YC_EXPORT_URL',          A11YC_URL.'?c=export&amp;a=csv&amp;url=');
 
 // target
 // define('A11YC_TARGET',     ' target="a11yc_target"');

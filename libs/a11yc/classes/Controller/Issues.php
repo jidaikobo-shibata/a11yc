@@ -46,6 +46,36 @@ class Issues
 	}
 
 	/**
+	 * delete Issue
+	 *
+	 * @return Void
+	 */
+	public static function actionDelete()
+	{
+		static::delete();
+	}
+
+	/**
+	 * undelete Issue
+	 *
+	 * @return Void
+	 */
+	public static function actionUndelete()
+	{
+		static::undelete();
+	}
+
+	/**
+	 * purge Issue
+	 *
+	 * @return Void
+	 */
+	public static function actionPurge()
+	{
+		static::purge();
+	}
+
+	/**
 	 * view Issue
 	 *
 	 * @return Void
@@ -66,6 +96,7 @@ class Issues
 			'yet' =>      Model\Issues::fetchByStatus(0),
 			'progress' => Model\Issues::fetchByStatus(1),
 			'done' =>     Model\Issues::fetchByStatus(2),
+			'trash' =>    Model\Issues::fetchTrashed(),
 		);
 		View::assign('yml',      Yaml::each('techs'));
 		View::assign('issues',   $issues);
@@ -278,5 +309,73 @@ class Issues
 		View::assign('title',           A11YC_LANG_ISSUES_TITLE);
 		View::assign('form',            View::fetchTpl('issues/message.php'), FALSE);
 		View::assign('body',            View::fetchTpl('issues/view.php'), FALSE);
+	}
+
+	/**
+	 * Issue delete
+	 *
+	 * @return Void
+	 */
+	public static function delete()
+	{
+		$id = intval(Input::get('id'));
+		$issue = Model\Issues::fetch($id);
+		if ( ! $issue) Util::error('issue not found');
+
+		$r = false;
+		if ($issue['trash'] != 1)
+		{
+			$r = Model\Issues::updateField($id, 'trash', 1);
+		}
+
+		$mess_type = $r ? 'messages' : 'errors';
+		$mess_str  = $r ?
+							 sprintf(A11YC_LANG_PAGES_DELETE_DONE, 'id: '.$id) :
+							 sprintf(A11YC_LANG_PAGES_DELETE_FAILED, 'id: '.$id);
+		Session::add('messages', $mess_type, $mess_str);
+		Util::redirect(A11YC_ISSUES_INDEX_URL);
+	}
+
+	/**
+	 * Issue undelete
+	 *
+	 * @return Void
+	 */
+	public static function undelete()
+	{
+		$id = intval(Input::get('id'));
+		$issue = Model\Issues::fetch($id);
+		if ( ! $issue) Util::error('issue not found');
+
+		$r = false;
+		if ($issue['trash'] != 0)
+		{
+			$r = Model\Issues::updateField($id, 'trash', 0);
+		}
+
+		$mess_type = $r ? 'messages' : 'errors';
+		$mess_str  = $r ?
+							 sprintf(A11YC_LANG_PAGES_UNDELETE_DONE, 'id: '.$id) :
+							 sprintf(A11YC_LANG_PAGES_UNDELETE_FAILED, 'id: '.$id);
+		Session::add('messages', $mess_type, $mess_str);
+		Util::redirect(A11YC_ISSUES_INDEX_URL);
+	}
+
+	/**
+	 * Issue purge
+	 *
+	 * @return Void
+	 */
+	public static function purge()
+	{
+		$id = intval(Input::get('id'));
+		$r = Model\Issues::purge($id);
+
+		$mess_type = $r ? 'messages' : 'errors';
+		$mess_str  = $r ?
+							 sprintf(A11YC_LANG_PAGES_PURGE_DONE, 'id: '.$id) :
+							 sprintf(A11YC_LANG_PAGES_PURGE_FAILED, 'id: '.$id);
+		Session::add('messages', $mess_type, $mess_str);
+		Util::redirect(A11YC_ISSUES_INDEX_URL);
 	}
 }

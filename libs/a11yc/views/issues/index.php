@@ -24,15 +24,19 @@ foreach ($issues as $status => $issue):
 	<h2><?php echo constant('A11YC_LANG_ISSUES_TITLE_'.strtoupper($status)) ?></h2>
 	<table class="a11yc_table">
 	<tr>
-	<?php foreach ($issue as $url => $each_issues): ?>
-	<th scope="row" class="a11yc_issue_url">
-	<?php if ($url == 'common'): ?>
-		<?php echo A11YC_LANG_ISSUES_IS_COMMON ?>
-	<?php else: ?>
-		<?php echo Model\Html::fetchPageTitle($url) ?><br><a href="<?php echo Util::urldec($url) ?>"><?php echo Util::s($url) ?></a>
-	<?php endif; ?>
-	</th>
-	<td><a href="<?php echo A11YC_CHECKLIST_URL.Util::urlenc($url) ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_CHECK ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
+		<?php foreach ($issue as $url => $each_issues): ?>
+		<th scope="row" class="a11yc_issue_url">
+		<?php if ($url == 'common'): ?>
+			<?php echo A11YC_LANG_ISSUES_IS_COMMON ?>
+		<?php else: ?>
+			<?php echo Model\Html::fetchPageTitle($url) ?><br><a href="<?php echo Util::urldec($url) ?>"><?php echo Util::s($url) ?></a>
+		<?php endif; ?>
+		</th>
+		<td>
+		<?php if ($url != 'common'): ?>
+			 <a href="<?php echo A11YC_CHECKLIST_URL.Util::urlenc($url) ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_CHECK ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a>
+		<?php endif; ?>
+		</td>
 		<td class="a11yc_issue_data"><ul>
 		<?php
 			foreach ($each_issues as $each_issue):
@@ -43,6 +47,14 @@ foreach ($issues as $status => $issue):
 			<li><?php echo $type ?><a href="<?php echo A11YC_ISSUES_VIEW_URL.intval($each_issue['id']) ?>"><?php echo $each_issue['id'].': '.Util::s($each_issue['error_message']) ?></a></li>
 		<?php endforeach; ?>
 		</ul></td>
+		<td class="a11yc_issue_ctrl">
+			<?php if ($each_issue['trash'] != 0): ?>
+				<a href="<?php echo A11YC_ISSUES_UNDELETE_URL.intval($each_issue['id']) ?>"><?php echo A11YC_LANG_PAGES_UNDELETE ?></a>
+				<a href="<?php echo A11YC_ISSUES_PURGE_URL.intval($each_issue['id']) ?>" data-a11yc-confirm="<?php echo sprintf(A11YC_LANG_CTRL_CONFIRM, A11YC_LANG_PAGES_PURGE) ?>"><?php echo A11YC_LANG_PAGES_PURGE ?></a>
+			<?php else: ?>
+				<a href="<?php echo A11YC_ISSUES_DELETE_URL.intval($each_issue['id']) ?>"><?php echo A11YC_LANG_PAGES_DELETE ?></a>
+			<?php endif; ?>
+		</td>
 	</tr>
 <?php endforeach; ?>
 </table>

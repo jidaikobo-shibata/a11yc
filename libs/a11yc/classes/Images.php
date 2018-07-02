@@ -28,13 +28,13 @@ class Images
 		$n = 0;
 
 		// at first, get images in a
-		list($retvals, $str) = self::imagesInA($n, $str, $retvals);
+		list($retvals, $str, $n) = self::imagesInA($n, $str, $retvals);
 
 		// secondary, get areas
-		list($retvals, $str) = self::getArea($n, $str, $retvals);
+		list($retvals, $str, $n) = self::getArea($n, $str, $retvals);
 
 		// get buttons
-		list($retvals, $str) = self::getButton($n, $str, $retvals);
+		list($retvals, $str, $n) = self::getButton($n, $str, $retvals);
 
 		// input and img
 		$retvals = self::getInput($n, $str, $retvals);
@@ -87,6 +87,7 @@ class Images
 
 			// plural images can be exist.
 			preg_match_all('/\<img[^\>]+\>/is', $v, $ass);
+
 			foreach ($ass[0] as $vv)
 			{
 				$retvals[$n]['element'] = 'img (a)';
@@ -101,7 +102,7 @@ class Images
 			// remove a within images
 			$str = str_replace($v, '', $str);
 		}
-		return array($retvals, $str);
+		return array($retvals, $str, $n);
 	}
 
 	/**
@@ -128,7 +129,7 @@ class Images
 			// remove a within images
 			$str = str_replace($v, '', $str);
 		}
-		return array($retvals, $str);
+		return array($retvals, $str, $n);
 	}
 
 	/**
@@ -167,7 +168,7 @@ class Images
 			// remove a within images
 			$str = str_replace($v, '', $str);
 		}
-		return array($retvals, $str);
+		return array($retvals, $str, $n);
 	}
 
 	/**

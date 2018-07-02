@@ -1812,3 +1812,7 @@ th.a11yc_issue_url {
 td.a11yc_issue_data {
 	width: 80%;
 }
+td.a11yc_issue_ctrl {
+	vertical-align: middle;;
+	white-space: nowrap;
+}
