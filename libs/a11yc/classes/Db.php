@@ -193,7 +193,7 @@ class Db extends \Kontiki\Db
 		static::execute($sql, array(), $name);
 
 		// init issues
-		// status: 0 not yet, 1 in progress, 2 finish, 3 delete
+		// status: 0 not yet, 1 in progress, 2 finish
 		// n_or_e: 0 notice, 1 error
 		$sql = 'CREATE TABLE '.A11YC_TABLE_ISSUES.' (';
 		$sql.= '`id`            INTEGER NOT NULL PRIMARY KEY '.$auto_increment.',';
