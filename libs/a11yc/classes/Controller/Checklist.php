@@ -220,7 +220,7 @@ class Checklist
 	 */
 	private static function getPage($url)
 	{
-		$page = Model\Pages::fetchPage($url);
+		$page = Model\Pages::fetchPage($url, 1);
 
 		if ( ! $page)
 		{
