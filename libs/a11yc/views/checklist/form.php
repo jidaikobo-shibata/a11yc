@@ -152,7 +152,7 @@
 					<th class="a11yc_table_check_test_result" scope="col"><?php echo A11YC_LANG_TEST_RESULT ?></th>
 					<th class="a11yc_table_check_test_method" scope="col"><?php echo A11YC_LANG_TEST_METHOD ?></th>
 					<th class="a11yc_table_check_memo" scope="col"><?php echo A11YC_LANG_OPINION ?></th>
-					<th class="a11yc_table_check_user" scope="col">user</th>
+					<th class="a11yc_table_check_user" scope="col"><?php echo A11YC_LANG_CTRL_PERSONS ?></th>
 				</thead>
 				<tbody>
 					<tr>
@@ -171,7 +171,7 @@
 								<?php
 								foreach (Values::testMethodsOptions() as $rk => $rv):
 									$selected = isset($results[$criterion]) && intval($results[$criterion]['method']) == $rk ? ' checked="checked"' : '';
-									echo '<input type="radio" name="results['.$criterion.'][method]" id="results['.$criterion.'][method]_'.$rk.'"'.$selected.' value="'.$rk.'" class="a11yc_skip"><label class="a11yc_checkitem" for="results['.$criterion.'][method]_'.$rk.'"><span class="a11yc_icon_fa a11yc_icon_checkbox" role="presentation" aria-hidden="true"></span>'.$rv.'</label>';								
+									echo '<input type="radio" name="results['.$criterion.'][method]" id="results['.$criterion.'][method]_'.$rk.'"'.$selected.' value="'.$rk.'" class="a11yc_skip"><label class="a11yc_checkitem" for="results['.$criterion.'][method]_'.$rk.'"><span class="a11yc_icon_fa a11yc_icon_checkbox" role="presentation" aria-hidden="true"></span>'.$rv.'</label>';
 								endforeach;
 								?>
 							</fieldset>
@@ -184,7 +184,11 @@
 							<select name="results[<?php echo $criterion ?>][uid]">
 					<?php
 					foreach ($users as $uid => $name):
-						$selected = Arr::get($results, "{$criterion}.uid") == $uid ? ' selected="selected"' : '';
+						if ($is_new):
+							$selected = $current_user_id == $uid ? ' selected="selected"' : '';
+						else:
+							$selected = Arr::get($results, "{$criterion}.uid") == $uid ? ' selected="selected"' : '';
+						endif;
 					?>
 						<option value="<?php echo $uid ?>"<?php echo $selected ?>><?php echo $name ?></option>
 					<?php endforeach; ?>
@@ -224,26 +228,26 @@
 				<table class="a11yc_table_check"><tbody>
 				<?php
 				$i = 0;
-	
+
 				$type = Arr::get($page, 'type') == 2 ? 'pdf' : 'html';
-	
+
 				foreach ($yml['techs_codes'][$criterion][$tf] as $tcode):
 					$fcnt++;
 					$class_str = ++$i%2==0 ? ' class="even"' : ' class="odd"';
 					$id = $criterion.'_'.$tcode;
 					$data = ' data-pass="'.$tcode.'"';
-	
+
 					$checked = isset($cs[$tcode]) ? ' checked="checked"' : '';
-	
+
 					if ($type == 'html' && $yml['techs'][$tcode]['type'] == 'PDF') continue;
 					if ($type == 'pdf'  && ! in_array($yml['techs'][$tcode]['type'], array('PDF'))) continue;
 				?>
-	
+
 					<tr<?php echo $class_str ?>>
 						<th scope="row">
 						<label for="<?php echo $id ?>" class="a11yc_checkitem"><input type="checkbox"<?php echo $checked ?> id="<?php echo $id ?>" name="chk[<?php echo $tcode ?>]" value="1" <?php echo $data ?> class="<?php echo strtolower($vvv['level']['name']) ?> a11yc_skip"/><span class="a11yc_icon_fa a11yc_icon_checkbox" role="presentation" aria-hidden="true"></span><?php echo $yml['techs'][$tcode]['title'] ?></label>
 						</th>
-	
+
 						<td class="a11yc_table_check_howto">
 						<a<?php echo A11YC_TARGET ?> href="<?php echo $refs['t'].$tcode ?>.html" title="<?php echo A11YC_LANG_DOCS_TITLE ?>" class="a11yc_link_howto"><span role="presentation" aria-hidden="true" class="a11yc_icon_fa a11yc_icon_howto"></span><span class="a11yc_skip"><?php echo A11YC_LANG_DOCS_TITLE ?></span></a>
 						</td>
