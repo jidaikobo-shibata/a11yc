@@ -26,6 +26,9 @@ if ($errs['errors'] || $errs['notices']):
 		$html.='<a role="button" class="a11yc_resetstyle'.$class_str.'" tabindex="0" data-narrow-level=\'['.$level .']\'><span class="a11yc_errs_lv">'.strtoupper($lv).'</span> <span class="a11yc_errs_cnt">'.intval($errs_cnt).'</span></a> ';
 	endforeach;
 
+	// number of notice and error
+	$html.= '<span class="a11yc_notice_cnt">Notice '.count($errs['notices']).'</span>';
+
 	$html.= $is_call_from_post ? '</p>' : '</h1></summary>';
 
 	echo $html;
