@@ -52,6 +52,7 @@ class Results
 		foreach ($results as $result)
 		{
 			if (intval($result['result']) === 0) continue;
+			if (intval($result['result']) === -1) continue;
 			$retval[] = $result['criterion'];
 		}
 		return $retval;
