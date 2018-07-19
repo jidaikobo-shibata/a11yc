@@ -95,34 +95,30 @@ if ($errs['errors'] || $errs['notices']):
 	<?php
 	// logs
 	if ( ! empty($logs)):
-//		echo '<details>';
-		echo '<summary>'.A11YC_LANG_CHECKLIST_MACHINE_CHECK_LOG.'</summary>';
+		echo '<h2>'.A11YC_LANG_CHECKLIST_MACHINE_CHECK_LOG.'</h2>';
 	?>
-		<dl id="a11yc_validation_logs_list" class="a11yc_validation_list">
-		<?php foreach ($logs as $err => $log): ?>
-			<dt><?php echo $yml['errors'][$err]['title'] ?></dt>
-			<?php
+		<?php
+			foreach ($logs as $err => $log):
+			echo '<details>';
+			echo '<summary>'.$yml['errors'][$err]['title'].'</summary>';
+			echo '<ul>';
 				foreach ($log as $loghtml => $logresult):
 					if ($logresult == 0) continue;
 					if (
 						$logresult == 4 || // not exist
 						$loghtml == A11YC_LANG_CHECKLIST_MACHINE_CHECK_UNSPEC // place not specified
 					):
-			?>
-				<dd><?php echo $machine_check_status[$logresult] ?></dd>
-			<?php
+						echo '<li>'.$machine_check_status[$logresult].'</li>';
 					else:
-			?>
-				<dd><?php echo $machine_check_status[$logresult] ?>: <?php echo mb_substr(Util::s($loghtml), 0, 100).'...' ?></dd>
-			<?php
+						echo '<li>'.$machine_check_status[$logresult].': '.mb_substr(Util::s($loghtml), 0, 100).'...'.'</li>';
 					endif;
-			?>
 
-			<?php endforeach; ?>
-		<?php endforeach; ?>
-		</dl>
+				endforeach;
+				echo '</ul>';
+			echo '</details>';
+			endforeach;
+		?>
 	<?php
-//		echo '</details>';
 		endif;
 	?>
 
