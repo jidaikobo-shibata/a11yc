@@ -60,20 +60,23 @@ else
 		));
 }
 
-// update
-Update::check();
-
 // init
 Db::initTable();
 
+// update
+Update::check();
+
 // setup
-if ( ! Input::post('target_level') && ! Arr::get(Model\Settings::fetchAll(), 'target_level'))
+if ( ! defined('A11YC_POST_SCRIPT_NAME'))
 {
-	Session::add('messages', 'errors', A11YC_LANG_ERROR_NON_TARGET_LEVEL);
-}
-if ( ! Input::post('base_url') && ! Arr::get(Model\Settings::fetchAll(), 'base_url'))
-{
-	Session::add('messages', 'errors', A11YC_LANG_ERROR_NON_BASE_URL);
+	if ( ! Input::post('target_level') && ! Arr::get(Model\Settings::fetchAll(), 'target_level'))
+	{
+		Session::add('messages', 'errors', A11YC_LANG_ERROR_NON_TARGET_LEVEL);
+	}
+	if ( ! Input::post('base_url') && ! Arr::get(Model\Settings::fetchAll(), 'base_url'))
+	{
+		Session::add('messages', 'errors', A11YC_LANG_ERROR_NON_BASE_URL);
+	}
 }
 
 // view
