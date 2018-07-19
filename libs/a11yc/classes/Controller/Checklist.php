@@ -288,13 +288,12 @@ class Checklist
 		}
 
 		$errs = Validate::getErrors($url) ?: array('errors' => array(), 'notices' => array());
-		$logs = Validate::getLogs($url) ?: array();
 
 		// validation
 		View::assign('is_call_from_post', true);
 		View::assign('errs_cnts', Validate::getErrorCnts($url));
 		View::assign('errs', $errs, FALSE);
-		View::assign('logs', $logs);
+		View::assign('logs', Validate::getLogs($url) ?: array());
 		View::assign('raw', nl2br(Validate::getHighLightedHtml($url)), FALSE);
 		View::assign('validation_result', View::fetchTpl('checklist/validate.php'), FALSE);
 	}

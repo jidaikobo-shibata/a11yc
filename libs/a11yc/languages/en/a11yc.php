@@ -237,10 +237,14 @@ define('A11YC_LANG_CHECKLIST_BACK_TO_MESSAGE', 'back to message');
 define('A11YC_LANG_CHECKLIST_SEE_DETAIL', 'See How to resolve');
 define('A11YC_LANG_CHECKLIST_SEE_UNDERSTANDING', 'See understanding WCAG');
 
-define('A11YC_LANG_CHECKLIST_MACHINE_CHECK_DONE', 'Machine Check Done');
+define('A11YC_LANG_CHECKLIST_MACHINE_CHECK_LOG', 'Check Log');
 define('A11YC_LANG_CHECKLIST_MACHINE_CHECK_FAILED', 'Failed at Machine Check');
+define('A11YC_LANG_CHECKLIST_MACHINE_CHECK_DONE', 'Machine Check Done');
 define('A11YC_LANG_CHECKLIST_MACHINE_CHECK_PASSED', 'Machine Check Passed');
 define('A11YC_LANG_CHECKLIST_MACHINE_CHECK_EXIST', 'Exists at Machine Check');
+define('A11YC_LANG_CHECKLIST_MACHINE_CHECK_NONEXIST', 'Not Exists at Machine Check');
+define('A11YC_LANG_CHECKLIST_MACHINE_CHECK_SKIPED', 'Skip Machine Check');
+define('A11YC_LANG_CHECKLIST_MACHINE_CHECK_UNSPEC', 'unspecified position'); // not shown
 
 // bulk
 define('A11YC_LANG_BULK_TITLE', 'Batch');

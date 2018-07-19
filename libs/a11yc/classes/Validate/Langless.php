@@ -20,7 +20,9 @@ class Langless extends Validate
 	 */
 	public static function check($url)
 	{
+		static::$logs[$url]['langless'][self::$unspec] = 5;
 		if (Validate::$is_partial == true) return;
+		static::$logs[$url]['langless'][self::$unspec] = 1;
 
 		// do not use Element::ignoreElements() and Element::getElementsByRe()
 		// in case of "<html>" is in comment out
@@ -43,10 +45,15 @@ class Langless extends Validate
 		// is lang exists?
 		if ( ! isset($has_langs[1]) || ! in_array('html', $has_langs[1]))
 		{
+			static::$logs[$url]['langless'][self::$unspec] = -1;
 			static::$error_ids[$url]['langless'][0]['id'] = false;
 			static::$error_ids[$url]['langless'][0]['str'] = Arr::get($ms, '0.0');
 			static::addErrorToHtml($url, 'langless', static::$error_ids[$url]);
 			return;
+		}
+		else
+		{
+			static::$logs[$url]['langless'][self::$unspec] = 2;
 		}
 
 		// valid language?
@@ -94,11 +101,18 @@ class Langless extends Validate
 
 		foreach ($has_langs[3] as $k => $v)
 		{
+			$tstr = $ms[0][$k];
+
 			// different lang
 			if (isset($v['lang']) && isset($v['xml:lang']) && $v['lang'] != $v['xml:lang'])
 			{
-				static::$error_ids[$url]['different_lang'][$k]['id'] = $ms[0][$k];
-				static::$error_ids[$url]['different_lang'][$k]['str'] = $ms[0][$k];
+				static::$logs[$url]['different_lang'][$tstr] = -1;
+				static::$error_ids[$url]['different_lang'][$k]['id'] = $tstr;
+				static::$error_ids[$url]['different_lang'][$k]['str'] = $tstr;
+			}
+			else
+			{
+				static::$logs[$url]['different_lang'][$tstr] = 2;
 			}
 
 			// it must be at leaset one of them is exist
@@ -114,14 +128,16 @@ class Langless extends Validate
 				// 3.1.1
 				if ($has_langs[1][$k] == 'html')
 				{
-					static::$error_ids[$url]['invalid_page_lang'][$k]['id'] = $ms[0][$k];
-					static::$error_ids[$url]['invalid_page_lang'][$k]['str'] = $ms[0][$k];
+					static::$logs[$url]['invalid_page_lang'][$tstr] = -1;
+					static::$error_ids[$url]['invalid_page_lang'][$k]['id'] = $tstr;
+					static::$error_ids[$url]['invalid_page_lang'][$k]['str'] = $tstr;
 				}
 				// 3.1.2
 				else
 				{
-					static::$error_ids[$url]['invalid_partial_lang'][$k]['id'] = $ms[0][$k];
-					static::$error_ids[$url]['invalid_partial_lang'][$k]['str'] = $ms[0][$k];
+					static::$logs[$url]['invalid_partial_lang'][$tstr] = -1;
+					static::$error_ids[$url]['invalid_partial_lang'][$k]['id'] = $tstr;
+					static::$error_ids[$url]['invalid_partial_lang'][$k]['str'] = $tstr;
 				}
 			}
 		}

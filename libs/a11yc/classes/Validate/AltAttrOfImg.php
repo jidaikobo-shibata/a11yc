@@ -20,13 +20,16 @@ class AltAttrOfImg extends Validate
 	 */
 	public static function check($url)
 	{
+		static::$logs[$url]['alt_attr_of_img'][self::$unspec] = 1;
 		$str = Element::ignoreElements(static::$hl_htmls[$url]);
 
 		$ms = Element::getElementsByRe($str, 'ignores', 'imgs');
 		if ( ! $ms[1])
 		{
+			static::$logs[$url]['alt_attr_of_img'][self::$unspec] = 4;
 			return;
 		}
+		static::$logs[$url]['alt_attr_of_img'][self::$unspec] = 0;
 
 		foreach ($ms[1] as $k => $m)
 		{
@@ -50,19 +53,32 @@ class AltAttrOfImg extends Validate
 			if (isset($attrs['role']) && $attrs['role'] == 'presentation') continue;
 
 			// alt_attr_of_blank_only
+			static::$logs[$url]['alt_attr_of_blank_only'][$tstr] = 1;
 			if (preg_match('/^[ 　]+?$/', $attrs['alt']))
 			{
+				static::$logs[$url]['alt_attr_of_blank_only'][$tstr] = -1;
 				static::$error_ids[$url]['alt_attr_of_blank_only'][$k]['id'] = $tstr;
 				static::$error_ids[$url]['alt_attr_of_blank_only'][$k]['str'] = @basename(@$attrs['src']);
 			}
+			else
+			{
+				static::$logs[$url]['alt_attr_of_blank_only'][$tstr] = 2;
+			}
 
 			// alt_attr_of_empty
+			static::$logs[$url]['alt_attr_of_empty'][$tstr] = 1;
 			if (empty($attrs['alt']))
 			{
+				static::$logs[$url]['alt_attr_of_empty'][$tstr] = -1;
 				static::$error_ids[$url]['alt_attr_of_empty'][$k]['id'] = $tstr;
 				static::$error_ids[$url]['alt_attr_of_empty'][$k]['str'] = @basename(@$attrs['src']);
 			}
+			else
+			{
+				static::$logs[$url]['alt_attr_of_empty'][$tstr] = 2;
+			}
 		}
+
 		static::addErrorToHtml($url, 'alt_attr_of_empty', static::$error_ids[$url], 'ignores');
 		static::addErrorToHtml($url, 'alt_attr_of_img', static::$error_ids[$url], 'ignores');
 		static::addErrorToHtml($url, 'alt_attr_of_blank_only', static::$error_ids[$url], 'ignores');

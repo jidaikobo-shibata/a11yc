@@ -32,6 +32,11 @@ $uas = array(
 	</label>
 </section>
 
+<label>
+	<input type="checkbox" name="do_css_check" value="1"<?php if ($do_css_check) echo ' checked="checked"'; ?> />
+	<?php echo A11YC_LANG_CHECKLIST_DO_CSS_CHECK ?>
+</label>
+
 <div class="a11yc_submit_group">
 	<label for="behaviour"><?php echo A11YC_LANG_POST_BEHAVIOUR ?>
 		<select name="behaviour" id="behaviour">
@@ -61,7 +66,7 @@ $uas = array(
 </form>
 
 <?php
-if (Input::isPostExists() && isset($result)):
+if ((Input::isPostExists() || Input::get('url')) && isset($result)):
 ?>
 <div id="a11yc_validator_results">
 <h2><?php echo A11YC_LANG_CHECKLIST_CHECK_RESULT ?></h2>

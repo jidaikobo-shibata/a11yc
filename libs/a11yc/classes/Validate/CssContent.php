@@ -22,28 +22,47 @@ class CssContent extends Validate
 	 */
 	public static function check($url)
 	{
+		static::$logs[$url]['css_is_meanfull_content'][self::$unspec] = 5;
 		if ( ! static::$do_css_check) return;
+		static::$logs[$url]['css_is_meanfull_content'][self::$unspec] = 1;
 
 		$csses = static::css($url);
-		if ( ! $csses) return;
+		if ( ! $csses)
+		{
+			static::$logs[$url]['css_is_meanfull_content'][self::$unspec] = 4;
+			return;
+		}
 
+		$is_exists = false;
 		$k = 0;
 		foreach ($csses as $each_csses)
 		{
 			foreach ($each_csses as $selector => $props)
 			{
 				if ( ! isset($props['content'])) continue;
+				$is_exists = true;
 				if (
 					in_array(
 						$props['content'],
 						array("''", '""', '.', 'none', '"."', "'.'", '" "', "' '")
 					)
-				) continue; // clearfix or none
+				)
+				{
+					continue; // clearfix or none
+				}
 				if (in_array(substr($props['content'], 0, 2), array("'\\", '"\\'))) continue; // decoration
+
+				static::$logs[$url]['css_is_meanfull_content'][self::$unspec] = -1;
 				static::$error_ids[$url]['css_is_meanfull_content'][$k]['id'] = '';
 				static::$error_ids[$url]['css_is_meanfull_content'][$k]['str'] = $selector.': '.Util::s($props['content']);
 				$k++;
 			}
 		}
+
+		if ( ! $is_exists)
+		{
+			static::$logs[$url]['css_is_meanfull_content'][self::$unspec] = 4;
+		}
+
 	}
 }

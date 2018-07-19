@@ -20,6 +20,7 @@ class EmptyLinkElement extends Validate
 	 */
 	public static function check($url)
 	{
+		static::$logs[$url]['empty_link_element'][self::$unspec] = 1;
 		$str = Element::ignoreElements(static::$hl_htmls[$url]);
 
 		$ms = Element::getElementsByRe($str, 'ignores', 'anchors_and_values');
@@ -51,11 +52,17 @@ class EmptyLinkElement extends Validate
 			}
 
 			$text.= strip_tags($m);
+			$tstr = $ms[0][$k];
 
 			if (empty($text))
 			{
+				static::$logs[$url]['empty_link_element'][$tstr] = -1;
 				static::$error_ids[$url]['empty_link_element'][0]['id'] = $ms[0][$k];
 				static::$error_ids[$url]['empty_link_element'][0]['str'] = Util::s($ms[0][$k]);
+			}
+			else
+			{
+				static::$logs[$url]['empty_link_element'][$tstr] = 2;
 			}
 		}
 		static::addErrorToHtml($url, 'empty_link_element', static::$error_ids[$url], 'ignores');

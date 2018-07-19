@@ -22,10 +22,22 @@ class CssInvisibles extends Validate
 	 */
 	public static function check($url)
 	{
+		static::$logs[$url]['css_invisible'][self::$unspec] = 5;
+		static::$logs[$url]['css_background_image_only'][self::$unspec] = 5;
 		if ( ! static::$do_css_check) return;
+		static::$logs[$url]['css_invisible'][self::$unspec] = 1;
+		static::$logs[$url]['css_background_image_only'][self::$unspec] = 1;
 
 		$csses = static::css($url);
-		if ( ! $csses) return;
+		if ( ! $csses)
+		{
+			static::$logs[$url]['css_invisible'][self::$unspec] = 4;
+			static::$logs[$url]['css_background_image_only'][self::$unspec] = 4;
+			return;
+		}
+
+		$is_exists_visible = false;
+		$is_exists_bg = false;
 
 		$k = 0;
 		foreach ($csses as $each_csses)
@@ -38,6 +50,9 @@ class CssInvisibles extends Validate
 					(isset($props['visibility']) && $props['visibility'] == 'hidden')
 				)
 				{
+					$is_exists_visible = true;
+					static::$logs[$url]['css_invisible'][self::$unspec] = -1;
+
 					static::$error_ids[$url]['css_invisible'][$k]['id'] = '';
 					static::$error_ids[$url]['css_invisible'][$k]['str'] = $selector;
 				}
@@ -56,11 +71,14 @@ class CssInvisibles extends Validate
 						strpos($background_image, 'url') !== false
 					)
 					{
+						$is_exists_bg = true;
 						if (
 							strpos($background, '#') === false &&
 							! isset($props['background-color'])
 						)
 						{
+							static::$logs[$url]['css_background_image_only'][self::$unspec] = -1;
+
 							static::$error_ids[$url]['css_background_image_only'][$k]['id'] = '';
 							static::$error_ids[$url]['css_background_image_only'][$k]['str'] = $selector;
 						}
@@ -69,5 +87,16 @@ class CssInvisibles extends Validate
 				$k++;
 			}
 		}
+
+		if ( ! $is_exists_visible)
+		{
+			static::$logs[$url]['css_invisible'][self::$unspec] = 4;
+		}
+
+		if ( ! $is_exists_bg)
+		{
+			static::$logs[$url]['css_background_image_only'][self::$unspec] = 4;
+		}
+
 	}
 }

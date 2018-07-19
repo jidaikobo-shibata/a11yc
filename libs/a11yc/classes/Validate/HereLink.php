@@ -19,9 +19,14 @@ class HereLink extends Validate
 	 */
 	public static function check($url)
 	{
+		static::$logs[$url]['here_link'][self::$unspec] = 1;
 		$str = Element::ignoreElements(static::$hl_htmls[$url]);
 		$ms = Element::getElementsByRe($str, 'ignores', 'anchors_and_values');
-		if ( ! $ms[2]) return;
+		if ( ! $ms[2])
+		{
+			static::$logs[$url]['here_link'][self::$unspec] = 4;
+			return;
+		}
 
 		$heres = array_map('trim', explode(',', A11YC_LANG_HERE));
 		foreach ($ms[2] as $k => $m)
@@ -29,8 +34,13 @@ class HereLink extends Validate
 			$m = trim($m);
 			if (in_array(strtolower($m), $heres))
 			{
+				static::$logs[$url]['here_link'][$m] = -1;
 				static::$error_ids[$url]['here_link'][$k]['id'] = $ms[0][$k];
 				static::$error_ids[$url]['here_link'][$k]['str'] = Util::s($ms[0][$k]);
+			}
+			else
+			{
+				static::$logs[$url]['here_link'][$m] = 2;
 			}
 		}
 		static::addErrorToHtml($url, 'here_link', static::$error_ids[$url], 'ignores');

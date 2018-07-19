@@ -20,7 +20,10 @@ class JaWordBreakingSpace extends Validate
 	 */
 	public static function check($url)
 	{
+		static::$logs[$url]['ja_word_breaking_space'][self::$unspec] = 5;
 		if (A11YC_LANG != 'ja') return false;
+		static::$logs[$url]['ja_word_breaking_space'][self::$unspec] = 1;
+
 		$str = str_replace(array("\n", "\r"), '', static::$hl_htmls[$url]);
 		$str = Element::ignoreElements(static::$hl_htmls[$url]);
 
@@ -31,9 +34,12 @@ class JaWordBreakingSpace extends Validate
 		preg_match_all("/(".$search.")/iu", $str, $ms);
 		foreach ($ms[1] as $k => $m)
 		{
-			static::$error_ids[$url]['ja_word_breaking_space'][$k]['id'] = $ms[0][$k];
+			$tstr = $ms[0][$k];
+			static::$logs[$url]['ja_word_breaking_space'][$tstr] = -1;
+			static::$error_ids[$url]['ja_word_breaking_space'][$k]['id'] = $tstr;
 			static::$error_ids[$url]['ja_word_breaking_space'][$k]['str'] = $m;
 		}
+
 		static::addErrorToHtml($url, 'ja_word_breaking_space', static::$error_ids[$url], 'ignores');
 	}
 }

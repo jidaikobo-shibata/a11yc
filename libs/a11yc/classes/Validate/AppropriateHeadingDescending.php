@@ -20,12 +20,18 @@ class AppropriateHeadingDescending extends Validate
 	 */
 	public static function check($url)
 	{
+		static::$logs[$url]['appropriate_heading_descending'][self::$unspec] = 1;
 		$str = Element::ignoreElements(static::$hl_htmls[$url]);
 
 		$secs = preg_split("/\<(h[^\>?]+?)\>(.+?)\<\/h\d/", $str, -1, PREG_SPLIT_DELIM_CAPTURE);
-		if ( ! $secs[0]) return;
+		if ( ! $secs[0])
+		{
+			static::$logs[$url]['appropriate_heading_descending'][self::$unspec] = 4;
+			return;
+		}
 
 		// get first appeared heading
+		static::$logs[$url]['appropriate_heading_descending'][self::$unspec] = 0;
 		$prev = 1;
 		foreach ($secs as $sec)
 		{
@@ -40,13 +46,20 @@ class AppropriateHeadingDescending extends Validate
 		{
 			if ($v[0] != 'h' || ! is_numeric($v[1])) continue; // skip non heading
 			$current_level = $v[1];
+			$tstr = '<'.$v.'>'.$str;
 
 			if ($current_level - $prev >= 2)
 			{
 				$str = isset($secs[$k + 1]) ? $secs[$k + 1] : $v[1];
 
-				static::$error_ids[$url]['appropriate_heading_descending'][$k]['id'] = '<'.$v.'>'.$str;
+				static::$logs[$url]['appropriate_heading_descending'][$tstr] = -1;
+
+				static::$error_ids[$url]['appropriate_heading_descending'][$k]['id'] = $tstr;
 				static::$error_ids[$url]['appropriate_heading_descending'][$k]['str'] = $str;
+			}
+			else
+			{
+				static::$logs[$url]['appropriate_heading_descending'][$tstr] = 2;
 			}
 			$prev = $current_level;
 		}

@@ -20,10 +20,15 @@ class EmptyAltAttrOfImgInsideA extends Validate
 	 */
 	public static function check($url)
 	{
+		static::$logs[$url]['empty_alt_attr_of_img_inside_a'][self::$unspec] = 1;
 		$str = Element::ignoreElements(static::$hl_htmls[$url]);
 
 		$ms = Element::getElementsByRe($str, 'ignores', 'anchors_and_values');
-		if ( ! $ms[2]) return;
+		if ( ! $ms[2])
+		{
+			static::$logs[$url]['empty_alt_attr_of_img_inside_a'][self::$unspec] = 4;
+			return;
+		}
 
 		foreach ($ms[2] as $k => $m)
 		{
@@ -47,11 +52,17 @@ class EmptyAltAttrOfImgInsideA extends Validate
 			}
 
 			$alt = trim($alt);
+			$tstr = $ms[0][$k];
 
 			if ( ! $alt)
 			{
-				static::$error_ids[$url]['empty_alt_attr_of_img_inside_a'][$k]['id'] = $ms[0][$k];
+				static::$logs[$url]['empty_alt_attr_of_img_inside_a'][$tstr] = -1;
+				static::$error_ids[$url]['empty_alt_attr_of_img_inside_a'][$k]['id'] = $tstr;
 				static::$error_ids[$url]['empty_alt_attr_of_img_inside_a'][$k]['str'] = @basename(@$attrs['src']);
+			}
+			else
+			{
+				static::$logs[$url]['empty_alt_attr_of_img_inside_a'][$tstr] = 2;
 			}
 		}
 

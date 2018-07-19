@@ -17,7 +17,8 @@ class Validate
 	public static $is_partial    = false;
 	public static $do_link_check = false;
 	public static $do_css_check  = false;
-	public static $hl_htmls   = array();
+	public static $hl_htmls      = array();
+	public static $unspec        = A11YC_LANG_CHECKLIST_MACHINE_CHECK_UNSPEC;
 
 	protected static $error_ids  = array();
 	protected static $logs       = array();

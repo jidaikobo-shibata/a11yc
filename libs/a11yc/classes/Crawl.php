@@ -131,12 +131,12 @@ class Crawl
 	}
 
 	/**
-	 * upper_path
+	 * upperPath
 	 *
 	 * @param  String $str
 	 * @return String
 	 */
-	public static function upper_path($str)
+	public static function upperPath($str)
 	{
 		if (empty(static::$target_path)) Util::error('set set_target_path()');
 
@@ -165,75 +165,12 @@ class Crawl
 	}
 
 	/**
-	 * keep url unique
-	 *
-	 * @param  String $str ['http://...', '/', '../', '/..']
-	 * @return String
-	 */
-	public static function keep_url_unique($str)
-	{
-		// target path
-		if (empty(static::$target_path)) Util::error('set set_target_path()');
-
-		// root path
-		$root_path = join("/", array_slice(explode("/", static::$target_path), 0, 3));
-
-		// empty
-		if (empty($str)) return static::$target_path;
-
-		// keep it
-		if (
-			substr($str, 0, 2) == '//' || // care with start with '//'
-			static::is_valid_scheme($str) // scheme
-			// (strpos($str, ':') !== false && ! in_array($scheme, $schemes))
-		)
-		{
-			$str = $str;
-		}
-		// absolute root path
-		else if ($str == '/')
-		{
-			$str = $root_path;
-		}
-		// fragment
-		else if ($str[0] == '#')
-		{
-			$str = static::$target_path.'/'.$str;
-		}
-		// root relative path. eg. '/foo...' to 'http://example.com/foo..'
-		else if ($str[0] == '/' && isset($str[1]) && $str[1] != '/')
-		{
-			$str = $root_path.$str;
-		}
-		// relative current path. eg. './foo...' to 'http://example.com/path/to/foo..'
-		else if(substr($str, 0, 2) == './')
-		{
-			$str = static::$target_path.'/'.substr($str, 2);
-		}
-		// relative upper path. eg. '../foo...' to 'http://example.com/path/to/foo..'
-		else if(substr($str, 0, 3) == '../')
-		{
-			$str = static::upper_path($str).'/'.substr($str, 3);
-		}
-		// maybe link to file
-		else
-		{
-			$str = static::$target_path.'/'.$str;
-		}
-
-		// remove tailing slash
-		$str = $str != '/' ? rtrim($str, '/') : $str;
-
-		return $str;
-	}
-
-	/**
-	 * get_host_from_url
+	 * get host from url
 	 *
 	 * @param  String $url
 	 * @return String|Bool
 	 */
-	public static function get_host_from_url($url)
+	public static function getHostFromUrl($url)
 	{
 		// cannot get host
 		if (substr($url, 0, 4) != 'http')

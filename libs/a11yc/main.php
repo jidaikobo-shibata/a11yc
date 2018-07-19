@@ -67,7 +67,7 @@ Db::initTable();
 Update::check();
 
 // setup
-if ( ! defined('A11YC_POST_SCRIPT_NAME'))
+if ( ! defined('A11YC_IS_GUEST_VALIDATION'))
 {
 	if ( ! Input::post('target_level') && ! Arr::get(Model\Settings::fetchAll(), 'target_level'))
 	{

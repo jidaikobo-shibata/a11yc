@@ -40,6 +40,9 @@ class Post
 		defined('A11YC_POST_IP_MAX_A_DAY') or define('A11YC_POST_IP_MAX_A_DAY', 150);
 		defined('A11YC_POST_COOKIE_A_10MIN') or define('A11YC_POST_COOKIE_A_10MIN', 10);
 
+		// is guest validation
+		defined('A11YC_IS_GUEST_VALIDATION') or define('A11YC_IS_GUEST_VALIDATION', true);
+
 		// script name
 		defined('A11YC_POST_SCRIPT_NAME') or define('A11YC_POST_SCRIPT_NAME', '/post.php');
 
@@ -275,13 +278,13 @@ class Post
 	public static function actionValidation()
 	{
 		// vals
-		$url              = Input::post('url');
+		$url              = Input::post('url', Input::get('url', ''));
 		$raw_url          = $url;
 		$user_agent       = Input::post('user_agent', '');
 		$default_ua       = Input::userAgent();
 		$page_title       = '';
 		$real_url         = '';
-		$doc_root         = Input::post('doc_root', '');
+		$doc_root         = Input::post('doc_root', Crawl::getHostFromUrl($url));
 		$target_html      = '';
 		$render           = '';
 		$do_validate      = true;
@@ -313,7 +316,7 @@ class Post
 		}
 
 		// error
-		if (Input::isPostExists())
+		if (Input::isPostExists() || Input::get('url'))
 		{
 			if ( ! $target_html && $raw_url)
 			{
@@ -408,11 +411,13 @@ class Post
 			'notices' => array(),
 			'errors'  => array()
 		);
+		$yml = Yaml::fetch();
 
 		// check
 		$codes = Validate::$codes;
+		$do_css_check = Input::post('do_css_check', false);
+		Validate::$do_css_check = $do_css_check;
 		Validate::html($url, $target_html, $codes, $ua);
-
 		if (Validate::getErrors($url, $codes, $ua))
 		{
 			$err_link = self::$url.'?a=doc&criterion=';
@@ -452,13 +457,17 @@ class Post
 			array('total' => count($all_errs['errors'])),
 			Validate::getErrorCnts($url, $codes, $ua)
 		);
-		$render = Util::s(Validate::getHighLightedHtml($url, $codes, $ua));
+		$render = Validate::getHighLightedHtml($url, $codes, $ua);
 		$raw = nl2br($render);
 
+		View::assign('do_css_check'      , $do_css_check);
 		View::assign('errs'              , $all_errs, false);
 		View::assign('errs_cnts'         , $errs_cnts);
 		View::assign('raw'               , $raw, false);
 		View::assign('is_call_from_post' , true);
+		View::assign('machine_check_status', Values::machineCheckStatus());
+		View::assign('yml'               , Yaml::fetch());
+		View::assign('logs'              , Validate::getLogs($url) ?: array());
 
 		// count up for guest users
 		self::countUpForGuestUsers();
@@ -475,7 +484,7 @@ class Post
 		$a = Input::get('a', '');
 		$controller = '\A11yc\Controller\Post';
 		$action = '';
-		$is_index = empty(Input::server('QUERY_STRING'));
+		$is_index = empty(Input::server('QUERY_STRING')) || Input::get('url');
 
 		// top page
 		if ($is_index)

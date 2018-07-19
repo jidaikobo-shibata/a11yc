@@ -20,23 +20,30 @@ class DuplicatedIdsAndAccesskey extends Validate
 	 */
 	public static function check($url)
 	{
+		static::$logs[$url]['duplicated_ids'][self::$unspec] = 1;
+		static::$logs[$url]['duplicated_accesskeys'][self::$unspec] = 1;
 		$str = Element::ignoreElements(static::$hl_htmls[$url]);
 
 		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 
+		$is_exists_id = false;
+		$is_exists_ack = false;
 		$ids = array();
 		$accesskeys = array();
 		foreach ($ms[0] as $k => $m)
 		{
 			$attrs = Element::getAttributes($m);
+			$tstr = $ms[0][$k];
 
 			// duplicated_ids
 			if (isset($attrs['id']))
 			{
+				$is_exists_id = true;
 				if (in_array($attrs['id'], $ids))
 				{
-					static::$error_ids[$url]['duplicated_ids'][$k]['id'] = $ms[0][$k];
+					static::$logs[$url]['duplicated_ids'][$tstr] = -1;
+					static::$error_ids[$url]['duplicated_ids'][$k]['id'] = $tstr;
 					static::$error_ids[$url]['duplicated_ids'][$k]['str'] = $attrs['id'];
 				}
 				$ids[] = $attrs['id'];
@@ -45,14 +52,20 @@ class DuplicatedIdsAndAccesskey extends Validate
 			// duplicated_accesskeys
 			if (isset($attrs['accesskey']))
 			{
+				$is_exists_ack = true;
 				if (in_array($attrs['accesskey'], $accesskeys))
 				{
-					static::$error_ids[$url]['duplicated_accesskeys'][$k]['id'] = $ms[0][$k];
+					static::$logs[$url]['duplicated_accesskeys'][$tstr] = -1;
+					static::$error_ids[$url]['duplicated_accesskeys'][$k]['id'] = $tstr;
 					static::$error_ids[$url]['duplicated_accesskeys'][$k]['str'] = $attrs['accesskey'];
 				}
 				$accesskeys[] = $attrs['accesskey'];
 			}
 		}
+
+		static::$logs[$url]['duplicated_ids'][self::$unspec] = $is_exists_id ? 3 : 4;
+		static::$logs[$url]['duplicated_accesskeys'][self::$unspec] = $is_exists_ack ? 3 : 4;
+
 		static::addErrorToHtml($url, 'duplicated_ids', static::$error_ids[$url], 'ignores');
 		static::addErrorToHtml($url, 'duplicated_accesskeys', static::$error_ids[$url], 'ignores');
 	}

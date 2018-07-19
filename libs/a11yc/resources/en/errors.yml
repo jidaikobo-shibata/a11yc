@@ -11,6 +11,7 @@ errors:
       - F65
 
   empty_alt_attr_of_img_inside_a:
+    title: empty alt attribute of img inside a element
     message: If there is only an img element in the a element, the alt attribute value of the img element is not an empty character but a character indicating the purpose of the link should be included
     criterions:
       - 1-1-1
@@ -21,6 +22,7 @@ errors:
       - H37
 
   area_has_alt:
+    title: alt attribute of area element
     message: The alt attribute of the area element does not exist or the alt attribute value is an empty string. Please enter the character representing the purpose of the area element
     criterions:
       - 1-1-1
@@ -31,6 +33,7 @@ errors:
       - F65
 
   img_input_has_alt:
+    title: alt attribute of input element which type attribute is image
     message: The alt attribute of input element does not exist or the alt attribute value is null. When the type of the input element is image, please enter the character representing purpose
     criterions:
       - 1-1-1
@@ -39,6 +42,7 @@ errors:
       - H36
 
   empty_link_element:
+    title: empty link element
     message: There is an element that has a link destination but no link string
     criterions:
       - 2-4-4
@@ -49,6 +53,7 @@ errors:
       - G53
 
   here_link:
+    title: here link
     message: Do not link something like "here" as a link
     criterions:
       - 2-4-9
@@ -56,21 +61,25 @@ errors:
       - G53
 
   css_suspicious_paren_num:
+    title: css suspicious paren number
     message: There seems to be a disproportionate number of CSS braces ({}).
     criterions:
       - 4-1-1
 
   css_suspicious_props:
+    title: css suspicious properties
     message: Suspicious CSS property exists.
     criterions:
       - 4-1-1
 
   css_suspicious_prop_and_vals:
+    title: css suspicious properties and values
     message: Suspicious CSS property and value exists.
     criterions:
       - 4-1-1
 
   css_is_meanfull_content:
+    title: Content inserted in CSS
     message: Content is inserted in CSS content. Please check if it is not for decoration purpose.
     criterions:
       - 1-3-1
@@ -79,12 +88,14 @@ errors:
       - F87
 
   css_invisible:
+    title: invisibled by CSS
     message: Some content is hidden by CSS. Please make sure that it does not interfere with users visually obtaining information.
     criterions:
       - 1-3-1
     notice: true
 
   css_background_image_only:
+    title: css background image only
     message: If you designate a background image without specifying a background color in CSS, foreground information may not be acquired in an environment where images are not loaded.
     criterions:
       - 1-4-3
@@ -95,6 +106,7 @@ errors:
       - F24
 
   too_much_opens:
+    title: tag too much opens
     message: It seems there are too many opening tags. Since this error will fail to locate the location, check the structure by browsing the DOM of the browser etc.
     criterions:
       - 4-1-1
@@ -103,6 +115,7 @@ errors:
       - H88
 
   too_much_ends:
+    title: tag too much ends
     message: It seems there are too many closing tags. Since this error will fail to locate the location, check the structure by browsing the DOM of the browser etc.
     criterions:
       - 4-1-1
@@ -111,6 +124,7 @@ errors:
       - H88
 
   unclosed_elements:
+    title: unclosed elements
     message: There is an incomplete tag
     criterions:
       - 4-1-1
@@ -119,6 +133,7 @@ errors:
       - H88
 
   suspicious_ends:
+    title: suspicious close tag
     message: There is a suspicious closing tag
     criterions:
       - 4-1-1
@@ -127,6 +142,7 @@ errors:
       - H88
 
   appropriate_heading_descending:
+    title: appropriate heading descending
     message: The descending order of the heading is not valid
     criterions:
       - 1-3-1
@@ -135,6 +151,7 @@ errors:
       - F2
 
   meanless_element_timing:
+    title: meanless element timing
     message: Do not mark up movement, flashing in HTML
     criterions:
       - 2-2-2
@@ -142,6 +159,7 @@ errors:
       - F47
 
   titleless:
+    title: titleless
     message: The title element does not exist or the content of the title element is empty (or blank)
     criterions:
       - 2-4-2
@@ -151,6 +169,7 @@ errors:
       - H25
 
   langless:
+    title: langless
     message: Please specify the default language of the document with the html element
     criterions:
       - 3-1-1
@@ -159,6 +178,7 @@ errors:
       - H58
 
   different_lang:
+    title: different lang
     message: The value of lang is inconsistent
     criterions:
       - 4-1-1
@@ -166,6 +186,7 @@ errors:
       - H57
 
   invalid_page_lang:
+    title: invalid page lang
     message: The value of lang in the basic language specification of the page is invalid
     criterions:
       - 3-1-1
@@ -173,6 +194,7 @@ errors:
       - H57
 
   invalid_partial_lang:
+    title: invalid partial lang
     message: The value of lang in partial language specification is not valid
     criterions:
       - 3-1-2
@@ -180,16 +202,19 @@ errors:
       - H58
 
   link_check:
+    title: Link Check
     message: Suspected broken links
     criterions:
       - 2-4-4
 
   no_broken_link_found:
+    title: no broken link found
     message: No broken link was found
     criterions:
       - 2-4-4
 
   duplicated_attributes:
+    title: duplicated attributes
     message: There is a possibility that attributes are duplicated
     criterions:
       - 4-1-1
@@ -198,6 +223,7 @@ errors:
       - H88
 
   suspicious_attributes:
+    title: suspicious attributes
     message: There are suspicious attribute values
     criterions:
       - 4-1-1
@@ -206,6 +232,7 @@ errors:
       - H88
 
   duplicated_ids:
+    title: duplicated id attributes
     message: Duplicate id
     criterions:
       - 4-1-1
@@ -213,6 +240,7 @@ errors:
       - F77
 
   duplicated_accesskeys:
+    title: duplicated accesskey attributes
     message: Duplicate accesskey
     criterions:
       - 4-1-1
@@ -221,6 +249,7 @@ errors:
       - H88
 
   unbalanced_quotation:
+    title: unbalanced quotation
     message: The number of quotes does not seem to match
     criterions:
       - 4-1-1
@@ -229,6 +258,7 @@ errors:
       - H88
 
   cannot_contain_multibyte_space:
+    title: cannot contain multibyte space
     message: Full-width space exists in the tag
     criterions:
       - 4-1-1
@@ -237,6 +267,7 @@ errors:
       - H88
 
   contain_plural_form_elements:
+    title: contain plural form elements
     message: Label should not contain more than one labelable element
     criterions:
       - 2-4-6
@@ -244,6 +275,7 @@ errors:
       - H44
 
   labelless:
+    title: labelless
     message: Use label when using the form element
     criterions:
       - 1-3-1
@@ -252,6 +284,7 @@ errors:
       - H65
 
   not_label_but_title:
+    title: not label but title
     message: Use label or title attribute which has meaning when using the input/textarea/select element
     criterions:
       - 1-3-1
@@ -260,6 +293,7 @@ errors:
       - H65
 
   lackness_of_form_ends:
+    title: lackness of form ends
     message: It seems that there are form elements that are not properly nested
     criterions:
       - 4-1-1
@@ -268,6 +302,7 @@ errors:
       - H88
 
   submitless:
+    title: submitless
     message: Form has no submit button. Does the situation change without notice?
     criterions:
       - 3-2-2
@@ -276,6 +311,7 @@ errors:
       - F37
 
   duplicated_names:
+    title: duplicated names
     message: It seems there is a duplicate name attribute value for elements other than checkbox and radio in one form
     criterions:
       - 4-1-2
@@ -285,6 +321,7 @@ errors:
       - H88
 
   meta_refresh:
+    title: meta refresh
     message: Avoid automatic updating by refreshing the meta element
     criterions:
       - 2-2-1
@@ -295,6 +332,7 @@ errors:
       - H76
 
   titleless_frame:
+    title: titleless frame
     message: frame/iframe element has no title attribute
     criterions:
       - 2-4-1
@@ -303,11 +341,13 @@ errors:
       - H64
 
   user_scalable_no:
+    title: user scalable no
     message: If you set user-scalable=no in the viewport setting, users can not change it to the size they like, so avoid it.
     criterions:
       - 1-4-4
 
   must_be_numeric_attr:
+    title: must be numeric attribute
     message: Must be numeric attribute
     criterions:
       - 4-1-1
@@ -316,6 +356,7 @@ errors:
       - H88
 
   invalid_single_tag_close:
+    title: invalid single tag close
     message: When specifying a single tag, put a space before "/>"
     criterions:
       - 4-1-1
@@ -324,6 +365,7 @@ errors:
       - H88
 
   headerless_section:
+    title: headerless section
     message: section should include h1-6 element
     criterions:
       - 1-3-1
@@ -334,6 +376,7 @@ errors:
       - H69
 
   meanless_element:
+    title: meanless element
     message: HTML element that are meaningless is used
     criterions:
       - 1-3-1
@@ -342,18 +385,21 @@ errors:
       - G115
 
   cannot_contain_newline:
+    title: cannot contain newline
     message: A line feed code can not be included in an attribute value
     criterions:
       - 1-3-2
     notice: true
 
   check_doctype:
+    title: check doctype
     message: Use Doctype Declarations to specify DTD
     criterions:
       - 4-1-1
     notice: true
 
   notice_img_exists:
+    title: notice img exists
     message: img elements exists. valid alt?
     criterions:
       - 1-1-1
@@ -364,12 +410,14 @@ errors:
       - F39
 
   notice_non_html_exists:
+    title: notice non html exists
     message: Items of below are accessible?
     criterions:
       - 1-1-1
     notice: true
 
   style_for_structure:
+    title: style for structure
     message: There is a possibility of providing information depending on color and size
     criterions:
       - 1-3-1
@@ -379,6 +427,7 @@ errors:
       - F2
 
   same_alt_and_filename_of_img:
+    title: same alt and filename of img
     message: The alt attribute value of the img element is the same as the file name. Sometimes it is not a problem
     criterions:
       - 1-1-1
@@ -388,6 +437,7 @@ errors:
       - F39
 
   ja_word_breaking_space:
+    title: ja word breaking space
     message: There is a possibility of formatting by blank
     criterions:
       - 1-3-2
@@ -396,6 +446,7 @@ errors:
       - F32
 
   alt_attr_of_empty:
+    title: alt attr of empty
     message: Is it an empty alt, but does not have any meaning?
     criterions:
       - 1-1-1
@@ -405,12 +456,14 @@ errors:
       - H67
 
   tell_user_file_type:
+    title: tell user file type
     message: If the link destination is a file, it is more nice to specify the file format and file size
     criterions:
       - 2-4-4
     notice: true
 
   same_urls_should_have_same_text:
+    title: same urls should have same text
     message: The link string is different although it is the same URL
     criterions:
       - 3-2-4
@@ -420,6 +473,7 @@ errors:
       - G197
 
   alt_attr_of_blank_only:
+    title: alt attribute of blank only
     message: For images for decorative purposes, alt should be empty, not white space
     criterions:
       - 1-1-1
@@ -429,6 +483,7 @@ errors:
       - H67
 
   same_page_title_in_same_site:
+    title: same page title in same site
     message: A page with the same title element exists in the site to be checked
     criterions:
       - 2-4-2
@@ -439,6 +494,7 @@ errors:
       - H25
 
   unique_label:
+    title: unique label
     message: There is a possibility that the character string of label has duplication and distinctiveness has been impaired
     criterions:
       - 2-4-6
@@ -449,6 +505,7 @@ errors:
       - ARIA6
 
   table_use_th:
+    title: table use th
     message: structure struct with th
     criterions:
       - 1-3-1
@@ -457,6 +514,7 @@ errors:
       - F46
 
   table_use_scope:
+    title: table use scope
     message: By using the scope attribute for th, you can associate heading cells with data cells
     criterions:
       - 1-3-1
@@ -465,6 +523,7 @@ errors:
       - H63
 
   table_use_valid_scope:
+    title: table use valid scope
     message: For scope attribute, use col, row, rowgroup, colgroup
     criterions:
       - 1-3-1
@@ -473,6 +532,7 @@ errors:
       - H63
 
   table_use_summary:
+    title: table use summary
     message: explain the summary by using the summary attribute of table
     criterions:
       - 1-3-1
@@ -481,6 +541,7 @@ errors:
       - H73
 
   table_use_caption:
+    title: table use caption
     message: use caption to give a title for table
     criterions:
       - 1-3-1

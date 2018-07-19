@@ -20,6 +20,7 @@ class InvalidSingleTagClose extends Validate
 	 */
 	public static function check($url)
 	{
+		static::$logs[$url]['invalid_single_tag_close'][self::$unspec] = 1;
 		$str = Element::ignoreElements(static::$hl_htmls[$url]);
 		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
@@ -28,8 +29,13 @@ class InvalidSingleTagClose extends Validate
 		{
 			if (preg_match("/[^ ]+\/\>/", $v))
 			{
+				static::$logs[$url]['invalid_single_tag_close'][$v] = -1;
 				static::$error_ids[$url]['invalid_single_tag_close'][$k]['id'] = $v;
 				static::$error_ids[$url]['invalid_single_tag_close'][$k]['str'] = $ms[1][$k];
+			}
+			else
+			{
+				static::$logs[$url]['invalid_single_tag_close'][$v] = 2;
 			}
 		}
 		static::addErrorToHtml($url, 'invalid_single_tag_close', static::$error_ids[$url], 'ignores');

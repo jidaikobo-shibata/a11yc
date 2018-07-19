@@ -20,18 +20,28 @@ class HeaderlessSection extends Validate
 	 */
 	public static function check($url)
 	{
+		static::$logs[$url]['headerless_section'][self::$unspec] = 1;
 		$str = Element::ignoreElements(static::$hl_htmls[$url]);
 
 		preg_match_all("/\<section[^\>]*?\>(.+?)\<\/section\>/is", $str, $secs);
 
-		if ( ! $secs[0]) return;
+		if ( ! $secs[0])
+		{
+			static::$logs[$url]['headerless_section'][self::$unspec] = 4;
+			return;
+		}
 
 		foreach ($secs[0] as $k => $v)
 		{
 			if ( ! preg_match("/\<h\d/", $v))
 			{
+				static::$logs[$url]['headerless_section'][$v] = -1;
 				static::$error_ids[$url]['headerless_section'][$k]['id'] = $v;
 				static::$error_ids[$url]['headerless_section'][$k]['str'] = $secs[1][$k];
+			}
+			else
+			{
+				static::$logs[$url]['headerless_section'][$v] = 2;
 			}
 		}
 		static::addErrorToHtml($url, 'headerless_section', static::$error_ids[$url], 'ignores');

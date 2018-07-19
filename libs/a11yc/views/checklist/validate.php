@@ -2,7 +2,7 @@
 namespace A11yc;
 // call from post
 $is_call_from_post = isset($is_call_from_post);
-$is_call_from_post = false;
+//$is_call_from_post = false;
 
 if (empty($errs['errors'])):
 	echo '<p id="a11yc_validation_not_found_error" class="a11yc_hide_if_fixedheader"><span class="a11yc_icon_fa" role="presentation" aria-hidden="true"></span>'.A11YC_LANG_CHECKLIST_NOT_FOUND_ERR.'</p>';
@@ -57,25 +57,6 @@ if ($errs['errors'] || $errs['notices']):
 				<?php endforeach; ?>
 				</dl>
 			<?php endif; ?>
-
-			<?php
-			/*
-			// logs
-			if ( ! empty($logs)):
-			?>
-				<dl id="a11yc_validation_logs_list" class="a11yc_validation_list">
-				<?php foreach ($logs as $err => $log): ?>
-					<dt><?php echo $yml['errors'][$err]['title'] ?></dt>
-					<?php foreach ($log as $loghtml => $logresult): ?>
-						<dd><?php echo $machine_check_status[$logresult] ?>: <?php echo Util::s($loghtml) ?></dd>
-					<?php endforeach; ?>
-				<?php endforeach; ?>
-				</dl>
-			<?php
-				endif;
-			*/
-			?>
-
 		</div><!-- /#a11yc_validation_errors -->
 
 		<?php if ($is_call_from_post): ?>
@@ -109,6 +90,41 @@ if ($errs['errors'] || $errs['notices']):
 		</details>
 	</details>
 	<?php endif; ?>
+
+
+	<?php
+	// logs
+	if ( ! empty($logs)):
+//		echo '<details>';
+		echo '<summary>'.A11YC_LANG_CHECKLIST_MACHINE_CHECK_LOG.'</summary>';
+	?>
+		<dl id="a11yc_validation_logs_list" class="a11yc_validation_list">
+		<?php foreach ($logs as $err => $log): ?>
+			<dt><?php echo $yml['errors'][$err]['title'] ?></dt>
+			<?php
+				foreach ($log as $loghtml => $logresult):
+					if ($logresult == 0) continue;
+					if (
+						$logresult == 4 || // not exist
+						$loghtml == A11YC_LANG_CHECKLIST_MACHINE_CHECK_UNSPEC // place not specified
+					):
+			?>
+				<dd><?php echo $machine_check_status[$logresult] ?></dd>
+			<?php
+					else:
+			?>
+				<dd><?php echo $machine_check_status[$logresult] ?>: <?php echo mb_substr(Util::s($loghtml), 0, 100).'...' ?></dd>
+			<?php
+					endif;
+			?>
+
+			<?php endforeach; ?>
+		<?php endforeach; ?>
+		</dl>
+	<?php
+//		echo '</details>';
+		endif;
+	?>
 
 </div><!-- /#a11yc_validator_results -->
 <?php

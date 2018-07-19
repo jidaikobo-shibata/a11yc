@@ -20,7 +20,9 @@ class LinkCheck extends Validate
 	 */
 	public static function check($url)
 	{
+		static::$logs[$url]['link_check'][self::$unspec] = 5;
 		if ( ! static::$do_link_check) return;
+		static::$logs[$url]['link_check'][self::$unspec] = 1;
 
 		$str = Element::ignoreElements(static::$hl_htmls[$url]);
 		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
@@ -76,6 +78,7 @@ class LinkCheck extends Validate
 			{
 				if ( ! in_array(substr($url, 1), $fragments[1]))
 				{
+					static::$logs[$url]['link_check'][$tag] = -1;
 					static::$error_ids[$url]['link_check'][$k]['id'] = $tag;
 					static::$error_ids[$url]['link_check'][$k]['str'] = 'Fragment Not Found: '.$url;
 				}
@@ -93,12 +96,14 @@ class LinkCheck extends Validate
 			// links
 			if ( ! Crawl::isPageExist($url))
 			{
+				static::$logs[$url]['link_check'][$tag] = -1;
 				static::$error_ids[$url]['link_check'][$k]['id'] = $tag;
 				static::$error_ids[$url]['link_check'][$k]['str'] = 'Not Found: '.$tag;
 				continue;
 			}
 
 			// 40x
+			static::$logs[$url]['link_check'][$tag] = -1;
 			static::$error_ids[$url]['link_check'][$k]['id'] = $tag;
 			static::$error_ids[$url]['link_check'][$k]['str'] = 'header 40x: '.$url;
 		}
