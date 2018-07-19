@@ -15,11 +15,11 @@ use A11yc\Model;
 class AddTrash2Issues extends A11yc\Update
 {
 	/**
-	 * udpate
+	 * update
 	 *
 	 * @return Void
 	 */
-	protected static function udpate()
+	protected static function update()
 	{
 		$sql = 'ALTER TABLE '.A11YC_TABLE_ISSUES.' ADD `trash` BOOL NOT NULL DEFAULT 0;';
 		Db::execute($sql);

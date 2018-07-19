@@ -24,19 +24,19 @@ class Update
 		// update 1.x.x -> 2.x.x
 		if (Db::isTableExist(A11YC_TABLE_SETUP_OLD) && ! Db::isTableExist(A11YC_TABLE_CACHES))
 		{
-			Update\One2Two::udpate();
+			Update\One2Two::update();
 		}
 
 		// update add seq to pages
 		if ( ! Db::isFieldsExist(A11YC_TABLE_PAGES, array('seq')))
 		{
-			Update\AddSeq2Pages::udpate();
+			Update\AddSeq2Pages::update();
 		}
 
 		// update add trash to issues
 		if ( ! Db::isFieldsExist(A11YC_TABLE_ISSUES, array('trash')))
 		{
-			Update\AddTrash2Issues::udpate();
+			Update\AddTrash2Issues::update();
 		}
 	}
 }

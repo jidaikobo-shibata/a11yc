@@ -523,7 +523,7 @@ class Post
 	 */
 	private static function initTable()
 	{
-		if ( ! DB::is_table_exist('ip', A11YC_POST_DB))
+		if ( ! DB::isTableExist('ip', A11YC_POST_DB))
 		{
 			$sql = 'CREATE TABLE ip (';
 			$sql.= '`ip`        text NOT NULL,';

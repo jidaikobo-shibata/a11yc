@@ -15,11 +15,11 @@ use A11yc\Model;
 class One2Two extends A11yc\Update
 {
 	/**
-	 * udpate
+	 * update
 	 *
 	 * @return Void
 	 */
-	protected static function udpate()
+	protected static function update()
 	{
 		// rename tables
 		$sql = 'ALTER TABLE %s RENAME TO %s';
