@@ -20,6 +20,7 @@ class Validate
 	public static $hl_htmls   = array();
 
 	protected static $error_ids  = array();
+	protected static $logs       = array();
 	protected static $csses      = array();
 	protected static $results    = array();
 
@@ -117,8 +118,9 @@ class Validate
 
 		static::$hl_htmls[$url] = $html;
 
-		// errors
+		// errors and logs
 		static::$error_ids[$url] = array();
+		static::$logs[$url] = array();
 
 		// validate
 		foreach ($codes as $class)
@@ -139,7 +141,9 @@ class Validate
 			{
 				foreach ($errs as $key => $err)
 				{
-					$err_type = isset($yml['errors'][$code]['notice']) ? 'notices' : 'errors';
+					$err_type = isset($yml['errors'][$code]) && isset($yml['errors'][$code]['notice']) ?
+										'notices' :
+										'errors';
 					$all_errs[$err_type][] = Message::getText($url, $code, $err, $key);
 				}
 			}
@@ -244,6 +248,17 @@ class Validate
 	public static function getErrorIds($url)
 	{
 		return isset(static::$error_ids[$url]) ? static::$error_ids[$url] : array();
+	}
+
+	/**
+	 * get logs
+	 *
+	 * @param  String $url
+	 * @return Array
+	 */
+	public static function getLogs($url)
+	{
+		return isset(static::$logs[$url]) ? static::$logs[$url] : array();
 	}
 
 	/**

@@ -56,7 +56,25 @@ if ($errs['errors'] || $errs['notices']):
 					<?php echo $err ?>
 				<?php endforeach; ?>
 				</dl>
-		<?php endif; ?>
+			<?php endif; ?>
+
+			<?php
+			/*
+			// logs
+			if ( ! empty($logs)):
+			?>
+				<dl id="a11yc_validation_logs_list" class="a11yc_validation_list">
+				<?php foreach ($logs as $err => $log): ?>
+					<dt><?php echo $yml['errors'][$err]['title'] ?></dt>
+					<?php foreach ($log as $loghtml => $logresult): ?>
+						<dd><?php echo $machine_check_status[$logresult] ?>: <?php echo Util::s($loghtml) ?></dd>
+					<?php endforeach; ?>
+				<?php endforeach; ?>
+				</dl>
+			<?php
+				endif;
+			*/
+			?>
 
 		</div><!-- /#a11yc_validation_errors -->
 

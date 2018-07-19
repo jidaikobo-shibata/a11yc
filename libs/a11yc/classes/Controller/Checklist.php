@@ -154,6 +154,7 @@ class Checklist
 		View::assign('target_title', Model\Html::fetchPageTitle($url));
 		View::assign('url', $url);
 		View::assign('statuses', Values::issueStatus());
+		View::assign('machine_check_status', Values::machineCheckStatus());
 		View::assign('issues', $issues);
 		View::assign('selection_reasons', Values::filteredSelectionReasons());
 		View::assign('refs', $refs[$standard]);
@@ -169,11 +170,37 @@ class Checklist
 		View::assign('additional_criterions', join('","',Values::additionalCriterions()));
 		View::assign('is_new', $is_new);
 		View::assign('is_bulk', $is_bulk);
+		View::assign('checkstatus', self::getCheckStatus($url));
 
 		self::assginValidation($url, $is_new, $is_bulk);
 
 		// form
 		View::assign('form', View::fetchTpl('checklist/form.php'), FALSE);
+	}
+
+	/**
+	 * get basic values
+	 *
+	 * @param  String $url
+	 * @return Array
+	 */
+	private static function getCheckStatus($url)
+	{
+		$retvals = array('passed' => array(), 'failed' => array());
+		foreach (Validate::getLogs($url) as $k => $v)
+		{
+			foreach ($v as $kk => $vv)
+			{
+				if ($vv == -1)
+				{
+				}
+				else if ($vv == 2)
+				{
+				}
+			}
+		}
+
+		return $retvals;
 	}
 
 	/**
@@ -261,11 +288,13 @@ class Checklist
 		}
 
 		$errs = Validate::getErrors($url) ?: array('errors' => array(), 'notices' => array());
+		$logs = Validate::getLogs($url) ?: array();
 
 		// validation
 		View::assign('is_call_from_post', true);
 		View::assign('errs_cnts', Validate::getErrorCnts($url));
 		View::assign('errs', $errs, FALSE);
+		View::assign('logs', $logs);
 		View::assign('raw', nl2br(Validate::getHighLightedHtml($url)), FALSE);
 		View::assign('validation_result', View::fetchTpl('checklist/validate.php'), FALSE);
 	}

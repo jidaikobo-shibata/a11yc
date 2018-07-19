@@ -105,11 +105,12 @@
 					$chk = Util::addQueryStrings(
 						Util::uri(),
 						array(
+							array('a11yc_checklist', 1),
 							array('url', Util::urlenc($url)),
 						));
 					$chk = Util::removeQueryStrings($chk, array('a11yc_report'));
 					?>
-						(<a href="<?php echo $chk ?>"><?php echo A11YC_LANG_REPORT ?></a>)
+						(<a href="<?php echo $chk ?>"><?php echo A11YC_LANG_TEST_RESULT ?></a>)
 					<?php
 
 					if (Auth::auth()):

@@ -237,13 +237,18 @@ define('A11YC_LANG_CHECKLIST_BACK_TO_MESSAGE', 'back to message');
 define('A11YC_LANG_CHECKLIST_SEE_DETAIL', 'See How to resolve');
 define('A11YC_LANG_CHECKLIST_SEE_UNDERSTANDING', 'See understanding WCAG');
 
+define('A11YC_LANG_CHECKLIST_MACHINE_CHECK_DONE', 'Machine Check Done');
+define('A11YC_LANG_CHECKLIST_MACHINE_CHECK_FAILED', 'Failed at Machine Check');
+define('A11YC_LANG_CHECKLIST_MACHINE_CHECK_PASSED', 'Machine Check Passed');
+define('A11YC_LANG_CHECKLIST_MACHINE_CHECK_EXIST', 'Exists at Machine Check');
+
 // bulk
 define('A11YC_LANG_BULK_TITLE', 'Batch');
 define('A11YC_LANG_BULK_UPDATE', 'Batch Type');
 define('A11YC_LANG_BULK_UPDATE1', 'Save as the initial value at the new check (does not change any of the test results of an existing page)');
 define('A11YC_LANG_BULK_UPDATE2', 'Only those that checked reflected in the existing test results (but does not update to remove the check)');
 define('A11YC_LANG_BULK_UPDATE3', 'Reflect all of the items to the existing test results (Note: The test results of all the pages will be the same in the site)');
-define('A11YC_LANG_BULK_DONE', 'Check the end ');
+define('A11YC_LANG_BULK_DONE', 'Check the end');
 define('A11YC_LANG_BULK_DONE1', 'Do not change the check flag of an existing page');
 define('A11YC_LANG_BULK_DONE2', 'To check the end all existing page');
 define('A11YC_LANG_BULK_DONE3', 'To un-check all of the existing page');

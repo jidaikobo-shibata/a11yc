@@ -1,7 +1,8 @@
 errors:
 
   alt_attr_of_img:
-    message: img要素のalt属性がありません。装飾目的の画像であってもalt属性そのものを省略しないでください
+    title: img要素のalt属性の有無
+    message: img要素のalt属性（代替テキスト）がありません。装飾目的の画像であってもalt属性そのものを省略しないでください
     criterions:
       - 1-1-1
     techs:
@@ -20,7 +21,7 @@ errors:
       - H37
 
   area_has_alt:
-    message: area要素のalt属性が存在しないか、alt属性値（代替テキスト）は空文字です。area要素の目的を表す文字を入れてください
+    message: area要素のalt属性（代替テキスト）が存在しないか、alt属性値は空文字です。area要素の目的を表す文字を入れてください
     criterions:
       - 1-1-1
       - 2-4-4
@@ -30,7 +31,7 @@ errors:
       - F65
 
   img_input_has_alt:
-    message: input要素のalt属性が存在しないか、alt属性値（代替テキスト）が空文字です。input要素のtypeがimageの時には目的を表す文字を入れてください
+    message: input要素のalt属性（代替テキスト）が存在しないか、alt属性値が空文字です。input要素のtypeがimageの時には目的を表す文字を入れてください
     criterions:
       - 1-1-1
     techs:
@@ -398,7 +399,7 @@ errors:
       - F32
 
   alt_attr_of_empty:
-    message: 空のaltですが、意味を持たない画像ですか？
+    message: 空のalt属性値（代替テキスト）ですが、情報を持たない画像ですか？
     criterions:
       - 1-1-1
     notice: true
@@ -422,7 +423,7 @@ errors:
       - G197
 
   alt_attr_of_blank_only:
-    message: 装飾目的の画像の場合、altは空白文字でなく、空にしてください
+    message: 装飾目的の画像の場合、alt属性値（代替テキスト）は空白文字でなく、空にしてください
     criterions:
       - 1-1-1
     notice: true

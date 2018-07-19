@@ -1,6 +1,7 @@
 errors:
 
   alt_attr_of_img:
+    title: existence of alt attribute
     message: The alt attribute of the img element is missing. Please do not omit the alt attribute value itself even for images for decorative purposes
     criterions:
       - 1-1-1

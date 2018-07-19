@@ -261,4 +261,18 @@ class Values
 		// Google Analytics
 		defined('A11YC_POST_GOOGLE_ANALYTICS_CODE') or define('A11YC_POST_GOOGLE_ANALYTICS_CODE', '');
 	}
+
+	/**
+	 * get machine check status
+	 *
+	 * @return Array
+	 */
+	public static function machineCheckStatus()
+	{
+		return array(
+			-1 => A11YC_LANG_CHECKLIST_MACHINE_CHECK_FAILED,
+			1 => A11YC_LANG_CHECKLIST_MACHINE_CHECK_DONE,
+			2 => A11YC_LANG_CHECKLIST_MACHINE_CHECK_PASSED,
+		);
+	}
 }
