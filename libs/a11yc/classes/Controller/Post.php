@@ -288,6 +288,7 @@ class Post
 		$target_html      = '';
 		$render           = '';
 		$do_validate      = true;
+		$do_css_check     = Input::post('do_css_check', false);
 
 		// User Agent
 		$uas = Values::uas();
@@ -312,7 +313,7 @@ class Post
 		// Do Validate
 		if ($target_html && $do_validate)
 		{
-			self::validate($url, $target_html, $ua);
+			self::validate($url, $target_html, $ua, $do_css_check);
 		}
 
 		// error
@@ -342,6 +343,7 @@ class Post
 		define('A11YC_LANG_POST_TITLE', A11YC_LANG_POST_SERVICE_NAME);
 
 		// assign
+		View::assign('do_css_check'       , $do_css_check);
 		View::assign('do_validate'        , $do_validate);
 		View::assign('title'              , '');
 		View::assign('page_title'         , $page_title);
@@ -403,9 +405,10 @@ class Post
 	 * @param Strings $url
 	 * @param Strings $target_html
 	 * @param Strings $ua
+	 * @param Strings $do_css_check
 	 * @return Array
 	 */
-	private static function validate($url, $target_html, $ua)
+	private static function validate($url, $target_html, $ua, $do_css_check = false)
 	{
 		$all_errs = array(
 			'notices' => array(),
@@ -415,7 +418,6 @@ class Post
 
 		// check
 		$codes = Validate::$codes;
-		$do_css_check = Input::post('do_css_check', false);
 		Validate::$do_css_check = $do_css_check;
 		Validate::html($url, $target_html, $codes, $ua);
 		if (Validate::getErrors($url, $codes, $ua))
@@ -460,7 +462,6 @@ class Post
 		$render = Validate::getHighLightedHtml($url, $codes, $ua);
 		$raw = nl2br($render);
 
-		View::assign('do_css_check'      , $do_css_check);
 		View::assign('errs'              , $all_errs, false);
 		View::assign('errs_cnts'         , $errs_cnts);
 		View::assign('raw'               , $raw, false);

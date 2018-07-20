@@ -20,6 +20,7 @@ class TellUserFileType extends Validate
 	 */
 	public static function check($url)
 	{
+		static::$logs[$url]['tell_user_file_type'][self::$unspec] = 1;
 		$str = Element::ignoreElements(static::$hl_htmls[$url]);
 		$ms = Element::getElementsByRe($str, 'ignores', 'anchors_and_values');
 		if ( ! $ms[1]) return;
@@ -52,6 +53,7 @@ class TellUserFileType extends Validate
 					$f_inner = self::addCheckStrings($inner, $vv, $href);
 
 					list($len, $is_exists) = self::existCheck($href);
+					$tstr = $ms[0][$k];
 
 					// better text
 					if (
@@ -63,8 +65,13 @@ class TellUserFileType extends Validate
 						)
 					)
 					{
-						static::$error_ids[$url]['tell_user_file_type'][$k]['id'] = $ms[0][$k];
+						static::$logs[$url]['tell_user_file_type'][$tstr] = -1;
+						static::$error_ids[$url]['tell_user_file_type'][$k]['id'] = $tstr;
 						static::$error_ids[$url]['tell_user_file_type'][$k]['str'] = $href.': '.$inner.$len;
+					}
+					else
+					{
+						static::$logs[$url]['tell_user_file_type'][$tstr] = 2;
 					}
 
 					// broken link

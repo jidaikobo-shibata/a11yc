@@ -20,6 +20,8 @@ class SuspiciousAttributes extends Validate
 	 */
 	public static function check($url)
 	{
+		static::$logs[$url]['suspicious_attributes'][self::$unspec] = 1;
+		static::$logs[$url]['duplicated_attributes'][self::$unspec] = 1;
 		$str = Element::ignoreElements(static::$hl_htmls[$url]);
 
 		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
@@ -27,20 +29,31 @@ class SuspiciousAttributes extends Validate
 
 		foreach ($ms[0] as $k => $m)
 		{
+			$tstr = $ms[0][$k];
 			$attrs = Element::getAttributes($m);
 
 			// suspicious attributes
 			if (isset($attrs['suspicious']))
 			{
-				static::$error_ids[$url]['suspicious_attributes'][$k]['id'] = $ms[0][$k];
+				static::$logs[$url]['suspicious_attributes'][$tstr] = -1;
+				static::$error_ids[$url]['suspicious_attributes'][$k]['id'] = $tstr;
 				static::$error_ids[$url]['suspicious_attributes'][$k]['str'] = join(', ', $attrs['suspicious']);
+			}
+			else
+			{
+				static::$logs[$url]['suspicious_attributes'][$tstr] = 2;
 			}
 
 			// duplicated_attributes
 			if (isset($attrs['plural']))
 			{
-				static::$error_ids[$url]['duplicated_attributes'][$k]['id'] = $ms[0][$k];
+				static::$logs[$url]['duplicated_attributes'][$tstr] = -1;
+				static::$error_ids[$url]['duplicated_attributes'][$k]['id'] = $tstr;
 				static::$error_ids[$url]['duplicated_attributes'][$k]['str'] = $m;
+			}
+			else
+			{
+				static::$logs[$url]['duplicated_attributes'][$tstr] = 2;
 			}
 		}
 		static::addErrorToHtml($url, 'suspicious_attributes', static::$error_ids[$url], 'ignores');

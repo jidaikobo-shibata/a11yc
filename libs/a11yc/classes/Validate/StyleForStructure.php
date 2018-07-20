@@ -20,12 +20,15 @@ class StyleForStructure extends Validate
 	 */
 	public static function check($url)
 	{
+		static::$logs[$url]['style_for_structure'][self::$unspec] = 1;
 		$str = Element::ignoreElements(static::$hl_htmls[$url]);
 
 		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
+
 		foreach ($ms[0] as $k => $m)
 		{
+			$tstr = $ms[0][$k];
 			$attrs = Element::getAttributes($m);
 			if ( ! array_key_exists('style', $attrs)) continue;
 			if (
@@ -33,8 +36,13 @@ class StyleForStructure extends Validate
 				strpos($attrs['style'], 'color') !== false // includes background-color
 			)
 			{
+				static::$logs[$url]['style_for_structure'][$tstr] = -1;
 				static::$error_ids[$url]['style_for_structure'][$k]['id'] = $ms[0][$k];
 				static::$error_ids[$url]['style_for_structure'][$k]['str'] = $m;
+			}
+			else
+			{
+				static::$logs[$url]['style_for_structure'][$tstr] = 2;
 			}
 		}
 		static::addErrorToHtml($url, 'style_for_structure', static::$error_ids[$url], 'ignores');

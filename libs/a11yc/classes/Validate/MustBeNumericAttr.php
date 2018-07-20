@@ -19,9 +19,14 @@ class MustBeNumericAttr extends Validate
 	 */
 	public static function check($url)
 	{
+		static::$logs[$url]['must_be_numeric_attr'][self::$unspec] = 1;
 		$str = Element::ignoreElements(static::$hl_htmls[$url]);
 		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
-		if ( ! $ms[0]) return;
+		if ( ! $ms[0])
+		{
+			static::$logs[$url]['must_be_numeric_attr'][self::$unspec] = 4;
+			return;
+		}
 
 		$targets = array(
 			'width',
@@ -38,8 +43,13 @@ class MustBeNumericAttr extends Validate
 				if ( ! in_array($attr, $targets)) continue;
 				if ( ! is_numeric($val))
 				{
+					static::$logs[$url]['must_be_numeric_attr'][$v] = -1;
 					static::$error_ids[$url]['must_be_numeric_attr'][$k]['id'] = $v;
 					static::$error_ids[$url]['must_be_numeric_attr'][$k]['str'] = $attr;
+				}
+				else
+				{
+					static::$logs[$url]['must_be_numeric_attr'][$v] = 2;
 				}
 			}
 		}

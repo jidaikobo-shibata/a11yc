@@ -19,6 +19,7 @@ class NotLabelButTitle extends Validate
 	 */
 	public static function check($url)
 	{
+		static::$logs[$url]['not_label_but_title'][self::$unspec] = 1;
 		$str = Element::ignoreElements(static::$hl_htmls[$url]);
 		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
@@ -27,7 +28,11 @@ class NotLabelButTitle extends Validate
 		list($eles, $fors) = self::setLabelAndElement($ms);
 
 		// no form elements
-		if ( ! $eles) return;
+		if ( ! $eles)
+		{
+			static::$logs[$url]['not_label_but_title'][self::$unspec] = 4;
+			return;
+		}
 
 		// find "id" which make pair with existing "for" attribute
 		$del_eles = self::setDeleteElement($eles, $fors);
@@ -65,8 +70,13 @@ class NotLabelButTitle extends Validate
 			$title = trim(mb_convert_kana($ele['title'], 's'));
 			if (empty($title))
 			{
+				static::$logs[$url]['not_label_but_title'][$ele['tag']] = -1;
 				static::$error_ids[$url]['not_label_but_title'][$k]['id'] = $ele['tag'];
 				static::$error_ids[$url]['not_label_but_title'][$k]['str'] = $ele['tag'];
+			}
+			else
+			{
+				static::$logs[$url]['not_label_but_title'][$ele['tag']] = 2;
 			}
 		}
 		static::addErrorToHtml($url, 'not_label_but_title', static::$error_ids[$url], 'ignores');

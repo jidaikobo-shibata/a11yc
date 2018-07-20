@@ -95,7 +95,8 @@ if ($errs['errors'] || $errs['notices']):
 	<?php
 	// logs
 	if ( ! empty($logs)):
-		echo '<h2>'.A11YC_LANG_CHECKLIST_MACHINE_CHECK_LOG.'</h2>';
+		echo '<details>';
+		echo '<summary>'.A11YC_LANG_CHECKLIST_MACHINE_CHECK_LOG.'</summary>';
 	?>
 		<?php
 			foreach ($logs as $err => $log):
@@ -119,7 +120,8 @@ if ($errs['errors'] || $errs['notices']):
 			endforeach;
 		?>
 	<?php
-		endif;
+		echo '</details>';
+		endif; // logs
 	?>
 
 </div><!-- /#a11yc_validator_results -->

@@ -20,6 +20,7 @@ class TitlelessFrame extends Validate
 	 */
 	public static function check($url)
 	{
+		static::$logs[$url]['titleless_frame'][self::$unspec] = 1;
 		$str = Element::ignoreElements(static::$hl_htmls[$url]);
 		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
@@ -28,11 +29,17 @@ class TitlelessFrame extends Validate
 		{
 			if ($ms[1][$k] != 'frame' && $ms[1][$k] != 'iframe') continue;
 			$attrs = Element::getAttributes($v);
+			$tstr = $ms[0][$k];
 
 			if ( ! trim(Arr::get($attrs, 'title')))
 			{
-				static::$error_ids[$url]['titleless_frame'][$k]['id'] = $ms[0][$k];
-				static::$error_ids[$url]['titleless_frame'][$k]['str'] = $ms[0][$k];
+				static::$logs[$url]['titleless_frame'][$tstr] = -1;
+				static::$error_ids[$url]['titleless_frame'][$k]['id'] = $tstr;
+				static::$error_ids[$url]['titleless_frame'][$k]['str'] = $tstr;
+			}
+			else
+			{
+				static::$logs[$url]['titleless_frame'][$tstr] = 2;
 			}
 		}
 		static::addErrorToHtml($url, 'titleless_frame', static::$error_ids[$url], 'ignores');

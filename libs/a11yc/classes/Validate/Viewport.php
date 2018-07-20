@@ -20,7 +20,9 @@ class Viewport extends Validate
 	 */
 	public static function check($url)
 	{
+		static::$logs[$url]['user_scalable_no'][self::$unspec] = 5;
 		if (Validate::$is_partial == true) return;
+		static::$logs[$url]['user_scalable_no'][self::$unspec] = 1;
 
 		$str = Element::ignoreElements(static::$hl_htmls[$url]);
 		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
@@ -28,10 +30,17 @@ class Viewport extends Validate
 
 		foreach ($ms[1] as $k => $tag)
 		{
+			$tstr = $ms[0][$k];
+
 			if ($tag == 'meta' && strpos($ms[2][$k], 'user-scalable=no') !== false)
 			{
-				static::$error_ids[$url]['user_scalable_no'][0]['id'] = $ms[0][$k];
+				static::$logs[$url]['user_scalable_no'][$tstr] = -1;
+				static::$error_ids[$url]['user_scalable_no'][0]['id'] = $tstr;
 				static::$error_ids[$url]['user_scalable_no'][0]['str'] = 'user-scalable=no';
+			}
+			else
+			{
+				static::$logs[$url]['user_scalable_no'][$tstr] = 2;
 			}
 		}
 		static::addErrorToHtml($url, 'user_scalable_no', static::$error_ids[$url]);
