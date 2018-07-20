@@ -144,22 +144,22 @@ define('A11YC_LANG_PAGES_LABEL_EXPORT_RESULT_HTML_EXP', 'All test results HTML w
 define('A11YC_LANG_PAGES_LABEL_BULK_CHECK_ALL', 'Check All');
 
 // setup
-define('A11YC_LANG_SETUP_TITLE', 'settings');
+define('A11YC_LANG_SETTINGS_TITLE', 'settings');
 define('A11YC_LANG_SETTINGS_TITLE_BASE', 'BASIC SETTINGS');
 define('A11YC_LANG_SETTINGS_TITLE_UA', 'UA');
 define('A11YC_LANG_SETTINGS_TITLE_UA_EXP', 'You can add a UA by entering it in the last blank line. If '.A11YC_LANG_PAGES_PURGE.' is checked and sent, the user agent will be deleted but '.A11YC_LANG_UA_USING.' can not be deleted or edited except for its name.');
 define('A11YC_LANG_SETTINGS_TITLE_VERSIONS', 'Versions');
 define('A11YC_LANG_SETTINGS_TITLE_VERSIONS_EXP', 'You can name the version. Check '.A11YC_LANG_PAGES_PURGE.' and send it completely to delete that version. Please note that you can not recover. If you do not want general display, please uncheck '.A11YC_LANG_CTRL_VIEW.'.');
-define('A11YC_LANG_SETUP_TITLE_ETC', 'etc.');
-define('A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR', 'Checklist Behaviour');
-define('A11YC_LANG_SETUP_BASE_URL', 'URL of Document Root');
-define('A11YC_LANG_SETUP_CHECKLIST_BEHAVIOUR_DISAPPEAR', 'Disappear when check');
-define('A11YC_LANG_SETUP_BASIC_AUTH_TITLE', 'Basic Auth');
-define('A11YC_LANG_SETUP_BASIC_AUTH_EXP', 'If the site to be tested is protected by basic authentication, please enter the user name and password for basic authentication here.');
-define('A11YC_LANG_SETUP_BASIC_AUTH_USER', 'Basic Auth user');
-define('A11YC_LANG_SETUP_BASIC_AUTH_PASS', 'Basic Auth password');
-define('A11YC_LANG_SETUP_IS_USE_GUZZLE', 'Stop Guzzle');
-define('A11YC_LANG_SETUP_IS_USE_GUZZLE_EXP', 'If Guzzle conflicts for some reason, please stop Guzzle. Even if you stop Guzzle, you can perform accessibility checks on the updated posts, but lose features such as report creation. If possible, please remove the cause.');
+define('A11YC_LANG_SETTINGS_TITLE_ETC', 'etc.');
+define('A11YC_LANG_SETTINGS_CHECKLIST_BEHAVIOUR', 'Checklist Behaviour');
+define('A11YC_LANG_SETTINGS_BASE_URL', 'URL of Document Root');
+define('A11YC_LANG_SETTINGS_CHECKLIST_BEHAVIOUR_DISAPPEAR', 'Disappear when check');
+define('A11YC_LANG_SETTINGS_BASIC_AUTH_TITLE', 'Basic Auth');
+define('A11YC_LANG_SETTINGS_BASIC_AUTH_EXP', 'If the site to be tested is protected by basic authentication, please enter the user name and password for basic authentication here.');
+define('A11YC_LANG_SETTINGS_BASIC_AUTH_USER', 'Basic Auth user');
+define('A11YC_LANG_SETTINGS_BASIC_AUTH_PASS', 'Basic Auth password');
+define('A11YC_LANG_SETTINGS_IS_USE_GUZZLE', 'Stop Guzzle');
+define('A11YC_LANG_SETTINGS_IS_USE_GUZZLE_EXP', 'If Guzzle conflicts for some reason, please stop Guzzle. Even if you stop Guzzle, you can perform accessibility checks on the updated posts, but lose features such as report creation. If possible, please remove the cause.');
 
 define('A11YC_LANG_DECLARE_DATE', 'Declare Date');
 define('A11YC_LANG_STANDARD', 'Standard');
