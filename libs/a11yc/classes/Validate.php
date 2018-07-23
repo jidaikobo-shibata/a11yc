@@ -46,7 +46,6 @@ class Validate
 			'SameAltAndFilenameOfImg',
 			'NotLabelButTitle',
 			'UnclosedElements',
-			'InvalidSingleTagClose',
 			'SuspiciousElements',
 			'MeanlessElement',
 			'StyleForStructure',
