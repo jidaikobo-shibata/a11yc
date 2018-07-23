@@ -80,6 +80,7 @@ class SuspiciousElements extends Validate
 		foreach ($tags[1] as $tag)
 		{
 			$tag = strtolower($tag);
+			$tag = rtrim($tag, '/');
 			if (in_array($tag, $ignores)) continue; // ignore
 			if (in_array(substr($tag, 1), $ignores)) continue; // ignore
 
