@@ -205,7 +205,7 @@ class One2Two extends A11yc\Update
 
 				$results[$criterion]['result'] = $v;
 				$results[$criterion]['method'] = 0;
-				$results[$criterion]['uid']    = $v;
+				$results[$criterion]['uid']    = $uid;
 				$results[$criterion]['memo']   = $memo;
 			}
 
