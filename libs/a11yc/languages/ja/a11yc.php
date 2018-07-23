@@ -365,7 +365,7 @@ define('A11YC_LANG_POST_TECH_JWP_A11YC', 'WordPress用のプラグイン<a href=
 define('A11YC_LANG_POST_TECH_JWP_A11YC_ADD', 'Wordpressプラグイン版では、このA11yc AVSのバリデーション機能を投稿のたびに実行できるので、恒常的にアクセシビリティを意識してサイトを運営できるようになると思います');
 
 define('A11YC_LANG_POST_FEEDBACK_TITLE', 'フィードバック');
-define('A11YC_LANG_POST_FEEDBACK_EXP', '機能、解説文の表現についての要望や修正箇所等ありましたら、メール（<a href="mailto:info@jidaikobo.com">info@jidaikobo.com</a>）でもTwitterでも、なんでもよいので、ご連絡ください');
+define('A11YC_LANG_POST_FEEDBACK_EXP', '機能、解説文の表現についての要望や修正箇所等ありましたら、メール（<a href="mailto:info@jidaikobo.com">info@jidaikobo.com</a>）、<a href="https://twitter.com/jidaikobo">Twitter</a>、<a href="https://github.com/jidaikobo-shibata/a11yc">GitHub</a>など、なんでもよいので、ご連絡ください');
 
 define('A11YC_LANG_POST_DONE', '検証しました');
 define('A11YC_LANG_POST_DONE_POINTS', '%s点の指摘事項があります');

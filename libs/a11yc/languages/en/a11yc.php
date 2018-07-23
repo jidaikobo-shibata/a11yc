@@ -360,7 +360,7 @@ define('A11YC_LANG_POST_TECH_JWP_A11YC', 'Plugin for WordPress <a href="https://
 define('A11YC_LANG_POST_TECH_JWP_A11YC_ADD', 'In Wordpress Plugin, execute validation function of A11yc AVS every time posting, constantly manage the site with accessibility awareness.');
 
 define('A11YC_LANG_POST_FEEDBACK_TITLE', 'Feedback');
-define('A11YC_LANG_POST_FEEDBACK_EXP', 'If there is a request or correction part on the expression of the function, commentary, etc., please send us email (<a href="mailto:info@jidaikobo.com">info@jidaikobo.com</a>) or Twitter.');
+define('A11YC_LANG_POST_FEEDBACK_EXP', 'If there is a request or correction part on the expression of the function, commentary, etc., please send us email (<a href="mailto:info@jidaikobo.com">info@jidaikobo.com</a>), <a href="https://twitter.com/jidaikobo">Twitter</a>, <a href="https://github.com/jidaikobo-shibata/a11yc">GitHub</a>.');
 
 define('A11YC_LANG_POST_DONE', 'Done.');
 define('A11YC_LANG_POST_DONE_POINTS', '%s Warnned Points.');

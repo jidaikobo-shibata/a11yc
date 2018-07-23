@@ -41,3 +41,10 @@
 
 <h2><?php echo A11YC_LANG_POST_FEEDBACK_TITLE ?></h2>
 <p><?php echo A11YC_LANG_POST_FEEDBACK_EXP ?></p>
+
+<h2>Change Log</h2>
+
+<dl>
+<dt><time>2018-7-23</time></dt>
+	<dd>Omit checking way of close of empty element (thx <a href="https://twitter.com/momdo_">@momdo_</a>).</dd>
+</dl>
