@@ -164,10 +164,6 @@ class Html
 			$str = preg_replace($ignore, '', $str);
 		}
 
-		// set first tag
-		// $first_tags = Element::getElementsByRe($str, 'ignores', 'tags');
-		// static::$first_tag = Arr::get($first_tags, '0.0');
-
 		return $str;
 	}
 

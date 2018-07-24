@@ -19,6 +19,8 @@ class MustBeNumericAttr extends Validate
 	 */
 	public static function check($url)
 	{
+		return; // studying
+
 		static::$logs[$url]['must_be_numeric_attr'][self::$unspec] = 1;
 		$str = Element::ignoreElements(static::$hl_htmls[$url]);
 		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
@@ -41,6 +43,7 @@ class MustBeNumericAttr extends Validate
 			foreach ($attrs as $attr => $val)
 			{
 				if ( ! in_array($attr, $targets)) continue;
+
 				if ( ! is_numeric($val))
 				{
 					static::$logs[$url]['must_be_numeric_attr'][$v] = -1;

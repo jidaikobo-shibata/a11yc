@@ -12,10 +12,15 @@ namespace A11yc;
 
 class Element
 {
-	public static $first_tag = '';
 	protected static $ignored_str = '';
 	protected static $res = array();
 	protected static $attrs = array();
+	protected static $langs = array();
+
+	// escape attributes
+	protected static $attrs_oris = array();
+	protected static $attrs_reps = array();
+	protected static $attrs_reped = array();
 
 	public static $ignores = array(
 		"/\<script.+?\<\/script\>/si",
@@ -132,10 +137,6 @@ class Element
 			$str = preg_replace($ignore, '', $str);
 		}
 
-		// set first tag
-		$first_tags = Element::getElementsByRe($str, 'ignores', 'tags');
-		static::$first_tag = Arr::get($first_tags, '0.0');
-
 		static::$ignored_str = $str;
 		return $str;
 	}
@@ -161,6 +162,45 @@ class Element
 	}
 
 	/**
+	 * escapeAttrs
+	 *
+	 * @param  String $str
+	 * @return String
+	 */
+	public static function escapeAttrs($str)
+	{
+		$key = sha1($str);
+		if (isset(self::$attrs_reped[$key])) return self::$attrs_reped[$key];
+
+		preg_match_all('/([\'"][^\'"]*?[\'"])/', $str, $ms);
+		if ( ! isset($ms[0])) return $str;
+
+		if ( ! isset(self::$attrs_oris[$str]))
+		{
+			$reps = array();
+			$oris = array();
+			foreach ($ms[0] as $m)
+			{
+				$ori = $m;
+				$rep = sha1($m);
+				$oris[] = $m;
+				$reps[] = $rep;
+			}
+
+			self::$attrs_oris[$key] = $oris;
+			self::$attrs_reps[$key] = $reps;
+		}
+
+		self::$attrs_reped[$key] = str_replace(
+			self::$attrs_oris[$key],
+			self::$attrs_reps[$key],
+			$str
+		);
+
+		return self::$attrs_reped[$key];
+	}
+
+	/**
 	 * get first tag
 	 *
 	 * @param  String $str
@@ -169,13 +209,23 @@ class Element
 	public static function getFirstTag($str)
 	{
 		$str = trim($str);
+
 		if (strpos($str, '<') !== false)
 		{
-			preg_match('/\<[^\>]+?\>/is', $str, $ms);
-			if ( ! isset($ms[0])) return $retvals;
-			$str = $ms[0];
+			$key = sha1($str);
+			$str_mod = self::escapeAttrs($str);
+
+			preg_match('/\<[^\>]+?\>/is', $str_mod, $mms);
+			if ( ! isset($mms[0])) return '';
+
+			// recover attribute
+			$str = str_replace(
+				self::$attrs_reps[$key],
+				self::$attrs_oris[$key],
+				$mms[0]
+			);
 		}
-		$str = ' '.$str;
+		$str = ' '.$str; //?
 
 		// blankless
 		$str = str_replace('/>', ' />', $str);
@@ -389,29 +439,32 @@ class Element
 			return static::$res[$ignore_type][$type];
 		}
 
-		$ret = '';
+		// escape all attrs
+		$str_mod = self::escapeAttrs($str);
+
+		$ret = array();
 		switch ($type)
 		{
 			case 'anchors':
-				if (preg_match_all("/\<(?:a|area) ([^\>]+?)\>/i", $str, $ms))
+				if (preg_match_all("/\<(?:a|area) ([^\>]+?)\>/i", $str_mod, $ms))
 				{
 					$ret = $ms;
 				}
 				break;
 			case 'anchors_and_values':
-				if (preg_match_all("/\<a ([^\>]+)\>(.*?)\<\/a\>|\<area ([^\>]+?)\/\>/si", $str, $ms))
+				if (preg_match_all("/\<a ([^\>]+)\>(.*?)\<\/a\>|\<area ([^\>]+?)\/\>/si", $str_mod, $ms))
 				{
 					$ret = $ms;
 				}
 				break;
 			case 'imgs':
-				if (preg_match_all("/\<img ([^\>]+?)\>/i", $str, $ms))
+				if (preg_match_all("/\<img ([^\>]+?)\>/i", $str_mod, $ms))
 				{
 					$ret = $ms;
 				}
 				break;
 			default:
-				if (preg_match_all("/\<([a-zA-Z1-6]+?) +?([^\>]*?)[\/]*?\>|\<([a-zA-Z1-6]+?)[ \/]*?\>/i", $str, $ms))
+				if (preg_match_all("/\<([a-zA-Z1-6]+?) +?([^\>]*?)[\/]*?\>|\<([a-zA-Z1-6]+?)[ \/]*?\>/i", $str_mod, $ms))
 				{
 					foreach ($ms[1] as $k => $v)
 					{
@@ -419,6 +472,7 @@ class Element
 					}
 					$tags = $ms[1] + $ms[3];
 					ksort($tags);
+
 					$ret = array(
 						$ms[0],
 						$tags,
@@ -426,6 +480,17 @@ class Element
 					);
 				}
 				break;
+		}
+
+		// recover attribute
+		$key = sha1($str);
+		foreach ($ret as $k => $v)
+		{
+			$ret[$k] = str_replace(
+				self::$attrs_reps[$key],
+				self::$attrs_oris[$key],
+				$v
+			);
 		}
 
 		// no influence
@@ -483,4 +548,23 @@ class Element
 		return $doctype;
 	}
 
+	/**
+	 * get lang
+	 *
+	 * @param  String $url
+	 * @return String
+	 */
+	public static function getLang($url)
+	{
+		if (isset(static::$langs[$url])) return static::$langs[$url];
+		if (empty(Validate::$hl_htmls[$url])) return '';
+
+		preg_match("/\<html ([^\>]+?)\>/is", Validate::$hl_htmls[$url], $ms);
+		if ( ! isset($ms[0])) return ''; // langless
+
+		$attrs = self::getAttributes($ms[0]);
+		if ( ! isset($attrs['lang'])) return '';
+		static::$langs[$url] = $attrs['lang'];
+		return static::$langs[$url];
+	}
 }
