@@ -45,6 +45,11 @@
 <h2>Change Log</h2>
 
 <dl>
-<dt><time>2018-7-23</time></dt>
+
+<dt>2.0.2 (<time>2018-7-24</time>)</dt>
+	<dd>Improve accuracy of getting attributes from html tag (thx <a href="https://twitter.com/momdo_">@momdo_</a>).</dd>
+
+<dt>2.0.1 (<time>2018-7-23</time>)</dt>
 	<dd>Omit checking way of close of empty element (thx <a href="https://twitter.com/momdo_">@momdo_</a>).</dd>
+
 </dl>
