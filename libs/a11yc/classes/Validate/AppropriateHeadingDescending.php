@@ -31,7 +31,6 @@ class AppropriateHeadingDescending extends Validate
 		}
 
 		// get first appeared heading
-		static::$logs[$url]['appropriate_heading_descending'][self::$unspec] = 0;
 		$prev = 1;
 		foreach ($secs as $sec)
 		{
@@ -46,7 +45,7 @@ class AppropriateHeadingDescending extends Validate
 		{
 			if ($v[0] != 'h' || ! is_numeric($v[1])) continue; // skip non heading
 			$current_level = $v[1];
-			$tstr = '<'.$v.'>'.$str;
+			$tstr = '<'.$v.'>';
 
 			if ($current_level - $prev >= 2)
 			{
@@ -63,6 +62,7 @@ class AppropriateHeadingDescending extends Validate
 			}
 			$prev = $current_level;
 		}
+
 		static::addErrorToHtml($url, 'appropriate_heading_descending', static::$error_ids[$url], 'ignores');
 	}
 }
