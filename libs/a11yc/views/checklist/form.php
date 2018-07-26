@@ -61,11 +61,6 @@
 		</tr>
 		</table>
 
-		<?php
-			// validation
-			echo $validation_result;
-		?>
-
 		</div><!-- /#a11yc_targetpage_data -->
 		<?php else: ?>
 			<p><label for="a11yc_update_all"><?php echo A11YC_LANG_BULK_UPDATE ?></label>
@@ -110,6 +105,11 @@
 		</ul><!--/#a11yc_menu_principles-->
 	</div><!--/#a11yc_header_inner-->
 </div><!--/#a11yc_header-->
+
+		<?php
+			// validation
+			echo $validation_result;
+		?>
 
 <?php
 	$fcnt = 0;

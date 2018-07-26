@@ -2,19 +2,18 @@
 namespace A11yc;
 // call from post
 $is_call_from_post = isset($is_call_from_post);
-//$is_call_from_post = false;
 
 if (empty($errs['errors'])):
-	echo '<p id="a11yc_validation_not_found_error" class="a11yc_hide_if_fixedheader"><span class="a11yc_icon_fa" role="presentation" aria-hidden="true"></span>'.A11YC_LANG_CHECKLIST_NOT_FOUND_ERR.'</p>';
+	echo '<p id="a11yc_validation_not_found_error"><span class="a11yc_icon_fa" role="presentation" aria-hidden="true"></span>'.A11YC_LANG_CHECKLIST_NOT_FOUND_ERR.'</p>';
 endif;
 
 if ($errs['errors'] || $errs['notices']):
 // error
 	$html = '';
 	if ($is_call_from_post):
-		$html.='<p class="a11yc_narrow_level a11yc_hide_if_fixedheader" data-a11yc-narrow-target="#a11yc_validation_list">';
+		$html.='<p class="a11yc_narrow_level" data-a11yc-narrow-target="#a11yc_validation_list">';
 	else:
-		$html.= '<details class="a11yc_hide_if_fixedheader"><summary>';
+		$html.= '<details><summary>';
 		$html.='<h1 class="a11yc_heading a11yc_resetstyle a11yc_narrow_level" data-a11yc-narrow-target="#a11yc_validation_list">';
 		$html.= A11YC_LANG_CHECKLIST_MACHINE_CHECK;
 	endif;
@@ -35,7 +34,7 @@ if ($errs['errors'] || $errs['notices']):
 	?>
 	<div id="_a11yc_validator_results">
 
-	<div class="a11yc_hide_if_fixedheader hide">
+	<div class="hide">
 		<div id="a11yc_validation_errors" class="">
 			<div class="a11yc_controller">
 			</div><!-- /.a11yc_controller -->

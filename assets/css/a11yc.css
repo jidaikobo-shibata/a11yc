@@ -682,14 +682,6 @@ table#a11yc_rest {
 #a11yc_validator_results p {
 	margin: 1em 0;
 }
-#a11yc_validation_list,
-#a11yc_validation_notices_list,
-.a11yc_source {
-	max-height: 200px;
-	max-height: calc(50vh - 9em);
-	min-height: 2em;
-	overflow: auto;
-}
 #a11yc_post #a11yc_validation_list,
 #a11yc_post #a11yc_validation_notices_list,
 #a11yc_post .a11yc_source {
