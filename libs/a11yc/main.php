@@ -11,8 +11,8 @@
 namespace A11yc;
 
 // version
-define('A11YC_VERSION', '2.0.2');
-// git tag 2.0.2 & git push origin --tags
+define('A11YC_VERSION', '2.0.3');
+// git tag 2.0.3 & git push origin --tags
 
 // config
 $config_path = dirname(dirname(__DIR__)).'/config/config.php';

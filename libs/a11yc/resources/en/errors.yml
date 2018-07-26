@@ -548,3 +548,23 @@ errors:
     notice: true
     techs:
       - H39
+
+  fieldsetless:
+    title: check existence of fieldset when using radio/checkbox
+    message: use fieldset when using radio/checkbox
+    criterions:
+      - 1-3-1
+      - 3-3-2
+    notice: true
+    techs:
+      - H71
+
+  legendless:
+    title: check existence of lagend when using fieldset
+    message: use lagend when using fieldset
+    criterions:
+      - 1-3-1
+      - 3-3-2
+    notice: true
+    techs:
+      - H71

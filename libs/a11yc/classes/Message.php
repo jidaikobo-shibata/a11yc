@@ -86,6 +86,19 @@ class Message
 			$ret.= '</span>';
 		}
 
+		// dt - information tech
+		$refs = Values::getRefUrls();
+		if (isset($current_err['techs']))
+		{
+			foreach ($current_err['techs'] as $each_tech)
+			{
+				$tech = $yml['techs'][$each_tech];
+				$ret.= '<span class="a11yc_validation_reference_info">';
+				$ret.= '<a href="'.$refs[0]['t'].$each_tech.'.html">'.$tech['title'].'</a>';
+				$ret.= '</span>';
+			}
+		}
+
 		if ($place['id'])
 		{
 			$ret.= '<a href="#'.$anchor .'" class="a11yc_validation_error_link a11yc_level_'.$lv.' a11yc_hasicon"><span class="a11yc_icon_fa a11yc_icon_arrow_b" role="presentation" aria-hidden="true"></span>Code</a>';

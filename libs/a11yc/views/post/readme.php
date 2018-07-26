@@ -46,6 +46,10 @@
 
 <dl>
 
+<dt>2.0.3 (<time>2018-7-26</time>)</dt>
+	<dd>Add New check: fieldsetless and legendless.</dd>
+	<dd>Add link to Techniques for WCAG 2.0 into error message.</dd>
+
 <dt>2.0.2 (<time>2018-7-24</time>)</dt>
 	<dd>Improve accuracy of getting attributes from html tag (thx <a href="https://twitter.com/momdo_">@momdo_</a>).</dd>
 

@@ -56,6 +56,7 @@ class Validate
 			'Titleless',
 			'Langless',
 			'Viewport',
+			'Fieldsetless',
 			'IssuesSingle',
 
 			// link check

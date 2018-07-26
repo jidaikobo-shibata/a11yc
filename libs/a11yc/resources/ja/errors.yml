@@ -551,3 +551,23 @@ errors:
     notice: true
     techs:
       - H39
+
+  fieldsetless:
+    title: radio/checkbox使用時のfieldsetの有無
+    message: radio/checkbox使用時にはfieldsetを用いて、構造を明確にしましょう
+    criterions:
+      - 1-3-1
+      - 3-3-2
+    notice: true
+    techs:
+      - H71
+
+  legendless:
+    title: fieldset内のlegendの有無
+    message: fieldset使用時には、lagendを使いましょう
+    criterions:
+      - 1-3-1
+      - 3-3-2
+    notice: true
+    techs:
+      - H71
