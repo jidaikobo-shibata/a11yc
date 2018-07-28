@@ -99,19 +99,19 @@ class Db
 	 * @param  String $name
 	 * @return void
 	 */
-	public static function init_table($name = 'default')
+	public static function initTable($name = 'default')
 	{
 		if (empty($name)) Util::error();
 	}
 
 	/**
-	 * get_fields
+	 * get fields
 	 *
 	 * @param  String $table
 	 * @param  String $name
 	 * @return Array
 	 */
-	public static function get_fields($table, $name = 'default')
+	public static function getFields($table, $name = 'default')
 	{
 		if ( ! static::isTableExist($table, $name)) return array();
 		$instance = static::instance($name);
@@ -198,7 +198,7 @@ class Db
 		foreach ($fields as $field)
 		{
 			$retvals[$field] = FALSE;
-			foreach (self::get_fields($table, $name) as $exist_fields)
+			foreach (self::getFields($table, $name) as $exist_fields)
 			{
 				if ($exist_fields['name'] == $field)
 				{

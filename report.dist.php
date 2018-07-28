@@ -32,7 +32,7 @@ Db::forge(array(
 // 	));
 
 // init table
-Db::init_table();
+Db::initTable();
 
 // view
 View::forge(A11YC_PATH.'/views/');

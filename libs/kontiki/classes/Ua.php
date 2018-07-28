@@ -19,16 +19,16 @@ class Ua
 	 * none IE: 0
 	 * @return Integer
 	 */
-	public static function get_ie_version()
+	public static function getIEVersion()
 	{
-		if (stristr(Input::user_agent(), "MSIE"))
+		if (stristr(Input::userAgent(), "MSIE"))
 		{
-			preg_match('/MSIE\s([\d.]+)/i', Input::user_agent(), $ver);
+			preg_match('/MSIE\s([\d.]+)/i', Input::userAgent(), $ver);
 			$ver = @floor($ver[1]);
 		}
-		elseif (stristr(Input::user_agent(), "Trident"))
+		elseif (stristr(Input::userAgent(), "Trident"))
 		{
-			preg_match('/rv\:([\d.]+)/i', Input::user_agent(), $ver);
+			preg_match('/rv\:([\d.]+)/i', Input::userAgent(), $ver);
 			$ver = $ver[1];
 		}
 		else
@@ -44,38 +44,44 @@ class Ua
 	 * @return String
 	 * @link http://developer.wordpress.org/reference/functions/wp_is_mobile/
 	 */
-	public static function get_browser_type()
+	public static function getBrowserType()
 	{
 		$type = 'legacy';
 
-		if (Input::user_agent())
+		if (Input::userAgent())
 		{
 			if (self::getIEVersion() >= 10)
 			{
 				$type = 'modern';
 			}
-			else if (strpos(Input::user_agent(), 'Mobile') !== false
-			       || strpos(Input::user_agent(), 'Android') !== false
-			       || strpos(Input::user_agent(), 'Silk/') !== false
-			       || strpos(Input::user_agent(), 'Kindle') !== false
-			       || strpos(Input::user_agent(), 'BlackBerry') !== false
-			       || strpos(Input::user_agent(), 'Opera Mini') !== false
-			       || strpos(Input::user_agent(), 'Opera Mobi') !== false)
+			else if (
+				strpos(Input::userAgent(), 'Mobile') !== false ||
+				strpos(Input::userAgent(), 'Android') !== false ||
+				strpos(Input::userAgent(), 'Silk/') !== false ||
+				strpos(Input::userAgent(), 'Kindle') !== false ||
+				strpos(Input::userAgent(), 'BlackBerry') !== false ||
+				strpos(Input::userAgent(), 'Opera Mini') !== false ||
+				strpos(Input::userAgent(), 'Opera Mobi') !== false
+			)
 			{
 				$type = 'mobile';
 			}
-			else if (strpos(Input::user_agent(), 'bot') !== false
-			       || strpos(Input::user_agent(), 'spider') !== false
-			       || strpos(Input::user_agent(), 'archiver') !== false
-			       || strpos(Input::user_agent(), 'Google') !== false
-			       || strpos(Input::user_agent(), 'Yahoo') !== false)
+			else if (
+				strpos(Input::userAgent(), 'bot') !== false ||
+				strpos(Input::userAgent(), 'spider') !== false ||
+				strpos(Input::userAgent(), 'archiver') !== false ||
+				strpos(Input::userAgent(), 'Google') !== false ||
+				strpos(Input::userAgent(), 'Yahoo') !== false
+			)
 			{
 				$type = 'robot';
 			}
 			else if (isset(static::$accept))
 			{
-				if (strpos(static::$accept, 'application/xml') !== false
-						|| strpos(static::$accept, 'application/xhtml+xml') !== false)
+				if (
+					strpos(static::$accept, 'application/xml') !== false ||
+					strpos(static::$accept, 'application/xhtml+xml') !== false
+				)
 				{
 					$type = 'modern';
 				}
@@ -90,7 +96,7 @@ class Ua
 	 *
 	 * @return Bool
 	 */
-	public static function is_modern_browser()
+	public static function isModernBrowser()
 	{
 		return (bool) (self::getBrowserType() === 'modern');
 	}
@@ -100,7 +106,7 @@ class Ua
 	 *
 	 * @return Bool
 	 */
-	public static function is_legacy_browser()
+	public static function isLegacyBrowser()
 	{
 		return (bool) (self::getBrowserType() === 'legacy');
 	}
@@ -110,7 +116,7 @@ class Ua
 	 *
 	 * @return Bool
 	 */
-	public static function is_mobile()
+	public static function isMobile()
 	{
 		return (bool) (self::getBrowserType() === 'mobile');
 	}
@@ -120,7 +126,7 @@ class Ua
 	 *
 	 * @return Bool
 	 */
-	public static function is_bot()
+	public static function isBot()
 	{
 		return (bool) (self::getBrowserType() === 'robot');
 	}

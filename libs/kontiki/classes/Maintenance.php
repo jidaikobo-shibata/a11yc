@@ -58,17 +58,17 @@ class Maintenance
 			}
 
 			// garbage collection
-			static::garbage_collection($path);
+			static::garbageCollection($path);
 		}
 	}
 
 	/**
-	 * garbage_collection
+	 * garbageCollection
 	 *
 	 * @param  String $path
 	 * @return Void
 	 */
-	private static function garbage_collection ($path)
+	private static function garbageCollection ($path)
 	{
 		$path = dirname($path);
 		foreach (glob($path.'/'.'*') as $file)
