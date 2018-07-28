@@ -114,9 +114,9 @@ class Bulk
 			foreach (Input::postArr('results') as $criterion => $vv)
 			{
 				$memo   = stripslashes($vv['memo']);
-				$uid    = intval($vv['uid']);
-				$result = intval($vv['result']);
-				$method = intval($vv['method']);
+				$uid    = intval(Arr::get($vv, 'uid', 0));
+				$result = intval(Arr::get($vv, 'result', 0));
+				$method = intval(Arr::get($vv, 'method', 0));
 
 				// add results
 				$sql = 'SELECT * FROM '.A11YC_TABLE_RESULTS.' WHERE';
@@ -160,7 +160,7 @@ class Bulk
 				}
 
 				// update uncheck
-				if (Input::post('update_all') == 3 && $result['passed'] && ! $passed)
+				if (Input::post('update_all') == 3 && Arr::get($result, 'passed') && ! $passed)
 				{
 					$sql = 'UPDATE '.A11YC_TABLE_CHECKS;
 					$sql.= ' SET `is_checked` = ?';

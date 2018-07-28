@@ -335,14 +335,9 @@ class Post
 				}
 			}
 
-			if ($do_validate)
-			{
-				View::assign('result', View::fetchTpl('checklist/validate.php'), false);
-			}
-			else
-			{
-				View::assign('result', View::fetchTpl('checklist/images.php'), false);
-			}
+			// validate or image list
+			$tpl = $do_validate ? 'checklist/validate.php' : 'checklist/images.php' ;
+			View::assign('result', View::fetchTpl($tpl), false);
 		}
 
 		// title

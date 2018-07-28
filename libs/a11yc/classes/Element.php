@@ -10,6 +10,8 @@
  */
 namespace A11yc;
 
+use A11yc\Model;
+
 class Element
 {
 	protected static $ignored_strs = array();
@@ -140,6 +142,12 @@ class Element
 	public static function ignoreElements($url, $force = false)
 	{
 		if (isset(static::$ignored_strs[$url]) && ! $force) return static::$ignored_strs[$url];
+
+		if ( ! isset(Validate::$hl_htmls[$url]))
+		{
+			Model\Html::getHtml($url);
+			Validate::$hl_htmls[$url] = Model\Html::getHtml($url);
+		}
 
 		$str = self::ignoreElementsByStr(Validate::$hl_htmls[$url]);
 		static::$ignored_strs[$url] = $str;

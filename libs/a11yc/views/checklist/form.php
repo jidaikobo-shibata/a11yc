@@ -107,8 +107,10 @@
 </div><!--/#a11yc_header-->
 
 		<?php
-			// validation
-			echo $validation_result;
+			if ( ! $is_bulk):
+				// validation
+				echo $validation_result;
+			endif;
 		?>
 
 <?php
