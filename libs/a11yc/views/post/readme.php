@@ -50,6 +50,7 @@
 	<dd>Refine regular expression of extraction html tag.</dd>
 	<dd>Became able to check non UTF-8 page.</dd>
 	<dd>Update Japanese title of Techniques for WCAG 2.0.</dd>
+	<dd>Better lang check (<a href="https://github.com/jidaikobo-shibata/a11yc/issues/2">#2</a>).</dd>
 
 <dt>2.0.3 (<time>2018-7-26</time>)</dt>
 	<dd>Add New check: fieldsetless and legendless.</dd>
