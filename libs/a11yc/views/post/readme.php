@@ -46,6 +46,10 @@
 
 <dl>
 
+<dt>2.0.4 (<time>2018-7-28</time>)</dt>
+	<dd>refine regular expression of extraction html tag.</dd>
+	<dd>became able to check non UTF-8 page.</dd>
+
 <dt>2.0.3 (<time>2018-7-26</time>)</dt>
 	<dd>Add New check: fieldsetless and legendless.</dd>
 	<dd>Add link to Techniques for WCAG 2.0 into error message.</dd>
