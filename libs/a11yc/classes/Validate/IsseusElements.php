@@ -22,7 +22,7 @@ class IsseusElements extends Validate
 	 */
 	public static function check($url)
 	{
-		$str = Element::ignoreElements(static::$hl_htmls[$url]);
+		$str = Element::ignoreElements($url);
 		$n = 0;
 		foreach (Model\Issues::fetchByUrl($url) as $v)
 		{

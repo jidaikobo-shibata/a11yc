@@ -24,7 +24,7 @@ class Titleless extends Validate
 		if (Validate::$is_partial == true) return;
 		static::$logs[$url]['titleless'][self::$unspec] = 1;
 
-		$str = Element::ignoreElements(static::$hl_htmls[$url]);
+		$str = Element::ignoreElements($url);
 
 		// to locate first element at the error
 		$ms = Element::getElementsByRe($str, 'ignores', 'tags');

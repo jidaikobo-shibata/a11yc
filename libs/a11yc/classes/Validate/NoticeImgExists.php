@@ -21,7 +21,7 @@ class NoticeImgExists extends Validate
 	public static function check($url)
 	{
 		static::$logs[$url]['notice_img_exists'][self::$unspec] = 1;
-		$str = Element::ignoreElements(static::$hl_htmls[$url]);
+		$str = Element::ignoreElements($url);
 
 		$ms = Element::getElementsByRe($str, 'ignores', 'imgs');
 		if ( ! $ms[1]) return;

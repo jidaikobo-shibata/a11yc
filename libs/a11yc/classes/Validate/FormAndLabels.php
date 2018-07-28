@@ -27,7 +27,7 @@ class FormAndLabels extends Validate
 		static::$logs[$url]['contain_plural_form_elements'][self::$unspec] = 1;
 		static::$logs[$url]['lackness_of_form_ends'][self::$unspec] = 1;
 
-		$str = Element::ignoreElements(static::$hl_htmls[$url]);
+		$str = Element::ignoreElements($url);
 		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[1]) return;
 

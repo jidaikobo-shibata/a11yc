@@ -22,7 +22,7 @@ class SuspiciousAttributes extends Validate
 	{
 		static::$logs[$url]['suspicious_attributes'][self::$unspec] = 1;
 		static::$logs[$url]['duplicated_attributes'][self::$unspec] = 1;
-		$str = Element::ignoreElements(static::$hl_htmls[$url]);
+		$str = Element::ignoreElements($url);
 
 		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;

@@ -21,20 +21,20 @@ class SameAltAndFilenameOfImg extends Validate
 	public static function check($url)
 	{
 		static::$logs[$url]['same_alt_and_filename_of_img'][self::$unspec] = 1;
-		$str = Element::ignoreElements(static::$hl_htmls[$url]);
+		$str = Element::ignoreElements($url);
 		$ms = Element::getElementsByRe($str, 'ignores', 'imgs');
-		if ( ! $ms[1])
+		if ( ! $ms[0])
 		{
 			static::$logs[$url]['same_alt_and_filename_of_img'][self::$unspec] = 4;
 			return;
 		}
 
-		foreach ($ms[1] as $k => $m)
+		foreach ($ms[0] as $k => $m)
 		{
 			$attrs = Element::getAttributes($m);
 			if ( ! isset($attrs['alt']) || ! isset($attrs['src'])) continue;
 			if (empty($attrs['alt'])) continue;
-			$tstr = $ms[0][$k];
+			$tstr = $m;
 
 			$filename = basename($attrs['src']);
 			if (

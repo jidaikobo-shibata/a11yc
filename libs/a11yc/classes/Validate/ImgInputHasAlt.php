@@ -20,7 +20,7 @@ class ImgInputHasAlt extends Validate
 	public static function check($url)
 	{
 		static::$logs[$url]['img_input_has_alt'][self::$unspec] = 1;
-		$str = Element::ignoreElements(static::$hl_htmls[$url]);
+		$str = Element::ignoreElements($url);
 
 		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;

@@ -254,6 +254,7 @@ techs_codes:
       - G56
   1-4-8:
     t:
+      - G146
       - G148
       - G156
       - G169
@@ -293,7 +294,6 @@ techs_codes:
       - H91
       - SCR2
       - SCR20
-      - SCR26
       - SCR29
       - SCR35
       - PDF3
@@ -458,7 +458,6 @@ techs_codes:
       - G165
       - G195
       - C15
-      - SCR26
       - SCR31
     f:
       - F55
@@ -672,7 +671,6 @@ techs_codes:
       - H65
       - H88
       - H91
-      - SCR21
       - ARIA4
       - ARIA5
       - ARIA14

@@ -12,15 +12,10 @@ namespace A11yc;
 
 class Element
 {
-	protected static $ignored_str = '';
+	protected static $ignored_strs = array();
 	protected static $res = array();
 	protected static $attrs = array();
 	protected static $langs = array();
-
-	// escape attributes
-	protected static $attrs_oris = array();
-	protected static $attrs_reps = array();
-	protected static $attrs_reped = array();
 
 	public static $ignores = array(
 		"/\<script.+?\<\/script\>/si",
@@ -119,25 +114,35 @@ class Element
 	}
 
 	/**
-	 * ignoreElements
+	 * ignoreElementsByStr
 	 *
 	 * @param  String $str
-	 * @param  Bool $force
 	 * @return String
 	 */
-	public static function ignoreElements($str, $force = false)
+	public static function ignoreElementsByStr($str)
 	{
-		if (static::$ignored_str && ! $force) return static::$ignored_str;
-
 		// ignore comment out, script, style
 		$ignores = array_merge(static::$ignores, static::$ignores_comment_out);
-
 		foreach ($ignores as $ignore)
 		{
 			$str = preg_replace($ignore, '', $str);
 		}
+		return $str;
+	}
 
-		static::$ignored_str = $str;
+	/**
+	 * ignoreElements
+	 *
+	 * @param  String $url
+	 * @param  Bool $force
+	 * @return String
+	 */
+	public static function ignoreElements($url, $force = false)
+	{
+		if (isset(static::$ignored_strs[$url]) && ! $force) return static::$ignored_strs[$url];
+
+		$str = self::ignoreElementsByStr(Validate::$hl_htmls[$url]);
+		static::$ignored_strs[$url] = $str;
 		return $str;
 	}
 
@@ -162,45 +167,6 @@ class Element
 	}
 
 	/**
-	 * escapeAttrs
-	 *
-	 * @param  String $str
-	 * @return String
-	 */
-	public static function escapeAttrs($str)
-	{
-		$key = sha1($str);
-		if (isset(self::$attrs_reped[$key])) return self::$attrs_reped[$key];
-
-		preg_match_all('/([\'"][^\'"]*?[\'"])/', $str, $ms);
-		if ( ! isset($ms[0])) return $str;
-
-		if ( ! isset(self::$attrs_oris[$str]))
-		{
-			$reps = array();
-			$oris = array();
-			foreach ($ms[0] as $m)
-			{
-				$ori = $m;
-				$rep = sha1($m);
-				$oris[] = $m;
-				$reps[] = $rep;
-			}
-
-			self::$attrs_oris[$key] = $oris;
-			self::$attrs_reps[$key] = $reps;
-		}
-
-		self::$attrs_reped[$key] = str_replace(
-			self::$attrs_oris[$key],
-			self::$attrs_reps[$key],
-			$str
-		);
-
-		return self::$attrs_reped[$key];
-	}
-
-	/**
 	 * get first tag
 	 *
 	 * @param  String $str
@@ -210,22 +176,11 @@ class Element
 	{
 		$str = trim($str);
 
-		if (strpos($str, '<') !== false)
-		{
-			$key = sha1($str);
-			$str_mod = self::escapeAttrs($str);
+		if (strpos($str, '<') === false) return '';
 
-			preg_match('/\<[^\>]+?\>/is', $str_mod, $mms);
-			if ( ! isset($mms[0])) return '';
-
-			// recover attribute
-			$str = str_replace(
-				self::$attrs_reps[$key],
-				self::$attrs_oris[$key],
-				$mms[0]
-			);
-		}
-		$str = ' '.$str; //?
+		preg_match('/\<("[^"]*"|\'[^\']*\'|[^\'">])*\>/is', $str, $mms);
+		if ( ! isset($mms[0])) return '';
+		$str = $mms[0];
 
 		// blankless
 		$str = str_replace('/>', ' />', $str);
@@ -302,6 +257,7 @@ class Element
 					array('', $inner, self::$inner_space, self::$inner_equal, self::$inner_newline, self::$inner_newline),
 					$search);
 				$replace = $open.$replace.$close;
+
 				// replace value
 				$str = str_replace($search, $replace, $str);
 			}
@@ -439,58 +395,58 @@ class Element
 			return static::$res[$ignore_type][$type];
 		}
 
-		// escape all attrs
-		$str_mod = self::escapeAttrs($str);
-
 		$ret = array();
 		switch ($type)
 		{
 			case 'anchors':
-				if (preg_match_all("/\<(?:a|area) ([^\>]+?)\>/i", $str_mod, $ms))
+				if (preg_match_all("/\<(?:a|area) ([^\>]+?)\>/i", $str, $ms))
 				{
 					$ret = $ms;
 				}
 				break;
-			case 'anchors_and_values':
-				if (preg_match_all("/\<a ([^\>]+)\>(.*?)\<\/a\>|\<area ([^\>]+?)\/\>/si", $str_mod, $ms))
-				{
-					$ret = $ms;
-				}
-				break;
-			case 'imgs':
-				if (preg_match_all("/\<img ([^\>]+?)\>/i", $str_mod, $ms))
-				{
-					$ret = $ms;
-				}
-				break;
-			default:
-				if (preg_match_all("/\<([a-zA-Z1-6]+?) +?([^\>]*?)[\/]*?\>|\<([a-zA-Z1-6]+?)[ \/]*?\>/i", $str_mod, $ms))
-				{
-					foreach ($ms[1] as $k => $v)
-					{
-						if(empty($v)) unset($ms[1][$k]);
-					}
-					$tags = $ms[1] + $ms[3];
-					ksort($tags);
 
-					$ret = array(
-						$ms[0],
-						$tags,
-						$ms[2],
-					);
+			case 'anchors_and_values':
+				if (preg_match_all("/\<a ([^\>]+)\>(.*?)\<\/a\>|\<area ([^\>]+?)\/\>/si", $str, $ms))
+				{
+					$ret = $ms;
+				}
+				break;
+
+			default:
+//				if (preg_match_all("/\<([a-zA-Z1-6]+?) +?([^\>]*?)[\/]*?\>|\<([a-zA-Z1-6]+?)[ \/]*?\>/i", $str, $ms))
+				if (preg_match_all('/\<[^\/]("[^"]*"|\'[^\']*\'|[^\'">])*\>/is', $str, $ms))
+				{
+					$ret = array();
+					foreach ($ms[0] as $k => $v)
+					{
+						$ret[0][$k] = $v; // whole
+						if (strpos($v, ' ') !== false)
+						{
+							$ret[1][$k] = mb_substr($v, 1, mb_strpos($v, ' ') - 1); // element
+							$ret[2][$k] = mb_substr($v, mb_strpos($v, ' '), -1); // values
+						}
+						else
+						{
+							$ret[1][$k] = mb_substr($v, 1, - 1); // element
+							$ret[2][$k] = ''; // values
+						}
+					}
 				}
 				break;
 		}
 
-		// recover attribute
-		$key = sha1($str);
-		foreach ($ret as $k => $v)
+		// imgs
+		if ($type == 'imgs')
 		{
-			$ret[$k] = str_replace(
-				self::$attrs_reps[$key],
-				self::$attrs_oris[$key],
-				$v
-			);
+			foreach ($ret[1] as $k => $v)
+			{
+				if ($v != 'img')
+				{
+					unset($ret[0][$k]);
+					unset($ret[1][$k]);
+					unset($ret[2][$k]);
+				}
+			}
 		}
 
 		// no influence

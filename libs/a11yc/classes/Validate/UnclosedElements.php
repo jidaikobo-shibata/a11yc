@@ -21,7 +21,7 @@ class UnclosedElements extends Validate
 	public static function check($url)
 	{
 		static::$logs[$url]['unclosed_elements'][self::$unspec] = 1;
-		$str = Element::ignoreElements(static::$hl_htmls[$url]);
+		$str = Element::ignoreElements($url);
 
 		// tags
 		preg_match_all("/\<([^\>\n]+?)\</i", $str, $tags);

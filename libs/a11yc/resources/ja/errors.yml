@@ -180,13 +180,13 @@ errors:
       - H57
       - H58
 
-  different_lang:
-    title: 矛盾したlang属性値
-    message: langの値が矛盾しています
-    criterions:
-      - 4-1-1
-    techs:
-      - H57
+  # different_lang:
+  #   title: 矛盾したlang属性値
+  #   message: langの値が矛盾しています
+  #   criterions:
+  #     - 4-1-1
+  #   techs:
+  #     - H57
 
   invalid_page_lang:
     title: 妥当なlang属性値

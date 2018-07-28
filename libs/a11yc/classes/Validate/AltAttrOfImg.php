@@ -21,9 +21,10 @@ class AltAttrOfImg extends Validate
 	public static function check($url)
 	{
 		static::$logs[$url]['alt_attr_of_img'][self::$unspec] = 1;
-		$str = Element::ignoreElements(static::$hl_htmls[$url]);
+		$str = Element::ignoreElements($url);
 
 		$ms = Element::getElementsByRe($str, 'ignores', 'imgs');
+
 		if ( ! $ms[1])
 		{
 			static::$logs[$url]['alt_attr_of_img'][self::$unspec] = 4;
@@ -31,9 +32,9 @@ class AltAttrOfImg extends Validate
 		}
 		static::$logs[$url]['alt_attr_of_img'][self::$unspec] = 0;
 
-		foreach ($ms[1] as $k => $m)
+		foreach ($ms[0] as $k => $m)
 		{
-			$tstr = $ms[0][$k];
+			$tstr = $m;
 			static::$logs[$url]['alt_attr_of_img'][$tstr] = 1;
 
 			// alt_attr_of_img

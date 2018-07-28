@@ -22,7 +22,7 @@ class DuplicatedIdsAndAccesskey extends Validate
 	{
 		static::$logs[$url]['duplicated_ids'][self::$unspec] = 1;
 		static::$logs[$url]['duplicated_accesskeys'][self::$unspec] = 1;
-		$str = Element::ignoreElements(static::$hl_htmls[$url]);
+		$str = Element::ignoreElements($url);
 
 		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;

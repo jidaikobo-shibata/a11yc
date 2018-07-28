@@ -22,7 +22,7 @@ class MustBeNumericAttr extends Validate
 		return; // studying
 
 		static::$logs[$url]['must_be_numeric_attr'][self::$unspec] = 1;
-		$str = Element::ignoreElements(static::$hl_htmls[$url]);
+		$str = Element::ignoreElements($url);
 		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0])
 		{

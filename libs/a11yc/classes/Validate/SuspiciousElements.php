@@ -23,7 +23,7 @@ class SuspiciousElements extends Validate
 		static::$logs[$url]['too_much_opens'][self::$unspec] = 2;
 		static::$logs[$url]['too_much_ends'][self::$unspec] = 2;
 		static::$logs[$url]['suspicious_ends'][self::$unspec] = 2;
-		$str = Element::ignoreElements(static::$hl_htmls[$url]);
+		$str = Element::ignoreElements($url);
 
 		// tags
 		preg_match_all("/\<([^\> \n]+)/i", $str, $tags);

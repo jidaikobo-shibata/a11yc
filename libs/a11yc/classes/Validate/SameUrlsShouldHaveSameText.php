@@ -25,7 +25,7 @@ class SameUrlsShouldHaveSameText extends Validate
 		static::$logs[$url]['same_urls_should_have_same_text'][self::$unspec] = 1;
 
 		// urls
-		$str = Element::ignoreElements(static::$hl_htmls[$url]);
+		$str = Element::ignoreElements($url);
 		$ms = Element::getElementsByRe($str, 'ignores', 'anchors_and_values');
 		if ( ! $ms[1])
 		{

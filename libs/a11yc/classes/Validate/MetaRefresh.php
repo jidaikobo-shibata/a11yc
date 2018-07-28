@@ -24,7 +24,7 @@ class MetaRefresh extends Validate
 		if (Validate::$is_partial == true) return;
 		static::$logs[$url]['meta_refresh'][self::$unspec] = 1;
 
-		$str = Element::ignoreElements(static::$hl_htmls[$url]);
+		$str = Element::ignoreElements($url);
 		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 

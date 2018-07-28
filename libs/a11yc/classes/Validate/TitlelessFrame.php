@@ -21,7 +21,7 @@ class TitlelessFrame extends Validate
 	public static function check($url)
 	{
 		static::$logs[$url]['titleless_frame'][self::$unspec] = 1;
-		$str = Element::ignoreElements(static::$hl_htmls[$url]);
+		$str = Element::ignoreElements($url);
 		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 

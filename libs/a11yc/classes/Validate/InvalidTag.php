@@ -23,7 +23,7 @@ class InvalidTag extends Validate
 		static::$logs[$url]['cannot_contain_newline'][self::$unspec] = 1;
 		static::$logs[$url]['unbalanced_quotation'][self::$unspec] = 1;
 		static::$logs[$url]['cannot_contain_multibyte_space'][self::$unspec] = 1;
-		$str = Element::ignoreElements(static::$hl_htmls[$url]);
+		$str = Element::ignoreElements($url);
 		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 

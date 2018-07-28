@@ -35,7 +35,6 @@ class Validate
 			'SameUrlsShouldHaveSameText',
 			'EmptyLinkElement',
 			'FormAndLabels',
-			'HeaderlessSection',
 			'IsseusElements',
 			'Table',
 
@@ -58,6 +57,7 @@ class Validate
 			'Viewport',
 			'Fieldsetless',
 			'IssuesSingle',
+			'HeaderlessSection',
 
 			// link check
 			'LinkCheck',

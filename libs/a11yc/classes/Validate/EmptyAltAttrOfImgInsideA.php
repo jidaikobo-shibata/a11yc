@@ -21,7 +21,7 @@ class EmptyAltAttrOfImgInsideA extends Validate
 	public static function check($url)
 	{
 		static::$logs[$url]['empty_alt_attr_of_img_inside_a'][self::$unspec] = 1;
-		$str = Element::ignoreElements(static::$hl_htmls[$url]);
+		$str = Element::ignoreElements($url);
 
 		$ms = Element::getElementsByRe($str, 'ignores', 'anchors_and_values');
 		if ( ! $ms[2])

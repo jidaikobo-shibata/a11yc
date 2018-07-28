@@ -25,7 +25,7 @@ class JaWordBreakingSpace extends Validate
 		static::$logs[$url]['ja_word_breaking_space'][self::$unspec] = 1;
 
 		$str = str_replace(array("\n", "\r"), '', static::$hl_htmls[$url]);
-		$str = Element::ignoreElements(static::$hl_htmls[$url]);
+		$str = Element::ignoreElements($url);
 
 		$search = '[^\x01-\x7E][ 　]{2,}[^\x01-\x7E]'; // MB+spaces+MB
 		$search.= '|[^\x01-\x7E][ 　]+[^\x01-\x7E][ 　]'; // MB+space(s)+MB+space

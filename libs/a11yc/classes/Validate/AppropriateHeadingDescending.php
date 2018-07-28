@@ -21,7 +21,7 @@ class AppropriateHeadingDescending extends Validate
 	public static function check($url)
 	{
 		static::$logs[$url]['appropriate_heading_descending'][self::$unspec] = 1;
-		$str = Element::ignoreElements(static::$hl_htmls[$url]);
+		$str = Element::ignoreElements($url);
 
 		$secs = preg_split("/\<(h[^\>?]+?)\>(.+?)\<\/h\d/", $str, -1, PREG_SPLIT_DELIM_CAPTURE);
 		if ( ! $secs[0])

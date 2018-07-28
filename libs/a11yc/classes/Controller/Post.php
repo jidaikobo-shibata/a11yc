@@ -284,17 +284,23 @@ class Post
 		$default_ua       = Input::userAgent();
 		$page_title       = '';
 		$real_url         = '';
-		$doc_root         = Input::post('doc_root', Crawl::getHostFromUrl($url));
+		$doc_root         = Input::post('doc_root');
 		$target_html      = '';
 		$render           = '';
 		$do_validate      = true;
 		$do_css_check     = Input::post('do_css_check', false);
+
+		// host check
+		$doc_root = strpos($url, $doc_root) !== false ? $doc_root : Crawl::getHostFromUrl($url);
 
 		// User Agent
 		$uas = Values::uas();
 		$ua = Arr::get($uas, $user_agent) ? $user_agent : $default_ua;
 		$current_ua = Arr::get($uas, "{$user_agent}.str");
 		$current_ua = $current_ua ?: $default_ua;
+
+		// fallback
+		View::assign('errs', array());
 
 		// auth - if limit die here
 		self::auth();

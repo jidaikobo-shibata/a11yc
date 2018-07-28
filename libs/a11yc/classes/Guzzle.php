@@ -138,6 +138,8 @@ class Guzzle
 			return null;
 		}
 
+		if ($response->getStatusCode() == '405') return self::get();
+
 		// set values
 		$this->status_code = $response->getStatusCode();
 		$this->headers     = $response->getHeaders();

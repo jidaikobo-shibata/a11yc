@@ -22,7 +22,7 @@ class Fieldsetless extends Validate
 	{
 		static::$logs[$url]['fieldsetless'][self::$unspec] = 1;
 		static::$logs[$url]['legendless'][self::$unspec] = 1;
-		$str = Element::ignoreElements(static::$hl_htmls[$url]);
+		$str = Element::ignoreElements($url);
 
 		$ms = Element::getElementsByRe($str, 'ignores');
 		if ( ! $ms[1]) return;
@@ -42,10 +42,11 @@ class Fieldsetless extends Validate
 		}
 		$radio_check_names = array_unique($radio_check_names);
 
-		if (empty($radio_check_names))
+		if (isset($radio_check_names[0]) && is_null($radio_check_names[0]))
 		{
 			static::$logs[$url]['fieldsetless'][self::$unspec] = 4;
 			static::$logs[$url]['legendless'][self::$unspec] = 4;
+			return;
 		}
 
 		// get fieldset if exists

@@ -177,13 +177,13 @@ errors:
       - H57
       - H58
 
-  different_lang:
-    title: different lang
-    message: The value of lang is inconsistent
-    criterions:
-      - 4-1-1
-    techs:
-      - H57
+  # different_lang:
+  #   title: different lang
+  #   message: The value of lang is inconsistent
+  #   criterions:
+  #     - 4-1-1
+  #   techs:
+  #     - H57
 
   invalid_page_lang:
     title: invalid page lang

@@ -25,7 +25,7 @@ class Table extends Validate
 		static::$logs[$url]['table_use_valid_scope'][self::$unspec] = 1;
 		static::$logs[$url]['table_use_summary'][self::$unspec] = 1;
 		static::$logs[$url]['table_use_caption'][self::$unspec] = 1;
-		$str = Element::ignoreElements(static::$hl_htmls[$url]);
+		$str = Element::ignoreElements($url);
 
 		preg_match_all('/\<table[^\>]*?\>.+?\<\/table\>/ims', $str, $ms);
 

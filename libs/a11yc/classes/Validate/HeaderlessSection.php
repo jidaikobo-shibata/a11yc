@@ -21,7 +21,7 @@ class HeaderlessSection extends Validate
 	public static function check($url)
 	{
 		static::$logs[$url]['headerless_section'][self::$unspec] = 1;
-		$str = Element::ignoreElements(static::$hl_htmls[$url]);
+		$str = Element::ignoreElements($url);
 
 		preg_match_all("/\<section[^\>]*?\>(.+?)\<\/section\>/is", $str, $secs);
 
@@ -36,8 +36,8 @@ class HeaderlessSection extends Validate
 			if ( ! preg_match("/\<h\d/", $v))
 			{
 				static::$logs[$url]['headerless_section'][$v] = -1;
-				static::$error_ids[$url]['headerless_section'][$k]['id'] = $v;
-				static::$error_ids[$url]['headerless_section'][$k]['str'] = $secs[1][$k];
+				static::$error_ids[$url]['headerless_section'][$k]['id'] = Element::getFirstTag($v);
+				static::$error_ids[$url]['headerless_section'][$k]['str'] = Element::getFirstTag($v);
 			}
 			else
 			{

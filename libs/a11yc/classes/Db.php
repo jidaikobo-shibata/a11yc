@@ -42,7 +42,7 @@ class Db extends \Kontiki\Db
 		$sql.= '`url`              VARCHAR(2048) NOT NULL DEFAULT "",';
 		$sql.= '`alt_url`          VARCHAR(2048) NOT NULL DEFAULT "",';
 		$sql.= '`type`             INTEGER NOT NULL DEFAULT 1,';
-		$sql.= '`title`            TEXT,';
+		$sql.= '`title`            TEXT CHARACTER SET utf8,';
 		$sql.= '`level`            INTEGER NOT NULL DEFAULT 0,';
 		$sql.= '`standard`         INTEGER NOT NULL DEFAULT 1,';
 		$sql.= '`selection_reason` INTEGER NOT NULL DEFAULT 1,';
@@ -70,8 +70,8 @@ class Db extends \Kontiki\Db
 		$auto_increment = A11YC_DB_TYPE == 'mysql' ? 'auto_increment' : '' ;
 		$sql = 'CREATE TABLE '.A11YC_TABLE_UAS.' (';
 		$sql.= '`id`   INTEGER NOT NULL PRIMARY KEY '.$auto_increment.',';
-		$sql.= '`name` TEXT,';
-		$sql.= '`str`  TEXT';
+		$sql.= '`name` TEXT CHARACTER SET utf8,';
+		$sql.= '`str`  TEXT CHARACTER SET utf8';
 		$sql.= ');';
 		static::execute($sql, array(), $name);
 
@@ -91,7 +91,7 @@ class Db extends \Kontiki\Db
 		$sql.= '`url`        VARCHAR(2048) NOT NULL DEFAULT "",';
 		$sql.= '`ua`         VARCHAR(2048) NOT NULL DEFAULT "",';
 		$sql.= '`type`       VARCHAR(20) NOT NULL,';
-		$sql.= '`data`       TEXT,';
+		$sql.= '`data`       TEXT CHARACTER SET utf8,';
 		$sql.= '`updated_at` DATETIME';
 		$sql.= ');';
 		static::execute($sql, array(), $name);
@@ -112,7 +112,7 @@ class Db extends \Kontiki\Db
 		// init version status
 		$sql = 'CREATE TABLE '.A11YC_TABLE_VERSIONS.' (';
 		$sql.= '`version` INTEGER NOT NULL PRIMARY KEY,';
-		$sql.= '`name`    TEXT,';
+		$sql.= '`name`    TEXT CHARACTER SET utf8,';
 		$sql.= '`trash`   INTEGER NOT NULL DEFAULT 0';
 		$sql.= ');';
 		static::execute($sql, array(), $name);
@@ -150,7 +150,7 @@ class Db extends \Kontiki\Db
 		$sql = 'CREATE TABLE '.A11YC_TABLE_RESULTS.' (';
 		$sql.= '`url`       VARCHAR(2048) NOT NULL DEFAULT "",';
 		$sql.= '`criterion` VARCHAR(10) NOT NULL,';
-		$sql.= '`memo`      text,';
+		$sql.= '`memo`      TEXT CHARACTER SET utf8,';
 		$sql.= '`uid`       INTEGER NOT NULL,';
 		$sql.= '`result`    INTEGER NOT NULL,';
 		$sql.= '`method`    INTEGER NOT NULL,';
@@ -178,7 +178,7 @@ class Db extends \Kontiki\Db
 		// init bulk results
 		$sql = 'CREATE TABLE '.A11YC_TABLE_BRESULTS.' (';
 		$sql.= '`criterion` VARCHAR(10) NOT NULL,';
-		$sql.= '`memo`      text,';
+		$sql.= '`memo`      TEXT CHARACTER SET utf8,';
 		$sql.= '`uid`       INTEGER NOT NULL,';
 		$sql.= '`result`    INTEGER NOT NULL,';
 		$sql.= '`method`    INTEGER NOT NULL';
@@ -200,11 +200,11 @@ class Db extends \Kontiki\Db
 		$sql.= '`is_common`     BOOL NOT NULL DEFAULT 0,';
 		$sql.= '`url`           TEXT NOT NULL DEFAULT "",';
 		$sql.= '`criterion`     VARCHAR(10) NOT NULL,';
-		$sql.= '`html`          TEXT,';
+		$sql.= '`html`          TEXT CHARACTER SET utf8,';
 		$sql.= '`n_or_e`        INTEGER NOT NULL DEFAULT 0,'; // notice or error
 		$sql.= '`status`        INTEGER NOT NULL DEFAULT 0,';
 		$sql.= '`tech_url`      VARCHAR(255) NOT NULL,'; // some unique strings
-		$sql.= '`error_message` TEXT,';
+		$sql.= '`error_message` TEXT CHARACTER SET utf8,';
 		$sql.= '`created_at`    DATETIME,';
 		$sql.= '`uid`           INTEGER NOT NULL DEFAULT 0,';
 		$sql.= '`version`       INTEGER NOT NULL DEFAULT 0';
@@ -228,7 +228,7 @@ class Db extends \Kontiki\Db
 		$sql.= '`issue_id`   INTEGER NOT NULL DEFAULT 0,';
 		$sql.= '`uid`        INTEGER NOT NULL DEFAULT 0,';
 		$sql.= '`created_at` DATETIME,';
-		$sql.= '`message`    TEXT';
+		$sql.= '`message`    TEXT CHARACTER SET utf8';
 		$sql.= ');';
 		static::execute($sql, array(), $name);
 
@@ -238,15 +238,15 @@ class Db extends \Kontiki\Db
 		$sql.= '`standard`              INTEGER NOT NULL DEFAULT 0,';
 		$sql.= '`selected_method`       INTEGER NOT NULL DEFAULT 0,';
 		$sql.= '`declare_date`          DATE,';
-		$sql.= '`test_period`           TEXT,';
-		$sql.= '`dependencies`          TEXT,';
-		$sql.= '`contact`               TEXT,';
-		$sql.= '`policy`                TEXT,';
-		$sql.= '`report`                TEXT,';
-		$sql.= '`additional_criterions` TEXT,';
+		$sql.= '`test_period`           TEXT CHARACTER SET utf8,';
+		$sql.= '`dependencies`          TEXT CHARACTER SET utf8,';
+		$sql.= '`contact`               TEXT CHARACTER SET utf8,';
+		$sql.= '`policy`                TEXT CHARACTER SET utf8,';
+		$sql.= '`report`                TEXT CHARACTER SET utf8,';
+		$sql.= '`additional_criterions` TEXT CHARACTER SET utf8,';
 		$sql.= '`base_url`              VARCHAR(255) NOT NULL,';
-		$sql.= '`basic_user`            TEXT,';
-		$sql.= '`basic_pass`            TEXT,';
+		$sql.= '`basic_user`            TEXT CHARACTER SET utf8,';
+		$sql.= '`basic_pass`            TEXT CHARACTER SET utf8,';
 		$sql.= '`checklist_behaviour`   BOOL NOT NULL DEFAULT 0,';
 		$sql.= '`stop_guzzle`           BOOL NOT NULL DEFAULT 0,';
 		$sql.= '`version`               INTEGER NOT NULL DEFAULT 0';

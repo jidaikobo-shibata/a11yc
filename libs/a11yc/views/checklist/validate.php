@@ -7,7 +7,7 @@ if (empty($errs['errors'])):
 	echo '<p id="a11yc_validation_not_found_error"><span class="a11yc_icon_fa" role="presentation" aria-hidden="true"></span>'.A11YC_LANG_CHECKLIST_NOT_FOUND_ERR.'</p>';
 endif;
 
-if ($errs['errors'] || $errs['notices']):
+if (Arr::get($errs, 'errors') || Arr::get($errs, 'notices')):
 // error
 	$html = '';
 	if ($is_call_from_post):

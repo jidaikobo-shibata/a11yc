@@ -49,11 +49,44 @@ class Html
 				'User-Agent',
 				Util::s($ua.' GuzzleHttp/a11yc (+http://www.jidaikobo.com)')
 			);
-		static::$htmls[$url][$ua][$type] = Guzzle::instance($url)->is_html ?
-																			Guzzle::instance($url)->body :
-																			false;
+		$bool_or_html = Guzzle::instance($url)->is_html ?
+									Guzzle::instance($url)->body :
+									false;
 
-		return static::$htmls[$url][$ua][$type];
+		// failed to fetch
+		if ( ! $bool_or_html)
+		{
+			static::$htmls[$url][$ua][$type] = false;
+			return false;
+		}
+
+		// normally fetch by UTF-8
+		if (mb_detect_encoding($bool_or_html) == 'UTF-8')
+		{
+			static::$htmls[$url][$ua][$type] = $bool_or_html;
+			return $bool_or_html;
+		}
+
+		// not UTF-8...
+		$str = Element::ignoreElementsByStr($bool_or_html);
+		// Do not use Element::getElementsByRe() because crashed character cause bad cache
+		preg_match_all("/\<([a-zA-Z1-6]+?) +?([^\>]*?)[\/]*?\>|\<([a-zA-Z1-6]+?)[ \/]*?\>/i", $str, $ms);
+
+		$charset = '';
+		foreach ($ms[1] as $k => $v)
+		{
+			if ($v == 'meta')
+			{
+				$attrs = Element::getAttributes($ms[0][$k]);
+				if ($charset = Arr::get($attrs, 'charset')) break;
+			}
+		}
+
+		$bool_or_html = mb_convert_encoding($bool_or_html, 'UTF-8', $charset);
+
+		static::$htmls[$url][$ua][$type] = $bool_or_html;
+
+		return $bool_or_html;
 	}
 
 	/**
