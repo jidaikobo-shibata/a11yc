@@ -27,21 +27,7 @@ class Fieldsetless extends Validate
 		$ms = Element::getElementsByRe($str, 'ignores');
 		if ( ! $ms[1]) return;
 
-		// radio button existence check
-		$radio_check_names = array();
-		foreach ($ms[0] as $m)
-		{
-			$attrs = Element::getAttributes($m);
-			if (
-				Arr::get($attrs, 'type') == 'radio' ||
-				Arr::get($attrs, 'type') == 'checkbox'
-			)
-			{
-				$radio_check_names[] = Arr::get($attrs, 'name');
-			}
-		}
-		$radio_check_names = array_unique($radio_check_names);
-
+		$radio_check_names = self::getRadioCheckNames($ms[0]);
 		if (isset($radio_check_names[0]) && is_null($radio_check_names[0]))
 		{
 			static::$logs[$url]['fieldsetless'][self::$unspec] = 4;
@@ -54,20 +40,52 @@ class Fieldsetless extends Validate
 		preg_match_all('/\<fieldset\>(.+?)\<\/fieldset\>/is', $str, $mms);
 
 		// legendless
-		foreach ($mms[0] as $k => $mm)
+		self::legendless($mms[0]);
+
+		// get troubled radio and checkboxes name
+		$radio_check_names = self::eliminateRadioCheckNames($mms[0], $radio_check_names);
+		self::fieldsetless($ms, $radio_check_names);
+
+		// add errors
+		static::addErrorToHtml($url, 'legendless', static::$error_ids[$url], 'ignores');
+		static::addErrorToHtml($url, 'fieldsetless', static::$error_ids[$url], 'ignores');
+	}
+
+	/**
+	 * getRadioCheckNames
+	 *
+	 * @param  Array $ms
+	 * @return Array
+	 */
+	private static function getRadioCheckNames($ms)
+	{
+		// radio button existence check
+		$radio_check_names = array();
+		foreach ($ms as $m)
 		{
-			if (strpos($mm, '</legend>') === false)
+			$attrs = Element::getAttributes($m);
+			if (
+				Arr::get($attrs, 'type') == 'radio' ||
+				Arr::get($attrs, 'type') == 'checkbox'
+			)
 			{
-				$tstr = mb_substr($mm, 0, mb_strpos($mm, '>') + 1);
-				static::$logs[$url]['legendless'][$tstr] = -1;
-				static::$error_ids[$url]['legendless'][$k]['id'] = $tstr;
-				static::$error_ids[$url]['legendless'][$k]['str'] = $tstr;
+				$radio_check_names[] = Arr::get($attrs, 'name');
 			}
 		}
 
-		// fieldsetless
-		$fileds = array();
-		foreach ($mms[0] as $k => $mm)
+		return  array_unique($radio_check_names);
+	}
+
+	/**
+	 * eliminateRadioCheckNames
+	 *
+	 * @param  Array $mms
+	 * @param  Array $radio_check_names
+	 * @return Array
+	 */
+	private static function eliminateRadioCheckNames($mms, $radio_check_names)
+	{
+		foreach ($mms as $k => $mm)
 		{
 			$mm_mod = $mm;
 			foreach ($ignores as $ignore)
@@ -90,18 +108,45 @@ class Fieldsetless extends Validate
 				}
 			}
 		}
+		return $radio_check_names;
+	}
 
-		$flags = array();
-		// $radio_check_names are currently, troubled forms
+	/**
+	 * legendless
+	 *
+	 * @param  Array $mms
+	 * @return Void
+	 */
+	private static function legendless($mms)
+	{
+		foreach ($mms as $k => $mm)
+		{
+			if (strpos($mm, '</legend>') === false)
+			{
+				$tstr = mb_substr($mm, 0, mb_strpos($mm, '>') + 1);
+				static::$logs[$url]['legendless'][$tstr] = -1;
+				static::$error_ids[$url]['legendless'][$k]['id'] = $tstr;
+				static::$error_ids[$url]['legendless'][$k]['str'] = $tstr;
+			}
+		}
+	}
+
+	/**
+	 * legendless
+	 *
+	 * @param  Array $ms
+	 * @param  Array $radio_check_names
+	 * @return Void
+	 */
+	private static function fieldsetless($ms, $radio_check_names)
+	{
 		foreach ($radio_check_names as $radio_check_name)
 		{
-			foreach ($ms[0] as $k => $v)
+			foreach ($ms as $k => $v)
 			{
 				$attrs = Element::getAttributes($v);
 				if (Arr::get($attrs, 'name') == $radio_check_name)
 				{
-					$flags[] = $radio_check_name;
-
 					static::$logs[$url]['fieldsetless'][$v] = -1;
 					static::$error_ids[$url]['fieldsetless'][$k]['id'] = $v;
 					static::$error_ids[$url]['fieldsetless'][$k]['str'] = $v;
@@ -109,8 +154,6 @@ class Fieldsetless extends Validate
 				}
 			}
 		}
-
-		static::addErrorToHtml($url, 'legendless', static::$error_ids[$url], 'ignores');
-		static::addErrorToHtml($url, 'fieldsetless', static::$error_ids[$url], 'ignores');
 	}
+
 }
