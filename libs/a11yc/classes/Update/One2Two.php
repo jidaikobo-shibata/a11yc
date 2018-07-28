@@ -105,47 +105,7 @@ class One2Two extends A11yc\Update
 	private static function pages($pages_old_tbl, $checks_old_tbl)
 	{
 		// migrate pages
-		$sql = 'SELECT * FROM '.$pages_old_tbl.';';
-		$pages = Db::fetchAll($sql);
-
-		$sql = 'DELETE FROM '.A11YC_TABLE_PAGES.' WHERE 1 = 1;';
-		Db::execute($sql);
-
-		foreach ($pages as $page)
-		{
-			$sql = 'INSERT INTO '.A11YC_TABLE_PAGES.' (';
-			$sql.= '`url`, ';
-			$sql.= '`alt_url`, ';
-			$sql.= '`type`, ';
-			$sql.= '`title`, ';
-			$sql.= '`level`, ';
-			$sql.= '`standard`, ';
-			$sql.= '`selection_reason`, ';
-			$sql.= '`done`, ';
-			$sql.= '`trash`, ';
-			$sql.= '`date`, ';
-			$sql.= '`created_at`, ';
-			$sql.= '`updated_at`, ';
-			$sql.= '`version`';
-			$sql.= ') VALUES ';
-			$sql.= '(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0);';
-
-			Db::execute($sql, array(
-					is_null($page['url'])              ? '' : Arr::get($page, 'url', ''),
-					is_null($page['alt_url'])          ? '' : Arr::get($page, 'alt_url', ''),
-					1,
-					is_null($page['page_title'])       ? '' : Arr::get($page, 'page_title', ''),
-					is_null($page['level'])            ? '' : Arr::get($page, 'level', ''),
-					is_null($page['standard'])         ? '' : Arr::get($page, 'standard', ''),
-					is_null($page['selection_reason']) ? '' : Arr::get($page, 'selection_reason', ''),
-					is_null($page['done'])             ? '' : Arr::get($page, 'done', ''),
-					is_null($page['trash'])            ? '' : Arr::get($page, 'trash', ''),
-					is_null($page['date'])             ? '' : Arr::get($page, 'date', ''),
-					is_null($page['add_date'])         ? '' : Arr::get($page, 'add_date', ''),
-					date('Y-m-d H:i:s')
-				)
-			);
-		}
+		self::migratePages($pages_old_tbl);
 
 		// yaml
 		$yml = self::yml();
@@ -210,6 +170,57 @@ class One2Two extends A11yc\Update
 			}
 
 			Model\Results::update($url, $results);
+		}
+	}
+
+	/**
+	 * migratePage
+	 *
+	 * @param String $pages_old_tbl
+	 * @return Void
+	 */
+	private static function migratePage($pages_old_tbl)
+	{
+		$sql = 'SELECT * FROM '.$pages_old_tbl.';';
+		$pages = Db::fetchAll($sql);
+
+		$sql = 'DELETE FROM '.A11YC_TABLE_PAGES.' WHERE 1 = 1;';
+		Db::execute($sql);
+
+		foreach ($pages as $page)
+		{
+			$sql = 'INSERT INTO '.A11YC_TABLE_PAGES.' (';
+			$sql.= '`url`, ';
+			$sql.= '`alt_url`, ';
+			$sql.= '`type`, ';
+			$sql.= '`title`, ';
+			$sql.= '`level`, ';
+			$sql.= '`standard`, ';
+			$sql.= '`selection_reason`, ';
+			$sql.= '`done`, ';
+			$sql.= '`trash`, ';
+			$sql.= '`date`, ';
+			$sql.= '`created_at`, ';
+			$sql.= '`updated_at`, ';
+			$sql.= '`version`';
+			$sql.= ') VALUES ';
+			$sql.= '(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0);';
+
+			Db::execute($sql, array(
+					is_null($page['url'])              ? '' : Arr::get($page, 'url', ''),
+					is_null($page['alt_url'])          ? '' : Arr::get($page, 'alt_url', ''),
+					1,
+					is_null($page['page_title'])       ? '' : Arr::get($page, 'page_title', ''),
+					is_null($page['level'])            ? '' : Arr::get($page, 'level', ''),
+					is_null($page['standard'])         ? '' : Arr::get($page, 'standard', ''),
+					is_null($page['selection_reason']) ? '' : Arr::get($page, 'selection_reason', ''),
+					is_null($page['done'])             ? '' : Arr::get($page, 'done', ''),
+					is_null($page['trash'])            ? '' : Arr::get($page, 'trash', ''),
+					is_null($page['date'])             ? '' : Arr::get($page, 'date', ''),
+					is_null($page['add_date'])         ? '' : Arr::get($page, 'add_date', ''),
+					date('Y-m-d H:i:s')
+				)
+			);
 		}
 	}
 
