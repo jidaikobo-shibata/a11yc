@@ -40,11 +40,11 @@ class Fieldsetless extends Validate
 		preg_match_all('/\<fieldset\>(.+?)\<\/fieldset\>/is', $str, $mms);
 
 		// legendless
-		self::legendless($mms[0]);
+		self::legendless($url, $mms[0]);
 
 		// get troubled radio and checkboxes name
 		$radio_check_names = self::eliminateRadioCheckNames($mms[0], $radio_check_names);
-		self::fieldsetless($ms, $radio_check_names);
+		self::fieldsetless($url, $ms[0], $radio_check_names);
 
 		// add errors
 		static::addErrorToHtml($url, 'legendless', static::$error_ids[$url], 'ignores');
@@ -114,10 +114,11 @@ class Fieldsetless extends Validate
 	/**
 	 * legendless
 	 *
+	 * @param  String $url
 	 * @param  Array $mms
 	 * @return Void
 	 */
-	private static function legendless($mms)
+	private static function legendless($url, $mms)
 	{
 		foreach ($mms as $k => $mm)
 		{
@@ -134,11 +135,12 @@ class Fieldsetless extends Validate
 	/**
 	 * legendless
 	 *
+	 * @param  String $url
 	 * @param  Array $ms
 	 * @param  Array $radio_check_names
 	 * @return Void
 	 */
-	private static function fieldsetless($ms, $radio_check_names)
+	private static function fieldsetless($url, $ms, $radio_check_names)
 	{
 		foreach ($radio_check_names as $radio_check_name)
 		{
