@@ -176,7 +176,7 @@ class Docs
 		View::assign('yml', $yml, FALSE);
 		View::assign('is_test', $is_test);
 		View::assign('title', A11YC_LANG_DOCS_TITLE.': '.$doc['name']);
-		View::assign('doc', $doc);
+		View::assign('doc', $doc, FALSE);
 		View::assign('body', View::fetchTpl('docs/each.php'), FALSE);
 	}
 }

@@ -63,7 +63,7 @@ class FormAndLabels extends Validate
 
 			// get action attribute to tell user which form cause error
 			$attrs = Element::getAttributes($v['form']);
-			$action = isset($attrs['action']) ? $attrs['action'] : $k;
+			$action = isset($attrs['action']) ? $attrs['action'] : $v['form'];
 
 			// labelless
 			self::labelless($n, $url, $v, $action);

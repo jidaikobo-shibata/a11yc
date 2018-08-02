@@ -46,6 +46,11 @@
 
 <dl>
 
+<dt>2.0.5 (<time>2018-08-02</time>)</dt>
+	<dd>at readme: content of <time> was invalid string (Y-n-j -> Y-m-d)(thx <a href="https://twitter.com/momdo_">@momdo_</a>).</dd>
+	<dd>at documentation: fix unexpectedlly escaped HTML and markup HTML by &lt;code&gt;(thx <a href="https://twitter.com/momdo_">@momdo_</a>).</dd>
+	<dd>at labelless check: if action attribute was not exists, use <code>&lt;form&gt;</code> to indicate place.</dd>
+
 <dt>2.0.4 (<time>2018-07-28</time>)</dt>
 	<dd>Refine regular expression of extraction html tag.</dd>
 	<dd>Became able to check non UTF-8 page.</dd>
