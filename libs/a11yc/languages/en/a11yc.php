@@ -197,6 +197,7 @@ define('A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR_NO_SCHEME', 'do not omit http(s)
 define('A11YC_LANG_CHECKLIST_NOT_FOUND_ERR', 'Could not find an error in the automatic check');
 define('A11YC_LANG_CHECKLIST_COULD_NOT_DRAW_HTML', 'Failed to acquire HTML for some reason');
 define('A11YC_LANG_CHECKLIST_TITLE', 'Checklist');
+define('A11YC_LANG_CHECKLIST_IMPLEMENT_TITLE', 'Implement Checklist');
 define('A11YC_LANG_CHECKLIST_DONE', 'Done');
 define('A11YC_LANG_CHECKLIST_RESTOFNUM', 'Rest Of Numbers');
 define('A11YC_LANG_CHECKLIST_TOTAL', 'Total');

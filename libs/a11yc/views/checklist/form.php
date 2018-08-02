@@ -220,7 +220,7 @@
 			<!-- /.a11yc_issues -->
 
 			<details class="a11yc_check_disclosure">
-				<summary><?php echo A11YC_LANG_CHECKLIST_TITLE ?></summary>
+				<summary><?php echo A11YC_LANG_CHECKLIST_IMPLEMENT_TITLE ?></summary>
 				<?php
 				// main check form
 				foreach (array('t', 'f') as $tf):

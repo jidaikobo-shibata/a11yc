@@ -41,7 +41,7 @@ class LinkCheck extends Validate
 
 		foreach ($ms[0] as $k => $tag)
 		{
-			$url = '';
+			$target_url = '';
 			$ele = $ms[1][$k];
 
 			if ( ! in_array($ele, $checks)) continue;
@@ -49,21 +49,21 @@ class LinkCheck extends Validate
 
 			if (isset($attrs['href']))
 			{
-				$url = $attrs['href'];
+				$target_url = $attrs['href'];
 			}
 			elseif (isset($attrs['src']))
 			{
-				$url = $attrs['src'];
+				$target_url = $attrs['src'];
 			}
 			elseif (isset($attrs['action']))
 			{
-				$url = $attrs['action'];
+				$target_url = $attrs['action'];
 			}
 			elseif (isset($attrs['property']))
 			{
 				if ($attrs['property'] == 'og:url' || $attrs['property'] == 'og:image')
 				{
-					$url = $attrs['content'];
+					$target_url = $attrs['content'];
 				}
 			}
 			else
@@ -71,16 +71,16 @@ class LinkCheck extends Validate
 				continue;
 			}
 
-			if ( ! $url) continue;
+			if ( ! $target_url) continue;
 
 			// fragments
-			if ($url[0] == '#')
+			if ($target_url[0] == '#')
 			{
-				if ( ! in_array(substr($url, 1), $fragments[1]))
+				if ( ! in_array(substr($target_url, 1), $fragments[1]))
 				{
 					static::$logs[$url]['link_check'][$tag] = -1;
 					static::$error_ids[$url]['link_check'][$k]['id'] = $tag;
-					static::$error_ids[$url]['link_check'][$k]['str'] = 'Fragment Not Found: '.$url;
+					static::$error_ids[$url]['link_check'][$k]['str'] = 'Fragment Not Found: '.$target_url;
 				}
 				continue;
 			}
@@ -88,24 +88,28 @@ class LinkCheck extends Validate
 			// correct url
 			if (Element::isIgnorable($tag)) continue;
 
-			$url = Util::enuniqueUri($url);
+			$target_url = Util::enuniqueUri($target_url);
 
 			// remove strange ampersand. seems depend on environment ?-(
-			$url = str_replace('&#038;', '&', $url);
+			$target_url = str_replace('&#038;', '&', $target_url);
 
 			// links
-			if ( ! Crawl::isPageExist($url))
+			if ( ! Crawl::isPageExist($target_url))
 			{
 				static::$logs[$url]['link_check'][$tag] = -1;
 				static::$error_ids[$url]['link_check'][$k]['id'] = $tag;
-				static::$error_ids[$url]['link_check'][$k]['str'] = 'Not Found: '.$tag;
+				static::$error_ids[$url]['link_check'][$k]['str'] = 'Not Found: '.$target_url;
 				continue;
 			}
 
 			// 40x
-			static::$logs[$url]['link_check'][$tag] = -1;
-			static::$error_ids[$url]['link_check'][$k]['id'] = $tag;
-			static::$error_ids[$url]['link_check'][$k]['str'] = 'header 40x: '.$url;
+			$headers = @get_headers($target_url);
+			if ($headers !== false && strpos($headers[0], ' 40') !== false)
+			{
+				static::$logs[$url]['link_check'][$tag] = -1;
+				static::$error_ids[$url]['link_check'][$k]['id'] = $tag;
+				static::$error_ids[$url]['link_check'][$k]['str'] = 'header 40x: '.$target_url;
+			}
 		}
 
 		if (isset(static::$error_ids[$url]))

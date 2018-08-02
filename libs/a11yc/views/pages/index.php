@@ -45,7 +45,7 @@ if ($pages):
 		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGES_EXPORT ?></th>
 		<?php endif; ?>
 		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGES_CTRL ?></th>
-		<th><?php echo A11YC_LANG_PAGES_ORDER_SEQ ?></th>
+		<th id="a11yc_label_seq"><?php echo A11YC_LANG_PAGES_ORDER_SEQ ?></th>
 		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGES_CREATED_AT ?></th>
 		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_TEST_DATE ?></th>
 	</tr>
@@ -94,7 +94,7 @@ if ($pages):
 
 		<td class="a11yc_result"><a href="<?php echo A11YC_PAGES_EDIT_URL ?>&amp;url=<?php echo Util::urlenc($url) ?>" class="a11yc_hasicon"><?php echo A11YC_LANG_PAGES_CTRL ?><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_DELETE ?></span><!-- <span class="a11yc_icon_delete a11yc_icon_fa" role="presentation" aria-hidden="true"></span> --></a></td>
 
-		<td class="a11yc_result"><input type="text" name="seq[<?php echo $url ?>]" id="seq" size="3" value="<?php echo intval($page['seq']); ?>" /></td>
+		<td class="a11yc_result"><input type="text" name="seq[<?php echo $url ?>]" aria-labelledby="a11yc_label_seq" size="3" value="<?php echo intval($page['seq']); ?>" /></td>
 
 		<td class="a11yc_result"><?php echo $page['created_at'] ? date('Y-m-d', strtotime($page['created_at'])) : '-' ?></td>
 		<td class="a11yc_result"><?php echo $page['date'] ?></td>

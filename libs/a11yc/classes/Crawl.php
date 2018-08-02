@@ -47,15 +47,12 @@ class Crawl
 		return Guzzle::instance($url)->is_exists;
 	}
 
-
-
-
 	protected static $target_path = '';
 	protected static $target_path_raw = '';
 	protected static $real_urls = array();
 
 	/**
-	 * set_target_path
+	 * set target path
 	 *
 	 * @param  String $target_path
 	 * @return Void
