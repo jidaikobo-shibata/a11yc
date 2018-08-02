@@ -551,7 +551,7 @@ criterions:
     summary: |
       Interpretation by program can be made as to which language the default natural language of each web page is.
     doc: |
-      By specifying the default language of the web page like &lt;html lang="en"&gt; by specifying HTML lang, the user agent and assistive technology can interpret the contents correctly.
+      By specifying the default language of the web page like <code>&lt;html lang="en"&gt;</code> by specifying HTML lang, the user agent and assistive technology can interpret the contents correctly.
       When constructing a multilingual site, it is important to forget about this, so please be aware that even Japanese pages may be "en".
       Also, when multiple languages are mixed within a single page, it is strongly recommended that consideration is also given to Success Criterion 3.1.2.
 
