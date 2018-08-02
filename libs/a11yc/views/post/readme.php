@@ -46,20 +46,20 @@
 
 <dl>
 
-<dt>2.0.4 (<time>2018-7-28</time>)</dt>
+<dt>2.0.4 (<time>2018-07-28</time>)</dt>
 	<dd>Refine regular expression of extraction html tag.</dd>
 	<dd>Became able to check non UTF-8 page.</dd>
 	<dd>Update Japanese title of Techniques for WCAG 2.0.</dd>
 	<dd>Better lang check (<a href="https://github.com/jidaikobo-shibata/a11yc/issues/2">#2</a>).</dd>
 
-<dt>2.0.3 (<time>2018-7-26</time>)</dt>
+<dt>2.0.3 (<time>2018-07-26</time>)</dt>
 	<dd>Add New check: fieldsetless and legendless.</dd>
 	<dd>Add link to Techniques for WCAG 2.0 into error message.</dd>
 
-<dt>2.0.2 (<time>2018-7-24</time>)</dt>
+<dt>2.0.2 (<time>2018-07-24</time>)</dt>
 	<dd>Improve accuracy of getting attributes from html tag (thx <a href="https://twitter.com/momdo_">@momdo_</a>).</dd>
 
-<dt>2.0.1 (<time>2018-7-23</time>)</dt>
+<dt>2.0.1 (<time>2018-07-23</time>)</dt>
 	<dd>Omit checking way of close of empty element (thx <a href="https://twitter.com/momdo_">@momdo_</a>).</dd>
 
 </dl>
