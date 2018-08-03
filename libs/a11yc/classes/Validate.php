@@ -36,7 +36,6 @@ class Validate
 			'EmptyLinkElement',
 			'FormAndLabels',
 			'IsseusElements',
-			'Table',
 
 			// single tag
 			'AltAttrOfImg',
@@ -58,6 +57,7 @@ class Validate
 			'Fieldsetless',
 			'IssuesSingle',
 			'HeaderlessSection',
+			'Table',
 
 			// link check
 			'LinkCheck',
@@ -140,12 +140,13 @@ class Validate
 		{
 			foreach (static::$error_ids[$url] as $code => $errs)
 			{
+				$num_of_err = count($errs);
 				foreach ($errs as $key => $err)
 				{
 					$err_type = isset($yml['errors'][$code]) && isset($yml['errors'][$code]['notice']) ?
 										'notices' :
 										'errors';
-					$all_errs[$err_type][] = Message::getText($url, $code, $err, $key);
+					$all_errs[$err_type][] = Message::getText($url, $code, $err, $key, $num_of_err);
 				}
 			}
 		}

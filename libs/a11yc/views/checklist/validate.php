@@ -33,12 +33,12 @@ if (Arr::get($errs, 'errors') || Arr::get($errs, 'notices')):
 	echo $html;
 	?>
 	<div id="_a11yc_validator_results">
-	<h3 class="a11yc_heading a11yc_erros_heading">Error</h3>
 	<div class="hide">
 		<div id="a11yc_validation_errors" class="">
 			<div class="a11yc_controller">
 			</div><!-- /.a11yc_controller -->
 			<?php if ( ! empty($errs['errors'])): ?>
+			<h3 class="a11yc_heading a11yc_erros_heading">Error</h3>
 			<dl id="a11yc_validation_error_list" class="a11yc_validation_list">
 			<?php
 				foreach ($errs['errors'] as $k => $err):
@@ -85,10 +85,6 @@ if (Arr::get($errs, 'errors') || Arr::get($errs, 'notices')):
 		<dl id="a11yc_validation_code">
 			<dt><?php echo A11YC_LANG_CHECKLIST_SOURCE ?></dt>
 			<dd>
-		<?php else: ?>
-		<details id="a11yc_validation_code">
-			<summary><?php echo A11YC_LANG_CHECKLIST_SOURCE ?></summary>
-			<div class="a11yc_controller"></div>
 		<?php endif; ?>
 			<div class="a11yc_source">
 				<?php if (strpos($raw, '===a11yc_rplc===') !== false):
@@ -109,7 +105,6 @@ if (Arr::get($errs, 'errors') || Arr::get($errs, 'notices')):
 		</dl>
 	</div>
 	<?php else: ?>
-		</details>
 	</details>
 	<?php endif; ?>
 

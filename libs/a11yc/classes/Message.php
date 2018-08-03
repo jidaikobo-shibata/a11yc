@@ -21,9 +21,10 @@ class Message
 	 * @param String $code_str
 	 * @param Array $place
 	 * @param String $key
+	 * @param Integer $num_of_err
 	 * @return String|Bool
 	 */
-	public static function getText($url, $code_str, $place, $key)
+	public static function getText($url, $code_str, $place, $key, $num_of_err)
 	{
 		$yml = Yaml::fetch();
 
@@ -44,7 +45,7 @@ class Message
 			$ret['code_str'] = $code_str;
 			if ( ! in_array($code_str, self::$showed[$url]))
 			{
-				$ret['dt'] = self::dt($url, $code_str, $place, $key, $current_err, $lv);
+				$ret['dt'] = self::dt($url, $code_str, $place, $key, $current_err, $lv, $num_of_err);
 				self::$showed[$url][] = $code_str;
 			}
 
@@ -69,34 +70,32 @@ class Message
 	 * @param String $key
 	 * @param Array  $current_err
 	 * @param String $lv
+	 * @param Integer $num_of_err
 	 * @return Array
 	 */
-	private static function dt($url, $code_str, $place, $key, $current_err, $lv)
+	private static function dt($url, $code_str, $place, $key, $current_err, $lv, $num_of_err)
 	{
 		$yml = Yaml::fetch();
 
 		$anchor = $code_str.'_'.$key;
 
 		// dt
-		$ret = '<dt id="index_'.$anchor.'" tabindex="-1" class="a11yc_level_'.$lv.'">'.$current_err['message'];
+		$ret = '<dt id="index_'.$anchor.'" tabindex="-1" class="a11yc_level_'.$lv.'">'.$current_err['message'].' ('.$num_of_err.')';
 
 		// dt - information
-		if (defined('A11YC_IS_GUEST_VALIDATION'))
+		foreach ($current_err['criterions'] as $each_criterion)
 		{
-			foreach ($current_err['criterions'] as $each_criterion)
+			$criterion = $yml['criterions'][$each_criterion];
+
+			$ret.= '<span class="a11yc_validation_reference_info"><strong>'.A11YC_LANG_LEVEL.strtoupper($lv).'</strong> <strong>'.Util::key2code($criterion['code']).'</strong> ';
+			$ret.= '<a href="'.A11YC_DOC_URL.$each_criterion.'" target="a11yc_doc">'.A11YC_LANG_CHECKLIST_SEE_DETAIL.'('.Util::key2code($criterion['code']).')</a> ';
+
+			if ( ! defined('A11YC_IS_GUEST_VALIDATION'))
 			{
-				$criterion = $yml['criterions'][$each_criterion];
-
-				$ret.= '<span class="a11yc_validation_reference_info"><strong>'.A11YC_LANG_LEVEL.strtoupper($lv).'</strong> <strong>'.Util::key2code($criterion['code']).'</strong> ';
-				$ret.= '<a href="'.A11YC_DOC_URL.$each_criterion.'" target="a11yc_doc">'.A11YC_LANG_CHECKLIST_SEE_DETAIL.'('.Util::key2code($criterion['code']).')</a> ';
-
-				if ( ! defined('A11YC_IS_GUEST_VALIDATION'))
-				{
-					$ret.= '[<a href="'.A11YC_ISSUES_ADD_URL.$url.'&amp;criterion='.$each_criterion.'&amp;err_id='.$code_str.'&amp;src='.Util::s($place['str']).'" target="a11yc_issue">'.A11YC_LANG_ISSUES_ADD.'</a>] ';
-				}
-
-				$ret.= '</span>';
+				$ret.= '[<a href="'.A11YC_ISSUES_ADD_URL.$url.'&amp;criterion='.$each_criterion.'&amp;err_id='.$code_str.'&amp;src='.rawurlencode(Util::s($place['str'])).'" target="a11yc_issue">'.A11YC_LANG_ISSUES_ADD.'</a>] ';
 			}
+
+			$ret.= '</span>';
 		}
 
 		// dt - information tech

@@ -51,7 +51,7 @@ class Table extends Validate
 			if (strpos($m, '<th') === false)
 			{
 				static::$logs[$url]['table_use_th'][$m] = -1;
-				static::$error_ids[$url]['table_use_th'][$n]['id'] = $m;
+				static::$error_ids[$url]['table_use_th'][$n]['id'] = $table_tag[0];
 				static::$error_ids[$url]['table_use_th'][$n]['str'] = $table_tag[0];
 			}
 			else
@@ -63,7 +63,7 @@ class Table extends Validate
 			if (strpos($m, ' scope') === false)
 			{
 				static::$logs[$url]['table_use_scope'][$m] = -1;
-				static::$error_ids[$url]['table_use_scope'][$n]['id'] = $m;
+				static::$error_ids[$url]['table_use_scope'][$n]['id'] = $table_tag[0];
 				static::$error_ids[$url]['table_use_scope'][$n]['str'] = $table_tag[0];
 			}
 			else if (preg_match_all('/scope *?= *?[\'"]([^\'"]+?)[\'"]/i', $m, $mms))
@@ -73,7 +73,7 @@ class Table extends Validate
 					if ( ! in_array($mm, array('col', 'row', 'rowgroup', 'colgroup')))
 					{
 						static::$logs[$url]['table_use_valid_scope'][$m] = -1;
-						static::$error_ids[$url]['table_use_valid_scope'][$n]['id'] = $m;
+						static::$error_ids[$url]['table_use_valid_scope'][$n]['id'] = $table_tag[0];
 						static::$error_ids[$url]['table_use_valid_scope'][$n]['str'] = $mms[0][$nn];
 					}
 				}
@@ -88,7 +88,7 @@ class Table extends Validate
 			if (strpos($m, '</summary>') === false)
 			{
 				static::$logs[$url]['table_use_summary'][$m] = -1;
-				static::$error_ids[$url]['table_use_summary'][$n]['id'] = $m;
+				static::$error_ids[$url]['table_use_summary'][$n]['id'] = $table_tag[0];
 				static::$error_ids[$url]['table_use_summary'][$n]['str'] = $table_tag[0];
 			}
 			else
@@ -100,7 +100,7 @@ class Table extends Validate
 			if (strpos($m, '</caption>') === false)
 			{
 				static::$logs[$url]['table_use_caption'][$m] = -1;
-				static::$error_ids[$url]['table_use_caption'][$n]['id'] = $m;
+				static::$error_ids[$url]['table_use_caption'][$n]['id'] = $table_tag[0];
 				static::$error_ids[$url]['table_use_caption'][$n]['str'] = $table_tag[0];
 			}
 			else
