@@ -140,7 +140,7 @@ if (Arr::get($errs, 'errors') || Arr::get($errs, 'notices')):
 	?>
 	</div><!-- /#a11yc_checks -->
 
-</div><!-- /#a11yc_validator_results -->
+</div><!-- /#_a11yc_validator_results -->
 <?php
 endif;
 ?>
