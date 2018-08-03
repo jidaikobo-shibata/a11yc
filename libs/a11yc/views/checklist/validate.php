@@ -43,9 +43,9 @@ if (Arr::get($errs, 'errors') || Arr::get($errs, 'notices')):
 						if (isset($err['dt'])):
 							echo $err['dt'];
 						endif;
-	
+
 						echo $err['li'];
-	
+
 						$next = $k + 1;
 						if (isset($errs['errors'][$next]['dt'])):
 							echo '</ul></dd>';
@@ -54,7 +54,7 @@ if (Arr::get($errs, 'errors') || Arr::get($errs, 'notices')):
 				?>
 				</ul></dd></dl>
 				<?php endif; ?>
-	
+
 				<?php
 				// notices
 				if ( ! empty($errs['notices'])):
@@ -66,9 +66,9 @@ if (Arr::get($errs, 'errors') || Arr::get($errs, 'notices')):
 							if (isset($err['dt'])):
 								echo $err['dt'];
 							endif;
-	
+
 							echo $err['li'];
-	
+
 							$next = $k + 1;
 							if (isset($errs['notices'][$next]['dt'])):
 								echo '</ul></dd>';
@@ -78,7 +78,7 @@ if (Arr::get($errs, 'errors') || Arr::get($errs, 'notices')):
 					</ul></dd></dl>
 				<?php endif; ?>
 			</div><!-- /#a11yc_validation_errors -->
-	
+
 			<?php if ($is_call_from_post): ?>
 			<dl id="a11yc_validation_code">
 				<dt><?php echo A11YC_LANG_CHECKLIST_SOURCE ?></dt>
@@ -111,7 +111,7 @@ if (Arr::get($errs, 'errors') || Arr::get($errs, 'notices')):
 
 	<?php
 	// logs
-	if ( ! empty($logs) && 1==0):
+	if ( ! empty($logs)):
 		echo '<details>';
 		echo '<summary>'.A11YC_LANG_CHECKLIST_MACHINE_CHECK_LOG.'</summary>';
 	?>
