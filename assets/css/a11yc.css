@@ -74,6 +74,14 @@
 	font-weight: normal;
 	margin-bottom: 2px;
 }
+#a11yc_validator_results h3 {
+	padding: 5px 0;
+	border-bottom: 2px solid #cc4030;
+}
+#a11yc_validator_results h3.a11yc_notice_heading {
+	border-color: #ddda00;
+}
+
 #a11yc_validator_results .a11yc_controller p {
 	margin: 0;
 }
@@ -691,16 +699,13 @@ table#a11yc_rest {
 .a11yc_source.expand {
 	max-height: initial;
 }
-#a11yc_validation_list,
+#a11yc_validation_error_list,
 #a11yc_validation_notices_list {
 	margin: 0;
-	padding: 10px 5px;
-	background-color: #fee;
+	padding: 0;
 }
 #a11yc_validation_notices_list {
 	margin: 5px 0 0;
-	border: 1px #aaa solid;
-	background-color: #ffffdf;
 }
 #a11yc_validation_errors #a11yc_validation_notices_list dt {
 	background-color: #f0f0cb;
@@ -710,6 +715,7 @@ dl#a11yc_validation_code {
 	padding: 10px 0 0;
 	background-color: #fff;
 }
+
 /*
 #a11yc_validation_code .a11yc_disclosure_target.active {
 }
@@ -725,9 +731,9 @@ dl#a11yc_validation_code {
 #a11yc_validation_errors dd,
 #a11yc_validation_notices dt,
 #a11yc_validation_notices dd {
-	border-color:#aaa;
-	border-style: solid;
-	padding: 2px 5px;
+/*	border-color:#aaa;
+	border-style: solid;*/
+	padding: 4px 7px;
 	font-size: 105%;
 }
 
@@ -739,12 +745,18 @@ dl#a11yc_validation_code {
 #a11yc_validation_notices dd {
 	word-break: break-all;
 }
+#a11yc_validation_error_list dd {
+	background-color: #fee;
+}
+#a11yc_validation_notices_list dd {
+	background-color: #ffffdf;
+}
 #a11yc_validation_errors dt,
 #a11yc_validation_notices dt {
-	padding-right: 4.75em;
-	border-width: 1px;
-	border-bottom-style: dotted;
-	position: relative;
+/*	padding-right: 4.75em;*/
+/*	border-width: 1px 0 1px 0;
+	border-bottom-style: dotted;*/
+/*	position: relative;*/
 	font-weight: bold;
 }
 #a11yc_validation_errors dt {
@@ -760,7 +772,20 @@ dl#a11yc_validation_code {
 #a11yc_validation_code dd {
 	margin-left: 0;
 	border: none;
-/*	border-width: 0 1px 1px 1px;*/
+	margin-bottom: 10px;
+}
+#a11yc_validation_errors dd ul,
+#a11yc_validation_notices dd ul,
+#a11yc_validation_code dd ul
+{
+	padding-left: 25px;
+}
+#a11yc_validation_errors dd ul li,
+#a11yc_validation_notices dd ul li,
+#a11yc_validation_code dd ul li
+{
+	position: relative;
+	padding-right: 4.75em;
 }
 
 #a11yc_validator_results dl dt {
@@ -773,7 +798,7 @@ dl#a11yc_validation_code {
 .a11yc_validation_error_link {
 	position: absolute;
 	right: 5px;
-	bottom: 5px;
+	top: 0
 }
 #a11yc_menu_principles {
 	margin: 0;

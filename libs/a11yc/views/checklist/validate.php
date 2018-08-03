@@ -33,7 +33,7 @@ if (Arr::get($errs, 'errors') || Arr::get($errs, 'notices')):
 	echo $html;
 	?>
 	<div id="_a11yc_validator_results">
-
+	<h3 class="a11yc_heading a11yc_erros_heading">Error</h3>
 	<div class="hide">
 		<div id="a11yc_validation_errors" class="">
 			<div class="a11yc_controller">
@@ -61,6 +61,7 @@ if (Arr::get($errs, 'errors') || Arr::get($errs, 'notices')):
 			// notices
 			if ( ! empty($errs['notices'])):
 			?>
+				<h3 class="a11yc_heading a11yc_notice_heading">Notice</h3>
 				<dl id="a11yc_validation_notices_list" class="a11yc_validation_list">
 				<?php
 					foreach ($errs['notices'] as $k => $err):
