@@ -85,10 +85,18 @@
 #a11yc_validator_results .a11yc_controller p {
 	margin: 0;
 }
+details details
+{
+	padding-left: 10px;
+}
 details summary .a11yc_heading
 {
 	display: inline-block;
 	width: calc( 100% - 20px );
+}
+details ul
+{
+	padding-left: 25px;
 }
 
 .a11yc_source {
@@ -779,15 +787,31 @@ dl#a11yc_validation_code {
 #a11yc_validation_code dd ul
 {
 	padding-left: 25px;
+	border-top: 1px dotted #aaa;
 }
 #a11yc_validation_errors dd ul li,
 #a11yc_validation_notices dd ul li,
 #a11yc_validation_code dd ul li
 {
 	position: relative;
-	padding-right: 4.75em;
+	padding: 10px  4.75em 10px 0;
+	margin: 0;
 }
-
+#a11yc_validation_errors dd ul li:after,
+#a11yc_validation_notices dd ul li:after,
+#a11yc_validation_code dd ul li:after
+{
+	content: '';
+	display: block;
+	position: absolute;
+	left: 0;
+	rignt: 0;
+	bottom: 0;
+	width: calc(100% + 25px);
+	height: 0;
+	margin-left: -25px;
+	border-bottom: 1px dotted #aaa;
+}
 #a11yc_validator_results dl dt {
 	font-weight: bold;
 }
@@ -798,7 +822,7 @@ dl#a11yc_validation_code {
 .a11yc_validation_error_link {
 	position: absolute;
 	right: 5px;
-	top: 0
+	top: 10px;
 }
 #a11yc_menu_principles {
 	margin: 0;
