@@ -151,10 +151,12 @@
 			<div class="a11yc_result">
 				<table class="a11yc_table_check">
 				<thead>
+					<tr>
 					<th class="a11yc_table_check_test_result" scope="col"><?php echo A11YC_LANG_TEST_RESULT ?></th>
 					<th class="a11yc_table_check_test_method" scope="col"><?php echo A11YC_LANG_TEST_METHOD ?></th>
 					<th class="a11yc_table_check_memo" scope="col"><?php echo A11YC_LANG_OPINION ?></th>
 					<th class="a11yc_table_check_user" scope="col"><?php echo A11YC_LANG_CTRL_PERSONS ?></th>
+					</tr>
 				</thead>
 				<tbody>
 					<tr>
