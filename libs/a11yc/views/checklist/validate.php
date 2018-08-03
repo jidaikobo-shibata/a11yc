@@ -33,83 +33,85 @@ if (Arr::get($errs, 'errors') || Arr::get($errs, 'notices')):
 	echo $html;
 	?>
 	<div id="_a11yc_validator_results">
-	<div class="hide">
-		<div id="a11yc_validation_errors" class="">
-			<?php if ( ! empty($errs['errors'])): ?>
-			<h3 class="a11yc_heading a11yc_erros_heading">Error</h3>
-			<dl id="a11yc_validation_error_list" class="a11yc_validation_list">
-			<?php
-				foreach ($errs['errors'] as $k => $err):
-					if (isset($err['dt'])):
-						echo $err['dt'];
-					endif;
-
-					echo $err['li'];
-
-					$next = $k + 1;
-					if (isset($errs['errors'][$next]['dt'])):
-						echo '</ul></dd>';
-					endif;
-				endforeach;
-			?>
-			</ul></dd></dl>
-			<?php endif; ?>
-
-			<?php
-			// notices
-			if ( ! empty($errs['notices'])):
-			?>
-				<h3 class="a11yc_heading a11yc_notice_heading">Notice</h3>
-				<dl id="a11yc_validation_notices_list" class="a11yc_validation_list">
+		<div class="hide">
+			<div id="a11yc_validation_errors" class="">
+				<?php if ( ! empty($errs['errors'])): ?>
+				<h3 class="a11yc_heading a11yc_erros_heading">Error</h3>
+				<dl id="a11yc_validation_error_list" class="a11yc_validation_list">
 				<?php
-					foreach ($errs['notices'] as $k => $err):
+					foreach ($errs['errors'] as $k => $err):
 						if (isset($err['dt'])):
 							echo $err['dt'];
 						endif;
-
+	
 						echo $err['li'];
-
+	
 						$next = $k + 1;
-						if (isset($errs['notices'][$next]['dt'])):
+						if (isset($errs['errors'][$next]['dt'])):
 							echo '</ul></dd>';
 						endif;
 					endforeach;
 				?>
 				</ul></dd></dl>
-			<?php endif; ?>
-		</div><!-- /#a11yc_validation_errors -->
-
-		<?php if ($is_call_from_post): ?>
-		<dl id="a11yc_validation_code">
-			<dt><?php echo A11YC_LANG_CHECKLIST_SOURCE ?></dt>
-			<dd>
-		<?php endif; ?>
-			<div class="a11yc_source">
-				<?php if (strpos($raw, '===a11yc_rplc===') !== false):
-					echo A11YC_LANG_CHECKLIST_COULD_NOT_DRAW_HTML;
-				else: ?>
-				<div id="a11yc_validation_code_raw">
-					<?php echo $raw ?>
-				</div><!-- /#a11yc_validation_code_raw -->
-				<?php /* ?>
-				<div id="a11yc_validation_code_txt" style="display: none;">
-					<?php echo $raw ?>
-				</div>
-				<?php */ ?>
 				<?php endif; ?>
-			</div><!-- /.a11yc_source -->
-	<?php if ($is_call_from_post): ?>
-			</dd>
-		</dl>
-	<!-- </div> -->
-	<?php else: ?>
-	</details>
-	<?php endif; ?>
+	
+				<?php
+				// notices
+				if ( ! empty($errs['notices'])):
+				?>
+					<h3 class="a11yc_heading a11yc_notice_heading">Notice</h3>
+					<dl id="a11yc_validation_notices_list" class="a11yc_validation_list">
+					<?php
+						foreach ($errs['notices'] as $k => $err):
+							if (isset($err['dt'])):
+								echo $err['dt'];
+							endif;
+	
+							echo $err['li'];
+	
+							$next = $k + 1;
+							if (isset($errs['notices'][$next]['dt'])):
+								echo '</ul></dd>';
+							endif;
+						endforeach;
+					?>
+					</ul></dd></dl>
+				<?php endif; ?>
+			</div><!-- /#a11yc_validation_errors -->
+	
+			<?php if ($is_call_from_post): ?>
+			<dl id="a11yc_validation_code">
+				<dt><?php echo A11YC_LANG_CHECKLIST_SOURCE ?></dt>
+				<dd>
+			<?php endif; ?>
+				<div class="a11yc_source">
+					<?php if (strpos($raw, '===a11yc_rplc===') !== false):
+						echo A11YC_LANG_CHECKLIST_COULD_NOT_DRAW_HTML;
+					else: ?>
+					<div id="a11yc_validation_code_raw">
+						<?php echo $raw ?>
+					</div><!-- /#a11yc_validation_code_raw -->
+					<?php /* ?>
+					<div id="a11yc_validation_code_txt" style="display: none;">
+						<?php echo $raw ?>
+					</div>
+					<?php */ ?>
+					<?php endif; ?>
+				</div><!-- /.a11yc_source -->
+		<?php if ($is_call_from_post): ?>
+				</dd>
+			</dl>
+		<?php endif; ?>
+		</div><!--  /.hide -->
+	</div><!-- /#_a11yc_validator_results -->
+<?php if ( ! $is_call_from_post): ?>
+</details>
+<?php endif; ?>
 
 
 	<?php
 	// logs
-	if ( ! empty($logs)):
+	if ( ! empty($logs) && 1==0):
 		echo '<details>';
 		echo '<summary>'.A11YC_LANG_CHECKLIST_MACHINE_CHECK_LOG.'</summary>';
 	?>
@@ -138,9 +140,6 @@ if (Arr::get($errs, 'errors') || Arr::get($errs, 'notices')):
 		echo '</details>';
 		endif; // logs
 	?>
-	</div><!-- /#a11yc_checks -->
-
-</div><!-- /#_a11yc_validator_results -->
 <?php
 endif;
 ?>
