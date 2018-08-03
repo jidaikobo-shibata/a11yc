@@ -35,8 +35,6 @@ if (Arr::get($errs, 'errors') || Arr::get($errs, 'notices')):
 	<div id="_a11yc_validator_results">
 	<div class="hide">
 		<div id="a11yc_validation_errors" class="">
-			<div class="a11yc_controller">
-			</div><!-- /.a11yc_controller -->
 			<?php if ( ! empty($errs['errors'])): ?>
 			<h3 class="a11yc_heading a11yc_erros_heading">Error</h3>
 			<dl id="a11yc_validation_error_list" class="a11yc_validation_list">
@@ -103,7 +101,7 @@ if (Arr::get($errs, 'errors') || Arr::get($errs, 'notices')):
 	<?php if ($is_call_from_post): ?>
 			</dd>
 		</dl>
-	</div>
+	<!-- </div> -->
 	<?php else: ?>
 	</details>
 	<?php endif; ?>
@@ -140,6 +138,7 @@ if (Arr::get($errs, 'errors') || Arr::get($errs, 'notices')):
 		echo '</details>';
 		endif; // logs
 	?>
+	</div><!-- /#a11yc_checks -->
 
 </div><!-- /#a11yc_validator_results -->
 <?php
