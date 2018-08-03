@@ -40,10 +40,21 @@ if (Arr::get($errs, 'errors') || Arr::get($errs, 'notices')):
 			</div><!-- /.a11yc_controller -->
 			<?php if ( ! empty($errs['errors'])): ?>
 			<dl id="a11yc_validation_error_list" class="a11yc_validation_list">
-			<?php foreach ($errs['errors'] as $err): ?>
-				<?php echo $err ?>
-			<?php endforeach; ?>
-			</dl>
+			<?php
+				foreach ($errs['errors'] as $k => $err):
+					if (isset($err['dt'])):
+						echo $err['dt'];
+					endif;
+
+					echo $err['li'];
+
+					$next = $k + 1;
+					if (isset($errs['errors'][$next]['dt'])):
+						echo '</ul></dd>';
+					endif;
+				endforeach;
+			?>
+			</ul></dd></dl>
 			<?php endif; ?>
 
 			<?php
@@ -51,10 +62,21 @@ if (Arr::get($errs, 'errors') || Arr::get($errs, 'notices')):
 			if ( ! empty($errs['notices'])):
 			?>
 				<dl id="a11yc_validation_notices_list" class="a11yc_validation_list">
-				<?php foreach ($errs['notices'] as $err): ?>
-					<?php echo $err ?>
-				<?php endforeach; ?>
-				</dl>
+				<?php
+					foreach ($errs['notices'] as $k => $err):
+						if (isset($err['dt'])):
+							echo $err['dt'];
+						endif;
+
+						echo $err['li'];
+
+						$next = $k + 1;
+						if (isset($errs['notices'][$next]['dt'])):
+							echo '</ul></dd>';
+						endif;
+					endforeach;
+				?>
+				</ul></dd></dl>
 			<?php endif; ?>
 		</div><!-- /#a11yc_validation_errors -->
 
@@ -110,7 +132,7 @@ if (Arr::get($errs, 'errors') || Arr::get($errs, 'notices')):
 					):
 						echo '<li>'.$machine_check_status[$logresult].'</li>';
 					else:
-						echo '<li>'.$machine_check_status[$logresult].': '.mb_substr(Util::s($loghtml), 0, 100).'...'.'</li>';
+						echo '<li>'.$machine_check_status[$logresult].': '.Util::s($loghtml).'</li>';
 					endif;
 
 				endforeach;

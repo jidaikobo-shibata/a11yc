@@ -11,8 +11,8 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 	<!--script-->
-	<script type="text/javascript" src="<?php echo A11YC_ASSETS_URL ?>/js/jquery-1.11.1.min.js"></script>
-	<script type="text/javascript" src="<?php echo A11YC_ASSETS_URL ?>/js/a11yc.js"></script>
+	<script src="<?php echo A11YC_ASSETS_URL ?>/js/jquery-1.11.1.min.js"></script>
+	<script src="<?php echo A11YC_ASSETS_URL ?>/js/a11yc.js"></script>
 
 	<!--css-->
 	<link rel="stylesheet" type="text/css" media="all" href="<?php echo A11YC_ASSETS_URL ?>/css/a11yc.css" />
@@ -69,7 +69,7 @@ if (A11YC_POST_GOOGLE_ANALYTICS_CODE)
 			<!--facebook-->
 			<iframe title="<?php echo A11YC_LANG_POST_SOCIAL_FACEBOOK ?>" src="//www.facebook.com/plugins/like.php?href=<?php echo urlencode(Util::s(Util::uri())) ?>&amp;width=72&amp;layout=button&amp;action=like&amp;show_faces=false&amp;share=false&amp;height=21&amp;" style="border:none; overflow:hidden; width:72px; height:21px;" id="facebook_like_button"></iframe>
 			<!--?-->
-			<a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="basic" title="<?php echo A11YC_LANG_POST_SOCIAL_HATENA ?>"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="<?php echo A11YC_LANG_POST_SOCIAL_HATENA ?>" width="20" height="20" style="border: none;" /></a><script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+			<a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="basic" title="<?php echo A11YC_LANG_POST_SOCIAL_HATENA ?>"><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png" alt="<?php echo A11YC_LANG_POST_SOCIAL_HATENA ?>" width="20" height="20" style="border: none;" /></a><script src="https://b.st-hatena.com/js/bookmark_button.js" async="async"></script>
 		</li>
 		</ul>
 	</nav><!--/#a11yc_menu-->

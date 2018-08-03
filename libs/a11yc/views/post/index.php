@@ -55,8 +55,8 @@ $uas = array(
 <p><?php echo A11YC_LANG_POST_CANT_SHOW_LIST_IMAGES ?></p>
 <textarea name="source" id="source" style="width: 100%; min-height: 10em;"><?php echo $target_html ?></textarea>
 <div class="a11yc_submit_group">
-	<label for="behaviour"><?php echo A11YC_LANG_POST_BEHAVIOUR ?>
-		<select name="behaviour" id="behaviour">
+	<label for="behaviour2"><?php echo A11YC_LANG_POST_BEHAVIOUR ?>
+		<select name="behaviour" id="behaviour2">
 		<option value="check"><?php echo A11YC_LANG_POST_DO_CHECK ?></option>
 		<option value="csv"><?php echo A11YC_LANG_EXPORT_ERRORS_CSV ?></option>
 	</select>

@@ -421,18 +421,7 @@ class Post
 		$codes = Validate::$codes;
 		Validate::$do_css_check = $do_css_check;
 		Validate::html($url, $target_html, $codes, $ua);
-		if (Validate::getErrors($url, $codes, $ua))
-		{
-			$err_link = self::$url.'?a=doc&criterion=';
-			foreach (Validate::getErrorIds($url) as $err_code => $errs)
-			{
-				foreach ($errs as $key => $err)
-				{
-					$err_type = isset($yml['errors'][$err_code]['notice']) ? 'notices' : 'errors';
-					$all_errs[$err_type][] = Message::getText($url, $err_code, $err, $key, $err_link);
-				}
-			}
-		}
+		$all_errs = Validate::getErrors($url, $codes, $ua);
 
 		// message
 		Session::add('messages', 'messages', A11YC_LANG_POST_DONE);
@@ -463,13 +452,13 @@ class Post
 		$render = Validate::getHighLightedHtml($url, $codes, $ua);
 		$raw = nl2br($render);
 
-		View::assign('errs'              , $all_errs, false);
-		View::assign('errs_cnts'         , $errs_cnts);
-		View::assign('raw'               , $raw, false);
-		View::assign('is_call_from_post' , true);
+		View::assign('errs'                , $all_errs, false);
+		View::assign('errs_cnts'           , $errs_cnts);
+		View::assign('raw'                 , $raw, false);
+		View::assign('is_call_from_post'   , true);
 		View::assign('machine_check_status', Values::machineCheckStatus());
-		View::assign('yml'               , Yaml::fetch());
-		View::assign('logs'              , Validate::getLogs($url) ?: array());
+		View::assign('yml'                 , Yaml::fetch());
+		View::assign('logs'                , Validate::getLogs($url) ?: array());
 
 		// count up for guest users
 		self::countUpForGuestUsers();

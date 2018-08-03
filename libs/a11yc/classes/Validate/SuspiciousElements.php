@@ -29,9 +29,11 @@ class SuspiciousElements extends Validate
 		preg_match_all("/\<([^\> \n]+)/i", $str, $tags);
 
 		// elements
-		$endless = array('img', 'wbr', 'br', 'hr', 'base', 'input', 'param', 'area', 'embed', 'meta', 'link', 'track', 'source', 'col', 'command', 'frame', 'keygen', 'rect', 'circle', 'line');
+		$endless = array('img', 'wbr', 'br', 'hr', 'base', 'input', 'param', 'area', 'embed', 'meta', 'link', 'track', 'source', 'col', 'command', 'frame', 'keygen');
 		$ignores = array('!doctype', 'html', '![if', '![endif]', '?xml');
-		$omissionables = array('li', 'dt', 'dd', 'p', 'rt', 'rp', 'optgroup', 'option', 'tr', 'td', 'th', 'thead', 'tfoot', 'tbody', 'colgroup');
+		$omissionables = array('li', 'dt', 'dd', 'p', 'rt', 'rp', 'optgroup', 'option', 'tr', 'td', 'th', 'thead', 'tfoot', 'tbody', 'colgroup',
+		// svg
+		'path', 'rect', 'line', 'polygon', 'circle', 'ellipse', 'text', 'use', 'image');
 		$ignores = array_merge($ignores, $endless, $omissionables);
 
 		// count tags

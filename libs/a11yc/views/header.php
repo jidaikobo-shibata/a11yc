@@ -11,8 +11,8 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 	<!--script-->
-	<script type="text/javascript" src="<?php echo A11YC_ASSETS_URL ?>/js/jquery-1.11.1.min.js"></script>
-	<script type="text/javascript" src="<?php echo A11YC_ASSETS_URL ?>/js/a11yc.js"></script>
+	<script src="<?php echo A11YC_ASSETS_URL ?>/js/jquery-1.11.1.min.js"></script>
+	<script src="<?php echo A11YC_ASSETS_URL ?>/js/a11yc.js"></script>
 
 	<!--css-->
 	<link rel="stylesheet" type="text/css" media="all" href="<?php echo A11YC_ASSETS_URL ?>/css/a11yc.css" />
