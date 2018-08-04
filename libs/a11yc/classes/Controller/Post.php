@@ -282,7 +282,6 @@ class Post
 		$default_ua       = Input::userAgent();
 		$doc_root         = Input::post('doc_root');
 		$target_html      = '';
-		$render           = '';
 		$do_validate      = true;
 		$do_css_check     = Input::post('do_css_check', false);
 
@@ -350,7 +349,6 @@ class Post
 		View::assign('script_url'         , A11YC_POST_SCRIPT_URL);
 		View::assign('url'                , $url);
 		View::assign('target_html'        , $target_html);
-		View::assign('render'             , $render, false);
 		View::assign('body'               , View::fetchTpl('post/index.php'), false);
 	}
 
