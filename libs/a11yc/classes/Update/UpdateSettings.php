@@ -23,7 +23,7 @@ class UpdateSettings extends A11yc\Update
 		$data = Db::fetchAll($sql);
 
 		self::dropSettings();
-		self::createSettings();
+		Db::createSettings('default');
 
 		foreach ($data as $each)
 		{

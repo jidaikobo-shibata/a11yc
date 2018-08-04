@@ -28,11 +28,12 @@ define('A11YC_LANG_CRITERION', '達成基準');
 define('A11YC_LANG_HERE', 'こちら,ここ,ここをクリック,コチラ');
 define('A11YC_LANG_TEST_RESULT', '試験結果');
 define('A11YC_LANG_CURRENT_LEVEL', 'ページで達成しているレベル');
+define('A11YC_LANG_EXP_TARGET_PAGES', '対象となるウェブページに関する簡潔な説明');
 define('A11YC_LANG_ALT_URL_LEVEL', '<a href="%s">代替コンテンツ</a>で達成しているレベル');
 define('A11YC_LANG_ALT_URL_EXCEPTION', '代替コンテンツを含む達成状況');
-define('A11YC_LANG_CURRENT_LEVEL_WEBPAGES', 'サイトで達成しているレベル');
-define('A11YC_LANG_NUM_OF_CHECKED', 'チェック済みのページ数');
-define('A11YC_LANG_CHECKED_PAGES', 'チェック済みのページ');
+define('A11YC_LANG_CURRENT_LEVEL_WEBPAGES', '満たしている適合レベル');
+define('A11YC_LANG_CHECKED_PAGES_URLS', '試験を行ったウェブページのURL');
+define('A11YC_LANG_CHECKED_PAGES', 'URLの一覧');
 define('A11YC_LANG_UNPASSED_PAGES', '目標とする適合レベルに満たないページ');
 define('A11YC_LANG_UNPASSED_PAGES_NO', 'すべてのチェック済みページが目標とする達成基準を満たしています');
 define('A11YC_LANG_RELATED', '関連項目');
@@ -163,6 +164,7 @@ define('A11YC_LANG_SETTINGS_IS_USE_GUZZLE_EXP', 'なんらかの理由でGuzzle�
 
 define('A11YC_LANG_DECLARE_DATE', '表明日');
 define('A11YC_LANG_STANDARD', '規格の種類');
+define('A11YC_LANG_STANDARD_REPORT', '規格の規格番号及び改正年');
 define('A11YC_LANG_DEPENDENCIES', '依存したウェブコンテンツ技術のリスト');
 define('A11YC_LANG_TEST_PERIOD', '試験実施期間');
 define('A11YC_LANG_TEST_DATE', '試験実施日');
@@ -170,12 +172,13 @@ define('A11YC_LANG_TARGET_LEVEL', '目標とする適合レベル');
 define('A11YC_LANG_POLICY', 'アクセシビリティ方針');
 define('A11YC_LANG_POLICY_DESC', 'ウェブアクセシビリティ確保に取り組む理由、達成目標日、対応方針、例外事項などを書いてください');
 define('A11YC_LANG_REPORT', 'アクセシビリティ報告書');
-define('A11YC_LANG_OPINION', '所見');
-define('A11YC_LANG_REPORT_DESC', '所見等があったら、記述してください');
+define('A11YC_LANG_OPINION', '追加の表示事項');
+define('A11YC_LANG_REPORT_DESC', '必要に応じて、次の項目、または所見等を入力してください。<br>A) 達成基準を満たすことを示すための技術的根拠（使用している達成方法及びその検証方法一覧など）<br>B) 試験に使用したチェックツールなどの名称及びバージョン<br>c) 使用しているが適合には依存していないウェブコンテンツ技術のリスト<br>d) コンテンツを検証するのに用いたオペレーティングシステムの名称及びバージョンならびに支援技術を含むユーザエージェントの名称及びバージョン<br>e) 表示する適合レベルより上のレベルで満たしている達成基準のリスト<br>f) アクセシビリティを向上するために達成基準以上に追加で施した措置に関する情報');
 define('A11YC_LANG_CONTACT', 'アクセシビリティに関する連絡先');
 define('A11YC_LANG_CONTACT_DESC', 'アクセシビリティの不備等のため、情報を取得できなかった時の問い合わせ先、あるいはウェブアクセシビリティに関する問い合わせ先を書いてください');
+define('A11YC_LANG_SHOW_RESULTS', '試験結果を表示する');
 
-define('A11YC_LANG_CANDIDATES_TITLE', '選択した方法');
+define('A11YC_LANG_CANDIDATES_TITLE', '試験対象のウェブページを選択した方法');
 define('A11YC_LANG_CANDIDATES0', 'ウェブページ単位');
 define('A11YC_LANG_CANDIDATES1', 'すべてのウェブページを選択');
 define('A11YC_LANG_CANDIDATES2', 'ランダムに選択');
@@ -197,7 +200,7 @@ define('A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR_NO_SCHEME', 'http(s)://を省略
 define('A11YC_LANG_CHECKLIST_NOT_FOUND_ERR', '自動チェックではエラーが見つかりませんでした');
 define('A11YC_LANG_CHECKLIST_COULD_NOT_DRAW_HTML', 'なんらかの理由でHTMLの取得に失敗しました');
 define('A11YC_LANG_CHECKLIST_TITLE', 'チェックリスト');
-define('A11YC_LANG_CHECKLIST_IMPLEMENT_TITLE', '実装チェックリスト');
+define('A11YC_LANG_CHECKLIST_IMPLEMENT_TITLE', '達成基準チェックリスト');
 define('A11YC_LANG_CHECKLIST_DONE', 'チェック終了');
 define('A11YC_LANG_CHECKLIST_RESTOFNUM', '残りのチェック項目数');
 define('A11YC_LANG_CHECKLIST_TOTAL', '計');
@@ -329,7 +332,7 @@ define('A11YC_LANG_ERROR_NON_TARGET_LEVEL', '設定で「目標とする適合�
 define('A11YC_LANG_ERROR_NON_BASE_URL', '設定で「'.A11YC_LANG_SETTINGS_BASE_URL.'」を入力してください');
 
 // sample
-define('A11YC_LANG_SAMPLE_POLICY', '例文：\n<p>【あなたの名前／団体名】は、障害の有無や年齢などに関係なく、だれもが同じように利用できるアクセシブルなウェブサイトづくりに努めます。</p>\n<p>【このウェブサイトがアクセシビリティを確保することの意味を記載してください。】</p>\n<p>以下のとおりアクセシビリティ方針を定め、恒常的にアクセシビリティを確保してゆきます。</p>\n\n<h2>対応方針</h2>\n<p>当サイトは、日本工業規格JIS X 8341-3:2016「高齢者・障害者等配慮設計指針-情報通信における機器、ソフトウェア及びサービス-第3部:ウェブコンテンツ」の等級「AA」に準拠することを目標とします。</p>\n<p>本方針における「準拠」という対応度の表記は、情報通信アクセス協議会ウェブアクセシビリティ基盤委員会「<a href="http://waic.jp/docs/jis2016/compliance-guidelines/201603/">ウェブコンテンツのJIS X 8341-3:2016 対応度表記ガイドライン - 2016年3月版</a>」で定められた表記によります。</p>\n\n<h2>対象範囲</h2>\n<p>【「http://example.com 以下のページを対象とする」というように記載してください。】</p>\n\n<h2>達成目標日</h2>\n<p>【達成目標日を記載してください。】</p>\n\n<h2>例外事項</h2>\n<p>【もしあれば記載してください。】</p>');
+define('A11YC_LANG_SAMPLE_POLICY', '例文：\n<p>【あなたの名前／団体名】は、障害の有無や年齢などに関係なく、だれもが同じように利用できるアクセシブルなウェブサイトづくりに努めます。</p>\n<p>【このウェブサイトがアクセシビリティを確保することの意味を記載してください。】</p>\n<p>以下のとおりアクセシビリティ方針を定め、恒常的にアクセシビリティを確保してゆきます。</p>\n\n<h2>対応方針</h2>\n<p>当サイトは、日本工業規格JIS X 8341-3:2016「高齢者・障害者等配慮設計指針-情報通信における機器、ソフトウェア及びサービス-第3部:ウェブコンテンツ」の等級「AA」に準拠することを目標とします。</p>\n<p>本方針における「準拠」という対応度の表記は、情報通信アクセス協議会ウェブアクセシビリティ基盤委員会「<a href="http://waic.jp/docs/jis2016/compliance-guidelines/201603/">ウェブコンテンツのJIS X 8341-3:2016 対応度表記ガイドライン - 2016年3月版</a>」で定められた表記によります。</p>\n\n<h2>'.A11YC_LANG_EXP_TARGET_PAGES.'</h2>\n<p>【「http://example.com 以下のページを対象とする」というように記載してください。】</p>\n\n<h2>達成目標日</h2>\n<p>【達成目標日を記載してください。】</p>\n\n<h2>例外事項</h2>\n<p>【もしあれば記載してください。】</p>');
 
 // stand alones
 define('A11YC_LANG_POST_SERVICE_NAME', 'A11yc アクセシビリティ バリデーション サービス');

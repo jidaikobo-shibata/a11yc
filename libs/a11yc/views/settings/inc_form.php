@@ -5,6 +5,14 @@
 	<tbody>
 
 	<tr>
+		<th scope="row"><label for="a11yc_show_policy"><?php echo A11YC_LANG_CTRL_VIEW ?></label></th>
+		<td>
+			<?php $checked = Arr::get($settings, 'show_results') == 1 ? ' checked="checked"' : ''; ?>
+			<label><input type="checkbox" name="show_results" value="1"<?php echo $checked ?> /> <?php echo A11YC_LANG_SHOW_RESULTS ?></label>
+		</td>
+	</tr>
+
+	<tr>
 		<th scope="row"><label for="a11yc_declare_date"><?php echo A11YC_LANG_DECLARE_DATE ?></label></th>
 		<td>
 			<input type="text" name="declare_date" id="a11yc_declare_date" size="10" value="<?php echo @$settings['declare_date'] ?>">

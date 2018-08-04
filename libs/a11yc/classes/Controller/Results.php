@@ -136,6 +136,7 @@ class Results
 		View::assign('selected_methods', Values::selectedMethods());
 		View::assign('selected_method', intval(Arr::get($settings, 'selected_method')));
 		View::assign('title', A11YC_LANG_TEST_RESULT.': '.Model\Html::fetchPageTitle($url));
+		View::assign('standards', Yaml::each('standards'));
 
 		// result - target level
 		$results = Model\Results::fetch($url);
@@ -177,6 +178,7 @@ class Results
 		View::assign('selected_method',   intval(Arr::get($settings, 'selected_method')));
 		View::assign('done',              Model\Pages::count('done'));
 		View::assign('total',             Model\Pages::count('all'));
+		View::assign('standards',         Yaml::each('standards'));
 
 		// passed and unpassed pages
 		View::assign('unpassed_pages', Model\Results::unpassedPages($target_level));
@@ -256,19 +258,19 @@ class Results
 		static::assignLinks();
 
 		// page list
-		if (Input::get('a11yc_pages') && $settings['test_period'])
+		if (Input::get('a11yc_pages') && $settings['show_results'])
 		{
 			static::pages();
 			return;
 		}
 		// each report
-		else if ($settings['test_period'] && Input::get('url'))
+		else if ($settings['show_results'] && Input::get('url'))
 		{
 			static::each(Input::get('url', ''));
 			return;
 		}
 		// report
-		else if ($settings['test_period'] && Input::get('a11yc_report'))
+		else if ($settings['show_results'] && Input::get('a11yc_report'))
 		{
 			static::all();
 			return;

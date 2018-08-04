@@ -3,6 +3,20 @@
 
 <table class="a11yc_table a11yc_table_report">
 
+	<!-- declare_date -->
+	<tr>
+		<th scope="row"><?php echo A11YC_LANG_DECLARE_DATE ?></th>
+		<td><?php echo $settings['declare_date'] ?></td>
+	</tr>
+	<!-- /declare_date -->
+
+	<!-- declare_date -->
+	<tr>
+		<th scope="row"><?php echo A11YC_LANG_STANDARD_REPORT ?></th>
+		<td><?php echo $standards[$settings['standard']] ?></td>
+	</tr>
+	<!-- /declare_date -->
+
 	<!-- target level -->
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_TARGET_LEVEL ?></th>
@@ -36,6 +50,19 @@
 	<!-- /dependencies -->
 	<?php endif; ?>
 
+
+	<?php
+		if ($is_total):
+		$selectedMethods = Values::selectedMethods();
+	?>
+	<!-- dependencies -->
+	<tr>
+		<th scope="row"><?php echo A11YC_LANG_CANDIDATES_TITLE ?></th>
+		<td><?php echo $selectedMethods[$settings['selected_method']]; ?></td>
+	</tr>
+	<!-- /dependencies -->
+	<?php endif; ?>
+
 	<?php if (isset($page) && $page['selection_reason'] != '0'): ?>
 	<!-- selected method -->
 	<tr>
@@ -64,25 +91,13 @@
 	<!-- /target page -->
 	<?php endif; ?>
 
-	<!-- period of date -->
-	<tr>
-	<?php if ($is_total): ?>
-		<th scope="row"><?php echo A11YC_LANG_TEST_PERIOD ?></th>
-		<td><?php echo $settings['test_period'] ?></td>
-	<?php else: ?>
-		<th scope="row"><?php echo A11YC_LANG_TEST_DATE ?></th>
-		<td><?php echo $page['date'] ?></td>
-	<?php endif; ?>
-	</tr>
-	<!-- /period of date -->
-
 	<!-- number of checked -->
 	<?php if (isset($done) && $is_total): ?>
 	<tr>
-		<th scope="row"><?php echo A11YC_LANG_NUM_OF_CHECKED ?></th>
+		<th scope="row"><?php echo A11YC_LANG_CHECKED_PAGES_URLS ?></th>
 		<td><?php
-			echo $done.' / '.$total;
-			echo ' (<a href="'.$pages_link.'">'.A11YC_LANG_CHECKED_PAGES.'</a>)';
+			echo '<a href="'.$pages_link.'">'.A11YC_LANG_CHECKED_PAGES.'</a>';
+			echo ' ('.$done.' / '.$total.')';
 		?></td>
 	</tr>
 	<?php endif; ?>
@@ -133,6 +148,18 @@
 	<?php endif; ?>
 	<!-- /unpassed pages -->
 
+	<!-- period of date -->
+	<tr>
+	<?php if ($is_total): ?>
+		<th scope="row"><?php echo A11YC_LANG_TEST_PERIOD ?></th>
+		<td><?php echo $settings['test_period'] ?></td>
+	<?php else: ?>
+		<th scope="row"><?php echo A11YC_LANG_TEST_DATE ?></th>
+		<td><?php echo $page['date'] ?></td>
+	<?php endif; ?>
+	</tr>
+	<!-- /period of date -->
+
 	<!-- contact -->
 	<?php if ($settings['contact']): ?>
 	<tr>
@@ -142,20 +169,18 @@
 	<?php endif; ?>
 	<!-- /contact -->
 
-	<!-- report -->
-	<?php if ($is_total && $settings['report']): ?>
-	<tr>
-		<th scope="row"><?php echo A11YC_LANG_OPINION ?></th>
-		<td><?php echo htmlspecialchars_decode($settings['report']); ?></td>
-	</tr>
-	<?php endif; ?>
-	<!-- /report -->
-
 </table>
+
+<!-- report -->
+<?php if ($is_total && $settings['report']): ?>
+<h2><?php echo A11YC_LANG_OPINION ?></h2>
+<?php echo htmlspecialchars_decode($settings['report']); ?>
+<?php endif; ?>
+<!-- /report -->
 
 <!-- site results -->
 <?php if (isset($result) && $result): ?>
-<h2><?php echo A11YC_LANG_CHECKLIST_TITLE ?></h2>
+<h2><?php echo A11YC_LANG_CHECKLIST_IMPLEMENT_TITLE ?></h2>
 <?php
 echo $result;
 endif;

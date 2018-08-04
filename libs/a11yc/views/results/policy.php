@@ -9,7 +9,7 @@ if ($versions):
 	$html.= '<option value="">'.A11YC_LANG_RESULTS_NEWEST_VERSION.'</option>';
 	foreach ($versions as $version):
 		$selected = Input::get('a11yc_version', '') == $version ? ' selected="selected"' : '';
-		$html.= '<option'.$selected.' value="'.$version.'">'.date('Y-m-d', strtotime($version)).'</option>';
+		$html.= '<option'.$selected.' value="'.$version['version'].'">'.$version['name'].'</option>';
 	endforeach;
 	$html.= '</select>';
 	$html.= '<input type="submit" value="'.A11YC_LANG_CTRL_SEND.'">';
@@ -23,7 +23,7 @@ endif;
 // policy
 echo $policy;
 
-if ($settings['test_period']):
+if ($settings['show_results']):
 ?>
 <h2><?php echo A11YC_LANG_REPORT; ?></h2>
 <p class="a11yc_link"><a href="<?php echo $report_link ?>"><?php echo A11YC_LANG_REPORT ?></a></p><?php

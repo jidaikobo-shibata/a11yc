@@ -28,11 +28,12 @@ define('A11YC_LANG_CRITERION', 'Criterion');
 define('A11YC_LANG_HERE', 'here, click here, click');
 define('A11YC_LANG_TEST_RESULT', 'Test result');
 define('A11YC_LANG_CURRENT_LEVEL', 'Current level of the page');
+define('A11YC_LANG_EXP_TARGET_PAGES', 'Short Description of target pages');
 define('A11YC_LANG_ALT_URL_LEVEL', 'Level of <a href="%s">Alternative Content</a>');
 define('A11YC_LANG_ALT_URL_EXCEPTION', 'Result including alternative content');
 define('A11YC_LANG_CURRENT_LEVEL_WEBPAGES', 'Achieved level of the site');
 define('A11YC_LANG_NUM_OF_CHECKED', 'Number of checked pages');
-define('A11YC_LANG_CHECKED_PAGES', 'Target pages');
+define('A11YC_LANG_CHECKED_PAGES_URLS', 'Target pages\' URL');
 define('A11YC_LANG_UNPASSED_PAGES', 'Page less than the achievement grade as a target');
 define('A11YC_LANG_UNPASSED_PAGES_NO', 'All checked page meet success criteria to target');
 define('A11YC_LANG_RELATED', 'Related');
@@ -163,6 +164,7 @@ define('A11YC_LANG_SETTINGS_IS_USE_GUZZLE_EXP', 'If Guzzle conflicts for some re
 
 define('A11YC_LANG_DECLARE_DATE', 'Declare Date');
 define('A11YC_LANG_STANDARD', 'Standard');
+define('A11YC_LANG_STANDARD_REPORT', 'Number and Year of standard');
 define('A11YC_LANG_DEPENDENCIES', 'List of dependent Web content technology');
 define('A11YC_LANG_TEST_PERIOD', 'Test Period');
 define('A11YC_LANG_TEST_DATE', 'Test Date');
@@ -174,6 +176,7 @@ define('A11YC_LANG_OPINION', 'Opinion');
 define('A11YC_LANG_REPORT_DESC', 'If you have any findings, etc., please describe.');
 define('A11YC_LANG_CONTACT', 'Contact Us About Accessibility');
 define('A11YC_LANG_CONTACT_DESC', 'Such as for accessibility of deficiencies, contact details of when that could not get the information, or please write the contact information on the web accessibility.');
+define('A11YC_LANG_SHOW_RESULTS', 'Show Result');
 
 define('A11YC_LANG_CANDIDATES_TITLE', 'Selected Method');
 define('A11YC_LANG_CANDIDATES0', 'Each Page');
@@ -324,7 +327,7 @@ define('A11YC_LANG_ERROR_NON_TARGET_LEVEL', 'Please perform the check from selec
 define('A11YC_LANG_ERROR_NON_BASE_URL', 'Please Input "'.A11YC_LANG_SETTINGS_BASE_URL.'" in setting.');
 
 // sample
-define('A11YC_LANG_SAMPLE_POLICY', 'sample:\n<p>[Your Name / Organization Name] will endeavor to create an accessible website that anyone can use in the same way regardless of the presence or absence of disability or age.</p>\n<p>[Please describe the meaning of this website to secure accessibility.]</p>\n<p>We set up accessibility policy as follows and will constantly secure accessibility.</p>\n\n<h2>Policy</h2>\n<p>[Please describe the accessibility policy.]</p>\n\n<h2>Scope of coverage</h2>\n<p>[Please describe as "target pages below http://example.com".]</p>\n\n<h2>Achievement target date</h2>\n<p>[Please describe the target date of accomplishment.]</p>\n\n<h2>Exceptions</h2>\n<p>[Please list if any.]</p>');
+define('A11YC_LANG_SAMPLE_POLICY', 'sample:\n<p>[Your Name / Organization Name] will endeavor to create an accessible website that anyone can use in the same way regardless of the presence or absence of disability or age.</p>\n<p>[Please describe the meaning of this website to secure accessibility.]</p>\n<p>We set up accessibility policy as follows and will constantly secure accessibility.</p>\n\n<h2>Policy</h2>\n<p>[Please describe the accessibility policy.]</p>\n\n<h2>'.A11YC_LANG_EXP_TARGET_PAGES.'</h2>\n<p>[Please describe as "target pages below http://example.com".]</p>\n\n<h2>Achievement target date</h2>\n<p>[Please describe the target date of accomplishment.]</p>\n\n<h2>Exceptions</h2>\n<p>[Please list if any.]</p>');
 
 // stand alones
 define('A11YC_LANG_POST_SERVICE_NAME', 'A11yc Accessibility Validation Service');

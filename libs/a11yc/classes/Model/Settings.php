@@ -57,6 +57,7 @@ class Settings
 				'checklist_behaviour',
 				'stop_guzzle',
 				'standard',
+				'show_results',
 			);
 			$cols = array();
 			foreach ($intvals as $v)
@@ -96,25 +97,11 @@ class Settings
 			$settings = self::fetchAll();
 
 			// database io
-			$r = false;
-			if (isset($settings['standard']))
+			$r = true;
+			foreach ($cols as $key => $value)
 			{
-				foreach ($cols as $k => $v)
-				{
-					$sql = 'UPDATE '.A11YC_TABLE_SETTINGS.' SET';
-					$sql.= '`value` = ? ';
-					$sql.= 'WHERE `key` = ? AND `version` = 0;';
-					$r = Db::execute($sql, array($v, $k));
-				}
-			}
-			else
-			{
-				foreach ($cols as $k => $v)
-				{
-					$sql = 'INSERT INTO '.A11YC_TABLE_SETTINGS;
-					$sql.= ' (`key`, `value`, `version`) VALUES (?, ?, 0);';
-					$r = Db::execute($sql, array($k, $v));
-				}
+				$r = self::updateField($key, $value);
+				if ( ! $r) continue;
 			}
 
 			if ($r)
