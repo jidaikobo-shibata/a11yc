@@ -27,8 +27,6 @@ use A11yc\Model;
 
 class Post
 {
-	private static $url;
-
 	/**
 	 * set consts
 	 *
@@ -40,14 +38,16 @@ class Post
 		defined('A11YC_POST_IP_MAX_A_DAY') or define('A11YC_POST_IP_MAX_A_DAY', 150);
 		defined('A11YC_POST_COOKIE_A_10MIN') or define('A11YC_POST_COOKIE_A_10MIN', 10);
 
-		// is guest validation
-		defined('A11YC_IS_GUEST_VALIDATION') or define('A11YC_IS_GUEST_VALIDATION', true);
+		// Google Analytics
+		defined('A11YC_POST_GOOGLE_ANALYTICS_CODE') or define('A11YC_POST_GOOGLE_ANALYTICS_CODE', '');
 
 		// script name
 		defined('A11YC_POST_SCRIPT_NAME') or define('A11YC_POST_SCRIPT_NAME', '/post.php');
 
-		// Google Analytics
-		defined('A11YC_POST_GOOGLE_ANALYTICS_CODE') or define('A11YC_POST_GOOGLE_ANALYTICS_CODE', '');
+		// SCRIPT URL
+		$url = Util::removeQueryStrings(Util::uri());
+		$url.= strpos($url, A11YC_POST_SCRIPT_NAME) === false ? A11YC_POST_SCRIPT_NAME : '';
+		defined('A11YC_POST_SCRIPT_URL') or define('A11YC_POST_SCRIPT_URL', $url);
 	}
 
 	/**
@@ -57,15 +57,14 @@ class Post
 	 */
 	public static function forge()
 	{
-		// set const
-		self::setConsts();
+		// is guest validation
+		defined('A11YC_IS_GUEST_VALIDATION') or define('A11YC_IS_GUEST_VALIDATION', true);
 
 		// a11yc
 		require (dirname(dirname(__DIR__)).'/main.php');
 
-		// set application url
-		static::$url = Util::removeQueryStrings(Util::uri());
-		static::$url.= strpos(static::$url, A11YC_POST_SCRIPT_NAME) === false ? A11YC_POST_SCRIPT_NAME : '';
+		// set const
+		self::setConsts();
 
 		// session
  	Session::forge('A11YCONLINEVALIDATE');
@@ -92,7 +91,7 @@ class Post
 		View::addTplPath(A11YC_PATH.'/views/post');
 
 		// set base url before call controllers
-		View::assign('base_url', self::$url);
+		View::assign('base_url', A11YC_POST_SCRIPT_URL);
 
 		// routing
 		static::routing();
@@ -128,7 +127,7 @@ class Post
 	 */
 	public static function actionLogout()
 	{
-		Auth::actionLogout(self::$url);
+		Auth::actionLogout(A11YC_POST_SCRIPT_URL);
 	}
 
 	/**
@@ -138,7 +137,7 @@ class Post
 	 */
 	public static function actionDocs()
 	{
-		View::assign('a11yc_doc_url', self::$url.'?a=doc&amp;criterion=');
+		View::assign('a11yc_doc_url', A11YC_POST_SCRIPT_URL.'?a=doc&amp;criterion=');
 		Docs::index(); // $body set
 		define('A11YC_LANG_POST_TITLE', A11YC_LANG_DOCS_TITLE);
 	}
@@ -153,7 +152,7 @@ class Post
 		$criterion = Input::get('criterion');
 		if ($criterion)
 		{
-			View::assign('a11yc_doc_url', self::$url.'?a=doc&amp;criterion=');
+			View::assign('a11yc_doc_url', A11YC_POST_SCRIPT_URL.'?a=doc&amp;criterion=');
 			Docs::each($criterion); // $body set
 			$doc = View::fetch('doc');
 			define('A11YC_LANG_POST_TITLE', $doc['name']);
@@ -279,11 +278,8 @@ class Post
 	{
 		// vals
 		$url              = Input::post('url', Input::get('url', ''));
-		$raw_url          = $url;
 		$user_agent       = Input::post('user_agent', '');
 		$default_ua       = Input::userAgent();
-		$page_title       = '';
-		$real_url         = '';
 		$doc_root         = Input::post('doc_root');
 		$target_html      = '';
 		$render           = '';
@@ -325,15 +321,17 @@ class Post
 		// error
 		if (Input::isPostExists() || Input::get('url'))
 		{
-			if ( ! $target_html && $raw_url)
+			if ( ! $target_html && $url)
 			{
 				Session::add('messages', 'errors', A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR);
 
-				if (strpos($raw_url, 'http') === false)
+				if (strpos($url, 'http') === false)
 				{
 					Session::add('messages', 'errors', A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR_NO_SCHEME);
 				}
 			}
+
+			View::assign('page_title', Model\Html::fetchPageTitleFromHtml($target_html));
 
 			// validate or image list
 			$tpl = $do_validate ? 'checklist/validate.php' : 'checklist/images.php' ;
@@ -345,15 +343,12 @@ class Post
 
 		// assign
 		View::assign('do_css_check'       , $do_css_check);
-		View::assign('do_validate'        , $do_validate);
-		View::assign('title'              , '');
-		View::assign('page_title'         , $page_title);
-		View::assign('real_url'           , $real_url ?: $url);
+		View::assign('title'              , ''); // need for header
 		View::assign('current_user_agent' , $current_ua);
 		View::assign('doc_root'           , $doc_root);
 		View::assign('user_agent'         , $user_agent);
-		View::assign('target_url'         , self::$url);
-		View::assign('url'                , $url ?: $raw_url);
+		View::assign('script_url'         , A11YC_POST_SCRIPT_URL);
+		View::assign('url'                , $url);
 		View::assign('target_html'        , $target_html);
 		View::assign('render'             , $render, false);
 		View::assign('body'               , View::fetchTpl('post/index.php'), false);
@@ -441,9 +436,6 @@ class Post
 				sprintf(A11YC_LANG_POST_DONE_NOTICE_POINTS, count($all_errs['notices'])));
 		}
 
-		// page_title
-		$page_title = Model\Html::fetchPageTitle($url);
-
 		// results
 		$errs_cnts = array_merge(
 			array('total' => count($all_errs['errors'])),
@@ -492,7 +484,7 @@ class Post
 		// auth - already logged in
 		if (A11yc\Auth::auth() && $a == 'login')
 		{
-			header('location:'.self::$url);
+			header('location:'.A11YC_POST_SCRIPT_URL);
 		}
 
 		// auth - post

@@ -1,6 +1,6 @@
 <?php namespace A11yc; ?>
 <!-- by url -->
-<form action="<?php echo $target_url ?>" method="POST" class="a11yc_validator">
+<form action="<?php echo $script_url ?>" method="POST" class="a11yc_validator">
 <h2>URL</h2>
 <label for="url">URL
 	<input type="text" name="url" id="url" size="35" value="<?php echo $url ?>">
@@ -50,7 +50,7 @@ $uas = array(
 </form>
 
 <!-- by html -->
-<form action="<?php echo $target_url ?>" method="POST" class="a11yc_validator">
+<form action="<?php echo $script_url ?>" method="POST" class="a11yc_validator">
 <h2><label for="source">HTML Source</label></h2>
 <p><?php echo A11YC_LANG_POST_CANT_SHOW_LIST_IMAGES ?></p>
 <textarea name="source" id="source" style="width: 100%; min-height: 10em;"><?php echo $target_html ?></textarea>
@@ -75,10 +75,12 @@ if ((Input::isPostExists() || Input::get('url')) && isset($result)):
 		<th scope="row"><?php echo A11YC_LANG_PAGES_PAGETITLE ?></th>
 		<td><?php echo $page_title ?></td>
 	</tr>
+<?php /* ?>
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_CHECKLIST_REAL_URL ?></th>
 		<td><?php echo $real_url ?></td>
 	</tr>
+<?php */ ?>
 	<tr>
 		<th scope="row">User Agent</th>
 		<td><?php echo $current_user_agent; ?></td>
