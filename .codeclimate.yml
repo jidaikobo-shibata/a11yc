@@ -90,3 +90,4 @@ exclude_paths:
 - libs/guzzle
 - assets/css/font-awesome
 - libs/kontiki/classes/Session.php
+- libs/a11yc/resources/ietf_langs.php
