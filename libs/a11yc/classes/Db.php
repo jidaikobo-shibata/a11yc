@@ -35,6 +35,8 @@ class Db extends \Kontiki\Db
 	 */
 	private static function initDefault($name = 'default')
 	{
+		$set_utf8 = A11YC_DB_TYPE == 'mysql' ? ' SET utf8' : '';
+
 		// init pages
 		// type: 1 HTML, 2 PDF
 		// level: -1 Non-Interferences, 0 A-, 1 A, 2 AA, 3 AAA
@@ -42,7 +44,7 @@ class Db extends \Kontiki\Db
 		$sql.= '`url`              VARCHAR(2048) NOT NULL DEFAULT "",';
 		$sql.= '`alt_url`          VARCHAR(2048) NOT NULL DEFAULT "",';
 		$sql.= '`type`             INTEGER NOT NULL DEFAULT 1,';
-		$sql.= '`title`            TEXT CHARACTER SET utf8,';
+		$sql.= '`title`            TEXT CHARACTER'.$set_utf8.',';
 		$sql.= '`level`            INTEGER NOT NULL DEFAULT 0,';
 		$sql.= '`standard`         INTEGER NOT NULL DEFAULT 1,';
 		$sql.= '`selection_reason` INTEGER NOT NULL DEFAULT 1,';
@@ -70,8 +72,8 @@ class Db extends \Kontiki\Db
 		$auto_increment = A11YC_DB_TYPE == 'mysql' ? 'auto_increment' : '' ;
 		$sql = 'CREATE TABLE '.A11YC_TABLE_UAS.' (';
 		$sql.= '`id`   INTEGER NOT NULL PRIMARY KEY '.$auto_increment.',';
-		$sql.= '`name` TEXT CHARACTER SET utf8,';
-		$sql.= '`str`  TEXT CHARACTER SET utf8';
+		$sql.= '`name` TEXT CHARACTER'.$set_utf8.',';
+		$sql.= '`str`  TEXT CHARACTER'.$set_utf8.'';
 		$sql.= ');';
 		static::execute($sql, array(), $name);
 
@@ -91,7 +93,7 @@ class Db extends \Kontiki\Db
 		$sql.= '`url`        VARCHAR(2048) NOT NULL DEFAULT "",';
 		$sql.= '`ua`         VARCHAR(2048) NOT NULL DEFAULT "",';
 		$sql.= '`type`       VARCHAR(20) NOT NULL,';
-		$sql.= '`data`       TEXT CHARACTER SET utf8,';
+		$sql.= '`data`       TEXT CHARACTER'.$set_utf8.',';
 		$sql.= '`updated_at` DATETIME';
 		$sql.= ');';
 		static::execute($sql, array(), $name);
@@ -112,7 +114,7 @@ class Db extends \Kontiki\Db
 		// init version status
 		$sql = 'CREATE TABLE '.A11YC_TABLE_VERSIONS.' (';
 		$sql.= '`version` INTEGER NOT NULL PRIMARY KEY,';
-		$sql.= '`name`    TEXT CHARACTER SET utf8,';
+		$sql.= '`name`    TEXT CHARACTER'.$set_utf8.',';
 		$sql.= '`trash`   INTEGER NOT NULL DEFAULT 0';
 		$sql.= ');';
 		static::execute($sql, array(), $name);
@@ -150,7 +152,7 @@ class Db extends \Kontiki\Db
 		$sql = 'CREATE TABLE '.A11YC_TABLE_RESULTS.' (';
 		$sql.= '`url`       VARCHAR(2048) NOT NULL DEFAULT "",';
 		$sql.= '`criterion` VARCHAR(10) NOT NULL,';
-		$sql.= '`memo`      TEXT CHARACTER SET utf8,';
+		$sql.= '`memo`      TEXT CHARACTER'.$set_utf8.',';
 		$sql.= '`uid`       INTEGER NOT NULL,';
 		$sql.= '`result`    INTEGER NOT NULL,';
 		$sql.= '`method`    INTEGER NOT NULL,';
@@ -178,7 +180,7 @@ class Db extends \Kontiki\Db
 		// init bulk results
 		$sql = 'CREATE TABLE '.A11YC_TABLE_BRESULTS.' (';
 		$sql.= '`criterion` VARCHAR(10) NOT NULL,';
-		$sql.= '`memo`      TEXT CHARACTER SET utf8,';
+		$sql.= '`memo`      TEXT CHARACTER'.$set_utf8.',';
 		$sql.= '`uid`       INTEGER NOT NULL,';
 		$sql.= '`result`    INTEGER NOT NULL,';
 		$sql.= '`method`    INTEGER NOT NULL';
@@ -200,11 +202,11 @@ class Db extends \Kontiki\Db
 		$sql.= '`is_common`     BOOL NOT NULL DEFAULT 0,';
 		$sql.= '`url`           TEXT NOT NULL DEFAULT "",';
 		$sql.= '`criterion`     VARCHAR(10) NOT NULL,';
-		$sql.= '`html`          TEXT CHARACTER SET utf8,';
+		$sql.= '`html`          TEXT CHARACTER'.$set_utf8.',';
 		$sql.= '`n_or_e`        INTEGER NOT NULL DEFAULT 0,'; // notice or error
 		$sql.= '`status`        INTEGER NOT NULL DEFAULT 0,';
 		$sql.= '`tech_url`      VARCHAR(255) NOT NULL,'; // some unique strings
-		$sql.= '`error_message` TEXT CHARACTER SET utf8,';
+		$sql.= '`error_message` TEXT CHARACTER'.$set_utf8.',';
 		$sql.= '`created_at`    DATETIME,';
 		$sql.= '`uid`           INTEGER NOT NULL DEFAULT 0,';
 		$sql.= '`version`       INTEGER NOT NULL DEFAULT 0';
@@ -228,7 +230,7 @@ class Db extends \Kontiki\Db
 		$sql.= '`issue_id`   INTEGER NOT NULL DEFAULT 0,';
 		$sql.= '`uid`        INTEGER NOT NULL DEFAULT 0,';
 		$sql.= '`created_at` DATETIME,';
-		$sql.= '`message`    TEXT CHARACTER SET utf8';
+		$sql.= '`message`    TEXT CHARACTER'.$set_utf8.'';
 		$sql.= ');';
 		static::execute($sql, array(), $name);
 
@@ -254,10 +256,11 @@ class Db extends \Kontiki\Db
 	 */
 	public static function createSettings($name)
 	{
+		$set_utf8 = A11YC_DB_TYPE == 'mysql' ? ' SET utf8' : '';
 		// init setups
 		$sql = 'CREATE TABLE '.A11YC_TABLE_SETTINGS.' (';
-		$sql.= '`key`     TEXT CHARACTER SET utf8,';
-		$sql.= '`value`   TEXT CHARACTER SET utf8,';
+		$sql.= '`key`     TEXT CHARACTER'.$set_utf8.',';
+		$sql.= '`value`   TEXT CHARACTER'.$set_utf8.',';
 		$sql.= '`version` INTEGER NOT NULL DEFAULT 0';
 		$sql.= ');';
 		static::execute($sql, array(), $name);
