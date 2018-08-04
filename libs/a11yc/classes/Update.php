@@ -38,5 +38,11 @@ class Update
 		{
 			Update\AddTrash2Issues::update();
 		}
+
+		// update settings table
+		if (Db::isFieldsExist(A11YC_TABLE_SETTINGS, array('target_level')))
+		{
+			Update\UpdateSettings::update();
+		}
 	}
 }

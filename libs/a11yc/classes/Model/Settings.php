@@ -26,7 +26,7 @@ class Settings
 
 		$sql = 'SELECT * FROM '.A11YC_TABLE_SETTINGS.Db::versionSql(false).';';
 		$ret = Db::fetchAll($sql);
-		static::$settings = Arr::get($ret, 0, array());
+		static::$settings = array_column($ret, 'value', 'key');
 		return static::$settings;
 	}
 
@@ -51,21 +51,36 @@ class Settings
 	{
 		if (Input::isPostExists())
 		{
-			// setup
-			$target_level = intval(Input::post('target_level'));
-			$selected_method = intval(Input::post('selected_method'));
-			$checklist_behaviour = intval(Input::post('checklist_behaviour'));
-			$stop_guzzle = intval(Input::post('stop_guzzle'));
-			$standard = intval(Input::post('standard'));
+			$intvals = array(
+				'target_level',
+				'selected_method',
+				'checklist_behaviour',
+				'stop_guzzle',
+				'standard',
+			);
+			$cols = array();
+			foreach ($intvals as $v)
+			{
+				$cols[$v] = intval(Input::post($v, 0));
+			}
 
 			// stripslashes
-			$declare_date = stripslashes(Input::post('declare_date'));
-			$test_period = stripslashes(Input::post('test_period'));
-			$dependencies = stripslashes(Input::post('dependencies'));
-			$policy = stripslashes(Input::post('policy'));
-			$report = stripslashes(Input::post('report'));
-			$contact = stripslashes(Input::post('contact'));
-			$base_url = rtrim(stripslashes(Input::post('base_url')), '/');
+			$stripslashes =array(
+				'declare_date',
+				'test_period',
+				'dependencies',
+				'policy',
+				'report',
+				'contact',
+				'base_url',
+				'basic_user',
+				'basic_pass',
+			);
+			foreach ($stripslashes as $v)
+			{
+				$cols[$v] = stripslashes(Input::post($v, ''));
+			}
+			$cols['base_url'] = rtrim($cols['base_url'], '/');
 
 			// additional_criterions
 			$additional_criterions = array();
@@ -76,89 +91,30 @@ class Settings
 					$additional_criterions[] = $code;
 				}
 			}
+			$cols['additional_criterions'] = serialize($additional_criterions);
 
 			$settings = self::fetchAll();
 
 			// database io
-			// about unused column `trust_ssl_url` see db.php
+			$r = false;
 			if (isset($settings['standard']))
 			{
-
-				// update
-				$sql = 'UPDATE '.A11YC_TABLE_SETTINGS.' SET';
-				$sql.= '`target_level` = ?, ';
-				$sql.= '`standard` = ?, ';
-				$sql.= '`selected_method` = ?, ';
-				$sql.= '`declare_date` = ?, ';
-				$sql.= '`test_period` = ?, ';
-				$sql.= '`dependencies` = ?, ';
-				$sql.= '`contact` = ?, ';
-				$sql.= '`policy` = ?, ';
-				$sql.= '`report` = ?,';
-				$sql.= '`additional_criterions` = ?,';
-				$sql.= '`base_url` = ?,';
-				$sql.= '`basic_user` = ?,';
-				$sql.= '`basic_pass` = ?,';
-				$sql.= '`checklist_behaviour` = ?,';
-				$sql.= '`stop_guzzle` = ? WHERE `version` = 0;';
-				$r = Db::execute($sql, array(
-						$target_level,
-						$standard,
-						$selected_method,
-						$declare_date,
-						$test_period,
-						$dependencies,
-						$contact,
-						$policy,
-						$report,
-						serialize($additional_criterions),
-						$base_url,
-						Input::post('basic_user', ''),
-						Input::post('basic_pass', ''),
-						$checklist_behaviour,
-						$stop_guzzle,
-					));
+				foreach ($cols as $k => $v)
+				{
+					$sql = 'UPDATE '.A11YC_TABLE_SETTINGS.' SET';
+					$sql.= '`value` = ? ';
+					$sql.= 'WHERE `key` = ? AND `version` = 0;';
+					$r = Db::execute($sql, array($v, $k));
+				}
 			}
 			else
 			{
-
-				// insert
-				$sql = 'INSERT INTO '.A11YC_TABLE_SETTINGS;
-				$sql.= ' (`target_level`, ';
-				$sql.= '`standard`, ';
-				$sql.= '`selected_method`, ';
-				$sql.= '`declare_date`, ';
-				$sql.= '`test_period`, ';
-				$sql.= '`dependencies`, ';
-				$sql.= '`contact`, ';
-				$sql.= '`policy`, ';
-				$sql.= '`report`, ';
-				$sql.= '`additional_criterions`, ';
-				$sql.= '`base_url`,';
-				$sql.= '`basic_user`, ';
-				$sql.= '`basic_pass`, ';
-				$sql.= '`checklist_behaviour`,';
-				$sql.= '`stop_guzzle`,';
-				$sql.= '`version`)';
-				$sql.= ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-				$r = Db::execute($sql, array(
-						$target_level,
-						$standard,
-						$selected_method,
-						$declare_date,
-						$test_period,
-						$dependencies,
-						$contact,
-						$policy,
-						$report,
-						serialize($additional_criterions),
-						$base_url,
-						Input::post('basic_user', ''),
-						Input::post('basic_pass', ''),
-						$checklist_behaviour,
-						$stop_guzzle,
-						0
-					));
+				foreach ($cols as $k => $v)
+				{
+					$sql = 'INSERT INTO '.A11YC_TABLE_SETTINGS;
+					$sql.= ' (`key`, `value`, `version`) VALUES (?, ?, 0);';
+					$r = Db::execute($sql, array($k, $v));
+				}
 			}
 
 			if ($r)
@@ -175,25 +131,28 @@ class Settings
 	/**
 	 * update field
 	 *
-	 * @param  String $field
+	 * @param  String $key
 	 * @param  Mixed  $value
 	 * @return Bool
 	 */
-	public static function updateField($field, $value)
+	public static function updateField($key, $value)
 	{
 		$settings = self::fetchAll();
-		if(empty($settings))
+		$r = false;
+		if( ! isset($settings[$key]))
 		{
-			$sql = 'INSERT INTO '.A11YC_TABLE_SETTINGS.' (`'.$field.'`, `version`) ';
-			$sql.= ' VALUES (?, 0);';
+			$sql = 'INSERT INTO '.A11YC_TABLE_SETTINGS.' (`key`, `value`, `version`) ';
+			$sql.= ' VALUES (?, ?, 0);';
+			$r = Db::execute($sql, array($key, $value));
 		}
 		else
 		{
-			$sql = 'UPDATE '.A11YC_TABLE_SETTINGS.' SET `'.$field.'` = ?';
-			$sql.= ' WHERE `version` = 0;';
+			$sql = 'UPDATE '.A11YC_TABLE_SETTINGS.' SET `value` = ?';
+			$sql.= ' WHERE `key` = ? AND `version` = 0;';
+			$r = Db::execute($sql, array($value, $key));
 		}
 
-		return Db::execute($sql, array($value));
+		return $r;
 	}
 
 }

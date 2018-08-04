@@ -233,25 +233,7 @@ class Db extends \Kontiki\Db
 		static::execute($sql, array(), $name);
 
 		// init setups
-		$sql = 'CREATE TABLE '.A11YC_TABLE_SETTINGS.' (';
-		$sql.= '`target_level`          INTEGER NOT NULL DEFAULT 0,';
-		$sql.= '`standard`              INTEGER NOT NULL DEFAULT 0,';
-		$sql.= '`selected_method`       INTEGER NOT NULL DEFAULT 0,';
-		$sql.= '`declare_date`          DATE,';
-		$sql.= '`test_period`           TEXT CHARACTER SET utf8,';
-		$sql.= '`dependencies`          TEXT CHARACTER SET utf8,';
-		$sql.= '`contact`               TEXT CHARACTER SET utf8,';
-		$sql.= '`policy`                TEXT CHARACTER SET utf8,';
-		$sql.= '`report`                TEXT CHARACTER SET utf8,';
-		$sql.= '`additional_criterions` TEXT CHARACTER SET utf8,';
-		$sql.= '`base_url`              VARCHAR(255) NOT NULL,';
-		$sql.= '`basic_user`            TEXT CHARACTER SET utf8,';
-		$sql.= '`basic_pass`            TEXT CHARACTER SET utf8,';
-		$sql.= '`checklist_behaviour`   BOOL NOT NULL DEFAULT 0,';
-		$sql.= '`stop_guzzle`           BOOL NOT NULL DEFAULT 0,';
-		$sql.= '`version`               INTEGER NOT NULL DEFAULT 0';
-		$sql.= ');';
-		static::execute($sql, array(), $name);
+		self::createSettings($name);
 
 		// init maintenance
 		$sql = 'CREATE TABLE '.A11YC_TABLE_MAINTENANCE.' (';
@@ -262,6 +244,23 @@ class Db extends \Kontiki\Db
 		$sql = 'INSERT INTO '.A11YC_TABLE_MAINTENANCE;
 		$sql.= ' (`last_checked`) VALUES (?);';
 		static::execute($sql, array(date('Y-m-d')), $name);
+	}
+
+	/**
+	 * createSettings
+	 * public because call from Update\updateSettings
+	 *
+	 * @return Void
+	 */
+	public static function createSettings($name)
+	{
+		// init setups
+		$sql = 'CREATE TABLE '.A11YC_TABLE_SETTINGS.' (';
+		$sql.= '`key`     TEXT CHARACTER SET utf8,';
+		$sql.= '`value`   TEXT CHARACTER SET utf8,';
+		$sql.= '`version` INTEGER NOT NULL DEFAULT 0';
+		$sql.= ');';
+		static::execute($sql, array(), $name);
 	}
 
 	/**

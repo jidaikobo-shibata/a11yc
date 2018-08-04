@@ -14,7 +14,6 @@ class Versions
 {
 	protected static $versions = null;
 	protected static $tables = array(
-		A11YC_TABLE_SETTINGS,
 		A11YC_TABLE_PAGES,
 		A11YC_TABLE_CHECKS,
 	);
@@ -78,6 +77,15 @@ class Versions
 				$sql.= join(', ', $placeholders).');';
 				Db::execute($sql, $vals);
 			}
+		}
+
+		// settings
+		$settings = Settings::fetchAll();
+		foreach ($settings as $k => $v)
+		{
+			$sql = 'INSERT INTO '.A11YC_TABLE_SETTINGS.' (`key`, `value`, `version`) ';
+			$sql.= ' VALUES (?, ?, ?);';
+			$r = Db::execute($sql, array($k, $v, $version));
 		}
 
 		if ($status)
