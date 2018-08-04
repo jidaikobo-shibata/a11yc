@@ -282,7 +282,6 @@ class Post
 		$default_ua       = Input::userAgent();
 		$doc_root         = Input::post('doc_root');
 		$target_html      = '';
-		$do_validate      = true;
 		$do_css_check     = Input::post('do_css_check', false);
 
 		// host check
@@ -301,38 +300,20 @@ class Post
 		self::auth();
 
 		// validation
-		if (Input::post('source'))
-		{
-			$target_html = Input::post('source');
-		}
-		elseif ($url)
-		{
-			$target_html = Model\Html::fetchHtml($url, $ua); // not use Database
-			$do_validate = self::failedOrDoOtherAction($url, $doc_root, $do_validate);
-		}
+		list($target_html, $do_validate) = self::getHtmlAndCheckDoValidate($url, $doc_root, $ua);
 
-		// Do Validate
+		// Do Validate - if image list, not validate
 		if ($target_html && $do_validate)
 		{
 			self::validate($url, $target_html, $ua, $do_css_check);
 		}
 
-		// error
+		// when post/get exists set message and template
 		if (Input::isPostExists() || Input::get('url'))
 		{
-			if ( ! $target_html && $url)
-			{
-				Session::add('messages', 'errors', A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR);
+			self::setMessage($target_html, $url);
 
-				if (strpos($url, 'http') === false)
-				{
-					Session::add('messages', 'errors', A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR_NO_SCHEME);
-				}
-			}
-
-			View::assign('page_title', Model\Html::fetchPageTitleFromHtml($target_html));
-
-			// validate or image list
+			// choose template validate or image list
 			$tpl = $do_validate ? 'checklist/validate.php' : 'checklist/images.php' ;
 			View::assign('result', View::fetchTpl($tpl), false);
 		}
@@ -353,15 +334,65 @@ class Post
 	}
 
 	/**
+	 * getHtmlAndCheckDoValidate
+	 *
+	 * @param String $url
+	 * @param String $doc_root
+	 * @param String $ua
+	 * @return Array
+	 */
+	private static function getHtmlAndCheckDoValidate($url, $doc_root, $ua)
+	{
+		$target_html = '';
+		$do_validate = true;
+		if (Input::post('source'))
+		{
+			$target_html = Input::post('source');
+		}
+		elseif ($url)
+		{
+			$target_html = Model\Html::fetchHtml($url, $ua); // not use Database
+			$do_validate = self::failedOrDoOtherAction($url, $doc_root);
+		}
+		return array($target_html, $do_validate);
+	}
+
+	/**
+	 * setMessage
+	 *
+	 * @param String $target_html
+	 * @param String $url
+	 * @return Bool
+	 */
+	private static function setMessage($target_html, $url)
+	{
+		if ( ! $target_html && $url)
+		{
+			Session::add('messages', 'errors', A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR);
+
+			if (strpos($url, 'http') === false)
+			{
+				Session::add('messages', 'errors', A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR_NO_SCHEME);
+			}
+		}
+
+		if ($target_html)
+		{
+			View::assign('page_title', Model\Html::fetchPageTitleFromHtml($target_html));
+		}
+	}
+
+	/**
 	 * failedOrDoOtherAction
 	 *
 	 * @param String $url
 	 * @param String $doc_root
-	 * @param Bool   $do_validate
 	 * @return Bool|Void
 	 */
-	private static function failedOrDoOtherAction($url, $doc_root, $do_validate)
+	private static function failedOrDoOtherAction($url, $doc_root)
 	{
+		$do_validate = true;
+
 		// basic auth failed
 		if (Guzzle::instance($url)->status_code == 401)
 		{
