@@ -41,36 +41,12 @@ class LinkCheck extends Validate
 
 		foreach ($ms[0] as $k => $tag)
 		{
-			$target_url = '';
 			$ele = $ms[1][$k];
 
 			if ( ! in_array($ele, $checks)) continue;
 			$attrs = Element::getAttributes($tag);
 
-			if (isset($attrs['href']))
-			{
-				$target_url = $attrs['href'];
-			}
-			elseif (isset($attrs['src']))
-			{
-				$target_url = $attrs['src'];
-			}
-			elseif (isset($attrs['action']))
-			{
-				$target_url = $attrs['action'];
-			}
-			elseif (isset($attrs['property']))
-			{
-				if ($attrs['property'] == 'og:url' || $attrs['property'] == 'og:image')
-				{
-					$target_url = $attrs['content'];
-				}
-			}
-			else
-			{
-				continue;
-			}
-
+			$target_url = self::getTargetUrl($attrs);
 			if ( ! $target_url) continue;
 
 			// fragments
@@ -116,5 +92,35 @@ class LinkCheck extends Validate
 		{
 			static::addErrorToHtml($url, 'link_check', static::$error_ids[$url], 'ignores_comment_out');
 		}
+	}
+
+	/**
+	 * get target url
+	 *
+	 * @param  Array $attrs
+	 * @return String
+	 */
+	protected static function getTargetUrl($attrs)
+	{
+		if (isset($attrs['href']))
+		{
+			return $attrs['href'];
+		}
+		elseif (isset($attrs['src']))
+		{
+			return $attrs['src'];
+		}
+		elseif (isset($attrs['action']))
+		{
+			return $attrs['action'];
+		}
+		elseif (isset($attrs['property']))
+		{
+			if ($attrs['property'] == 'og:url' || $attrs['property'] == 'og:image')
+			{
+				return $attrs['content'];
+			}
+		}
+		return '';
 	}
 }

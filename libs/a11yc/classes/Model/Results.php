@@ -77,8 +77,8 @@ class Results
 		// update
 		foreach ($results as $criterion => $v)
 		{
-			$result = intval($v['result']);
-			$method = intval($v['method']);
+			$result = intval(Arr::get($v, 'result', 0));
+			$method = intval(Arr::get($v, 'method', 0));
 			$uid    = intval(Arr::get($v, 'uid', 0));
 			$memo   = stripslashes(Arr::get($v, 'memo', ''));
 
