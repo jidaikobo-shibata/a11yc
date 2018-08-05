@@ -479,32 +479,28 @@ class Element
 	public static function getDoctype($url)
 	{
 		if (empty(Validate::$hl_htmls[$url])) return false;
+		$html = Validate::$hl_htmls[$url];
 
-		preg_match("/\<!DOCTYPE [^\>]+?\>/", Validate::$hl_htmls[$url], $ms);
-
-		// html5
-		if ( ! isset($ms[0]))
-		{
-			preg_match("/\<!DOCTYPE html\>/i", Validate::$hl_htmls[$url], $ms);
-		}
+		preg_match("/\<!DOCTYPE [^\>]+?\>/is", $html, $ms);
 
 		if ( ! isset($ms[0])) return false; // doctypeless
 
 		// doctype
 		$doctype = null;
+		$target_str = strtolower(str_replace(array("\n", ' '), '', $ms[0]));
 
 		// html5
-		if(strtolower($ms[0]) == '<!doctype html>')
+		if(strpos($target_str, 'doctypehtml>') !== false)
 		{
 			$doctype = 'html5';
 		}
 		// HTML4
-		else if (strpos($ms[0], 'DTD HTML 4.01') !== false)
+		else if (strpos($ms[0], 'dtdhtml4.01') !== false)
 		{
 			$doctype = 'html4';
 		}
 		// xhtml1x
-		else if(strpos($ms[0], 'DTD XHTML 1') !== false)
+		else if(strpos($ms[0], 'dtdxhtml1') !== false)
 		{
 			$doctype = 'xhtml1';
 		}

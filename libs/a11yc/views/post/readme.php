@@ -46,6 +46,9 @@
 
 <dl>
 
+<dt>2.0.6 (<time>2018-08-05</time>)</dt>
+	<dd>better <code>&lt;DOCTYPE&gt;</code> recognition(thx <a href="https://twitter.com/momdo_">@momdo_</a>).</dd>
+
 <dt>2.0.5 (<time>2018-08-02</time>)</dt>
 	<dd>at readme: content of <time> was invalid string (Y-n-j -> Y-m-d)(thx <a href="https://twitter.com/momdo_">@momdo_</a>).</dd>
 	<dd>at documentation: fix unexpectedlly escaped HTML and markup HTML by <code>&lt;code&gt;</code>(thx <a href="https://twitter.com/momdo_">@momdo_</a>).</dd>
