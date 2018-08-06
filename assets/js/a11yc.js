@@ -186,18 +186,7 @@ jQuery(function($){
 
 		// add tabindex -1
 		if( !$t.is(':input') && !$t.is('a') && !$t.attr('tabindex')) $t.attr('tabindex', '-1');
-
-		if($('#a11yc_header')[0] && !$('.a11yc_fixed_header')[0])
-		{
-			$.when(a11yc_fixed_header(e))
-			.done(function(){
-				a11yc_smooth_scroll(href)
-			});
-		}
-		else
-		{
-			a11yc_smooth_scroll(href);
-		}
+		a11yc_smooth_scroll(href);
 	});
 });
 function a11yc_smooth_scroll(href) {
