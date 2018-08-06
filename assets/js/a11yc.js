@@ -7,21 +7,16 @@ if(!$('.a11yc')[0])
 	window.a11yc_env = {
 		$a11yc_content : $('.a11yc').eq(0),
 		fixed_height : 0,
-		fixed_top : 0,
 		scroll_top_position : 0,
 		$footer : $('#a11yc_submit')[0] ? $('#a11yc_submit') : $(),
 		fixed_footer_top : $('#a11yc_submit')[0] ? $('#a11yc_submit').offset().top : 0 ,
 		menu_height : 0,
 		pagemenu_height : 0,
 		pagemenu_top : 0,
-		header_height : 0,
-		top_padding : 0,
-		margin_top : $('#a11yc_header_p_1')[0] ? parseInt($('#a11yc_header_p_1').css('margin-top'), 10) : 0,
+		current_position : 0,
 		scrollable_element : '',
 		$menu : $('#wpadminbar')[0] ? $('#wpadminbar') : $('#a11yc_menu_wrapper'),
 		$pagemenu : $('#a11yc_menu_principles')[0] ? $('#a11yc_menu_principles') : $(),
-		$pagemenu_count :$(),
-		current_position : 0,
 		$current_level : $('[data-a11yc-target_level]').data('a11ycTarget_level'), //有無を調べてから？
 		$additional_criterions: $(),
 		is_hide_passed_item : $('.a11yc_hide_passed_item')[0] ? true : false,
@@ -70,18 +65,6 @@ if(!$('.a11yc')[0])
 		{
 			a11yc_env.header_height = $('#a11yc_header')[0] ? $('#a11yc_header').outerHeight(true) : 0;
 		}
-		// height : fixed a11yc_header
-		if(!arr || $.inArray('fh', arr))
-		{
-			a11yc_env.fixed_height = $('.a11yc_fixed_header')[0] ? $('#a11yc_header').outerHeight(true) : a11yc_env.$menu.outerHeight();
-		}
-		// top : fixed a11yc_header
-		if(!arr || $.inArray('fht', arr))
-		{
-			a11yc_env.fixed_top = $('#a11yc_header_inner')[0] ?  $('#a11yc_header_inner').find('div:not(.a11yc_hide_if_fixedheader)').first().offset().top  - a11yc_env.menu_height: a11yc_env.pagemenu_top;
-			scroll_top_position = a11yc_env.fixed_top;
-		}
-		
 		// top of fixed footer
 		if(( !arr || $.inArray('ff', arr)) && a11yc_env.fixed_footer_top !==0 )
 		{
@@ -158,13 +141,13 @@ jQuery(function($){
 		e.stopPropagation();
 		setTimeout(function(){
 			var $t = $(e.target);
-			if(!$t[0] || $t.closest($('#a11yc_menu, .a11yc_fixed_header #a11yc_header, #a11yc_submit'))[0]) return;
+			if(!$t[0] || $t.closest($('#a11yc_menu, #a11yc_header, #a11yc_submit'))[0]) return;
 			var scroll = $(window).scrollTop();
-			var h_position = scroll+a11yc_env.fixed_height;
+			var h_position = scroll+a11yc_env.header_height;
 			var t_position = $t.offset().top;
 			if(h_position > t_position) //hidden in fixed header
 			{
-				$(a11yc_env.scrollable_element).scrollTop(t_position-a11yc_env.fixed_height);
+				$(a11yc_env.scrollable_element).scrollTop(t_position-a11yc_env.header_height);
 			}
 			else if($t.closest('#a11yc_header')[0]) //hidden in fixed menu
 			{
@@ -229,7 +212,7 @@ function a11yc_smooth_scroll(href) {
 		if(t_position === false ) return;
 
 		//move
-		position = t_position - a11yc_env.fixed_height;
+		position = t_position - a11yc_env.header_height;
 		$.when($(a11yc_env.scrollable_element).animate({scrollTop: position},500))
 			.done($t.focus());
 		return false; //
@@ -273,79 +256,6 @@ jQuery(function($){
 		$target.prop('checked', prop);
 	});
 });
-
-
-/* === fixed_header === */
-function a11yc_fixed_header(e){
-//ページ読み込み直後に実行される場合、ヘッダの高さ分調整ができていない
-jQuery(function($){
-	if( $('.a11yc_fixed_header')[0])
-	{
-		if($(window).scrollTop() < scroll_top_position)
-		{
-			a11yc_remove_fixed_header();
-		}
-	}
-	else
-	{
-	//	console.time('a11yc_fixed_header');
-		var position = $(window).scrollTop();
-		// a11yc_env.fixed_footer_top
-		// a11yc_env.pagemenu_top
-		if ( (e && e.type==='click') || position >= a11yc_env.fixed_top)
-		{
-			a11yc_env.$a11yc_content.addClass('a11yc_fixed_header');
-			$.fn.a11yc_get_height(['hh','mh','pmh','fh']);
-			
-			// get top padding for fixed header
-			if(!a11yc_env.is_wp)
-			{
-				a11yc_env.top_padding = a11yc_env.fixed_height-a11yc_env.margin_top;
-			}
-			else
-			{
-				a11yc_env.top_padding = a11yc_env.fixed_height+10;
-			}
-	
-			// add padding for header space
-			a11yc_env.$a11yc_content.css('paddingTop', a11yc_env.top_padding);
-			$('#a11yc_header').css('paddingTop', a11yc_env.menu_height);
-	
-/*
-			// scroll by diff
-			//if same page link : return
-			if(e.type==="click") return;
-	
-			var diff = a11yc_env.fixed_height - (a11yc_env.fixed_height);
-			var moved_position = $(window).scrollTop();
-			var adjust_position = moved_position-diff-a11yc_env.top_padding;
-	
-			adjust_position = adjust_position < 1 ? 0 : adjust_position;
-			$(a11yc_env.scrollable_element).scrollTop(adjust_position);
-*/
-		}
-	}
-//	console.timeEnd('a11yc_fixed_header');
-});
-}
-//	remove fixed header
-function a11yc_remove_fixed_header(){
-	jQuery(function($){
-		if(!$('.a11yc_fixed_header')[0]) return;
-		a11yc_env.$a11yc_content.removeClass('a11yc_fixed_header');
-//			$('#a11yc_header_ctrl').prependTo('#a11yc_form_checklist');
-		if(!a11yc_env.is_wp)
-		{
-			a11yc_env.$a11yc_content.css('paddingTop', a11yc_env.menu_height);
-		}
-		else
-		{
-			a11yc_env.$a11yc_content.css('paddingTop', 0);
-		}
-		$('#a11yc_header').css('paddingTop', 0);
-		$.fn.a11yc_get_height ();
-	});
-}
 
 
 /* === narrow level === */
@@ -557,15 +467,9 @@ jQuery(function($){
 		return $items;
 	}
 
-	// fixed header
-	if ($('#a11yc_header')[0])
-	{
-		$(window).on('scroll', a11yc_fixed_header);
-	}
-
 	// resize
 	$(window).on('resize', function(){
-		$.fn.a11yc_get_height ();
+		$.fn.a11yc_get_height();
 		//本当はresizeの際にpaddingも変化させないといけない
 		//	a11yc_fixed_header();
 	});
@@ -624,7 +528,6 @@ jQuery(function($){
 			success: function(data) {
 				$('#a11yc_validator_results').removeClass('a11yc_loading').append(data);
 				$.fn.a11yc_disclosure();
-				if(!$('.a11yc_fixed_header')[0]) $.fn.a11yc_get_height();
 				$.fn.a11yc_format_validation_error();
 				//$.fn.a11yc_set_validation_code_txt();
 			},
