@@ -4,7 +4,43 @@
 <!-- header -->
 <div id="a11yc_header">
 	<div id="a11yc_header_inner">
-		<div id="a11yc_header_ctrl" class="a11yc_hide_if_fixedheader">
+		<div id="" class="">
+			<!-- not for bulk -->
+		<?php if ( ! $is_bulk): ?>
+			<div id="a11yc_targetpage_data">
+			<!-- target page -->
+		<table id="a11yc_targetpage_info">
+		<tr>
+			<th class=""><?php echo A11YC_LANG_CHECKLIST_TARGETPAGE ?></th>
+			<td title="<?php echo $target_title ?>"><?php echo $target_title ?></td>
+		</tr>
+		<tr>
+			<th class=""><?php echo A11YC_LANG_PAGES_URLS ?></th>
+			<td title="<?php echo Util::s(Util::urldec($url)) ?>"><?php echo '<a href="'.Util::s(Util::urldec($url)).'">'.Util::s(Util::urldec($url)).'</a>' ?></td>
+<?php /* ?>
+<?php // 振る舞いが怪しいので、ちょっと様子見 ?>
+			<th><label for="a11yc_mod_url"><?php echo A11YC_LANG_PAGES_URLS ?></label></th>
+			<td>
+				<input type="text" name="mod_url" id="a11yc_mod_url" size="30" value="<?php echo Util::urldec($url) ?>" />
+			</td>
+<?php */ ?>
+		</tr>
+		</table>
+		</div><!-- /#a11yc_targetpage_data -->
+		<?php endif; ?>
+		</div><!-- /#a11yc_header_left -->
+
+		<!-- a11yc menu -->
+		<ul id="a11yc_menu_principles">
+		<?php foreach ($yml['principles'] as $v): ?>
+			<li id="a11yc_menuitem_<?php echo $v['code'] ?>"><a href="#a11yc_header_p_<?php echo $v['code'] ?>"><span><?php echo /* $v['code'] .' '.*/ $v['name'] ?></span></a></li>
+		<?php endforeach; ?>
+		</ul><!--/#a11yc_menu_principles-->
+	</div><!--/#a11yc_header_inner-->
+</div><!--/#a11yc_header-->
+
+
+		<div id="a11yc_header_ctrl" class="">
 		<?php if ( ! $is_bulk): ?>
 			<!-- standard -->
 			<p id="a11yc_header_done_date" class="">
@@ -36,32 +72,6 @@
 				<?php endforeach; ?>
 				</select>
 			</p>
-		<?php endif; ?>
-		</div><!-- /#a11yc_header_ctrl -->
-		<div id="a11yc_header_left" class="a11yc_fl">
-			<!-- not for bulk -->
-		<?php if ( ! $is_bulk): ?>
-			<div id="a11yc_targetpage_data">
-			<!-- target page -->
-		<table id="a11yc_targetpage_info">
-		<tr>
-			<th class="a11yc_hide_if_fixedheader"><?php echo A11YC_LANG_CHECKLIST_TARGETPAGE ?></th>
-			<td title="<?php echo $target_title ?>"><?php echo $target_title ?></td>
-		</tr>
-		<tr>
-			<th class="a11yc_hide_if_fixedheader"><?php echo A11YC_LANG_PAGES_URLS ?></th>
-			<td title="<?php echo Util::s(Util::urldec($url)) ?>"><?php echo '<a href="'.Util::s(Util::urldec($url)).'">'.Util::s(Util::urldec($url)).'</a>' ?></td>
-<?php /* ?>
-<?php // 振る舞いが怪しいので、ちょっと様子見 ?>
-			<th><label for="a11yc_mod_url"><?php echo A11YC_LANG_PAGES_URLS ?></label></th>
-			<td>
-				<input type="text" name="mod_url" id="a11yc_mod_url" size="30" value="<?php echo Util::urldec($url) ?>" />
-			</td>
-<?php */ ?>
-		</tr>
-		</table>
-
-		</div><!-- /#a11yc_targetpage_data -->
 		<?php else: ?>
 			<p><label for="a11yc_update_all"><?php echo A11YC_LANG_BULK_UPDATE ?></label>
 			<select name="update_all" id="a11yc_update_all" >
@@ -77,34 +87,14 @@
 				<option value="3"><?php echo A11YC_LANG_BULK_DONE3 ?></option>
 			</select></p>
 		<?php endif; ?>
-		</div><!-- /#a11yc_header_left -->
-
-		<div id="a11yc_header_right" class="a11yc_fr">
-		<!-- narrow level -->
-			<p class="a11yc_narrow_level" data-a11yc-narrow-target=".a11yc_section_principle">Level:
-		<?php
-			for ($i=1; $i<=3; $i++)
-			{
-				$class_str = ($i == $target_level) || ($target_level == 0 && $i == 3) ? ' class="current"' : '';
-				echo '<a role="button" tabindex="0" data-narrow-level=\'['.implode(',', array_slice(array('"l_a"', '"l_aa"', '"l_aaa"'), 0, $i)).']\''.$class_str.'>'.Util::num2str($i).'</a>';
-			}
-		?>
-			</p>
-
+		</div><!-- /#a11yc_header_ctrl -->
+		<div id="a11yc_header_right" class="">
 		<?php if ( ! $is_bulk): ?>
 			<!-- level -->
 			<p id="a11yc_target_level" class="a11yc_hide_if_fixedheader"><?php echo A11YC_LANG_TARGET_LEVEL ?>: <?php echo Util::num2str($target_level) ?>
 	<?php $current_level = $target_level ? Evaluate::resultStr(@$page['level'], $target_level) : '-'; ?><br><?php echo A11YC_LANG_CURRENT_LEVEL ?>: <span id="a11yc_conformance_level"><?php echo $current_level ?></span></p>
 		<?php endif ?>
 		</div><!-- /#a11yc_header_right -->
-		<!-- a11yc menu -->
-		<ul id="a11yc_menu_principles">
-		<?php foreach ($yml['principles'] as $v): ?>
-			<li id="a11yc_menuitem_<?php echo $v['code'] ?>"><a href="#a11yc_header_p_<?php echo $v['code'] ?>"><span><?php echo /* $v['code'] .' '.*/ $v['name'] ?></span></a></li>
-		<?php endforeach; ?>
-		</ul><!--/#a11yc_menu_principles-->
-	</div><!--/#a11yc_header_inner-->
-</div><!--/#a11yc_header-->
 
 		<?php
 			if ( ! $is_bulk):
@@ -149,7 +139,7 @@
 
 			<!-- .a11yc_result -->
 			<div class="a11yc_result">
-				<table class="a11yc_table_check">
+				<table class="a11yc_table a11yc_table_check">
 				<thead>
 					<tr>
 					<th class="a11yc_table_check_test_result" scope="col"><?php echo A11YC_LANG_TEST_RESULT ?></th>
@@ -229,7 +219,7 @@
 				if ( ! isset($yml['techs_codes'][$criterion][$tf])) continue;
 				?>
 				<!-- checks <?php echo $tf ?> -->
-				<table class="a11yc_table_check"><tbody>
+				<table class="a11yc_table a11yc_table_check"><tbody>
 				<?php
 				$i = 0;
 
