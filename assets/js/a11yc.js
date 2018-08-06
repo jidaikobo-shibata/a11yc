@@ -7,9 +7,10 @@ if(!$('.a11yc')[0])
 	window.a11yc_env = {
 		$a11yc_content : $('.a11yc').eq(0),
 		fixed_height : 0,
+		fixed_top : 0,
+		scroll_top_position : 0,
 		$footer : $('#a11yc_submit')[0] ? $('#a11yc_submit') : $(),
 		fixed_footer_top : $('#a11yc_submit')[0] ? $('#a11yc_submit').offset().top : 0 ,
-		scroll_top_position : 0,
 		menu_height : 0,
 		pagemenu_height : 0,
 		pagemenu_top : 0,
@@ -74,6 +75,13 @@ if(!$('.a11yc')[0])
 		{
 			a11yc_env.fixed_height = $('.a11yc_fixed_header')[0] ? $('#a11yc_header').outerHeight(true) : a11yc_env.$menu.outerHeight();
 		}
+		// top : fixed a11yc_header
+		if(!arr || $.inArray('fht', arr))
+		{
+			a11yc_env.fixed_top = $('#a11yc_header_inner')[0] ?  $('#a11yc_header_inner').find('div:not(.a11yc_hide_if_fixedheader)').first().offset().top  - a11yc_env.menu_height: a11yc_env.pagemenu_top;
+			scroll_top_position = a11yc_env.fixed_top;
+		}
+		
 		// top of fixed footer
 		if(( !arr || $.inArray('ff', arr)) && a11yc_env.fixed_footer_top !==0 )
 		{
@@ -273,53 +281,48 @@ function a11yc_fixed_header(e){
 jQuery(function($){
 	if( $('.a11yc_fixed_header')[0])
 	{
-		a11yc_remove_fixed_header();
+		if($(window).scrollTop() < scroll_top_position)
+		{
+			a11yc_remove_fixed_header();
+		}
 	}
 	else
 	{
 	//	console.time('a11yc_fixed_header');
 		var position = $(window).scrollTop();
-		var padding = a11yc_env.fixed_height;
-		if ( (e && e.type==='click') || position >= a11yc_env.pagemenu_top)
+		// a11yc_env.fixed_footer_top
+		// a11yc_env.pagemenu_top
+		if ( (e && e.type==='click') || position >= a11yc_env.fixed_top)
 		{
-/*			//hide_if_fixedheader
-			$('#a11yc_header').find('.a11yc_hide_if_fixedheader').each(function(){
-				if($(this).hasClass('hide')) return;
-				$(this).removeClass('show').addClass('hide').hide();
-	
-				if(!$(this).hasClass('a11yc_disclosure_target')) return;
-				var index = $('.a11yc_disclosure_target').index(this);
-				$('.a11yc_disclosure').eq(index).removeClass('show').addClass('hide');
-			});
-			*/
 			a11yc_env.$a11yc_content.addClass('a11yc_fixed_header');
 			$.fn.a11yc_get_height(['hh','mh','pmh','fh']);
+			
+			// get top padding for fixed header
 			if(!a11yc_env.is_wp)
 			{
 				a11yc_env.top_padding = a11yc_env.fixed_height-a11yc_env.margin_top;
 			}
 			else
 			{
-//				a11yc_env.top_padding = 0;
-//a11yc_env.$a11yc_content.offset().top
-				a11yc_env.top_padding = a11yc_env.fixed_height;
-				a11yc_env.scroll_top_position = a11yc_env.top_padding;
+				a11yc_env.top_padding = a11yc_env.fixed_height+10;
 			}
 	
 			// add padding for header space
 			a11yc_env.$a11yc_content.css('paddingTop', a11yc_env.top_padding);
 			$('#a11yc_header').css('paddingTop', a11yc_env.menu_height);
 	
+/*
+			// scroll by diff
 			//if same page link : return
 			if(e.type==="click") return;
 	
-			// scroll by diff
-			var diff = padding-(a11yc_env.fixed_height);
+			var diff = a11yc_env.fixed_height - (a11yc_env.fixed_height);
 			var moved_position = $(window).scrollTop();
 			var adjust_position = moved_position-diff-a11yc_env.top_padding;
 	
 			adjust_position = adjust_position < 1 ? 0 : adjust_position;
 			$(a11yc_env.scrollable_element).scrollTop(adjust_position);
+*/
 		}
 	}
 //	console.timeEnd('a11yc_fixed_header');
@@ -328,23 +331,19 @@ jQuery(function($){
 //	remove fixed header
 function a11yc_remove_fixed_header(){
 	jQuery(function($){
-	console.log($(window).scrollTop());
-		if($(window).scrollTop() === 0)
+		if(!$('.a11yc_fixed_header')[0]) return;
+		a11yc_env.$a11yc_content.removeClass('a11yc_fixed_header');
+//			$('#a11yc_header_ctrl').prependTo('#a11yc_form_checklist');
+		if(!a11yc_env.is_wp)
 		{
-			if(!$('.a11yc_fixed_header')[0]) return;
-			a11yc_env.$a11yc_content.removeClass('a11yc_fixed_header');
-	//			$('#a11yc_header_ctrl').prependTo('#a11yc_form_checklist');
-			if(!a11yc_env.is_wp)
-			{
-				a11yc_env.$a11yc_content.css('paddingTop', a11yc_env.menu_height);
-			}
-			else
-			{
-				a11yc_env.$a11yc_content.css('paddingTop', 0);
-			}
-			$('#a11yc_header').css('paddingTop', 0);
-			$.fn.a11yc_get_height ();
+			a11yc_env.$a11yc_content.css('paddingTop', a11yc_env.menu_height);
 		}
+		else
+		{
+			a11yc_env.$a11yc_content.css('paddingTop', 0);
+		}
+		$('#a11yc_header').css('paddingTop', 0);
+		$.fn.a11yc_get_height ();
 	});
 }
 
