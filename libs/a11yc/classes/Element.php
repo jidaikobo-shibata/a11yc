@@ -495,12 +495,12 @@ class Element
 			$doctype = 'html5';
 		}
 		// HTML4
-		else if (strpos($ms[0], 'dtdhtml4.01') !== false)
+		else if (strpos($target_str, 'dtdhtml4.01') !== false)
 		{
 			$doctype = 'html4';
 		}
 		// xhtml1x
-		else if(strpos($ms[0], 'dtdxhtml1') !== false)
+		else if(strpos($target_str, 'dtdxhtml1') !== false)
 		{
 			$doctype = 'xhtml1';
 		}
