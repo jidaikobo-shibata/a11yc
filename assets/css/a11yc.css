@@ -279,7 +279,7 @@ tr.a11yc_flash {
 }
 .a11yc #a11yc_header_ctrl {
 	position: relative;
-	float: right;
+/*	float: right;*/
 }
 .a11yc #a11yc_header_ctrl+.a11yc_presentation {
 	width: 100%;
@@ -323,11 +323,11 @@ tr.a11yc_flash {
 	border-bottom: none;
 	width: 100%;
 }
-.a11yc table tr:nth-child(even),
-.a11yc thead+tbody tr:nth-child(odd) {
+.a11yc_table tr:nth-child(even),
+.a11yc_table thead+tbody tr:nth-child(odd) {
 	background-color: #f3f3f3;
 }
-.a11yc thead+tbody tr:nth-child(even) {
+.a11yc_table thead+tbody tr:nth-child(even) {
 	background-color: transparent;
 }
 .a11yc_table th,
@@ -623,8 +623,8 @@ table.a11yc_table_info {
 	width: calc( 100% - 20em );
 }
 #a11yc_header_right {
-	text-align: right;
-	width: 20em;
+/*	text-align: right;
+	width: 20em;*/
 }
 #a11yc_targetpage_info th {
 	text-align: left;
