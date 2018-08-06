@@ -9,6 +9,7 @@ if(!$('.a11yc')[0])
 		fixed_height : 0,
 		$footer : $('#a11yc_submit')[0] ? $('#a11yc_submit') : $(),
 		fixed_footer_top : $('#a11yc_submit')[0] ? $('#a11yc_submit').offset().top : 0 ,
+		scroll_top_position : 0,
 		menu_height : 0,
 		pagemenu_height : 0,
 		pagemenu_top : 0,
@@ -48,28 +49,32 @@ if(!$('.a11yc')[0])
 
 	//get contents height
 	$.fn.a11yc_get_height = function(arr){
-//	console.log('fn.a11yc_get_height');
-//	console.log(typeof arr!=='undefined' ? arr : 'get all');
+		// height : menu (toolbar)
 		if(!arr || $.inArray('mh', arr))
 		{
 			a11yc_env.menu_height = a11yc_env.$menu.outerHeight();
 		}
+		// top : menu_principles
 		if(!arr || $.inArray('pt', arr))
 		{
 			a11yc_env.pagemenu_top = a11yc_env.$pagemenu[0] ? a11yc_env.$pagemenu.offset().top - a11yc_env.menu_height : 0;
 		}
+		// height : menu_principles
 		if(!arr || $.inArray('pmh', arr))
 		{
 			a11yc_env.pagemenu_height = $('#a11yc_menu_principles')[0] ? $('#a11yc_menu_principles').outerHeight() : 0;
 		}
+		// height : a11yc_header
 		if(!arr || $.inArray('hh', arr))
 		{
 			a11yc_env.header_height = $('#a11yc_header')[0] ? $('#a11yc_header').outerHeight(true) : 0;
 		}
+		// height : fixed a11yc_header
 		if(!arr || $.inArray('fh', arr))
 		{
 			a11yc_env.fixed_height = $('.a11yc_fixed_header')[0] ? $('#a11yc_header').outerHeight(true) : a11yc_env.$menu.outerHeight();
 		}
+		// top of fixed footer
 		if(( !arr || $.inArray('ff', arr)) && a11yc_env.fixed_footer_top !==0 )
 		{
 			a11yc_env.fixed_footer_top = a11yc_env.$footer.offset().top;
@@ -78,75 +83,11 @@ if(!$('.a11yc')[0])
 	$.fn.a11yc_get_height();
 });
 
-/* === common functions === */
-jQuery(function($){
-	if( typeof a11yc_env === "undefined" ) return;
-	//ディスクロージャ
-});
-
-jQuery(function($){
-	if( typeof a11yc_env === "undefined" ) return;
-	//エラー・ソース欄の展開用。
-	//expand contents
-	if(!$('#a11yc_post')[0])
-	{
-		var icon_labels = [$('#a11yc_checks').data('a11ycLang').expand, $('#a11yc_checks').data('a11ycLang').compress];
-		$expand_icon = $('<a role="button" class="a11yc_expand a11yc_hasicon" tabindex="0"><span role="presentation" aria-hidden="true" class="a11yc_icon_fa a11yc_icon_expand"></span><span class="a11yc_skip">'+icon_labels[0]+'</span></a>');
-
-		 $('#a11yc_validator_results .a11yc_controller').append($expand_icon.clone());
-
-		$(document).on('click', '.a11yc_expand', function(){
-			var index = $('.a11yc_expand').index(this);
-			$(this).toggleClass('on');
-			$('.a11yc_expand').eq(index).toggleClass('expand');
-			if($(this).hasClass('on')){
-				$(this).find('.a11yc_skip').text(icon_labels[1]);
-			}else{
-				$(this).find('.a11yc_skip').text(icon_labels[0]);
-			}
-		});
-	}
-});
-
-jQuery(function($){
-	if( typeof a11yc_env === "undefined" ) return;
-
-	//in validation error : add link anchor etc.
-	$.fn.a11yc_format_validation_error = function(){
-	console.log(123);
-		var $error_wrapper = $('#a11yc_validation_list');
-		if ($error_wrapper[0])
-		{
-			var $error_lists = $error_wrapper.find('dt');
-			var $error_elms = $error_wrapper.find('.a11yc_validation_error_str');
-			var $error_anchors = $('#a11yc_validation_code').find('.a11yc_source span');
-			var $error_places = $();
-			var $validation_code = $('#a11yc_validation_code');
-			
-			// click validate_link
-			$(document).on('click', '.a11yc_validate_link a', function(e){
-			console.log(e.currentTarget);
-				var $t = $($(e.currentTarget).attr('href'));
-				e.stopPropagation();
-				e.preventDefault();
-				// open disclosure
-				if( ! $validation_code.prop('open'))
-				{
-					$validation_code.prop('open');
-					$(e.currentTarget).click();
-				}
-				else
-				{
-					a11yc_smooth_scroll($t);
-					$t.focus();
-				}
-				return false;
-			});
-		}
-	}
-});
-
-// display when javascript is active
+/*
+ *  common functions
+ */
+ 
+/*=== display when javascript is active === */
 jQuery(function($){
 	$('.a11yc_hide_if_no_js').removeClass('a11yc_hide_if_no_js').addClass('a11yc_show_if_js');
 	$('.a11yc_hide_if_no_js').find(':disabled').prop("disabled", false);
@@ -202,7 +143,7 @@ jQuery(function($){
 	}
 });
 
-// adjust focus position
+/* ===  adjust focus position === */
 jQuery(function($){
 	if( typeof a11yc_env === "undefined" ) return;
 	$('.a11yc').on('focus', 'a, :input', function(e){
@@ -230,11 +171,7 @@ jQuery(function($){
 			}
 		},100);
 	});
-});
 
-/* === a11yc_adjust_position === */
-jQuery(function($){
-	if( typeof a11yc_env === "undefined" ) return;
 	$.fn.a11yc_adjust_position = function($obj){
 	if(!$obj) return;
 //		console.time('fn.a11yc_adjust_position');
@@ -291,6 +228,44 @@ function a11yc_smooth_scroll(href) {
 	});
 //	console.timeEnd('a11yc_smooth_scroll');
 }
+/* === confirm === */
+jQuery(function($){
+	$('[data-a11yc-confirm]').on('click', function(e){
+		if(!window.confirm($(this).data('a11ycConfirm')))
+		{
+			e.preventDefault();
+			return false;
+		}
+	});
+});
+
+/* === check all === */
+jQuery(function($){
+// check all
+	$('.a11yc_check_all, .a11yc_table thead input:checkbox').on('click', function(){
+		var $trigger = $(this), $target = $(), index, prop;
+		if( $trigger.attr('dataA11ycTargetClass') )
+		{
+			$target = $('.'+$trigger.attr('dataA11ycTargetClass'));
+		}
+		else
+		{ // thead内の場合は、あえてclassを与えなくてもtbody内の対応するセルのinputを取得する
+			index = $trigger.closest('tr').children().index($trigger.closest('th, td'));
+			$trigger.attr('dataA11ycTargetClass', 'a11yc_check_all_target_'+index);
+			$trigger.closest('table').find('tbody tr').each(function(){
+				$(this).children().eq(index).find('input:checkbox').addClass('a11yc_check_all_target_'+index);
+				$target = $target.add($(this).children().eq(index).find('input:checkbox'));
+			});
+		}
+		if( !$target[0] )
+		{
+			return;
+		}
+		prop = $trigger.prop('checked');
+		$target.prop('checked', prop);
+	});
+});
+
 
 /* === fixed_header === */
 function a11yc_fixed_header(e){
@@ -319,14 +294,16 @@ jQuery(function($){
 			*/
 			a11yc_env.$a11yc_content.addClass('a11yc_fixed_header');
 			$.fn.a11yc_get_height(['hh','mh','pmh','fh']);
-	
 			if(!a11yc_env.is_wp)
 			{
 				a11yc_env.top_padding = a11yc_env.fixed_height-a11yc_env.margin_top;
 			}
 			else
 			{
-				a11yc_env.top_padding = 0;
+//				a11yc_env.top_padding = 0;
+//a11yc_env.$a11yc_content.offset().top
+				a11yc_env.top_padding = a11yc_env.fixed_height;
+				a11yc_env.scroll_top_position = a11yc_env.top_padding;
 			}
 	
 			// add padding for header space
@@ -351,6 +328,7 @@ jQuery(function($){
 //	remove fixed header
 function a11yc_remove_fixed_header(){
 	jQuery(function($){
+	console.log($(window).scrollTop());
 		if($(window).scrollTop() === 0)
 		{
 			if(!$('.a11yc_fixed_header')[0]) return;
@@ -415,71 +393,41 @@ jQuery(function($){
 	}
 });
 
-//count checkbox
-function a11yc_count_checkbox(){
+/* === add link anchor etc in validation error === */
 jQuery(function($){
-	var pid ='',
-	    additional_num = 0,
-	    $row= $(),
-	    count = 0,
-	    num = 0,
-	    subtotal = 0,
-	    total = 0;
-//	console.time('a11yc_count_checkbox');
-	var levels_arr = ['a', 'aa', 'aaa'],
-			count_arr = [[],[],[],[]],
-			current_level = a11yc_env.$current_level.length;
-		$('.a11yc_section_principle').each(function(index){
-			pid = index+1;
-			for(var i=0; i<3; i++)
-			{
-				count = 0;
-				var n = i;
-				if(levels_arr[n].length <= current_level)
+	$.fn.a11yc_format_validation_error = function(){
+		var $error_wrapper = $('#a11yc_validation_list');
+		if ($error_wrapper[0])
+		{
+			var $error_lists = $error_wrapper.find('dt');
+			var $error_elms = $error_wrapper.find('.a11yc_validation_error_str');
+			var $error_anchors = $('#a11yc_validation_code').find('.a11yc_source span');
+			var $error_places = $();
+			var $validation_code = $('#a11yc_validation_code');
+			
+			// click validate_link
+			$(document).on('click', '.a11yc_validate_link a', function(e){
+				var $t = $($(e.currentTarget).attr('href'));
+				e.stopPropagation();
+				e.preventDefault();
+				// open disclosure
+				if( ! $validation_code.prop('open'))
 				{
-					count = $(this).find('.'+levels_arr[n]).filter(':not(:disabled,:checked)').length;
+					$validation_code.prop('open');
+					$(e.currentTarget).click();
 				}
 				else
 				{
-					a11yc_env.$additional_criterions.each(function(){
-						if($(this).not('.a11yc_p_'+pid+'_criterion.a11yc_level_'+levels_arr[n])[0]) return;
-						if($(this).find(':checkbox').not(':disabled, :checked')[0])
-						{
-							count++;
-						}
-					});
-					count= count===0 ? ' - ' : count;
+					a11yc_smooth_scroll($t);
+					$t.focus();
 				}
-				count_arr[index].push(count);
-			}
-		});
-		for(var i=0; i<4; i++)
-		{
-			$row = $('#a11yc_rest_'+(i+1));
-			var n = i;
-			num = 0;
-			subtotal = 0;
-			$row.find('td').each(function(index){
-				if(index < 3)
-				{
-					num = count_arr[n][index];
-					$(this).text(num);
-					if( typeof num !=='number') return;
-					subtotal+=num;
-					return;
-				}
-			//subtotal
-				$(this).text(subtotal);
-				total+=subtotal;
-				a11yc_env.$pagemenu_count.eq(n).text('('+subtotal+')');
+				return false;
 			});
-			$('#a11yc_rest_total').text(total);
 		}
-	});
-//	console.timeEnd('a11yc_count_checkbox');
-}
+	}
+});
 
-// replace links in "source code"
+/* ===  replace links in "source code"  === */
 function a11yc_validation_code_display(level_arr){
 jQuery(function($){
 	var $code = $('#a11yc_validation_code_raw'),
@@ -490,7 +438,7 @@ jQuery(function($){
 });
 }
 
-//hide empty table
+/* === hide empty table === */
 function a11yc_empty_table(){
 //console.time('a11yc_empty_table');
 jQuery(function($){
@@ -510,40 +458,16 @@ jQuery(function($){
 			if(!$t.hasClass('a11yc_dn')) $t.show();
 		}
 	});
-
-	// addclass even/odd to visible tr
-	$('.a11yc_table_check').each(function(){
-		$(this).find('tr:not(.off)').each(function(index){
-			$(this).removeClass('even odd');
-			var class_str = index%2===0 ? 'odd' : 'even';
-			$(this).addClass(class_str);
-		});
-	});
 });
 //	console.timeEnd('a11yc_empty_table');
 }
 
-/* for checklist */
+/*
+ * for checklist
+ */
 jQuery(function($){
-if( typeof a11yc_env === "undefined" ) return;
-
-if(!$('#a11yc_checks')[0]) return;
-	// assist
-	// propagates click event from th to child checkbox
-		$('#a11yc_checks th').on('click', function(e){
-			if(e.target!==this) return;
-			$(this).find(':checkbox').click();
-		});
-	//flash highlight
-	$.fn.a11yc_flash = function(){
-		$(this).addClass('a11yc_flash');
-		setTimeout(function($obj){ $obj.removeClass('a11yc_flash') }, 150, $(this));
-	}
-
-	//set check count for pagemenu
-	a11yc_env.$pagemenu_count = a11yc_env.$pagemenu.find('span');
-	a11yc_count_checkbox();
-
+	if(!$('#a11yc_checks')[0]) return;
+	/* === assist === */
 	//チェック関連の挙動
 	if($('.a11yc_table_check')[0])
 	{
@@ -554,14 +478,8 @@ if(!$('#a11yc_checks')[0]) return;
 
 		//click checkbox
 		$('.a11yc_table_check input[type="checkbox"]').on('click', function(e){
-		// highlight ただし、今はtrにはa11yc_flashのスタイルがない
-		//		$(this).closest('tr').a11yc_flash();
-
 			// display
 			a11yc_toggle_item(e);
-
-			// count
-			a11yc_count_checkbox();
 
 			// for not used items
 			a11yc_empty_table();
@@ -571,24 +489,8 @@ if(!$('#a11yc_checks')[0]) return;
 			{
 				$.fn.a11yc_adjust_position($(this))
 			}
-
-			// reflect current login user
-			var select = $(this).closest('tr').find('select');
-			if(String(c_id) !== select.val()) select.val(c_id).a11yc_flash();
 		});
 	}
-
-	/* 未使用。パスしたアイテムを隠すかどうかのチェックボックスがページ内にある場合。
-	// show/hide passed items
-	jQuery(function($){
-		$('#a11yc_checklist_behaviour').on('click',function(){
-			if($('#a11yc_checks')[0]){
-				a11yc_env.is_hide_passed_item = a11yc_env.is_hide_passed_item ? false : true;
-			}
-		});
-	});
-	*/
-
 	function a11yc_toggle_item(e){
 //		console.log('function:'+'a11yc_toggle_item');
 		var input = e ? $(e.target) : '',
@@ -753,41 +655,4 @@ function a11yc_select_validation_code_txt(){
 }
 */
 
-/* === confirm === */
-jQuery(function($){
-	$('[data-a11yc-confirm]').on('click', function(e){
-		if(!window.confirm($(this).data('a11ycConfirm')))
-		{
-			e.preventDefault();
-			return false;
-		}
-	});
-});
-
-/* === check all === */
-jQuery(function($){
-// check all
-	$('.a11yc_check_all, .a11yc_table thead input:checkbox').on('click', function(){
-		var $trigger = $(this), $target = $(), index, prop;
-		if( $trigger.attr('dataA11ycTargetClass') )
-		{
-			$target = $('.'+$trigger.attr('dataA11ycTargetClass'));
-		}
-		else
-		{ // thead内の場合は、あえてclassを与えなくてもtbody内の対応するセルのinputを取得する
-			index = $trigger.closest('tr').children().index($trigger.closest('th, td'));
-			$trigger.attr('dataA11ycTargetClass', 'a11yc_check_all_target_'+index);
-			$trigger.closest('table').find('tbody tr').each(function(){
-				$(this).children().eq(index).find('input:checkbox').addClass('a11yc_check_all_target_'+index);
-				$target = $target.add($(this).children().eq(index).find('input:checkbox'));
-			});
-		}
-		if( !$target[0] )
-		{
-			return;
-		}
-		prop = $trigger.prop('checked');
-		$target.prop('checked', prop);
-	});
-});
 
