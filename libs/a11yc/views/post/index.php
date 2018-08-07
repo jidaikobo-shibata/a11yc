@@ -71,10 +71,12 @@ if ((Input::isPostExists() || Input::get('url')) && isset($result)):
 <div id="a11yc_validator_results">
 <h2><?php echo A11YC_LANG_CHECKLIST_CHECK_RESULT ?></h2>
 <table id="a11yc_targetpage_info">
+<?php if (isset($page_title) && ! empty($page_title)): ?>
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_PAGES_PAGETITLE ?></th>
 		<td><?php echo $page_title ?></td>
 	</tr>
+<?php endif; ?>
 <?php /* ?>
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_CHECKLIST_REAL_URL ?></th>
