@@ -15,16 +15,6 @@ class Html
 	protected static $htmls = array();
 	protected static $titles = array();
 
-	public static $ignores = array(
-		"/\<script.+?\<\/script\>/si",
-		"/\<style.+?\<\/style\>/si",
-		"/\<rdf:RDF.+?\<\/rdf:RDF\>/si",
-	);
-
-	public static $ignores_comment_out = array(
-		"/\<!--.+?--\>/si",
-	);
-
 	/**
 	 * fetch html
 	 * JUST fetch. NOT save. But Reusable.
@@ -95,7 +85,7 @@ class Html
 	 * @param  String $url
 	 * @param  String $ua
 	 * @param  String $html
-	 * @param  String $type ['raw', 'high-lighted', 'ignored', 'ignored_comments']
+	 * @param  String $type ['raw', 'high-lighted', 'ignored']
 	 * @return Void
 	 */
 	public static function addHtml($url, $ua = 'using', $html = '', $type = 'raw')
@@ -105,7 +95,6 @@ class Html
 			'raw',
 			'high-lighted',
 			'ignored',
-			'ignored_comments'
 		);
 
 		if ($type != 'high-lighted') unset($types[1]);
@@ -122,11 +111,7 @@ class Html
 			// type
 			if ($each_type == 'ignored')
 			{
-				$html = self::ignoreElements($html);
-			}
-			elseif ($each_type == 'ignored_comments')
-			{
-				$html = self::ignoreCommentOut($html);
+				$html = Element::ignoreElements($html);
 			}
 
 			// sql
@@ -142,7 +127,7 @@ class Html
 	 *
 	 * @param  String $url
 	 * @param  String $ua
-	 * @param  String $type ['raw', 'high-lighted', 'ignored', 'ignored_comments']
+	 * @param  String $type ['raw', 'high-lighted', 'ignored']
 	 * @param  String $force
 	 * @return String|Bool
 	 */
@@ -179,45 +164,6 @@ class Html
 		}
 
 		return static::$htmls[$url][$ua][$type];
-	}
-
-	/**
-	 * ignore elements
-	 *
-	 * @param  String $str
-	 * @return String
-	 */
-	public static function ignoreElements($str)
-	{
-		// ignore comment out, script, style
-		$ignores = array_merge(static::$ignores, static::$ignores_comment_out);
-
-		foreach ($ignores as $ignore)
-		{
-			$str = preg_replace($ignore, '', $str);
-		}
-
-		return $str;
-	}
-
-	/**
-	 * ignoreCommentOut
-	 *
-	 * @param  String $str
-	 * @return String
-	 */
-	public static function ignoreCommentOut($str)
-	{
-		static $retval = '';
-		if ($retval) return $retval;
-
-		// ignore comment out only
-		foreach (static::$ignores_comment_out as $ignore)
-		{
-			$str = preg_replace($ignore, '', $str);
-		}
-		$retval = $str;
-		return $retval;
 	}
 
 	/**

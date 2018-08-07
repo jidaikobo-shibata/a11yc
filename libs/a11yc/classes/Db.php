@@ -86,7 +86,7 @@ class Db extends \Kontiki\Db
 		}
 
 		// init cache
-		// type: raw, high-lighted, ignored, ignored_comments or something
+		// type: raw, high-lighted, ignored or something
 		// don't use page_id because one time using.
 		// don't use ua_id because ua can be deleted
 		$sql = 'CREATE TABLE '.A11YC_TABLE_CACHES.' (';

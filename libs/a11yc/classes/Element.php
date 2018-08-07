@@ -155,26 +155,6 @@ class Element
 	}
 
 	/**
-	 * ignoreCommentOut
-	 *
-	 * @param  String $str
-	 * @return String
-	 */
-	public static function ignoreCommentOut($str)
-	{
-		static $retval = '';
-		if ($retval) return $retval;
-
-		// ignore comment out only
-		foreach (static::$ignores_comment_out as $ignore)
-		{
-			$str = preg_replace($ignore, '', $str);
-		}
-		$retval = $str;
-		return $retval;
-	}
-
-	/**
 	 * get first tag
 	 *
 	 * @param  String $str
