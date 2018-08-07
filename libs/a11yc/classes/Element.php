@@ -284,36 +284,7 @@ class Element
 				$key = $v;
 				$val = $v;
 			}
-
-			$val = str_replace(
-				array(
-					self::$quoted_double,
-					self::$quoted_single,
-					self::$open_double,
-					self::$close_double,
-					self::$open_single,
-					self::$close_single,
-					self::$inner_double,
-					self::$inner_single,
-					self::$inner_space,
-					self::$inner_equal,
-					self::$inner_newline
-				),
-				array(
-					'\\"',
-					"\\'",
-					'',
-					'',
-					"",
-					"",
-					'"',
-					"'",
-					" ",
-					"=",
-					"\n"
-				),
-				$val
-			);
+			$val = self::recoverStr($val);
 
 			// valid attributes
 			if (
@@ -338,6 +309,45 @@ class Element
 			}
 		}
 		return $attrs;
+	}
+
+	/**
+	 * recoverStr
+	 *
+	 * @param  String $val
+	 * @return String
+	 */
+	private static function recoverStr($val)
+	{
+		return str_replace(
+			array(
+				self::$quoted_double,
+				self::$quoted_single,
+				self::$open_double,
+				self::$close_double,
+				self::$open_single,
+				self::$close_single,
+				self::$inner_double,
+				self::$inner_single,
+				self::$inner_space,
+				self::$inner_equal,
+				self::$inner_newline
+			),
+			array(
+				'\\"',
+				"\\'",
+				'',
+				'',
+				"",
+				"",
+				'"',
+				"'",
+				" ",
+				"=",
+				"\n"
+			),
+			$val
+		);
 	}
 
 	/**
@@ -378,7 +388,7 @@ class Element
 	 */
 	public static function getElementsByRe($str, $ignore_type, $type = 'tags', $force = false)
 	{
-		if (isset(static::$res[$ignore_type][$type]) && $force == false)
+		if (isset(static::$res[$ignore_type][$type]) && $force === false)
 		{
 			return static::$res[$ignore_type][$type];
 		}
@@ -401,7 +411,6 @@ class Element
 				break;
 
 			default:
-//				if (preg_match_all("/\<([a-zA-Z1-6]+?) +?([^\>]*?)[\/]*?\>|\<([a-zA-Z1-6]+?)[ \/]*?\>/i", $str, $ms))
 				if (preg_match_all('/\<[^\/]("[^"]*"|\'[^\']*\'|[^\'">])*\>/is', $str, $ms))
 				{
 					$ret = array();
@@ -438,11 +447,11 @@ class Element
 		}
 
 		// no influence
-		if ($ret && ! $force)
+		if ( ! empty($ret) && ! $force)
 		{
 			static::$res[$ignore_type][$type] = $ret;
 		}
-		elseif ($ret)
+		elseif ( ! empty($ret))
 		{
 			return $ret;
 		}
