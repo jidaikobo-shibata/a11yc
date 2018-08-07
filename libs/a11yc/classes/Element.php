@@ -433,7 +433,7 @@ class Element
 		}
 
 		// imgs
-		if ($type == 'imgs')
+		if (isset($ret[1]) && $type == 'imgs')
 		{
 			foreach ($ret[1] as $k => $v)
 			{
