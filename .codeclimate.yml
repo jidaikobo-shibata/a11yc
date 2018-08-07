@@ -53,6 +53,8 @@ engines:
         enabled: false
       Design/LongMethod:
         enabled: false
+      Design/CouplingBetweenObjects:
+        enabled: false
       CleanCode/BooleanArgumentFlag:
         enabled: false
       CleanCode/StaticAccess:
@@ -72,6 +74,8 @@ engines:
       Naming/ShortVariable:
         enabled: false
       Naming/ShortMethodName:
+        enabled: false
+      Naming/LongVariable:
         enabled: false
 ratings:
   paths:

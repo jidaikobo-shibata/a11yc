@@ -59,7 +59,7 @@ class FormAndLabels extends Validate
 			$uniqued_eles = array_unique($v['eles']);
 
 			// ignore form
-			if (self::ignoreForm($v, $uniqued_types, $uniqued_eles)) continue;
+			if (self::ignoreForm($uniqued_types, $uniqued_eles)) continue;
 
 			// get action attribute to tell user which form cause error
 			$attrs = Element::getAttributes($v['form']);
@@ -192,12 +192,11 @@ class FormAndLabels extends Validate
 	/**
 	 * ignore form
 	 *
-	 * @param  Array $v
 	 * @param  Array $uniqued_types
 	 * @param  Array $uniqued_eles
 	 * @return Bool
 	 */
-	private static function ignoreForm($v, $uniqued_types, $uniqued_eles)
+	private static function ignoreForm($uniqued_types, $uniqued_eles)
 	{
 		if (
 			$uniqued_eles == array('button') || // button only
@@ -369,7 +368,7 @@ class FormAndLabels extends Validate
 	{
 		if (isset($ms[1]))
 		{
-			foreach ($ms[0] as $k => $m)
+			foreach ($ms[0] as $m)
 			{
 				// check tacit label
 				preg_match_all("/\<(?:input|select|textarea) .+?\>/si", $m, $mmms);

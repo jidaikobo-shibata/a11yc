@@ -187,9 +187,9 @@ class Checklist
 	private static function getCheckStatus($url)
 	{
 		$retvals = array('passed' => array(), 'failed' => array());
-		foreach (Validate::getLogs($url) as $k => $v)
+		foreach (Validate::getLogs($url) as $v)
 		{
-			foreach ($v as $kk => $vv)
+			foreach ($v as $vv)
 			{
 				if ($vv == -1)
 				{

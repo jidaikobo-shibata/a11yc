@@ -94,8 +94,6 @@ class Settings
 			}
 			$cols['additional_criterions'] = serialize($additional_criterions);
 
-			$settings = self::fetchAll();
-
 			// database io
 			$r = true;
 			foreach ($cols as $key => $value)
