@@ -156,6 +156,7 @@ class Evaluate
 		{
 			$results[$criterion]['passed'] = ($ret['result'] >= 1);
 			$results[$criterion]['non_exist'] = ($ret['result'] == 1);
+			$results[$criterion]['memo'] = $ret['memo'];
 		}
 
 		return $results;
