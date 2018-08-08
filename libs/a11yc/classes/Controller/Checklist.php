@@ -131,7 +131,7 @@ class Checklist
 
 		// page
 		$page = false;
-		if ( ! $is_bulk)
+		if ( ! $is_bulk && $url)
 		{
 			$page = self::getPage($url);
 
@@ -248,7 +248,7 @@ class Checklist
 	private static function getPage($url)
 	{
 		$page = Model\Pages::fetchPage($url, 1);
-		if ( ! $page)
+		if ( ! $page && $url)
 		{
 			Model\Pages::addPage($url);
 			$force = true;

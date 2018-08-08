@@ -32,11 +32,12 @@ class Pages
 		$placeholders = array();
 
 		// whrs
+		$url_sql = ' `url` <> "" AND ';
 		$whrs = array(
-			'all'   => '`trash` = 0 ',
-			'yet'   => '`done` = 0 AND `trash` = 0 ',
-			'done'  => '`done` = 1 and `trash` = 0 ',
-			'trash' => '`trash` = 1 ',
+			'all'   => $url_sql.'`trash` = 0 ',
+			'yet'   => $url_sql.'`done` = 0 AND `trash` = 0 ',
+			'done'  => $url_sql.'`done` = 1 and `trash` = 0 ',
+			'trash' => $url_sql.'`trash` = 1 ',
 		);
 		$list = is_string($list) && array_key_exists($list, $whrs) ? $list : 'all';
 
