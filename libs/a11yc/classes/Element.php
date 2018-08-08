@@ -26,7 +26,7 @@ class Element
 	);
 
 	public static $ignores_comment_out = array(
-		"/\<!--.+?--\>/si",
+		"/\<!--.*?--\>/si",
 	);
 
 	protected static $ruled_attrs = array(
