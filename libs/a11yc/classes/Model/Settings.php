@@ -26,7 +26,19 @@ class Settings
 
 		$sql = 'SELECT * FROM '.A11YC_TABLE_SETTINGS.Db::versionSql(false).';';
 		$ret = Db::fetchAll($sql);
-		static::$settings = array_column($ret, 'value', 'key');
+
+		// array_column()...
+		if (version_compare(phpversion(), '5.5') >= 0)
+		{
+			static::$settings = array_column($ret, 'value', 'key');
+		}
+		else
+		{
+			foreach ($ret as $v)
+			{
+				static::$settings[$v['key']] = $v['value'];
+			}
+		}
 		return static::$settings;
 	}
 
