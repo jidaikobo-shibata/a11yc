@@ -17,7 +17,7 @@ foreach ($yml['criterions'] as $criterion => $v):
 
 	// strs
 	$exist_str = Arr::get($results, "{$criterion}.non_exist") == 1 ? A11YC_LANG_EXIST_NON : A11YC_LANG_EXIST;
-	$pass_str = Arr::get($results, "{$criterion}.passed") >= 1 ? A11YC_LANG_PASS : '-';
+	$pass_str = Arr::get($results, "{$criterion}.passed") >= 1 ? A11YC_LANG_PASS : A11YC_LANG_PASS_NON;
 	$memo = Util::s(Arr::get($results, "{$criterion}.memo", ''));
 	$alert_class = $pass_str == '-' ? ' class="a11yc_not_passed"' : '';
 
