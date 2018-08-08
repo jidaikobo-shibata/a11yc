@@ -49,10 +49,14 @@ class Message
 				self::$showed[$url][] = $code_str;
 			}
 
-			if ($place['id'])
+			if ($place['id'] || $place['str'])
 			{
 			$ret['li'] = '<li class="a11yc_validation_error_str a11yc_level_'.$lv.'" data-level="'.$lv.'" data-place="'.Util::s($place['id']).'">'.Util::s($place['str']);
-				$ret['li'].= '<a href="#'.$anchor .'" class="a11yc_validation_error_link a11yc_level_'.$lv.' a11yc_hasicon"><span class="a11yc_icon_fa a11yc_icon_arrow_b" role="presentation" aria-hidden="true"></span>Code</a>';
+
+				if ($place['id'])
+				{
+					$ret['li'].= '<a href="#'.$anchor .'" class="a11yc_validation_error_link a11yc_level_'.$lv.' a11yc_hasicon"><span class="a11yc_icon_fa a11yc_icon_arrow_b" role="presentation" aria-hidden="true"></span>Code</a>';
+				}
 			$ret['li'].= '</li>';
 			}
 

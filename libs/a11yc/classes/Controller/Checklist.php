@@ -248,13 +248,12 @@ class Checklist
 	private static function getPage($url)
 	{
 		$page = Model\Pages::fetchPage($url, 1);
-
 		if ( ! $page)
 		{
-			Model\Pages::addPage($url, $title);
+			Model\Pages::addPage($url);
 			$force = true;
 			$page = Model\Pages::fetchPage($url, $force);
-			if ( ! $title)
+			if ( ! $page)
 			{
 				Session::add(
 					'messages',

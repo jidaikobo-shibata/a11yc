@@ -1,5 +1,5 @@
 <?php namespace A11yc; ?>
-<h2><?php echo $title ?> (<?php echo $settings['declare_date'] ?>)</h2>
+<h2><?php echo $title ?> <?php if (Arr::get($settings, 'declare_date')): echo '('.$settings['declare_date'].')'; endif;?></h2>
 
 <table class="a11yc_table a11yc_table_report">
 
