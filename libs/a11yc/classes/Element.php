@@ -27,6 +27,7 @@ class Element
 
 	public static $ignores_comment_out = array(
 		"/\<!--.*?--\>/si",
+		"/\<!\[CDATA\[.*?\]\]\>/si",
 	);
 
 	protected static $ruled_attrs = array(

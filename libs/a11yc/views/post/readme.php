@@ -46,6 +46,10 @@
 
 <dl>
 
+<dt>2.0.7 (<time>2018-08-09</time>)</dt>
+	<dd>better comment out logic (thx <a href="https://twitter.com/momdo_">@momdo_</a>).</dd>
+	<dd>ignore CDATA section (thx <a href="https://twitter.com/momdo_">@momdo_</a>).</dd>
+
 <dt>2.0.6 (<time>2018-08-05</time>)</dt>
 	<dd>better <code>&lt;DOCTYPE&gt;</code> recognition(thx <a href="https://twitter.com/momdo_">@momdo_</a>).</dd>
 
