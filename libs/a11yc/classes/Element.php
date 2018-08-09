@@ -193,6 +193,7 @@ class Element
 		);
 
 		$suspicious_end_quote = false;
+		$no_space_between_attributes = false;
 
 		$loop = true;
 		while($loop)
@@ -252,11 +253,20 @@ class Element
 			}
 		}
 
+		// inspect like <input title="name"type="text"> thx momdo_
+		// https://momdo.github.io/html/syntax.html#attributes-2
+		// https://triple-underscore.github.io/infra-ja.html#ascii-whitespace
+		if (preg_match("/\[---a11yc_close_double---\][^\n\r\t\f \>]/is", $str, $m))
+		{
+			$str = str_replace("[---a11yc_close_double---\]", "[---a11yc_close_double---\] ", $str);
+			$no_space_between_attributes = true;
+		}
+
 		$str = preg_replace("/ {2,}/", " ", $str); // remove plural spaces
 		$str = preg_replace("/ *?= */", "=", $str); // remove plural spaces
 		$str = str_replace(array("\n", "\r"), " ", $str); // newline to blank
 
-		return array($str, $suspicious_end_quote);
+		return array($str, $suspicious_end_quote, $no_space_between_attributes);
 	}
 
 	/**
@@ -366,13 +376,14 @@ class Element
 		$str = self::getFirstTag($str);
 
 		// prepare strings
-		list($str, $suspicious_end_quote) = self::prepareStrings($str);
+		list($str, $suspicious_end_quote, $no_space_between_attributes) = self::prepareStrings($str);
 
 		// explode strings
 		$attrs = self::explodeStrings($str);
 
 		// suspicious_end_quote
 		$attrs['suspicious_end_quote'] = $suspicious_end_quote;
+		$attrs['no_space_between_attributes'] = $no_space_between_attributes;
 		static::$attrs[$keep] = $attrs;
 
 		return $attrs;

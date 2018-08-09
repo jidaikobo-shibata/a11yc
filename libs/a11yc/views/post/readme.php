@@ -47,15 +47,16 @@
 <dl>
 
 <dt>2.0.7 (<time>2018-08-09</time>)</dt>
-	<dd>better comment out logic (thx <a href="https://twitter.com/momdo_">@momdo_</a>).</dd>
-	<dd>ignore CDATA section (thx <a href="https://twitter.com/momdo_">@momdo_</a>).</dd>
+	<dd>no space between attribute.</dd>
+	<dd>better comment out logic.</dd>
+	<dd>ignore CDATA section.</dd>
 
 <dt>2.0.6 (<time>2018-08-05</time>)</dt>
-	<dd>better <code>&lt;DOCTYPE&gt;</code> recognition(thx <a href="https://twitter.com/momdo_">@momdo_</a>).</dd>
+	<dd>better <code>&lt;DOCTYPE&gt;</code> recognition.</dd>
 
 <dt>2.0.5 (<time>2018-08-02</time>)</dt>
-	<dd>at readme: content of <time> was invalid string (Y-n-j -> Y-m-d)(thx <a href="https://twitter.com/momdo_">@momdo_</a>).</dd>
-	<dd>at documentation: fix unexpectedlly escaped HTML and markup HTML by <code>&lt;code&gt;</code>(thx <a href="https://twitter.com/momdo_">@momdo_</a>).</dd>
+	<dd>at readme: content of <time> was invalid string (Y-n-j -> Y-m-d).</dd>
+	<dd>at documentation: fix unexpectedlly escaped HTML and markup HTML by <code>&lt;code&gt;</code>.</dd>
 	<dd>at labelless check: if action attribute was not exists, use <code>&lt;form&gt;</code> to indicate place.</dd>
 
 <dt>2.0.4 (<time>2018-07-28</time>)</dt>
@@ -69,9 +70,15 @@
 	<dd>Add link to Techniques for WCAG 2.0 into error message.</dd>
 
 <dt>2.0.2 (<time>2018-07-24</time>)</dt>
-	<dd>Improve accuracy of getting attributes from html tag (thx <a href="https://twitter.com/momdo_">@momdo_</a>).</dd>
+	<dd>Improve accuracy of getting attributes from html tag.</dd>
 
 <dt>2.0.1 (<time>2018-07-23</time>)</dt>
-	<dd>Omit checking way of close of empty element (thx <a href="https://twitter.com/momdo_">@momdo_</a>).</dd>
+	<dd>Omit checking way of close of empty element.</dd>
 
 </dl>
+
+<h2>Special Thanks</h2>
+
+<ul>
+	<li><a href="https://twitter.com/momdo_" title="without him, A11yc would be held more Bugs and problems.">@momdo_</a></li>
+</ul>

@@ -234,6 +234,15 @@ errors:
       - F70
       - H88
 
+  no_space_between_attributes:
+    title: 属性間の空白
+    message: 属性間に空白がありません
+    criterions:
+      - 4-1-1
+    techs:
+      - F70
+      - H88
+
   duplicated_ids:
     title: idの重複
     message: idが重複しています
