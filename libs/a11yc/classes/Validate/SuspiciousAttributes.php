@@ -44,6 +44,18 @@ class SuspiciousAttributes extends Validate
 				static::$logs[$url]['suspicious_attributes'][$tstr] = 2;
 			}
 
+			// no_space_between_attributes
+			if (isset($attrs['no_space_between_attributes']) && $attrs['no_space_between_attributes'])
+			{
+				static::$logs[$url]['no_space_between_attributes'][$tstr] = -1;
+				static::$error_ids[$url]['no_space_between_attributes'][$k]['id'] = $tstr;
+				static::$error_ids[$url]['no_space_between_attributes'][$k]['str'] = $tstr;
+			}
+			else
+			{
+				static::$logs[$url]['no_space_between_attributes'][$tstr] = 2;
+			}
+
 			// duplicated_attributes
 			if (isset($attrs['plural']))
 			{

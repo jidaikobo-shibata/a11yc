@@ -139,7 +139,7 @@ class Results
 		View::assign('standards', Yaml::each('standards'));
 
 		// result - target level
-		$results = Model\Results::fetch($url);
+		$results = Evaluate::evaluateUrl($url);
 		self::partResult($results, $settings['target_level'], $url);
 		$result = View::fetch('result');
 

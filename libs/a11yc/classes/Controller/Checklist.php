@@ -131,7 +131,7 @@ class Checklist
 
 		// page
 		$page = false;
-		if ( ! $is_bulk)
+		if ( ! $is_bulk && $url)
 		{
 			$page = self::getPage($url);
 
@@ -187,9 +187,9 @@ class Checklist
 	private static function getCheckStatus($url)
 	{
 		$retvals = array('passed' => array(), 'failed' => array());
-		foreach (Validate::getLogs($url) as $k => $v)
+		foreach (Validate::getLogs($url) as $v)
 		{
-			foreach ($v as $kk => $vv)
+			foreach ($v as $vv)
 			{
 				if ($vv == -1)
 				{
@@ -248,13 +248,12 @@ class Checklist
 	private static function getPage($url)
 	{
 		$page = Model\Pages::fetchPage($url, 1);
-
-		if ( ! $page)
+		if ( ! $page && $url)
 		{
-			Model\Pages::addPage($url, $title);
+			Model\Pages::addPage($url);
 			$force = true;
 			$page = Model\Pages::fetchPage($url, $force);
-			if ( ! $title)
+			if ( ! $page)
 			{
 				Session::add(
 					'messages',

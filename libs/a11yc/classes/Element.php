@@ -26,7 +26,8 @@ class Element
 	);
 
 	public static $ignores_comment_out = array(
-		"/\<!--.+?--\>/si",
+		"/\<!--.*?--\>/si",
+		"/\<!\[CDATA\[.*?\]\]\>/si",
 	);
 
 	protected static $ruled_attrs = array(
@@ -155,26 +156,6 @@ class Element
 	}
 
 	/**
-	 * ignoreCommentOut
-	 *
-	 * @param  String $str
-	 * @return String
-	 */
-	public static function ignoreCommentOut($str)
-	{
-		static $retval = '';
-		if ($retval) return $retval;
-
-		// ignore comment out only
-		foreach (static::$ignores_comment_out as $ignore)
-		{
-			$str = preg_replace($ignore, '', $str);
-		}
-		$retval = $str;
-		return $retval;
-	}
-
-	/**
 	 * get first tag
 	 *
 	 * @param  String $str
@@ -212,6 +193,7 @@ class Element
 		);
 
 		$suspicious_end_quote = false;
+		$no_space_between_attributes = false;
 
 		$loop = true;
 		while($loop)
@@ -271,11 +253,20 @@ class Element
 			}
 		}
 
+		// inspect like <input title="name"type="text"> thx momdo_
+		// https://momdo.github.io/html/syntax.html#attributes-2
+		// https://triple-underscore.github.io/infra-ja.html#ascii-whitespace
+		if (preg_match("/\[---a11yc_close_double---\][^\n\r\t\f \>]/is", $str, $m))
+		{
+			$str = str_replace("[---a11yc_close_double---\]", "[---a11yc_close_double---\] ", $str);
+			$no_space_between_attributes = true;
+		}
+
 		$str = preg_replace("/ {2,}/", " ", $str); // remove plural spaces
 		$str = preg_replace("/ *?= */", "=", $str); // remove plural spaces
 		$str = str_replace(array("\n", "\r"), " ", $str); // newline to blank
 
-		return array($str, $suspicious_end_quote);
+		return array($str, $suspicious_end_quote, $no_space_between_attributes);
 	}
 
 	/**
@@ -304,36 +295,7 @@ class Element
 				$key = $v;
 				$val = $v;
 			}
-
-			$val = str_replace(
-				array(
-					self::$quoted_double,
-					self::$quoted_single,
-					self::$open_double,
-					self::$close_double,
-					self::$open_single,
-					self::$close_single,
-					self::$inner_double,
-					self::$inner_single,
-					self::$inner_space,
-					self::$inner_equal,
-					self::$inner_newline
-				),
-				array(
-					'\\"',
-					"\\'",
-					'',
-					'',
-					"",
-					"",
-					'"',
-					"'",
-					" ",
-					"=",
-					"\n"
-				),
-				$val
-			);
+			$val = self::recoverStr($val);
 
 			// valid attributes
 			if (
@@ -361,6 +323,45 @@ class Element
 	}
 
 	/**
+	 * recoverStr
+	 *
+	 * @param  String $val
+	 * @return String
+	 */
+	private static function recoverStr($val)
+	{
+		return str_replace(
+			array(
+				self::$quoted_double,
+				self::$quoted_single,
+				self::$open_double,
+				self::$close_double,
+				self::$open_single,
+				self::$close_single,
+				self::$inner_double,
+				self::$inner_single,
+				self::$inner_space,
+				self::$inner_equal,
+				self::$inner_newline
+			),
+			array(
+				'\\"',
+				"\\'",
+				'',
+				'',
+				"",
+				"",
+				'"',
+				"'",
+				" ",
+				"=",
+				"\n"
+			),
+			$val
+		);
+	}
+
+	/**
 	 * getAttributes
 	 *
 	 * @param  String $str
@@ -375,13 +376,14 @@ class Element
 		$str = self::getFirstTag($str);
 
 		// prepare strings
-		list($str, $suspicious_end_quote) = self::prepareStrings($str);
+		list($str, $suspicious_end_quote, $no_space_between_attributes) = self::prepareStrings($str);
 
 		// explode strings
 		$attrs = self::explodeStrings($str);
 
 		// suspicious_end_quote
 		$attrs['suspicious_end_quote'] = $suspicious_end_quote;
+		$attrs['no_space_between_attributes'] = $no_space_between_attributes;
 		static::$attrs[$keep] = $attrs;
 
 		return $attrs;
@@ -398,7 +400,7 @@ class Element
 	 */
 	public static function getElementsByRe($str, $ignore_type, $type = 'tags', $force = false)
 	{
-		if (isset(static::$res[$ignore_type][$type]) && $force == false)
+		if (isset(static::$res[$ignore_type][$type]) && $force === false)
 		{
 			return static::$res[$ignore_type][$type];
 		}
@@ -421,7 +423,6 @@ class Element
 				break;
 
 			default:
-//				if (preg_match_all("/\<([a-zA-Z1-6]+?) +?([^\>]*?)[\/]*?\>|\<([a-zA-Z1-6]+?)[ \/]*?\>/i", $str, $ms))
 				if (preg_match_all('/\<[^\/]("[^"]*"|\'[^\']*\'|[^\'">])*\>/is', $str, $ms))
 				{
 					$ret = array();
@@ -444,7 +445,7 @@ class Element
 		}
 
 		// imgs
-		if ($type == 'imgs')
+		if (isset($ret[1]) && $type == 'imgs')
 		{
 			foreach ($ret[1] as $k => $v)
 			{
@@ -458,11 +459,11 @@ class Element
 		}
 
 		// no influence
-		if ($ret && ! $force)
+		if ( ! empty($ret) && ! $force)
 		{
 			static::$res[$ignore_type][$type] = $ret;
 		}
-		elseif ($ret)
+		elseif ( ! empty($ret))
 		{
 			return $ret;
 		}

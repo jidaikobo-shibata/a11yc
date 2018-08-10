@@ -1,21 +1,14 @@
 <?php namespace A11yc; ?>
-<h2><?php echo $title ?></h2>
+<h2><?php echo $title ?> <?php if (Arr::get($settings, 'declare_date') && Arr::get($settings, 'declare_date') != '0000-00-00'): echo '('.$settings['declare_date'].')'; endif;?></h2>
 
 <table class="a11yc_table a11yc_table_report">
 
-	<!-- declare_date -->
-	<tr>
-		<th scope="row"><?php echo A11YC_LANG_DECLARE_DATE ?></th>
-		<td><?php echo $settings['declare_date'] ?></td>
-	</tr>
-	<!-- /declare_date -->
-
-	<!-- declare_date -->
+	<!-- standard -->
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_STANDARD_REPORT ?></th>
 		<td><?php echo $standards[$settings['standard']] ?></td>
 	</tr>
-	<!-- /declare_date -->
+	<!-- /standard -->
 
 	<!-- target level -->
 	<tr>

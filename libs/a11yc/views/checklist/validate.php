@@ -44,7 +44,7 @@ if (Arr::get($errs, 'errors') || Arr::get($errs, 'notices')):
 							echo $err['dt'];
 						endif;
 
-						echo $err['li'];
+						echo isset($err['li']) && ! empty($err['li']) ? $err['li'] : '';
 
 						$next = $k + 1;
 						if (isset($errs['errors'][$next]['dt'])):

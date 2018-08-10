@@ -36,7 +36,6 @@ class Fieldsetless extends Validate
 		}
 
 		// get fieldset if exists
-		$ignores = array_merge(Element::$ignores, Element::$ignores_comment_out);
 		preg_match_all('/\<fieldset\>(.+?)\<\/fieldset\>/is', $str, $mms);
 
 		// legendless
@@ -85,13 +84,9 @@ class Fieldsetless extends Validate
 	 */
 	private static function eliminateRadioCheckNames($mms, $radio_check_names)
 	{
-		foreach ($mms as $k => $mm)
+		foreach ($mms as $mm)
 		{
-			$mm_mod = $mm;
-			foreach ($ignores as $ignore)
-			{
-				$mm_mod = preg_replace($ignore, '', $mm_mod);
-			}
+			$mm_mod = Element::ignoreElementsByStr($mm);
 			preg_match_all('/\<[^\/].+?\>/', $mm_mod, $eles);
 
 			// check in fieldset, if name found un-candidate it.

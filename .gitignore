@@ -31,3 +31,5 @@ views/docs/search.php
 views/pages/search.php
 db/
 test.html
+/libs/spyc/.gitignore
+/libs/spyc/phpunit.xml

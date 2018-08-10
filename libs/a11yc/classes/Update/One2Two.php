@@ -174,12 +174,12 @@ class One2Two extends A11yc\Update
 	}
 
 	/**
-	 * migratePage
+	 * migratePages
 	 *
 	 * @param String $pages_old_tbl
 	 * @return Void
 	 */
-	private static function migratePage($pages_old_tbl)
+	private static function migratePages($pages_old_tbl)
 	{
 		$sql = 'SELECT * FROM '.$pages_old_tbl.';';
 		$pages = Db::fetchAll($sql);

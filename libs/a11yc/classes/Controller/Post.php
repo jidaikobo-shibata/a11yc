@@ -439,7 +439,6 @@ class Post
 			'notices' => array(),
 			'errors'  => array()
 		);
-		$yml = Yaml::fetch();
 
 		// check
 		$codes = Validate::$codes;

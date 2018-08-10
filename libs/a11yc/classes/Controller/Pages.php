@@ -138,11 +138,13 @@ class Pages
 	{
 		foreach (array_keys(Input::postArr('bulk')) as $url)
 		{
-
-			$is_success = Model\Pages::delete($url);
-			if ($is_success)
+			if (Model\Pages::delete($url))
 			{
-				Session::add('messages', 'messages', sprintf(A11YC_LANG_PAGES_DELETE_DONE, Util::s($url)));
+				Session::add(
+					'messages',
+					'messages',
+					sprintf(A11YC_LANG_PAGES_DELETE_DONE, Util::s($url))
+				);
 			}
 		}
 	}
@@ -156,10 +158,13 @@ class Pages
 	{
 		foreach (array_keys(Input::postArr('bulk')) as $url)
 		{
-			$is_success = Model\Pages::purge($url);
-			if ($is_success)
+			if (Model\Pages::purge($url))
 			{
-				Session::add('messages', 'messages', sprintf(A11YC_LANG_PAGES_PURGE_DONE, Util::s($url)));
+				Session::add(
+					'messages',
+					'messages',
+					sprintf(A11YC_LANG_PAGES_PURGE_DONE, Util::s($url))
+				);
 			}
 		}
 	}
@@ -173,10 +178,13 @@ class Pages
 	{
 		foreach (array_keys(Input::postArr('bulk')) as $url)
 		{
-			$is_success = Model\Pages::undelete($url);
-			if ($is_success)
+			if (Model\Pages::undelete($url))
 			{
-				Session::add('messages', 'messages', sprintf(A11YC_LANG_PAGES_UNDELETE_DONE, Util::s($url)));
+				Session::add(
+					'messages',
+					'messages',
+					sprintf(A11YC_LANG_PAGES_UNDELETE_DONE, Util::s($url))
+				);
 			}
 		}
 	}
@@ -218,14 +226,14 @@ class Pages
 			}
 			$zip->close();
 
-			// ストリームに出力
+			// output to stream
 			mb_http_output("pass");
 			header('Content-Type: application/zip; name="' . $file . '"');
 			header('Content-Disposition: attachment; filename="' . $file . '"');
 			header('Content-Length: '.filesize($dir.$file));
 			readfile($dir.$file);
 
-			// 一時ファイルを削除しておく
+			// unlink temporary files
 			@unlink($dir.$file);
 			@unlink($dir);
 			exit();
