@@ -1,6 +1,6 @@
 <?php namespace A11yc; ?>
 
-<table class="a11yc_table">
+<table class="a11yc_table a11yc_issues">
 
 <tr>
 	<th><?php echo A11YC_LANG_ISSUES_IS_COMMON ?></th>

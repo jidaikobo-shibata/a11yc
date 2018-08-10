@@ -256,11 +256,17 @@ jQuery(function($){
 	});
 	// click
 	$(document).on('click', '.a11yc_narrow_level a', function(e){
-//		a11yc_narrow_level($(e.target), $($(this).parent().data('a11ycNarrowTarget')), e);
+		e.stopPropagation();
+		if( $(this).closest('details')[0]  &&  $(this).closest('details').prop('open') === false )
+		{
+			 $(this).closest('details').prop('open', true);
+		}
 		a11yc_narrow_level($(this), $($(this).parent().data('a11ycNarrowTarget')), e);
+		return false;
 	});
 
 	function a11yc_narrow_level($target, $narrow_target, e){
+	console.log($target);
 		if(!$target) return;
 		var $checks = $narrow_target.find('.a11yc_level_a,.a11yc_level_aa,.a11yc_level_aaa');
 //		console.log('function:'+'a11yc_narrow_level');

@@ -27,15 +27,10 @@
 	max-width: 100%;
 	height: auto;
 }
+.a11yc a,
 .a11yc a:link {
 	color: #006ab6;
 }
-/*
-.a11yc a:active {
- 	color: #68baef;
-	color: #8bc32f;
-}
-*/
 .a11yc a:hover {
 	text-decoration: none;
 }
@@ -323,11 +318,11 @@ tr.a11yc_flash {
 	border-bottom: none;
 	width: 100%;
 }
-.a11yc_table tr:nth-child(even),
-.a11yc_table thead+tbody tr:nth-child(odd) {
+.a11yc_table:not(.a11yc_issues):not(.a11yc_table_report):not(.a11yc_setting) tr:nth-child(even),
+.a11yc_table:not(.a11yc_issues):not(.a11yc_table_report):not(.a11yc_setting) thead+tbody tr:nth-child(odd) {
 	background-color: #f3f3f3;
 }
-.a11yc_table thead+tbody tr:nth-child(even) {
+.a11yc_table:not(.a11yc_issues):not(.a11yc_table_report):not(.a11yc_setting) thead+tbody tr:nth-child(even) {
 	background-color: transparent;
 }
 .a11yc_table th,
@@ -589,13 +584,16 @@ table.a11yc_table_info {
 	display: inline-block;
 	margin-left: 5px;
 }
-.a11yc_narrow_level a {
+.a11yc_narrow_level a{
 	font-size: 1.25em;
 	cursor: pointer;
-	padding: 0 5px;
 	min-height: 2em;
 	-moz-border-radius: 2px;
 	border-radius: 2px;
+}
+.a11yc_narrow_level a[data-narrow-level] 
+{
+	padding: 2px 5px 1px;
 }
 .a11yc a.current {
 	background-color: #0073aa;

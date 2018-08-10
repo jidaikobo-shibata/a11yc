@@ -1,7 +1,7 @@
 <?php namespace A11yc; ?>
 <h2><?php echo A11YC_LANG_SETTINGS_TITLE_BASE ?></h2>
 
-<table class="a11yc_table">
+<table class="a11yc_table a11yc_setting">
 	<tbody>
 
 	<tr>
@@ -134,7 +134,7 @@
 
 <h2><?php echo A11YC_LANG_SETTINGS_TITLE_ETC ?></h2>
 
-<table class="a11yc_table">
+<table class="a11yc_table a11yc_setting">
 	<tbody>
 
 	<tr>
