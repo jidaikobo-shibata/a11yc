@@ -3,32 +3,30 @@
 
 <!-- header -->
 <div id="a11yc_header">
-	<div id="a11yc_header_inner">
-		<div id="" class="">
-			<!-- not for bulk -->
+	<div id="a11yc_header_inner" class="postbox">
+		<!-- not for bulk -->
 		<?php if ( ! $is_bulk): ?>
-			<div id="a11yc_targetpage_data">
+		<div id="a11yc_targetpage_data">
 			<!-- target page -->
-		<table id="a11yc_targetpage_info">
-		<tr>
-			<th class=""><?php echo A11YC_LANG_CHECKLIST_TARGETPAGE ?></th>
-			<td title="<?php echo $target_title ?>"><?php echo $target_title ?></td>
-		</tr>
-		<tr>
-			<th class=""><?php echo A11YC_LANG_PAGES_URLS ?></th>
-			<td title="<?php echo Util::s(Util::urldec($url)) ?>"><?php echo '<a href="'.Util::s(Util::urldec($url)).'">'.Util::s(Util::urldec($url)).'</a>' ?></td>
-<?php /* ?>
-<?php // 振る舞いが怪しいので、ちょっと様子見 ?>
-			<th><label for="a11yc_mod_url"><?php echo A11YC_LANG_PAGES_URLS ?></label></th>
-			<td>
-				<input type="text" name="mod_url" id="a11yc_mod_url" size="30" value="<?php echo Util::urldec($url) ?>" />
-			</td>
-<?php */ ?>
-		</tr>
-		</table>
+			<table id="a11yc_targetpage_info">
+			<tr>
+				<th class=""><?php echo A11YC_LANG_CHECKLIST_TARGETPAGE ?></th>
+				<td title="<?php echo $target_title ?>"><?php echo $target_title ?></td>
+			</tr>
+			<tr>
+				<th class=""><?php echo A11YC_LANG_PAGES_URLS ?></th>
+				<td title="<?php echo Util::s(Util::urldec($url)) ?>"><?php echo '<a href="'.Util::s(Util::urldec($url)).'">'.Util::s(Util::urldec($url)).'</a>' ?></td>
+	<?php /* ?>
+	<?php // 振る舞いが怪しいので、ちょっと様子見 ?>
+				<th><label for="a11yc_mod_url"><?php echo A11YC_LANG_PAGES_URLS ?></label></th>
+				<td>
+					<input type="text" name="mod_url" id="a11yc_mod_url" size="30" value="<?php echo Util::urldec($url) ?>" />
+				</td>
+	<?php */ ?>
+			</tr>
+			</table>
 		</div><!-- /#a11yc_targetpage_data -->
 		<?php endif; ?>
-		</div><!-- /#a11yc_header_left -->
 
 		<!-- a11yc menu -->
 		<ul id="a11yc_menu_principles">

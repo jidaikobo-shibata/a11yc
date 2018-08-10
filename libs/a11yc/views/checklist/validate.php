@@ -32,7 +32,7 @@ if (Arr::get($errs, 'errors') || Arr::get($errs, 'notices')):
 
 	echo $html;
 	?>
-	<div id="_a11yc_validator_results">
+	<div id="a11yc_validator_results">
 		<div class="hide">
 			<div id="a11yc_validation_errors" class="">
 				<?php if ( ! empty($errs['errors'])): ?>
@@ -103,7 +103,7 @@ if (Arr::get($errs, 'errors') || Arr::get($errs, 'notices')):
 			</dl>
 		<?php endif; ?>
 		</div><!--  /.hide -->
-	</div><!-- /#_a11yc_validator_results -->
+	</div><!-- /#a11yc_validator_results -->
 <?php if ( ! $is_call_from_post): ?>
 </details>
 <?php endif; ?>
