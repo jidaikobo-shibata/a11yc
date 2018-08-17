@@ -84,7 +84,7 @@ class Table extends Validate
 				static::$logs[$url]['table_use_valid_scope'][$m] = 2;
 			}
 
-			if (in_array(Element::getDoctype(), array('html4', 'xhtml')))
+			if (in_array(Element::getDoctype($url), array('html4', 'xhtml')))
 			{
 				// summary less
 				if ( ! array_key_exists('summary', Element::getAttributes($table_tag[0])))
