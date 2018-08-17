@@ -46,6 +46,9 @@
 
 <dl>
 
+<dt>2.0.8 (<time>2018-08-17</time>)</dt>
+	<dd>at html5, ignore check of existence of summary attribute</dd>
+
 <dt>2.0.7 (<time>2018-08-09</time>)</dt>
 	<dd>no space between attribute.</dd>
 	<dd>better comment out logic.</dd>

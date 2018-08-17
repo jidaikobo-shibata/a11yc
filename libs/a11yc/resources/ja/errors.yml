@@ -554,7 +554,7 @@ errors:
 
   table_use_caption:
     title: tableのcaption
-    message: tableは、captionを用いて表題を与えましょう
+    message: tableは、captionを用いて表題を与えましょう。スクリーンリーダでの利便性が向上します
     criterions:
       - 1-3-1
     notice: true

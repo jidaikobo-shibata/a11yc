@@ -84,16 +84,23 @@ class Table extends Validate
 				static::$logs[$url]['table_use_valid_scope'][$m] = 2;
 			}
 
-			// summary less
-			if (strpos($m, '</summary>') === false)
+			if (in_array(Element::getDoctype(), array('html4', 'xhtml')))
 			{
-				static::$logs[$url]['table_use_summary'][$m] = -1;
-				static::$error_ids[$url]['table_use_summary'][$n]['id'] = $table_tag[0];
-				static::$error_ids[$url]['table_use_summary'][$n]['str'] = $table_tag[0];
+				// summary less
+				if ( ! array_key_exists('summary', Element::getAttributes($table_tag[0])))
+				{
+					static::$logs[$url]['table_use_summary'][$m] = -1;
+					static::$error_ids[$url]['table_use_summary'][$n]['id'] = $table_tag[0];
+					static::$error_ids[$url]['table_use_summary'][$n]['str'] = $table_tag[0];
+				}
+				else
+				{
+					static::$logs[$url]['table_use_summary'][$m] = 2;
+				}
 			}
 			else
 			{
-				static::$logs[$url]['table_use_summary'][$m] = 2;
+				static::$logs[$url]['table_use_summary'][$m] = 5;
 			}
 
 			// caption less
