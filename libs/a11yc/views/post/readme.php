@@ -46,6 +46,9 @@
 
 <dl>
 
+<dt>2.0.9 (<time>2018-08-23</time>)</dt>
+	<dd>fix DOCTYPE recognition</dd>
+
 <dt>2.0.8 (<time>2018-08-17</time>)</dt>
 	<dd>at html5, ignore check of existence of summary attribute</dd>
 

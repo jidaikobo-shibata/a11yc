@@ -496,7 +496,7 @@ class Element
 			$doctype = 'html5';
 		}
 		// HTML4
-		else if (strpos($target_str, 'dtdhtml4.01') !== false)
+		else if (strpos($target_str, 'dtdhtml4.0') !== false)
 		{
 			$doctype = 'html4';
 		}
