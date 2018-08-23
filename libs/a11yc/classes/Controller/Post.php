@@ -408,7 +408,10 @@ class Post
 		}
 
 		// images
-		if (Input::post('behaviour') == 'images')
+		if (
+			Input::post('behaviour') == 'images' ||
+			Input::get('mode') == 'images'
+		)
 		{
 			$do_validate = false;
 			View::assign('images', A11yc\Images::getImages($url, $doc_root));
