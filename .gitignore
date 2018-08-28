@@ -28,7 +28,7 @@ languages/jwp_a11y-ja.po
 readme.txt
 views/checklist/ajax.php
 views/docs/search.php
-views/pages/search.php
+views/pages/inc_search.php
 db/
 test.html
 /libs/spyc/.gitignore
