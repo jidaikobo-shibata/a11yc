@@ -29,7 +29,7 @@
 
 <tr>
 	<th><label for="a11yc_error_message"><?php echo A11YC_LANG_ISSUES_ERRMSG ?></label></th>
-	<td><?php echo $issue['error_message'] ?></td>
+	<td><?php echo nl2br($issue['error_message']) ?></td>
 </tr>
 
 <tr>
