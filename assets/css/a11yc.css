@@ -1054,7 +1054,7 @@ label.a11yc_checkitem
 	color: #e00;
 }
 label.a11yc_checkitem {
-	display: block;
+	display: block !important;
 }
 .a11yc_table_check input {
 	margin: 0;
