@@ -142,8 +142,8 @@
 					<tr>
 					<th class="a11yc_table_check_test_result" scope="col"><?php echo A11YC_LANG_TEST_RESULT ?></th>
 					<th class="a11yc_table_check_test_method" scope="col"><?php echo A11YC_LANG_TEST_METHOD ?></th>
-					<th class="a11yc_table_check_memo" scope="col"><?php echo A11YC_LANG_OPINION ?></th>
-					<th class="a11yc_table_check_user" scope="col"><?php echo A11YC_LANG_CTRL_PERSONS ?></th>
+					<th class="a11yc_table_check_memo" scope="col"><label for="results_<?php echo $criterion; ?>_memo"><?php echo A11YC_LANG_OPINION ?></label></th>
+					<th class="a11yc_table_check_user" scope="col"><label for="results[<?php echo $criterion ?>][uid]"><?php echo A11YC_LANG_CTRL_PERSONS ?></label></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -169,11 +169,10 @@
 							</fieldset>
 						</td>
 						<td class="a11yc_table_check_memo">
-							<label for="results_<?php echo $criterion; ?>_memo"></label>
 							<textarea name="results[<?php echo $criterion; ?>][memo]" id="results_<?php echo $criterion; ?>_memo" rows="3"><?php echo Util::s(Arr::get($results, "{$criterion}.memo")); ?></textarea>
 						</td>
 						<td class="a11yc_table_check_user">
-							<select name="results[<?php echo $criterion ?>][uid]">
+							<select name="results[<?php echo $criterion ?>][uid]" id="results[<?php echo $criterion ?>][uid]">
 					<?php
 					foreach ($users as $uid => $name):
 						if ($is_new):
