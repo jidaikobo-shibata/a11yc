@@ -58,25 +58,46 @@ class Html
 		}
 
 		// not UTF-8...
-		$str = Element::ignoreElementsByStr($bool_or_html);
+		$charset = self::recognitionCharset($bool_or_html);
+		$bool_or_html = mb_convert_encoding($bool_or_html, 'UTF-8', $charset);
+
+		static::$htmls[$url][$ua][$type] = $bool_or_html;
+
+		return $bool_or_html;
+	}
+
+	/**
+	 * set html
+	 *
+	 * @param  String $html
+	 * @return String
+	 */
+	private static function recognitionCharset($html)
+	{
+		$str = Element::ignoreElementsByStr($html);
 		// Do not use Element::getElementsByRe() because crashed character cause bad cache
 		preg_match_all("/\<([a-zA-Z1-6]+?) +?([^\>]*?)[\/]*?\>|\<([a-zA-Z1-6]+?)[ \/]*?\>/i", $str, $ms);
 
 		$charset = '';
 		foreach ($ms[1] as $k => $v)
 		{
-			if ($v == 'meta')
+			if (strtolower($v) == 'meta')
 			{
 				$attrs = Element::getAttributes($ms[0][$k]);
 				if ($charset = Arr::get($attrs, 'charset')) break;
+				if (isset($attrs['http-equiv']) && strtolower($attrs['http-equiv']) == 'content-type')
+				{
+					preg_match('/charset=(.+)/i', $attrs['content'], $mms);
+					if (isset($mms[1]))
+					{
+						$charset = $mms[1];
+						break;
+					}
+				}
 			}
 		}
-
-		$bool_or_html = mb_convert_encoding($bool_or_html, 'UTF-8', $charset);
-
-		static::$htmls[$url][$ua][$type] = $bool_or_html;
-
-		return $bool_or_html;
+//		$charset = empty($charset) ? 'Shift_JIS' : $charset;
+		return $charset;
 	}
 
 	/**

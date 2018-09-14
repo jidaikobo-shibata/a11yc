@@ -551,7 +551,7 @@ errors:
 
   table_use_caption:
     title: table use caption
-    message: use caption to give a title for table
+    message: use caption to give a title for table. Improve convenience with screen reader
     criterions:
       - 1-3-1
     notice: true

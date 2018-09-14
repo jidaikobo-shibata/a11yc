@@ -11,7 +11,7 @@
 namespace A11yc;
 
 // version
-define('A11YC_VERSION', '2.0.7');
+define('A11YC_VERSION', '2.0.9');
 // git tag 2.1.0 & git push origin --tags
 
 // config
