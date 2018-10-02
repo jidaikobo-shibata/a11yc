@@ -138,14 +138,6 @@
 	<tbody>
 
 	<tr>
-		<th><?php echo A11YC_LANG_SETTINGS_CHECKLIST_BEHAVIOUR ?></th>
-		<?php
-			$checked = isset($settings['checklist_behaviour']) && $settings['checklist_behaviour'] ? ' checked="checked"' : '';
-		?>
-		<td><label for="a11yc_checklist_behaviour"><input type="checkbox" name="checklist_behaviour" id="a11yc_checklist_behaviour" value="1"<?php echo $checked ?> /><?php echo A11YC_LANG_SETTINGS_CHECKLIST_BEHAVIOUR_DISAPPEAR ?></label></td>
-	</tr>
-
-	<tr>
 		<th><label for="a11yc_base_url"><?php echo A11YC_LANG_SETTINGS_BASE_URL ?></label></th>
 		<td><input type="text" name="base_url" id="a11yc_base_url" style="width: 100%;" value="<?php echo Util::s(@$settings['base_url']) ?>" /><p>ex) http://example.com</p></td>
 	</tr>

@@ -66,7 +66,6 @@ class Settings
 			$intvals = array(
 				'target_level',
 				'selected_method',
-				'checklist_behaviour',
 				'stop_guzzle',
 				'standard',
 				'show_results',

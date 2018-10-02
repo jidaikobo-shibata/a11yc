@@ -164,7 +164,6 @@ class Checklist
 		View::assign('standards', $standards);
 		View::assign('settings', $settings);
 		View::assign('done_date', $done_date);
-		View::assign('checklist_behaviour', intval(@$settings['checklist_behaviour']));
 		View::assign('target_level', intval(@$settings['target_level']));
 		View::assign('page', $page);
 		View::assign('additional_criterions', join('","',Values::additionalCriterions()));

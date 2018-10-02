@@ -152,9 +152,7 @@ define('A11YC_LANG_SETTINGS_TITLE_UA_EXP', '一番最後の空行に入力する
 define('A11YC_LANG_SETTINGS_TITLE_VERSIONS', 'バージョン管理');
 define('A11YC_LANG_SETTINGS_TITLE_VERSIONS_EXP', 'バージョンに名前をつけることができます。「'.A11YC_LANG_PAGES_PURGE.'」をチェックして送信すると当該バージョンを完全に削除します。復活できないのでご注意ください。一般表示をしない場合は、「'.A11YC_LANG_CTRL_VIEW.'」のチェックを外してください。');
 define('A11YC_LANG_SETTINGS_TITLE_ETC', 'その他の設定');
-define('A11YC_LANG_SETTINGS_CHECKLIST_BEHAVIOUR', 'チェックリストの振る舞い');
 define('A11YC_LANG_SETTINGS_BASE_URL', 'ドキュメントルートURL');
-define('A11YC_LANG_SETTINGS_CHECKLIST_BEHAVIOUR_DISAPPEAR', 'チェック時にパスした項目は表示しない');
 define('A11YC_LANG_SETTINGS_BASIC_AUTH_TITLE', '基本認証');
 define('A11YC_LANG_SETTINGS_BASIC_AUTH_EXP', '試験対象のサイトが基本認証で守られている場合、ここに基本認証用のユーザ名とパスワードを入力してください');
 define('A11YC_LANG_SETTINGS_BASIC_AUTH_USER', '基本認証ユーザ名');
