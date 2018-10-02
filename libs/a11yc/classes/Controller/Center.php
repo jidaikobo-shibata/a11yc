@@ -46,7 +46,7 @@ class Center
 		$settings = Model\Settings::fetchAll();
 		if ( ! empty($settings))
 		{
-			Results::all();
+			Results::all($is_center = true);
 			$body = View::fetch('body');
 		}
 
