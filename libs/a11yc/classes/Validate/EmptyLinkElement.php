@@ -50,8 +50,8 @@ class EmptyLinkElement extends Validate
 			if (empty($text))
 			{
 				static::$logs[$url]['empty_link_element'][$tstr] = -1;
-				static::$error_ids[$url]['empty_link_element'][0]['id'] = $ms[0][$k];
-				static::$error_ids[$url]['empty_link_element'][0]['str'] = Util::s($ms[0][$k]);
+				static::$error_ids[$url]['empty_link_element'][$k]['id'] = $ms[0][$k];
+				static::$error_ids[$url]['empty_link_element'][$k]['str'] = Util::s($ms[0][$k]);
 			}
 			else
 			{
@@ -122,6 +122,7 @@ class EmptyLinkElement extends Validate
 				$text.= Arr::get($attrs, 'aria-label', '');
 			}
 		}
+
 		return $text;
 	}
 }

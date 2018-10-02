@@ -483,7 +483,7 @@ class Element
 	public static function getElementById($str, $id)
 	{
 		// search first id
-		$pattern = '/\<([^\>]+?) .*?id *?\= *?[\'"]'.$id.'[\'"].*?\>/ism';
+		$pattern = '/\<([^\>]+?) [^\>]*?id *?\= *?[\'"]'.$id.'[\'"].*?\>/ism';
 		preg_match($pattern, $str, $ms);
 		if (empty($ms)) return false;
 
