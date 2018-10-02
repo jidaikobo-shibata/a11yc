@@ -472,6 +472,105 @@ class Element
 	}
 
 	/**
+	 * getElementById
+	 * I gived up with http://php.net/manual/ja/class.domdocument.php
+	 * DOMDocument doesn't return appropriate value for me.
+	 *
+	 * @param  String $str: whole html
+	 * @param  String $id
+	 * @return String|Bool
+	 */
+	public static function getElementById($str, $id)
+	{
+		// search first id
+		$pattern = '/\<([^\>]+?) .*?id *?\= *?[\'"]'.$id.'[\'"].*?\>/ism';
+		preg_match($pattern, $str, $ms);
+		if (empty($ms)) return false;
+
+		// alias
+		$start = preg_quote($ms[0]);
+		$elename = $ms[1];
+		$end = '\<\/'.$elename.'\>';
+		$end_pure = '</'.$elename.'>';
+
+		// maximum much
+		if ( ! preg_match('/'.$start.'.+'.$end.'/ism', $str, $mms)) return false;
+		$target = $mms[0];
+
+		// nest
+		$loop = true;
+		$open_pos = 1;
+		$close_pos = 1;
+		$failsafe = 0;
+
+		while ($loop)
+		{
+			$failsafe++;
+			if ($failsafe >= 100) $loop = false;
+
+			$open = mb_strpos($target, '<'.$elename, $open_pos);
+			$close = mb_strpos($target, $end_pure, $close_pos);
+
+			// if inner open tag was not found
+			if ( ! $open) break;
+
+			// if open tag appears before end tag keep loop
+			if ($open < $close)
+			{
+				$open_pos = $open + 1;
+				$close_pos = $close + 1;
+				continue;
+			}
+
+			$loop = false;
+		}
+
+		if ( ! $close) return false;
+
+		// whole tag
+		$target = mb_substr($target, 0, $close).$end_pure;
+
+		return $target;
+	}
+
+	/**
+	 * getTextFromElement
+	 *
+	 * @param  String $str: whole html
+	 * @return String|Bool
+	 */
+	public static function getTextFromElement($str)
+	{
+		$text = '';
+
+		// alt of img
+		if (strpos($str, 'img') !== false)
+		{
+			$imgs = explode('>', $str);
+			foreach ($imgs as $img)
+			{
+				if (strpos($img, 'img') === false) continue;
+				$attrs = Element::getAttributes($img.">");
+
+				foreach ($attrs as $kk => $vv)
+				{
+					if (strpos($kk, 'alt') !== false)
+					{
+						$text.= $vv;
+					}
+				}
+			}
+			$text = trim($text);
+		}
+
+		// others
+		$text = strip_tags($str).$text;
+		$text = trim($text);
+
+		return $text;
+	}
+
+	/**
 	 * get doctype
 	 *
 	 * @param  String $url
