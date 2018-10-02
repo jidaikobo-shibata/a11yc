@@ -31,27 +31,20 @@ class EmptyLinkElement extends Validate
 			if (strpos($m, 'href') === false) continue;
 
 			// img's alt
-			$text = '';
-			if (strpos($ms[2][$k], 'img') !== false)
-			{
-				$imgs = explode('>', $ms[2][$k]);
-				foreach ($imgs as $img)
-				{
-					if (strpos($img, 'img') === false) continue;
-					$attrs = Element::getAttributes($img.">");
+			$text = Element::getTextFromElement($ms[2][$k]);
 
-					foreach ($attrs as $kk => $vv)
-					{
-						if (strpos($kk, 'alt') !== false)
-						{
-							$text.= $vv;
-						}
-					}
-				}
-				$text = trim($text);
+			// aria-labelledby
+			if (empty($text))
+			{
+				$text = self::getAriaLabelledby($ms[0][$k], $str, $text);
 			}
 
-			$text.= strip_tags($m);
+			// aria-label
+			if (empty($text))
+			{
+				$text = self::getAriaLabel($ms[0][$k], $text);
+			}
+
 			$tstr = $ms[0][$k];
 
 			if (empty($text))
@@ -66,5 +59,69 @@ class EmptyLinkElement extends Validate
 			}
 		}
 		static::addErrorToHtml($url, 'empty_link_element', static::$error_ids[$url], 'ignores');
+	}
+
+	/**
+	 * getAriaLabelledby
+	 *
+	 * @param  String $eles
+	 * @param  String $str
+	 * @param  String $text
+	 * @return String
+	 */
+	private static function getAriaLabelledby($eles, $str, $text = '')
+	{
+		if (strpos($eles, 'aria-labelledby') !== false)
+		{
+			$eleses = explode('>', $eles);
+			foreach ($eleses as $ele)
+			{
+				if (strpos($ele, 'aria-labelledby') === false) continue;
+				$attrs = Element::getAttributes($ele.">");
+				$ids = Arr::get($attrs, 'aria-labelledby');
+				if (empty($ids)) continue; // error but not indicate by here.
+
+				foreach (explode(' ', $ids) as $id)
+				{
+					$eachele = Element::getElementById($str, $id);
+					$text.= Element::getTextFromElement($eachele);
+				}
+			}
+		}
+		return $text;
+	}
+
+	/**
+	 * getAriaLabel
+
+	 sample1:
+	 <a href="http://example.com" aria-label="foo">
+		<span class="fa fa-twitter" aria-label="bar">
+			<span aria-label="baz"></span>
+		</span>
+	 </a>
+
+	 result:
+	 sample1 + NVDA: reads "foo". speak from the outside.
+
+	 *
+	 * @param  String $eles
+	 * @param  String $text
+	 * @return String
+	 */
+	private static function getAriaLabel($eles, $text = '')
+	{
+		if (strpos($eles, 'aria-label') !== false)
+		{
+			$eleses = explode('>', $eles);
+			foreach ($eleses as $ele)
+			{
+				if (strpos($ele, 'aria-label') === false) continue;
+				if ( ! empty($text)) continue;
+				$attrs = Element::getAttributes($ele.">");
+				$text.= Arr::get($attrs, 'aria-label', '');
+			}
+		}
+		return $text;
 	}
 }
