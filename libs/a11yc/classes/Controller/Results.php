@@ -137,6 +137,7 @@ class Results
 		View::assign('selected_method', intval(Arr::get($settings, 'selected_method')));
 		View::assign('title', A11YC_LANG_TEST_RESULT.': '.Model\Html::fetchPageTitle($url));
 		View::assign('standards', Yaml::each('standards'));
+		View::assign('is_center', false);
 
 		// result - target level
 		$results = Evaluate::evaluateUrl($url);
