@@ -118,6 +118,13 @@
 		<!-- criterions -->
 		<?php
 		foreach ($yml['criterions'] as $criterion => $vvv):
+
+			// check target level and additional_criterions
+			if (
+				! in_array($vvv['code'], Values::additionalCriterions()) &&
+				intval($target_level) < strlen($vvv['level']['name'])
+			) continue;
+
 			if (substr($criterion, 0, 3) != $kk) continue;
 			$non_interference = isset($vvv['non-interference']) ? '&nbsp;'.A11YC_LANG_CHECKLIST_NON_INTERFERENCE :'';
 			$skip_non_interference = isset($vvv['non-interference']) ? '<span class="a11yc_skip">&nbsp;('.A11YC_LANG_CHECKLIST_NON_INTERFERENCE.')</span>' : '';
