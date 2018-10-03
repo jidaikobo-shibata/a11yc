@@ -39,7 +39,7 @@ class MeanlessElement extends Validate
 			'basefont',
 		);
 
-		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
+		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 
 		$n = 0;

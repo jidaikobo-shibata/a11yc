@@ -75,7 +75,7 @@ class Html
 	private static function recognitionCharset($html)
 	{
 		$str = Element::ignoreElementsByStr($html);
-		// Do not use Element::getElementsByRe() because crashed character cause bad cache
+		// Do not use Element\Get::elementsByRe() because crashed character cause bad cache
 		preg_match_all("/\<([a-zA-Z1-6]+?) +?([^\>]*?)[\/]*?\>|\<([a-zA-Z1-6]+?)[ \/]*?\>/i", $str, $ms);
 
 		$charset = '';
@@ -83,7 +83,7 @@ class Html
 		{
 			if (strtolower($v) == 'meta')
 			{
-				$attrs = Element::getAttributes($ms[0][$k]);
+				$attrs = Element\Get::attributes($ms[0][$k]);
 				if ($charset = Arr::get($attrs, 'charset')) break;
 				if (isset($attrs['http-equiv']) && strtolower($attrs['http-equiv']) == 'content-type')
 				{

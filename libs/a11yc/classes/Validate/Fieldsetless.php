@@ -24,7 +24,7 @@ class Fieldsetless extends Validate
 		static::$logs[$url]['legendless'][self::$unspec] = 1;
 		$str = Element::ignoreElements($url);
 
-		$ms = Element::getElementsByRe($str, 'ignores');
+		$ms = Element\Get::elementsByRe($str, 'ignores');
 		if ( ! $ms[1]) return;
 
 		$radio_check_names = self::getRadioCheckNames($ms[0]);
@@ -62,7 +62,7 @@ class Fieldsetless extends Validate
 		$radio_check_names = array();
 		foreach ($ms as $m)
 		{
-			$attrs = Element::getAttributes($m);
+			$attrs = Element\Get::attributes($m);
 			if (
 				Arr::get($attrs, 'type') == 'radio' ||
 				Arr::get($attrs, 'type') == 'checkbox'
@@ -94,7 +94,7 @@ class Fieldsetless extends Validate
 			{
 				foreach ($eles[0] as $ele)
 				{
-					$attrs = Element::getAttributes($ele);
+					$attrs = Element\Get::attributes($ele);
 					if (Arr::get($attrs, 'name') == $radio_check_name)
 					{
 						unset($radio_check_names[$erase_key]);
@@ -141,7 +141,7 @@ class Fieldsetless extends Validate
 		{
 			foreach ($ms as $k => $v)
 			{
-				$attrs = Element::getAttributes($v);
+				$attrs = Element\Get::attributes($v);
 				if (Arr::get($attrs, 'name') == $radio_check_name)
 				{
 					static::$logs[$url]['fieldsetless'][$v] = -1;

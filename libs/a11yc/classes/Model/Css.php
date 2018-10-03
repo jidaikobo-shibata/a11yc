@@ -144,7 +144,7 @@ class Css
 			foreach ($ms[0] as $m)
 			{
 				if (strpos($m, 'stylesheet') === false) continue;
-				$attrs = Element::getAttributes($m);
+				$attrs = Element\Get::attributes($m);
 				if ( ! isset($attrs['href'])) continue;
 				$url = $attrs['href'];
 				$url = self::enuniqueUri($url);

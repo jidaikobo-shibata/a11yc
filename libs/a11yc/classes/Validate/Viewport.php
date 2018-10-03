@@ -25,7 +25,7 @@ class Viewport extends Validate
 		static::$logs[$url]['user_scalable_no'][self::$unspec] = 1;
 
 		$str = Element::ignoreElements($url);
-		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
+		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 
 		foreach ($ms[1] as $k => $tag)

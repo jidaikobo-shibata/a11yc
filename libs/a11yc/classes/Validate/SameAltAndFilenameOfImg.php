@@ -22,7 +22,7 @@ class SameAltAndFilenameOfImg extends Validate
 	{
 		static::$logs[$url]['same_alt_and_filename_of_img'][self::$unspec] = 1;
 		$str = Element::ignoreElements($url);
-		$ms = Element::getElementsByRe($str, 'ignores', 'imgs');
+		$ms = Element\Get::elementsByRe($str, 'ignores', 'imgs');
 		if ( ! $ms[0])
 		{
 			static::$logs[$url]['same_alt_and_filename_of_img'][self::$unspec] = 4;
@@ -31,7 +31,7 @@ class SameAltAndFilenameOfImg extends Validate
 
 		foreach ($ms[0] as $k => $m)
 		{
-			$attrs = Element::getAttributes($m);
+			$attrs = Element\Get::attributes($m);
 			if ( ! isset($attrs['alt']) || ! isset($attrs['src'])) continue;
 			if (empty($attrs['alt'])) continue;
 			$tstr = $m;

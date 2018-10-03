@@ -27,7 +27,7 @@ class CheckDoctype extends Validate
 		}
 		static::$logs[$url]['check_doctype'][self::$unspec] = 1;
 
-		if (is_null(Element::getDoctype($url)))
+		if (is_null(Element\Get::doctype($url)))
 		{
 			static::$logs[$url]['check_doctype'][self::$unspec] = -1;
 			static::$error_ids[$url]['check_doctype'][0]['id'] = false;

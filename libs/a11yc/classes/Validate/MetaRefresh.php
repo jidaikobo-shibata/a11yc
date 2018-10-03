@@ -25,13 +25,13 @@ class MetaRefresh extends Validate
 		static::$logs[$url]['meta_refresh'][self::$unspec] = 1;
 
 		$str = Element::ignoreElements($url);
-		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
+		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 
 		foreach ($ms[0] as $k => $v)
 		{
 			if ($ms[1][$k] != 'meta') continue;
-			$attrs = Element::getAttributes($v);
+			$attrs = Element\Get::attributes($v);
 
 			if ( ! array_key_exists('http-equiv', $attrs)) continue;
 			if ( ! array_key_exists('content', $attrs)) continue;

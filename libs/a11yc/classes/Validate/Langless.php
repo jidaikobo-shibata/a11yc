@@ -24,7 +24,7 @@ class Langless extends Validate
 		if (Validate::$is_partial == true) return;
 		static::$logs[$url]['langless'][self::$unspec] = 1;
 
-		// do not use Element::ignoreElements() and Element::getElementsByRe()
+		// do not use Element::ignoreElements() and Element\Get::elementsByRe()
 		// in case of "<html>" is in comment out
 		preg_match_all(
 			"/\<([a-zA-Z1-6]+?) +?([^\>]*?)[\/]*?\>|\<([a-zA-Z1-6]+?)[ \/]*?\>/i",
@@ -34,7 +34,7 @@ class Langless extends Validate
 		$has_langs = array();
 		foreach ($ms[0] as $k => $v)
 		{
-			$attrs = Element::getAttributes($v);
+			$attrs = Element\Get::attributes($v);
 			if ( ! isset($attrs['lang']) && ! isset($attrs['xml:lang']) ) continue;
 			$has_langs[0][$k] = $ms[0][$k];
 			$has_langs[1][$k] = $ms[1][$k];
