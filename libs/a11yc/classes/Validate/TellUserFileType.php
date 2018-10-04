@@ -22,7 +22,7 @@ class TellUserFileType extends Validate
 	{
 		static::$logs[$url]['tell_user_file_type'][self::$unspec] = 1;
 		$str = Element::ignoreElements($url);
-		$ms = Element::getElementsByRe($str, 'ignores', 'anchors_and_values');
+		$ms = Element\Get::elementsByRe($str, 'ignores', 'anchors_and_values');
 		if ( ! $ms[1]) return;
 
 		$suspicious = array(
@@ -44,7 +44,7 @@ class TellUserFileType extends Validate
 				$m = str_replace("'", '"', $m);
 				if (strpos($m, '.'.$vv.'"') !== false)
 				{
-					$attrs = Element::getAttributes($m);
+					$attrs = Element\Get::attributes($m);
 
 					if ( ! isset($attrs['href'])) continue;
 					$href = strtolower($attrs['href']);

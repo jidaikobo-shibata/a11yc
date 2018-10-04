@@ -137,6 +137,7 @@ class Results
 		View::assign('selected_method', intval(Arr::get($settings, 'selected_method')));
 		View::assign('title', A11YC_LANG_TEST_RESULT.': '.Model\Html::fetchPageTitle($url));
 		View::assign('standards', Yaml::each('standards'));
+		View::assign('is_center', false);
 
 		// result - target level
 		$results = Evaluate::evaluateUrl($url);
@@ -161,9 +162,10 @@ class Results
 	/**
 	 * Show report
 	 *
+	 * @param  Bool $is_center
 	 * @return Void
 	 */
-	public static function all()
+	public static function all($is_center = false)
 	{
 		$settings = Model\Settings::fetchAll();
 		$target_level = intval(Arr::get($settings, 'target_level'));
@@ -179,6 +181,7 @@ class Results
 		View::assign('done',              Model\Pages::count('done'));
 		View::assign('total',             Model\Pages::count('all'));
 		View::assign('standards',         Yaml::each('standards'));
+		View::assign('is_center',         $is_center);
 
 		// passed and unpassed pages
 		View::assign('unpassed_pages', Model\Results::unpassedPages($target_level));

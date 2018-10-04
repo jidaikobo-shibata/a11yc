@@ -24,14 +24,14 @@ class InvalidTag extends Validate
 		static::$logs[$url]['unbalanced_quotation'][self::$unspec] = 1;
 		static::$logs[$url]['cannot_contain_multibyte_space'][self::$unspec] = 1;
 		$str = Element::ignoreElements($url);
-		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
+		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 
 		foreach ($ms[0] as $k => $m)
 		{
 			// newline character must not exists in attr
 			// thx https://twitter.com/sbtnbfm/status/948881557233713152
-			$attrs = Element::getAttributes($m);
+			$attrs = Element\Get::attributes($m);
 			$tstr = $ms[0][$k];
 
 			foreach ($attrs as $val)

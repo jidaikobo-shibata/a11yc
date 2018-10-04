@@ -25,7 +25,7 @@ class LinkCheck extends Validate
 		static::$logs[$url]['link_check'][self::$unspec] = 1;
 
 		$str = Element::ignoreElements($url);
-		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
+		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 
 		// candidates
@@ -44,7 +44,7 @@ class LinkCheck extends Validate
 			$ele = $ms[1][$k];
 
 			if ( ! in_array($ele, $checks)) continue;
-			$attrs = Element::getAttributes($tag);
+			$attrs = Element\Get::attributes($tag);
 
 			$target_url = self::getTargetUrl($attrs);
 			if ( ! $target_url) continue;

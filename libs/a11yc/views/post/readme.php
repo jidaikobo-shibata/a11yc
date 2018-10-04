@@ -46,6 +46,9 @@
 
 <dl>
 
+<dt>2.1.0 (<time>2018-10-02</time>)</dt>
+	<dd>start to support <code>aria-label</code> and <code>aria-labelledby</code></dd>
+
 <dt>2.0.9 (<time>2018-08-23</time>)</dt>
 	<dd>fix DOCTYPE recognition</dd>
 	<dd>better charset recognition</dd>

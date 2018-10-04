@@ -23,7 +23,7 @@ class EmptyLinkElement extends Validate
 		static::$logs[$url]['empty_link_element'][self::$unspec] = 1;
 		$str = Element::ignoreElements($url);
 
-		$ms = Element::getElementsByRe($str, 'ignores', 'anchors_and_values');
+		$ms = Element\Get::elementsByRe($str, 'ignores', 'anchors_and_values');
 		if ( ! $ms[1]) return;
 
 		foreach ($ms[0] as $k => $m)
@@ -31,7 +31,7 @@ class EmptyLinkElement extends Validate
 			if (strpos($m, 'href') === false) continue;
 
 			// img's alt
-			$text = Element::getTextFromElement($ms[2][$k]);
+			$text = Element\Get::textFromElement($ms[2][$k]);
 
 			// aria-labelledby
 			if (empty($text))
@@ -50,8 +50,8 @@ class EmptyLinkElement extends Validate
 			if (empty($text))
 			{
 				static::$logs[$url]['empty_link_element'][$tstr] = -1;
-				static::$error_ids[$url]['empty_link_element'][0]['id'] = $ms[0][$k];
-				static::$error_ids[$url]['empty_link_element'][0]['str'] = Util::s($ms[0][$k]);
+				static::$error_ids[$url]['empty_link_element'][$k]['id'] = $ms[0][$k];
+				static::$error_ids[$url]['empty_link_element'][$k]['str'] = Util::s($ms[0][$k]);
 			}
 			else
 			{
@@ -77,14 +77,14 @@ class EmptyLinkElement extends Validate
 			foreach ($eleses as $ele)
 			{
 				if (strpos($ele, 'aria-labelledby') === false) continue;
-				$attrs = Element::getAttributes($ele.">");
+				$attrs = Element\Get::attributes($ele.">");
 				$ids = Arr::get($attrs, 'aria-labelledby');
 				if (empty($ids)) continue; // error but not indicate by here.
 
 				foreach (explode(' ', $ids) as $id)
 				{
-					$eachele = Element::getElementById($str, $id);
-					$text.= Element::getTextFromElement($eachele);
+					$eachele = Element\Get::elementById($str, $id);
+					$text.= Element\Get::textFromElement($eachele);
 				}
 			}
 		}
@@ -118,10 +118,11 @@ class EmptyLinkElement extends Validate
 			{
 				if (strpos($ele, 'aria-label') === false) continue;
 				if ( ! empty($text)) continue;
-				$attrs = Element::getAttributes($ele.">");
+				$attrs = Element\Get::attributes($ele.">");
 				$text.= Arr::get($attrs, 'aria-label', '');
 			}
 		}
+
 		return $text;
 	}
 }

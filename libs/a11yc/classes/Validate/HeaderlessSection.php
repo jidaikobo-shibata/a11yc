@@ -36,8 +36,8 @@ class HeaderlessSection extends Validate
 			if ( ! preg_match("/\<h\d/", $v))
 			{
 				static::$logs[$url]['headerless_section'][$v] = -1;
-				static::$error_ids[$url]['headerless_section'][$k]['id'] = Element::getFirstTag($v);
-				static::$error_ids[$url]['headerless_section'][$k]['str'] = Element::getFirstTag($v);
+				static::$error_ids[$url]['headerless_section'][$k]['id'] = Element\Get::firstTag($v);
+				static::$error_ids[$url]['headerless_section'][$k]['str'] = Element\Get::firstTag($v);
 			}
 			else
 			{

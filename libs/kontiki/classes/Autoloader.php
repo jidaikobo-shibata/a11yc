@@ -48,12 +48,19 @@ class Autoloader
 				{
 					$loaded = false;
 					$classes = explode('\\', $class_name);
-					$naked_class = end($classes);
+					$naked_class = array_pop($classes);
+					$sub_namespace = join('\\', $classes);
+
 
 					// search loaded class
 					foreach (array_keys(\Kontiki\Autoloader::$core_namespaces) as $core_namespace)
 					{
+						// remove core_namespace from classes
+						$tmp_namespace = str_replace($core_namespace, '', $sub_namespace);
+						$core_namespace.= ! empty($tmp_namespace) ? '\\'.$tmp_namespace : '';
+
 						$ns_class = $core_namespace.'\\'.$naked_class;
+
 						if (array_key_exists($ns_class, \Kontiki\Autoloader::$classes))
 						{
 							$loaded = true;
@@ -74,6 +81,24 @@ class Autoloader
 								include_once $file_path;
 								$loaded = true;
 								break;
+							}
+						}
+					}
+
+					// try to search loaded namespace
+					if ( ! $loaded)
+					{
+						if (array_key_exists($sub_namespace, \Kontiki\Autoloader::$classes))
+						{
+							$loaded_path = \Kontiki\Autoloader::$classes[$sub_namespace];
+							$file_path = str_replace('.php', '/', $loaded_path);
+							$file_path.= \Kontiki\Autoloader::prepPath($naked_class);
+
+							if (file_exists($file_path))
+							{
+								include_once $file_path;
+								$loaded = true;
+								$ns_class = \Kontiki\Autoloader::corePath2class($loaded_path).'\\'.$naked_class;
 							}
 						}
 					}
@@ -130,5 +155,25 @@ class Autoloader
 	public static function prepPath($path)
 	{
 		return str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path).'.php';
+	}
+
+	/**
+	 * file path to classname
+	 *
+	 * @param   string  $path  Path
+	 * @return  string|bool  classname
+	 */
+	public static function corePath2class($path)
+	{
+		$classname = false;
+		foreach (\Kontiki\Autoloader::$core_namespaces as $core_namespace => $core_path)
+		{
+			if (strpos($path, $core_path) !== false)
+			{
+				$file = str_replace($core_path, '', $path);
+				$classname = $core_namespace.'\\'.str_replace('.php', '', $file);
+			}
+		}
+		return $classname;
 	}
 }

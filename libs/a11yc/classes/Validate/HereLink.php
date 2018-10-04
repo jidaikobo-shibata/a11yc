@@ -21,7 +21,7 @@ class HereLink extends Validate
 	{
 		static::$logs[$url]['here_link'][self::$unspec] = 1;
 		$str = Element::ignoreElements($url);
-		$ms = Element::getElementsByRe($str, 'ignores', 'anchors_and_values');
+		$ms = Element\Get::elementsByRe($str, 'ignores', 'anchors_and_values');
 		if ( ! $ms[2])
 		{
 			static::$logs[$url]['here_link'][self::$unspec] = 4;

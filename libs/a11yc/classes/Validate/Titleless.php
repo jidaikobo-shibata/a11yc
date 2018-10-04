@@ -27,7 +27,7 @@ class Titleless extends Validate
 		$str = Element::ignoreElements($url);
 
 		// to locate first element at the error
-		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
+		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
 
 		if (
 			strpos(strtolower($str), '<title') === false || // lacknesss of title element

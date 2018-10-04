@@ -195,81 +195,6 @@ class Post
 	}
 
 	/**
-	 * auth
-	 *
-	 * @return Void
-	 */
-	public static function auth()
-	{
-		if (A11yc\Auth::auth()) return true;
-
-		// ip check for guest users
-		if ( ! self::isInWhiteList())
-		{
-			// die if at limit
-			static::ipCheckForGuestUsers(Input::server('REMOTE_ADDR', ''));
-		}
-		return true;
-	}
-
-	/**
-	 * count up for guest users
-	 *
-	 * @return Void
-	 */
-	private static function countUpForGuestUsers()
-	{
-		if ( ! A11yc\Auth::auth() && ! self::isInWhiteList())
-		{
-			// ip
-			$sql = 'INSERT INTO ip (ip, datetime) VALUES (?, ?);';
-			$ip = Input::server('REMOTE_ADDR', '');
-			Db::execute($sql, array($ip, date('Y-m-d H:i:s')), A11YC_POST_DB);
-
-			// cookie (session)
-			Session::add('a11yc_post', 'count', time());
-		}
-	}
-
-	/**
-	 * ip check for guest users
-	 *
-	 * @param  String $ip
-	 * @return Void
-	 */
-	private static function ipCheckForGuestUsers($ip)
-	{
-		// database
-		define('A11YC_POST_DB', 'post_log');
-		define('A11YC_POST_DATA_FILE', '/'.A11YC_POST_DB.'.sqlite');
-		Db::forge(
-			A11YC_POST_DB,
-			array(
-				'dbtype' => 'sqlite',
-				'path' => A11YC_DATA_PATH.A11YC_POST_DATA_FILE,
-			));
-		static::initTable();
-
-		// ip check
-		$past_24h = time() - 86400;
-		$sql = 'SELECT COUNT(`ip`) as cnt FROM ip WHERE `ip` = ? AND `datetime` > ?;;';
-		$ip_count = Db::fetch($sql, array($ip, $past_24h), A11YC_POST_DB);
-
-		// cookie check
-		$cookie_count = Session::show('a11yc_post', 'count') ?: array();
-		$cookie_count = array_filter($cookie_count, function ($v){return ($v > time() - 600);});
-
-		// ban
-		if (
-			$ip_count['cnt'] >= A11YC_POST_IP_MAX_A_DAY ||
-			count($cookie_count) >= A11YC_POST_COOKIE_A_10MIN
-		)
-		{
-			Util::error('too much accesses.');
-		}
-	}
-
-	/**
 	 * Action_Validation
 	 *
 	 * @return Void
@@ -297,7 +222,7 @@ class Post
 		View::assign('errs', array());
 
 		// auth - if limit die here
-		self::auth();
+		Post\Auth::auth();
 
 		// validation
 		list($target_html, $do_validate) = self::getHtmlAndCheckDoValidate($url, $doc_root, $ua);
@@ -484,7 +409,7 @@ class Post
 		View::assign('logs'                , Validate::getLogs($url) ?: array());
 
 		// count up for guest users
-		self::countUpForGuestUsers();
+		Post\Auth::countUpForGuestUsers();
 	}
 
 	/**
@@ -537,22 +462,5 @@ class Post
 
 		// error
 		Util::error('service not available.');
-	}
-
-	/**
-	 * init table
-	 *
-	 * @return Void
-	 */
-	private static function initTable()
-	{
-		if ( ! DB::isTableExist('ip', A11YC_POST_DB))
-		{
-			$sql = 'CREATE TABLE ip (';
-			$sql.= '`ip`        text NOT NULL,';
-			$sql.= '`datetime`  datetime';
-			$sql.= ');';
-			DB::execute($sql, array(), A11YC_POST_DB);
-		}
 	}
 }
