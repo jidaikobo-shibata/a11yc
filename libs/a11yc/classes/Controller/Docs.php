@@ -89,7 +89,6 @@ class Docs
 			$word = mb_convert_kana(trim(Input::get('s')), "as");
 			$r['criterions'] = array();
 			$r['tests'] = array();
-			$text = '';
 
 			foreach ($yaml['criterions'] as $v)
 			{

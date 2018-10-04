@@ -51,7 +51,6 @@ class Autoloader
 					$naked_class = array_pop($classes);
 					$sub_namespace = join('\\', $classes);
 
-
 					// search loaded class
 					foreach (array_keys(\Kontiki\Autoloader::$core_namespaces) as $core_namespace)
 					{

@@ -21,7 +21,7 @@ class Html
 	 *
 	 * @param  String $url
 	 * @param  String $ua
-	 * @return String
+	 * @return String|Bool
 	 */
 	public static function fetchHtml($url, $ua = 'using', $type = 'raw')
 	{
@@ -157,7 +157,7 @@ class Html
 		$url = Util::urldec($url);
 		$ua = empty($ua) ? 'using' : $ua;
 
-		if (isset(static::$htmls[$url][$ua][$type]) && ! $force)
+		if (isset(static::$htmls[$url][$ua][$type]) && $force === false)
 		{
 			return static::$htmls[$url][$ua][$type];
 		}
@@ -167,7 +167,7 @@ class Html
 		$sql.= '`url` = ? AND `type` = ? AND `updated_at` > ?;';
 		$result = Db::fetch($sql, array($url, $type, date('Y-m-d H:i:s', time() - 86400)));
 
-		if ($result['data'] && ! $force)
+		if ($result['data'] && $force === false)
 		{
 			static::$htmls[$url][$ua][$type] = $result['data'];
 		}

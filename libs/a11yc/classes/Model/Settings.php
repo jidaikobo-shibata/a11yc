@@ -134,7 +134,6 @@ class Settings
 	public static function updateField($key, $value)
 	{
 		$settings = self::fetchAll();
-		$r = false;
 		if( ! isset($settings[$key]))
 		{
 			$sql = 'INSERT INTO '.A11YC_TABLE_SETTINGS.' (`key`, `value`, `version`) ';

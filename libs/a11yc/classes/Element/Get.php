@@ -174,6 +174,7 @@ class Get extends Element
 		$loop = true;
 		$open_pos = 1;
 		$close_pos = 1;
+		$close = 0;
 		$failsafe = 0;
 
 		while ($loop)

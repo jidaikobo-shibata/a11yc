@@ -41,6 +41,7 @@ class Uas
 			$names   = Input::postArr('name');
 			$strs    = Input::postArr('str');
 			$deletes = Input::postArr('delete');
+			$r       = false;
 
 			// id 1 is default ua. can not delete or edit str.
 			$strs[1] = '';

@@ -94,7 +94,7 @@ class Post
 		View::assign('base_url', A11YC_POST_SCRIPT_URL);
 
 		// routing
-		static::routing();
+		self::routing();
 		$action = Route::getAction();
 		static::$action();
 

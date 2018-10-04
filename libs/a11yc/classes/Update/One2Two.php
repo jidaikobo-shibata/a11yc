@@ -318,7 +318,7 @@ class One2Two extends A11yc\Update
 	private static function doEvaluate($cs, $ngs, $yml)
 	{
 		// passed
-		$passed = static::passed($cs, $yml);
+		$passed = self::passed($cs, $yml);
 
 		// for non exists
 		$checked = array();

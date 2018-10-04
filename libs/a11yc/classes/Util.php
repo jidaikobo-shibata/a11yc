@@ -173,28 +173,4 @@ class Util extends \Kontiki\Util
 
 		return $text;
 	}
-
-	/**
-	 * get criterion from a11yc code
-	 * '1-3-1a' to '1-3-1'
-	 *
-	 * @param  String $code
-	 * @return String|Bool
-	 */
-	public static function get_criterion_from_code($code)
-	{
-		static $retvals = array();
-		if (array_key_exists($code, $retvals)) return $retvals[$code];
-
-		$yml = Yaml::fetch();
-		foreach ($yml['checks'] as $criterion => $v)
-		{
-			if (array_key_exists($code, $v))
-			{
-				$retvals[$code] = $criterion;
-				return $criterion;
-			}
-		}
-		return false;
-	}
 }

@@ -110,7 +110,7 @@ class Results
 
 		$settings = Model\Settings::fetchAll();
 		static::assignLinks();
-		static::assignLevels($settings['target_level'], $page['level']);
+		self::assignLevels($settings['target_level'], $page['level']);
 
 		// alt checklist link
 		if ( ! empty($page['alt_url']))
@@ -171,7 +171,7 @@ class Results
 		$target_level = intval(Arr::get($settings, 'target_level'));
 
 		static::assignLinks();
-		static::assignLevels($target_level);
+		self::assignLevels($target_level);
 
 		View::assign('settings',          $settings);
 		View::assign('target_level',      $target_level);
