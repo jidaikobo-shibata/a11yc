@@ -452,7 +452,10 @@ table.a11yc_table_info {
 	color: #8bc32f;
 }
 #a11yc_header {
-	position: fixed;
+/*	position: fixed;*/
+	position: -webkit-sticky; /* Safari */
+	position: sticky;
+	top: 31px;
 	width: 100%;
 	word-break: break-all;
 	-moz-box-sizing: border-box;
@@ -460,8 +463,9 @@ table.a11yc_table_info {
 	box-sizing: border-box;
 	left: 0;
 	right: 0;
-	top: 0;
-	padding: 26px 8px 0;
+/*	top: 0;*/
+/*	padding: 26px 8px 0;*/
+	padding: 5px 8px 0;
 	z-index: 90;
 	background-color: #fff;
 }

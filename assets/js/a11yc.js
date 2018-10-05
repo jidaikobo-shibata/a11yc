@@ -506,7 +506,6 @@ function a11yc_stop_scroll(){
 
 /* === get validation error_message === */
 /*
-
 jQuery(function($){
 	if(!$('.a11yc')[0] || $('#a11yc_post')[0] ) return;
 	if(!a11yc_env.is_wp && $('#a11yc_validator_results')[0]){
