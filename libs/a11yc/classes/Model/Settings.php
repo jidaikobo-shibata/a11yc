@@ -20,7 +20,7 @@ class Settings
 	 * @param Bool $force
 	 * @return Array
 	 */
-	public static function fetchAll($force = 0)
+	public static function fetchAll($force = false)
 	{
 		if ( ! is_null(static::$settings) && ! $force) return static::$settings;
 

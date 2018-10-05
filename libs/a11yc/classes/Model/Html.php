@@ -194,7 +194,7 @@ class Html
 	 * fetch page title
 	 *
 	 * @param  String $url
-	 * @param  String $is_from_web
+	 * @param  Bool $is_from_web
 	 * @return String
 	 */
 	public static function fetchPageTitle($url, $is_from_web = false)

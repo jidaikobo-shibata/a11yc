@@ -249,7 +249,7 @@ class Checklist
 	 */
 	private static function getPage($url)
 	{
-		$page = Model\Pages::fetchPage($url, 1);
+		$page = Model\Pages::fetchPage($url, true);
 		if ( ! $page && $url)
 		{
 			Model\Pages::addPage($url);
