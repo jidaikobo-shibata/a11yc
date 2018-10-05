@@ -177,6 +177,7 @@ class Html
 			$html = self::fetchHtml($url, $ua, $type);
 
 			// add and fetch
+			if ($html === false) return false;
 			self::addHtml($url, $ua, $html, $type);
 			$sql = 'SELECT `data` FROM '.A11YC_TABLE_CACHES.' WHERE ';
 			$sql.= '`url` = ? AND `type` = ?;';
@@ -198,7 +199,7 @@ class Html
 	{
 		if (isset(static::$titles[$url])) return static::$titles[$url];
 		$html = self::getHtml($url, 'using', 'raw', $is_from_web);
-		if ( ! $html) return '';
+		if ($html === false) return '';
 
 		static::$titles[$url] = self::fetchPageTitleFromHtml($html);
 		return static::$titles[$url];

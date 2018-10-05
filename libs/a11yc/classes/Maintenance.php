@@ -31,7 +31,7 @@ class Maintenance extends \Kontiki\Maintenance
 		$ret = Db::fetch($sql);
 
 		static::$is_first_of_day = true;
-		if ( ! $ret)
+		if (empty($ret))
 		{
 			$sql = 'INSERT INTO '.A11YC_TABLE_MAINTENANCE.' (`last_checked`) VALUES (?);';
 			Db::execute($sql, array(date('Y-m-d')));

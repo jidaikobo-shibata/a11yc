@@ -43,6 +43,7 @@ class Crawl
 	 */
 	public static function isPageExist($url)
 	{
+		if (Guzzle::envCheck() === false) return false;
 		Guzzle::forge($url);
 		return Guzzle::instance($url)->is_exists;
 	}

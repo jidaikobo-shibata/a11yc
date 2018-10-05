@@ -176,7 +176,7 @@ class Get extends Element
 	 * I gived up with http://php.net/manual/ja/class.domdocument.php
 	 * DOMDocument doesn't return appropriate value for me.
 	 *
-	 * @param  String $str: whole html
+	 * @param  String $str whole html
 	 * @param  String $id
 	 * @return String|Bool
 	 */
@@ -237,7 +237,7 @@ class Get extends Element
 	/**
 	 * TextFromElement
 	 *
-	 * @param  String $str: whole html
+	 * @param  String $str whole html
 	 * @return String|Bool
 	 */
 	public static function textFromElement($str)

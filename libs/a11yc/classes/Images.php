@@ -17,7 +17,7 @@ class Images
 	/**
 	 * get images
 	 *
-	 * @param  String $uri
+	 * @param  String $url
 	 * @param  String $base_uri
 	 * @return  Array
 	 */

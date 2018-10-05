@@ -69,7 +69,7 @@ class Util extends \Kontiki\Util
 	/**
 	 * doc Html Whitelist
 	 *
-	 * @param  String $word
+	 * @param  String $txt
 	 * @return Array
 	 */
 	public static function docHtmlWhitelist($txt)

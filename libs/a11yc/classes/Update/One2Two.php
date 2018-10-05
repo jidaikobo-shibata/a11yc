@@ -227,7 +227,6 @@ class One2Two
 	/**
 	 * yml
 	 *
-	 * @param  Array $cs
 	 * @return Array
 	 * codes, passes, conditions and non_exists
 	 * codes: array('1-1-1a' => '1-1-1', ... '2-1-1a' => '2-1-1', )

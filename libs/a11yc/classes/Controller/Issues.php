@@ -268,7 +268,7 @@ class Issues
 	{
 		$id = intval(Input::get('id'));
 		$issue = Model\Issues::fetch($id);
-		if ( ! $issue || Arr::get($issue, 'trash') == 1) Util::error('issue not found');
+		if (empty($issue) || Arr::get($issue, 'trash') == 1) Util::error('issue not found');
 
 		if (is_null($current_user_id))
 		{
@@ -331,7 +331,7 @@ class Issues
 	{
 		$id = intval(Input::get('id'));
 		$issue = Model\Issues::fetch($id);
-		if ( ! $issue) Util::error('issue not found');
+		if (empty($issue)) Util::error('issue not found');
 
 		$r = false;
 		if ($issue['trash'] != 1)
@@ -356,7 +356,7 @@ class Issues
 	{
 		$id = intval(Input::get('id'));
 		$issue = Model\Issues::fetch($id);
-		if ( ! $issue) Util::error('issue not found');
+		if (empty($issue)) Util::error('issue not found');
 
 		$r = false;
 		if ($issue['trash'] != 0)

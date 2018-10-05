@@ -63,7 +63,7 @@ class Pages
 		$sql_odr = self::setOrder($orderby);
 
 		// fetch pages
-		if ($placeholders)
+		if ( ! empty($placeholders))
 		{
 			$whr = '';
 			$whr.= $sql_reason ?: '';
@@ -128,7 +128,7 @@ class Pages
 		$sql_like = '';
 		$placeholders = array();
 
-		if ($words)
+		if ( ! empty($words))
 		{
 			$sql_likes = array();
 			foreach ($words as $word)
@@ -183,7 +183,7 @@ class Pages
 	 * @param Bool $force
 	 * @return Bool|Array
 	 */
-	public static function fetchPage($url, $force = 0)
+	public static function fetchPage($url, $force = false)
 	{
 		if (isset(static::$loaded_pages[$url]) && ! $force) return static::$loaded_pages[$url];
 		$sql = 'SELECT * FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?'.Db::versionSql().';';

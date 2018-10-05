@@ -150,8 +150,11 @@ class Validate
 				}
 			}
 		}
+
+		$escaped_html = Util::s(static::$hl_htmls[$url]);
+		if ( ! is_string($escaped_html)) Util::error('invalid HTML was given');
 		static::$results[$url][$name][$ua]['html'] = $html;
-		static::$results[$url][$name][$ua]['hl_html'] = self::revertHtml(Util::s(static::$hl_htmls[$url]));
+		static::$results[$url][$name][$ua]['hl_html'] = self::revertHtml($escaped_html);
 		static::$results[$url][$name][$ua]['errors'] = $all_errs;
 		static::$results[$url][$name][$ua]['errs_cnts'] = static::$err_cnts;
 	}
@@ -173,7 +176,9 @@ class Validate
 		if (isset(static::$results[$url][$name][$ua]) && ! $force) return static::$results[$url][$name][$ua];
 
 		// get html and set it to temp value
-		self::html($url, Model\Html::getHtml($url, $ua), $codes, $ua, $force);
+		$html = Model\Html::getHtml($url, $ua);
+		if ( ! is_string($html)) Util::error('invalid HTML was given');
+		self::html($url, $html, $codes, $ua, $force);
 	}
 
 	/**
@@ -286,7 +291,7 @@ class Validate
 		$html = static::$hl_htmls[$url];
 
 		$current_err = self::setCurrentErr($url, $error_id, $issue_html);
-		if ( ! $current_err) return;
+		if ($current_err === false) return;
 
 		// errors
 		if ( ! isset($s_errors[$error_id])) return;

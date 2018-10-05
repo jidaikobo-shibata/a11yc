@@ -233,6 +233,7 @@ class Results
 			$pdfs = array_merge($pdfs, Model\Pages::fetch($args));
 		}
 		ksort($pages);
+
 		$pages['pdf'] = $pdfs;
 
 		// assign links

@@ -29,6 +29,7 @@ class Message
 		$yml = Yaml::fetch();
 
 		$current_err = Validate::setCurrentErr($url, $code_str, $place);
+		if ($current_err === false) return false;
 		if ( ! isset(self::$showed[$url])) self::$showed[$url] = array();
 		$anchor = $code_str.'_'.$key;
 		$ret = array();
