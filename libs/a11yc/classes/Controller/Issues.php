@@ -166,19 +166,6 @@ class Issues
 				}
 			}
 
-			// delete
-			elseif (Input::post('is_delete'))
-			{
-				$issue = Model\Issues::fetch($id);
-				$r = Model\Issues::delete($id);
-				$mess_type = $r ? 'messages' : 'errors';
-				$mess_str  = $r ?
-									 sprintf(A11YC_LANG_PAGES_PURGE_DONE, A11YC_LANG_ISSUES_TITLE) :
-									 sprintf(A11YC_LANG_PAGES_PURGE_DONE, A11YC_LANG_PAGES_PURGE_FAILED);
-				Session::add('messages', $mess_type, $mess_str);
-				Util::redirect(A11YC_CHECKLIST_URL.Util::urlenc($url));
-			}
-
 			// update
 			else
 			{
