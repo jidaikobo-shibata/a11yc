@@ -147,9 +147,9 @@ class Issues
 			}
 
 			// update
-			else
+			else if (isset($id) && is_numeric($id))
 			{
-				self::update($id);
+				$issue = self::update($id);
 			}
 		}
 
@@ -230,7 +230,7 @@ class Issues
 	 * update Issue
 	 *
 	 * @param  integer $id
-	 * @return Void
+	 * @return Array
 	 */
 	private static function update($id)
 	{
@@ -253,6 +253,7 @@ class Issues
 		}
 		$force = true;
 		$issue = Model\Issues::fetch($id, $force);
+		return $issue;
 	}
 
 	/**
