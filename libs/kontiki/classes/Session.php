@@ -45,7 +45,18 @@ class Session
 			ini_set('session.use_only_cookies', 1);
 			session_name($session_name);
 			session_start();
-			session_regenerate_id(true);
+
+			// keep security but avoid session down
+			static::add('kntk_sess', 'expire', time());
+			if(mt_rand(1, 10) === 1)
+			{
+				$expires = static::show('kntk_sess', 'expire');
+				if (end($expires) + 5 < time())
+				{
+					static::add('kntk_sess', 'expire', time());
+					session_regenerate_id(true);
+				}
+			}
 		}
 	}
 
@@ -56,7 +67,6 @@ class Session
 	 */
 	public static function isStarted()
 	{
-		$is_session_started = false;
 		if (version_compare(phpversion(), '5.4.0', '>='))
 		{
 			$is_session_started = session_status() === PHP_SESSION_ACTIVE ? TRUE : FALSE;
@@ -76,7 +86,7 @@ class Session
 	public static function destroy()
 	{
 		$_SESSION = array();
-		if (Input::cookie(session_name()))
+		if (Input::cookie(session_name()) !== null)
 		{
 			setcookie(session_name(), '', time()-42000, '/');
 		}

@@ -10,14 +10,14 @@
  */
 namespace A11yc\Update;
 
-class UpdateSettings extends A11yc\Update
+class UpdateSettings
 {
 	/**
 	 * update
 	 *
 	 * @return Void
 	 */
-	protected static function update()
+	public static function update()
 	{
 		$sql = 'SELECT * FROM '.A11YC_TABLE_SETTINGS;
 		$data = Db::fetchAll($sql);

@@ -10,6 +10,8 @@
  */
 namespace A11yc\Validate;
 
+use A11yc\Element;
+
 class HereLink extends Validate
 {
 	/**
@@ -20,8 +22,8 @@ class HereLink extends Validate
 	public static function check($url)
 	{
 		static::$logs[$url]['here_link'][self::$unspec] = 1;
-		$str = Element::ignoreElements($url);
-		$ms = Element::getElementsByRe($str, 'ignores', 'anchors_and_values');
+		$str = Element\Get::ignoredHtml($url);
+		$ms = Element\Get::elementsByRe($str, 'ignores', 'anchors_and_values');
 		if ( ! $ms[2])
 		{
 			static::$logs[$url]['here_link'][self::$unspec] = 4;

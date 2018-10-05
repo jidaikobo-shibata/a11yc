@@ -35,6 +35,7 @@ class Live
 	{
 		// keep head
 		$html = Model\Html::getHtml($url);
+		if ($html === false) Util::error('failed to get HTML');
 		$mod_head = self::modifyHead($html);
 
 		// validate

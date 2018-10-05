@@ -10,6 +10,8 @@
  */
 namespace A11yc\Validate;
 
+use A11yc\Element;
+
 class FormAndLabels extends Validate
 {
 	/**
@@ -27,8 +29,8 @@ class FormAndLabels extends Validate
 		static::$logs[$url]['contain_plural_form_elements'][self::$unspec] = 1;
 		static::$logs[$url]['lackness_of_form_ends'][self::$unspec] = 1;
 
-		$str = Element::ignoreElements($url);
-		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
+		$str = Element\Get::ignoredHtml($url);
+		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[1]) return;
 
 		// is form exists?
@@ -62,7 +64,7 @@ class FormAndLabels extends Validate
 			if (self::ignoreForm($uniqued_types, $uniqued_eles)) continue;
 
 			// get action attribute to tell user which form cause error
-			$attrs = Element::getAttributes($v['form']);
+			$attrs = Element\Get::attributes($v['form']);
 			$action = isset($attrs['action']) ? $attrs['action'] : $v['form'];
 
 			// labelless
@@ -174,7 +176,7 @@ class FormAndLabels extends Validate
 				$forms[$n]['eles'][] = $ms[1][$k];
 			}
 
-			$attrs = Element::getAttributes($m);
+			$attrs = Element\Get::attributes($m);
 			if (isset($attrs['for']))  $forms[$n]['fors'][] = $attrs['for'];
 			if (isset($attrs['id']))   $forms[$n]['ids'][] = $attrs['id'];
 			if (isset($attrs['type'])) $forms[$n]['types'][] = $attrs['type'];
@@ -287,10 +289,10 @@ class FormAndLabels extends Validate
 				$alt = '';
 				if (strpos($each_label, '<img') !== false)
 				{
-					$mms = Element::getElementsByRe($each_label, 'ignores', 'imgs', true);
+					$mms = Element\Get::elementsByRe($each_label, 'ignores', 'imgs', true);
 					foreach ($mms[0] as $in_img)
 					{
-						$attrs = Element::getAttributes($in_img);
+						$attrs = Element\Get::attributes($in_img);
 						foreach ($attrs as $kkk => $vvv)
 						{
 							if (strpos($kkk, 'alt') !== false)
@@ -338,7 +340,7 @@ class FormAndLabels extends Validate
 			$name_arrs = array();
 			foreach ($names[0] as $tag)
 			{
-				$attrs = Element::getAttributes($tag);
+				$attrs = Element\Get::attributes($tag);
 				if ( ! isset($attrs['name'])) continue;
 				if (strpos($tag, 'checkbox') !== false || strpos($tag, 'radio') !== false) continue;
 				if (in_array($attrs['name'], $name_arrs))
@@ -380,7 +382,7 @@ class FormAndLabels extends Validate
 					$ele_types = array();
 					foreach ($mmms[0] as $ele)
 					{
-						$ele_attrs = Element::getAttributes($ele);
+						$ele_attrs = Element\Get::attributes($ele);
 						if ( ! isset($ele_attrs['type'])) continue;
 						if (strtolower($ele_attrs['type']) == 'hidden') continue;
 						$ele_types[] = $ele_attrs['type'];

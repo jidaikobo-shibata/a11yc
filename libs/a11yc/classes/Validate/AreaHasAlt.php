@@ -10,6 +10,8 @@
  */
 namespace A11yc\Validate;
 
+use A11yc\Element;
+
 class AreaHasAlt extends Validate
 {
 	/**
@@ -20,9 +22,9 @@ class AreaHasAlt extends Validate
 	public static function check($url)
 	{
 		static::$logs[$url]['area_has_alt'][self::$unspec] = 1;
-		$str = Element::ignoreElements($url);
+		$str = Element\Get::ignoredHtml($url);
 
-		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
+		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 		static::$logs[$url]['area_has_alt'][self::$unspec] = 0;
 		$is_exists = false;
@@ -32,7 +34,7 @@ class AreaHasAlt extends Validate
 			if (substr($m, 0, 5) !== '<area') continue;
 			$is_exists = true;
 
-			$attrs = Element::getAttributes($m);
+			$attrs = Element\Get::attributes($m);
 			$tstr = $ms[0][$k];
 			if ( ! isset($attrs['alt']) || empty($attrs['alt']))
 			{

@@ -10,8 +10,6 @@
  */
 namespace A11yc;
 
-use A11yc\Model;
-
 class Update
 {
 	/**

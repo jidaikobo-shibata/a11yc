@@ -10,6 +10,8 @@
  */
 namespace A11yc\Validate;
 
+use A11yc\Element;
+
 class AppropriateHeadingDescending extends Validate
 {
 	/**
@@ -21,7 +23,7 @@ class AppropriateHeadingDescending extends Validate
 	public static function check($url)
 	{
 		static::$logs[$url]['appropriate_heading_descending'][self::$unspec] = 1;
-		$str = Element::ignoreElements($url);
+		$str = Element\Get::ignoredHtml($url);
 
 		$secs = preg_split("/\<(h[^\>?]+?)\>(.+?)\<\/h\d/", $str, -1, PREG_SPLIT_DELIM_CAPTURE);
 		if ( ! $secs[0])

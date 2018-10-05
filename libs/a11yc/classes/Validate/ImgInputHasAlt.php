@@ -10,6 +10,8 @@
  */
 namespace A11yc\Validate;
 
+use A11yc\Element;
+
 class ImgInputHasAlt extends Validate
 {
 	/**
@@ -20,15 +22,15 @@ class ImgInputHasAlt extends Validate
 	public static function check($url)
 	{
 		static::$logs[$url]['img_input_has_alt'][self::$unspec] = 1;
-		$str = Element::ignoreElements($url);
+		$str = Element\Get::ignoredHtml($url);
 
-		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
+		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 
 		foreach($ms[0] as $k => $m)
 		{
 			if (substr($m, 0, 6) !== '<input') continue;
-			$attrs = Element::getAttributes($m);
+			$attrs = Element\Get::attributes($m);
 			if ( ! isset($attrs['type'])) continue; // unless type it is recognized as a text at html5
 			if (isset($attrs['type']) && $attrs['type'] != 'image') continue;
 			$tstr = $ms[0][$k];

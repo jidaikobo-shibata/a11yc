@@ -56,24 +56,26 @@ class Values
 	public static function filteredSelectionReasons()
 	{
 		$selection_reasons = Values::selectionReasons();
+
 		switch (Arr::get(Model\Settings::fetchAll(), 'selected_method'))
 		{
 			case 0: // not site unit
-				$selection_reasons = array($selection_reasons[6]);
+				$selection_reasons = array(6 => $selection_reasons[6]);
 				break;
 			case 1: // all
-				$selection_reasons = array($selection_reasons[3]);
+				$selection_reasons = array(3 => $selection_reasons[3]);
 				break;
 			case 2: // random
-				$selection_reasons = array($selection_reasons[2]);
+				$selection_reasons = array(2 => $selection_reasons[2]);
 				break;
 			case 3: // representative
-				$selection_reasons = array($selection_reasons[1]);
+				$selection_reasons = array(1 => $selection_reasons[1]);
 				break;
 			case 4: // representative and other pages
 				unset($selection_reasons[3]);
 				break;
 		}
+
 		return $selection_reasons;
 	}
 

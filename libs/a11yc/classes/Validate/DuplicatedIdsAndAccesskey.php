@@ -10,6 +10,8 @@
  */
 namespace A11yc\Validate;
 
+use A11yc\Element;
+
 class DuplicatedIdsAndAccesskey extends Validate
 {
 	/**
@@ -22,9 +24,9 @@ class DuplicatedIdsAndAccesskey extends Validate
 	{
 		static::$logs[$url]['duplicated_ids'][self::$unspec] = 1;
 		static::$logs[$url]['duplicated_accesskeys'][self::$unspec] = 1;
-		$str = Element::ignoreElements($url);
+		$str = Element\Get::ignoredHtml($url);
 
-		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
+		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 
 		$is_exists_id = false;
@@ -33,7 +35,7 @@ class DuplicatedIdsAndAccesskey extends Validate
 		$accesskeys = array();
 		foreach ($ms[0] as $k => $m)
 		{
-			$attrs = Element::getAttributes($m);
+			$attrs = Element\Get::attributes($m);
 			$tstr = $ms[0][$k];
 
 			// duplicated_ids

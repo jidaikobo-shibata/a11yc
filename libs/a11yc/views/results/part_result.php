@@ -40,6 +40,7 @@ foreach ($yml['criterions'] as $criterion => $v):
 			foreach ($yml['techs_codes'][$criterion][$type] as $code):
 				if ( ! is_array($cs)) continue;
 				if ( ! array_key_exists($code, $cs)) continue;
+				if ( ! $cs[$code]['is_checked']) continue;
 				$chks[$type][] = '<li><a href="'.A11YC_REF_WCAG20_TECH_URL.$code.'.html">'.$yml['techs'][$code]['title'].'</a></li>';
 			endforeach;
 		endforeach;

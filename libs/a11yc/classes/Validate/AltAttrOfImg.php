@@ -10,6 +10,8 @@
  */
 namespace A11yc\Validate;
 
+use A11yc\Element;
+
 class AltAttrOfImg extends Validate
 {
 	/**
@@ -21,9 +23,9 @@ class AltAttrOfImg extends Validate
 	public static function check($url)
 	{
 		static::$logs[$url]['alt_attr_of_img'][self::$unspec] = 1;
-		$str = Element::ignoreElements($url);
+		$str = Element\Get::ignoredHtml($url);
 
-		$ms = Element::getElementsByRe($str, 'ignores', 'imgs');
+		$ms = Element\Get::elementsByRe($str, 'ignores', 'imgs');
 
 		if ( ! $ms[1])
 		{
@@ -38,7 +40,7 @@ class AltAttrOfImg extends Validate
 			static::$logs[$url]['alt_attr_of_img'][$tstr] = 1;
 
 			// alt_attr_of_img
-			$attrs = Element::getAttributes($m);
+			$attrs = Element\Get::attributes($m);
 			if ( ! array_key_exists('alt', $attrs))
 			{
 				static::$logs[$url]['alt_attr_of_img'][$tstr] = -1;

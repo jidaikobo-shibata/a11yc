@@ -17,14 +17,14 @@ class Images
 	/**
 	 * get images
 	 *
-	 * @param  String $uri
+	 * @param  String $url
 	 * @param  String $base_uri
 	 * @return  Array
 	 */
 	public static function getImages($url, $base_uri = '')
 	{
 		$retvals = array();
-		$str = Element::ignoreElements($url);
+		$str = Element\Get::ignoredHtml($url);
 		$n = 0;
 
 		// at first, get images in a
@@ -80,7 +80,7 @@ class Images
 			if (strpos($v, '<img ') === false) continue;
 
 			// link
-			$attrs       = Element::getAttributes($v);
+			$attrs       = Element\Get::attributes($v);
 			$href        = Arr::get($attrs, 'href');
 			$aria_hidden = Arr::get($attrs, 'aria-hidden');
 			$tabindex    = Arr::get($attrs, 'tabindex');
@@ -95,7 +95,7 @@ class Images
 				$retvals[$n]['href'] = $href;
 				$retvals[$n]['aria_hidden'] = $aria_hidden;
 				$retvals[$n]['tabindex'] = $tabindex;
-				$retvals[$n]['attrs'] = Element::getAttributes($vv);
+				$retvals[$n]['attrs'] = Element\Get::attributes($vv);
 				$n++;
 			}
 
@@ -119,7 +119,7 @@ class Images
 		foreach ($as[0] as $v)
 		{
 			// link
-			$attrs = Element::getAttributes($v);
+			$attrs = Element\Get::attributes($v);
 			$retvals[$n]['element'] = 'area';
 			$retvals[$n]['is_important'] = true;
 			$retvals[$n]['href'] = Arr::get($attrs, 'href');
@@ -148,7 +148,7 @@ class Images
 			if (strpos($v, '<img ') === false) continue;
 
 			// link
-			$attrs = Element::getAttributes($v);
+			$attrs = Element\Get::attributes($v);
 			$aria_hidden = Arr::get($attrs, 'aria-hidden');
 			$tabindex = Arr::get($attrs, 'tabindex');
 
@@ -161,7 +161,7 @@ class Images
 				$retvals[$n]['is_important'] = 1;
 				$retvals[$n]['aria_hidden'] = $aria_hidden;
 				$retvals[$n]['tabindex'] = $tabindex;
-				$retvals[$n]['attrs'] = Element::getAttributes($vv);
+				$retvals[$n]['attrs'] = Element\Get::attributes($vv);
 				$n++;
 			}
 
@@ -182,7 +182,7 @@ class Images
 	private static function getInput($n, $str, $retvals)
 	{
 		$force = true;
-		$ms = Element::getElementsByRe($str, 'ignores', 'tags', $force);
+		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags', $force);
 
 		if ( ! is_array($ms[1])) return $retvals;
 
@@ -190,7 +190,7 @@ class Images
 		foreach ($ms[1] as $k => $v)
 		{
 			if ( ! in_array($v, $targets)) continue;
-			$attrs = Element::getAttributes($ms[0][$k]);
+			$attrs = Element\Get::attributes($ms[0][$k]);
 			if ($v == 'input' && ( ! isset($attrs['type']) || $attrs['type'] != 'image')) continue;
 
 			$retvals[$n]['element'] = $v;

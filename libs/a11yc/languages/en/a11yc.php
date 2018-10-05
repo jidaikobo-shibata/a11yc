@@ -152,9 +152,7 @@ define('A11YC_LANG_SETTINGS_TITLE_UA_EXP', 'You can add a UA by entering it in t
 define('A11YC_LANG_SETTINGS_TITLE_VERSIONS', 'Versions');
 define('A11YC_LANG_SETTINGS_TITLE_VERSIONS_EXP', 'You can name the version. Check '.A11YC_LANG_PAGES_PURGE.' and send it completely to delete that version. Please note that you can not recover. If you do not want general display, please uncheck '.A11YC_LANG_CTRL_VIEW.'.');
 define('A11YC_LANG_SETTINGS_TITLE_ETC', 'etc.');
-define('A11YC_LANG_SETTINGS_CHECKLIST_BEHAVIOUR', 'Checklist Behaviour');
 define('A11YC_LANG_SETTINGS_BASE_URL', 'URL of Document Root');
-define('A11YC_LANG_SETTINGS_CHECKLIST_BEHAVIOUR_DISAPPEAR', 'Disappear when check');
 define('A11YC_LANG_SETTINGS_BASIC_AUTH_TITLE', 'Basic Auth');
 define('A11YC_LANG_SETTINGS_BASIC_AUTH_EXP', 'If the site to be tested is protected by basic authentication, please enter the user name and password for basic authentication here.');
 define('A11YC_LANG_SETTINGS_BASIC_AUTH_USER', 'Basic Auth user');

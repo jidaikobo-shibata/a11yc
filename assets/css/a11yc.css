@@ -452,7 +452,10 @@ table.a11yc_table_info {
 	color: #8bc32f;
 }
 #a11yc_header {
-	position: fixed;
+/*	position: fixed;*/
+	position: -webkit-sticky; /* Safari */
+	position: sticky;
+	top: 31px;
 	width: 100%;
 	word-break: break-all;
 	-moz-box-sizing: border-box;
@@ -460,9 +463,11 @@ table.a11yc_table_info {
 	box-sizing: border-box;
 	left: 0;
 	right: 0;
-	top: 0;
-	padding: 26px 8px 0;
+/*	top: 0;*/
+/*	padding: 26px 8px 0;*/
+	padding: 5px 8px 0;
 	z-index: 90;
+	background-color: #fff;
 }
 #a11yc_header_inner {
 	max-width: 960px;
@@ -570,7 +575,7 @@ table.a11yc_table_info {
 }
 #a11yc_form_checklist {
 	position: relative;
-	margin-top: 2.75em;
+/*	margin-top: 2.75em;*/
 }
 #a11yc_docs #a11yc_header_ctrl p,
 #a11yc_post #a11yc_header_ctrl p,

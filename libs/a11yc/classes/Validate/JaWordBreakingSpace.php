@@ -10,6 +10,7 @@
  */
 namespace A11yc\Validate;
 
+use A11yc\Element;
 class JaWordBreakingSpace extends Validate
 {
 	/**
@@ -21,11 +22,11 @@ class JaWordBreakingSpace extends Validate
 	public static function check($url)
 	{
 		static::$logs[$url]['ja_word_breaking_space'][self::$unspec] = 5;
-		if (strpos(Element::getLang($url), 'ja') === false) return false;
+		if (strpos(Element\Get::lang($url), 'ja') === false) return false;
 		static::$logs[$url]['ja_word_breaking_space'][self::$unspec] = 1;
 
-		$str = str_replace(array("\n", "\r"), '', static::$hl_htmls[$url]);
-		$str = Element::ignoreElements($url);
+		$str = Element\Get::ignoredHtml($url);
+		// $str = str_replace(array("\n", "\r"), '', $str);
 
 		$search = '[^\x01-\x7E][ 　]{2,}[^\x01-\x7E]'; // MB+spaces+MB
 		$search.= '|[^\x01-\x7E][ 　]+[^\x01-\x7E][ 　]'; // MB+space(s)+MB+space

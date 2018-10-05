@@ -506,6 +506,7 @@ function a11yc_stop_scroll(){
 
 
 /* === get validation error_message === */
+/*
 jQuery(function($){
 	if(!$('.a11yc')[0] || $('#a11yc_post')[0] ) return;
 	if(!a11yc_env.is_wp && $('#a11yc_validator_results')[0]){
@@ -522,7 +523,7 @@ jQuery(function($){
 			},
 			success: function(data) {
 				$('#a11yc_validator_results').removeClass('a11yc_loading').append(data);
-				$.fn.a11yc_disclosure();
+//				$.fn.a11yc_disclosure();
 				$.fn.a11yc_format_validation_error();
 				//$.fn.a11yc_set_validation_code_txt();
 			},
@@ -532,6 +533,7 @@ jQuery(function($){
 		});
 	}
 });
+*/
 //not used
 /*
 jQuery(function($){

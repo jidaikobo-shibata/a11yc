@@ -10,6 +10,8 @@
  */
 namespace A11yc\Validate;
 
+use A11yc\Element;
+
 class NoticeImgExists extends Validate
 {
 	/**
@@ -21,9 +23,9 @@ class NoticeImgExists extends Validate
 	public static function check($url)
 	{
 		static::$logs[$url]['notice_img_exists'][self::$unspec] = 1;
-		$str = Element::ignoreElements($url);
+		$str = Element\Get::ignoredHtml($url);
 
-		$ms = Element::getElementsByRe($str, 'ignores', 'imgs');
+		$ms = Element\Get::elementsByRe($str, 'ignores', 'imgs');
 		if ( ! $ms[1]) return;
 
 		static::$error_ids[$url]['notice_img_exists'][0]['id'] = 0;

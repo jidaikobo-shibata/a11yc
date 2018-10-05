@@ -184,5 +184,5 @@ echo $additional;
 endif;
 
 // related page
-include (__DIR__.'/inc_related.php');
+if ( ! $is_center) include (__DIR__.'/inc_related.php');
 ?>

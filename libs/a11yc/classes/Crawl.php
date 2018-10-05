@@ -43,6 +43,7 @@ class Crawl
 	 */
 	public static function isPageExist($url)
 	{
+		if (Guzzle::envCheck() === false) return false;
 		Guzzle::forge($url);
 		return Guzzle::instance($url)->is_exists;
 	}
@@ -59,7 +60,7 @@ class Crawl
 	 */
 	public static function setTargetPath($target_path)
 	{
-		static::$target_path = static::remove_filename($target_path, '/');
+		static::$target_path = static::removeFilename($target_path, '/');
 		static::$target_path_raw = $target_path;
 	}
 
@@ -211,16 +212,5 @@ class Crawl
 		}
 
 		return isset(static::$real_urls[$url]) ? static::$real_urls[$url] : $url;
-	}
-
-	/**
-	 * is html
-	 *
-	 * @param  String  $url
-	 * @return Bool
-	 */
-	public static function is_html($url)
-	{
-		return static::fetch_html($url) ? true : false;
 	}
 }

@@ -10,6 +10,8 @@
  */
 namespace A11yc\Validate;
 
+use A11yc\Element;
+
 class TitlelessFrame extends Validate
 {
 	/**
@@ -21,14 +23,14 @@ class TitlelessFrame extends Validate
 	public static function check($url)
 	{
 		static::$logs[$url]['titleless_frame'][self::$unspec] = 1;
-		$str = Element::ignoreElements($url);
-		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
+		$str = Element\Get::ignoredHtml($url);
+		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 
 		foreach ($ms[0] as $k => $v)
 		{
 			if ($ms[1][$k] != 'frame' && $ms[1][$k] != 'iframe') continue;
-			$attrs = Element::getAttributes($v);
+			$attrs = Element\Get::attributes($v);
 			$tstr = $ms[0][$k];
 
 			if ( ! trim(Arr::get($attrs, 'title')))

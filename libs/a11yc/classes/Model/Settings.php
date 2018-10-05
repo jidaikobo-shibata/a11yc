@@ -66,7 +66,6 @@ class Settings
 			$intvals = array(
 				'target_level',
 				'selected_method',
-				'checklist_behaviour',
 				'stop_guzzle',
 				'standard',
 				'show_results',
@@ -135,7 +134,6 @@ class Settings
 	public static function updateField($key, $value)
 	{
 		$settings = self::fetchAll();
-		$r = false;
 		if( ! isset($settings[$key]))
 		{
 			$sql = 'INSERT INTO '.A11YC_TABLE_SETTINGS.' (`key`, `value`, `version`) ';

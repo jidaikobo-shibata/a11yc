@@ -10,6 +10,8 @@
  */
 namespace A11yc\Validate;
 
+use A11yc\Element;
+
 class MetaRefresh extends Validate
 {
 	/**
@@ -24,14 +26,14 @@ class MetaRefresh extends Validate
 		if (Validate::$is_partial == true) return;
 		static::$logs[$url]['meta_refresh'][self::$unspec] = 1;
 
-		$str = Element::ignoreElements($url);
-		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
+		$str = Element\Get::ignoredHtml($url);
+		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 
 		foreach ($ms[0] as $k => $v)
 		{
 			if ($ms[1][$k] != 'meta') continue;
-			$attrs = Element::getAttributes($v);
+			$attrs = Element\Get::attributes($v);
 
 			if ( ! array_key_exists('http-equiv', $attrs)) continue;
 			if ( ! array_key_exists('content', $attrs)) continue;

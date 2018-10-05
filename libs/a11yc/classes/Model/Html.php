@@ -21,7 +21,7 @@ class Html
 	 *
 	 * @param  String $url
 	 * @param  String $ua
-	 * @return String
+	 * @return String|Bool
 	 */
 	public static function fetchHtml($url, $ua = 'using', $type = 'raw')
 	{
@@ -75,7 +75,7 @@ class Html
 	private static function recognitionCharset($html)
 	{
 		$str = Element::ignoreElementsByStr($html);
-		// Do not use Element::getElementsByRe() because crashed character cause bad cache
+		// Do not use Element\Get::elementsByRe() because crashed character cause bad cache
 		preg_match_all("/\<([a-zA-Z1-6]+?) +?([^\>]*?)[\/]*?\>|\<([a-zA-Z1-6]+?)[ \/]*?\>/i", $str, $ms);
 
 		$charset = '';
@@ -83,7 +83,7 @@ class Html
 		{
 			if (strtolower($v) == 'meta')
 			{
-				$attrs = Element::getAttributes($ms[0][$k]);
+				$attrs = Element\Get::attributes($ms[0][$k]);
 				if ($charset = Arr::get($attrs, 'charset')) break;
 				if (isset($attrs['http-equiv']) && strtolower($attrs['http-equiv']) == 'content-type')
 				{
@@ -132,7 +132,7 @@ class Html
 			// type
 			if ($each_type == 'ignored')
 			{
-				$html = Element::ignoreElements($html);
+				$html = Element\Get::ignoredHtml($html);
 			}
 
 			// sql
@@ -157,7 +157,7 @@ class Html
 		$url = Util::urldec($url);
 		$ua = empty($ua) ? 'using' : $ua;
 
-		if (isset(static::$htmls[$url][$ua][$type]) && ! $force)
+		if (isset(static::$htmls[$url][$ua][$type]) && $force === false)
 		{
 			return static::$htmls[$url][$ua][$type];
 		}
@@ -167,7 +167,7 @@ class Html
 		$sql.= '`url` = ? AND `type` = ? AND `updated_at` > ?;';
 		$result = Db::fetch($sql, array($url, $type, date('Y-m-d H:i:s', time() - 86400)));
 
-		if ($result['data'] && ! $force)
+		if ($result['data'] && $force === false)
 		{
 			static::$htmls[$url][$ua][$type] = $result['data'];
 		}
@@ -177,6 +177,7 @@ class Html
 			$html = self::fetchHtml($url, $ua, $type);
 
 			// add and fetch
+			if ($html === false) return false;
 			self::addHtml($url, $ua, $html, $type);
 			$sql = 'SELECT `data` FROM '.A11YC_TABLE_CACHES.' WHERE ';
 			$sql.= '`url` = ? AND `type` = ?;';
@@ -198,7 +199,7 @@ class Html
 	{
 		if (isset(static::$titles[$url])) return static::$titles[$url];
 		$html = self::getHtml($url, 'using', 'raw', $is_from_web);
-		if ( ! $html) return '';
+		if ($html === false) return '';
 
 		static::$titles[$url] = self::fetchPageTitleFromHtml($html);
 		return static::$titles[$url];

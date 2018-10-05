@@ -10,6 +10,7 @@
  */
 namespace A11yc\Validate;
 
+use A11yc\Element;
 use A11yc\Model;
 
 class CssTotal extends Validate

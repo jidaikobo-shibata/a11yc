@@ -67,7 +67,6 @@ class Bulk
 
 			$sql = 'INSERT INTO '.A11YC_TABLE_BRESULTS.' (`criterion`, `memo`, `uid`, `result`, `method`)';
 			$sql.= ' VALUES (?, ?, ?, ?, ?);';
-			$memo = stripslashes($v['memo']);
 			Db::execute($sql, array($criterion, $memo, $uid, $result, $method));
 		}
 
@@ -140,12 +139,21 @@ class Bulk
 				}
 			}
 
-			// checks and unchecks
+			// update uncheck
+			if (Input::post('update_all') == 3)
+			{
+				$sql = 'UPDATE '.A11YC_TABLE_CHECKS;
+				$sql.= ' SET `is_checked` = ?';
+				$sql.= ' WHERE `url` = ?'.Db::currentVersionSql().';';
+				Db::execute($sql, array(false, $url));
+			}
+
+			// checks
 			foreach (Input::postArr('chk') as $code => $vv)
 			{
-				// add checks
+				// is_checked?
 				$sql = 'SELECT * FROM '.A11YC_TABLE_CHECKS.' WHERE';
-				$sql.= ' `url` = ? AND `code` = ?'.Db::currentVersionSql();
+				$sql.= ' `url` = ? AND `code` = ?'.Db::currentVersionSql().';';
 				$result = Db::fetch($sql, array($url, $code));
 
 				$is_failure = ($yml['techs'][$code]['type'] == 'F');
@@ -155,17 +163,15 @@ class Bulk
 				{
 					$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS;
 					$sql.= ' (`url`, `code`, `is_checked`, `is_failure`, `version`)';
-					$sql.= ' VALUES (?, ?, ?, ?, 0)';
-					Db::execute($sql, array($url, $code, TRUE, $is_failure));
+					$sql.= ' VALUES (?, ?, ?, ?, 0);';
+					Db::execute($sql, array($url, $code, true, $is_failure));
 				}
-
-				// update uncheck
-				if (Input::post('update_all') == 3 && Arr::get($result, 'passed') && ! $passed)
+				else
 				{
-					$sql = 'UPDATE '.A11YC_TABLE_CHECKS;
-					$sql.= ' SET `is_checked` = ?';
-					$sql.= ' WHERE `code` = ? AND `url` = ? AND `version` = 0;';
-					Db::execute($sql, array($passed, $code, $url));
+					$sql = 'UPDATE '.A11YC_TABLE_CHECKS.' SET ';
+					$sql.= '`is_checked` = ?';
+					$sql.= ' WHERE `url` = ? AND `code` = ?'.Db::currentVersionSql().';';
+					Db::execute($sql, array(true, $url, $code));
 				}
 			}
 

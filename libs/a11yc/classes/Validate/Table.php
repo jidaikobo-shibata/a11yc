@@ -10,6 +10,8 @@
  */
 namespace A11yc\Validate;
 
+use A11yc\Element;
+
 class Table extends Validate
 {
 	/**
@@ -25,7 +27,7 @@ class Table extends Validate
 		static::$logs[$url]['table_use_valid_scope'][self::$unspec] = 1;
 		static::$logs[$url]['table_use_summary'][self::$unspec] = 1;
 		static::$logs[$url]['table_use_caption'][self::$unspec] = 1;
-		$str = Element::ignoreElements($url);
+		$str = Element\Get::ignoredHtml($url);
 
 		preg_match_all('/\<table[^\>]*?\>.+?\<\/table\>/ims', $str, $ms);
 
@@ -42,7 +44,7 @@ class Table extends Validate
 		$n = 0;
 		foreach ($ms[0] as $n => $m)
 		{
-			$attrs = Element::getAttributes($m);
+			$attrs = Element\Get::attributes($m);
 			if (Arr::get($attrs, 'role') == 'presentation') continue;
 
 			preg_match('/\<table[^\>]*?\>/i', $m, $table_tag);
@@ -84,10 +86,10 @@ class Table extends Validate
 				static::$logs[$url]['table_use_valid_scope'][$m] = 2;
 			}
 
-			if (in_array(Element::getDoctype($url), array('html4', 'xhtml')))
+			if (in_array(Element\Get::doctype($url), array('html4', 'xhtml')))
 			{
 				// summary less
-				if ( ! array_key_exists('summary', Element::getAttributes($table_tag[0])))
+				if ( ! array_key_exists('summary', Element\Get::attributes($table_tag[0])))
 				{
 					static::$logs[$url]['table_use_summary'][$m] = -1;
 					static::$error_ids[$url]['table_use_summary'][$n]['id'] = $table_tag[0];

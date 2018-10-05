@@ -44,7 +44,14 @@ foreach ($issues as $status => $issue):
 							'<span class="a11yc_validation_code_notice">NOTICE</span>':
 							'<span class="a11yc_validation_code_error">ERROR!</span>';
 		?>
-			<li><?php echo $type ?><a href="<?php echo A11YC_ISSUES_VIEW_URL.intval($each_issue['id']) ?>"><?php echo $each_issue['id'].': '.nl2br(Util::s($each_issue['error_message'])) ?></a>
+			<li><?php echo $type ?>
+				<?php if ($each_issue['trash'] != 1): ?>
+				<a href="<?php echo A11YC_ISSUES_VIEW_URL.intval($each_issue['id']) ?>">
+				<?php endif; ?>
+					<?php echo $each_issue['id'].': '.nl2br(Util::s($each_issue['error_message'])) ?>
+				<?php if ($each_issue['trash'] != 0): ?>
+				</a>
+				<?php endif; ?>
 
 			 (<?php if ($each_issue['trash'] != 0): ?>
 				<a href="<?php echo A11YC_ISSUES_UNDELETE_URL.intval($each_issue['id']) ?>"><?php echo A11YC_LANG_PAGES_UNDELETE ?></a><?php echo ' - '; ?>

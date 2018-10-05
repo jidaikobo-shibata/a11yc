@@ -43,7 +43,7 @@ class Auth
 		$username = Input::post('username', false);
 		$password = Input::post('password', false);
 
-		if ( ! $username || ! $password) return false;
+		if ($username === false || $password === false) return false;
 		$users = Users::fetchUsers();
 		foreach ($users as $id => $v)
 		{

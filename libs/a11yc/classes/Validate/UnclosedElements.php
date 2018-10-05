@@ -10,6 +10,8 @@
  */
 namespace A11yc\Validate;
 
+use A11yc\Element;
+
 class UnclosedElements extends Validate
 {
 	/**
@@ -21,7 +23,7 @@ class UnclosedElements extends Validate
 	public static function check($url)
 	{
 		static::$logs[$url]['unclosed_elements'][self::$unspec] = 1;
-		$str = Element::ignoreElements($url);
+		$str = Element\Get::ignoredHtml($url);
 
 		// tags
 		preg_match_all("/\<([^\>\n]+?)\</i", $str, $tags);

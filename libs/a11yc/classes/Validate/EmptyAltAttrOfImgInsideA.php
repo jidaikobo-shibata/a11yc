@@ -10,6 +10,8 @@
  */
 namespace A11yc\Validate;
 
+use A11yc\Element;
+
 class EmptyAltAttrOfImgInsideA extends Validate
 {
 	/**
@@ -21,9 +23,10 @@ class EmptyAltAttrOfImgInsideA extends Validate
 	public static function check($url)
 	{
 		static::$logs[$url]['empty_alt_attr_of_img_inside_a'][self::$unspec] = 1;
-		$str = Element::ignoreElements($url);
 
-		$ms = Element::getElementsByRe($str, 'ignores', 'anchors_and_values');
+		$str = Element\Get::ignoredHtml($url);
+
+		$ms = Element\Get::elementsByRe($str, 'ignores', 'anchors_and_values');
 		if ( ! $ms[2])
 		{
 			static::$logs[$url]['empty_alt_attr_of_img_inside_a'][self::$unspec] = 4;
@@ -37,19 +40,16 @@ class EmptyAltAttrOfImgInsideA extends Validate
 			$t = trim(strip_tags($m)); // php <= 5.5 cannot use function return value
 			if ( ! empty($t)) continue; // not image only
 
-			$mms = Element::getElementsByRe($m, 'ignores', 'imgs', true);
+			$mms = Element\Get::elementsByRe($m, 'ignores', 'imgs', true);
 			$alt = '';
+			$src = '';
 			foreach ($mms[0] as $in_img)
 			{
-				$attrs = Element::getAttributes($in_img);
-				foreach ($attrs as $kk => $vv)
-				{
-					if (strpos($kk, 'alt') !== false)
-					{
-						$alt.= $vv;
-					}
-				}
+				$attrs = Element\Get::attributes($in_img);
+				$alt.= Arr::get($attrs, 'alt', '');
+				$src = Arr::get($attrs, 'src', ''); // update by latest
 			}
+			$src = ! empty($src) ? Util::s(basename($src)) : '';
 
 			$alt = trim($alt);
 			$tstr = $ms[0][$k];
@@ -58,7 +58,7 @@ class EmptyAltAttrOfImgInsideA extends Validate
 			{
 				static::$logs[$url]['empty_alt_attr_of_img_inside_a'][$tstr] = -1;
 				static::$error_ids[$url]['empty_alt_attr_of_img_inside_a'][$k]['id'] = $tstr;
-				static::$error_ids[$url]['empty_alt_attr_of_img_inside_a'][$k]['str'] = @basename(@$attrs['src']);
+				static::$error_ids[$url]['empty_alt_attr_of_img_inside_a'][$k]['str'] = $src;
 			}
 			else
 			{

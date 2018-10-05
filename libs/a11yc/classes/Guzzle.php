@@ -97,7 +97,6 @@ class Guzzle
 	 *
 	 * @param  String $url Identifier for this request
 	 * @param  Array $cons configuration
-	 * @return Void
 	 */
 	public function __construct($url, $cons = array())
 	{
@@ -109,7 +108,7 @@ class Guzzle
 	 * simple HEAD request
 	 * to use broken link check. This method won't return real_url.
 	 *
-	 * @return Bool
+	 * @return Bool|Null
 	 */
 	private function head()
 	{
@@ -288,7 +287,7 @@ class Guzzle
 			// get status code at the first time. simple requests.
 			elseif (in_array($name, array('status_code', 'headers', 'is_exists', 'is_html')))
 			{
-				if ( ! $this->head())
+				if (is_null($this->head()))
 				{
 					return null;
 				}

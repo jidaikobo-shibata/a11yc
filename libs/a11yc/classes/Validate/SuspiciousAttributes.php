@@ -10,6 +10,8 @@
  */
 namespace A11yc\Validate;
 
+use A11yc\Element;
+
 class SuspiciousAttributes extends Validate
 {
 	/**
@@ -22,15 +24,15 @@ class SuspiciousAttributes extends Validate
 	{
 		static::$logs[$url]['suspicious_attributes'][self::$unspec] = 1;
 		static::$logs[$url]['duplicated_attributes'][self::$unspec] = 1;
-		$str = Element::ignoreElements($url);
+		$str = Element\Get::ignoredHtml($url);
 
-		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
+		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 
 		foreach ($ms[0] as $k => $m)
 		{
 			$tstr = $ms[0][$k];
-			$attrs = Element::getAttributes($m);
+			$attrs = Element\Get::attributes($m);
 
 			// suspicious attributes
 			if (isset($attrs['suspicious']))

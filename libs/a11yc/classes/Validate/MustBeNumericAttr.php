@@ -10,6 +10,8 @@
  */
 namespace A11yc\Validate;
 
+use A11yc\Element;
+
 class MustBeNumericAttr extends Validate
 {
 	/**
@@ -20,10 +22,10 @@ class MustBeNumericAttr extends Validate
 	public static function check($url)
 	{
 		return; // studying
-
+/*
 		static::$logs[$url]['must_be_numeric_attr'][self::$unspec] = 1;
-		$str = Element::ignoreElements($url);
-		$ms = Element::getElementsByRe($str, 'ignores', 'tags');
+		$str = Element\Get::ignoredHtml($url);
+		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0])
 		{
 			static::$logs[$url]['must_be_numeric_attr'][self::$unspec] = 4;
@@ -38,7 +40,7 @@ class MustBeNumericAttr extends Validate
 
 		foreach ($ms[0] as $k => $v)
 		{
-			$attrs = Element::getAttributes($v);
+			$attrs = Element\Get::attributes($v);
 
 			foreach ($attrs as $attr => $val)
 			{
@@ -57,5 +59,6 @@ class MustBeNumericAttr extends Validate
 			}
 		}
 		static::addErrorToHtml($url, 'must_be_numeric_attr', static::$error_ids[$url], 'ignores');
+*/
 	}
 }

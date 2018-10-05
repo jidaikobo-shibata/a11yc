@@ -10,6 +10,8 @@
  */
 namespace A11yc\Validate;
 
+use A11yc\Element;
+
 class TellUserFileType extends Validate
 {
 	/**
@@ -21,8 +23,8 @@ class TellUserFileType extends Validate
 	public static function check($url)
 	{
 		static::$logs[$url]['tell_user_file_type'][self::$unspec] = 1;
-		$str = Element::ignoreElements($url);
-		$ms = Element::getElementsByRe($str, 'ignores', 'anchors_and_values');
+		$str = Element\Get::ignoredHtml($url);
+		$ms = Element\Get::elementsByRe($str, 'ignores', 'anchors_and_values');
 		if ( ! $ms[1]) return;
 
 		$suspicious = array(
@@ -37,19 +39,18 @@ class TellUserFileType extends Validate
 			'tar',
 		);
 
-		foreach ($ms[1] as $k => $m)
+		foreach ($ms[0] as $k => $m)
 		{
 			foreach ($suspicious as $vv)
 			{
-				$m = str_replace("'", '"', $m);
-				if (strpos($m, '.'.$vv.'"') !== false)
+				$tmp = str_replace("'", '"', $m);
+				if (strpos($tmp, '.'.$vv.'"') !== false)
 				{
-					$attrs = Element::getAttributes($m);
+					$attrs = Element\Get::attributes($m);
 
 					if ( ! isset($attrs['href'])) continue;
 					$href = strtolower($attrs['href']);
-					$inner = substr($ms[0][$k], strpos($ms[0][$k], '>') + 1);
-					$inner = str_replace('</a>', '', $inner);
+					$inner = Element\Get::textFromElement($m);
 					$f_inner = self::addCheckStrings($inner, $vv, $href);
 
 					list($len, $is_exists) = self::existCheck($href);
@@ -61,7 +62,7 @@ class TellUserFileType extends Validate
 						(is_null($is_exists) || $is_exists === true) &&
 						(
 							strpos(strtolower($f_inner), $vv) === false || // lacknesss of file type
-							preg_match("/\d/", $f_inner) == false // lacknesss of filesize?
+							preg_match("/\d/", $f_inner) === false // lacknesss of filesize?
 						)
 					)
 					{
