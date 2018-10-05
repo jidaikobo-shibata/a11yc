@@ -103,10 +103,7 @@ class Util
 	 */
 	public static function s($str)
 	{
-		if (is_bool($str))
-		{
-			return is_array($str) ? array() : '';
-		}
+		if (is_bool($str)) return '';
 		if (is_array($str)) return array_map(array('\Kontiki\Util', 's'), $str);
 		return htmlentities($str, ENT_QUOTES, 'UTF-8', false);
 	}

@@ -71,7 +71,7 @@ class Message
 	 *
 	 * @param String $url
 	 * @param String $code_str
-	 * @param Array  $place
+	 * @param String $place
 	 * @param String $key
 	 * @param Array|Bool  $current_err
 	 * @param String $lv
