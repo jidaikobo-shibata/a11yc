@@ -10,6 +10,8 @@
  */
 namespace A11yc\Validate;
 
+use A11yc\Element;
+
 class LinkCheck extends Validate
 {
 	/**
@@ -24,7 +26,7 @@ class LinkCheck extends Validate
 		if ( ! static::$do_link_check) return;
 		static::$logs[$url]['link_check'][self::$unspec] = 1;
 
-		$str = Element::ignoreElements($url);
+		$str = Element\Get::ignoredHtml($url);
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 

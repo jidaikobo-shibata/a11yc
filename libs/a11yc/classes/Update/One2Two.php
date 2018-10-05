@@ -12,14 +12,14 @@ namespace A11yc\Update;
 
 use A11yc\Model;
 
-class One2Two extends A11yc\Update
+class One2Two
 {
 	/**
 	 * update
 	 *
 	 * @return Void
 	 */
-	protected static function update()
+	public static function update()
 	{
 		// rename tables
 		$sql = 'ALTER TABLE %s RENAME TO %s';
@@ -242,6 +242,7 @@ class One2Two extends A11yc\Update
 		$chekcs_text = file_get_contents(__DIR__.'/resources/old_checks.yml');
 		$yml = \Spyc::YAMLLoadString($chekcs_text);
 
+		$ret = array();
 		$ret['codes'] = array();
 		$ret['passes'] = array();
 		$ret['conditions'] = array();

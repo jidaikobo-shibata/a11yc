@@ -182,16 +182,15 @@ class Issues
 			// update
 			else
 			{
-				$r = true;
-				$r = Model\Issues::updateField($id, 'is_common',     Input::post('is_common', 0));
-				$r = Model\Issues::updateField($id, 'html',          Input::post('html', ''));
-				$r = Model\Issues::updateField($id, 'n_or_e',        Input::post('n_or_e', 0));
-				$r = Model\Issues::updateField($id, 'status',        Input::post('status', 0));
-				$r = Model\Issues::updateField($id, 'tech_url',      Input::post('tech_url', ''));
-				$r = Model\Issues::updateField($id, 'error_message', Input::post('error_message', ''));
-				$r = Model\Issues::updateField($id, 'uid',           Input::post('uid', 1));
+				$r1 = Model\Issues::updateField($id, 'is_common',     Input::post('is_common', 0));
+				$r2 = Model\Issues::updateField($id, 'html',          Input::post('html', ''));
+				$r3 = Model\Issues::updateField($id, 'n_or_e',        Input::post('n_or_e', 0));
+				$r4 = Model\Issues::updateField($id, 'status',        Input::post('status', 0));
+				$r5 = Model\Issues::updateField($id, 'tech_url',      Input::post('tech_url', ''));
+				$r6 = Model\Issues::updateField($id, 'error_message', Input::post('error_message', ''));
+				$r7 = Model\Issues::updateField($id, 'uid',           Input::post('uid', 1));
 
-				if ($r)
+				if ($r1 && $r2 && $r3 && $r4 && $r5 && $r6 && $r7)
 				{
 					Session::add('messages', 'messages', A11YC_LANG_ISSUES_EDITED);
 					Util::redirect(A11YC_ISSUES_EDIT_URL.$id);

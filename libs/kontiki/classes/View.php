@@ -90,7 +90,7 @@ class View
 	public static function fetchTpl($tpl)
 	{
 		$tpl_path = static::tplPath($tpl);
-		if ( ! $tpl_path) Util::error('template not found: '. Util::s($tpl));
+		if ($tpl_path === false) Util::error('template not found: '. Util::s($tpl));
 
 		// extract
 		extract (static::$vals);

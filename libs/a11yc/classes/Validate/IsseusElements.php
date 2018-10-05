@@ -10,6 +10,7 @@
  */
 namespace A11yc\Validate;
 
+use A11yc\Element;
 use A11yc\Model;
 
 class IsseusElements extends Validate
@@ -22,7 +23,7 @@ class IsseusElements extends Validate
 	 */
 	public static function check($url)
 	{
-		$str = Element::ignoreElements($url);
+		$str = Element\Get::ignoredHtml($url);
 		$n = 0;
 		foreach (Model\Issues::fetchByUrl($url) as $v)
 		{

@@ -10,6 +10,8 @@
  */
 namespace A11yc\Validate;
 
+use A11yc\Element;
+
 class NoticeNonHtmlExists extends Validate
 {
 	/**
@@ -21,7 +23,7 @@ class NoticeNonHtmlExists extends Validate
 	public static function check($url)
 	{
 		static::$logs[$url]['notice_non_html_exists'][self::$unspec] = 1;
-		$str = Element::ignoreElements($url);
+		$str = Element\Get::ignoredHtml($url);
 
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'anchors_and_values');
 		if ( ! $ms[1]) return;

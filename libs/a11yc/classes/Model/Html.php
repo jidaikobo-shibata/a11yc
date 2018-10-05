@@ -132,7 +132,7 @@ class Html
 			// type
 			if ($each_type == 'ignored')
 			{
-				$html = Element::ignoreElements($html);
+				$html = Element\Get::ignoredHtml($html);
 			}
 
 			// sql

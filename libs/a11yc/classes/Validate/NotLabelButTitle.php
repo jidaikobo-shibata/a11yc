@@ -10,6 +10,8 @@
  */
 namespace A11yc\Validate;
 
+use A11yc\Element;
+
 class NotLabelButTitle extends Validate
 {
 	/**
@@ -20,7 +22,7 @@ class NotLabelButTitle extends Validate
 	public static function check($url)
 	{
 		static::$logs[$url]['not_label_but_title'][self::$unspec] = 1;
-		$str = Element::ignoreElements($url);
+		$str = Element\Get::ignoredHtml($url);
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 

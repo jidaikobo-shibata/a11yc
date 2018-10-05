@@ -24,7 +24,7 @@ class Images
 	public static function getImages($url, $base_uri = '')
 	{
 		$retvals = array();
-		$str = Element::ignoreElements($url);
+		$str = Element\Get::ignoredHtml($url);
 		$n = 0;
 
 		// at first, get images in a

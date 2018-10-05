@@ -67,7 +67,6 @@ class Session
 	 */
 	public static function isStarted()
 	{
-		$is_session_started = false;
 		if (version_compare(phpversion(), '5.4.0', '>='))
 		{
 			$is_session_started = session_status() === PHP_SESSION_ACTIVE ? TRUE : FALSE;
@@ -87,7 +86,7 @@ class Session
 	public static function destroy()
 	{
 		$_SESSION = array();
-		if (Input::cookie(session_name()))
+		if (Input::cookie(session_name()) !== null)
 		{
 			setcookie(session_name(), '', time()-42000, '/');
 		}

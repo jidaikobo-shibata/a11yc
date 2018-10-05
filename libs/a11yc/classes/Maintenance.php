@@ -14,6 +14,7 @@ class Maintenance extends \Kontiki\Maintenance
 {
 	public static $is_first_of_day = null;
 	public static $is_using_lower  = null;
+	private static $latest_version = null;
 	private static $github_api     = 'https://api.github.com/repos/jidaikobo-shibata/a11yc';
 
 	/**
@@ -54,16 +55,11 @@ class Maintenance extends \Kontiki\Maintenance
 		if ( ! self::isFisrtOfToday()) return false;
 		if ( ! is_null(static::$is_using_lower)) return static::$is_using_lower;
 
-		// ask Github API and update stored version
-		ini_set('user_agent', 'file_get_contents');
-		$strs = @file_get_contents(static::$github_api.'/tags');
-
-		if ($strs)
+		// lower: return true
+		$latest = static::getLatestVersion();
+		if ($latest !== false)
 		{
-			$tags = json_decode($strs, true);
-			$max = $tags[min(array_keys($tags))];
-			// lower: return true
-			static::$is_using_lower = version_compare(A11YC_VERSION, $max['name']) == -1;
+			static::$is_using_lower = version_compare(A11YC_VERSION, $latest) == -1;
 			return static::$is_using_lower;
 		}
 
@@ -71,4 +67,31 @@ class Maintenance extends \Kontiki\Maintenance
 		error_log('Notice: \A11yc\Maintenance::isUgingLower could not get version.');
 		return true;
 	}
+
+	/**
+	 * get latest version
+	 *
+	 * @return Bool|String
+	 */
+	public static function getLatestVersion ()
+	{
+		if ( ! self::isFisrtOfToday()) return false;
+		if ( ! is_null(self::$latest_version)) return self::$latest_version;
+
+		// ask Github API and update stored version
+		ini_set('user_agent', 'file_get_contents');
+		$strs = @file_get_contents(self::$github_api.'/tags');
+
+		if ($strs)
+		{
+			$tags = json_decode($strs, true);
+			$max = $tags[min(array_keys($tags))];
+			self::$latest_version = $max['name'];
+			return self::$latest_version;
+		}
+
+		self::$latest_version = false;
+		return self::$latest_version;
+	}
+
 }

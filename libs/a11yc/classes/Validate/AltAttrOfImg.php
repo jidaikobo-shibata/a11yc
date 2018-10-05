@@ -10,6 +10,8 @@
  */
 namespace A11yc\Validate;
 
+use A11yc\Element;
+
 class AltAttrOfImg extends Validate
 {
 	/**
@@ -21,7 +23,7 @@ class AltAttrOfImg extends Validate
 	public static function check($url)
 	{
 		static::$logs[$url]['alt_attr_of_img'][self::$unspec] = 1;
-		$str = Element::ignoreElements($url);
+		$str = Element\Get::ignoredHtml($url);
 
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'imgs');
 

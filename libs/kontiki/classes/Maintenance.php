@@ -58,7 +58,7 @@ class Maintenance
 			}
 
 			// garbage collection
-			static::garbageCollection($path);
+			self::garbageCollection($path);
 		}
 	}
 

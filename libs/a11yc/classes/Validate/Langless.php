@@ -10,6 +10,8 @@
  */
 namespace A11yc\Validate;
 
+use A11yc\Element;
+
 class Langless extends Validate
 {
 	/**
@@ -24,7 +26,7 @@ class Langless extends Validate
 		if (Validate::$is_partial == true) return;
 		static::$logs[$url]['langless'][self::$unspec] = 1;
 
-		// do not use Element::ignoreElements() and Element\Get::elementsByRe()
+		// do not use Element\Get::ignoredHtml() and Element\Get::elementsByRe()
 		// in case of "<html>" is in comment out
 		preg_match_all(
 			"/\<([a-zA-Z1-6]+?) +?([^\>]*?)[\/]*?\>|\<([a-zA-Z1-6]+?)[ \/]*?\>/i",

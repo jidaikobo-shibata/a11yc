@@ -97,7 +97,6 @@ class Guzzle
 	 *
 	 * @param  String $url Identifier for this request
 	 * @param  Array $cons configuration
-	 * @return Void
 	 */
 	public function __construct($url, $cons = array())
 	{

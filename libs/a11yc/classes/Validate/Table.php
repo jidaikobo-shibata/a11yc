@@ -10,6 +10,8 @@
  */
 namespace A11yc\Validate;
 
+use A11yc\Element;
+
 class Table extends Validate
 {
 	/**
@@ -25,7 +27,7 @@ class Table extends Validate
 		static::$logs[$url]['table_use_valid_scope'][self::$unspec] = 1;
 		static::$logs[$url]['table_use_summary'][self::$unspec] = 1;
 		static::$logs[$url]['table_use_caption'][self::$unspec] = 1;
-		$str = Element::ignoreElements($url);
+		$str = Element\Get::ignoredHtml($url);
 
 		preg_match_all('/\<table[^\>]*?\>.+?\<\/table\>/ims', $str, $ms);
 

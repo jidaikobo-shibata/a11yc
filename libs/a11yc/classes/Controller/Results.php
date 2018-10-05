@@ -222,6 +222,7 @@ class Results
 		);
 
 		$pdfs = array();
+		$pages = array();
 		foreach (array_keys(Values::selectionReasons()) as $k)
 		{
 			$args['reason'] = $k;

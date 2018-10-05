@@ -61,6 +61,8 @@ class Db
 	public function __construct($config)
 	{
 		$dbtype = strtolower($config['dbtype']);
+		$dbh = false;
+
 		// sqlite
 		if ($dbtype == 'sqlite')
 		{
@@ -89,8 +91,13 @@ class Db
 			$dbh->query('SET NAMES UTF8;');
 		}
 
-		$this->dbtype = $dbtype;
-		$this->dbh = $dbh;
+		if ($dbh !== false)
+		{
+			$this->dbtype = $dbtype;
+			$this->dbh = $dbh;
+			return;
+		}
+		Util::error('failed to establish Database connection.');
 	}
 
 	/**
@@ -195,6 +202,7 @@ class Db
 	{
 		if ( ! static::isTableExist($table, $name)) return false;
 
+		$retvals = array();
 		foreach ($fields as $field)
 		{
 			$retvals[$field] = FALSE;

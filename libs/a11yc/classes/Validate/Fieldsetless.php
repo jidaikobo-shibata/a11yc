@@ -10,6 +10,8 @@
  */
 namespace A11yc\Validate;
 
+use A11yc\Element;
+
 class Fieldsetless extends Validate
 {
 	/**
@@ -22,7 +24,7 @@ class Fieldsetless extends Validate
 	{
 		static::$logs[$url]['fieldsetless'][self::$unspec] = 1;
 		static::$logs[$url]['legendless'][self::$unspec] = 1;
-		$str = Element::ignoreElements($url);
+		$str = Element\Get::ignoredHtml($url);
 
 		$ms = Element\Get::elementsByRe($str, 'ignores');
 		if ( ! $ms[1]) return;

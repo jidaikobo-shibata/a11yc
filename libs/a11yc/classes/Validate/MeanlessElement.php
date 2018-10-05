@@ -10,6 +10,8 @@
  */
 namespace A11yc\Validate;
 
+use A11yc\Element;
+
 class MeanlessElement extends Validate
 {
 	/**
@@ -22,7 +24,7 @@ class MeanlessElement extends Validate
 	{
 		static::$logs[$url]['meanless_element'][self::$unspec] = 1;
 		static::$logs[$url]['meanless_element_timing'][self::$unspec] = 1;
-		$str = Element::ignoreElements($url);
+		$str = Element\Get::ignoredHtml($url);
 
 		$banneds = array(
 			'big',

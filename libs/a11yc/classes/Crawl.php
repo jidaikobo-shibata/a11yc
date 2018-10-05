@@ -212,15 +212,4 @@ class Crawl
 
 		return isset(static::$real_urls[$url]) ? static::$real_urls[$url] : $url;
 	}
-
-	/**
-	 * is html
-	 *
-	 * @param  String  $url
-	 * @return Bool
-	 */
-	public static function is_html($url)
-	{
-		return static::fetch_html($url) ? true : false;
-	}
 }

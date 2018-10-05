@@ -34,13 +34,14 @@ class Export
 	public static function csv($url)
 	{
 		// get Pages
-		if ( ! is_array($url))
+		if (is_array($url))
 		{
-			$urls[] = $url;
+			$urls = $url;
 		}
 		else
 		{
-			$urls = $url;
+			$urls = array();
+			$urls[] = $url;
 		}
 
 		$csv = array();

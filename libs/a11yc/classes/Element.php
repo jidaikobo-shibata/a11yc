@@ -14,11 +14,6 @@ use A11yc\Model;
 
 class Element
 {
-	protected static $ignored_strs = array();
-	protected static $res = array();
-	protected static $attrs = array();
-	protected static $langs = array();
-
 	public static $ignores = array(
 		"/\<script.+?\<\/script\>/si",
 		"/\<style.+?\<\/style\>/si",
@@ -77,7 +72,7 @@ class Element
 		protected static $inner_newline = '[---a11yc_inner_newline---]';
 
 	/**
-	 * is_ignorable
+	 * is ignorable
 	 *
 	 * @param  String $str
 	 * @return Bool
@@ -134,28 +129,6 @@ class Element
 	}
 
 	/**
-	 * ignoreElements
-	 *
-	 * @param  String $url
-	 * @param  Bool $force
-	 * @return String
-	 */
-	public static function ignoreElements($url, $force = false)
-	{
-		if (isset(static::$ignored_strs[$url]) && ! $force) return static::$ignored_strs[$url];
-
-		if ( ! isset(Validate::$hl_htmls[$url]))
-		{
-			Model\Html::getHtml($url);
-			Validate::$hl_htmls[$url] = Model\Html::getHtml($url);
-		}
-
-		$str = self::ignoreElementsByStr(Validate::$hl_htmls[$url]);
-		static::$ignored_strs[$url] = $str;
-		return $str;
-	}
-
-	/**
 	 * prepare strings
 	 *
 	 * @param  String $str
@@ -185,11 +158,11 @@ class Element
 			{
 				$target = $d_offset < $s_offset ? self::$double : self::$single;
 			}
-			else if($d_offset)
+			else if ($d_offset)
 			{
 				$target = self::$double;
 			}
-			else if($s_offset)
+			else if ($s_offset)
 			{
 				$target = self::$single;
 			}

@@ -142,8 +142,11 @@ class Bulk
 			readfile($dir.$file);
 
 			// unlink temporary files
-			@unlink($dir.$file);
-			@unlink($dir);
+			if (file_exists($dir.$file))
+			{
+				unlink($dir.$file);
+				unlink($dir);
+			}
 			exit();
 		}
 
