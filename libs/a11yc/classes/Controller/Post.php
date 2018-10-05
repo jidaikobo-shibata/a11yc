@@ -24,6 +24,7 @@ php_value post_max_size "2M"
 namespace A11yc\Controller;
 
 use A11yc\Model;
+use A11yc\Validate;
 
 class Post
 {
@@ -348,7 +349,7 @@ class Post
 		$codes = Validate::$codes;
 		Validate::$do_css_check = $do_css_check;
 		Validate::html($url, $target_html, $codes, $ua);
-		$all_errs = Validate::getErrors($url, $codes, $ua);
+		$all_errs = Validate\Get::errors($url, $codes, $ua);
 
 		// message
 		Session::add('messages', 'messages', A11YC_LANG_POST_DONE);
@@ -371,9 +372,9 @@ class Post
 		// results
 		$errs_cnts = array_merge(
 			array('total' => count($all_errs['errors'])),
-			Validate::getErrorCnts($url, $codes, $ua)
+			Validate\Get::errorCnts($url, $codes, $ua)
 		);
-		$render = Validate::getHighLightedHtml($url, $codes, $ua);
+		$render = Validate\Get::highLightedHtml($url, $codes, $ua);
 		$raw = nl2br($render);
 
 		View::assign('errs'                , $all_errs, false);
@@ -382,7 +383,7 @@ class Post
 		View::assign('is_call_from_post'   , true);
 		View::assign('machine_check_status', Values::machineCheckStatus());
 		View::assign('yml'                 , Yaml::fetch());
-		View::assign('logs'                , Validate::getLogs($url) ?: array());
+		View::assign('logs'                , Validate\Get::logs($url) ?: array());
 
 		// count up for guest users
 		Post\Auth::countUpForGuestUsers();

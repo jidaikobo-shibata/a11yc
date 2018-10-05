@@ -11,6 +11,7 @@
 namespace A11yc\Controller;
 
 use A11yc\Model;
+use A11yc\Validate;
 
 class Export
 {
@@ -105,7 +106,7 @@ class Export
 	private static function addErr2Csv($url, $csv, $n)
 	{
 		$yml = Yaml::fetch();
-		foreach (Validate::getErrorIds($url) as $err_code => $errs)
+		foreach (Validate\Get::errorIds($url) as $err_code => $errs)
 		{
 			foreach ($errs as $err)
 			{
