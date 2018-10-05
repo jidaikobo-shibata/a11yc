@@ -31,7 +31,7 @@ class Db
 	/**
 	 * Create Db object
 	 *
-	 * @param  String $name Identifier for this db
+	 * @param  String|Array $name Identifier for this db
 	 * @param  Array $cons Configuration
 	 * @return Void
 	 */

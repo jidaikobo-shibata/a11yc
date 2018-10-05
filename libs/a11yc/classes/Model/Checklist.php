@@ -21,7 +21,7 @@ class Checklist
 	 * @param Bool $force
 	 * @return Bool|Array
 	 */
-	public static function fetch($url, $force = 0)
+	public static function fetch($url, $force = false)
 	{
 		if (isset(static::$checks[$url]) && ! $force) return static::$checks[$url];
 		$sql = 'SELECT * FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = ?'.Db::versionSql().';';

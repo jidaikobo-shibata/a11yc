@@ -111,7 +111,7 @@ class Validate
 	 * @param  Bool   $force
 	 * @return Void
 	 */
-	public static function html($url, $html, $codes = array(), $ua = 'using', $force = 0)
+	public static function html($url, $html, $codes = array(), $ua = 'using', $force = false)
 	{
 		if ( ! is_string($html)) Util::error('invalid HTML wa given');
 
@@ -168,7 +168,7 @@ class Validate
 	 * @param  Bool   $force
 	 * @return Void
 	 */
-	public static function url($url, $codes = array(), $ua = 'using', $force = 0)
+	public static function url($url, $codes = array(), $ua = 'using', $force = false)
 	{
 		// cache
 		$codes = $codes ?: self::$codes;

@@ -105,7 +105,6 @@ class Get extends Element
 			return static::$res[$ignore_type][$type];
 		}
 
-		$ret = array();
 		switch ($type)
 		{
 			case 'anchors':
