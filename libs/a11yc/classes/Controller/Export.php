@@ -157,12 +157,14 @@ class Export
 	 * add images to csv
 	 *
 	 * @param  String  $url
-	 * @param  Array   $csv
+	 * @param  Array|Null   $csv
 	 * @param  Integer $n
 	 * @return Array
 	 */
 	private static function addImgs2Csv($url, $csv, $n)
 	{
+		if (is_null($csv)) return array();
+
 		// alt list
 		foreach (\A11yc\Images::getImages($url) as $v)
 		{
