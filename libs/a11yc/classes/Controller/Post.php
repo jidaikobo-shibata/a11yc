@@ -340,7 +340,7 @@ class Post
 	 * @param Strings $url
 	 * @param Strings $target_html
 	 * @param Strings $ua
-	 * @param Strings $do_css_check
+	 * @param Bool $do_css_check
 	 * @return Array
 	 */
 	private static function validate($url, $target_html, $ua, $do_css_check = false)

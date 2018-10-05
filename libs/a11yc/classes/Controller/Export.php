@@ -115,7 +115,7 @@ class Export
 				if ( ! isset($yml['errors'][$err_code]))
 				{
 					$issue = Model\Issues::fetch4Validation($url, $err['str']);
-					if ( ! $issue) return;
+					if (empty($issue)) return;
 					$current_err['message'] = $issue['error_message'];
 					$current_err['criterion'] = $issue['criterion'];
 					$current_err['code'] = '';

@@ -52,7 +52,7 @@ class NoticeNonHtmlExists extends Validate
 			}
 		}
 
-		if ($exists)
+		if ( ! empty($exists))
 		{
 			$err_strs = array();
 			foreach ($exists as $ext => $times)

@@ -30,7 +30,7 @@ class NotLabelButTitle extends Validate
 		list($eles, $fors) = self::setLabelAndElement($ms);
 
 		// no form elements
-		if ( ! $eles)
+		if (empty($eles))
 		{
 			static::$logs[$url]['not_label_but_title'][self::$unspec] = 4;
 			return;

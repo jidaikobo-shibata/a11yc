@@ -105,7 +105,7 @@ class Validate
 	 * html
 	 *
 	 * @param  String $url
-	 * @param  String|Array $html
+	 * @param  String|Array|Bool $html
 	 * @param  Array  $codes
 	 * @param  String $ua
 	 * @param  Bool   $force
@@ -113,7 +113,7 @@ class Validate
 	 */
 	public static function html($url, $html, $codes = array(), $ua = 'using', $force = 0)
 	{
-		if (is_array($html)) Util::error('invalid HTML wa given');
+		if ( ! is_string($html)) Util::error('invalid HTML wa given');
 
 		$codes = $codes ?: self::$codes;
 		$name = static::codes2name($codes);
@@ -302,7 +302,7 @@ class Validate
 	 * @param  String $url
 	 * @param  String $error_id
 	 * @param  String $issue_html
-	 * @return  Array|bool
+	 * @return  Array|Bool
 	 */
 	public static function setCurrentErr($url, $error_id, $issue_html)
 	{
@@ -311,7 +311,7 @@ class Validate
 		if ( ! isset($yml['errors'][$error_id]))
 		{
 			$issue = Model\Issues::fetch4Validation($url, $issue_html);
-			if ( ! $issue) return false;
+			if (empty($issue)) return false;
 			$current_err['message'] = $issue['error_message'];
 			if (strpos($issue['criterion'], ',') !== false)
 			{

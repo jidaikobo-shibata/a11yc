@@ -98,7 +98,7 @@ class Util
 	/**
 	 * sanitiz html
 	 *
-	 * @param  String $str
+	 * @param  String|Array $str
 	 * @return Mixed
 	 */
 	public static function s($str)
