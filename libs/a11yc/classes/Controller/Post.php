@@ -94,7 +94,7 @@ class Post
 		View::assign('base_url', A11YC_POST_SCRIPT_URL);
 
 		// routing
-		static::routing();
+		self::routing();
 		$action = Route::getAction();
 		static::$action();
 
@@ -173,25 +173,6 @@ class Post
 		View::assign('body', View::fetchTpl('post/readme.php'), false);
 		View::assign('title', A11YC_LANG_POST_README);
 		define('A11YC_LANG_POST_TITLE', A11YC_LANG_POST_README);
-	}
-
-	/**
-	 * is in white list
-	 *
-	 * @return Bool
-	 */
-	public static function isInWhiteList()
-	{
-		$ip = Input::server('REMOTE_ADDR', '');
-
-		// performed IPs
-		$is_in_white_list = false;
-		if (defined('A11YC_APPROVED_GUEST_IPS'))
-		{
-			$is_in_white_list = in_array($ip, unserialize(A11YC_APPROVED_GUEST_IPS));
-		}
-
-		return $is_in_white_list;
 	}
 
 	/**
@@ -363,11 +344,6 @@ class Post
 	 */
 	private static function validate($url, $target_html, $ua, $do_css_check = false)
 	{
-		$all_errs = array(
-			'notices' => array(),
-			'errors'  => array()
-		);
-
 		// check
 		$codes = Validate::$codes;
 		Validate::$do_css_check = $do_css_check;

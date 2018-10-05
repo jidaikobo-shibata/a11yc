@@ -130,7 +130,7 @@ class Checklist
 		$is_bulk = ($url == 'bulk');
 
 		// page
-		$page = false;
+		$page = array();
 		if ( ! $is_bulk && $url)
 		{
 			$page = self::getPage($url);

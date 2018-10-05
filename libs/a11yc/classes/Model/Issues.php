@@ -186,7 +186,7 @@ class Issues
 	{
 		$id = intval($id);
 		$issue = self::fetch($id);
-		if( ! $issue) return false;
+		if(empty($issue)) return false;
 
 		$sql = 'UPDATE '.A11YC_TABLE_ISSUES.' SET `'.$field.'` = ?';
 		$sql.= ' WHERE `id` = ?';
@@ -203,7 +203,7 @@ class Issues
 	{
 		$id = intval($id);
 		$issue = self::fetch($id);
-		if( ! $issue) return false;
+		if(empty($issue)) return false;
 
 		$sql = 'DELETE FROM '.A11YC_TABLE_ISSUES.' WHERE `id` = ?';
 		return Db::execute($sql, array($id));

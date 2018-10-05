@@ -121,9 +121,6 @@ class Bulk
 				$each_result = View::fetch('body');
 				if ( ! $each_result) continue;
 				$exist = true;
-
-				$each_filename = str_replace(array('http://', 'https://'), '', $url);
-				$each_filename = str_replace('/', '_', $each_filename);
 				$zip->addFromString('result'.$n.'.html', $each_result);
 				$n++;
 			}
@@ -145,8 +142,11 @@ class Bulk
 			readfile($dir.$file);
 
 			// unlink temporary files
-			@unlink($dir.$file);
-			@unlink($dir);
+			if (file_exists($dir.$file))
+			{
+				unlink($dir.$file);
+				unlink($dir);
+			}
 			exit();
 		}
 

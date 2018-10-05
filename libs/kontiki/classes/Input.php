@@ -73,7 +73,7 @@ class Input
 	)
 	{
 		$val = self::get($index, $default, $filter, $options);
-		if ( ! $val)
+		if (is_null($val) || empty($val))
 		{
 			$val = self::post($index, $default, $filter, $options);
 		}
@@ -84,7 +84,7 @@ class Input
 	 * Gets the specified GET variable.
 	 *
 	 * @param  String $index The index to get
-	 * @param  String $default The default value
+	 * @param  Mixed $default The default value
 	 * @param  String $filter default: FILTER_DEFAULT
 	 * @param  String $options for filter_input()
 	 * @return String|Array
@@ -121,7 +121,7 @@ class Input
 	 * Gets the specified POST variable.
 	 *
 	 * @param  String $index The index to get
-	 * @param  String $default The default value
+	 * @param  Mixed $default The default value
 	 * @param  String $filter default: FILTER_DEFAULT
 	 * @param  String  $options  for filter_input()
 	 * @return String|Array

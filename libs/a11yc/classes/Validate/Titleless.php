@@ -10,6 +10,8 @@
  */
 namespace A11yc\Validate;
 
+use A11yc\Element;
+
 class Titleless extends Validate
 {
 	/**
@@ -24,7 +26,7 @@ class Titleless extends Validate
 		if (Validate::$is_partial == true) return;
 		static::$logs[$url]['titleless'][self::$unspec] = 1;
 
-		$str = Element::ignoreElements($url);
+		$str = Element\Get::ignoredHtml($url);
 
 		// to locate first element at the error
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');

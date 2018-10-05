@@ -24,7 +24,7 @@ class Db extends \Kontiki\Db
 	{
 		// init default tables
 		if (static::isTableExist(A11YC_TABLE_CACHES, $name)) return;
-		static::initDefault($name);
+		self::initDefault($name);
 	}
 
 	/**

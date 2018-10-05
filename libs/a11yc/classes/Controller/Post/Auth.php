@@ -27,7 +27,7 @@ class Auth
 		if ( ! self::isInWhiteList())
 		{
 			// die if at limit
-			static::ipCheckForGuestUsers(Input::server('REMOTE_ADDR', ''));
+			self::ipCheckForGuestUsers(Input::server('REMOTE_ADDR', ''));
 		}
 		return true;
 	}
@@ -87,7 +87,7 @@ class Auth
 				'dbtype' => 'sqlite',
 				'path' => A11YC_DATA_PATH.A11YC_POST_DATA_FILE,
 			));
-		static::initTable();
+		self::initTable();
 
 		// ip check
 		$past_24h = time() - 86400;

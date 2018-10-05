@@ -12,6 +12,33 @@ namespace A11yc\Element;
 
 class Get extends Element
 {
+	protected static $ignored_strs = array();
+	protected static $res = array();
+	protected static $attrs = array();
+	protected static $langs = array();
+
+	/**
+	 * get Elements ignored HTML
+	 *
+	 * @param  String $url
+	 * @param  Bool $force
+	 * @return String
+	 */
+	public static function ignoredHtml($url, $force = false)
+	{
+		if (isset(static::$ignored_strs[$url]) && ! $force) return static::$ignored_strs[$url];
+
+		if ( ! isset(Validate::$hl_htmls[$url]))
+		{
+			Model\Html::getHtml($url);
+			Validate::$hl_htmls[$url] = Model\Html::getHtml($url);
+		}
+
+		$str = self::ignoreElementsByStr(Validate::$hl_htmls[$url]);
+		static::$ignored_strs[$url] = $str;
+		return $str;
+	}
+
 	/**
 	 * get first tag
 	 *
@@ -149,7 +176,7 @@ class Get extends Element
 	 * I gived up with http://php.net/manual/ja/class.domdocument.php
 	 * DOMDocument doesn't return appropriate value for me.
 	 *
-	 * @param  String $str: whole html
+	 * @param  String $str whole html
 	 * @param  String $id
 	 * @return String|Bool
 	 */
@@ -174,6 +201,7 @@ class Get extends Element
 		$loop = true;
 		$open_pos = 1;
 		$close_pos = 1;
+		$close = 0;
 		$failsafe = 0;
 
 		while ($loop)
@@ -209,7 +237,7 @@ class Get extends Element
 	/**
 	 * TextFromElement
 	 *
-	 * @param  String $str: whole html
+	 * @param  String $str whole html
 	 * @return String|Bool
 	 */
 	public static function textFromElement($str)

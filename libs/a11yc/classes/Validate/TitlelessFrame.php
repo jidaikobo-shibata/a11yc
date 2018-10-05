@@ -10,6 +10,8 @@
  */
 namespace A11yc\Validate;
 
+use A11yc\Element;
+
 class TitlelessFrame extends Validate
 {
 	/**
@@ -21,7 +23,7 @@ class TitlelessFrame extends Validate
 	public static function check($url)
 	{
 		static::$logs[$url]['titleless_frame'][self::$unspec] = 1;
-		$str = Element::ignoreElements($url);
+		$str = Element\Get::ignoredHtml($url);
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 

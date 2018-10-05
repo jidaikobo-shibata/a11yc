@@ -105,7 +105,7 @@ class Pages
 
 		// count
 		View::assign('list', $list);
-		static::count();
+		self::count();
 
 		// assign
 		View::assign('title',       A11YC_LANG_PAGES_TITLE.' '.$list);
@@ -143,7 +143,7 @@ class Pages
 
 		// count
 		View::assign('list', 'add');
-		static::count();
+		self::count();
 
 		View::assign('crawled', $crawled);
 		View::assign('get_urls', $get_urls);
@@ -458,7 +458,7 @@ class Pages
 		$html = Model\Html::getHtml($url);
 
 		View::assign('list', 'all');
-		static::count();
+		self::count();
 		View::assign('url',   Util::urlenc($url));
 		View::assign('title', A11YC_LANG_PAGES_LABEL_EDIT);
 		View::assign('page_title', isset($page['title']) ? $page['title'] : '');

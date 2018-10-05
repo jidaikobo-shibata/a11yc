@@ -10,6 +10,8 @@
  */
 namespace A11yc\Validate;
 
+use A11yc\Element;
+
 class FormAndLabels extends Validate
 {
 	/**
@@ -27,7 +29,7 @@ class FormAndLabels extends Validate
 		static::$logs[$url]['contain_plural_form_elements'][self::$unspec] = 1;
 		static::$logs[$url]['lackness_of_form_ends'][self::$unspec] = 1;
 
-		$str = Element::ignoreElements($url);
+		$str = Element\Get::ignoredHtml($url);
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[1]) return;
 

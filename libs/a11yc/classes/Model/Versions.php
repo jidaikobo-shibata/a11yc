@@ -47,7 +47,7 @@ class Versions
 		$sql = 'SELECT * FROM '.A11YC_TABLE_VERSIONS.' WHERE `version` = ?;';
 		if (Db::fetch($sql, array($version)))
 		{
-			static::delete($version);
+			self::delete($version);
 			Session::add('messages', 'messages', A11YC_LANG_RESULTS_DELETE_SAMEDATE);
 		}
 
@@ -85,7 +85,7 @@ class Versions
 		{
 			$sql = 'INSERT INTO '.A11YC_TABLE_SETTINGS.' (`key`, `value`, `version`) ';
 			$sql.= ' VALUES (?, ?, ?);';
-			$r = Db::execute($sql, array($k, $v, $version));
+			Db::execute($sql, array($k, $v, $version));
 		}
 
 		if ($status)
@@ -108,12 +108,13 @@ class Versions
 		$names      = Input::postArr('name');
 		$is_visible = Input::postArr('trash');
 		$deletes    = Input::postArr('delete');
+		$r          = false;
 
 		// update
 		foreach ($names as $version => $name)
 		{
 			$sql = 'UPDATE '.A11YC_TABLE_VERSIONS.' SET `name` = ? WHERE `version` = ?;';
-			$r = Db::execute($sql, array($name, $version));
+			Db::execute($sql, array($name, $version));
 
 			// trash
 			$sql = 'UPDATE '.A11YC_TABLE_VERSIONS.' SET `trash` = ? WHERE `version` = ?;';
@@ -124,7 +125,7 @@ class Versions
 		// delete
 		foreach ($deletes as $version)
 		{
-			static::delete($version);
+			self::delete($version);
 			Session::add(
 				'messages',
 				'messages',

@@ -51,56 +51,19 @@ class Autoloader
 					$naked_class = array_pop($classes);
 					$sub_namespace = join('\\', $classes);
 
-
 					// search loaded class
-					foreach (array_keys(\Kontiki\Autoloader::$core_namespaces) as $core_namespace)
-					{
-						// remove core_namespace from classes
-						$tmp_namespace = str_replace($core_namespace, '', $sub_namespace);
-						$core_namespace.= ! empty($tmp_namespace) ? '\\'.$tmp_namespace : '';
-
-						$ns_class = $core_namespace.'\\'.$naked_class;
-
-						if (array_key_exists($ns_class, \Kontiki\Autoloader::$classes))
-						{
-							$loaded = true;
-							break;
-						}
-					}
+					list($ns_class, $loaded) = \Kontiki\Autoloader::searchLoadedClass($sub_namespace, $naked_class);
 
 					// search unloaded class
 					if ( ! $loaded)
 					{
-						foreach (\Kontiki\Autoloader::$core_namespaces as $core_namespace => $core_path)
-						{
-							$ns_class = $core_namespace.'\\'.$naked_class;
-							$file_path = $core_path.\Kontiki\Autoloader::prepPath($naked_class);
-
-							if (file_exists($file_path))
-							{
-								include_once $file_path;
-								$loaded = true;
-								break;
-							}
-						}
+						list($ns_class, $loaded) = \Kontiki\Autoloader::searchUnloadedClass($naked_class);
 					}
 
-					// try to search loaded namespace
+					// search loaded namespace
 					if ( ! $loaded)
 					{
-						if (array_key_exists($sub_namespace, \Kontiki\Autoloader::$classes))
-						{
-							$loaded_path = \Kontiki\Autoloader::$classes[$sub_namespace];
-							$file_path = str_replace('.php', '/', $loaded_path);
-							$file_path.= \Kontiki\Autoloader::prepPath($naked_class);
-
-							if (file_exists($file_path))
-							{
-								include_once $file_path;
-								$loaded = true;
-								$ns_class = \Kontiki\Autoloader::corePath2class($loaded_path).'\\'.$naked_class;
-							}
-						}
+						list($ns_class, $loaded) = \Kontiki\Autoloader::searchLoadedNamespace($sub_namespace, $naked_class);
 					}
 
 					// loaded or not
@@ -175,5 +138,85 @@ class Autoloader
 			}
 		}
 		return $classname;
+	}
+
+	/**
+	 * search loaded class
+	 *
+	 * @param   string  $sub_namespace
+	 * @param   string  $naked_class
+	 * @return  Array
+	 */
+	public static function searchLoadedClass($sub_namespace, $naked_class)
+	{
+		$loaded = false;
+		$ns_class = '';
+		foreach (array_keys(\Kontiki\Autoloader::$core_namespaces) as $core_namespace)
+		{
+			// remove core_namespace from classes
+			$tmp_namespace = str_replace($core_namespace, '', $sub_namespace);
+			$core_namespace.= ! empty($tmp_namespace) ? '\\'.$tmp_namespace : '';
+
+			$ns_class = $core_namespace.'\\'.$naked_class;
+
+			if (array_key_exists($ns_class, \Kontiki\Autoloader::$classes))
+			{
+				$loaded = true;
+				break;
+			}
+		}
+		return array($ns_class, $loaded);
+	}
+
+	/**
+	 * search unloaded class
+	 *
+	 * @param   string  $naked_class
+	 * @return  Array
+	 */
+	public static function searchUnloadedClass($naked_class)
+	{
+		$loaded = false;
+		$ns_class = '';
+		foreach (\Kontiki\Autoloader::$core_namespaces as $core_namespace => $core_path)
+		{
+			$ns_class = $core_namespace.'\\'.$naked_class;
+			$file_path = $core_path.\Kontiki\Autoloader::prepPath($naked_class);
+
+			if (file_exists($file_path))
+			{
+				include_once $file_path;
+				$loaded = true;
+				break;
+			}
+		}
+		return array($ns_class, $loaded);
+	}
+
+	/**
+	 * search unloaded namespace
+	 *
+	 * @param   string  $naked_class
+	 * @return  Array
+	 */
+	public static function searchLoadedNamespace($sub_namespace, $naked_class)
+	{
+		$loaded = false;
+		$ns_class = '';
+
+		if (array_key_exists($sub_namespace, \Kontiki\Autoloader::$classes))
+		{
+			$loaded_path = \Kontiki\Autoloader::$classes[$sub_namespace];
+			$file_path = str_replace('.php', '/', $loaded_path);
+			$file_path.= \Kontiki\Autoloader::prepPath($naked_class);
+
+			if (file_exists($file_path))
+			{
+				include_once $file_path;
+				$loaded = true;
+				$ns_class = \Kontiki\Autoloader::corePath2class($loaded_path).'\\'.$naked_class;
+			}
+		}
+		return array($ns_class, $loaded);
 	}
 }

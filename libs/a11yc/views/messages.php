@@ -22,7 +22,7 @@ if (Auth::auth() && Maintenance::isUgingLower()):
 		A11YC_LANG_ERROR_GET_NEW_A11YC,
 		'https://github.com/jidaikobo-shibata/a11yc',
 		A11YC_VERSION,
-		Util::s(Maintenance::getStoredVersion())
+		Util::s(Maintenance::getLatestVersion())
 	) ?></li>
 <?php endif; ?>
 </ul>

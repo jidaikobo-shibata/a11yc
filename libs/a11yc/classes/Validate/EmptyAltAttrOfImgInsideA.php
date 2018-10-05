@@ -10,6 +10,8 @@
  */
 namespace A11yc\Validate;
 
+use A11yc\Element;
+
 class EmptyAltAttrOfImgInsideA extends Validate
 {
 	/**
@@ -21,7 +23,8 @@ class EmptyAltAttrOfImgInsideA extends Validate
 	public static function check($url)
 	{
 		static::$logs[$url]['empty_alt_attr_of_img_inside_a'][self::$unspec] = 1;
-		$str = Element::ignoreElements($url);
+
+		$str = Element\Get::ignoredHtml($url);
 
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'anchors_and_values');
 		if ( ! $ms[2])
@@ -39,17 +42,14 @@ class EmptyAltAttrOfImgInsideA extends Validate
 
 			$mms = Element\Get::elementsByRe($m, 'ignores', 'imgs', true);
 			$alt = '';
+			$src = '';
 			foreach ($mms[0] as $in_img)
 			{
 				$attrs = Element\Get::attributes($in_img);
-				foreach ($attrs as $kk => $vv)
-				{
-					if (strpos($kk, 'alt') !== false)
-					{
-						$alt.= $vv;
-					}
-				}
+				$alt.= Arr::get($attrs, 'alt', '');
+				$src = Arr::get($attrs, 'src', ''); // update by latest
 			}
+			$src = ! empty($src) ? Util::s(basename($src)) : '';
 
 			$alt = trim($alt);
 			$tstr = $ms[0][$k];
@@ -58,7 +58,7 @@ class EmptyAltAttrOfImgInsideA extends Validate
 			{
 				static::$logs[$url]['empty_alt_attr_of_img_inside_a'][$tstr] = -1;
 				static::$error_ids[$url]['empty_alt_attr_of_img_inside_a'][$k]['id'] = $tstr;
-				static::$error_ids[$url]['empty_alt_attr_of_img_inside_a'][$k]['str'] = @basename(@$attrs['src']);
+				static::$error_ids[$url]['empty_alt_attr_of_img_inside_a'][$k]['str'] = $src;
 			}
 			else
 			{

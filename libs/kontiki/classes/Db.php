@@ -56,11 +56,12 @@ class Db
 	 * __construct
 	 *
 	 * @param Array $config
-	 * @return Void
 	 */
 	public function __construct($config)
 	{
 		$dbtype = strtolower($config['dbtype']);
+		$dbh = false;
+
 		// sqlite
 		if ($dbtype == 'sqlite')
 		{
@@ -89,8 +90,13 @@ class Db
 			$dbh->query('SET NAMES UTF8;');
 		}
 
-		$this->dbtype = $dbtype;
-		$this->dbh = $dbh;
+		if ($dbh !== false)
+		{
+			$this->dbtype = $dbtype;
+			$this->dbh = $dbh;
+			return;
+		}
+		Util::error('failed to establish Database connection.');
 	}
 
 	/**
@@ -115,6 +121,7 @@ class Db
 	{
 		if ( ! static::isTableExist($table, $name)) return array();
 		$instance = static::instance($name);
+		$retvals = array();
 
 		if ($instance->dbtype == 'sqlite')
 		{
@@ -195,6 +202,7 @@ class Db
 	{
 		if ( ! static::isTableExist($table, $name)) return false;
 
+		$retvals = array();
 		foreach ($fields as $field)
 		{
 			$retvals[$field] = FALSE;
@@ -242,7 +250,6 @@ class Db
 			$name = 'default'
 		)
 	{
-		$retval = FALSE;
 		$dbh = static::instance($name)->dbh->prepare($sql);
 		$dbh->execute($placeholders);
 		$retval = $dbh->fetch(\PDO::FETCH_ASSOC);

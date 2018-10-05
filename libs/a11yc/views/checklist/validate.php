@@ -104,7 +104,7 @@ if (Arr::get($errs, 'errors') || Arr::get($errs, 'notices')):
 		<?php endif; ?>
 		</div><!--  /.hide -->
 	</div><!-- /#a11yc_validator_results -->
-<?php if ( ! $is_call_from_post): ?>
+<?php if ($is_call_from_post === false): ?>
 </details>
 <?php endif; ?>
 

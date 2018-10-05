@@ -110,7 +110,9 @@ class Css
 		if ( ! is_string($ua)) Util::error();
 		if (isset(static::$csses[$url][$ua])) return static::$csses[$url][$ua];
 
-		$css = self::getConvinedCssFromHtml($url, Html::fetchHtml($url, $url), $ua);
+		$html = Html::fetchHtml($url, $url);
+		if ($html === false) return array();
+		$css = self::getConvinedCssFromHtml($url, $html, $ua);
 		static::$csses[$url][$ua] = self::makeArray($css);
 
 		return static::$csses[$url][$ua];
@@ -358,6 +360,7 @@ class Css
 			$prop_and_val = trim($prop_and_val);
 
 			// property does't have colon
+			$prop_and_vals = array();
 			if (strpos($prop_and_val, ':') !== false)
 			{
 				$prop_and_vals = explode(':', $prop_and_val);

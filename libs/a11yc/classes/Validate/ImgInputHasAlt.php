@@ -10,6 +10,8 @@
  */
 namespace A11yc\Validate;
 
+use A11yc\Element;
+
 class ImgInputHasAlt extends Validate
 {
 	/**
@@ -20,7 +22,7 @@ class ImgInputHasAlt extends Validate
 	public static function check($url)
 	{
 		static::$logs[$url]['img_input_has_alt'][self::$unspec] = 1;
-		$str = Element::ignoreElements($url);
+		$str = Element\Get::ignoredHtml($url);
 
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;

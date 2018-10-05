@@ -10,6 +10,8 @@
  */
 namespace A11yc\Validate;
 
+use A11yc\Element;
+
 class Viewport extends Validate
 {
 	/**
@@ -24,7 +26,7 @@ class Viewport extends Validate
 		if (Validate::$is_partial == true) return;
 		static::$logs[$url]['user_scalable_no'][self::$unspec] = 1;
 
-		$str = Element::ignoreElements($url);
+		$str = Element\Get::ignoredHtml($url);
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 

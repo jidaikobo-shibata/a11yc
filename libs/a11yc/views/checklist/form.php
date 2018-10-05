@@ -235,7 +235,7 @@
 					$id = $criterion.'_'.$tcode;
 					$data = ' data-pass="'.$tcode.'"';
 
-					$checked = isset($cs[$tcode]) ? ' checked="checked"' : '';
+					$checked = isset($cs[$tcode]) && $cs[$tcode]['is_checked'] == true ? ' checked="checked"' : '';
 
 					if ($type == 'html' && $yml['techs'][$tcode]['type'] == 'PDF') continue;
 					if ($type == 'pdf'  && ! in_array($yml['techs'][$tcode]['type'], array('PDF'))) continue;

@@ -17,14 +17,14 @@ class Images
 	/**
 	 * get images
 	 *
-	 * @param  String $uri
+	 * @param  String $url
 	 * @param  String $base_uri
 	 * @return  Array
 	 */
 	public static function getImages($url, $base_uri = '')
 	{
 		$retvals = array();
-		$str = Element::ignoreElements($url);
+		$str = Element\Get::ignoredHtml($url);
 		$n = 0;
 
 		// at first, get images in a

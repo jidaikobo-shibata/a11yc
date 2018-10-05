@@ -10,6 +10,8 @@
  */
 namespace A11yc\Validate;
 
+use A11yc\Element;
+
 class InvalidTag extends Validate
 {
 	/**
@@ -23,7 +25,7 @@ class InvalidTag extends Validate
 		static::$logs[$url]['cannot_contain_newline'][self::$unspec] = 1;
 		static::$logs[$url]['unbalanced_quotation'][self::$unspec] = 1;
 		static::$logs[$url]['cannot_contain_multibyte_space'][self::$unspec] = 1;
-		$str = Element::ignoreElements($url);
+		$str = Element\Get::ignoredHtml($url);
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
 

@@ -10,6 +10,8 @@
  */
 namespace A11yc\Validate;
 
+use A11yc\Element;
+
 class SameUrlsShouldHaveSameText extends Validate
 {
 	/**
@@ -25,7 +27,7 @@ class SameUrlsShouldHaveSameText extends Validate
 		static::$logs[$url]['same_urls_should_have_same_text'][self::$unspec] = 1;
 
 		// urls
-		$str = Element::ignoreElements($url);
+		$str = Element\Get::ignoredHtml($url);
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'anchors_and_values');
 		if ( ! $ms[1])
 		{
