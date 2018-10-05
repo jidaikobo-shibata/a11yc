@@ -125,6 +125,7 @@ class Issues
 		{
 			$id        = intval(Input::get('id'));
 			$issue     = Model\Issues::fetch($id);
+			if (Arr::get($issue, 'trash') == 1) Util::error('issue not found');
 			$url       = Arr::get($issue, 'url');
 			$criterion = Arr::get($issue, 'criterion');
 		}
@@ -139,55 +140,16 @@ class Issues
 
 		if (Input::isPostExists())
 		{
-			$args = array(
-				'is_common'     => Input::post('is_common', false),
-				'url'           => $url,
-				'criterion'     => $criterion,
-				'html'          => Input::post('html', ''),
-				'n_or_e'        => Input::post('n_or_e', 0),
-				'status'        => Input::post('status', 0),
-				'tech_url'      => Input::post('tech_url', ''),
-				'error_message' => Input::post('error_message', ''),
-				'uid'           => Input::post('uid', 1),
-			);
-			extract($args);
-
 			// add
 			if ($is_add)
 			{
-				if ($issue_id = Model\Issues::add($args))
-				{
-					Session::add('messages', 'messages', A11YC_LANG_ISSUES_ADDED);
-					Util::redirect(A11YC_ISSUES_EDIT_URL.$issue_id);
-				}
-				else
-				{
-					Session::add('messages', 'errors', A11YC_LANG_ISSUES_ADDED_FAILED);
-				}
+				self::add($url, $criterion);
 			}
 
 			// update
 			else
 			{
-				$r1 = Model\Issues::updateField($id, 'is_common',     Input::post('is_common', 0));
-				$r2 = Model\Issues::updateField($id, 'html',          Input::post('html', ''));
-				$r3 = Model\Issues::updateField($id, 'n_or_e',        Input::post('n_or_e', 0));
-				$r4 = Model\Issues::updateField($id, 'status',        Input::post('status', 0));
-				$r5 = Model\Issues::updateField($id, 'tech_url',      Input::post('tech_url', ''));
-				$r6 = Model\Issues::updateField($id, 'error_message', Input::post('error_message', ''));
-				$r7 = Model\Issues::updateField($id, 'uid',           Input::post('uid', 1));
-
-				if ($r1 && $r2 && $r3 && $r4 && $r5 && $r6 && $r7)
-				{
-					Session::add('messages', 'messages', A11YC_LANG_ISSUES_EDITED);
-					Util::redirect(A11YC_ISSUES_EDIT_URL.$id);
-				}
-				else
-				{
-					Session::add('messages', 'errors', A11YC_LANG_ISSUES_EDITED_FAILED);
-				}
-				$force = true;
-				$issue = Model\Issues::fetch($id, $force);
+				self::update($id);
 			}
 		}
 
@@ -232,6 +194,68 @@ class Issues
 	}
 
 	/**
+	 * add Issue
+	 *
+	 * @param  string $url
+	 * @param  string $criterion
+	 * @return Void
+	 */
+	private static function add($url, $criterion)
+	{
+		$args = array(
+			'is_common'     => Input::post('is_common', false),
+			'url'           => $url,
+			'criterion'     => $criterion,
+			'html'          => Input::post('html', ''),
+			'n_or_e'        => Input::post('n_or_e', 0),
+			'status'        => Input::post('status', 0),
+			'tech_url'      => Input::post('tech_url', ''),
+			'error_message' => Input::post('error_message', ''),
+			'uid'           => Input::post('uid', 1),
+		);
+		extract($args);
+
+		if ($issue_id = Model\Issues::add($args))
+		{
+			Session::add('messages', 'messages', A11YC_LANG_ISSUES_ADDED);
+			Util::redirect(A11YC_ISSUES_EDIT_URL.$issue_id);
+		}
+		else
+		{
+			Session::add('messages', 'errors', A11YC_LANG_ISSUES_ADDED_FAILED);
+		}
+	}
+
+	/**
+	 * update Issue
+	 *
+	 * @param  integer $id
+	 * @return Void
+	 */
+	private static function update($id)
+	{
+		$r1 = Model\Issues::updateField($id, 'is_common',     Input::post('is_common', 0));
+		$r2 = Model\Issues::updateField($id, 'html',          Input::post('html', ''));
+		$r3 = Model\Issues::updateField($id, 'n_or_e',        Input::post('n_or_e', 0));
+		$r4 = Model\Issues::updateField($id, 'status',        Input::post('status', 0));
+		$r5 = Model\Issues::updateField($id, 'tech_url',      Input::post('tech_url', ''));
+		$r6 = Model\Issues::updateField($id, 'error_message', Input::post('error_message', ''));
+		$r7 = Model\Issues::updateField($id, 'uid',           Input::post('uid', 1));
+
+		if ($r1 && $r2 && $r3 && $r4 && $r5 && $r6 && $r7)
+		{
+			Session::add('messages', 'messages', A11YC_LANG_ISSUES_EDITED);
+			Util::redirect(A11YC_ISSUES_EDIT_URL.$id);
+		}
+		else
+		{
+			Session::add('messages', 'errors', A11YC_LANG_ISSUES_EDITED_FAILED);
+		}
+		$force = true;
+		$issue = Model\Issues::fetch($id, $force);
+	}
+
+	/**
 	 * view Issue
 	 *
 	 * @param  Array $users
@@ -243,7 +267,7 @@ class Issues
 	{
 		$id = intval(Input::get('id'));
 		$issue = Model\Issues::fetch($id);
-		if ( ! $issue) Util::error('issue not found');
+		if ( ! $issue || Arr::get($issue, 'trash') == 1) Util::error('issue not found');
 
 		if (is_null($current_user_id))
 		{
