@@ -575,7 +575,7 @@ table.a11yc_table_info {
 }
 #a11yc_form_checklist {
 	position: relative;
-	margin-top: 2.75em;
+/*	margin-top: 2.75em;*/
 }
 #a11yc_docs #a11yc_header_ctrl p,
 #a11yc_post #a11yc_header_ctrl p,
