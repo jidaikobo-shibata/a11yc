@@ -109,38 +109,13 @@ class Get extends Element
 		switch ($type)
 		{
 			case 'anchors':
-				if (preg_match_all("/\<(?:a|area) ([^\>]+?)\>/i", $str, $ms))
-				{
-					$ret = $ms;
-				}
+				$ret = self::anchors($str);
 				break;
-
 			case 'anchors_and_values':
-				if (preg_match_all("/\<a ([^\>]+)\>(.*?)\<\/a\>|\<area ([^\>]+?)\/\>/si", $str, $ms))
-				{
-					$ret = $ms;
-				}
+				$ret = self::anchorsAndValues($str);
 				break;
-
 			default:
-				if (preg_match_all('/\<[^\/]("[^"]*"|\'[^\']*\'|[^\'">])*\>/is', $str, $ms))
-				{
-					$ret = array();
-					foreach ($ms[0] as $k => $v)
-					{
-						$ret[0][$k] = $v; // whole
-						if (strpos($v, ' ') !== false)
-						{
-							$ret[1][$k] = mb_substr($v, 1, mb_strpos($v, ' ') - 1); // element
-							$ret[2][$k] = mb_substr($v, mb_strpos($v, ' '), -1); // values
-						}
-						else
-						{
-							$ret[1][$k] = mb_substr($v, 1, - 1); // element
-							$ret[2][$k] = ''; // values
-						}
-					}
-				}
+				$ret = self::tags($str);
 				break;
 		}
 
@@ -169,6 +144,67 @@ class Get extends Element
 		}
 
 		return isset(static::$res[$ignore_type][$type]) ? static::$res[$ignore_type][$type] : false;
+	}
+
+	/**
+	 * anchors
+	 *
+	 * @param  String $str
+	 * @return Array
+	 */
+	private static function anchors($str)
+	{
+		$ret = array();
+		if (preg_match_all("/\<(?:a|area) ([^\>]+?)\>/i", $str, $ms))
+		{
+			$ret = $ms;
+		}
+		return $ret;
+	}
+
+	/**
+	 * anchors_and_values
+	 *
+	 * @param  String $str
+	 * @return Array
+	 */
+	private static function anchorsAndValues($str)
+	{
+		$ret = array();
+		if (preg_match_all("/\<a ([^\>]+)\>(.*?)\<\/a\>|\<area ([^\>]+?)\/\>/si", $str, $ms))
+		{
+			$ret = $ms;
+		}
+		return $ret;
+	}
+
+	/**
+	 * tags
+	 *
+	 * @param  String $str
+	 * @return Array
+	 */
+	private static function tags($str)
+	{
+		$ret = array();
+		if (preg_match_all('/\<[^\/]("[^"]*"|\'[^\']*\'|[^\'">])*\>/is', $str, $ms))
+		{
+			foreach ($ms[0] as $k => $v)
+			{
+				$ret[0][$k] = $v; // whole
+				if (strpos($v, ' ') !== false)
+				{
+					$ret[1][$k] = mb_substr($v, 1, mb_strpos($v, ' ') - 1); // element
+					$ret[2][$k] = mb_substr($v, mb_strpos($v, ' '), -1); // values
+				}
+				else
+				{
+					$ret[1][$k] = mb_substr($v, 1, - 1); // element
+					$ret[2][$k] = ''; // values
+				}
+			}
+		}
+		return $ret;
 	}
 
 	/**

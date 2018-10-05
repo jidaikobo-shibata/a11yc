@@ -107,7 +107,7 @@ class Issues
 	 */
 	public static function fetch4Validation($url, $html)
 	{
-		if (is_array($html)) return false;
+		if (is_array($html)) return array();
 		$sql = 'SELECT * FROM '.A11YC_TABLE_ISSUES;
 		$sql.= ' WHERE `html` = ? AND';
 		$sql.= ' (`url` = ? OR `is_common` = 1);';
