@@ -73,13 +73,15 @@ class Message
 	 * @param String $code_str
 	 * @param Array  $place
 	 * @param String $key
-	 * @param Array  $current_err
+	 * @param Array|Bool  $current_err
 	 * @param String $lv
 	 * @param Integer $num_of_err
 	 * @return Array
 	 */
 	private static function dt($url, $code_str, $place, $key, $current_err, $lv, $num_of_err)
 	{
+		if ( ! is_array($current_err)) Util::error('invalid value was given');
+
 		$yml = Yaml::fetch();
 
 		$anchor = $code_str.'_'.$key;

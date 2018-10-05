@@ -206,11 +206,13 @@ class Checklist
 	 * get basic values
 	 *
 	 * @param  String $url
-	 * @param  Array $page
+	 * @param  Array|Bool $page
 	 * @return Array
 	 */
 	private static function getBasicValues($url, $page)
 	{
+		if ( ! is_array($page)) Util::error('invalid value was given');
+
 		// settings
 		$settings = Model\Settings::fetchAll();
 

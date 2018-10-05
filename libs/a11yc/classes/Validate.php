@@ -105,7 +105,7 @@ class Validate
 	 * html
 	 *
 	 * @param  String $url
-	 * @param  String $html
+	 * @param  String|Array $html
 	 * @param  Array  $codes
 	 * @param  String $ua
 	 * @param  Bool   $force
@@ -113,6 +113,8 @@ class Validate
 	 */
 	public static function html($url, $html, $codes = array(), $ua = 'using', $force = 0)
 	{
+		if (is_array($html)) Util::error('invalid HTML wa given');
+
 		$codes = $codes ?: self::$codes;
 		$name = static::codes2name($codes);
 		if (isset(static::$results[$url][$name][$ua]) && ! $force) return static::$results[$url][$name][$ua];
@@ -151,10 +153,8 @@ class Validate
 			}
 		}
 
-		$escaped_html = Util::s(static::$hl_htmls[$url]);
-		if ( ! is_string($escaped_html)) Util::error('invalid HTML was given');
 		static::$results[$url][$name][$ua]['html'] = $html;
-		static::$results[$url][$name][$ua]['hl_html'] = self::revertHtml($escaped_html);
+		static::$results[$url][$name][$ua]['hl_html'] = self::revertHtml(Util::s(static::$hl_htmls[$url]));
 		static::$results[$url][$name][$ua]['errors'] = $all_errs;
 		static::$results[$url][$name][$ua]['errs_cnts'] = static::$err_cnts;
 	}
@@ -176,9 +176,7 @@ class Validate
 		if (isset(static::$results[$url][$name][$ua]) && ! $force) return static::$results[$url][$name][$ua];
 
 		// get html and set it to temp value
-		$html = Model\Html::getHtml($url, $ua);
-		if ( ! is_string($html)) Util::error('invalid HTML was given');
-		self::html($url, $html, $codes, $ua, $force);
+		self::html($url, Model\Html::getHtml($url, $ua), $codes, $ua, $force);
 	}
 
 	/**
@@ -449,11 +447,13 @@ class Validate
 	 * @param  Integer $k
 	 * @param  String  $lv
 	 * @param  String  $error_id
-	 * @param  Array   $current_err
+	 * @param  Array|Bool   $current_err
 	 * @return  Array
 	 */
 	private static function replaceSafeStrings($replaces, $k, $lv, $error_id, $current_err)
 	{
+		if ( ! is_array($current_err)) Util::error('invalid error type was given');
+
 		//notice
 		$rplc = isset($current_err['notice']) && $current_err['notice'] ?
 					'a11yc_notice_rplc' :
@@ -481,11 +481,13 @@ class Validate
 	/**
 	 * revert html
 	 *
-	 * @param  String $html
+	 * @param  String|Array $html
 	 * @return String
 	 */
 	public static function revertHtml($html)
 	{
+		if (is_array($html)) Util::error('invalid HTML was given');
+
 		$retval = str_replace(
 			array(
 				// ERROR!

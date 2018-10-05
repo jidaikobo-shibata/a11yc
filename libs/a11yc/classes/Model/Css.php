@@ -122,12 +122,14 @@ class Css
 	 * get css from html
 	 *
 	 * @param  String $html_url
-	 * @param  String $html
+	 * @param  String|Bool $html
 	 * @param  String $ua
 	 * @return String
 	 */
 	private static function getConvinedCssFromHtml($html_url, $html, $ua)
 	{
+		if ( ! is_string($html)) Util::error('invalid HTML was given');
+
 		$css = '';
 		$ua = $ua == 'using' ? Input::userAgent() : $ua;
 

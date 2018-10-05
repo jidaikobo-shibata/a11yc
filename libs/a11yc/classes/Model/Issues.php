@@ -33,7 +33,7 @@ class Issues
 	 * fetch by url
 	 *
 	 * @param  String $url
-	 * @return Bool|Array
+	 * @return Array
 	 */
 	public static function fetchByUrl($url)
 	{
@@ -48,7 +48,7 @@ class Issues
 	 * fetch by status
 	 *
 	 * @param  String $status [0 not yet, 1 in progress, 2 finish]
-	 * @return Bool|Array
+	 * @return Array
 	 */
 	public static function fetchByStatus($status)
 	{
@@ -67,7 +67,7 @@ class Issues
 	/**
 	 * fetch trashed
 	 *
-	 * @return Bool|Array
+	 * @return Array
 	 */
 	public static function fetchTrashed()
 	{
@@ -88,7 +88,7 @@ class Issues
 	 *
 	 * @param  String $url
 	 * @param  String $criterion
-	 * @return Bool|Array
+	 * @return Array
 	 */
 	public static function fetch4Checklist($url, $criterion)
 	{
@@ -103,7 +103,7 @@ class Issues
 	 *
 	 * @param  String $url
 	 * @param  String $html
-	 * @return Bool|Array
+	 * @return Array
 	 */
 	public static function fetch4Validation($url, $html)
 	{

@@ -60,11 +60,13 @@ class Live
 	/**
 	 * modify head
 	 *
-	 * @param  String $html
+	 * @param  String|Bool $html
 	 * @return String
 	 */
 	private static function modifyHead($html)
 	{
+		if ( ! is_string($html)) Util::error('invalid HTML was given');
+
 		$head = mb_substr($html, 0, mb_strpos($html, '</head>') + 7);
 
 		// css
