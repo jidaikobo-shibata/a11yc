@@ -176,25 +176,6 @@ class Post
 	}
 
 	/**
-	 * is in white list
-	 *
-	 * @return Bool
-	 */
-	public static function isInWhiteList()
-	{
-		$ip = Input::server('REMOTE_ADDR', '');
-
-		// performed IPs
-		$is_in_white_list = false;
-		if (defined('A11YC_APPROVED_GUEST_IPS'))
-		{
-			$is_in_white_list = in_array($ip, unserialize(A11YC_APPROVED_GUEST_IPS));
-		}
-
-		return $is_in_white_list;
-	}
-
-	/**
 	 * Action_Validation
 	 *
 	 * @return Void
@@ -363,11 +344,6 @@ class Post
 	 */
 	private static function validate($url, $target_html, $ua, $do_css_check = false)
 	{
-		$all_errs = array(
-			'notices' => array(),
-			'errors'  => array()
-		);
-
 		// check
 		$codes = Validate::$codes;
 		Validate::$do_css_check = $do_css_check;

@@ -56,7 +56,6 @@ class Db
 	 * __construct
 	 *
 	 * @param Array $config
-	 * @return Void
 	 */
 	public function __construct($config)
 	{
@@ -122,6 +121,7 @@ class Db
 	{
 		if ( ! static::isTableExist($table, $name)) return array();
 		$instance = static::instance($name);
+		$retvals = array();
 
 		if ($instance->dbtype == 'sqlite')
 		{
@@ -250,7 +250,6 @@ class Db
 			$name = 'default'
 		)
 	{
-		$retval = FALSE;
 		$dbh = static::instance($name)->dbh->prepare($sql);
 		$dbh->execute($placeholders);
 		$retval = $dbh->fetch(\PDO::FETCH_ASSOC);

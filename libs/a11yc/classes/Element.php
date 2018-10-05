@@ -146,14 +146,12 @@ class Element
 		$suspicious_end_quote = false;
 		$no_space_between_attributes = false;
 
-		$loop = true;
-		while($loop)
+		while(true)
 		{
 			// start with which quotation?
 			$d_offset = mb_strpos($str, '"', 0, 'UTF-8');
 			$s_offset = mb_strpos($str, "'", 0, 'UTF-8');
 
-			$target = '';
 			if ($d_offset && $s_offset)
 			{
 				$target = $d_offset < $s_offset ? self::$double : self::$single;
@@ -168,7 +166,6 @@ class Element
 			}
 			else
 			{
-				$loop = false;
 				break;
 			}
 			$opp = $target == self::$double ? self::$single : self::$double;

@@ -358,6 +358,7 @@ class Css
 			$prop_and_val = trim($prop_and_val);
 
 			// property does't have colon
+			$prop_and_vals = array();
 			if (strpos($prop_and_val, ':') !== false)
 			{
 				$prop_and_vals = explode(':', $prop_and_val);
