@@ -11,6 +11,7 @@
 namespace A11yc\Controller;
 
 use A11yc\Model;
+use A11yc\Validate;
 
 class Live
 {
@@ -40,7 +41,7 @@ class Live
 
 		// validate
 		Validate::url($url);
-		$hl_html = Validate::getHighLightedHtml($url);
+		$hl_html = Validate\Get::highLightedHtml($url);
 
 		// hl_head
 		$hl_head = mb_substr($hl_html, 0, mb_strpos($hl_html, '&lt;/head&gt;') + 13);

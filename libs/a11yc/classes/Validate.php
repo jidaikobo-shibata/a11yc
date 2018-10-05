@@ -128,7 +128,7 @@ class Validate
 		// validate
 		foreach ($codes as $class)
 		{
-			$class = 'A11yc\\Validate\\'.$class;
+			$class = 'A11yc\\Validate\\Check\\'.$class;
 			$class::check($url);
 		}
 
@@ -190,80 +190,6 @@ class Validate
 	{
 		if (isset(static::$csses[$url][$ua])) return static::$csses[$url][$ua];
 		return Model\Css::fetchCss($url, $ua);
-	}
-
-	/**
-	 * getErrorCnts
-	 *
-	 * @param  String $url
-	 * @param  Array  $codes
-	 * @param  String $ua
-	 * @param  Bool   $force
-	 * @return Array
-	 */
-	public static function getErrorCnts($url, $codes = array(), $ua = 'using', $force = false)
-	{
-		$codes = $codes ?: self::$codes;
-		$name = static::codes2name($codes);
-		if (isset(static::$results[$url][$name][$ua]['errs_cnts']) && ! $force) return static::$results[$url][$name][$ua]['errs_cnts'];
-		return array();
-	}
-
-	/**
-	 * getErrors
-	 *
-	 * @param  String $url
-	 * @param  Array  $codes
-	 * @param  String $ua
-	 * @param  Bool   $force
-	 * @return Array
-	 */
-	public static function getErrors($url, $codes = array(), $ua = 'using', $force = false)
-	{
-		$codes = $codes ?: self::$codes;
-		$name = static::codes2name($codes);
-		if (isset(static::$results[$url][$name][$ua]['errors']) && ! $force) return static::$results[$url][$name][$ua]['errors'];
-		return array();
-	}
-
-	/**
-	 * getHighLightedHtml
-	 *
-	 * @param  String $url
-	 * @param  Array  $codes
-	 * @param  String $ua
-	 * @param  Bool   $force
-	 * @return String
-	 */
-	public static function getHighLightedHtml($url, $codes = array(), $ua = 'using', $force = false)
-	{
-		$codes = $codes ?: self::$codes;
-		$name = static::codes2name($codes);
-
-		if (isset(static::$results[$url][$name][$ua]['hl_html']) && ! $force) return static::$results[$url][$name][$ua]['hl_html'];
-		return '';
-	}
-
-	/**
-	 * get error ids
-	 *
-	 * @param  String $url
-	 * @return Array
-	 */
-	public static function getErrorIds($url)
-	{
-		return isset(static::$error_ids[$url]) ? static::$error_ids[$url] : array();
-	}
-
-	/**
-	 * get logs
-	 *
-	 * @param  String $url
-	 * @return Array
-	 */
-	public static function getLogs($url)
-	{
-		return isset(static::$logs[$url]) ? static::$logs[$url] : array();
 	}
 
 	/**

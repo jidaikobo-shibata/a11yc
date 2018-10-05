@@ -60,7 +60,7 @@ class Crawl
 	 */
 	public static function setTargetPath($target_path)
 	{
-		static::$target_path = static::removeFilename($target_path, '/');
+		static::$target_path = static::removeFilename($target_path);
 		static::$target_path_raw = $target_path;
 	}
 
