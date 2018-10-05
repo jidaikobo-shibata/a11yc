@@ -190,10 +190,11 @@ jQuery(function($){
 	});
 });
 function a11yc_smooth_scroll(href) {
-//	console.time('a11yc_smooth_scroll');
 	jQuery(function($){
 		if(!$('.a11yc')[0]) return;
 		//If already scrolling, stop scroll and start from that position
+		console.log(a11yc_env.header_height);
+		
 		$(a11yc_env.scrollable_element).stop();
 		var $t = $(href),
 			t_position = $t[0] ? $t.offset().top : false,
@@ -201,13 +202,13 @@ function a11yc_smooth_scroll(href) {
 		if(t_position === false ) return;
 
 		//move
-		position = t_position - a11yc_env.header_height;
+		position = t_position - ( a11yc_env.header_height + a11yc_env.menu_height );
 		$.when($(a11yc_env.scrollable_element).animate({scrollTop: position},500))
 			.done($t.focus());
 		return false; //
 	});
-//	console.timeEnd('a11yc_smooth_scroll');
 }
+
 /* === confirm === */
 jQuery(function($){
 	$('[data-a11yc-confirm]').on('click', function(e){
