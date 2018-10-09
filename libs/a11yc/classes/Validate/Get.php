@@ -23,7 +23,7 @@ class Get extends Validate
 	 * @param  String $ua
 	 * @param  Bool   $force
 	 * @param  Mixed  $default
-	 * @return Array
+	 * @return Array|String
 	 */
 	private static function base($value, $url, $codes, $ua, $force, $default = array())
 	{
