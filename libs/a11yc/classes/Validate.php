@@ -481,4 +481,51 @@ class Validate
 
 		return $retval;
 	}
+
+	/**
+	 * setError
+	 *
+	 * @param  String $url
+	 * @param  String|Array $error_name
+	 * @param  Integer $count
+	 * @param  String $id
+	 * @param  String $str
+	 * @return Void
+	 */
+	public static function setError($url, $error_name, $count, $id, $str)
+	{
+		static::$logs[$url][$error_name][$id] = -1;
+		static::$error_ids[$url][$error_name][$count]['id'] = $id;
+		static::$error_ids[$url][$error_name][$count]['str'] = $str;
+	}
+
+	/**
+	 * setLog
+	 *
+	 * @param  String $url
+	 * @param  String|Array $error_name
+	 * @param  String $target_str
+	 * @param  Integer $status
+	 * status:
+	 * -1 failed
+	 *  0 ignore
+	 *  1 done
+	 *  2 pased
+	 *  3 exist
+	 *  4 nonexist
+	 *  5 skiped
+	 * @return Void
+	 */
+	public static function setLog($url, $error_name, $target_str, $status)
+	{
+		if (is_array($error_name))
+		{
+			foreach ($error_name as $each_error_name)
+			{
+				static::$logs[$url][$each_error_name][$target_str] = $status;
+			}
+			return;
+		}
+		static::$logs[$url][$error_name][$target_str] = $status;
+	}
 }

@@ -23,23 +23,21 @@ class CssTotal extends Validate
 	 */
 	public static function check($url)
 	{
-		static::$logs[$url]['css_suspicious_paren_num'][self::$unspec] = 5;
-		static::$logs[$url]['css_suspicious_props'][self::$unspec] = 5;
-		static::$logs[$url]['css_suspicious_prop_and_vals'][self::$unspec] = 5;
-		static::$logs[$url]['css_suspicious_prop_and_vals'][self::$unspec] = 5;
+		$error_names = array(
+			'css_suspicious_paren_num',
+			'css_suspicious_props',
+			'css_suspicious_prop_and_vals',
+			'css_suspicious_prop_and_vals',
+		);
+
+		static::setLog($url, $error_names, self::$unspec, 5);
 		if ( ! static::$do_css_check) return;
-		static::$logs[$url]['css_suspicious_paren_num'][self::$unspec] = 1;
-		static::$logs[$url]['css_suspicious_props'][self::$unspec] = 1;
-		static::$logs[$url]['css_suspicious_prop_and_vals'][self::$unspec] = 1;
-		static::$logs[$url]['css_suspicious_prop_and_vals'][self::$unspec] = 1;
+		static::setLog($url, $error_names, self::$unspec, 1);
 
 		$csses = static::css($url);
 		if ( ! $csses)
 		{
-			static::$logs[$url]['css_suspicious_paren_num'][self::$unspec] = 4;
-			static::$logs[$url]['css_suspicious_props'][self::$unspec] = 4;
-			static::$logs[$url]['css_suspicious_prop_and_vals'][self::$unspec] = 4;
-			static::$logs[$url]['css_suspicious_prop_and_vals'][self::$unspec] = 4;
+			static::setLog($url, $error_names, self::$unspec, 4);
 			return;
 		}
 
