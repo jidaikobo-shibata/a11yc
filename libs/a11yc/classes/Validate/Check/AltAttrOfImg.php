@@ -24,7 +24,6 @@ class AltAttrOfImg extends Validate
 	{
 		static::setLog($url, 'alt_attr_of_img', self::$unspec, 1);
 		$str = Element\Get::ignoredHtml($url);
-
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'imgs');
 
 		if ( ! $ms[1])
@@ -43,19 +42,20 @@ class AltAttrOfImg extends Validate
 			$attrs = Element\Get::attributes($m);
 			$file = Arr::get($attrs, 'src');
 			$file = ! empty($file) ? basename($file) : $file;
+
+			// below here alt attribute has to exist.
 			if ( ! array_key_exists('alt', $attrs))
 			{
 				static::setError($url, 'alt_attr_of_img', $k, $tstr, $file);
-				// below here alt attribute has to exist.
 				continue;
 			}
 			static::setLog($url, 'alt_attr_of_img', $tstr, 2);
 
 			// role presentation
-			if (isset($attrs['role']) && $attrs['role'] == 'presentation') continue;
+			if (Arr::get($attrs, 'role') == 'presentation') continue;
 
 			// alt_attr_of_blank_only
-			static::$logs[$url]['alt_attr_of_blank_only'][$tstr] = 1;
+			static::setLog($url, 'alt_attr_of_blank_only', $tstr, 1);
 			if (preg_match('/^[ 　]+?$/', $attrs['alt']))
 			{
 				static::setError($url, 'alt_attr_of_blank_only', $k, $tstr, $file);
@@ -66,7 +66,7 @@ class AltAttrOfImg extends Validate
 			}
 
 			// alt_attr_of_empty
-			static::$logs[$url]['alt_attr_of_empty'][$tstr] = 1;
+			static::setLog($url, 'alt_attr_of_empty', $tstr, 1);
 			if (empty($attrs['alt']))
 			{
 				static::setError($url, 'alt_attr_of_empty', $k, $tstr, $file);
