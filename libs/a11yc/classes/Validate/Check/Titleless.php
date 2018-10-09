@@ -11,6 +11,7 @@
 namespace A11yc\Validate\Check;
 
 use A11yc\Element;
+use A11yc\Validate;
 
 class Titleless extends Validate
 {
@@ -22,9 +23,9 @@ class Titleless extends Validate
 	 */
 	public static function check($url)
 	{
-		static::setLog($url, 'titleless', self::$unspec, 5);
+		Validate\Set::log($url, 'titleless', self::$unspec, 5);
 		if (Validate::$is_partial == true) return;
-		static::setLog($url, 'titleless', self::$unspec, 1);
+		Validate\Set::log($url, 'titleless', self::$unspec, 1);
 
 		$str = Element\Get::ignoredHtml($url);
 
@@ -36,11 +37,11 @@ class Titleless extends Validate
 			preg_match("/\<title[^\>]*?\>[ 　]*?\<\/title/si", $str) // lacknesss of title
 		)
 		{
-			static::setError($url, 'titleless', 0, '', $ms[0][0]);
+			Validate\Set::error($url, 'titleless', 0, '', $ms[0][0]);
 		}
 		else
 		{
-			static::setLog($url, 'titleless', self::$unspec, 2);
+			Validate\Set::log($url, 'titleless', self::$unspec, 2);
 		}
 
 		static::addErrorToHtml($url, 'titleless', static::$error_ids[$url], 'ignores');

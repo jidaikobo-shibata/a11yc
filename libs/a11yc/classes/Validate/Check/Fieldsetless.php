@@ -11,6 +11,7 @@
 namespace A11yc\Validate\Check;
 
 use A11yc\Element;
+use A11yc\Validate;
 
 class Fieldsetless extends Validate
 {
@@ -22,8 +23,8 @@ class Fieldsetless extends Validate
 	 */
 	public static function check($url)
 	{
-		static::setLog($url, 'fieldsetless', self::$unspec, 1);
-		static::setLog($url, 'legendless', self::$unspec, 1);
+		Validate\Set::log($url, 'fieldsetless', self::$unspec, 1);
+		Validate\Set::log($url, 'legendless', self::$unspec, 1);
 		$str = Element\Get::ignoredHtml($url);
 
 		$ms = Element\Get::elementsByRe($str, 'ignores');
@@ -32,8 +33,8 @@ class Fieldsetless extends Validate
 		$radio_check_names = self::getRadioCheckNames($ms[0]);
 		if (isset($radio_check_names[0]) && is_null($radio_check_names[0]))
 		{
-			static::setLog($url, 'fieldsetless', self::$unspec, 4);
-			static::setLog($url, 'legendless', self::$unspec, 4);
+			Validate\Set::log($url, 'fieldsetless', self::$unspec, 4);
+			Validate\Set::log($url, 'legendless', self::$unspec, 4);
 			return;
 		}
 
@@ -122,7 +123,7 @@ class Fieldsetless extends Validate
 			if (strpos($mm, '</legend>') === false)
 			{
 				$tstr = mb_substr($mm, 0, mb_strpos($mm, '>') + 1);
-				static::setError($url, 'legendless', $k, $tstr, $tstr);
+				Validate\Set::error($url, 'legendless', $k, $tstr, $tstr);
 			}
 		}
 	}
@@ -144,7 +145,7 @@ class Fieldsetless extends Validate
 				$attrs = Element\Get::attributes($tstr);
 				if (Arr::get($attrs, 'name') == $radio_check_name)
 				{
-					static::setError($url, 'fieldsetless', $k, $tstr, $tstr);
+					Validate\Set::error($url, 'fieldsetless', $k, $tstr, $tstr);
 					break;
 				}
 			}

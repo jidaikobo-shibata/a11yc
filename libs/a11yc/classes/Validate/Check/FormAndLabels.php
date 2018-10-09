@@ -11,6 +11,7 @@
 namespace A11yc\Validate\Check;
 
 use A11yc\Element;
+use A11yc\Validate;
 
 class FormAndLabels extends Validate
 {
@@ -31,7 +32,7 @@ class FormAndLabels extends Validate
 			'lackness_of_form_ends',
 		);
 
-		static::setLog($url, $error_names, self::$unspec, 1);
+		Validate\Set::log($url, $error_names, self::$unspec, 1);
 		$str = Element\Get::ignoredHtml($url);
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[1]) return;
@@ -39,7 +40,7 @@ class FormAndLabels extends Validate
 		// is form exists?
 		if ( ! in_array('form', $ms[1]))
 		{
-			static::setLog($url, $error_names, self::$unspec, 4);
+			Validate\Set::log($url, $error_names, self::$unspec, 4);
 			return;
 		}
 
@@ -114,12 +115,12 @@ class FormAndLabels extends Validate
 	{
 		if (substr_count($str, '<form') != substr_count($str, '</form'))
 		{
-			static::setError($url, 'lackness_of_form_ends', 0, '', '');
+			Validate\Set::error($url, 'lackness_of_form_ends', 0, '', '');
 			return true;
 		}
 		else
 		{
-			static::setLog($url, 'lackness_of_form_ends', self::$unspec, 2);
+			Validate\Set::log($url, 'lackness_of_form_ends', self::$unspec, 2);
 		}
 		return false;
 	}
@@ -219,14 +220,14 @@ class FormAndLabels extends Validate
 	 */
 	private static function labelless($n, $url, $v, $action)
 	{
-		if ( ! $v['labels'])
-		{
-			static::setError($url, 'labelless', $n, $v['form'], $action);
-		}
-		else
-		{
-			static::setLog($url, 'labelless', self::$unspec, 2);
-		}
+		Validate\Set::errorAndLog(
+			 ! $v['labels'],
+			$url,
+			'labelless',
+			$n,
+			$v['form'],
+			$action
+		);
 	}
 
 	/**
@@ -242,21 +243,21 @@ class FormAndLabels extends Validate
 	 */
 	private static function submitless($n, $url, $v, $action, $uniqued_types, $uniqued_eles)
 	{
-		if (
-			( ! in_array('input', $uniqued_eles) && ! in_array('button', $uniqued_eles)) ||
+		$exp = ( ! in_array('input', $uniqued_eles) && ! in_array('button', $uniqued_eles)) ||
 			(
 				! in_array('button', $uniqued_eles) &&
 				! in_array('submit', $uniqued_types) &&
 				! in_array('image', $uniqued_types)
-			)
-		)
-		{
-			static::setError($url, 'submitless', $n, $v['form'], $action);
-		}
-		else
-		{
-			static::setLog($url, 'submitless', self::$unspec, 2);
-		}
+			);
+
+		Validate\Set::errorAndLog(
+			$exp,
+			$url,
+			'submitless',
+			$n,
+			$v['form'],
+			$action
+		);
 	}
 
 	/**
@@ -296,17 +297,17 @@ class FormAndLabels extends Validate
 				$ms[1][$kk] = trim(strip_tags($each_label)).$alt;
 			}
 
-			if (count($ms[1]) != count(array_unique($ms[1])))
-			{
-				$suspicion_labels = array_diff_assoc($ms[1],array_unique($ms[1]));
-				$suspicion_labels = join(', ', array_unique($suspicion_labels));
+			$suspicion_labels = array_diff_assoc($ms[1],array_unique($ms[1]));
+			$suspicion_labels = join(', ', array_unique($suspicion_labels));
 
-				static::setError($url, 'unique_label', $k, $v['form'], $suspicion_labels);
-			}
-			else
-			{
-				static::setLog($url, 'unique_label', self::$unspec, 2);
-			}
+			Validate\Set::errorAndLog(
+				count($ms[1]) != count(array_unique($ms[1])),
+				$url,
+				'unique_label',
+				$k,
+				$v['form'],
+				$suspicion_labels
+			);
 		}
 	}
 
@@ -331,16 +332,15 @@ class FormAndLabels extends Validate
 				$attrs = Element\Get::attributes($tag);
 				if ( ! isset($attrs['name'])) continue;
 				if (strpos($tag, 'checkbox') !== false || strpos($tag, 'radio') !== false) continue;
-				if (in_array($attrs['name'], $name_arrs))
-				{
-					static::$logs[$url]['duplicated_names'][self::$unspec] = 1;
-					static::$error_ids[$url]['duplicated_names'][$k]['id'] = $v['form'];
-					static::$error_ids[$url]['duplicated_names'][$k]['str'] = $action;
-				}
-				else
-				{
-					static::$logs[$url]['duplicated_names'][self::$unspec] = 2;
-				}
+
+				Validate\Set::errorAndLog(
+					in_array($attrs['name'], $name_arrs),
+					$url,
+					'duplicated_names',
+					$k,
+					$v['form'],
+					$action
+				);
 				$name_arrs[] = $attrs['name'];
 			}
 		}
@@ -384,7 +384,7 @@ class FormAndLabels extends Validate
 					if (count($ele_types) >= 2)
 					{
 						$tstr = $label_m[0];
-						static::setError($url, 'contain_plural_form_elements', $n, $tstr, $tstr);
+						Validate\Set::error($url, 'contain_plural_form_elements', $n, $tstr, $tstr);
 					}
 				}
 			}

@@ -11,6 +11,7 @@
 namespace A11yc\Validate\Check;
 
 use A11yc\Element;
+use A11yc\Validate;
 use A11yc\Model;
 
 class CssContent extends Validate
@@ -23,14 +24,14 @@ class CssContent extends Validate
 	 */
 	public static function check($url)
 	{
-		static::setLog($url, 'css_is_meanfull_content', self::$unspec, 5);
+		Validate\Set::log($url, 'css_is_meanfull_content', self::$unspec, 5);
 		if ( ! static::$do_css_check) return;
-		static::setLog($url, 'css_is_meanfull_content', self::$unspec, 1);
+		Validate\Set::log($url, 'css_is_meanfull_content', self::$unspec, 1);
 
 		$csses = static::css($url);
 		if ( ! $csses)
 		{
-			static::setLog($url, 'css_is_meanfull_content', self::$unspec, 4);
+			Validate\Set::log($url, 'css_is_meanfull_content', self::$unspec, 4);
 			return;
 		}
 
@@ -53,14 +54,14 @@ class CssContent extends Validate
 				}
 				if (in_array(substr($props['content'], 0, 2), array("'\\", '"\\'))) continue; // decoration
 				$tstr = $selector.': '.Util::s($props['content']);
-				static::setError($url, 'css_is_meanfull_content', $k, '', $tstr);
+				Validate\Set::error($url, 'css_is_meanfull_content', $k, '', $tstr);
 				$k++;
 			}
 		}
 
 		if ( ! $is_exists)
 		{
-			static::setLog($url, 'css_is_meanfull_content', self::$unspec, 4);
+			Validate\Set::log($url, 'css_is_meanfull_content', self::$unspec, 4);
 		}
 
 	}

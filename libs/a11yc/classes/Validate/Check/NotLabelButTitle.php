@@ -11,6 +11,7 @@
 namespace A11yc\Validate\Check;
 
 use A11yc\Element;
+use A11yc\Validate;
 
 class NotLabelButTitle extends Validate
 {
@@ -21,7 +22,7 @@ class NotLabelButTitle extends Validate
 	 */
 	public static function check($url)
 	{
-		static::setLog($url, 'not_label_but_title', self::$unspec, 1);
+		Validate\Set::log($url, 'not_label_but_title', self::$unspec, 1);
 		$str = Element\Get::ignoredHtml($url);
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
@@ -32,7 +33,7 @@ class NotLabelButTitle extends Validate
 		// no form elements
 		if (empty($eles))
 		{
-			static::setLog($url, 'not_label_but_title', self::$unspec, 4);
+			Validate\Set::log($url, 'not_label_but_title', self::$unspec, 4);
 			return;
 		}
 
@@ -70,15 +71,14 @@ class NotLabelButTitle extends Validate
 
 			// empty or titleless
 			$title = trim(mb_convert_kana($ele['title'], 's'));
-			if (empty($title))
-			{
-				$tstr = $ele['tag'];
-				static::setError($url, 'not_label_but_title', $k, $tstr, $tstr);
-			}
-			else
-			{
-				static::setLog($url, 'not_label_but_title', $ele['tag'], 2);
-			}
+			Validate\Set::errorAndLog(
+				empty($title),
+				$url,
+				'not_label_but_title',
+				$k,
+				$ele['tag'],
+				$ele['tag']
+			);
 		}
 		static::addErrorToHtml($url, 'not_label_but_title', static::$error_ids[$url], 'ignores');
 	}

@@ -11,6 +11,7 @@
 namespace A11yc\Validate\Check;
 
 use A11yc\Element;
+use A11yc\Validate;
 use A11yc\Model;
 
 class CssTotal extends Validate
@@ -30,52 +31,72 @@ class CssTotal extends Validate
 			'css_suspicious_prop_and_vals',
 		);
 
-		static::setLog($url, $error_names, self::$unspec, 5);
+		Validate\Set::log($url, $error_names, self::$unspec, 5);
 		if ( ! static::$do_css_check) return;
-		static::setLog($url, $error_names, self::$unspec, 1);
+		Validate\Set::log($url, $error_names, self::$unspec, 1);
 
 		$csses = static::css($url);
 		if ( ! $csses)
 		{
-			static::setLog($url, $error_names, self::$unspec, 4);
+			Validate\Set::log($url, $error_names, self::$unspec, 4);
 			return;
 		}
 
-		if (Model\Css::$is_suspicious_paren_num)
-		{
-			static::setError($url, 'css_suspicious_paren_num', 0, '', '');
-		}
-		else
-		{
-			static::setLog($url, 'css_suspicious_paren_num', self::$unspec, 2);
-		}
+		Validate\Set::errorAndLog(
+			Model\Css::$is_suspicious_paren_num,
+			$url,
+			'css_suspicious_paren_num',
+			0,
+			'',
+			''
+		);
 
-		foreach (Model\Css::$suspicious_props as $k => $prop)
-		{
-			static::setError($url, 'css_suspicious_props', $k, '', $prop);
-		}
-		if (static::$logs[$url]['css_suspicious_props'][self::$unspec] != -1)
-		{
-			static::setLog($url, 'css_suspicious_props', self::$unspec, 2);
-		}
+		self::serErrorOrLog(
+			Model\Css::$suspicious_props,
+			$url,
+			'css_suspicious_props',
+			$k,
+			''
+		);
 
-		foreach (Model\Css::$suspicious_prop_and_vals as $k => $prop)
-		{
-			static::setError($url, 'css_suspicious_prop_and_vals', $k, '', $prop);
-		}
-		if (static::$logs[$url]['css_suspicious_prop_and_vals'][self::$unspec] != -1)
-		{
-			static::setLog($url, 'css_suspicious_prop_and_vals', self::$unspec, 2);
-		}
+		self::serErrorOrLog(
+			Model\Css::$suspicious_prop_and_vals,
+			$url,
+			'css_suspicious_prop_and_vals',
+			$k,
+			''
+		);
 
 		foreach (Model\Css::$suspicious_val_prop as $k => $prop)
 		{
-			static::setError($url, 'css_suspicious_prop_and_vals', $k, '', join(':', $prop));
+			Validate\Set::error($url, 'css_suspicious_prop_and_vals', $k, '', join(':', $prop));
 		}
 		if (static::$logs[$url]['css_suspicious_prop_and_vals'][self::$unspec] != -1)
 		{
-			static::setLog($url, 'css_suspicious_prop_and_vals', self::$unspec, 2);
+			Validate\Set::log($url, 'css_suspicious_prop_and_vals', self::$unspec, 2);
 		}
 
+	}
+
+	/**
+	 * set error or log
+	 *
+	 * @param  Array $props
+	 * @param  String $url
+	 * @param  String|Array $error_name
+	 * @param  Integer $count
+	 * @param  String $id
+	 * @return Void
+	 */
+	private static function serErrorOrLog($props, $url, $error_name, $count, $id)
+	{
+		foreach ($props as $k => $prop)
+		{
+			Validate\Set::error($url, $error_name, $count, $id, $prop);
+		}
+		if (static::$logs[$url][$error_name][self::$unspec] != -1)
+		{
+			Validate\Set::log($url, $error_name, self::$unspec, 2);
+		}
 	}
 }

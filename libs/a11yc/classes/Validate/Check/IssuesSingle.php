@@ -11,6 +11,7 @@
 namespace A11yc\Validate\Check;
 
 use A11yc\Element;
+use A11yc\Validate;
 use A11yc\Model;
 
 class IssuesSingle extends Validate

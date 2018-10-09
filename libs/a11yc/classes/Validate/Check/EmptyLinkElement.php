@@ -11,6 +11,7 @@
 namespace A11yc\Validate\Check;
 
 use A11yc\Element;
+use A11yc\Validate;
 
 class EmptyLinkElement extends Validate
 {
@@ -22,7 +23,7 @@ class EmptyLinkElement extends Validate
 	 */
 	public static function check($url)
 	{
-		static::setLog($url, 'empty_link_element', self::$unspec, 1);
+		Validate\Set::log($url, 'empty_link_element', self::$unspec, 1);
 		$str = Element\Get::ignoredHtml($url);
 
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'anchors_and_values');
@@ -47,16 +48,14 @@ class EmptyLinkElement extends Validate
 				$text = self::getAriaLabel($ms[0][$k], $text);
 			}
 
-			$tstr = $ms[0][$k];
-
-			if (empty($text))
-			{
-				static::setError($url, 'empty_link_element', $k, $tstr, $tstr);
-			}
-			else
-			{
-				static::setLog($url, 'empty_link_element', $tstr, 2);
-			}
+			Validate\Set::errorAndLog(
+				empty($text),
+				$url,
+				'empty_link_element',
+				$k,
+				$ms[0][$k],
+				$ms[0][$k]
+			);
 		}
 		static::addErrorToHtml($url, 'empty_link_element', static::$error_ids[$url], 'ignores');
 	}

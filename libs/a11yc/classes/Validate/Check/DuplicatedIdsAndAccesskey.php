@@ -11,6 +11,7 @@
 namespace A11yc\Validate\Check;
 
 use A11yc\Element;
+use A11yc\Validate;
 
 class DuplicatedIdsAndAccesskey extends Validate
 {
@@ -22,8 +23,8 @@ class DuplicatedIdsAndAccesskey extends Validate
 	 */
 	public static function check($url)
 	{
-		static::setLog($url, 'duplicated_ids', self::$unspec, 1);
-		static::setLog($url, 'duplicated_accesskeys', self::$unspec, 1);
+		Validate\Set::log($url, 'duplicated_ids', self::$unspec, 1);
+		Validate\Set::log($url, 'duplicated_accesskeys', self::$unspec, 1);
 		$str = Element\Get::ignoredHtml($url);
 
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
@@ -44,7 +45,7 @@ class DuplicatedIdsAndAccesskey extends Validate
 				$is_exists_id = true;
 				if (in_array($attrs['id'], $ids))
 				{
-					static::setError($url, 'duplicated_ids', $k, $tstr, $attrs['id']);
+					Validate\Set::error($url, 'duplicated_ids', $k, $tstr, $attrs['id']);
 				}
 				$ids[] = $attrs['id'];
 			}
@@ -55,7 +56,7 @@ class DuplicatedIdsAndAccesskey extends Validate
 				$is_exists_ack = true;
 				if (in_array($attrs['accesskey'], $accesskeys))
 				{
-					static::setError($url, 'duplicated_accesskeys', $k, $tstr, $attrs['accesskey']);
+					Validate\Set::error($url, 'duplicated_accesskeys', $k, $tstr, $attrs['accesskey']);
 				}
 				$accesskeys[] = $attrs['accesskey'];
 			}
@@ -63,8 +64,8 @@ class DuplicatedIdsAndAccesskey extends Validate
 
 		$duplicated_ids_flag = $is_exists_id ? 3 : 4;
 		$duplicated_accesskeys_flag = $is_exists_ack ? 3 : 4;
-		static::setLog($url, 'duplicated_ids', self::$unspec, $duplicated_ids_flag);
-		static::setLog($url, 'duplicated_accesskeys', self::$unspec, $duplicated_accesskeys_flag);
+		Validate\Set::log($url, 'duplicated_ids', self::$unspec, $duplicated_ids_flag);
+		Validate\Set::log($url, 'duplicated_accesskeys', self::$unspec, $duplicated_accesskeys_flag);
 
 		static::addErrorToHtml($url, 'duplicated_ids', static::$error_ids[$url], 'ignores');
 		static::addErrorToHtml($url, 'duplicated_accesskeys', static::$error_ids[$url], 'ignores');

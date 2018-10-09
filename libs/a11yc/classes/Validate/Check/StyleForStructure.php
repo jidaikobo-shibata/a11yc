@@ -11,6 +11,7 @@
 namespace A11yc\Validate\Check;
 
 use A11yc\Element;
+use A11yc\Validate;
 
 class StyleForStructure extends Validate
 {
@@ -22,7 +23,7 @@ class StyleForStructure extends Validate
 	 */
 	public static function check($url)
 	{
-		static::setLog($url, 'style_for_structure', self::$unspec, 1);
+		Validate\Set::log($url, 'style_for_structure', self::$unspec, 1);
 		$str = Element\Get::ignoredHtml($url);
 
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
@@ -33,17 +34,16 @@ class StyleForStructure extends Validate
 			$tstr = $ms[0][$k];
 			$attrs = Element\Get::attributes($m);
 			if ( ! array_key_exists('style', $attrs)) continue;
-			if (
+
+			Validate\Set::errorAndLog(
 				strpos($attrs['style'], 'size') !== false ||
-				strpos($attrs['style'], 'color') !== false // includes background-color
-			)
-			{
-				static::setError($url, 'style_for_structure', $k, $tstr, $m);
-			}
-			else
-			{
-				static::setLog($url, 'style_for_structure', $tstr, 2);
-			}
+				strpos($attrs['style'], 'color') !== false, // includes background-color
+				$url,
+				'style_for_structure',
+				$k,
+				$tstr,
+				$m
+			);
 		}
 		static::addErrorToHtml($url, 'style_for_structure', static::$error_ids[$url], 'ignores');
 	}

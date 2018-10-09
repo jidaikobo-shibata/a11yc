@@ -11,6 +11,7 @@
 namespace A11yc\Validate\Check;
 
 use A11yc\Element;
+use A11yc\Validate;
 
 class AppropriateHeadingDescending extends Validate
 {
@@ -22,13 +23,13 @@ class AppropriateHeadingDescending extends Validate
 	 */
 	public static function check($url)
 	{
-		static::setLog($url, 'appropriate_heading_descending', self::$unspec, 1);
+		Validate\Set::log($url, 'appropriate_heading_descending', self::$unspec, 1);
 		$str = Element\Get::ignoredHtml($url);
 
 		$secs = preg_split("/\<(h[^\>?]+?)\>(.+?)\<\/h\d/", $str, -1, PREG_SPLIT_DELIM_CAPTURE);
 		if ( ! $secs[0])
 		{
-			static::setLog($url, 'appropriate_heading_descending', self::$unspec, 4);
+			Validate\Set::log($url, 'appropriate_heading_descending', self::$unspec, 4);
 			return;
 		}
 
@@ -52,11 +53,11 @@ class AppropriateHeadingDescending extends Validate
 			if ($current_level - $prev >= 2)
 			{
 				$str = isset($secs[$k + 1]) ? $secs[$k + 1] : $v[1];
-				static::setError($url, 'appropriate_heading_descending', $k, $tstr, $str);
+				Validate\Set::error($url, 'appropriate_heading_descending', $k, $tstr, $str);
 			}
 			else
 			{
-				static::setLog($url, 'appropriate_heading_descending', $tstr, 2);
+				Validate\Set::log($url, 'appropriate_heading_descending', $tstr, 2);
 			}
 			$prev = $current_level;
 		}

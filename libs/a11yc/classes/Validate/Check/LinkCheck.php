@@ -11,6 +11,7 @@
 namespace A11yc\Validate\Check;
 
 use A11yc\Element;
+use A11yc\Validate;
 
 class LinkCheck extends Validate
 {
@@ -22,9 +23,9 @@ class LinkCheck extends Validate
 	 */
 	public static function check($url)
 	{
-		static::setLog($url, 'link_check', self::$unspec, 5);
+		Validate\Set::log($url, 'link_check', self::$unspec, 5);
 		if ( ! static::$do_link_check) return;
-		static::setLog($url, 'link_check', self::$unspec, 1);
+		Validate\Set::log($url, 'link_check', self::$unspec, 1);
 
 		$str = Element\Get::ignoredHtml($url);
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
@@ -56,7 +57,7 @@ class LinkCheck extends Validate
 			{
 				if ( ! in_array(substr($target_url, 1), $fragments[1]))
 				{
-					static::setError($url, 'link_check', $k, $tag, 'Fragment Not Found: '.$target_url);
+					Validate\Set::error($url, 'link_check', $k, $tag, 'Fragment Not Found: '.$target_url);
 				}
 				continue;
 			}
@@ -72,7 +73,7 @@ class LinkCheck extends Validate
 			// links
 			if ( ! Crawl::isPageExist($target_url))
 			{
-				static::setError($url, 'link_check', $k, $tag, 'Not Found: '.$target_url);
+				Validate\Set::error($url, 'link_check', $k, $tag, 'Not Found: '.$target_url);
 				continue;
 			}
 
@@ -80,7 +81,7 @@ class LinkCheck extends Validate
 			$headers = @get_headers($target_url);
 			if ($headers !== false && strpos($headers[0], ' 40') !== false)
 			{
-				static::setError($url, 'link_check', $k, $tag, 'header 40x: '.$target_url);
+				Validate\Set::error($url, 'link_check', $k, $tag, 'header 40x: '.$target_url);
 			}
 		}
 

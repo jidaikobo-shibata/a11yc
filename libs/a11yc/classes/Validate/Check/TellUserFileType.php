@@ -11,6 +11,7 @@
 namespace A11yc\Validate\Check;
 
 use A11yc\Element;
+use A11yc\Validate;
 
 class TellUserFileType extends Validate
 {
@@ -22,7 +23,7 @@ class TellUserFileType extends Validate
 	 */
 	public static function check($url)
 	{
-		static::setLog($url, 'tell_user_file_type', self::$unspec, 1);
+		Validate\Set::log($url, 'tell_user_file_type', self::$unspec, 1);
 		$str = Element\Get::ignoredHtml($url);
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'anchors_and_values');
 		if ( ! $ms[1]) return;
@@ -57,27 +58,28 @@ class TellUserFileType extends Validate
 					$tstr = $ms[0][$k];
 
 					// better text
-					if (
-						// null means lower php version
-						(is_null($is_exists) || $is_exists === true) &&
+					$is_better_text =
+						(is_null($is_exists) || $is_exists === true) && // null means lower php version
 						(
 							strpos(strtolower($f_inner), $vv) === false || // lacknesss of file type
 							preg_match("/\d/", $f_inner) === false // lacknesss of filesize?
-						)
-					)
-					{
-						static::setError($url, 'tell_user_file_type', $k, $tstr, $href.': '.$inner.$len);
-					}
-					else
-					{
-						static::setLog($url, 'tell_user_file_type', $tstr, 2);
-					}
+						);
+
+
+					Validate\Set::errorAndLog(
+						$is_better_text,
+						$url,
+						'tell_user_file_type',
+						$k,
+						$tstr,
+						$href.': '.$inner.$len
+					);
 
 					// broken link
 					if (is_null($is_exists)) continue;
 					if ($is_exists === false)
 					{
-						static::setError($url, 'link_check', $k, $tstr, $href);
+						Validate\Set::error($url, 'link_check', $k, $tstr, $href);
 					}
 				}
 			}

@@ -11,6 +11,7 @@
 namespace A11yc\Validate\Check;
 
 use A11yc\Element;
+use A11yc\Validate;
 
 class TitlelessFrame extends Validate
 {
@@ -22,7 +23,7 @@ class TitlelessFrame extends Validate
 	 */
 	public static function check($url)
 	{
-		static::setLog($url, 'titleless_frame', self::$unspec, 1);
+		Validate\Set::log($url, 'titleless_frame', self::$unspec, 1);
 
 		$str = Element\Get::ignoredHtml($url);
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
@@ -34,14 +35,15 @@ class TitlelessFrame extends Validate
 			$attrs = Element\Get::attributes($v);
 			$tstr = $ms[0][$k];
 
-			if ( ! trim(Arr::get($attrs, 'title')))
-			{
-				static::setError($url, 'titleless_frame', $k, '', $tstr);
-			}
-			else
-			{
-				static::setLog($url, 'titleless_frame', $tstr, 2);
-			}
+
+			Validate\Set::errorAndLog(
+				 ! trim(Arr::get($attrs, 'title')),
+				$url,
+				'titleless_frame',
+				$k,
+				'',
+				$tstr
+			);
 		}
 		static::addErrorToHtml($url, 'titleless_frame', static::$error_ids[$url], 'ignores');
 	}

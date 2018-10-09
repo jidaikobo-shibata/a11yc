@@ -11,6 +11,7 @@
 namespace A11yc\Validate\Check;
 
 use A11yc\Element;
+use A11yc\Validate;
 
 class HeaderlessSection extends Validate
 {
@@ -22,28 +23,29 @@ class HeaderlessSection extends Validate
 	 */
 	public static function check($url)
 	{
-		static::setLog($url, 'headerless_section', self::$unspec, 1);
+		Validate\Set::log($url, 'headerless_section', self::$unspec, 1);
 		$str = Element\Get::ignoredHtml($url);
 
 		preg_match_all("/\<section[^\>]*?\>(.+?)\<\/section\>/is", $str, $secs);
 
 		if ( ! $secs[0])
 		{
-			static::setLog($url, 'headerless_section', self::$unspec, 4);
+			Validate\Set::log($url, 'headerless_section', self::$unspec, 4);
 			return;
 		}
 
 		foreach ($secs[0] as $k => $v)
 		{
 			$tstr = Element\Get::firstTag($v);
-			if ( ! preg_match("/\<h\d/", $v))
-			{
-				static::setError($url, 'headerless_section', $k, $tstr, $tstr);
-			}
-			else
-			{
-				static::setLog($url, 'headerless_section', $tstr, 2);
-			}
+
+			Validate\Set::errorAndLog(
+				 ! preg_match("/\<h\d/", $v),
+				$url,
+				'headerless_section',
+				$k,
+				$tstr,
+				$tstr
+			);
 		}
 		static::addErrorToHtml($url, 'headerless_section', static::$error_ids[$url], 'ignores');
 	}

@@ -11,6 +11,7 @@
 namespace A11yc\Validate\Check;
 
 use A11yc\Element;
+use A11yc\Validate;
 
 class SameAltAndFilenameOfImg extends Validate
 {
@@ -22,12 +23,12 @@ class SameAltAndFilenameOfImg extends Validate
 	 */
 	public static function check($url)
 	{
-		static::setLog($url, 'same_alt_and_filename_of_img', self::$unspec, 1);
+		Validate\Set::log($url, 'same_alt_and_filename_of_img', self::$unspec, 1);
 		$str = Element\Get::ignoredHtml($url);
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'imgs');
 		if ( ! $ms[0])
 		{
-			static::setLog($url, 'same_alt_and_filename_of_img', self::$unspec, 4);
+			Validate\Set::log($url, 'same_alt_and_filename_of_img', self::$unspec, 4);
 			return;
 		}
 
@@ -39,18 +40,17 @@ class SameAltAndFilenameOfImg extends Validate
 			$tstr = $m;
 
 			$filename = basename($attrs['src']);
-			if (
+
+			Validate\Set::errorAndLog(
 				$attrs['alt'] == $filename || // within extension
 				$attrs['alt'] == substr($filename, 0, strrpos($filename, '.')) || // without extension
-				$attrs['alt'] == substr($filename, 0, strrpos($filename, '-')) // without size
-			)
-			{
-				static::setError($url, 'same_alt_and_filename_of_img', $k, $tstr, '"'.$filename.'"');
-			}
-			else
-			{
-				static::setLog($url, 'same_alt_and_filename_of_img', $tstr, 2);
-			}
+				$attrs['alt'] == substr($filename, 0, strrpos($filename, '-')), // without size
+				$url,
+				'same_alt_and_filename_of_img',
+				$k,
+				$tstr,
+				'"'.$filename.'"'
+			);
 		}
 		static::addErrorToHtml($url, 'same_alt_and_filename_of_img', static::$error_ids[$url], 'ignores');
 	}

@@ -11,6 +11,7 @@
 namespace A11yc\Validate\Check;
 
 use A11yc\Element;
+use A11yc\Validate;
 
 class MustBeNumericAttr extends Validate
 {
@@ -23,12 +24,12 @@ class MustBeNumericAttr extends Validate
 	{
 		return; // studying
 /*
-		static::setLog($url, 'must_be_numeric_attr', self::$unspec, 1);
+		Validate\Set::log($url, 'must_be_numeric_attr', self::$unspec, 1);
 		$str = Element\Get::ignoredHtml($url);
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0])
 		{
-			static::setLog($url, 'must_be_numeric_attr', self::$unspec, 4);
+			Validate\Set::log($url, 'must_be_numeric_attr', self::$unspec, 4);
 			return;
 		}
 
@@ -46,14 +47,15 @@ class MustBeNumericAttr extends Validate
 			{
 				if ( ! in_array($attr, $targets)) continue;
 
-				if ( ! is_numeric($val))
-				{
-					static::setError($url, 'must_be_numeric_attr', $k, $v, $attr);
-				}
-				else
-				{
-					static::setLog($url, 'must_be_numeric_attr', $v, 2);
-				}
+
+				Validate\Set::errorAndLog(
+					 ! is_numeric($val),
+					$url,
+					'must_be_numeric_attr',
+					$k,
+					$v,
+					$attr
+				);
 			}
 		}
 		static::addErrorToHtml($url, 'must_be_numeric_attr', static::$error_ids[$url], 'ignores');

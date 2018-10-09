@@ -11,6 +11,7 @@
 namespace A11yc\Validate\Check;
 
 use A11yc\Element;
+use A11yc\Validate;
 
 class CheckDoctype extends Validate
 {
@@ -24,18 +25,18 @@ class CheckDoctype extends Validate
 	{
 		if (Validate::$is_partial == true)
 		{
-			static::setLog($url, 'check_doctype', self::$unspec, 5);
+			Validate\Set::log($url, 'check_doctype', self::$unspec, 5);
 			return;
 		}
-		static::setLog($url, 'check_doctype', self::$unspec, 1);
+		Validate\Set::log($url, 'check_doctype', self::$unspec, 1);
 
 		if (is_null(Element\Get::doctype($url)))
 		{
-			static::setError($url, 'check_doctype', 0, '', 'doctype not found');
+			Validate\Set::error($url, 'check_doctype', 0, '', 'doctype not found');
 		}
 		else
 		{
-			static::setLog($url, 'check_doctype', self::$unspec, 2);
+			Validate\Set::log($url, 'check_doctype', self::$unspec, 2);
 		}
 		static::addErrorToHtml($url, 'check_doctype', static::$error_ids[$url]);
 	}

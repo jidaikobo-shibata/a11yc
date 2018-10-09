@@ -11,6 +11,7 @@
 namespace A11yc\Validate\Check;
 
 use A11yc\Element;
+use A11yc\Validate;
 
 class UnclosedElements extends Validate
 {
@@ -22,7 +23,7 @@ class UnclosedElements extends Validate
 	 */
 	public static function check($url)
 	{
-		static::setLog($url, 'unclosed_elements', self::$unspec, 1);
+		Validate\Set::log($url, 'unclosed_elements', self::$unspec, 1);
 		$str = Element\Get::ignoredHtml($url);
 
 		// tags
@@ -31,7 +32,7 @@ class UnclosedElements extends Validate
 		if ( ! $tags[0]) return;
 		foreach ($tags[0] as $k => $m)
 		{
-			static::setError($url, 'unclosed_elements', $k, $m, $m);
+			Validate\Set::error($url, 'unclosed_elements', $k, $m, $m);
 		}
 		static::addErrorToHtml($url, 'unclosed_elements', static::$error_ids[$url], 'ignores');
 	}

@@ -11,6 +11,7 @@
 namespace A11yc\Validate\Check;
 
 use A11yc\Element;
+use A11yc\Validate;
 
 class ImgInputHasAlt extends Validate
 {
@@ -21,7 +22,7 @@ class ImgInputHasAlt extends Validate
 	 */
 	public static function check($url)
 	{
-		static::setLog($url, 'img_input_has_alt', self::$unspec, 1);
+		Validate\Set::log($url, 'img_input_has_alt', self::$unspec, 1);
 		$str = Element\Get::ignoredHtml($url);
 
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
@@ -35,15 +36,16 @@ class ImgInputHasAlt extends Validate
 			if (isset($attrs['type']) && $attrs['type'] != 'image') continue;
 			$tstr = $ms[0][$k];
 
-			if ( ! isset($attrs['alt']) || empty($attrs['alt']))
-			{
-				$src = basename(Arr::get($attrs, 'src', ''));
-				static::setError($url, 'img_input_has_alt', $k, $tstr, $src);
-			}
-			else
-			{
-				static::setLog($url, 'img_input_has_alt', $tstr, 2);
-			}
+			$src = basename(Arr::get($attrs, 'src', ''));
+
+			Validate\Set::errorAndLog(
+				 ! isset($attrs['alt']) || empty($attrs['alt']),
+				$url,
+				'img_input_has_alt',
+				$k,
+				$tstr,
+				$src
+			);
 		}
 		static::addErrorToHtml($url, 'img_input_has_alt', static::$error_ids[$url], 'ignores');
 	}

@@ -11,6 +11,7 @@
 namespace A11yc\Validate\Check;
 
 use A11yc\Element;
+use A11yc\Validate;
 
 class EmptyAltAttrOfImgInsideA extends Validate
 {
@@ -22,14 +23,14 @@ class EmptyAltAttrOfImgInsideA extends Validate
 	 */
 	public static function check($url)
 	{
-		static::setLog($url, 'empty_alt_attr_of_img_inside_a', self::$unspec, 1);
+		Validate\Set::log($url, 'empty_alt_attr_of_img_inside_a', self::$unspec, 1);
 
 		$str = Element\Get::ignoredHtml($url);
 
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'anchors_and_values');
 		if ( ! $ms[2])
 		{
-			static::setLog($url, 'empty_alt_attr_of_img_inside_a', self::$unspec, 4);
+			Validate\Set::log($url, 'empty_alt_attr_of_img_inside_a', self::$unspec, 4);
 			return;
 		}
 
@@ -56,11 +57,11 @@ class EmptyAltAttrOfImgInsideA extends Validate
 
 			if ( ! $alt)
 			{
-				static::setError($url, 'empty_alt_attr_of_img_inside_a', $k, $tstr, $src);
+				Validate\Set::error($url, 'empty_alt_attr_of_img_inside_a', $k, $tstr, $src);
 			}
 			else
 			{
-				static::setLog($url, 'empty_alt_attr_of_img_inside_a', $tstr, 2);
+				Validate\Set::log($url, 'empty_alt_attr_of_img_inside_a', $tstr, 2);
 			}
 		}
 

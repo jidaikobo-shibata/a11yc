@@ -11,6 +11,7 @@
 namespace A11yc\Validate\Check;
 
 use A11yc\Element;
+use A11yc\Validate;
 
 class MetaRefresh extends Validate
 {
@@ -22,9 +23,9 @@ class MetaRefresh extends Validate
 	 */
 	public static function check($url)
 	{
-		static::setLog($url, 'meta_refresh', self::$unspec, 5);
+		Validate\Set::log($url, 'meta_refresh', self::$unspec, 5);
 		if (Validate::$is_partial == true) return;
-		static::setLog($url, 'meta_refresh', self::$unspec, 1);
+		Validate\Set::log($url, 'meta_refresh', self::$unspec, 1);
 
 		$str = Element\Get::ignoredHtml($url);
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
@@ -44,17 +45,15 @@ class MetaRefresh extends Validate
 			// ignore zero refresh
 			// see http://www.ciaj.or.jp/access/web/docs/WCAG-TECHS/H76.html
 			$content = $attrs['content'];
-			if (
+			Validate\Set::errorAndLog(
 				trim(substr($content, 0, strpos($content, ';'))) != '0' ||
-				(strpos($content, ';') === false && trim($content) != '0')
-			)
-			{
-				static::setError($url, 'meta_refresh', 0, $tstr, $tstr);
-			}
-			else
-			{
-				static::setLog($url, 'meta_refresh', $tstr, 2);
-			}
+				(strpos($content, ';') === false && trim($content) != '0'),
+				$url,
+				'meta_refresh',
+				0,
+				$tstr,
+				$tstr
+			);
 		}
 		static::addErrorToHtml($url, 'meta_refresh', static::$error_ids[$url], 'ignores');
 	}

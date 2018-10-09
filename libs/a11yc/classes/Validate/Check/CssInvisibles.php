@@ -11,6 +11,7 @@
 namespace A11yc\Validate\Check;
 
 use A11yc\Element;
+use A11yc\Validate;
 use A11yc\Model;
 
 class CssInvisibles extends Validate
@@ -23,17 +24,17 @@ class CssInvisibles extends Validate
 	 */
 	public static function check($url)
 	{
-		static::setLog($url, 'css_invisible', self::$unspec, 5);
-		static::setLog($url, 'css_background_image_only', self::$unspec, 5);
+		Validate\Set::log($url, 'css_invisible', self::$unspec, 5);
+		Validate\Set::log($url, 'css_background_image_only', self::$unspec, 5);
 		if ( ! static::$do_css_check) return;
-		static::setLog($url, 'css_invisible', self::$unspec, 1);
-		static::setLog($url, 'css_background_image_only', self::$unspec, 1);
+		Validate\Set::log($url, 'css_invisible', self::$unspec, 1);
+		Validate\Set::log($url, 'css_background_image_only', self::$unspec, 1);
 
 		$csses = static::css($url);
 		if ( ! $csses)
 		{
-			static::setLog($url, 'css_invisible', self::$unspec, 4);
-			static::setLog($url, 'css_background_image_only', self::$unspec, 4);
+			Validate\Set::log($url, 'css_invisible', self::$unspec, 4);
+			Validate\Set::log($url, 'css_background_image_only', self::$unspec, 4);
 			return;
 		}
 
@@ -52,7 +53,7 @@ class CssInvisibles extends Validate
 				)
 				{
 					$is_exists_visible = true;
-					static::setError($url, 'css_invisible', $k, '', $selector);
+					Validate\Set::error($url, 'css_invisible', $k, '', $selector);
 				}
 
 				// background-image without background-color
@@ -75,7 +76,7 @@ class CssInvisibles extends Validate
 							! isset($props['background-color'])
 						)
 						{
-							static::setError($url, 'css_background_image_only', $k, '', $selector);
+							Validate\Set::error($url, 'css_background_image_only', $k, '', $selector);
 						}
 					}
 				}
@@ -85,12 +86,12 @@ class CssInvisibles extends Validate
 
 		if ( ! $is_exists_visible)
 		{
-			static::setLog($url, 'css_invisible', self::$unspec, 4);
+			Validate\Set::log($url, 'css_invisible', self::$unspec, 4);
 		}
 
 		if ( ! $is_exists_bg)
 		{
-			static::setLog($url, 'css_background_image_only', self::$unspec, 4);
+			Validate\Set::log($url, 'css_background_image_only', self::$unspec, 4);
 		}
 
 	}

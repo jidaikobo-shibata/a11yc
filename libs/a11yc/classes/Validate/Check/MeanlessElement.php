@@ -11,6 +11,7 @@
 namespace A11yc\Validate\Check;
 
 use A11yc\Element;
+use A11yc\Validate;
 
 class MeanlessElement extends Validate
 {
@@ -22,8 +23,8 @@ class MeanlessElement extends Validate
 	 */
 	public static function check($url)
 	{
-		static::setLog($url, 'meanless_element', self::$unspec, 1);
-		static::setLog($url, 'meanless_element_timing', self::$unspec, 1);
+		Validate\Set::log($url, 'meanless_element', self::$unspec, 1);
+		Validate\Set::log($url, 'meanless_element_timing', self::$unspec, 1);
 		$str = Element\Get::ignoredHtml($url);
 
 		$banneds = array(
@@ -55,11 +56,11 @@ class MeanlessElement extends Validate
 				{
 					if (strpos($tag, '<blink') !== false || strpos($tag, '<marquee') !== false )
 					{
-						static::setError($url, 'meanless_element_timing', $n, $tag, $tag);
+						Validate\Set::error($url, 'meanless_element_timing', $n, $tag, $tag);
 					}
 					else
 					{
-						static::setError($url, 'meanless_element', $n, $tag, $tag);
+						Validate\Set::error($url, 'meanless_element', $n, $tag, $tag);
 					}
 					$n++;
 				}

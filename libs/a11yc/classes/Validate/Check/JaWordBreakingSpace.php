@@ -11,6 +11,8 @@
 namespace A11yc\Validate\Check;
 
 use A11yc\Element;
+use A11yc\Validate;
+
 class JaWordBreakingSpace extends Validate
 {
 	/**
@@ -21,9 +23,9 @@ class JaWordBreakingSpace extends Validate
 	 */
 	public static function check($url)
 	{
-		static::setLog($url, 'ja_word_breaking_space', self::$unspec, 5);
+		Validate\Set::log($url, 'ja_word_breaking_space', self::$unspec, 5);
 		if (strpos(Element\Get::lang($url), 'ja') === false) return false;
-		static::setLog($url, 'ja_word_breaking_space', self::$unspec, 1);
+		Validate\Set::log($url, 'ja_word_breaking_space', self::$unspec, 1);
 
 		$str = Element\Get::ignoredHtml($url);
 		// $str = str_replace(array("\n", "\r"), '', $str);
@@ -36,7 +38,7 @@ class JaWordBreakingSpace extends Validate
 		foreach ($ms[1] as $k => $m)
 		{
 			$tstr = $ms[0][$k];
-			static::setError($url, 'ja_word_breaking_space', $k, $tstr, $m);
+			Validate\Set::error($url, 'ja_word_breaking_space', $k, $tstr, $m);
 		}
 
 		static::addErrorToHtml($url, 'ja_word_breaking_space', static::$error_ids[$url], 'ignores');

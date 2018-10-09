@@ -11,6 +11,7 @@
 namespace A11yc\Validate\Check;
 
 use A11yc\Element;
+use A11yc\Validate;
 
 class SameUrlsShouldHaveSameText extends Validate
 {
@@ -24,14 +25,14 @@ class SameUrlsShouldHaveSameText extends Validate
 	 */
 	public static function check($url)
 	{
-		static::setLog($url, 'same_urls_should_have_same_text', self::$unspec, 1);
+		Validate\Set::log($url, 'same_urls_should_have_same_text', self::$unspec, 1);
 
 		// urls
 		$str = Element\Get::ignoredHtml($url);
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'anchors_and_values');
 		if ( ! $ms[1])
 		{
-			static::setLog($url, 'same_urls_should_have_same_text', self::$unspec, 4);
+			Validate\Set::log($url, 'same_urls_should_have_same_text', self::$unspec, 4);
 			return;
 		}
 
@@ -64,12 +65,12 @@ class SameUrlsShouldHaveSameText extends Validate
 			if ( ! array_key_exists($each_url, $urls))
 			{
 				$urls[$each_url] = $text;
-				static::setLog($url, 'same_urls_should_have_same_text', $tstr, 3);
+				Validate\Set::log($url, 'same_urls_should_have_same_text', $tstr, 3);
 			}
 			// ouch! same text
 			else if ($urls[$each_url] != $text)
 			{
-				static::setError(
+				Validate\Set::error(
 					$url,
 					'same_urls_should_have_same_text',
 					$k,

@@ -11,6 +11,7 @@
 namespace A11yc\Validate\Check;
 
 use A11yc\Element;
+use A11yc\Validate;
 
 class Langless extends Validate
 {
@@ -22,9 +23,9 @@ class Langless extends Validate
 	 */
 	public static function check($url)
 	{
-		static::setLog($url, 'langless', self::$unspec, 5);
+		Validate\Set::log($url, 'langless', self::$unspec, 5);
 		if (Validate::$is_partial == true) return;
-		static::setLog($url, 'langless', self::$unspec, 1);
+		Validate\Set::log($url, 'langless', self::$unspec, 1);
 
 		// do not use Element\Get::ignoredHtml() and Element\Get::elementsByRe()
 		// in case of "<html>" is in comment out
@@ -47,13 +48,13 @@ class Langless extends Validate
 		// is lang exists?
 		if ( ! isset($has_langs[1]) || ! in_array('html', $has_langs[1]))
 		{
-			static::setError($url, 'langless', 0, '', Arr::get($ms, '0.0'));
+			Validate\Set::error($url, 'langless', 0, '', Arr::get($ms, '0.0'));
 			static::addErrorToHtml($url, 'langless', static::$error_ids[$url]);
 			return;
 		}
 		else
 		{
-			static::setLog($url, 'langless', self::$unspec, 2);
+			Validate\Set::log($url, 'langless', self::$unspec, 2);
 		}
 
 		$ietf_subtags = require(A11YC_PATH.'/resources/ietf_langs.php');
@@ -72,12 +73,12 @@ class Langless extends Validate
 				// 3.1.1
 				if ($has_langs[1][$k] == 'html')
 				{
-					static::setError($url, 'invalid_page_lang', $k, $tstr, $tstr);
+					Validate\Set::error($url, 'invalid_page_lang', $k, $tstr, $tstr);
 				}
 				// 3.1.2
 				else
 				{
-					static::setError($url, 'invalid_partial_lang', $k, $tstr, $tstr);
+					Validate\Set::error($url, 'invalid_partial_lang', $k, $tstr, $tstr);
 				}
 			}
 		}

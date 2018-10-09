@@ -11,6 +11,7 @@
 namespace A11yc\Validate\Check;
 
 use A11yc\Element;
+use A11yc\Validate;
 
 class Table extends Validate
 {
@@ -30,14 +31,14 @@ class Table extends Validate
 			'table_use_caption',
 		);
 
-		static::setLog($url, $error_names, self::$unspec, 1);
+		Validate\Set::log($url, $error_names, self::$unspec, 1);
 		$str = Element\Get::ignoredHtml($url);
 
 		preg_match_all('/\<table[^\>]*?\>.+?\<\/table\>/ims', $str, $ms);
 
 		if ( ! $ms[0])
 		{
-			static::setLog($url, $error_names, self::$unspec, 4);
+			Validate\Set::log($url, $error_names, self::$unspec, 4);
 			return;
 		}
 
@@ -51,19 +52,19 @@ class Table extends Validate
 
 			// th less
 			$tstr = $table_tag[0];
-			if (strpos($m, '<th') === false)
-			{
-				static::setError($url, 'table_use_th', $n, $tstr, $tstr);
-			}
-			else
-			{
-				static::setLog($url, 'table_use_th', self::$unspec, 2);
-			}
+			Validate\Set::errorAndLog(
+				strpos($m, '<th') === false,
+				$url,
+				'table_use_th',
+				$n,
+				$tstr,
+				$tstr
+			);
 
 			// scope less
 			if (strpos($m, ' scope') === false)
 			{
-				static::setError($url, 'table_use_scope', $n, $tstr, $tstr);
+				Validate\Set::error($url, 'table_use_scope', $n, $tstr, $tstr);
 			}
 			else if (preg_match_all('/scope *?= *?[\'"]([^\'"]+?)[\'"]/i', $m, $mms))
 			{
@@ -71,42 +72,42 @@ class Table extends Validate
 				{
 					if ( ! in_array($mm, array('col', 'row', 'rowgroup', 'colgroup')))
 					{
-						static::setError($url, 'table_use_valid_scope', $n, $tstr, $mms[0][$nn]);
+						Validate\Set::error($url, 'table_use_valid_scope', $n, $tstr, $mms[0][$nn]);
 					}
 				}
 			}
 			else
 			{
-				static::setLog($url, 'table_use_scope', $m, 2);
-				static::setLog($url, 'table_use_valid_scope', $m, 2);
+				Validate\Set::log($url, 'table_use_scope', $m, 2);
+				Validate\Set::log($url, 'table_use_valid_scope', $m, 2);
 			}
 
 			if (in_array(Element\Get::doctype($url), array('html4', 'xhtml')))
 			{
 				// summary less
-				if ( ! array_key_exists('summary', Element\Get::attributes($table_tag[0])))
-				{
-					static::setError($url, 'table_use_summary', $n, $tstr, $tstr);
-				}
-				else
-				{
-					static::setLog($url, 'table_use_summary', $m, 2);
-				}
+				Validate\Set::errorAndLog(
+					 ! array_key_exists('summary', Element\Get::attributes($table_tag[0])),
+					$url,
+					'table_use_summary',
+					$n,
+					$tstr,
+					$tstr
+				);
 			}
 			else
 			{
-				static::setLog($url, 'table_use_summary', $m, 5);
+				Validate\Set::log($url, 'table_use_summary', $m, 5);
 			}
 
 			// caption less
-			if (strpos($m, '</caption>') === false)
-			{
-				static::setError($url, 'table_use_caption', $n, $tstr, $tstr);
-			}
-			else
-			{
-				static::setLog($url, 'table_use_caption', $m, 3);
-			}
+			Validate\Set::errorAndLog(
+				strpos($m, '</caption>') === false,
+				$url,
+				'table_use_caption',
+				$n,
+				$tstr,
+				$tstr
+			);
 		}
 
 		static::addErrorToHtml($url, 'table_use_th', static::$error_ids[$url], 'ignores');

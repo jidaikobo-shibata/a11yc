@@ -11,6 +11,7 @@
 namespace A11yc\Validate\Check;
 
 use A11yc\Element;
+use A11yc\Validate;
 
 class NoticeNonHtmlExists extends Validate
 {
@@ -22,7 +23,7 @@ class NoticeNonHtmlExists extends Validate
 	 */
 	public static function check($url)
 	{
-		static::setLog($url, 'notice_non_html_exists', self::$unspec, 1);
+		Validate\Set::log($url, 'notice_non_html_exists', self::$unspec, 1);
 		$str = Element\Get::ignoredHtml($url);
 
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'anchors_and_values');
@@ -59,7 +60,7 @@ class NoticeNonHtmlExists extends Validate
 			{
 				$err_strs[] = $ext.' ('.sprintf(A11YC_LANG_COUNT_ITEMS, $times).')';
 			}
-			static::setError($url, 'notice_non_html_exists', 0, '', join(', ', $err_strs));
+			Validate\Set::error($url, 'notice_non_html_exists', 0, '', join(', ', $err_strs));
 		}
 		static::addErrorToHtml($url, 'notice_non_html_exists', static::$error_ids[$url], 'ignores');
 	}

@@ -11,6 +11,7 @@
 namespace A11yc\Validate\Check;
 
 use A11yc\Element;
+use A11yc\Validate;
 
 class SuspiciousAttributes extends Validate
 {
@@ -22,8 +23,8 @@ class SuspiciousAttributes extends Validate
 	 */
 	public static function check($url)
 	{
-		static::setLog($url, 'suspicious_attributes', self::$unspec, 1);
-		static::setLog($url, 'duplicated_attributes', self::$unspec, 1);
+		Validate\Set::log($url, 'suspicious_attributes', self::$unspec, 1);
+		Validate\Set::log($url, 'duplicated_attributes', self::$unspec, 1);
 		$str = Element\Get::ignoredHtml($url);
 
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
@@ -35,34 +36,38 @@ class SuspiciousAttributes extends Validate
 			$attrs = Element\Get::attributes($m);
 
 			// suspicious attributes
-			if (isset($attrs['suspicious']))
+			$exp = isset($attrs['suspicious']);
+			if ($exp)
 			{
-				static::setError($url, 'suspicious_attributes', $k, $tstr, join(', ', $attrs['suspicious']));
-			}
-			else
-			{
-				static::setLog($url, 'suspicious_attributes', $tstr, 2);
+				Validate\Set::errorAndLog(
+					$exp,
+					$url,
+					'suspicious_attributes',
+					$k,
+					$tstr,
+					join(', ', $attrs['suspicious'])
+				);
 			}
 
 			// no_space_between_attributes
-			if (isset($attrs['no_space_between_attributes']) && $attrs['no_space_between_attributes'])
-			{
-				static::setError($url, 'no_space_between_attributes', $k, $tstr, $tstr);
-			}
-			else
-			{
-				static::setLog($url, 'no_space_between_attributes', $tstr, 2);
-			}
+			Validate\Set::errorAndLog(
+				isset($attrs['no_space_between_attributes']) && $attrs['no_space_between_attributes'],
+				$url,
+				'suspicious_attributes',
+				$k,
+				$tstr,
+				$tstr
+			);
 
 			// duplicated_attributes
-			if (isset($attrs['plural']))
-			{
-				static::setError($url, 'duplicated_attributes', $k, $tstr, $m);
-			}
-			else
-			{
-				static::setLog($url, 'duplicated_attributes', $tstr, 2);
-			}
+			Validate\Set::errorAndLog(
+				isset($attrs['plural']),
+				$url,
+				'duplicated_attributes',
+				$k,
+				$tstr,
+				$m
+			);
 		}
 		static::addErrorToHtml($url, 'suspicious_attributes', static::$error_ids[$url], 'ignores');
 		static::addErrorToHtml($url, 'duplicated_attributes', static::$error_ids[$url], 'ignores');
