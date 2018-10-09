@@ -24,20 +24,18 @@ class CheckDoctype extends Validate
 	{
 		if (Validate::$is_partial == true)
 		{
-			static::$logs[$url]['check_doctype'][self::$unspec] = 5;
+			static::setLog($url, 'check_doctype', self::$unspec, 5);
 			return;
 		}
-		static::$logs[$url]['check_doctype'][self::$unspec] = 1;
+		static::setLog($url, 'check_doctype', self::$unspec, 1);
 
 		if (is_null(Element\Get::doctype($url)))
 		{
-			static::$logs[$url]['check_doctype'][self::$unspec] = -1;
-			static::$error_ids[$url]['check_doctype'][0]['id'] = false;
-			static::$error_ids[$url]['check_doctype'][0]['str'] = 'doctype not found';
+			static::setError($url, 'check_doctype', $k, '', 'doctype not found');
 		}
 		else
 		{
-			static::$logs[$url]['check_doctype'][self::$unspec] = 2;
+			static::setLog($url, 'check_doctype', self::$unspec, 2);
 		}
 		static::addErrorToHtml($url, 'check_doctype', static::$error_ids[$url]);
 	}

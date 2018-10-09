@@ -21,9 +21,9 @@ class JaWordBreakingSpace extends Validate
 	 */
 	public static function check($url)
 	{
-		static::$logs[$url]['ja_word_breaking_space'][self::$unspec] = 5;
+		static::setLog($url, 'ja_word_breaking_space', self::$unspec, 5);
 		if (strpos(Element\Get::lang($url), 'ja') === false) return false;
-		static::$logs[$url]['ja_word_breaking_space'][self::$unspec] = 1;
+		static::setLog($url, 'ja_word_breaking_space', self::$unspec, 1);
 
 		$str = Element\Get::ignoredHtml($url);
 		// $str = str_replace(array("\n", "\r"), '', $str);
@@ -36,9 +36,7 @@ class JaWordBreakingSpace extends Validate
 		foreach ($ms[1] as $k => $m)
 		{
 			$tstr = $ms[0][$k];
-			static::$logs[$url]['ja_word_breaking_space'][$tstr] = -1;
-			static::$error_ids[$url]['ja_word_breaking_space'][$k]['id'] = $tstr;
-			static::$error_ids[$url]['ja_word_breaking_space'][$k]['str'] = $m;
+			static::setError($url, 'ja_word_breaking_space', $k, $tstr, $m);
 		}
 
 		static::addErrorToHtml($url, 'ja_word_breaking_space', static::$error_ids[$url], 'ignores');

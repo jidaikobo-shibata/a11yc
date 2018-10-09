@@ -22,8 +22,8 @@ class DuplicatedIdsAndAccesskey extends Validate
 	 */
 	public static function check($url)
 	{
-		static::$logs[$url]['duplicated_ids'][self::$unspec] = 1;
-		static::$logs[$url]['duplicated_accesskeys'][self::$unspec] = 1;
+		static::setLog($url, 'duplicated_ids', self::$unspec, 1);
+		static::setLog($url, 'duplicated_accesskeys', self::$unspec, 1);
 		$str = Element\Get::ignoredHtml($url);
 
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
@@ -44,9 +44,7 @@ class DuplicatedIdsAndAccesskey extends Validate
 				$is_exists_id = true;
 				if (in_array($attrs['id'], $ids))
 				{
-					static::$logs[$url]['duplicated_ids'][$tstr] = -1;
-					static::$error_ids[$url]['duplicated_ids'][$k]['id'] = $tstr;
-					static::$error_ids[$url]['duplicated_ids'][$k]['str'] = $attrs['id'];
+					static::setError($url, 'duplicated_ids', $k, $tstr, $attrs['id']);
 				}
 				$ids[] = $attrs['id'];
 			}
@@ -57,16 +55,16 @@ class DuplicatedIdsAndAccesskey extends Validate
 				$is_exists_ack = true;
 				if (in_array($attrs['accesskey'], $accesskeys))
 				{
-					static::$logs[$url]['duplicated_accesskeys'][$tstr] = -1;
-					static::$error_ids[$url]['duplicated_accesskeys'][$k]['id'] = $tstr;
-					static::$error_ids[$url]['duplicated_accesskeys'][$k]['str'] = $attrs['accesskey'];
+					static::setError($url, 'duplicated_accesskeys', $k, $tstr, $attrs['accesskey']);
 				}
 				$accesskeys[] = $attrs['accesskey'];
 			}
 		}
 
-		static::$logs[$url]['duplicated_ids'][self::$unspec] = $is_exists_id ? 3 : 4;
-		static::$logs[$url]['duplicated_accesskeys'][self::$unspec] = $is_exists_ack ? 3 : 4;
+		$duplicated_ids_flag = $is_exists_id ? 3 : 4;
+		$duplicated_accesskeys_flag = $is_exists_ack ? 3 : 4;
+		static::setLog($url, 'duplicated_ids', self::$unspec, $duplicated_ids_flag);
+		static::setLog($url, 'duplicated_accesskeys', self::$unspec, $duplicated_accesskeys_flag);
 
 		static::addErrorToHtml($url, 'duplicated_ids', static::$error_ids[$url], 'ignores');
 		static::addErrorToHtml($url, 'duplicated_accesskeys', static::$error_ids[$url], 'ignores');

@@ -22,9 +22,9 @@ class InvalidTag extends Validate
 	 */
 	public static function check($url)
 	{
-		static::$logs[$url]['cannot_contain_newline'][self::$unspec] = 1;
-		static::$logs[$url]['unbalanced_quotation'][self::$unspec] = 1;
-		static::$logs[$url]['cannot_contain_multibyte_space'][self::$unspec] = 1;
+		static::setLog($url, 'cannot_contain_newline', self::$unspec, 1);
+		static::setLog($url, 'unbalanced_quotation', self::$unspec, 1);
+		static::setLog($url, 'cannot_contain_multibyte_space', self::$unspec, 1);
 		$str = Element\Get::ignoredHtml($url);
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
@@ -40,14 +40,12 @@ class InvalidTag extends Validate
 			{
 				if (strpos($val, "\n") !== false)
 				{
-					static::$logs[$url]['cannot_contain_newline'][$tstr] = -1;
-					static::$error_ids[$url]['cannot_contain_newline'][$k]['id'] = $tstr;
-					static::$error_ids[$url]['cannot_contain_newline'][$k]['str'] = $m;
+					static::setError($url, 'cannot_contain_newline', $k, $tstr, $m);
 					break;
 				}
 				else
 				{
-					static::$logs[$url]['cannot_contain_newline'][$tstr] = 2;
+					static::setLog($url, 'cannot_contain_newline', $tstr, 2);
 				}
 			}
 
@@ -59,13 +57,11 @@ class InvalidTag extends Validate
 			// if ((substr_count($tag, '"') + substr_count($tag, "'")) % 2 !== 0)
 			if (substr_count($tag, '"') % 2 !== 0)
 			{
-				static::$logs[$url]['unbalanced_quotation'][$tstr] = -1;
-				static::$error_ids[$url]['unbalanced_quotation'][$k]['id'] = $tstr;
-				static::$error_ids[$url]['unbalanced_quotation'][$k]['str'] = $m;
+				static::setError($url, 'unbalanced_quotation', $k, $tstr, $m);
 			}
 			else
 			{
-				static::$logs[$url]['unbalanced_quotation'][$tstr] = 2;
+				static::setLog($url, 'unbalanced_quotation', $tstr, 2);
 			}
 
 			if (A11YC_LANG != 'ja') continue;
@@ -76,13 +72,11 @@ class InvalidTag extends Validate
 
 			if (strpos($tag, '　') !== false)
 			{
-				static::$logs[$url]['cannot_contain_multibyte_space'][$tstr] = 1;
-				static::$error_ids[$url]['cannot_contain_multibyte_space'][$k]['id'] = $tstr;
-				static::$error_ids[$url]['cannot_contain_multibyte_space'][$k]['str'] = $m;
+				static::setError($url, 'cannot_contain_multibyte_space', $k, $tstr, $m);
 			}
 			else
 			{
-				static::$logs[$url]['cannot_contain_multibyte_space'][$tstr] = 2;
+				static::setLog($url, 'cannot_contain_multibyte_space', $tstr, 2);
 			}
 		}
 		static::addErrorToHtml($url, 'unbalanced_quotation', static::$error_ids[$url], 'ignores');

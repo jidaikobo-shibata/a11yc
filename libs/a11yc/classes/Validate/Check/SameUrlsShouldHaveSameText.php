@@ -24,14 +24,14 @@ class SameUrlsShouldHaveSameText extends Validate
 	 */
 	public static function check($url)
 	{
-		static::$logs[$url]['same_urls_should_have_same_text'][self::$unspec] = 1;
+		static::setLog($url, 'same_urls_should_have_same_text', self::$unspec, 1);
 
 		// urls
 		$str = Element\Get::ignoredHtml($url);
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'anchors_and_values');
 		if ( ! $ms[1])
 		{
-			static::$logs[$url]['same_urls_should_have_same_text'][self::$unspec] = 4;
+			static::setLog($url, 'same_urls_should_have_same_text', self::$unspec, 4);
 			return;
 		}
 
@@ -64,14 +64,18 @@ class SameUrlsShouldHaveSameText extends Validate
 			if ( ! array_key_exists($each_url, $urls))
 			{
 				$urls[$each_url] = $text;
-				static::$logs[$url]['same_urls_should_have_same_text'][$tstr] = 3;
+				static::setLog($url, 'same_urls_should_have_same_text', $tstr, 3);
 			}
 			// ouch! same text
 			else if ($urls[$each_url] != $text)
 			{
-				static::$logs[$url]['same_urls_should_have_same_text'][$tstr] = -1;
-				static::$error_ids[$url]['same_urls_should_have_same_text'][$k]['id'] = $tstr;
-				static::$error_ids[$url]['same_urls_should_have_same_text'][$k]['str'] = $each_url.': ('.mb_strlen($urls[$each_url], "UTF-8").') "'.$urls[$each_url].'" OR ('.mb_strlen($text, "UTF-8").') "'.$text.'"';
+				static::setError(
+					$url,
+					'same_urls_should_have_same_text',
+					$k,
+					$tstr,
+					$each_url.': ('.mb_strlen($urls[$each_url], "UTF-8").') "'.$urls[$each_url].'" OR ('.mb_strlen($text, "UTF-8").') "'.$text.'"'
+				);
 			}
 		}
 		static::addErrorToHtml($url, 'same_urls_should_have_same_text', static::$error_ids[$url], 'ignores_comment_out');

@@ -23,17 +23,17 @@ class CssInvisibles extends Validate
 	 */
 	public static function check($url)
 	{
-		static::$logs[$url]['css_invisible'][self::$unspec] = 5;
-		static::$logs[$url]['css_background_image_only'][self::$unspec] = 5;
+		static::setLog($url, 'css_invisible', self::$unspec, 5);
+		static::setLog($url, 'css_background_image_only', self::$unspec, 5);
 		if ( ! static::$do_css_check) return;
-		static::$logs[$url]['css_invisible'][self::$unspec] = 1;
-		static::$logs[$url]['css_background_image_only'][self::$unspec] = 1;
+		static::setLog($url, 'css_invisible', self::$unspec, 1);
+		static::setLog($url, 'css_background_image_only', self::$unspec, 1);
 
 		$csses = static::css($url);
 		if ( ! $csses)
 		{
-			static::$logs[$url]['css_invisible'][self::$unspec] = 4;
-			static::$logs[$url]['css_background_image_only'][self::$unspec] = 4;
+			static::setLog($url, 'css_invisible', self::$unspec, 4);
+			static::setLog($url, 'css_background_image_only', self::$unspec, 4);
 			return;
 		}
 
@@ -52,10 +52,7 @@ class CssInvisibles extends Validate
 				)
 				{
 					$is_exists_visible = true;
-					static::$logs[$url]['css_invisible'][self::$unspec] = -1;
-
-					static::$error_ids[$url]['css_invisible'][$k]['id'] = '';
-					static::$error_ids[$url]['css_invisible'][$k]['str'] = $selector;
+					static::setError($url, 'css_invisible', $k, '', $selector);
 				}
 
 				// background-image without background-color
@@ -78,10 +75,7 @@ class CssInvisibles extends Validate
 							! isset($props['background-color'])
 						)
 						{
-							static::$logs[$url]['css_background_image_only'][self::$unspec] = -1;
-
-							static::$error_ids[$url]['css_background_image_only'][$k]['id'] = '';
-							static::$error_ids[$url]['css_background_image_only'][$k]['str'] = $selector;
+							static::setError($url, 'css_background_image_only', $k, '', $selector);
 						}
 					}
 				}
@@ -91,12 +85,12 @@ class CssInvisibles extends Validate
 
 		if ( ! $is_exists_visible)
 		{
-			static::$logs[$url]['css_invisible'][self::$unspec] = 4;
+			static::setLog($url, 'css_invisible', self::$unspec, 4);
 		}
 
 		if ( ! $is_exists_bg)
 		{
-			static::$logs[$url]['css_background_image_only'][self::$unspec] = 4;
+			static::setLog($url, 'css_background_image_only', self::$unspec, 4);
 		}
 
 	}

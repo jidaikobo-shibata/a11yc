@@ -21,7 +21,7 @@ class ImgInputHasAlt extends Validate
 	 */
 	public static function check($url)
 	{
-		static::$logs[$url]['img_input_has_alt'][self::$unspec] = 1;
+		static::setLog($url, 'img_input_has_alt', self::$unspec, 1);
 		$str = Element\Get::ignoredHtml($url);
 
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
@@ -37,13 +37,12 @@ class ImgInputHasAlt extends Validate
 
 			if ( ! isset($attrs['alt']) || empty($attrs['alt']))
 			{
-				static::$logs[$url]['img_input_has_alt'][$tstr] = -1;
-				static::$error_ids[$url]['img_input_has_alt'][$k]['id'] = $tstr;
-				static::$error_ids[$url]['img_input_has_alt'][$k]['str'] = @basename(@$attrs['src']);
+				$src = basename(Arr::get($attrs, 'src', ''));
+				static::setError($url, 'img_input_has_alt', $k, $tstr, $src);
 			}
 			else
 			{
-				static::$logs[$url]['img_input_has_alt'][$tstr] = 2;
+				static::setLog($url, 'img_input_has_alt', $tstr, 2);
 			}
 		}
 		static::addErrorToHtml($url, 'img_input_has_alt', static::$error_ids[$url], 'ignores');

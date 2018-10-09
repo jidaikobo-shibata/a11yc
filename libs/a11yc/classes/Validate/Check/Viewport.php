@@ -22,9 +22,9 @@ class Viewport extends Validate
 	 */
 	public static function check($url)
 	{
-		static::$logs[$url]['user_scalable_no'][self::$unspec] = 5;
+		static::setLog($url, 'user_scalable_no', self::$unspec, 5);
 		if (Validate::$is_partial == true) return;
-		static::$logs[$url]['user_scalable_no'][self::$unspec] = 1;
+		static::setLog($url, 'user_scalable_no', self::$unspec, 1);
 
 		$str = Element\Get::ignoredHtml($url);
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
@@ -36,13 +36,11 @@ class Viewport extends Validate
 
 			if ($tag == 'meta' && strpos($ms[2][$k], 'user-scalable=no') !== false)
 			{
-				static::$logs[$url]['user_scalable_no'][$tstr] = -1;
-				static::$error_ids[$url]['user_scalable_no'][0]['id'] = $tstr;
-				static::$error_ids[$url]['user_scalable_no'][0]['str'] = 'user-scalable=no';
+				static::setError($url, 'user_scalable_no', 0, $tstr, 'user-scalable=no');
 			}
 			else
 			{
-				static::$logs[$url]['user_scalable_no'][$tstr] = 2;
+				static::setLog($url, 'user_scalable_no', $tstr, 2);
 			}
 		}
 		static::addErrorToHtml($url, 'user_scalable_no', static::$error_ids[$url]);

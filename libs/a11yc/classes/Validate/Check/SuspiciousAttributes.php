@@ -22,8 +22,8 @@ class SuspiciousAttributes extends Validate
 	 */
 	public static function check($url)
 	{
-		static::$logs[$url]['suspicious_attributes'][self::$unspec] = 1;
-		static::$logs[$url]['duplicated_attributes'][self::$unspec] = 1;
+		static::setLog($url, 'suspicious_attributes', self::$unspec, 1);
+		static::setLog($url, 'duplicated_attributes', self::$unspec, 1);
 		$str = Element\Get::ignoredHtml($url);
 
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
@@ -37,37 +37,31 @@ class SuspiciousAttributes extends Validate
 			// suspicious attributes
 			if (isset($attrs['suspicious']))
 			{
-				static::$logs[$url]['suspicious_attributes'][$tstr] = -1;
-				static::$error_ids[$url]['suspicious_attributes'][$k]['id'] = $tstr;
-				static::$error_ids[$url]['suspicious_attributes'][$k]['str'] = join(', ', $attrs['suspicious']);
+				static::setError($url, 'suspicious_attributes', $k, $tstr, join(', ', $attrs['suspicious']));
 			}
 			else
 			{
-				static::$logs[$url]['suspicious_attributes'][$tstr] = 2;
+				static::setLog($url, 'suspicious_attributes', $tstr, 2);
 			}
 
 			// no_space_between_attributes
 			if (isset($attrs['no_space_between_attributes']) && $attrs['no_space_between_attributes'])
 			{
-				static::$logs[$url]['no_space_between_attributes'][$tstr] = -1;
-				static::$error_ids[$url]['no_space_between_attributes'][$k]['id'] = $tstr;
-				static::$error_ids[$url]['no_space_between_attributes'][$k]['str'] = $tstr;
+				static::setError($url, 'no_space_between_attributes', $k, $tstr, $tstr);
 			}
 			else
 			{
-				static::$logs[$url]['no_space_between_attributes'][$tstr] = 2;
+				static::setLog($url, 'no_space_between_attributes', $tstr, 2);
 			}
 
 			// duplicated_attributes
 			if (isset($attrs['plural']))
 			{
-				static::$logs[$url]['duplicated_attributes'][$tstr] = -1;
-				static::$error_ids[$url]['duplicated_attributes'][$k]['id'] = $tstr;
-				static::$error_ids[$url]['duplicated_attributes'][$k]['str'] = $m;
+				static::setError($url, 'duplicated_attributes', $k, $tstr, $m);
 			}
 			else
 			{
-				static::$logs[$url]['duplicated_attributes'][$tstr] = 2;
+				static::setLog($url, 'duplicated_attributes', $tstr, 2);
 			}
 		}
 		static::addErrorToHtml($url, 'suspicious_attributes', static::$error_ids[$url], 'ignores');

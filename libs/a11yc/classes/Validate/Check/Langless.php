@@ -22,9 +22,9 @@ class Langless extends Validate
 	 */
 	public static function check($url)
 	{
-		static::$logs[$url]['langless'][self::$unspec] = 5;
+		static::setLog($url, 'langless', self::$unspec, 5);
 		if (Validate::$is_partial == true) return;
-		static::$logs[$url]['langless'][self::$unspec] = 1;
+		static::setLog($url, 'langless', self::$unspec, 1);
 
 		// do not use Element\Get::ignoredHtml() and Element\Get::elementsByRe()
 		// in case of "<html>" is in comment out
@@ -47,41 +47,14 @@ class Langless extends Validate
 		// is lang exists?
 		if ( ! isset($has_langs[1]) || ! in_array('html', $has_langs[1]))
 		{
-			static::$logs[$url]['langless'][self::$unspec] = -1;
-			static::$error_ids[$url]['langless'][0]['id'] = false;
-			static::$error_ids[$url]['langless'][0]['str'] = Arr::get($ms, '0.0');
+			static::setError($url, 'langless', 0, '', Arr::get($ms, '0.0'));
 			static::addErrorToHtml($url, 'langless', static::$error_ids[$url]);
 			return;
 		}
 		else
 		{
-			static::$logs[$url]['langless'][self::$unspec] = 2;
+			static::setLog($url, 'langless', self::$unspec, 2);
 		}
-
-		// valid language?
-		// case-insensitive
-		// http://www.wiley.com/legacy/compbooks/graham/html4ed/appe/iso3166.html
-
-		/*
-		$lln = file_get_contents('http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry');
-
-		$llns = explode('%%', $lln);
-		foreach ($llns as $k => $ll)
-		{
-			if (strpos($ll, 'Type: language') === false)
-			{
-				unset($llns[$k]);
-			}
-		}
-
-		$ietf_subtags = array();
-
-		foreach ($llns as $k => $ll)
-		{
-			preg_match('/Subtag: (.+?)\nDescription: (.+?)\n/', $ll, $matches);
-			$ietf_subtags[$matches[1]] = $matches[2];
-		}
-		*/
 
 		$ietf_subtags = require(A11YC_PATH.'/resources/ietf_langs.php');
 
@@ -99,16 +72,12 @@ class Langless extends Validate
 				// 3.1.1
 				if ($has_langs[1][$k] == 'html')
 				{
-					static::$logs[$url]['invalid_page_lang'][$tstr] = -1;
-					static::$error_ids[$url]['invalid_page_lang'][$k]['id'] = $tstr;
-					static::$error_ids[$url]['invalid_page_lang'][$k]['str'] = $tstr;
+					static::setError($url, 'invalid_page_lang', $k, $tstr, $tstr);
 				}
 				// 3.1.2
 				else
 				{
-					static::$logs[$url]['invalid_partial_lang'][$tstr] = -1;
-					static::$error_ids[$url]['invalid_partial_lang'][$k]['id'] = $tstr;
-					static::$error_ids[$url]['invalid_partial_lang'][$k]['str'] = $tstr;
+					static::setError($url, 'invalid_partial_lang', $k, $tstr, $tstr);
 				}
 			}
 		}

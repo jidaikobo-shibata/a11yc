@@ -43,46 +43,38 @@ class CssTotal extends Validate
 
 		if (Model\Css::$is_suspicious_paren_num)
 		{
-			static::$logs[$url]['css_suspicious_paren_num'][self::$unspec] = -1;
-			static::$error_ids[$url]['css_suspicious_paren_num'][0]['id'] = '';
-			static::$error_ids[$url]['css_suspicious_paren_num'][0]['str'] = '';
+			static::setError($url, 'css_suspicious_paren_num', 0, '', '');
 		}
 		else
 		{
-			static::$logs[$url]['css_suspicious_paren_num'][self::$unspec] = 2;
+			static::setLog($url, 'css_suspicious_paren_num', self::$unspec, 2);
 		}
 
 		foreach (Model\Css::$suspicious_props as $k => $prop)
 		{
-			static::$logs[$url]['css_suspicious_props'][self::$unspec] = -1;
-			static::$error_ids[$url]['css_suspicious_props'][$k]['id'] = '';
-			static::$error_ids[$url]['css_suspicious_props'][$k]['str'] = $prop;
+			static::setError($url, 'css_suspicious_props', $k, '', $prop);
 		}
 		if (static::$logs[$url]['css_suspicious_props'][self::$unspec] != -1)
 		{
-			static::$logs[$url]['css_suspicious_props'][self::$unspec] = 2;
+			static::setLog($url, 'css_suspicious_props', self::$unspec, 2);
 		}
 
 		foreach (Model\Css::$suspicious_prop_and_vals as $k => $prop)
 		{
-			static::$logs[$url]['css_suspicious_prop_and_vals'][self::$unspec] = -1;
-			static::$error_ids[$url]['css_suspicious_prop_and_vals'][$k]['id'] = '';
-			static::$error_ids[$url]['css_suspicious_prop_and_vals'][$k]['str'] = $prop;
+			static::setError($url, 'css_suspicious_prop_and_vals', $k, '', $prop);
 		}
 		if (static::$logs[$url]['css_suspicious_prop_and_vals'][self::$unspec] != -1)
 		{
-			static::$logs[$url]['css_suspicious_prop_and_vals'][self::$unspec] = 2;
+			static::setLog($url, 'css_suspicious_prop_and_vals', self::$unspec, 2);
 		}
 
 		foreach (Model\Css::$suspicious_val_prop as $k => $prop)
 		{
-			static::$logs[$url]['css_suspicious_prop_and_vals'][self::$unspec] = -1;
-			static::$error_ids[$url]['css_suspicious_prop_and_vals'][$k]['id'] = '';
-			static::$error_ids[$url]['css_suspicious_prop_and_vals'][$k]['str'] = join(':', $prop);
+			static::setError($url, 'css_suspicious_prop_and_vals', $k, '', join(':', $prop));
 		}
 		if (static::$logs[$url]['css_suspicious_prop_and_vals'][self::$unspec] != -1)
 		{
-			static::$logs[$url]['css_suspicious_prop_and_vals'][self::$unspec] = 2;
+			static::setLog($url, 'css_suspicious_prop_and_vals', self::$unspec, 2);
 		}
 
 	}

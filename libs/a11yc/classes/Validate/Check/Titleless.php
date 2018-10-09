@@ -22,9 +22,9 @@ class Titleless extends Validate
 	 */
 	public static function check($url)
 	{
-		static::$logs[$url]['titleless'][self::$unspec] = 5;
+		static::setLog($url, 'titleless', self::$unspec, 5);
 		if (Validate::$is_partial == true) return;
-		static::$logs[$url]['titleless'][self::$unspec] = 1;
+		static::setLog($url, 'titleless', self::$unspec, 1);
 
 		$str = Element\Get::ignoredHtml($url);
 
@@ -36,13 +36,11 @@ class Titleless extends Validate
 			preg_match("/\<title[^\>]*?\>[ 　]*?\<\/title/si", $str) // lacknesss of title
 		)
 		{
-			static::$logs[$url]['titleless'][self::$unspec] = -1;
-			static::$error_ids[$url]['titleless'][0]['id'] = false;
-			static::$error_ids[$url]['titleless'][0]['str'] = $ms[0][0];
+			static::setError($url, 'titleless', 0, '', $ms[0][0]);
 		}
 		else
 		{
-			static::$logs[$url]['titleless'][self::$unspec] = 2;
+			static::setLog($url, 'titleless', self::$unspec, 2);
 		}
 
 		static::addErrorToHtml($url, 'titleless', static::$error_ids[$url], 'ignores');

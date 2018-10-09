@@ -22,13 +22,19 @@ class FormAndLabels extends Validate
 	 */
 	public static function check($url)
 	{
-		static::$logs[$url]['labelless'][self::$unspec] = 1;
-		static::$logs[$url]['submitless'][self::$unspec] = 1;
-		static::$logs[$url]['duplicated_names'][self::$unspec] = 1;
-		static::$logs[$url]['unique_label'][self::$unspec] = 1;
-		static::$logs[$url]['contain_plural_form_elements'][self::$unspec] = 1;
-		static::$logs[$url]['lackness_of_form_ends'][self::$unspec] = 1;
+		$error_names = array(
+			'labelless',
+			'submitless',
+			'duplicated_names',
+			'unique_label',
+			'contain_plural_form_elements',
+			'lackness_of_form_ends',
+		);
 
+		foreach ($error_names as $error_name)
+		{
+			static::setLog($url, $error_name, self::$unspec, 1);
+		}
 		$str = Element\Get::ignoredHtml($url);
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[1]) return;
@@ -36,12 +42,10 @@ class FormAndLabels extends Validate
 		// is form exists?
 		if ( ! in_array('form', $ms[1]))
 		{
-			static::$logs[$url]['labelless'][self::$unspec] = 4;
-			static::$logs[$url]['submitless'][self::$unspec] = 4;
-			static::$logs[$url]['duplicated_names'][self::$unspec] = 4;
-			static::$logs[$url]['unique_label'][self::$unspec] = 4;
-			static::$logs[$url]['contain_plural_form_elements'][self::$unspec] = 4;
-			static::$logs[$url]['lackness_of_form_ends'][self::$unspec] = 1;
+			foreach ($error_names as $error_name)
+			{
+				static::setLog($url, $error_name, self::$unspec, 4);
+			}
 			return;
 		}
 
@@ -99,11 +103,10 @@ class FormAndLabels extends Validate
 
 			$n++;
 		}
-		static::addErrorToHtml($url, 'labelless', static::$error_ids[$url], 'ignores');
-		static::addErrorToHtml($url, 'submitless', static::$error_ids[$url], 'ignores');
-		static::addErrorToHtml($url, 'duplicated_names', static::$error_ids[$url], 'ignores');
-		static::addErrorToHtml($url, 'unique_label', static::$error_ids[$url], 'ignores');
-		static::addErrorToHtml($url, 'contain_plural_form_elements', static::$error_ids[$url], 'ignores');
+		foreach ($error_names as $error_name)
+		{
+			static::addErrorToHtml($url, $error_name, static::$error_ids[$url], 'ignores');
+		}
 	}
 
 	/**
@@ -117,15 +120,12 @@ class FormAndLabels extends Validate
 	{
 		if (substr_count($str, '<form') != substr_count($str, '</form'))
 		{
-			static::$logs[$url]['lackness_of_form_ends'][self::$unspec] = -1;
-			static::$error_ids[$url]['lackness_of_form_ends'][0]['id'] = '';
-			static::$error_ids[$url]['lackness_of_form_ends'][0]['str'] = '';
-			static::addErrorToHtml($url, 'lackness_of_form_ends', static::$error_ids[$url], 'ignores');
+			static::setError($url, 'lackness_of_form_ends', 0, '', '');
 			return true;
 		}
 		else
 		{
-			static::$logs[$url]['lackness_of_form_ends'][self::$unspec] = 2;
+			static::setLog($url, 'lackness_of_form_ends', self::$unspec, 2);
 		}
 		return false;
 	}
@@ -227,13 +227,11 @@ class FormAndLabels extends Validate
 	{
 		if ( ! $v['labels'])
 		{
-			static::$logs[$url]['labelless'][self::$unspec] = -1;
-			static::$error_ids[$url]['labelless'][$n]['id'] = $v['form'];
-			static::$error_ids[$url]['labelless'][$n]['str'] = $action;
+			static::setError($url, 'labelless', $n, $v['form'], $action);
 		}
 		else
 		{
-			static::$logs[$url]['labelless'][self::$unspec] = 2;
+			static::setLog($url, 'labelless', self::$unspec, 2);
 		}
 	}
 
@@ -259,13 +257,11 @@ class FormAndLabels extends Validate
 			)
 		)
 		{
-			static::$logs[$url]['submitless'][self::$unspec] = -1;
-			static::$error_ids[$url]['submitless'][$n]['id'] = $v['form'];
-			static::$error_ids[$url]['submitless'][$n]['str'] = $action;
+			static::setError($url, 'submitless', $n, $v['form'], $action);
 		}
 		else
 		{
-			static::$logs[$url]['submitless'][self::$unspec] = 2;
+			static::setLog($url, 'submitless', self::$unspec, 2);
 		}
 	}
 
@@ -311,13 +307,11 @@ class FormAndLabels extends Validate
 				$suspicion_labels = array_diff_assoc($ms[1],array_unique($ms[1]));
 				$suspicion_labels = join(', ', array_unique($suspicion_labels));
 
-				static::$logs[$url]['unique_label'][self::$unspec] = -1;
-				static::$error_ids[$url]['unique_label'][$k]['id'] = $v['form'];
-				static::$error_ids[$url]['unique_label'][$k]['str'] = $suspicion_labels;
+				static::setError($url, 'unique_label', $k, $v['form'], $suspicion_labels);
 			}
 			else
 			{
-				static::$logs[$url]['unique_label'][self::$unspec] = 2;
+				static::setLog($url, 'unique_label', self::$unspec, 2);
 			}
 		}
 	}
@@ -395,9 +389,8 @@ class FormAndLabels extends Validate
 					// but I think it confuses users.  so, mention it.
 					if (count($ele_types) >= 2)
 					{
-						static::$logs[$url]['contain_plural_form_elements'][$label_m[0]] = -1;
-						static::$error_ids[$url]['contain_plural_form_elements'][$n]['id'] = $label_m[0];
-						static::$error_ids[$url]['contain_plural_form_elements'][$n]['str'] = $label_m[0];
+						$tstr = $label_m[0];
+						static::setError($url, 'contain_plural_form_elements', $n, $tstr, $tstr);
 					}
 				}
 			}

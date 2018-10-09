@@ -22,7 +22,7 @@ class TellUserFileType extends Validate
 	 */
 	public static function check($url)
 	{
-		static::$logs[$url]['tell_user_file_type'][self::$unspec] = 1;
+		static::setLog($url, 'tell_user_file_type', self::$unspec, 1);
 		$str = Element\Get::ignoredHtml($url);
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'anchors_and_values');
 		if ( ! $ms[1]) return;
@@ -66,21 +66,18 @@ class TellUserFileType extends Validate
 						)
 					)
 					{
-						static::$logs[$url]['tell_user_file_type'][$tstr] = -1;
-						static::$error_ids[$url]['tell_user_file_type'][$k]['id'] = $tstr;
-						static::$error_ids[$url]['tell_user_file_type'][$k]['str'] = $href.': '.$inner.$len;
+						static::setError($url, 'tell_user_file_type', $k, $tstr, $href.': '.$inner.$len);
 					}
 					else
 					{
-						static::$logs[$url]['tell_user_file_type'][$tstr] = 2;
+						static::setLog($url, 'tell_user_file_type', $tstr, 2);
 					}
 
 					// broken link
 					if (is_null($is_exists)) continue;
 					if ($is_exists === false)
 					{
-						static::$error_ids[$url]['link_check'][$k]['id'] = $ms[0][$k];
-						static::$error_ids[$url]['link_check'][$k]['str'] = $href;
+						static::setError($url, 'link_check', $k, $tstr, $href);
 					}
 				}
 			}

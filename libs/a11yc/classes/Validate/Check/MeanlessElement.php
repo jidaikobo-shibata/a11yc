@@ -22,8 +22,8 @@ class MeanlessElement extends Validate
 	 */
 	public static function check($url)
 	{
-		static::$logs[$url]['meanless_element'][self::$unspec] = 1;
-		static::$logs[$url]['meanless_element_timing'][self::$unspec] = 1;
+		static::setLog($url, 'meanless_element', self::$unspec, 1);
+		static::setLog($url, 'meanless_element_timing', self::$unspec, 1);
 		$str = Element\Get::ignoredHtml($url);
 
 		$banneds = array(
@@ -55,15 +55,11 @@ class MeanlessElement extends Validate
 				{
 					if (strpos($tag, '<blink') !== false || strpos($tag, '<marquee') !== false )
 					{
-						static::$logs[$url]['meanless_element_timing'][$tag] = -1;
-						static::$error_ids[$url]['meanless_element_timing'][$n]['id'] = $tag;
-						static::$error_ids[$url]['meanless_element_timing'][$n]['str'] = $tag;
+						static::setError($url, 'meanless_element_timing', $n, $tag, $tag);
 					}
 					else
 					{
-						static::$logs[$url]['meanless_element'][$tag] = -1;
-						static::$error_ids[$url]['meanless_element'][$n]['id'] = $tag;
-						static::$error_ids[$url]['meanless_element'][$n]['str'] = $tag;
+						static::setError($url, 'meanless_element', $n, $tag, $tag);
 					}
 					$n++;
 				}

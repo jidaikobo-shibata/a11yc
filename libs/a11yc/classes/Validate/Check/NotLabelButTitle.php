@@ -21,7 +21,7 @@ class NotLabelButTitle extends Validate
 	 */
 	public static function check($url)
 	{
-		static::$logs[$url]['not_label_but_title'][self::$unspec] = 1;
+		static::setLog($url, 'not_label_but_title', self::$unspec, 1);
 		$str = Element\Get::ignoredHtml($url);
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
@@ -32,7 +32,7 @@ class NotLabelButTitle extends Validate
 		// no form elements
 		if (empty($eles))
 		{
-			static::$logs[$url]['not_label_but_title'][self::$unspec] = 4;
+			static::setLog($url, 'not_label_but_title', self::$unspec, 4);
 			return;
 		}
 
@@ -72,13 +72,12 @@ class NotLabelButTitle extends Validate
 			$title = trim(mb_convert_kana($ele['title'], 's'));
 			if (empty($title))
 			{
-				static::$logs[$url]['not_label_but_title'][$ele['tag']] = -1;
-				static::$error_ids[$url]['not_label_but_title'][$k]['id'] = $ele['tag'];
-				static::$error_ids[$url]['not_label_but_title'][$k]['str'] = $ele['tag'];
+				$tstr = $ele['tag'];
+				static::setError($url, 'not_label_but_title', $k, $tstr, $tstr);
 			}
 			else
 			{
-				static::$logs[$url]['not_label_but_title'][$ele['tag']] = 2;
+				static::setLog($url, 'not_label_but_title', $ele['tag'], 2);
 			}
 		}
 		static::addErrorToHtml($url, 'not_label_but_title', static::$error_ids[$url], 'ignores');

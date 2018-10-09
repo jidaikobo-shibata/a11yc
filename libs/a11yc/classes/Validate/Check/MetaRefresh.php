@@ -22,9 +22,9 @@ class MetaRefresh extends Validate
 	 */
 	public static function check($url)
 	{
-		static::$logs[$url]['meta_refresh'][self::$unspec] = 5;
+		static::setLog($url, 'meta_refresh', self::$unspec, 5);
 		if (Validate::$is_partial == true) return;
-		static::$logs[$url]['meta_refresh'][self::$unspec] = 1;
+		static::setLog($url, 'meta_refresh', self::$unspec, 1);
 
 		$str = Element\Get::ignoredHtml($url);
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
@@ -49,13 +49,11 @@ class MetaRefresh extends Validate
 				(strpos($content, ';') === false && trim($content) != '0')
 			)
 			{
-				static::$logs[$url]['meta_refresh'][$tstr] = -1;
-				static::$error_ids[$url]['meta_refresh'][0]['id'] = $tstr;
-				static::$error_ids[$url]['meta_refresh'][0]['str'] = $tstr;
+				static::setError($url, 'meta_refresh', 0, $tstr, $tstr);
 			}
 			else
 			{
-				static::$logs[$url]['meta_refresh'][$tstr] = 2;
+				static::setLog($url, 'meta_refresh', $tstr, 2);
 			}
 		}
 		static::addErrorToHtml($url, 'meta_refresh', static::$error_ids[$url], 'ignores');

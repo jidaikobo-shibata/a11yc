@@ -22,22 +22,22 @@ class Table extends Validate
 	 */
 	public static function check($url)
 	{
-		static::$logs[$url]['table_use_th'][self::$unspec] = 1;
-		static::$logs[$url]['table_use_scope'][self::$unspec] = 1;
-		static::$logs[$url]['table_use_valid_scope'][self::$unspec] = 1;
-		static::$logs[$url]['table_use_summary'][self::$unspec] = 1;
-		static::$logs[$url]['table_use_caption'][self::$unspec] = 1;
+		$error_names = array(
+			'table_use_th',
+			'table_use_scope',
+			'table_use_valid_scope',
+			'table_use_summary',
+			'table_use_caption',
+		);
+
+		static::setLog($url, $error_names, self::$unspec, 1);
 		$str = Element\Get::ignoredHtml($url);
 
 		preg_match_all('/\<table[^\>]*?\>.+?\<\/table\>/ims', $str, $ms);
 
 		if ( ! $ms[0])
 		{
-			static::$logs[$url]['table_use_th'][self::$unspec] = 4;
-			static::$logs[$url]['table_use_scope'][self::$unspec] = 4;
-			static::$logs[$url]['table_use_valid_scope'][self::$unspec] = 4;
-			static::$logs[$url]['table_use_summary'][self::$unspec] = 4;
-			static::$logs[$url]['table_use_caption'][self::$unspec] = 4;
+			static::setLog($url, $error_names, self::$unspec, 4);
 			return;
 		}
 
@@ -50,23 +50,20 @@ class Table extends Validate
 			preg_match('/\<table[^\>]*?\>/i', $m, $table_tag);
 
 			// th less
+			$tstr = $table_tag[0];
 			if (strpos($m, '<th') === false)
 			{
-				static::$logs[$url]['table_use_th'][$m] = -1;
-				static::$error_ids[$url]['table_use_th'][$n]['id'] = $table_tag[0];
-				static::$error_ids[$url]['table_use_th'][$n]['str'] = $table_tag[0];
+				static::setError($url, 'table_use_th', $n, $tstr, $tstr);
 			}
 			else
 			{
-				static::$logs[$url]['table_use_th'][$m] = 2;
+				static::setLog($url, 'table_use_th', self::$unspec, 2);
 			}
 
 			// scope less
 			if (strpos($m, ' scope') === false)
 			{
-				static::$logs[$url]['table_use_scope'][$m] = -1;
-				static::$error_ids[$url]['table_use_scope'][$n]['id'] = $table_tag[0];
-				static::$error_ids[$url]['table_use_scope'][$n]['str'] = $table_tag[0];
+				static::setError($url, 'table_use_scope', $n, $tstr, $tstr);
 			}
 			else if (preg_match_all('/scope *?= *?[\'"]([^\'"]+?)[\'"]/i', $m, $mms))
 			{
@@ -74,16 +71,14 @@ class Table extends Validate
 				{
 					if ( ! in_array($mm, array('col', 'row', 'rowgroup', 'colgroup')))
 					{
-						static::$logs[$url]['table_use_valid_scope'][$m] = -1;
-						static::$error_ids[$url]['table_use_valid_scope'][$n]['id'] = $table_tag[0];
-						static::$error_ids[$url]['table_use_valid_scope'][$n]['str'] = $mms[0][$nn];
+						static::setError($url, 'table_use_valid_scope', $n, $tstr, $mms[0][$nn]);
 					}
 				}
 			}
 			else
 			{
-				static::$logs[$url]['table_use_scope'][$m] = 2;
-				static::$logs[$url]['table_use_valid_scope'][$m] = 2;
+				static::setLog($url, 'table_use_scope', $m, 2);
+				static::setLog($url, 'table_use_valid_scope', $m, 2);
 			}
 
 			if (in_array(Element\Get::doctype($url), array('html4', 'xhtml')))
@@ -91,30 +86,26 @@ class Table extends Validate
 				// summary less
 				if ( ! array_key_exists('summary', Element\Get::attributes($table_tag[0])))
 				{
-					static::$logs[$url]['table_use_summary'][$m] = -1;
-					static::$error_ids[$url]['table_use_summary'][$n]['id'] = $table_tag[0];
-					static::$error_ids[$url]['table_use_summary'][$n]['str'] = $table_tag[0];
+					static::setError($url, 'table_use_summary', $n, $tstr, $tstr);
 				}
 				else
 				{
-					static::$logs[$url]['table_use_summary'][$m] = 2;
+					static::setLog($url, 'table_use_summary', $m, 2);
 				}
 			}
 			else
 			{
-				static::$logs[$url]['table_use_summary'][$m] = 5;
+				static::setLog($url, 'table_use_summary', $m, 5);
 			}
 
 			// caption less
 			if (strpos($m, '</caption>') === false)
 			{
-				static::$logs[$url]['table_use_caption'][$m] = -1;
-				static::$error_ids[$url]['table_use_caption'][$n]['id'] = $table_tag[0];
-				static::$error_ids[$url]['table_use_caption'][$n]['str'] = $table_tag[0];
+				static::setError($url, 'table_use_caption', $n, $tstr, $tstr);
 			}
 			else
 			{
-				static::$logs[$url]['table_use_caption'][$m] = 3;
+				static::setLog($url, 'table_use_caption', $m, 3);
 			}
 		}
 

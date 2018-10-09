@@ -22,7 +22,7 @@ class StyleForStructure extends Validate
 	 */
 	public static function check($url)
 	{
-		static::$logs[$url]['style_for_structure'][self::$unspec] = 1;
+		static::setLog($url, 'style_for_structure', self::$unspec, 1);
 		$str = Element\Get::ignoredHtml($url);
 
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
@@ -38,13 +38,11 @@ class StyleForStructure extends Validate
 				strpos($attrs['style'], 'color') !== false // includes background-color
 			)
 			{
-				static::$logs[$url]['style_for_structure'][$tstr] = -1;
-				static::$error_ids[$url]['style_for_structure'][$k]['id'] = $ms[0][$k];
-				static::$error_ids[$url]['style_for_structure'][$k]['str'] = $m;
+				static::setError($url, 'style_for_structure', $k, $tstr, $m);
 			}
 			else
 			{
-				static::$logs[$url]['style_for_structure'][$tstr] = 2;
+				static::setLog($url, 'style_for_structure', $tstr, 2);
 			}
 		}
 		static::addErrorToHtml($url, 'style_for_structure', static::$error_ids[$url], 'ignores');

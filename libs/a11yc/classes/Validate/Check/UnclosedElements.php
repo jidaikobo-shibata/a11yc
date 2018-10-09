@@ -22,7 +22,7 @@ class UnclosedElements extends Validate
 	 */
 	public static function check($url)
 	{
-		static::$logs[$url]['unclosed_elements'][self::$unspec] = 1;
+		static::setLog($url, 'unclosed_elements', self::$unspec, 1);
 		$str = Element\Get::ignoredHtml($url);
 
 		// tags
@@ -31,9 +31,7 @@ class UnclosedElements extends Validate
 		if ( ! $tags[0]) return;
 		foreach ($tags[0] as $k => $m)
 		{
-			static::$logs[$url]['unclosed_elements'][$m] = -1;
-			static::$error_ids[$url]['unclosed_elements'][$k]['id'] = $m;
-			static::$error_ids[$url]['unclosed_elements'][$k]['str'] = $m;
+			static::setError($url, 'unclosed_elements', $k, $m, $m);
 		}
 		static::addErrorToHtml($url, 'unclosed_elements', static::$error_ids[$url], 'ignores');
 	}

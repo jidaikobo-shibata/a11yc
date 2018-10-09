@@ -22,8 +22,8 @@ class Fieldsetless extends Validate
 	 */
 	public static function check($url)
 	{
-		static::$logs[$url]['fieldsetless'][self::$unspec] = 1;
-		static::$logs[$url]['legendless'][self::$unspec] = 1;
+		static::setLog($url, 'fieldsetless', self::$unspec, 1);
+		static::setLog($url, 'legendless', self::$unspec, 1);
 		$str = Element\Get::ignoredHtml($url);
 
 		$ms = Element\Get::elementsByRe($str, 'ignores');
@@ -32,8 +32,8 @@ class Fieldsetless extends Validate
 		$radio_check_names = self::getRadioCheckNames($ms[0]);
 		if (isset($radio_check_names[0]) && is_null($radio_check_names[0]))
 		{
-			static::$logs[$url]['fieldsetless'][self::$unspec] = 4;
-			static::$logs[$url]['legendless'][self::$unspec] = 4;
+			static::setLog($url, 'fieldsetless', self::$unspec, 4);
+			static::setLog($url, 'legendless', self::$unspec, 4);
 			return;
 		}
 
@@ -122,9 +122,7 @@ class Fieldsetless extends Validate
 			if (strpos($mm, '</legend>') === false)
 			{
 				$tstr = mb_substr($mm, 0, mb_strpos($mm, '>') + 1);
-				static::$logs[$url]['legendless'][$tstr] = -1;
-				static::$error_ids[$url]['legendless'][$k]['id'] = $tstr;
-				static::$error_ids[$url]['legendless'][$k]['str'] = $tstr;
+				static::setError($url, 'legendless', $k, $tstr, $tstr);
 			}
 		}
 	}
@@ -141,14 +139,12 @@ class Fieldsetless extends Validate
 	{
 		foreach ($radio_check_names as $radio_check_name)
 		{
-			foreach ($ms as $k => $v)
+			foreach ($ms as $k => $tstr)
 			{
-				$attrs = Element\Get::attributes($v);
+				$attrs = Element\Get::attributes($tstr);
 				if (Arr::get($attrs, 'name') == $radio_check_name)
 				{
-					static::$logs[$url]['fieldsetless'][$v] = -1;
-					static::$error_ids[$url]['fieldsetless'][$k]['id'] = $v;
-					static::$error_ids[$url]['fieldsetless'][$k]['str'] = $v;
+					static::setError($url, 'fieldsetless', $k, $tstr, $tstr);
 					break;
 				}
 			}

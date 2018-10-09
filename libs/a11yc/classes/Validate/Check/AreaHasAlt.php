@@ -21,12 +21,12 @@ class AreaHasAlt extends Validate
 	 */
 	public static function check($url)
 	{
-		static::$logs[$url]['area_has_alt'][self::$unspec] = 1;
+		static::setLog($url, 'area_has_alt', self::$unspec, 1);
 		$str = Element\Get::ignoredHtml($url);
 
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
-		static::$logs[$url]['area_has_alt'][self::$unspec] = 0;
+		static::setLog($url, 'area_has_alt', self::$unspec, 0);
 		$is_exists = false;
 
 		foreach ($ms[0] as $k => $m)
@@ -38,19 +38,19 @@ class AreaHasAlt extends Validate
 			$tstr = $ms[0][$k];
 			if ( ! isset($attrs['alt']) || empty($attrs['alt']))
 			{
-				static::$logs[$url]['area_has_alt'][$tstr] = 0;
-				static::$error_ids[$url]['area_has_alt'][$k]['id'] = $tstr;
-				static::$error_ids[$url]['area_has_alt'][$k]['str'] = @basename(@$attrs['href']);
+				$str = Arr::get($attrs, 'href');
+				$str = ! empty($str) ? basename($str) : $str;
+				static::setError($url, 'area_has_alt', $k, $tstr, $str);
 			}
 			else
 			{
-				static::$logs[$url]['area_has_alt'][$tstr] = 2;
+				static::setLog($url, 'area_has_alt', $tstr, 2);
 			}
 		}
 
 		if ( ! $is_exists)
 		{
-			static::$logs[$url]['area_has_alt'][self::$unspec] = 4;
+			static::setLog($url, 'area_has_alt', self::$unspec, 4);
 		}
 
 		static::addErrorToHtml($url, 'area_has_alt', static::$error_ids[$url], 'ignores');

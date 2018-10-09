@@ -22,9 +22,9 @@ class SuspiciousElements extends Validate
 	 */
 	public static function check($url)
 	{
-		static::$logs[$url]['too_much_opens'][self::$unspec] = 2;
-		static::$logs[$url]['too_much_ends'][self::$unspec] = 2;
-		static::$logs[$url]['suspicious_ends'][self::$unspec] = 2;
+		static::setLog($url, 'too_much_opens', self::$unspec, 1);
+		static::setLog($url, 'too_much_ends', self::$unspec, 1);
+		static::setLog($url, 'suspicious_ends', self::$unspec, 1);
 		$str = Element\Get::ignoredHtml($url);
 
 		// tags
@@ -47,25 +47,19 @@ class SuspiciousElements extends Validate
 		// add errors
 		foreach ($too_much_opens as $k => $v)
 		{
-			static::$logs[$url]['too_much_opens'][self::$unspec] = -1;
-			static::$error_ids[$url]['too_much_opens'][$k]['id'] = false;
-			static::$error_ids[$url]['too_much_opens'][$k]['str'] = $v;
+			static::setError($url, 'too_much_opens', $k, '', $v);
 		}
 		static::addErrorToHtml($url, 'too_much_opens', static::$error_ids[$url], 'ignores');
 
 		foreach ($too_much_ends as $k => $v)
 		{
-			static::$logs[$url]['too_much_ends'][self::$unspec] = -1;
-			static::$error_ids[$url]['too_much_ends'][$k]['id'] = false;
-			static::$error_ids[$url]['too_much_ends'][$k]['str'] = $v;
+			static::setError($url, 'too_much_ends', $k, '', $v);
 		}
 		static::addErrorToHtml($url, 'too_much_ends', static::$error_ids[$url], 'ignores');
 
 		foreach ($suspicious_ends as $k => $v)
 		{
-			static::$logs[$url]['suspicious_ends'][self::$unspec] = -1;
-			static::$error_ids[$url]['suspicious_ends'][$k]['id'] = false;
-			static::$error_ids[$url]['suspicious_ends'][$k]['str'] = $v;
+			static::setError($url, 'suspicious_ends', $k, '', $v);
 		}
 		static::addErrorToHtml($url, 'suspicious_ends', static::$error_ids[$url], 'ignores');
 	}

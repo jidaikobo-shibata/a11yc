@@ -22,7 +22,8 @@ class TitlelessFrame extends Validate
 	 */
 	public static function check($url)
 	{
-		static::$logs[$url]['titleless_frame'][self::$unspec] = 1;
+		static::setLog($url, 'titleless_frame', self::$unspec, 1);
+
 		$str = Element\Get::ignoredHtml($url);
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0]) return;
@@ -35,13 +36,11 @@ class TitlelessFrame extends Validate
 
 			if ( ! trim(Arr::get($attrs, 'title')))
 			{
-				static::$logs[$url]['titleless_frame'][$tstr] = -1;
-				static::$error_ids[$url]['titleless_frame'][$k]['id'] = $tstr;
-				static::$error_ids[$url]['titleless_frame'][$k]['str'] = $tstr;
+				static::setError($url, 'titleless_frame', $k, '', $tstr);
 			}
 			else
 			{
-				static::$logs[$url]['titleless_frame'][$tstr] = 2;
+				static::setLog($url, 'titleless_frame', $tstr, 2);
 			}
 		}
 		static::addErrorToHtml($url, 'titleless_frame', static::$error_ids[$url], 'ignores');

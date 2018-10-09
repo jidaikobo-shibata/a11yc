@@ -22,12 +22,12 @@ class SameAltAndFilenameOfImg extends Validate
 	 */
 	public static function check($url)
 	{
-		static::$logs[$url]['same_alt_and_filename_of_img'][self::$unspec] = 1;
+		static::setLog($url, 'same_alt_and_filename_of_img', self::$unspec, 1);
 		$str = Element\Get::ignoredHtml($url);
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'imgs');
 		if ( ! $ms[0])
 		{
-			static::$logs[$url]['same_alt_and_filename_of_img'][self::$unspec] = 4;
+			static::setLog($url, 'same_alt_and_filename_of_img', self::$unspec, 4);
 			return;
 		}
 
@@ -45,13 +45,11 @@ class SameAltAndFilenameOfImg extends Validate
 				$attrs['alt'] == substr($filename, 0, strrpos($filename, '-')) // without size
 			)
 			{
-				static::$logs[$url]['same_alt_and_filename_of_img'][$tstr] = 4;
-				static::$error_ids[$url]['same_alt_and_filename_of_img'][$k]['id'] = $tstr;
-				static::$error_ids[$url]['same_alt_and_filename_of_img'][$k]['str'] = '"'.$filename.'"';
+				static::setError($url, 'same_alt_and_filename_of_img', $k, $tstr, '"'.$filename.'"');
 			}
 			else
 			{
-				static::$logs[$url]['same_alt_and_filename_of_img'][$tstr] = 2;
+				static::setLog($url, 'same_alt_and_filename_of_img', $tstr, 2);
 			}
 		}
 		static::addErrorToHtml($url, 'same_alt_and_filename_of_img', static::$error_ids[$url], 'ignores');

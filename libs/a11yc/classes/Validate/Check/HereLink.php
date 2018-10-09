@@ -21,28 +21,27 @@ class HereLink extends Validate
 	 */
 	public static function check($url)
 	{
-		static::$logs[$url]['here_link'][self::$unspec] = 1;
+		static::setLog($url, 'here_link', self::$unspec, 1);
 		$str = Element\Get::ignoredHtml($url);
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'anchors_and_values');
 		if ( ! $ms[2])
 		{
-			static::$logs[$url]['here_link'][self::$unspec] = 4;
+			static::setLog($url, 'here_link', self::$unspec, 4);
 			return;
 		}
 
 		$heres = array_map('trim', explode(',', A11YC_LANG_HERE));
 		foreach ($ms[2] as $k => $m)
 		{
+			$tstr = $ms[0][$k];
 			$m = trim($m);
 			if (in_array(strtolower($m), $heres))
 			{
-				static::$logs[$url]['here_link'][$m] = -1;
-				static::$error_ids[$url]['here_link'][$k]['id'] = $ms[0][$k];
-				static::$error_ids[$url]['here_link'][$k]['str'] = Util::s($ms[0][$k]);
+				static::setError($url, 'here_link', $k, $tstr, $tstr);
 			}
 			else
 			{
-				static::$logs[$url]['here_link'][$m] = 2;
+				static::setLog($url, 'here_link', $tstr, 2);
 			}
 		}
 		static::addErrorToHtml($url, 'here_link', static::$error_ids[$url], 'ignores');

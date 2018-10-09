@@ -22,7 +22,7 @@ class NoticeNonHtmlExists extends Validate
 	 */
 	public static function check($url)
 	{
-		static::$logs[$url]['notice_non_html_exists'][self::$unspec] = 1;
+		static::setLog($url, 'notice_non_html_exists', self::$unspec, 1);
 		$str = Element\Get::ignoredHtml($url);
 
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'anchors_and_values');
@@ -59,9 +59,7 @@ class NoticeNonHtmlExists extends Validate
 			{
 				$err_strs[] = $ext.' ('.sprintf(A11YC_LANG_COUNT_ITEMS, $times).')';
 			}
-
-			static::$error_ids[$url]['notice_non_html_exists'][0]['id'] = 0;
-			static::$error_ids[$url]['notice_non_html_exists'][0]['str'] = join(', ', $err_strs);
+			static::setError($url, 'notice_non_html_exists', 0, '', join(', ', $err_strs));
 		}
 		static::addErrorToHtml($url, 'notice_non_html_exists', static::$error_ids[$url], 'ignores');
 	}

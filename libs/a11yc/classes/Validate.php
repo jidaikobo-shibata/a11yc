@@ -494,9 +494,10 @@ class Validate
 	 */
 	public static function setError($url, $error_name, $count, $id, $str)
 	{
-		static::$logs[$url][$error_name][$id] = -1;
+		$log_id = empty($id) ? self::$unspec : $id;
+		static::$logs[$url][$error_name][$log_id] = -1;
 		static::$error_ids[$url][$error_name][$count]['id'] = $id;
-		static::$error_ids[$url][$error_name][$count]['str'] = $str;
+		static::$error_ids[$url][$error_name][$count]['str'] = Util::s($str);
 	}
 
 	/**

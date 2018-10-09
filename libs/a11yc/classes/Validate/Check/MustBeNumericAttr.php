@@ -23,12 +23,12 @@ class MustBeNumericAttr extends Validate
 	{
 		return; // studying
 /*
-		static::$logs[$url]['must_be_numeric_attr'][self::$unspec] = 1;
+		static::setLog($url, 'must_be_numeric_attr', self::$unspec, 1);
 		$str = Element\Get::ignoredHtml($url);
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[0])
 		{
-			static::$logs[$url]['must_be_numeric_attr'][self::$unspec] = 4;
+			static::setLog($url, 'must_be_numeric_attr', self::$unspec, 4);
 			return;
 		}
 
@@ -48,13 +48,11 @@ class MustBeNumericAttr extends Validate
 
 				if ( ! is_numeric($val))
 				{
-					static::$logs[$url]['must_be_numeric_attr'][$v] = -1;
-					static::$error_ids[$url]['must_be_numeric_attr'][$k]['id'] = $v;
-					static::$error_ids[$url]['must_be_numeric_attr'][$k]['str'] = $attr;
+					static::setError($url, 'must_be_numeric_attr', $k, $v, $attr);
 				}
 				else
 				{
-					static::$logs[$url]['must_be_numeric_attr'][$v] = 2;
+					static::setLog($url, 'must_be_numeric_attr', $v, 2);
 				}
 			}
 		}

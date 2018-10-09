@@ -22,9 +22,9 @@ class LinkCheck extends Validate
 	 */
 	public static function check($url)
 	{
-		static::$logs[$url]['link_check'][self::$unspec] = 5;
+		static::setLog($url, 'link_check', self::$unspec, 5);
 		if ( ! static::$do_link_check) return;
-		static::$logs[$url]['link_check'][self::$unspec] = 1;
+		static::setLog($url, 'link_check', self::$unspec, 1);
 
 		$str = Element\Get::ignoredHtml($url);
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
@@ -56,9 +56,7 @@ class LinkCheck extends Validate
 			{
 				if ( ! in_array(substr($target_url, 1), $fragments[1]))
 				{
-					static::$logs[$url]['link_check'][$tag] = -1;
-					static::$error_ids[$url]['link_check'][$k]['id'] = $tag;
-					static::$error_ids[$url]['link_check'][$k]['str'] = 'Fragment Not Found: '.$target_url;
+					static::setError($url, 'link_check', $k, $tag, 'Fragment Not Found: '.$target_url);
 				}
 				continue;
 			}
@@ -74,9 +72,7 @@ class LinkCheck extends Validate
 			// links
 			if ( ! Crawl::isPageExist($target_url))
 			{
-				static::$logs[$url]['link_check'][$tag] = -1;
-				static::$error_ids[$url]['link_check'][$k]['id'] = $tag;
-				static::$error_ids[$url]['link_check'][$k]['str'] = 'Not Found: '.$target_url;
+				static::setError($url, 'link_check', $k, $tag, 'Not Found: '.$target_url);
 				continue;
 			}
 
@@ -84,9 +80,7 @@ class LinkCheck extends Validate
 			$headers = @get_headers($target_url);
 			if ($headers !== false && strpos($headers[0], ' 40') !== false)
 			{
-				static::$logs[$url]['link_check'][$tag] = -1;
-				static::$error_ids[$url]['link_check'][$k]['id'] = $tag;
-				static::$error_ids[$url]['link_check'][$k]['str'] = 'header 40x: '.$target_url;
+				static::setError($url, 'link_check', $k, $tag, 'header 40x: '.$target_url);
 			}
 		}
 
