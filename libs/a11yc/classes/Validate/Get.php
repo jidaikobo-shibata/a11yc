@@ -75,7 +75,9 @@ class Get extends Validate
 	 */
 	public static function highLightedHtml($url, $codes = array(), $ua = 'using', $force = false)
 	{
-		return self::base('hl_html', $url, $codes, $ua, $force, '');
+		$retval = self::base('hl_html', $url, $codes, $ua, $force, '');
+		if (is_array($retval)) return '';
+		return $retval;
 	}
 
 	/**
