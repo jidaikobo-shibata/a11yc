@@ -31,7 +31,7 @@ class CheckDoctype extends Validate
 
 		if (is_null(Element\Get::doctype($url)))
 		{
-			static::setError($url, 'check_doctype', $k, '', 'doctype not found');
+			static::setError($url, 'check_doctype', 0, '', 'doctype not found');
 		}
 		else
 		{
