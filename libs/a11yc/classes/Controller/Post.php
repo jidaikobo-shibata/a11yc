@@ -24,6 +24,7 @@ php_value post_max_size "2M"
 namespace A11yc\Controller;
 
 use A11yc\Model;
+use A11yc\Validate;
 
 class Post
 {
@@ -187,7 +188,6 @@ class Post
 		$user_agent       = Input::post('user_agent', '');
 		$default_ua       = Input::userAgent();
 		$doc_root         = Input::post('doc_root');
-		$target_html      = '';
 		$do_css_check     = Input::post('do_css_check', false);
 
 		// host check
@@ -255,7 +255,7 @@ class Post
 		{
 			$target_html = Input::post('source');
 		}
-		elseif ($url)
+		elseif ( ! empty($url))
 		{
 			$target_html = Model\Html::fetchHtml($url, $ua); // not use Database
 			$do_validate = self::failedOrDoOtherAction($url, $doc_root);
@@ -339,7 +339,7 @@ class Post
 	 * @param Strings $url
 	 * @param Strings $target_html
 	 * @param Strings $ua
-	 * @param Strings $do_css_check
+	 * @param Bool $do_css_check
 	 * @return Array
 	 */
 	private static function validate($url, $target_html, $ua, $do_css_check = false)
@@ -348,7 +348,7 @@ class Post
 		$codes = Validate::$codes;
 		Validate::$do_css_check = $do_css_check;
 		Validate::html($url, $target_html, $codes, $ua);
-		$all_errs = Validate::getErrors($url, $codes, $ua);
+		$all_errs = Validate\Get::errors($url, $codes, $ua);
 
 		// message
 		Session::add('messages', 'messages', A11YC_LANG_POST_DONE);
@@ -371,9 +371,9 @@ class Post
 		// results
 		$errs_cnts = array_merge(
 			array('total' => count($all_errs['errors'])),
-			Validate::getErrorCnts($url, $codes, $ua)
+			Validate\Get::errorCnts($url, $codes, $ua)
 		);
-		$render = Validate::getHighLightedHtml($url, $codes, $ua);
+		$render = Validate\Get::highLightedHtml($url, $codes, $ua);
 		$raw = nl2br($render);
 
 		View::assign('errs'                , $all_errs, false);
@@ -382,7 +382,7 @@ class Post
 		View::assign('is_call_from_post'   , true);
 		View::assign('machine_check_status', Values::machineCheckStatus());
 		View::assign('yml'                 , Yaml::fetch());
-		View::assign('logs'                , Validate::getLogs($url) ?: array());
+		View::assign('logs'                , Validate\Get::logs($url) ?: array());
 
 		// count up for guest users
 		Post\Auth::countUpForGuestUsers();

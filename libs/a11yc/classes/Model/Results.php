@@ -21,7 +21,7 @@ class Results
 	 * @param Bool $force
 	 * @return Array
 	 */
-	public static function fetch($url, $force = 0)
+	public static function fetch($url, $force = false)
 	{
 		if (isset(static::$results[$url]) && ! $force) return static::$results[$url];
 		$sql = 'SELECT * FROM '.A11YC_TABLE_RESULTS.' WHERE `url` = ?'.Db::versionSql().';';

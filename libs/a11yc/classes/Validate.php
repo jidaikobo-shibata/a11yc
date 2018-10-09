@@ -105,14 +105,16 @@ class Validate
 	 * html
 	 *
 	 * @param  String $url
-	 * @param  String $html
+	 * @param  String|Array|Bool $html
 	 * @param  Array  $codes
 	 * @param  String $ua
 	 * @param  Bool   $force
 	 * @return Void
 	 */
-	public static function html($url, $html, $codes = array(), $ua = 'using', $force = 0)
+	public static function html($url, $html, $codes = array(), $ua = 'using', $force = false)
 	{
+		if ( ! is_string($html)) Util::error('invalid HTML wa given');
+
 		$codes = $codes ?: self::$codes;
 		$name = static::codes2name($codes);
 		if (isset(static::$results[$url][$name][$ua]) && ! $force) return static::$results[$url][$name][$ua];
@@ -126,7 +128,7 @@ class Validate
 		// validate
 		foreach ($codes as $class)
 		{
-			$class = 'A11yc\\Validate\\'.$class;
+			$class = 'A11yc\\Validate\\Check\\'.$class;
 			$class::check($url);
 		}
 
@@ -151,10 +153,8 @@ class Validate
 			}
 		}
 
-		$escaped_html = Util::s(static::$hl_htmls[$url]);
-		if ( ! is_string($escaped_html)) Util::error('invalid HTML was given');
 		static::$results[$url][$name][$ua]['html'] = $html;
-		static::$results[$url][$name][$ua]['hl_html'] = self::revertHtml($escaped_html);
+		static::$results[$url][$name][$ua]['hl_html'] = self::revertHtml(Util::s(static::$hl_htmls[$url]));
 		static::$results[$url][$name][$ua]['errors'] = $all_errs;
 		static::$results[$url][$name][$ua]['errs_cnts'] = static::$err_cnts;
 	}
@@ -168,7 +168,7 @@ class Validate
 	 * @param  Bool   $force
 	 * @return Void
 	 */
-	public static function url($url, $codes = array(), $ua = 'using', $force = 0)
+	public static function url($url, $codes = array(), $ua = 'using', $force = false)
 	{
 		// cache
 		$codes = $codes ?: self::$codes;
@@ -176,9 +176,7 @@ class Validate
 		if (isset(static::$results[$url][$name][$ua]) && ! $force) return static::$results[$url][$name][$ua];
 
 		// get html and set it to temp value
-		$html = Model\Html::getHtml($url, $ua);
-		if ( ! is_string($html)) Util::error('invalid HTML was given');
-		self::html($url, $html, $codes, $ua, $force);
+		self::html($url, Model\Html::getHtml($url, $ua), $codes, $ua, $force);
 	}
 
 	/**
@@ -192,80 +190,6 @@ class Validate
 	{
 		if (isset(static::$csses[$url][$ua])) return static::$csses[$url][$ua];
 		return Model\Css::fetchCss($url, $ua);
-	}
-
-	/**
-	 * getErrorCnts
-	 *
-	 * @param  String $url
-	 * @param  Array  $codes
-	 * @param  String $ua
-	 * @param  Bool   $force
-	 * @return Array
-	 */
-	public static function getErrorCnts($url, $codes = array(), $ua = 'using', $force = false)
-	{
-		$codes = $codes ?: self::$codes;
-		$name = static::codes2name($codes);
-		if (isset(static::$results[$url][$name][$ua]['errs_cnts']) && ! $force) return static::$results[$url][$name][$ua]['errs_cnts'];
-		return array();
-	}
-
-	/**
-	 * getErrors
-	 *
-	 * @param  String $url
-	 * @param  Array  $codes
-	 * @param  String $ua
-	 * @param  Bool   $force
-	 * @return Array
-	 */
-	public static function getErrors($url, $codes = array(), $ua = 'using', $force = false)
-	{
-		$codes = $codes ?: self::$codes;
-		$name = static::codes2name($codes);
-		if (isset(static::$results[$url][$name][$ua]['errors']) && ! $force) return static::$results[$url][$name][$ua]['errors'];
-		return array();
-	}
-
-	/**
-	 * getHighLightedHtml
-	 *
-	 * @param  String $url
-	 * @param  Array  $codes
-	 * @param  String $ua
-	 * @param  Bool   $force
-	 * @return String
-	 */
-	public static function getHighLightedHtml($url, $codes = array(), $ua = 'using', $force = false)
-	{
-		$codes = $codes ?: self::$codes;
-		$name = static::codes2name($codes);
-
-		if (isset(static::$results[$url][$name][$ua]['hl_html']) && ! $force) return static::$results[$url][$name][$ua]['hl_html'];
-		return '';
-	}
-
-	/**
-	 * get error ids
-	 *
-	 * @param  String $url
-	 * @return Array
-	 */
-	public static function getErrorIds($url)
-	{
-		return isset(static::$error_ids[$url]) ? static::$error_ids[$url] : array();
-	}
-
-	/**
-	 * get logs
-	 *
-	 * @param  String $url
-	 * @return Array
-	 */
-	public static function getLogs($url)
-	{
-		return isset(static::$logs[$url]) ? static::$logs[$url] : array();
 	}
 
 	/**
@@ -378,7 +302,7 @@ class Validate
 	 * @param  String $url
 	 * @param  String $error_id
 	 * @param  String $issue_html
-	 * @return  Array|bool
+	 * @return  Array|Bool
 	 */
 	public static function setCurrentErr($url, $error_id, $issue_html)
 	{
@@ -387,7 +311,7 @@ class Validate
 		if ( ! isset($yml['errors'][$error_id]))
 		{
 			$issue = Model\Issues::fetch4Validation($url, $issue_html);
-			if ( ! $issue) return false;
+			if (empty($issue)) return false;
 			$current_err['message'] = $issue['error_message'];
 			if (strpos($issue['criterion'], ',') !== false)
 			{
@@ -449,11 +373,13 @@ class Validate
 	 * @param  Integer $k
 	 * @param  String  $lv
 	 * @param  String  $error_id
-	 * @param  Array   $current_err
+	 * @param  Array|Bool   $current_err
 	 * @return  Array
 	 */
 	private static function replaceSafeStrings($replaces, $k, $lv, $error_id, $current_err)
 	{
+		if ( ! is_array($current_err)) Util::error('invalid error type was given');
+
 		//notice
 		$rplc = isset($current_err['notice']) && $current_err['notice'] ?
 					'a11yc_notice_rplc' :
@@ -481,11 +407,13 @@ class Validate
 	/**
 	 * revert html
 	 *
-	 * @param  String $html
+	 * @param  String|Array $html
 	 * @return String
 	 */
 	public static function revertHtml($html)
 	{
+		if (is_array($html)) Util::error('invalid HTML was given');
+
 		$retval = str_replace(
 			array(
 				// ERROR!

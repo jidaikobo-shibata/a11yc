@@ -83,12 +83,13 @@ class Auth
 	/**
 	 * verify
 	 *
-	 * @param  String $password
+	 * @param  String|Array $password
 	 * @param  String $hash
 	 * @return Bool
 	 */
 	public static function verify ($password, $hash)
 	{
+		if ( ! is_string($password)) return false;
 		return password_verify($password, $hash);
 	}
 }

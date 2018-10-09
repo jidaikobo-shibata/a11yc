@@ -98,11 +98,12 @@ class Util
 	/**
 	 * sanitiz html
 	 *
-	 * @param  String $str
-	 * @return Mixed
+	 * @param  String|Array|Bool $str
+	 * @return String|Array
 	 */
 	public static function s($str)
 	{
+		if (is_bool($str)) return '';
 		if (is_array($str)) return array_map(array('\Kontiki\Util', 's'), $str);
 		return htmlentities($str, ENT_QUOTES, 'UTF-8', false);
 	}

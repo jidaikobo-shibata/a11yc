@@ -20,7 +20,7 @@ class Uas
 	 * @param Bool $force
 	 * @return Array
 	 */
-	public static function fetch($force = 0)
+	public static function fetch($force = false)
 	{
 		if ( ! is_null(static::$uas) && ! $force) return static::$uas;
 

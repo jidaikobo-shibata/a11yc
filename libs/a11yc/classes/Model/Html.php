@@ -105,12 +105,14 @@ class Html
 	 *
 	 * @param  String $url
 	 * @param  String $ua
-	 * @param  String $html
+	 * @param  String|Bool $html
 	 * @param  String $type ['raw', 'high-lighted', 'ignored']
 	 * @return Void
 	 */
 	public static function addHtml($url, $ua = 'using', $html = '', $type = 'raw')
 	{
+		if ( ! is_string($html)) Util::error('invalid HTML was given');
+
 		// insert
 		$types = array(
 			'raw',
@@ -149,7 +151,7 @@ class Html
 	 * @param  String $url
 	 * @param  String $ua
 	 * @param  String $type ['raw', 'high-lighted', 'ignored']
-	 * @param  String $force
+	 * @param  Bool $force
 	 * @return String|Bool
 	 */
 	public static function getHtml($url, $ua = 'using', $type = 'raw', $force = false)
@@ -192,7 +194,7 @@ class Html
 	 * fetch page title
 	 *
 	 * @param  String $url
-	 * @param  String $is_from_web
+	 * @param  Bool $is_from_web
 	 * @return String
 	 */
 	public static function fetchPageTitle($url, $is_from_web = false)
@@ -208,11 +210,12 @@ class Html
 	/**
 	 * fetch page title from html
 	 *
-	 * @param  String $html
+	 * @param  String|Bool $html
 	 * @return String
 	 */
 	public static function fetchPageTitleFromHtml($html)
 	{
+		if ( ! is_string($html)) Util::error('invalid HTML was given');
 		preg_match("/<title.*?>(.+?)<\/title>/si", $html, $m);
 		$tmp = isset($m[1]) ? $m[1] : '';
 		$title = str_replace(array("\n", "\r"), '', $tmp);

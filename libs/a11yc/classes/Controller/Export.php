@@ -11,6 +11,7 @@
 namespace A11yc\Controller;
 
 use A11yc\Model;
+use A11yc\Validate;
 
 class Export
 {
@@ -105,7 +106,7 @@ class Export
 	private static function addErr2Csv($url, $csv, $n)
 	{
 		$yml = Yaml::fetch();
-		foreach (Validate::getErrorIds($url) as $err_code => $errs)
+		foreach (Validate\Get::errorIds($url) as $err_code => $errs)
 		{
 			foreach ($errs as $err)
 			{
@@ -114,7 +115,7 @@ class Export
 				if ( ! isset($yml['errors'][$err_code]))
 				{
 					$issue = Model\Issues::fetch4Validation($url, $err['str']);
-					if ( ! $issue) return;
+					if (empty($issue)) return;
 					$current_err['message'] = $issue['error_message'];
 					$current_err['criterion'] = $issue['criterion'];
 					$current_err['code'] = '';
@@ -157,12 +158,14 @@ class Export
 	 * add images to csv
 	 *
 	 * @param  String  $url
-	 * @param  Array   $csv
+	 * @param  Array|Null   $csv
 	 * @param  Integer $n
 	 * @return Array
 	 */
 	private static function addImgs2Csv($url, $csv, $n)
 	{
+		if (is_null($csv)) return array();
+
 		// alt list
 		foreach (\A11yc\Images::getImages($url) as $v)
 		{

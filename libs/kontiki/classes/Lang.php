@@ -20,7 +20,7 @@ class Lang
 	public static function getLangs($dir)
 	{
 		static $langs = array();
-		if ($langs) return $langs;
+		if ( ! empty($langs)) return $langs;
 		$dir = $dir ?: KONTIKI_PATH.'/lang';
 		$langs = array_map('basename', glob($dir.'/*'));
 		return $langs;

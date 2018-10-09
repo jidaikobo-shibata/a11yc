@@ -52,7 +52,7 @@ endif;
 
 // row class
 $class = '';
-if ($classes):
+if ( ! empty($classes)):
 	$class = ' class="'.join(' ', $classes).'"';
 endif;
 
@@ -99,7 +99,7 @@ endforeach;
 		$attrs[] = '<li><span class="a11yc_list_marker" role="presentation" aria-hidden="true"></span><span class="a11yc_attr" title=\''.$kk.'="'.$vv.'"\'>'.$kk .'="'.$vv.'"</span></li>';
 	endforeach;
 
-	if ($attrs):
+	if ( ! empty($attrs)):
 		echo '<ul>'.join($attrs).'</ul>';
 	endif;
 	echo $attr_err;

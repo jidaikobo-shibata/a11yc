@@ -11,6 +11,7 @@
 namespace A11yc\Controller;
 
 use A11yc\Model;
+use A11yc\Validate;
 
 class Checklist
 {
@@ -186,7 +187,7 @@ class Checklist
 	private static function getCheckStatus($url)
 	{
 		$retvals = array('passed' => array(), 'failed' => array());
-		foreach (Validate::getLogs($url) as $v)
+		foreach (Validate\Get::logs($url) as $v)
 		{
 			foreach ($v as $vv)
 			{
@@ -206,11 +207,13 @@ class Checklist
 	 * get basic values
 	 *
 	 * @param  String $url
-	 * @param  Array $page
+	 * @param  Array|Bool $page
 	 * @return Array
 	 */
 	private static function getBasicValues($url, $page)
 	{
+		if ( ! is_array($page)) Util::error('invalid value was given');
+
 		// settings
 		$settings = Model\Settings::fetchAll();
 
@@ -246,7 +249,7 @@ class Checklist
 	 */
 	private static function getPage($url)
 	{
-		$page = Model\Pages::fetchPage($url, 1);
+		$page = Model\Pages::fetchPage($url, true);
 		if ( ! $page && $url)
 		{
 			Model\Pages::addPage($url);
@@ -285,14 +288,14 @@ class Checklist
 			View::assign('cs', Model\Checklist::fetch($url));
 		}
 
-		$errs = Validate::getErrors($url) ?: array('errors' => array(), 'notices' => array());
+		$errs = Validate\Get::errors($url) ?: array('errors' => array(), 'notices' => array());
 
 		// validation
 //		View::assign('is_call_from_post', true);
-		View::assign('errs_cnts', Validate::getErrorCnts($url));
+		View::assign('errs_cnts', Validate\Get::errorCnts($url));
 		View::assign('errs', $errs, FALSE);
-		View::assign('logs', Validate::getLogs($url) ?: array());
-		View::assign('raw', nl2br(Validate::getHighLightedHtml($url)), FALSE);
+		View::assign('logs', Validate\Get::logs($url) ?: array());
+		View::assign('raw', nl2br(Validate\Get::highLightedHtml($url)), FALSE);
 		View::assign('validation_result', View::fetchTpl('checklist/validate.php'), FALSE);
 	}
 }

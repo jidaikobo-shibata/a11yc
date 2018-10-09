@@ -302,7 +302,7 @@ class Pages
 	 * count pages
 	 *
 	 * @return String $type
-	 * @return Integer/Bool
+	 * @return Integer|Bool
 	 */
 	public static function count($type = 'all')
 	{

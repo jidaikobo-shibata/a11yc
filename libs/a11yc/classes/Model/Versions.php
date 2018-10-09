@@ -24,7 +24,7 @@ class Versions
 	 * @param Bool $force
 	 * @return Array
 	 */
-	public static function fetch($force = 0)
+	public static function fetch($force = false)
 	{
 		if ( ! is_null(static::$versions) && ! $force) return static::$versions;
 

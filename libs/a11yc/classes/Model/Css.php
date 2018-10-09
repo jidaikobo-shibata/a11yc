@@ -112,7 +112,7 @@ class Css
 
 		$html = Html::fetchHtml($url, $url);
 		if ($html === false) return array();
-		$css = self::getConvinedCssFromHtml($url, $html, $ua);
+		$css = self::getConvinedCssFromHtml($html, $ua);
 		static::$csses[$url][$ua] = self::makeArray($css);
 
 		return static::$csses[$url][$ua];
@@ -121,13 +121,14 @@ class Css
 	/**
 	 * get css from html
 	 *
-	 * @param  String $html_url
-	 * @param  String $html
+	 * @param  String|Bool $html
 	 * @param  String $ua
 	 * @return String
 	 */
-	private static function getConvinedCssFromHtml($html_url, $html, $ua)
+	private static function getConvinedCssFromHtml($html, $ua)
 	{
+		if ( ! is_string($html)) Util::error('invalid HTML was given');
+
 		$css = '';
 		$ua = $ua == 'using' ? Input::userAgent() : $ua;
 

@@ -50,8 +50,8 @@ class Center
 			$body = View::fetch('body');
 		}
 
-		$center = View::fetchTpl('center/index.php');
 		View::assign('title', A11YC_LANG_CENTER_TITLE);
+		$center = View::fetchTpl('center/index.php');
 		View::assign('body', $body.$center, false);
 	}
 

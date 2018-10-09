@@ -5,7 +5,7 @@
 <?php
 $lines = explode("\n", Util::docHtmlWhitelist(stripslashes(Util::key2link($doc['doc'], $a11yc_doc_url))));
 
-if ($lines):
+if ( ! empty($lines)):
 	foreach ($lines as $line): ?>
 		<p><?php echo $line ?></p>
 	<?php endforeach; ?>
