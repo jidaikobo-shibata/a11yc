@@ -188,11 +188,19 @@ class Post
 		$user_agent       = Input::post('user_agent', '');
 		$default_ua       = Input::userAgent();
 		$doc_root         = Input::post('doc_root');
-		$target_html      = '';
+		$target_html      = Input::post('source', '');
 		$do_css_check     = Input::post('do_css_check', false);
 
 		// host check
-		$doc_root = strpos($url, $doc_root) !== false ? $doc_root : Crawl::getHostFromUrl($url);
+		if (empty($url))
+		{
+			$url = 'not specified';
+			$doc_root = 'not specified';
+		}
+		else
+		{
+			$doc_root = strpos($url, $doc_root) !== false ? $doc_root : Crawl::getHostFromUrl($url);
+		}
 
 		// User Agent
 		$uas = Values::uas();
@@ -232,10 +240,10 @@ class Post
 		View::assign('do_css_check'       , $do_css_check);
 		View::assign('title'              , ''); // need for header
 		View::assign('current_user_agent' , $current_ua);
-		View::assign('doc_root'           , $doc_root);
+		View::assign('doc_root'           , $doc_root == 'not specified' ? '' : $doc_root);
 		View::assign('user_agent'         , $user_agent);
 		View::assign('script_url'         , A11YC_POST_SCRIPT_URL);
-		View::assign('url'                , $url);
+		View::assign('url'                , $url == 'not specified' ? '' : $url);
 		View::assign('target_html'        , $target_html);
 		View::assign('body'               , View::fetchTpl('post/index.php'), false);
 	}

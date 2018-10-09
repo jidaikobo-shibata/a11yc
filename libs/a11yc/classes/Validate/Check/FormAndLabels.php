@@ -31,10 +31,7 @@ class FormAndLabels extends Validate
 			'lackness_of_form_ends',
 		);
 
-		foreach ($error_names as $error_name)
-		{
-			static::setLog($url, $error_name, self::$unspec, 1);
-		}
+		static::setLog($url, $error_names, self::$unspec, 1);
 		$str = Element\Get::ignoredHtml($url);
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
 		if ( ! $ms[1]) return;
@@ -42,10 +39,7 @@ class FormAndLabels extends Validate
 		// is form exists?
 		if ( ! in_array('form', $ms[1]))
 		{
-			foreach ($error_names as $error_name)
-			{
-				static::setLog($url, $error_name, self::$unspec, 4);
-			}
+			static::setLog($url, $error_names, self::$unspec, 4);
 			return;
 		}
 
@@ -100,9 +94,9 @@ class FormAndLabels extends Validate
 
 			// miss match "for" and "id"
 			self::missMatchForAndId($n, $url, $ms);
-
 			$n++;
 		}
+
 		foreach ($error_names as $error_name)
 		{
 			static::addErrorToHtml($url, $error_name, static::$error_ids[$url], 'ignores');
