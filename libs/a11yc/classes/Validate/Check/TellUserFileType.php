@@ -91,13 +91,15 @@ class TellUserFileType extends Validate
 	/**
 	 * add check strings
 	 *
-	 * @param  String $f_inner
+	 * @param  String|Bool $f_inner
 	 * @param  String $vv
 	 * @param  String $href
 	 * @return String
 	 */
 	private static function addCheckStrings($f_inner, $vv, $href)
 	{
+		if (is_bool($f_inner)) return '';
+
 		// allow application name - word
 		if (($vv == 'doc' || $vv == 'docx') && strpos($href, 'word')  !== false)
 		{

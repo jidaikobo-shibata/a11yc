@@ -31,7 +31,7 @@ class CssInvisibles extends Validate
 		Validate\Set::log($url, 'css_background_image_only', self::$unspec, 1);
 
 		$csses = static::css($url);
-		if ( ! $csses)
+		if (empty($csses))
 		{
 			Validate\Set::log($url, 'css_invisible', self::$unspec, 4);
 			Validate\Set::log($url, 'css_background_image_only', self::$unspec, 4);

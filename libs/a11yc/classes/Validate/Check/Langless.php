@@ -24,7 +24,7 @@ class Langless extends Validate
 	public static function check($url)
 	{
 		Validate\Set::log($url, 'langless', self::$unspec, 5);
-		if (Validate::$is_partial == true) return;
+		if (Validate::$is_partial === true) return;
 		Validate\Set::log($url, 'langless', self::$unspec, 1);
 
 		// do not use Element\Get::ignoredHtml() and Element\Get::elementsByRe()

@@ -25,7 +25,7 @@ class SamePageTitleInSameSite extends Validate
 	public static function check($url)
 	{
 		Validate\Set::log($url, 'same_page_title_in_same_site', self::$unspec, 5);
-		if (Validate::$is_partial == true) return;
+		if (Validate::$is_partial === true) return;
 		Validate\Set::log($url, 'same_page_title_in_same_site', self::$unspec, 1);
 
 		$title = Model\Html::fetchPageTitle($url);

@@ -24,7 +24,7 @@ class Viewport extends Validate
 	public static function check($url)
 	{
 		Validate\Set::log($url, 'user_scalable_no', self::$unspec, 5);
-		if (Validate::$is_partial == true) return;
+		if (Validate::$is_partial === true) return;
 		Validate\Set::log($url, 'user_scalable_no', self::$unspec, 1);
 
 		$str = Element\Get::ignoredHtml($url);

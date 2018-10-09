@@ -68,12 +68,14 @@ class SuspiciousElements extends Validate
 	/**
 	 * count tags
 	 *
-	 * @param  Array $tags
+	 * @param  Array|Null $tags
 	 * @param  Array $ignores
 	 * @return Array
 	 */
 	public static function countTags($tags, $ignores)
 	{
+		$tags = is_null($tags) ? array() : $tags;
+
 		$opens = array();
 		$ends = array();
 		foreach ($tags[1] as $tag)

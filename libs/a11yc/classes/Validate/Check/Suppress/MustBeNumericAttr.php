@@ -22,8 +22,6 @@ class MustBeNumericAttr extends Validate
 	 */
 	public static function check($url)
 	{
-		return; // studying
-/*
 		Validate\Set::log($url, 'must_be_numeric_attr', self::$unspec, 1);
 		$str = Element\Get::ignoredHtml($url);
 		$ms = Element\Get::elementsByRe($str, 'ignores', 'tags');
@@ -59,6 +57,5 @@ class MustBeNumericAttr extends Validate
 			}
 		}
 		static::addErrorToHtml($url, 'must_be_numeric_attr', static::$error_ids[$url], 'ignores');
-*/
 	}
 }

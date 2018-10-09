@@ -36,7 +36,7 @@ class CssTotal extends Validate
 		Validate\Set::log($url, $error_names, self::$unspec, 1);
 
 		$csses = static::css($url);
-		if ( ! $csses)
+		if (empty($csses))
 		{
 			Validate\Set::log($url, $error_names, self::$unspec, 4);
 			return;
@@ -55,7 +55,6 @@ class CssTotal extends Validate
 			Model\Css::$suspicious_props,
 			$url,
 			'css_suspicious_props',
-			$k,
 			''
 		);
 
@@ -63,7 +62,6 @@ class CssTotal extends Validate
 			Model\Css::$suspicious_prop_and_vals,
 			$url,
 			'css_suspicious_prop_and_vals',
-			$k,
 			''
 		);
 
@@ -84,13 +82,12 @@ class CssTotal extends Validate
 	 * @param  Array $props
 	 * @param  String $url
 	 * @param  String|Array $error_name
-	 * @param  Integer $count
 	 * @param  String $id
 	 * @return Void
 	 */
-	private static function serErrorOrLog($props, $url, $error_name, $count, $id)
+	private static function serErrorOrLog($props, $url, $error_name, $id)
 	{
-		foreach ($props as $k => $prop)
+		foreach ($props as $count => $prop)
 		{
 			Validate\Set::error($url, $error_name, $count, $id, $prop);
 		}
