@@ -24,23 +24,7 @@ class IssuesNonTag extends Validate
 	 */
 	public static function check($url)
 	{
-		$str = Element\Get::ignoredHtml($url);
-		$n = 0;
-		foreach (Model\Issues::fetchByUrl($url) as $v)
-		{
-			if (
-				! preg_match('/\<[^\>]+?\>/', $v['html']) &&
-				! empty($v['html']) &&
-				strpos($str, $v['html']) !== false
-			)
-			{
-				// add errors
-				$key = static::html2id($v['html']);
-				static::$error_ids[$url][$key][$n]['id'] = $v['html'];
-				static::$error_ids[$url][$key][$n]['str'] = $v['html'];
-				static::addErrorToHtml($url, $key, static::$error_ids[$url], 'ignores', $v['html']);
-				$n++;
-			}
-		}
+		$regex = '/\<[^\>]+?\>/';
+		Issues\Base::check($url, $regex);
 	}
 }
