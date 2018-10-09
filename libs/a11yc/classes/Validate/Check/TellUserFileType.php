@@ -100,23 +100,28 @@ class TellUserFileType extends Validate
 	{
 		if (is_bool($f_inner)) return '';
 
-		// allow application name - word
-		if (($vv == 'doc' || $vv == 'docx') && strpos($href, 'word')  !== false)
+		$exts = array(
+			array(
+				'ext' => array('doc', 'docx'),
+				'str' => 'word'
+			),
+			array(
+				'ext' => array('xls', 'xlsx'),
+				'str' => 'excel'
+			),
+			array(
+				'ext' => array('ppt', 'pptx'),
+				'str' => 'power',
+			),
+		);
+		foreach ($exts as $ext)
 		{
-			$f_inner.= 'doc,docx';
+			if (in_array($vv, $ext['ext']) && strpos($href, $ext['ext'])  !== false)
+			{
+				$f_inner.= join(',', $ext['ext']);
+			}
 		}
 
-		// allow application name - excel
-		if (($vv == 'xls' || $vv == 'xlsx') && strpos($href, 'excel') !== false)
-		{
-			$f_inner.= 'xls,xlsx';
-		}
-
-		// allow application name - ppt
-		if (($vv == 'ppt' || $vv == 'pptx') && strpos($href, 'power') !== false)
-		{
-			$f_inner.= 'ppt,pptx';
-		}
 		return $f_inner;
 	}
 

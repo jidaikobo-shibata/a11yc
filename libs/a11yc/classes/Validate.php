@@ -67,7 +67,7 @@ class Validate
 			'JaWordBreakingSpace',
 			'SuspiciousAttributes',
 			'DuplicatedIdsAndAccesskey',
-			'MustBeNumericAttr',
+//			'MustBeNumericAttr',
 			'SamePageTitleInSameSite',
 			'NoticeImgExists',
 			'NoticeNonHtmlExists',
