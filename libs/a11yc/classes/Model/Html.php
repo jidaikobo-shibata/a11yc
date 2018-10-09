@@ -151,7 +151,7 @@ class Html
 	 * @param  String $url
 	 * @param  String $ua
 	 * @param  String $type ['raw', 'high-lighted', 'ignored']
-	 * @param  String $force
+	 * @param  Bool $force
 	 * @return String|Bool
 	 */
 	public static function getHtml($url, $ua = 'using', $type = 'raw', $force = false)

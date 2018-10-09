@@ -183,7 +183,7 @@ class Session
 	 * @param  Bool $is_once
 	 * @return Mixed
 	 */
-	public static function fetch($realm, $key = '', $is_once = false)
+	public static function fetch($realm, $key = '', $is_once = true)
 	{
 		$vals = array();
 		if (empty($key))
