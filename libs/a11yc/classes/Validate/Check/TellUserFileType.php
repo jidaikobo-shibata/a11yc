@@ -52,7 +52,7 @@ class TellUserFileType extends Validate
 					if ( ! isset($attrs['href'])) continue;
 					$href = strtolower($attrs['href']);
 					$inner = Element\Get::textFromElement($m);
-					$f_inner = self::addCheckStrings($inner, $vv, $inner);
+					$f_inner = self::addCheckStrings($inner, $vv);
 
 					list($len, $is_exists) = self::existCheck($href);
 					$tstr = $ms[0][$k];
@@ -91,14 +91,13 @@ class TellUserFileType extends Validate
 	/**
 	 * add check strings
 	 *
-	 * @param  String|Bool $f_inner
+	 * @param  String|Bool $inner
 	 * @param  String $vv
-	 * @param  String $inner
 	 * @return String
 	 */
-	private static function addCheckStrings($f_inner, $vv, $inner)
+	private static function addCheckStrings($inner, $vv)
 	{
-		if (is_bool($f_inner)) return '';
+		if (is_bool($inner)) return '';
 
 		$exts = array(
 			array(
@@ -118,11 +117,11 @@ class TellUserFileType extends Validate
 		{
 			if (in_array($vv, $ext['ext']) && strpos($inner, $ext['str']) !== false)
 			{
-				$f_inner.= join(',', $ext['ext']);
+				$inner.= join(',', $ext['ext']);
 			}
 		}
 
-		return $f_inner;
+		return $inner;
 	}
 
 	/**
