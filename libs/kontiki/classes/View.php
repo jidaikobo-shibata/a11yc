@@ -113,6 +113,11 @@ class View
 	 */
 	public static function assign($key, $val, $escape = TRUE)
 	{
+		if (is_numeric($val) || is_bool($val))
+		{
+			static::$vals[$key] = $val;
+			return;
+		}
 		static::$vals[$key] = $escape ? Util::s($val) : $val;
 	}
 
