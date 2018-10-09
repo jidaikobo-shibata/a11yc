@@ -65,11 +65,13 @@ class EmptyLinkElement extends Validate
 	 *
 	 * @param  String $eles
 	 * @param  String $str
-	 * @param  String $text
+	 * @param  String|Bool $text
 	 * @return String
 	 */
 	private static function getAriaLabelledby($eles, $str, $text = '')
 	{
+		$text = is_bool($text) ? '' : $text;
+
 		if (strpos($eles, 'aria-labelledby') !== false)
 		{
 			$eleses = explode('>', $eles);
@@ -105,11 +107,13 @@ class EmptyLinkElement extends Validate
 
 	 *
 	 * @param  String $eles
-	 * @param  String $text
+	 * @param  String|Bool $text
 	 * @return String
 	 */
 	private static function getAriaLabel($eles, $text = '')
 	{
+		$text = is_bool($text) ? '' : $text;
+
 		if (strpos($eles, 'aria-label') !== false)
 		{
 			$eleses = explode('>', $eles);

@@ -24,7 +24,7 @@ class MetaRefresh extends Validate
 	public static function check($url)
 	{
 		Validate\Set::log($url, 'meta_refresh', self::$unspec, 5);
-		if (Validate::$is_partial == true) return;
+		if (Validate::$is_partial === true) return;
 		Validate\Set::log($url, 'meta_refresh', self::$unspec, 1);
 
 		$str = Element\Get::ignoredHtml($url);

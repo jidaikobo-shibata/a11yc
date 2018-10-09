@@ -29,7 +29,7 @@ class CssContent extends Validate
 		Validate\Set::log($url, 'css_is_meanfull_content', self::$unspec, 1);
 
 		$csses = static::css($url);
-		if ( ! $csses)
+		if (empty($csses))
 		{
 			Validate\Set::log($url, 'css_is_meanfull_content', self::$unspec, 4);
 			return;

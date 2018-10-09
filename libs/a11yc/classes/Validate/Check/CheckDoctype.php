@@ -23,21 +23,20 @@ class CheckDoctype extends Validate
 	 */
 	public static function check($url)
 	{
-		if (Validate::$is_partial == true)
+		if (Validate::$is_partial === true)
 		{
 			Validate\Set::log($url, 'check_doctype', self::$unspec, 5);
 			return;
 		}
-		Validate\Set::log($url, 'check_doctype', self::$unspec, 1);
 
-		if (is_null(Element\Get::doctype($url)))
-		{
-			Validate\Set::error($url, 'check_doctype', 0, '', 'doctype not found');
-		}
-		else
-		{
-			Validate\Set::log($url, 'check_doctype', self::$unspec, 2);
-		}
+		Validate\Set::errorAndLog(
+			is_null(Element\Get::doctype($url)),
+			$url,
+			'check_doctype',
+			0,
+			'',
+			'doctype not found'
+		);
 		static::addErrorToHtml($url, 'check_doctype', static::$error_ids[$url]);
 	}
 }

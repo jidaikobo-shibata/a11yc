@@ -17,6 +17,28 @@ class Get extends Validate
 	/**
 	 * errorCnts
 	 *
+	 * @param  String $value
+	 * @param  String $url
+	 * @param  Array  $codes
+	 * @param  String $ua
+	 * @param  Bool   $force
+	 * @param  Mixed  $default
+	 * @return Array
+	 */
+	private static function base($value, $url, $codes, $ua, $force, $default = array())
+	{
+		$codes = $codes ?: self::$codes;
+		$name = static::codes2name($codes);
+		if (isset(static::$results[$url][$name][$ua][$value]) && ! $force)
+		{
+			return static::$results[$url][$name][$ua][$value];
+		}
+		return $default;
+	}
+
+	/**
+	 * errorCnts
+	 *
 	 * @param  String $url
 	 * @param  Array  $codes
 	 * @param  String $ua
@@ -25,10 +47,7 @@ class Get extends Validate
 	 */
 	public static function errorCnts($url, $codes = array(), $ua = 'using', $force = false)
 	{
-		$codes = $codes ?: self::$codes;
-		$name = static::codes2name($codes);
-		if (isset(static::$results[$url][$name][$ua]['errs_cnts']) && ! $force) return static::$results[$url][$name][$ua]['errs_cnts'];
-		return array();
+		return self::base('errs_cnts', $url, $codes, $ua, $force);
 	}
 
 	/**
@@ -42,11 +61,7 @@ class Get extends Validate
 	 */
 	public static function errors($url, $codes = array(), $ua = 'using', $force = false)
 	{
-		$codes = $codes ?: self::$codes;
-		$name = static::codes2name($codes);
-
-		if (isset(static::$results[$url][$name][$ua]['errors']) && ! $force) return static::$results[$url][$name][$ua]['errors'];
-		return array();
+		return self::base('errors', $url, $codes, $ua, $force);
 	}
 
 	/**
@@ -60,11 +75,7 @@ class Get extends Validate
 	 */
 	public static function highLightedHtml($url, $codes = array(), $ua = 'using', $force = false)
 	{
-		$codes = $codes ?: self::$codes;
-		$name = static::codes2name($codes);
-
-		if (isset(static::$results[$url][$name][$ua]['hl_html']) && ! $force) return static::$results[$url][$name][$ua]['hl_html'];
-		return '';
+		return self::base('hl_html', $url, $codes, $ua, $force, '');
 	}
 
 	/**
