@@ -47,39 +47,10 @@ class CssInvisibles extends Validate
 			foreach ($each_csses as $selector => $props)
 			{
 				// display, visibility
-				if (
-					(isset($props['display']) && $props['display'] == 'none') ||
-					(isset($props['visibility']) && $props['visibility'] == 'hidden')
-				)
-				{
-					$is_exists_visible = true;
-					Validate\Set::error($url, 'css_invisible', $k, '', $selector);
-				}
+				$is_exists_visible = self::checkDisplayVisibility($url, $selector, $k, $props);
 
 				// background-image without background-color
-				if (
-					isset($props['background']) ||
-					isset($props['background-image'])
-				)
-				{
-					$background = Arr::get($props, 'background', '');
-					$background_image = Arr::get($props, 'background-image', '');
-
-					if (
-						strpos($background, 'url') !== false ||
-						strpos($background_image, 'url') !== false
-					)
-					{
-						$is_exists_bg = true;
-						if (
-							strpos($background, '#') === false &&
-							! isset($props['background-color'])
-						)
-						{
-							Validate\Set::error($url, 'css_background_image_only', $k, '', $selector);
-						}
-					}
-				}
+				$is_exists_bg = checkBackgroundImageWithoutBackgroundColor($url, $selector, $k, $props);
 				$k++;
 			}
 		}
@@ -93,6 +64,66 @@ class CssInvisibles extends Validate
 		{
 			Validate\Set::log($url, 'css_background_image_only', self::$unspec, 4);
 		}
+	}
 
+	/**
+	 * check display properly and visibility property
+	 *
+	 * @param  String  $url
+	 * @param  String  $selector
+	 * @param  Integer $k
+	 * @param  Array   $props
+	 * @return Bool
+	 */
+	private static function checkDisplayVisibility($url, $selector, $k, $props)
+	{
+		$is_exists_visible = false;
+		if (
+			(isset($props['display']) && $props['display'] == 'none') ||
+			(isset($props['visibility']) && $props['visibility'] == 'hidden')
+		)
+		{
+			$is_exists_visible = true;
+			Validate\Set::error($url, 'css_invisible', $k, '', $selector);
+		}
+		return $is_exists_visible;
+	}
+
+	/**
+	 * check background-image without background-color
+	 *
+	 * @param  String  $url
+	 * @param  String  $selector
+	 * @param  Integer $k
+	 * @param  Array   $props
+	 * @return Bool
+	 */
+	private static function checkBackgroundImageWithoutBackgroundColor($url, $selector, $k, $props)
+	{
+		$is_exists_bg = false;
+		if (
+			isset($props['background']) ||
+			isset($props['background-image'])
+		)
+		{
+			$background = Arr::get($props, 'background', '');
+			$background_image = Arr::get($props, 'background-image', '');
+
+			if (
+				strpos($background, 'url') !== false ||
+				strpos($background_image, 'url') !== false
+			)
+			{
+				$is_exists_bg = true;
+				if (
+					strpos($background, '#') === false &&
+					! isset($props['background-color'])
+				)
+				{
+					Validate\Set::error($url, 'css_background_image_only', $k, '', $selector);
+				}
+			}
+		}
+		return $is_exists_bg;
 	}
 }
