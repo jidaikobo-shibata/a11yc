@@ -50,7 +50,7 @@ class CssInvisibles extends Validate
 				$is_exists_visible = self::checkDisplayVisibility($url, $selector, $k, $props);
 
 				// background-image without background-color
-				$is_exists_bg = checkBackgroundImageWithoutBackgroundColor($url, $selector, $k, $props);
+				$is_exists_bg = self::checkBgImageWithoutBgColor($url, $selector, $k, $props);
 				$k++;
 			}
 		}
@@ -98,7 +98,7 @@ class CssInvisibles extends Validate
 	 * @param  Array   $props
 	 * @return Bool
 	 */
-	private static function checkBackgroundImageWithoutBackgroundColor($url, $selector, $k, $props)
+	private static function checkBgImageWithoutBgColor($url, $selector, $k, $props)
 	{
 		$is_exists_bg = false;
 		if (
