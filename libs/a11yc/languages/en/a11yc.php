@@ -328,16 +328,16 @@ define('A11YC_LANG_ERROR_NON_BASE_URL', 'Please Input "'.A11YC_LANG_SETTINGS_BAS
 define('A11YC_LANG_SAMPLE_POLICY', 'sample:\n<p>[Your Name / Organization Name] will endeavor to create an accessible website that anyone can use in the same way regardless of the presence or absence of disability or age.</p>\n<p>[Please describe the meaning of this website to secure accessibility.]</p>\n<p>We set up accessibility policy as follows and will constantly secure accessibility.</p>\n\n<h2>Policy</h2>\n<p>[Please describe the accessibility policy.]</p>\n\n<h2>'.A11YC_LANG_EXP_TARGET_PAGES.'</h2>\n<p>[Please describe as "target pages below http://example.com".]</p>\n\n<h2>Achievement target date</h2>\n<p>[Please describe the target date of accomplishment.]</p>\n\n<h2>Exceptions</h2>\n<p>[Please list if any.]</p>');
 
 // stand alones
-define('A11YC_LANG_POST_SERVICE_NAME', 'A11yc Accessibility Validation Service');
-define('A11YC_LANG_POST_SERVICE_NAME_ABBR', 'A11yc AVS');
+define('A11YC_LANG_POST_SERVICE_NAME', 'A11yc Accessibility Check Service');
+define('A11YC_LANG_POST_SERVICE_NAME_ABBR', 'A11yc ACS');
 
-define('A11YC_LANG_POST_INDEX', 'Validation');
+define('A11YC_LANG_POST_INDEX', 'Check');
 
 define('A11YC_LANG_POST_DESCRIPTION', 'This is a kind of web accessibility checker. anyone can use.');
 
 define('A11YC_LANG_POST_README', 'Read me');
 
-define('A11YC_LANG_POST_HOWTO', '<p>Mechanical accessibility check for the HTML. Please paste your HTML in the textarea of ​​<code>HTML Source</code> or enter target URL to <code>URL</code> in <a href="%s">Validation</a> and send it. Display accessibility checkpoints and their commentary.</p><p>In the case of check by URL, in addition to checking accessibility, you can check images and alt.</p>');
+define('A11YC_LANG_POST_HOWTO', '<p>Mechanical accessibility check for the HTML. Please paste your HTML in the textarea of ​​<code>HTML Source</code> or enter target URL to <code>URL</code> in <a href="%s">'.A11YC_LANG_POST_INDEX.'</a> and send it. Display accessibility checkpoints and their commentary.</p><p>In the case of check by URL, in addition to checking accessibility, you can check images and alt.</p>');
 
 define('A11YC_LANG_POST_SERVICE_NAME_TITLE', 'Name of service');
 define('A11YC_LANG_POST_SERVICE_NAME_EXP', '"<strong>'.A11YC_LANG_POST_SERVICE_NAME.'</strong>" Short version is "<strong>'.A11YC_LANG_POST_SERVICE_NAME_ABBR.'</strong>".');
@@ -359,7 +359,7 @@ define('A11YC_LANG_POST_TECH_TITLE', 'Technical information');
 define('A11YC_LANG_POST_TECH_A11YC', 'Based on the library called A11yc. <a href="https://github.com/jidaikobo-shibata/a11yc">A11yc is available on github </a>. Is is also made by Jidaikobo.');
 define('A11YC_LANG_POST_TECH_A11YC_ADD', 'In A11yc, there are functions to prepare reports and test results (check list)');
 define('A11YC_LANG_POST_TECH_JWP_A11YC', 'Plugin for WordPress <a href="https://en.wordpress.org/plugins/jwp-a11y/">jwp-a11y</a> also has the same function as A11yc, so please do it.');
-define('A11YC_LANG_POST_TECH_JWP_A11YC_ADD', 'In Wordpress Plugin, execute validation function of A11yc AVS every time posting, constantly manage the site with accessibility awareness.');
+define('A11YC_LANG_POST_TECH_JWP_A11YC_ADD', 'In Wordpress Plugin, execute validation function of '.A11YC_LANG_POST_SERVICE_NAME_ABBR.' every time posting, constantly manage the site with accessibility awareness.');
 
 define('A11YC_LANG_POST_FEEDBACK_TITLE', 'Feedback');
 define('A11YC_LANG_POST_FEEDBACK_EXP', 'If there is a request or correction part on the expression of the function, commentary, etc., please send us email (<a href="mailto:info@jidaikobo.com">info@jidaikobo.com</a>), <a href="https://twitter.com/jidaikobo">Twitter</a>, <a href="https://github.com/jidaikobo-shibata/a11yc">GitHub</a>.');
