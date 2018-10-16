@@ -46,6 +46,10 @@
 
 <dl>
 
+<dt>2.1.1 (<time>2018-10-16</time>)</dt>
+	<dd>Change service name.</dd>
+	<dd>Many Refactoring.</dd>
+
 <dt>2.1.0 (<time>2018-10-02</time>)</dt>
 	<dd>start to support <code>aria-label</code> and <code>aria-labelledby</code></dd>
 

@@ -198,7 +198,7 @@ define('A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR_NO_SCHEME', 'http(s)://を省略
 define('A11YC_LANG_CHECKLIST_NOT_FOUND_ERR', '自動チェックではエラーが見つかりませんでした');
 define('A11YC_LANG_CHECKLIST_COULD_NOT_DRAW_HTML', 'なんらかの理由でHTMLの取得に失敗しました');
 define('A11YC_LANG_CHECKLIST_TITLE', 'チェックリスト');
-define('A11YC_LANG_CHECKLIST_IMPLEMENT_TITLE', '達成基準チェックリスト');
+define('A11YC_LANG_CHECKLIST_IMPLEMENT_TITLE', '実装チェックリスト');
 define('A11YC_LANG_CHECKLIST_DONE', 'チェック終了');
 define('A11YC_LANG_CHECKLIST_RESTOFNUM', '残りのチェック項目数');
 define('A11YC_LANG_CHECKLIST_TOTAL', '計');
@@ -333,10 +333,10 @@ define('A11YC_LANG_ERROR_NON_BASE_URL', '設定で「'.A11YC_LANG_SETTINGS_BASE_
 define('A11YC_LANG_SAMPLE_POLICY', '例文：\n<p>【あなたの名前／団体名】は、障害の有無や年齢などに関係なく、だれもが同じように利用できるアクセシブルなウェブサイトづくりに努めます。</p>\n<p>【このウェブサイトがアクセシビリティを確保することの意味を記載してください。】</p>\n<p>以下のとおりアクセシビリティ方針を定め、恒常的にアクセシビリティを確保してゆきます。</p>\n\n<h2>対応方針</h2>\n<p>当サイトは、日本工業規格JIS X 8341-3:2016「高齢者・障害者等配慮設計指針-情報通信における機器、ソフトウェア及びサービス-第3部:ウェブコンテンツ」の等級「AA」に準拠することを目標とします。</p>\n<p>本方針における「準拠」という対応度の表記は、情報通信アクセス協議会ウェブアクセシビリティ基盤委員会「<a href="http://waic.jp/docs/jis2016/compliance-guidelines/201603/">ウェブコンテンツのJIS X 8341-3:2016 対応度表記ガイドライン - 2016年3月版</a>」で定められた表記によります。</p>\n\n<h2>'.A11YC_LANG_EXP_TARGET_PAGES.'</h2>\n<p>【「http://example.com 以下のページを対象とする」というように記載してください。】</p>\n\n<h2>達成目標日</h2>\n<p>【達成目標日を記載してください。】</p>\n\n<h2>例外事項</h2>\n<p>【もしあれば記載してください。】</p>');
 
 // stand alones
-define('A11YC_LANG_POST_SERVICE_NAME', 'A11yc アクセシビリティ バリデーション サービス');
-define('A11YC_LANG_POST_SERVICE_NAME_ABBR', 'A11yc AVS');
+define('A11YC_LANG_POST_SERVICE_NAME', 'A11yc アクセシビリティ チェック サービス');
+define('A11YC_LANG_POST_SERVICE_NAME_ABBR', 'A11yc ACS');
 
-define('A11YC_LANG_POST_INDEX', 'バリデーション');
+define('A11YC_LANG_POST_INDEX', 'チェック');
 
 define('A11YC_LANG_POST_DESCRIPTION', 'ウェブアクセシビリティのチェッカーです。だれでもお使いいただけます');
 
@@ -362,9 +362,9 @@ define('A11YC_LANG_POST_VENDOR_JIDAIKOBO_TWITTER', '時代工房のTwitter');
 
 define('A11YC_LANG_POST_TECH_TITLE', '技術情報');
 define('A11YC_LANG_POST_TECH_A11YC', 'A11ycというライブラリを基礎にして開発しています。<a href="https://github.com/jidaikobo-shibata/a11yc">A11ycは、githubで入手可能</a>です。このライブラリも時代工房で作っています');
-define('A11YC_LANG_POST_TECH_A11YC_ADD', 'A11ycでは、このアクセシビリティバリデーションサービスで提供している機能のほかに、JIS X 8341-3:2016で求められている報告書や試験結果（チェックリスト）の作成機能があります');
+define('A11YC_LANG_POST_TECH_A11YC_ADD', 'A11ycでは、このアクセシビリティチェックサービスで提供している機能のほかに、JIS X 8341-3:2016で求められている報告書や試験結果（チェックリスト）の作成機能があります');
 define('A11YC_LANG_POST_TECH_JWP_A11YC', 'WordPress用のプラグイン<a href="https://ja.wordpress.org/plugins/jwp-a11y/">jwp-a11y</a>もA11ycと同様の機能がありますので、おためしください');
-define('A11YC_LANG_POST_TECH_JWP_A11YC_ADD', 'Wordpressプラグイン版では、このA11yc AVSのバリデーション機能を投稿のたびに実行できるので、恒常的にアクセシビリティを意識してサイトを運営できるようになると思います');
+define('A11YC_LANG_POST_TECH_JWP_A11YC_ADD', 'Wordpressプラグイン版では、このA11yc ACSのバリデーション機能を投稿のたびに実行できるので、恒常的にアクセシビリティを意識してサイトを運営できるようになると思います');
 
 define('A11YC_LANG_POST_FEEDBACK_TITLE', 'フィードバック');
 define('A11YC_LANG_POST_FEEDBACK_EXP', '機能、解説文の表現についての要望や修正箇所等ありましたら、メール（<a href="mailto:info@jidaikobo.com">info@jidaikobo.com</a>）、<a href="https://twitter.com/jidaikobo">Twitter</a>、<a href="https://github.com/jidaikobo-shibata/a11yc">GitHub</a>など、なんでもよいので、ご連絡ください');

@@ -23,6 +23,9 @@ endif;
 // policy
 echo $policy;
 
+// implements
+include('implements.php');
+
 if ($settings['show_results']):
 ?>
 <h2><?php echo A11YC_LANG_REPORT; ?></h2>

@@ -1,6 +1,7 @@
 <?php
 namespace A11yc;
 $html = '';
+$is_policy = isset($is_policy) ? $is_policy : false;
 
 // loop
 foreach ($yml['criterions'] as $criterion => $v):
@@ -27,39 +28,41 @@ foreach ($yml['criterions'] as $criterion => $v):
 
 	// html
 	$html.= '<tr'.$alert_class.'>';
-	$html.= '	<th scope="row" class="a11yc_result">'.$criterion_code.'</th>';
-	$html.= '	<td class="a11yc_result">'.$v['name'].$non_interference.'</td>';
+	$html.= '	<th scope="row" class="a11yc_result  a11yc_result_code">'.$criterion_code.'</th>';
+	$html.= '	<td class="a11yc_result a11yc_result_string">'.$v['name'].$non_interference.'</td>';
 	$html.= '	<td class="a11yc_result">'.$v['level']['name'].'</td>';
 	$html.= '	<td class="a11yc_result a11yc_result_exist">'.$exist_str.'</td>';
-	$html.= '	<td class="a11yc_result">'.$pass_str.'</td>';
+	if ( ! $is_policy):
+		$html.= '	<td class="a11yc_result">'.$pass_str.'</td>';
 
-	if ( ! $is_total):
-		$chks = array('t' => array(), 'f' => array());
-		foreach (array_keys($chks) as $type):
-			if ( ! isset($yml['techs_codes'][$criterion][$type])) continue;
-			foreach ($yml['techs_codes'][$criterion][$type] as $code):
-				if ( ! is_array($cs)) continue;
-				if ( ! array_key_exists($code, $cs)) continue;
-				if ( ! $cs[$code]['is_checked']) continue;
-				$chks[$type][] = '<li><a href="'.A11YC_REF_WCAG20_TECH_URL.$code.'.html">'.$yml['techs'][$code]['title'].'</a></li>';
+		if ( ! $is_total):
+			$chks = array('t' => array(), 'f' => array());
+			foreach (array_keys($chks) as $type):
+				if ( ! isset($yml['techs_codes'][$criterion][$type])) continue;
+				foreach ($yml['techs_codes'][$criterion][$type] as $code):
+					if ( ! is_array($cs)) continue;
+					if ( ! array_key_exists($code, $cs)) continue;
+					if ( ! $cs[$code]['is_checked']) continue;
+					$chks[$type][] = '<li><a href="'.A11YC_REF_WCAG20_TECH_URL.$code.'.html">'.$yml['techs'][$code]['title'].'</a></li>';
+				endforeach;
 			endforeach;
-		endforeach;
 
-		// checklist
-		$html.= '	<td class="a11yc_result">';
-		$html.= $chks['t'] ? '<ul>'.join("\n", $chks['t']).'</ul>' : '';
-		$html.= '</td>';
+			// checklist
+			$html.= '	<td class="a11yc_result">';
+			$html.= $chks['t'] ? '<ul>'.join("\n", $chks['t']).'</ul>' : '';
+			$html.= '</td>';
 
-		// failure
-		$html.= '	<td class="a11yc_result">';
-		$html.= $chks['f'] ? '<ul>'.join("\n", $chks['f']).'</ul>' : '';
-		$html.= '</td>';
-	endif; // is_total
+			// failure
+			$html.= '	<td class="a11yc_result">';
+			$html.= $chks['f'] ? '<ul>'.join("\n", $chks['f']).'</ul>' : '';
+			$html.= '</td>';
+		endif; // is_total
 
-	// memo or percentage
-	$html.= $is_total ? '	<td class="a11yc_result">' : '	<td>';
-	$html.= nl2br($memo);
-	$html.= '	</td>';
+		// memo or percentage
+		$html.= $is_total ? '	<td class="a11yc_result">' : '	<td>';
+		$html.= nl2br($memo);
+		$html.= '	</td>';
+	endif; // is_policy
 
 	$html.= '</tr>';
 	endif;
@@ -74,6 +77,7 @@ if ($html):
 			<th scope="col" colspan="2"><?php echo A11YC_LANG_CRITERION ?></th>
 			<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_LEVEL ?></th>
 			<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_EXIST ?></th>
+			<?php if ( ! $is_policy):  ?>
 			<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PASS ?></th>
 			<?php if ( ! $is_total): ?>
 			<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_CHECKLIST_TITLE ?></th>
@@ -88,6 +92,7 @@ if ($html):
 				endif;
 			?>
 			</th>
+			<?php endif; ?>
 		</tr>
 	</thead>
 	<tbody>

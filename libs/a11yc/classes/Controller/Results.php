@@ -139,21 +139,8 @@ class Results
 		View::assign('standards', Yaml::each('standards'));
 		View::assign('is_center', false);
 
-		// result - target level
-		$results = Evaluate::evaluateUrl($url);
-		self::partResult($results, $settings['target_level'], $url);
-		$result = View::fetch('result');
-
-		// result - additional level
-		$additional = '';
-		if ($settings['target_level'] != 3)
-		{
-			self::partResult($results, $settings['target_level'], $url, false);
-			$additional = View::fetch('result');
-		}
-
-		View::assign('result', $result, false);
-		View::assign('additional', $additional, false);
+		// assign results
+		self::assignResults($settings['target_level'], $url);
 
 		// set body
 		View::assign('body', View::fetchTpl('results/index.php'), false);
@@ -182,28 +169,14 @@ class Results
 		View::assign('total',             Model\Pages::count('all'));
 		View::assign('standards',         Yaml::each('standards'));
 		View::assign('is_center',         $is_center);
+		View::assign('title',             A11YC_LANG_TEST_RESULT);
 
 		// passed and unpassed pages
 		View::assign('unpassed_pages', Model\Results::unpassedPages($target_level));
 		View::assign('passed_pages',   Model\Results::passedPages($target_level));
 
-		$results = Evaluate::evaluateTotal();
-		View::assign('title', A11YC_LANG_TEST_RESULT);
-
-		// result - target level
-		self::partResult($results, $target_level);
-		$result = View::fetch('result');
-
-		// result - additional level
-		$additional = '';
-		if ($target_level != 3)
-		{
-			self::partResult($results, $target_level, '',false);
-			$additional = View::fetch('result');
-		}
-
-		View::assign('result', $result, false);
-		View::assign('additional', $additional, false);
+		// assign result
+		self::assignResults($target_level);
 
 		// set body
 		View::assign('body', View::fetchTpl('results/index.php'), false);
@@ -281,12 +254,43 @@ class Results
 			return;
 		}
 
+		// assign results
+		View::assign('is_policy', true);
+		self::assignResults($settings['target_level']);
+
 		// policy
 		View::assign('versions', Model\Versions::fetch());
 		View::assign('policy', $settings['policy'], false);
 		View::assign('title', A11YC_LANG_POLICY);
 		View::assign('body', View::fetchTpl('results/policy.php'), false);
 		return;
+	}
+
+	/**
+	 * assignResults
+	 *
+	 * @param Integer $target_level
+	 * @param String $url
+	 * @return Void
+	 */
+	private static function assignResults($target_level, $url = '')
+	{
+		$results = empty($url) ? Evaluate::evaluateTotal() : Evaluate::evaluateUrl($url) ;
+
+		// result - target level
+		self::partResult($results, $target_level, $url);
+		$result = View::fetch('result');
+
+		// result - additional level
+		$additional = '';
+		if ($target_level != 3)
+		{
+			self::partResult($results, $target_level, '',false);
+			$additional = View::fetch('result');
+		}
+
+		View::assign('result', $result, false);
+		View::assign('additional', $additional, false);
 	}
 
 	/**
@@ -298,7 +302,7 @@ class Results
 	 * @param  Bool    $include
 	 * @return Void
 	 */
-	public static function partResult($results, $target_level, $url = '',$include = TRUE)
+	private static function partResult($results, $target_level, $url = '',$include = TRUE)
 	{
 		View::assign('cs', Model\Checklist::fetch($url));
 		View::assign('is_total', empty($url));
