@@ -44,9 +44,9 @@ class Tech
 		$results2 = self::getReversedValue($results);
 
 		// output
-		$yml = self::outputYaml($results);
-		$yml2 = self::outputYaml($results2);
-		$yml3 = self::outputYaml($procedures);
+		self::outputYaml($results);
+		self::outputYaml($results2);
+		self::outputYaml($procedures);
 		die();
 	}
 
