@@ -349,9 +349,9 @@ class Post
 	/**
 	 * validate
 	 *
-	 * @param Strings $url
-	 * @param Strings $target_html
-	 * @param Strings $ua
+	 * @param String $url
+	 * @param String $target_html
+	 * @param String $ua
 	 * @param Bool $do_css_check
 	 * @return Array
 	 */
