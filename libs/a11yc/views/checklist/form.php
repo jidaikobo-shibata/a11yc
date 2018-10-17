@@ -206,7 +206,7 @@
 			if ($issues[$criterion]):
 				echo '<ul>';
 				foreach ($issues[$criterion] as $issue):
-					echo '<li><a href="'.A11YC_ISSUES_VIEW_URL.intval($issue['id']).'" target="_blank">'.Util::s($issue['id'].': '.$issue['error_message']).' ['.$statuses[$issue['status']].']</a></li>';
+					echo '<li><a href="'.A11YC_ISSUES_READ_URL.intval($issue['id']).'" target="_blank">'.Util::s($issue['id'].': '.$issue['error_message']).' ['.$statuses[$issue['status']].']</a></li>';
 				endforeach;
 				echo '</ul>';
 			endif;
