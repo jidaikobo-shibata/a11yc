@@ -140,7 +140,7 @@ class Get extends Element
 	}
 
 	/**
-	 * anchors
+	 * Prepare For Image
 	 *
 	 * @param  Array $ret
 	 * @return Array

@@ -131,13 +131,10 @@ class Issues
 		}
 		if ( ! $url || ! $criterion) Util::error();
 
-		if (is_null($current_user_id))
-		{
-			$current_user = Users::fetchCurrentUser();
-			$current_user_id = Arr::get($current_user, 'id', 1);
-			$users = Users::fetchUsersOpt();
-		}
+		// set current user
+		$current_user_id = self::setCurrentUser($current_user_id);
 
+		// create or update
 		if (Input::isPostExists())
 		{
 			// add
@@ -153,31 +150,17 @@ class Issues
 			}
 		}
 
-		View::assign('users',         $users);
-		View::assign('is_new',        $is_add);
-		View::assign('issue_id',      Arr::get($issue, 'id', ''));
-		View::assign('is_common',     Arr::get($issue, 'is_common', ''));
-		View::assign('url',           Arr::get($issue, 'url', $url));
-		View::assign('criterion',     Arr::get($issue, 'criterion', $criterion));
-		View::assign('statuses',      Values::issueStatus());
-		View::assign('status',        intval(Arr::get($issue, 'status', 0)));
+		View::assign('is_new',    $is_add);
+		View::assign('issue_id',  Arr::get($issue, 'id', ''));
+		View::assign('is_common', Arr::get($issue, 'is_common', ''));
+		View::assign('url',       Arr::get($issue, 'url', $url));
+		View::assign('criterion', Arr::get($issue, 'criterion', $criterion));
+		View::assign('statuses',  Values::issueStatus());
+		View::assign('status',    intval(Arr::get($issue, 'status', 0)));
 
 		if ($is_add)
 		{
-			$errs = Yaml::each('errors');
-			$err_id    = Input::get('err_id', '');
-
-			$err_techs = Arr::get($errs, "{$err_id}.techs", array());
-			$techs_links = array();
-			foreach ($err_techs as $err_tech)
-			{
-				$techs_links[] = A11YC_REF_WCAG20_TECH_URL.$err_tech.'.html';
-			}
-
-			View::assign('tech_url',      join("\n", $techs_links));
-			View::assign('error_message', Arr::get($errs, "{$err_id}.message"));
-			View::assign('html',          Input::get('src', ''));
-			View::assign('n_or_e',        intval(Arr::get($errs, "{$err_id}.n_or_e", 1)));
+			self::assignAdd();
 		}
 		else
 		{
@@ -187,10 +170,50 @@ class Issues
 			View::assign('n_or_e',        intval(Arr::get($issue, 'n_or_e', 0)));
 		}
 
-		View::assign('uid',           Arr::get($issue, 'uid', $current_user_id));
+		View::assign('uid',   Arr::get($issue, 'uid', $current_user_id));
 		View::assign('title', $is_add ? A11YC_LANG_ISSUES_ADD : A11YC_LANG_ISSUES_EDIT);
-		View::assign('form',          View::fetchTpl('issues/form.php'), FALSE);
-		View::assign('body',          View::fetchTpl('issues/edit.php'), FALSE);
+		View::assign('form',  View::fetchTpl('issues/form.php'), FALSE);
+		View::assign('body',  View::fetchTpl('issues/edit.php'), FALSE);
+	}
+
+	/**
+	 * set Current User
+	 *
+	 * @param  Integer|Null $current_user_id
+	 * @return Integer
+	 */
+	private static function setCurrentUser($current_user_id = NULL)
+	{
+		if (is_null($current_user_id))
+		{
+			$current_user = Users::fetchCurrentUser();
+			$current_user_id = Arr::get($current_user, 'id', 1);
+		}
+		View::assign('users', Users::fetchUsersOpt());
+		return $current_user_id;
+	}
+
+	/**
+	 * assign add ctrl
+	 *
+	 * @return Void
+	 */
+	private static function assignAdd()
+	{
+		$errs = Yaml::each('errors');
+		$err_id = Input::get('err_id', '');
+
+		$err_techs = Arr::get($errs, "{$err_id}.techs", array());
+		$techs_links = array();
+		foreach ($err_techs as $err_tech)
+		{
+			$techs_links[] = A11YC_REF_WCAG20_TECH_URL.$err_tech.'.html';
+		}
+
+		View::assign('tech_url',      join("\n", $techs_links));
+		View::assign('error_message', Arr::get($errs, "{$err_id}.message"));
+		View::assign('html',          Input::get('src', ''));
+		View::assign('n_or_e',        intval(Arr::get($errs, "{$err_id}.n_or_e", 1)));
 	}
 
 	/**
