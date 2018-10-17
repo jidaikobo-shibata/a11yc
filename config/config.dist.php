@@ -97,7 +97,7 @@ define('A11YC_RESULTS_EACH_URL',    A11YC_URL.'?c=results&amp;a=each&amp;url=');
 define('A11YC_ISSUES_INDEX_URL',    A11YC_URL.'?c=issues&amp;a=index');
 define('A11YC_ISSUES_ADD_URL',      A11YC_URL.'?c=issues&amp;a=add&amp;url='); // and criterion
 define('A11YC_ISSUES_EDIT_URL',     A11YC_URL.'?c=issues&amp;a=edit&amp;id=');
-define('A11YC_ISSUES_READ_URL',     A11YC_URL.'?c=issues&amp;a=view&amp;id=');
+define('A11YC_ISSUES_READ_URL',     A11YC_URL.'?c=issues&amp;a=read&amp;id=');
 define('A11YC_ISSUES_DELETE_URL',   A11YC_URL.'?c=issues&amp;a=delete&amp;id=');
 define('A11YC_ISSUES_UNDELETE_URL', A11YC_URL.'?c=issues&amp;a=undelete&amp;id=');
 define('A11YC_ISSUES_PURGE_URL',    A11YC_URL.'?c=issues&amp;a=purge&amp;id=');
