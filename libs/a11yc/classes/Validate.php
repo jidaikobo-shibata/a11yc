@@ -327,7 +327,7 @@ class Validate
 	 * @param  String $issue_html
 	 * @return  Array|Bool
 	 */
-	public static function setCurrentErr($url, $error_id, $issue_html)
+	public static function setCurrentErr($url, $error_id, $issue_html = '')
 	{
 		$yml = Yaml::fetch();
 		$current_err = array();
