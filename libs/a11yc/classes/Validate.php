@@ -27,6 +27,7 @@ class Validate
 
 	static public $err_cnts      = array('a' => 0, 'aa' => 0, 'aaa' => 0);
 
+	public static $codes_alias   = array();
 	public static $codes = array(
 			// elements
 			'EmptyAltAttrOfImgInsideA',
@@ -126,36 +127,28 @@ class Validate
 		static::$logs[$url] = array();
 
 		// validate
-		foreach ($codes as $class)
+		foreach ($codes as $class_name)
 		{
-			$class = 'A11yc\\Validate\\Check\\'.$class;
-			$class::check($url);
+			if (array_key_exists($class_name, static::$codes_alias))
+			{
+				$class = static::$codes_alias[$class_name][0];
+				$method = static::$codes_alias[$class_name][1];
+			}
+			else
+			{
+				$class = 'A11yc\\Validate\\Check\\'.$class_name;
+				$method = 'check';
+			}
+			$class::$method($url);
 		}
 
 		// errors
-		$yml = Yaml::fetch();
-		$all_errs = array(
-			'notices' => array(),
-			'errors' => array()
-		);
-		if (static::$error_ids[$url])
-		{
-			foreach (static::$error_ids[$url] as $code => $errs)
-			{
-				$num_of_err = count($errs);
-				foreach ($errs as $key => $err)
-				{
-					$err_type = isset($yml['errors'][$code]) && isset($yml['errors'][$code]['notice']) ?
-										'notices' :
-										'errors';
-					$all_errs[$err_type][] = Message::getText($url, $code, $err, $key, $num_of_err);
-				}
-			}
-		}
+		$all_errs = self::setMessage($url);
 
+		// assign
+		static::$results[$url][$name][$ua]['errors'] = $all_errs;
 		static::$results[$url][$name][$ua]['html'] = $html;
 		static::$results[$url][$name][$ua]['hl_html'] = self::revertHtml(Util::s(static::$hl_htmls[$url]));
-		static::$results[$url][$name][$ua]['errors'] = $all_errs;
 		static::$results[$url][$name][$ua]['errs_cnts'] = static::$err_cnts;
 	}
 
@@ -190,6 +183,36 @@ class Validate
 	{
 		if (isset(static::$csses[$url][$ua])) return static::$csses[$url][$ua];
 		return Model\Css::fetchCss($url, $ua);
+	}
+
+	/**
+	 * set message
+	 *
+	 * @param  String $url
+	 * @return Array
+	 */
+	private static function setMessage($url)
+	{
+		$yml = Yaml::fetch();
+		$all_errs = array(
+			'notices' => array(),
+			'errors' => array()
+		);
+		if (static::$error_ids[$url])
+		{
+			foreach (static::$error_ids[$url] as $code => $errs)
+			{
+				$num_of_err = count($errs);
+				foreach ($errs as $key => $err)
+				{
+					$err_type = isset($yml['errors'][$code]) && isset($yml['errors'][$code]['notice']) ?
+										'notices' :
+										'errors';
+					$all_errs[$err_type][] = Message::getText($url, $code, $err, $key, $num_of_err);
+				}
+			}
+		}
+		return $all_errs;
 	}
 
 	/**

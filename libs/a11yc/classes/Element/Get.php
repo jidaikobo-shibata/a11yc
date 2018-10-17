@@ -126,17 +126,10 @@ class Get extends Element
 			$ret = self::prepareForImage($ret);
 		}
 
-		// no influence
-		if ( ! empty($ret) && ! $force)
-		{
-			static::$res[$ignore_type][$type] = $ret;
-		}
-		elseif ( ! empty($ret))
-		{
-			return $ret;
-		}
-
-		return isset(static::$res[$ignore_type][$type]) ? static::$res[$ignore_type][$type] : false;
+		// return
+		if ($force) return $ret;
+		static::$res[$ignore_type][$type] = $ret;
+		return static::$res[$ignore_type][$type];
 	}
 
 	/**
@@ -167,7 +160,11 @@ class Get extends Element
 	 */
 	private static function anchors($str)
 	{
-		$ret = array();
+		$ret = array(
+			0 => array(),
+			1 => array(),
+			2 => array(),
+		);
 		if (preg_match_all("/\<(?:a|area) ([^\>]+?)\>/i", $str, $ms))
 		{
 			$ret = $ms;
@@ -183,7 +180,12 @@ class Get extends Element
 	 */
 	private static function anchorsAndValues($str)
 	{
-		$ret = array();
+		$ret = array(
+			0 => array(),
+			1 => array(),
+			2 => array(),
+			3 => array(),
+		);
 		if (preg_match_all("/\<a ([^\>]+)\>(.*?)\<\/a\>|\<area ([^\>]+?)\/\>/si", $str, $ms))
 		{
 			$ret = $ms;
@@ -199,7 +201,11 @@ class Get extends Element
 	 */
 	private static function tags($str)
 	{
-		$ret = array();
+		$ret = array(
+			0 => array(),
+			1 => array(),
+			2 => array(),
+		);
 		if (preg_match_all('/\<[^\/]("[^"]*"|\'[^\']*\'|[^\'">])*\>/is', $str, $ms))
 		{
 			foreach ($ms[0] as $k => $v)
