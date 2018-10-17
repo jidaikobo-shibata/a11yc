@@ -132,7 +132,7 @@ class Issues
 		if ( ! $url || ! $criterion) Util::error();
 
 		// set current user
-		$current_user_id = self::setCurrentUser($current_user_id);
+		$current_user_id = self::setCurrentUser($current_user_id, $users);
 
 		// create or update
 		if (Input::isPostExists())
@@ -180,16 +180,18 @@ class Issues
 	 * set Current User
 	 *
 	 * @param  Integer|Null $current_user_id
+	 * @param  Array $users
 	 * @return Integer
 	 */
-	private static function setCurrentUser($current_user_id = NULL)
+	private static function setCurrentUser($current_user_id = NULL, $users)
 	{
 		if (is_null($current_user_id))
 		{
 			$current_user = Users::fetchCurrentUser();
 			$current_user_id = Arr::get($current_user, 'id', 1);
+			$users = Users::fetchUsersOpt();
 		}
-		View::assign('users', Users::fetchUsersOpt());
+		View::assign('users', $users);
 		return $current_user_id;
 	}
 
