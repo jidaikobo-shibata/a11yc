@@ -343,7 +343,7 @@ class Post
 			Export::csv($url); // exit()
 		}
 
-		return true;
+		return $do_validate;
 	}
 
 	/**
