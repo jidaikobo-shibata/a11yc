@@ -10,6 +10,8 @@
  */
 namespace A11yc\Element;
 
+use A11yc\Model;
+
 class Get extends Element
 {
 	protected static $ignored_strs = array();
@@ -121,15 +123,7 @@ class Get extends Element
 		// imgs
 		if (isset($ret[1]) && $type == 'imgs')
 		{
-			foreach ($ret[1] as $k => $v)
-			{
-				if ($v != 'img')
-				{
-					unset($ret[0][$k]);
-					unset($ret[1][$k]);
-					unset($ret[2][$k]);
-				}
-			}
+			$ret = self::prepareForImage($ret);
 		}
 
 		// no influence
@@ -143,6 +137,26 @@ class Get extends Element
 		}
 
 		return isset(static::$res[$ignore_type][$type]) ? static::$res[$ignore_type][$type] : false;
+	}
+
+	/**
+	 * anchors
+	 *
+	 * @param  Array $ret
+	 * @return Array
+	 */
+	private static function prepareForImage($ret)
+	{
+		foreach ($ret[1] as $k => $v)
+		{
+			if ($v != 'img')
+			{
+				unset($ret[0][$k]);
+				unset($ret[1][$k]);
+				unset($ret[2][$k]);
+			}
+		}
+		return $ret;
 	}
 
 	/**
