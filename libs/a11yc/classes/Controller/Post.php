@@ -158,10 +158,7 @@ class Post
 			$doc = View::fetch('doc');
 			define('A11YC_LANG_POST_TITLE', $doc['name']);
 		}
-		else
-		{
-			Util::error('service not available.');
-		}
+		Util::error('service not available.');
 	}
 
 	/**
@@ -184,20 +181,17 @@ class Post
 	public static function actionValidation()
 	{
 		// vals
-		$url              = Input::post('url', Input::get('url', ''));
-		$user_agent       = Input::post('user_agent', '');
-		$default_ua       = Input::userAgent();
-		$doc_root         = Input::post('doc_root');
-		$do_css_check     = Input::post('do_css_check', false);
+		$url          = Input::post('url', Input::get('url', ''));
+		$user_agent   = Input::post('user_agent', '');
+		$default_ua   = Input::userAgent();
+		$doc_root     = Input::post('doc_root');
+		$do_css_check = Input::post('do_css_check', false);
 
 		// host check
 		$doc_root = strpos($url, $doc_root) !== false ? $doc_root : Crawl::getHostFromUrl($url);
 
 		// User Agent
-		$uas = Values::uas();
-		$ua = Arr::get($uas, $user_agent) ? $user_agent : $default_ua;
-		$current_ua = Arr::get($uas, "{$user_agent}.str");
-		$current_ua = $current_ua ?: $default_ua;
+		$current_ua = self::setCurrentUa($user_agent, $default_ua);
 
 		// fallback
 		View::assign('errs', array());
@@ -206,12 +200,12 @@ class Post
 		Post\Auth::auth();
 
 		// validation
-		list($target_html, $do_validate) = self::getHtmlAndCheckDoValidate($url, $doc_root, $ua);
+		list($target_html, $do_validate) = self::getHtmlAndCheckDoValidate($url, $doc_root, $current_ua);
 
 		// Do Validate - if image list, not validate
 		if ($target_html && $do_validate)
 		{
-			self::validate($url, $target_html, $ua, $do_css_check);
+			self::validate($url, $target_html, $current_ua, $do_css_check);
 		}
 
 		// when post/get exists set message and template
@@ -237,6 +231,22 @@ class Post
 		View::assign('url'                , $url);
 		View::assign('target_html'        , $target_html);
 		View::assign('body'               , View::fetchTpl('post/index.php'), false);
+	}
+
+	/**
+	 * setCurrentUa
+	 *
+	 * @param $user_agent
+	 * @param $default_ua
+	 * @return String
+	 */
+	private static function setCurrentUa($user_agent, $default_ua)
+	{
+		$uas = Values::uas();
+//		$ua = Arr::get($uas, $user_agent) ? $user_agent : $default_ua;
+		$current_ua = Arr::get($uas, "{$user_agent}.str");
+		$current_ua = $current_ua ?: $default_ua;
+		return $current_ua;
 	}
 
 	/**
@@ -304,6 +314,7 @@ class Post
 		{
 			$do_validate = false;
 			Session::add('messages', 'errors', A11YC_LANG_POST_BASIC_AUTH_EXP);
+			return $do_validate;
 		}
 
 		// connection problems
@@ -311,6 +322,7 @@ class Post
 		{
 			$do_validate = false;
 			Session::add('messages', 'errors', A11YC_LANG_ERROR_COULD_NOT_ESTABLISH_CONNECTION);
+			return $do_validate;
 		}
 
 		// images
@@ -322,6 +334,7 @@ class Post
 			$do_validate = false;
 			View::assign('images', A11yc\Images::getImages($url, $doc_root));
 			Session::add('messages', 'messages', A11YC_LANG_POST_DONE_IMAGE_LIST);
+			return $do_validate;
 		}
 
 		// export CSV
@@ -330,7 +343,7 @@ class Post
 			Export::csv($url); // exit()
 		}
 
-		return $do_validate;
+		return true;
 	}
 
 	/**
