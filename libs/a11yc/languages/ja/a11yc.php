@@ -198,7 +198,7 @@ define('A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR_NO_SCHEME', 'http(s)://を省略
 define('A11YC_LANG_CHECKLIST_NOT_FOUND_ERR', '自動チェックではエラーが見つかりませんでした');
 define('A11YC_LANG_CHECKLIST_COULD_NOT_DRAW_HTML', 'なんらかの理由でHTMLの取得に失敗しました');
 define('A11YC_LANG_CHECKLIST_TITLE', 'チェックリスト');
-define('A11YC_LANG_CHECKLIST_IMPLEMENT_TITLE', '実装チェックリスト');
+define('A11YC_LANG_CHECKLIST_IMPLEMENT_TITLE', '達成基準チェックリスト');
 define('A11YC_LANG_CHECKLIST_DONE', 'チェック終了');
 define('A11YC_LANG_CHECKLIST_RESTOFNUM', '残りのチェック項目数');
 define('A11YC_LANG_CHECKLIST_TOTAL', '計');
