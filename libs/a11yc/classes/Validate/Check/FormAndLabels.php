@@ -162,22 +162,15 @@ class FormAndLabels extends Validate
 			}
 
 			// label, for, id, type
-			if ($tag == '<label')
-			{
-				$forms[$n]['labels'][] = $m;
-			}
-			else
-			{
-				$forms[$n]['eles'][] = $ms[1][$k];
-			}
+			$forms[$n]['labels'][] = $tag == '<label' ? $m : $ms[1][$k];
 
 			$attrs = Element\Get::attributes($m);
-			if (isset($attrs['for']))  $forms[$n]['fors'][] = $attrs['for'];
-			if (isset($attrs['id']))   $forms[$n]['ids'][] = $attrs['id'];
+			if (isset($attrs['for']))  $forms[$n]['fors'][]  = $attrs['for'];
+			if (isset($attrs['id']))   $forms[$n]['ids'][]   = $attrs['id'];
 			if (isset($attrs['type'])) $forms[$n]['types'][] = $attrs['type'];
 		}
 
-		// formless form elements.  maybe JavaScript?
+		// formless form elements. maybe JavaScript?
 		// there might be plural forms. so do not remove this.
 		foreach ($forms as $k => $v)
 		{

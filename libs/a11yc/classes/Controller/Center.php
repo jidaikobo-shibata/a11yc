@@ -29,10 +29,8 @@ class Center
 		{
 			static::each();
 		}
-		else
-		{
-			static::index();
-		}
+
+		static::index();
 	}
 
 	/**
@@ -46,7 +44,8 @@ class Center
 		$settings = Model\Settings::fetchAll();
 		if ( ! empty($settings))
 		{
-			Results::all($is_center = true);
+			$is_center = true;
+			Results::all($is_center);
 			$body = View::fetch('body');
 		}
 
