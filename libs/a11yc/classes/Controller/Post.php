@@ -70,24 +70,6 @@ class Post
 		// session
  	Session::forge('A11YCONLINEVALIDATE');
 
-		// auth users
-		if (defined('A11YC_GUEST_USERS'))
-		{
-			Users::forge(unserialize(A11YC_GUEST_USERS));
-		}
-		else
-		{
-			Users::forge(array());
-		}
-
-		// auth
-		if (A11yc\Auth::auth())
-		{
-			// login user
-			$login_user = Users::fetchCurrentUser();
-			View::assign('login_user', $login_user);
-		}
-
 		// view
 		View::addTplPath(A11YC_PATH.'/views/post');
 
@@ -108,27 +90,6 @@ class Post
 				'body.php',
 				'post/footer.php',
 			));
-	}
-
-	/**
-	 * Action_Login
-	 *
-	 * @return Void
-	 */
-	public static function actionLogin()
-	{
-		Auth::actionLogin();
-		define('A11YC_LANG_POST_TITLE', A11YC_LANG_AUTH_TITLE);
-	}
-
-	/**
-	 * Action_Logout
-	 *
-	 * @return Void
-	 */
-	public static function actionLogout()
-	{
-		Auth::actionLogout(A11YC_POST_SCRIPT_URL);
 	}
 
 	/**
@@ -424,18 +385,6 @@ class Post
 		if ( ! $is_index && ctype_alnum($a))
 		{
 			$action = 'action'.ucfirst($a);
-		}
-
-		// auth - already logged in
-		if (A11yc\Auth::auth() && $a == 'login')
-		{
-			header('location:'.A11YC_POST_SCRIPT_URL);
-		}
-
-		// auth - post
-		if (Input::post('username') || Input::post('password'))
-		{
-			$action = 'actionLogin';
 		}
 
 		// class and methods exists
