@@ -37,7 +37,7 @@ class Titleless extends Validate
 			preg_match("/\<title[^\>]*?\>[ 　]*?\<\/title/si", $str) // lacknesss of title
 		)
 		{
-			Validate\Set::error($url, 'titleless', 0, '', $ms[0][0]);
+			Validate\Set::error($url, 'titleless', 0, '', Arr::get($ms[0], 0, ''));
 		}
 		else
 		{
