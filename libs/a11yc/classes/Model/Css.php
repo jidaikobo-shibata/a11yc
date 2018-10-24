@@ -10,6 +10,8 @@
  */
 namespace A11yc\Model;
 
+use A11yc\Element;
+
 class Css
 {
 	protected static $csses = array();
@@ -372,6 +374,8 @@ class Css
 				static::$suspicious_prop_and_vals[] = $prop_and_val;
 				continue;
 			}
+
+			if (empty($prop_and_vals)) continue;
 
 			// suspicious properties
 			if ( ! in_array($prop_and_vals[0], static::$css_props))
