@@ -24,7 +24,8 @@ class JaWordBreakingSpace extends Validate
 	public static function check($url)
 	{
 		Validate\Set::log($url, 'ja_word_breaking_space', self::$unspec, 5);
-		if (strpos(Element\Get::lang($url), 'ja') === false) return false;
+//		if (strpos(Element\Get::lang($url), 'ja') === false) return false;
+		if (strpos(A11YC_LANG, 'ja') === false) return false;
 		Validate\Set::log($url, 'ja_word_breaking_space', self::$unspec, 1);
 
 		$str = Element\Get::ignoredHtml($url);
