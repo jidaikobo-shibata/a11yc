@@ -97,7 +97,8 @@ class Input
 	)
 	{
 		$val = filter_input(INPUT_GET, $index, $filter, $options);
-		return $val ? self::deleteNullByte($val) : $default;
+		$val = self::deleteNullByte($val);
+		return $val ?: $default;
 	}
 
 	/**
@@ -134,7 +135,8 @@ class Input
 	)
 	{
 		$val = filter_input(INPUT_POST, $index, $filter, $options);
-		return $val ? self::deleteNullByte($val) : $default;
+		$val = self::deleteNullByte($val);
+		return $val ?: $default;
 	}
 
 	/**
@@ -171,7 +173,8 @@ class Input
 	)
 	{
 		$val = filter_input(INPUT_COOKIE, $index, $filter, $options);
-		return $val ? self::deleteNullByte($val) : $default;
+		$val = self::deleteNullByte($val);
+		return $val ?: $default;
 	}
 
 	/**

@@ -28,6 +28,12 @@ use A11yc\Validate;
 
 class Post
 {
+	private static $behaviours = array(
+		'images',
+		'csv',
+		'check',
+	);
+
 	/**
 	 * set consts
 	 *
@@ -145,7 +151,7 @@ class Post
 		$url          = Input::post('url', Input::get('url', ''));
 		$user_agent   = Input::post('user_agent', '');
 		$default_ua   = Input::userAgent();
-		$doc_root     = Input::post('doc_root');
+		$doc_root     = Input::post('doc_root', 'http://localhost');
 		$do_css_check = Input::post('do_css_check', false);
 
 		// host check
@@ -175,7 +181,7 @@ class Post
 			self::setMessage($target_html, $url);
 
 			// choose template validate or image list
-			$tpl = $do_validate ? 'checklist/validate.php' : 'checklist/images.php' ;
+			$tpl = Input::post('behaviour') == 'image' ? 'checklist/images.php' : 'checklist/validate.php';
 			View::assign('result', View::fetchTpl($tpl), false);
 		}
 
@@ -374,6 +380,12 @@ class Post
 		$controller = '\A11yc\Controller\Post';
 		$action = '';
 		$is_index = empty(Input::server('QUERY_STRING')) || Input::get('url');
+		$behaviour = Input::post('behaviour');
+
+		if ( ! empty($behaviour) && ! in_array($behaviour, self::$behaviours))
+		{
+			Util::error('service not available.');
+		}
 
 		// top page
 		if ($is_index)
