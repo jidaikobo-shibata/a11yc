@@ -162,9 +162,15 @@ class FormAndLabels extends Validate
 			}
 
 			// label, for, id, type
-			$forms[$n]['labels'][] = $tag == '<label' ? $m : $ms[1][$k];
+			if ($tag == '<label')
+			{
+				$forms[$n]['labels'][] = $m;
+			}
+
+			$forms[$n]['eles'][] = $ms[1][$k];
 
 			$attrs = Element\Get::attributes($m);
+
 			if (isset($attrs['for']))  $forms[$n]['fors'][]  = $attrs['for'];
 			if (isset($attrs['id']))   $forms[$n]['ids'][]   = $attrs['id'];
 			if (isset($attrs['type'])) $forms[$n]['types'][] = $attrs['type'];
@@ -232,19 +238,18 @@ class FormAndLabels extends Validate
 	 * @param  String $action
 	 * @param  Array $uniqued_types
 	 * @param  Array $uniqued_eles
-	 * @return Bool
+	 * @return Void
 	 */
 	private static function submitless($n, $url, $v, $action, $uniqued_types, $uniqued_eles)
 	{
-		$exp = ( ! in_array('input', $uniqued_eles) && ! in_array('button', $uniqued_eles)) ||
-			(
-				! in_array('button', $uniqued_eles) &&
-				! in_array('submit', $uniqued_types) &&
-				! in_array('image', $uniqued_types)
-			);
+		$eleless = ! in_array('input', $uniqued_eles) &&
+						 ! in_array('button', $uniqued_eles);
+		$typeless = ! in_array('button', $uniqued_eles) &&
+							! in_array('submit', $uniqued_types) &&
+							! in_array('image', $uniqued_types);
 
 		Validate\Set::errorAndLog(
-			$exp,
+			$eleless || $typeless,
 			$url,
 			'submitless',
 			$n,
