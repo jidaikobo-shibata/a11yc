@@ -16,17 +16,16 @@ define('A11YC_LANG', 'ja');
 define('A11YC_TIMEZONE', 'Asia/Tokyo');
 
 // administration access approved IPs - must be array
-// define('A11YC_APPROVED_IPS', serialize(array(
-// 	'::1',
-// 	'127.0.0.1',
-// )));
+define('A11YC_APPROVED_IPS', serialize(array(
+	'::1',
+	'127.0.0.1',
+)));
 
 // post access approved IPs - must be array
-// define('A11YC_APPROVED_GUEST_IPS', serialize(array(
-// 	'::1',
-// 	'127.0.0.1',
-// 	'180.235.36.239',
-// )));
+define('A11YC_APPROVED_GUEST_IPS', serialize(array(
+	'::1',
+	'127.0.0.1',
+)));
 
 // users
 // array must be started with 1 (not 0)
