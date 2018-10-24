@@ -14,7 +14,7 @@
 
 Check accessibility of target page and generate accessibility evaluate page and policy.
 
-See how it works.  [A11yc Accessibility Validation Service](https://a11yc.com/validator/en/index.php)
+See how it works.  [A11yc Accessibility Check Service](https://a11yc.com/check/en/index.php)
 [WordPress Plugin jwp-a11y](https://wordpress.org/plugins/jwp-a11y/)
 
 ### deploy
@@ -35,7 +35,7 @@ set A11YC_URL, A11YC_USERS, A11YC_LANG.
 
 JIS X 8341-3:2016 (WCAG 2.0) に基づいたアクセシビリティ報告書と方針を生成するためのウェブプリケーションです。
 
-[A11yc Accessibility Validation Service](https://a11yc.com/validator/index.php)で動いているものを確認できます。
+[A11yc Accessibility Check Service](https://a11yc.com/check/index.php)で動いているものを確認できます。
 [WordPressプラグイン版 jwp-a11y](https://ja.wordpress.org/plugins/jwp-a11y/)もあります。
 
 ### 設置方法
@@ -80,7 +80,7 @@ JIS X 8341-3:2016 (WCAG 2.0) に基づいたアクセシビリティ報告書と
 
 WordPressのプラグインでは、投稿のたびに投稿内容のアクセシビリティチェックを行うようになっています。その手順を下記します。
 
-A11ycのクローラにチェックするページのURLを渡します。WordPressの場合は、get_permalink($post->ID)のようなものです。
+A11ycでチェックするために記事のURLを取得します。WordPressの場合は、get_permalink($post->ID)のようなものです。一時的なチェックの場合は、サイトトップのURLを入れても動きます。
 
   \A11yc\Crawl::set_target_path('URL');
 
@@ -88,26 +88,19 @@ A11ycのクローラにチェックするページのURLを渡します。WordPr
 
   $codes = \A11yc\Validate::$codes;
 
-HTMLのすべてをチェックするときには、headの中などのチェックも行いますが、投稿内容のみをチェックする場合は、不要なので、set_is_partial()をtrueにします。
+HTMLのすべてをチェックするときには、headの中などのチェックも行いますが、投稿内容のみをチェックする場合は、不要なのでそのように設定します。
 
-  \A11yc\Validate::set_is_partial(true);
+  \A11yc\Validate::$is_partial = true;
 
 Validateの中のリンクチェッカは処理に時間がかかるので、何らかの方法で、オンオフできるようにします。
 
-  \A11yc\Validate::set_do_link_check(\A11yc\Input::post('jwp_a11y_link_check'));
+  \A11yc\Validate::$do_link_check = \A11yc\Input::post('jwp_a11y_link_check', false);
 
 Validateクラスに検査対象のHTMLをセットします。以下はWordPressの例です。
 
-  \A11yc\Validate::set_html($post->post_content);
+  \A11yc\Validate::html($url, apply_filters('the_content', $obj->post_content));
 
-$codesをループで回すことで、セットされたHTMLを検査していきます。
-
-  foreach ($codes as $method => $class)
-  {
-    $class::$method();
-  }
-
-あとは \A11yc\Validate::get_error_ids() にエラーが積まれているので、これをどうにか表示します。
+チェックの後、\A11yc\Validate\Get::errors($url)にエラーが積まれているので、これを取得できます。
 
 ### 参考にしたものの一部
 
