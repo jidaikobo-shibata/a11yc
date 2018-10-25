@@ -225,6 +225,18 @@ class Css
 			return Util::enuniqueUri($url);
 		}
 
+		return self::enuniqueCssUri($url, $css_url);
+	}
+
+	/**
+	 * enuniqueCssUri
+	 *
+	 * @param  String $url
+	 * @param  String $css_url
+	 * @return String
+	 */
+	private static function enuniqueCssUri($url, $css_url = '')
+	{
 		if ($css_url)
 		{
 			$css_urls = explode('/', $css_url);
