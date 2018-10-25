@@ -132,7 +132,6 @@ class Css
 		if ( ! is_string($html)) Util::error('invalid HTML was given');
 
 		$css = '';
-		$ua = $ua == 'using' ? Input::userAgent() : $ua;
 
 		// style tag
 		if (preg_match_all("/\<style[^\>]*\>(.*?)\<\/style\>/si", $html, $ms))
@@ -144,6 +143,22 @@ class Css
 		}
 
 		// file
+		$css.= self::getCssFileFromLink($html, $ua);
+
+		return $css;
+	}
+
+	/**
+	 * get css from link
+	 *
+	 * @param  String|Bool $html
+	 * @param  String $ua
+	 * @return String
+	 */
+	private static function getCssFileFromLink($html, $ua)
+	{
+		$css = '';
+		$ua = $ua == 'using' ? Input::userAgent() : $ua;
 		if (preg_match_all("/\<link [^\>]*\>/si", $html, $ms))
 		{
 			foreach ($ms[0] as $m)
@@ -170,7 +185,6 @@ class Css
 				}
 			}
 		}
-
 		return $css;
 	}
 
