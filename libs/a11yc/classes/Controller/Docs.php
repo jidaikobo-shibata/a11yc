@@ -84,42 +84,9 @@ class Docs
 		$word = '';
 		if (Input::get('s'))
 		{
-			$yaml = Yaml::fetch();
-			$tests = Yaml::each('tests');
 			$word = mb_convert_kana(trim(Input::get('s')), "as");
-			$r['criterions'] = array();
-			$r['tests'] = array();
-
-			foreach ($yaml['criterions'] as $v)
-			{
-				$text = '';
-				$text.= Arr::get($v, 'code', '');
-				$text.= Arr::get($v, 'doc', '');
-				$text.= Arr::get($v, 'guideline.principle.name', '');
-				$text.= Arr::get($v, 'guideline.principle.summary', '');
-				$text.= Arr::get($v, 'guideline.summary', '');
-				$text.= Arr::get($v, 'summary', '');
-				$text.= Arr::get($v, 'tech', '');
-				$text.= Arr::get($v, 'name', '');
-
-				if (self::wordExists($text, $word))
-				{
-					$r['criterions']['principles'][] = $v['guideline']['principle']['code'];
-					$r['criterions']['guidelines'][] = $v['guideline']['code'];
-					$r['criterions']['criterions'][] = $v['code'];
-				}
-			}
-
-			foreach ($tests as $code => $v)
-			{
-				if (
-					self::wordExists($v['name'], $word) ||
-					self::wordExists($v['doc'], $word)
-				)
-				{
-					$r['tests'][] = $code;
-				}
-			}
+			$r = self::searchStringsFromCriterions($word);
+			$r = self::searchStringsFromTest($word, $r);
 		}
 
 		if ( ! View::fetch('a11yc_doc_url'))
@@ -133,6 +100,63 @@ class Docs
 		View::assign('title', A11YC_LANG_DOCS_TITLE);
 		View::assign('search_form', View::fetchTpl('docs/search.php'), FALSE);
 		View::assign('body', View::fetchTpl('docs/index.php'), FALSE);
+	}
+
+	/**
+	 * Search strings from criterions
+	 *
+	 * @param  String $word
+	 * @return Array
+	 */
+	private static function searchStringsFromCriterions($word)
+	{
+		$yaml = Yaml::fetch();
+		$r['criterions'] = array();
+
+		foreach ($yaml['criterions'] as $v)
+		{
+			$text = '';
+			$text.= Arr::get($v, 'code', '');
+			$text.= Arr::get($v, 'doc', '');
+			$text.= Arr::get($v, 'guideline.principle.name', '');
+			$text.= Arr::get($v, 'guideline.principle.summary', '');
+			$text.= Arr::get($v, 'guideline.summary', '');
+			$text.= Arr::get($v, 'summary', '');
+			$text.= Arr::get($v, 'tech', '');
+			$text.= Arr::get($v, 'name', '');
+
+			if (self::wordExists($text, $word))
+			{
+				$r['criterions']['principles'][] = $v['guideline']['principle']['code'];
+				$r['criterions']['guidelines'][] = $v['guideline']['code'];
+				$r['criterions']['criterions'][] = $v['code'];
+			}
+		}
+		return $r;
+	}
+
+	/**
+	 * Search strings from test
+	 *
+	 * @param  String $word
+	 * @param  Array $r
+	 * @return Array
+	 */
+	private static function searchStringsFromTest($word, $r)
+	{
+		$r['tests'] = array();
+		$tests = Yaml::each('tests');
+		foreach ($tests as $code => $v)
+		{
+			if (
+				self::wordExists($v['name'], $word) ||
+				self::wordExists($v['doc'], $word)
+			)
+			{
+				$r['tests'][] = $code;
+			}
+		}
+		return $r;
 	}
 
 	/**
