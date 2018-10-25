@@ -247,7 +247,7 @@ class Guzzle
 	 * set config
 	 *
 	 * @param  String $name
-	 * @param  Mixed  $value
+	 * @param  Mixed  $val
 	 * @return Void
 	 */
 	public function set_config($name, $val)
