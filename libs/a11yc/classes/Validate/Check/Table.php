@@ -61,43 +61,11 @@ class Table extends Validate
 				$tstr
 			);
 
-			// scope less
-			if (strpos($m, ' scope') === false)
-			{
-				Validate\Set::error($url, 'table_use_scope', $n, $tstr, $tstr);
-			}
-			else if (preg_match_all('/scope *?= *?[\'"]([^\'"]+?)[\'"]/i', $m, $mms))
-			{
-				foreach ($mms[1] as $nn => $mm)
-				{
-					if ( ! in_array($mm, array('col', 'row', 'rowgroup', 'colgroup')))
-					{
-						Validate\Set::error($url, 'table_use_valid_scope', $n, $tstr, $mms[0][$nn]);
-					}
-				}
-			}
-			else
-			{
-				Validate\Set::log($url, 'table_use_scope', $m, 2);
-				Validate\Set::log($url, 'table_use_valid_scope', $m, 2);
-			}
+			// scopeless
+			self::scopeless($n, $m, $url, $tstr);
 
-			if (in_array(Element\Get::doctype($url), array('html4', 'xhtml')))
-			{
-				// summary less
-				Validate\Set::errorAndLog(
-					 ! array_key_exists('summary', Element\Get::attributes($table_tag[0])),
-					$url,
-					'table_use_summary',
-					$n,
-					$tstr,
-					$tstr
-				);
-			}
-			else
-			{
-				Validate\Set::log($url, 'table_use_summary', $m, 5);
-			}
+			// summaryless
+			self::summaryless($n, $m, $url, $tstr, $table_tag[0]);
 
 			// caption less
 			Validate\Set::errorAndLog(
@@ -115,5 +83,67 @@ class Table extends Validate
 		static::addErrorToHtml($url, 'table_use_valid_scope', static::$error_ids[$url], 'ignores');
 		static::addErrorToHtml($url, 'table_use_summary', static::$error_ids[$url], 'ignores');
 		static::addErrorToHtml($url, 'table_use_caption', static::$error_ids[$url], 'ignores');
+	}
+
+	/**
+	 * scopeless
+	 *
+	 * @param  Integer $n
+	 * @param  String $m
+	 * @param  String $url
+	 * @param  String $tstr
+	 * @return Void
+	 */
+	private static function scopeless($n, $m, $url, $tstr)
+	{
+		if (strpos($m, ' scope') === false)
+		{
+			Validate\Set::error($url, 'table_use_scope', $n, $tstr, $tstr);
+		}
+		else if (preg_match_all('/scope *?= *?[\'"]([^\'"]+?)[\'"]/i', $m, $mms))
+		{
+			foreach ($mms[1] as $nn => $mm)
+			{
+				if ( ! in_array($mm, array('col', 'row', 'rowgroup', 'colgroup')))
+				{
+					Validate\Set::error($url, 'table_use_valid_scope', $n, $tstr, $mms[0][$nn]);
+				}
+			}
+		}
+		else
+		{
+			Validate\Set::log($url, 'table_use_scope', $m, 2);
+			Validate\Set::log($url, 'table_use_valid_scope', $m, 2);
+		}
+	}
+
+	/**
+	 * summaryless
+	 *
+	 * @param  Integer $n
+	 * @param  String $m
+	 * @param  String $url
+	 * @param  String $tstr
+	 * @param  String $table_tag
+	 * @return Void
+	 */
+	private static function summaryless($n, $m, $url, $tstr, $table_tag)
+	{
+		if (in_array(Element\Get::doctype($url), array('html4', 'xhtml')))
+		{
+			// summary less
+			Validate\Set::errorAndLog(
+				! array_key_exists('summary', Element\Get::attributes($table_tag)),
+				$url,
+				'table_use_summary',
+				$n,
+				$tstr,
+				$tstr
+			);
+		}
+		else
+		{
+			Validate\Set::log($url, 'table_use_summary', $m, 5);
+		}
 	}
 }
