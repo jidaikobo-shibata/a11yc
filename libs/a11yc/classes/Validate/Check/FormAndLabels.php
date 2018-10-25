@@ -151,13 +151,13 @@ class FormAndLabels extends Validate
 			if ($tag == '<form ')
 			{
 				$n++;
-				$forms[$n]['form'] = $m;
+				$forms[$n]['form']   = $m;
 				$forms[$n]['labels'] = array();
-				$forms[$n]['eles'] = array();
-				$forms[$n]['fors'] = array();
-				$forms[$n]['ids'] = array();
-				$forms[$n]['types'] = array();
-				$forms[$n]['names'] = array();
+				$forms[$n]['eles']   = array();
+				$forms[$n]['fors']   = array();
+				$forms[$n]['ids']    = array();
+				$forms[$n]['types']  = array();
+				$forms[$n]['names']  = array();
 				continue;
 			}
 

@@ -271,11 +271,39 @@ class Css
 		$css = str_replace($ms[0], '', $css);
 
 		// divide blocks
+		$csses = self::divideBlocks($ms[0], $css);
+
+		// divide selectors and properties
+		$rets = self::divideSelectorsAndProperties($csses);
+
+		// remove vendor prefix
+		foreach (static::$suspicious_props as $k => $v)
+		{
+			foreach (static::$css_props as $prop)
+			{
+				foreach (static::$vendors as $vendor)
+				{
+					if ($v == $vendor.$prop) unset(static::$suspicious_props[$k]);
+				}
+			}
+		}
+
+		return $rets;
+	}
+
+	/**
+	 * divide blocks
+	 *
+	 * @param  Array  $arr
+	 * @param  String $css
+	 * @return Array
+	 */
+	private static function divideBlocks($arr, $css)
+	{
 		$csses = array();
-		$rets = array();
 		$csses['base'] = explode('}', $css);
 
-		foreach ($ms[0] as $m)
+		foreach ($arr as $m)
 		{
 			$atmarks = substr($m, 0, strpos($m, '{'));
 			$atmarks = trim($atmarks);
@@ -283,6 +311,18 @@ class Css
 			$vals    = trim(trim($vals), '}');
 			$csses[$atmarks] = explode('}', $vals);
 		}
+		return $csses;
+	}
+
+	/**
+	 * divide selectors and properties
+	 *
+	 * @param  Array  $csses
+	 * @return Array
+	 */
+	private static function divideSelectorsAndProperties($csses)
+	{
+		$rets = array();
 
 		foreach ($csses as $type => $type_css)
 		{
@@ -313,19 +353,6 @@ class Css
 			}
 			ksort($rets[$type]);
 		}
-
-		// remove vendor prefix
-		foreach (static::$suspicious_props as $k => $v)
-		{
-			foreach (static::$css_props as $prop)
-			{
-				foreach (static::$vendors as $vendor)
-				{
-					if ($v == $vendor.$prop) unset(static::$suspicious_props[$k]);
-				}
-			}
-		}
-
 		return $rets;
 	}
 
