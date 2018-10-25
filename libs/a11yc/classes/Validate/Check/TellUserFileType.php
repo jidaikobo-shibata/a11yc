@@ -65,7 +65,6 @@ class TellUserFileType extends Validate
 							preg_match("/\d/", $f_inner) === false // lacknesss of filesize?
 						);
 
-
 					Validate\Set::errorAndLog(
 						$is_better_text,
 						$url,
