@@ -379,4 +379,11 @@ define('A11YC_LANG_POST_BASIC_AUTH_EXP', 'Could not pass basic authentication');
 
 define('A11YC_LANG_POST_SOCIAL_TWEET', 'Tweet');
 define('A11YC_LANG_POST_SOCIAL_FACEBOOK', 'Facebook Like Button');
-define('A11YC_LANG_POST_SOCIAL_HATENA', 'Add Hatena Bookmark');
+
+// plugin
+define('A11YC_LANG_PLUGIN_TITLE', 'Accessibility Checklist');
+define('A11YC_LANG_PLUGIN_SKIP', 'Skip accessibility checklist messages.');
+define('A11YC_LANG_PLUGIN_SKIP_TARGET', 'End line of accessibility checklist.');
+define('A11YC_LANG_PLUGIN_NODEADLINK', 'No dead links were found.');
+define('A11YC_LANG_PLUGIN_ERROR', 'This checklist is according to WCAG2.0 (Web Content Accessibility Guidelines)');
+define('A11YC_LANG_PLUGIN_NOTICE', 'There may be no accessibility problems, but just in case, please check.');

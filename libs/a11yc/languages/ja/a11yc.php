@@ -384,4 +384,11 @@ define('A11YC_LANG_POST_BASIC_AUTH_EXP', '対象のページは基本認証で�
 
 define('A11YC_LANG_POST_SOCIAL_TWEET', 'ツイートする');
 define('A11YC_LANG_POST_SOCIAL_FACEBOOK', 'Facebook いいねボタン');
-define('A11YC_LANG_POST_SOCIAL_HATENA', 'このエントリーをはてなブックマークに追加');
+
+// plugin
+define('A11YC_LANG_PLUGIN_TITLE', 'アクセシビリティ チェックリスト');
+define('A11YC_LANG_PLUGIN_SKIP', 'アクセシビリティチェックリストを読み飛ばす');
+define('A11YC_LANG_PLUGIN_SKIP_TARGET', 'アクセシビリティチェックリストここまで');
+define('A11YC_LANG_PLUGIN_NODEADLINK', 'リンク切れは見つかりませんでした');
+define('A11YC_LANG_PLUGIN_ERROR', 'このチェックリストは、WCAG2.0 (Web Content Accessibility Guidelines)に基づいています。');
+define('A11YC_LANG_PLUGIN_NOTICE', 'アクセシビリティ上の問題はないかもしれませんが、念のため、ご確認ください。');
