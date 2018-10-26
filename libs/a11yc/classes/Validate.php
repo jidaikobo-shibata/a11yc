@@ -114,7 +114,7 @@ class Validate
 	 */
 	public static function html($url, $html, $codes = array(), $ua = 'using', $force = false)
 	{
-		if ( ! is_string($html)) Util::error('invalid HTML wa given');
+		if ( ! is_string($html)) Util::error('invalid HTML was given');
 
 		$codes = $codes ?: self::$codes;
 		$name = static::codes2name($codes);
