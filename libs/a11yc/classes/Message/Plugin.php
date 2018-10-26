@@ -16,9 +16,10 @@ class Plugin
 	 * error
 	 *
 	 * @param Array $errors
+	 * @param Bool $show_link_to_issue
 	 * @return String
 	 */
-	public static function error($errors)
+	public static function error($errors, $show_link_to_issue = false)
 	{
 		$html = '';
 		$html.= '<section>';
@@ -44,7 +45,7 @@ class Plugin
 		}
 
 		$html.= '<dl id="a11yc_validation_errors" class="a11yc_hide_if_fixedheader">';
-		$html = self::removeViewSrc($html, $errors);
+		$html = self::removeViewSrc($html, $errors, $show_link_to_issue);
 		$html.= '</ul></dd>';
 		$html.= '</dl>';
 		$html.= '</section><a id="end_line_of_a11y_checklist" class="a11yc_skip" tabindex="-1">'.A11YC_LANG_PLUGIN_SKIP_TARGET.'</a>';
@@ -57,7 +58,7 @@ class Plugin
 	 * @param Array $no_errors
 	 * @return String
 	 */
-	public static function noError($no_errors)
+	public static function noError($no_errors = array())
 	{
 		$html = '';
 		// no error
@@ -73,14 +74,15 @@ class Plugin
 	 * notice
 	 *
 	 * @param Array $notices
+	 * @param Bool $show_link_to_issue
 	 * @return String
 	 */
-	public static function notice($notices)
+	public static function notice($notices, $show_link_to_issue = false)
 	{
 		$html = '';
 		$html.= '<h2>'.A11YC_LANG_PLUGIN_NOTICE.'</h2>'."\n";
 		$html.= '<dl id="a11yc_validation_notices" class="a11yc_hide_if_fixedheader">';
-		$html = self::removeViewSrc($html, $notices);
+		$html = self::removeViewSrc($html, $notices, $show_link_to_issue);
 		$html.= '</ul></dd>';
 		$html.= '</dl>';
 		return $html;
@@ -91,15 +93,21 @@ class Plugin
 	 *
 	 * @param string $html
 	 * @param array $messages
+	 * @param Bool $show_link_to_issue
 	 * @return string
 	 */
-	private static function removeViewSrc($html, $messages)
+	private static function removeViewSrc($html, $messages, $show_link_to_issue)
 	{
 		foreach($messages as $k => $message)
 		{
 			if (isset($message['dt']))
 			{
-				$html.= Arr::get($message, 'dt');
+				$dt = Arr::get($message, 'dt');
+				if ($show_link_to_issue === false)
+				{
+					$dt = preg_replace('/\[.+?\]/i', '', $dt);
+				}
+				$html.= $dt;
 			}
 
 			$html.= preg_replace('/\<a href="#.+?\<\/a\>/i', '', $message['li']);
