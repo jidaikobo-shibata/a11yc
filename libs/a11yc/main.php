@@ -15,13 +15,17 @@ define('A11YC_VERSION', '2.1.1');
 // git tag 2.1.1 & git push origin --tags
 
 // config
-$config_path = dirname(dirname(__DIR__)).'/config/config.php';
-if ( ! file_exists($config_path))
+if ( ! defined('A11YC_CONFIG_PATH'))
+{
+	$config_path = dirname(dirname(__DIR__)).'/config/config.php';
+	define('A11YC_CONFIG_PATH', $config_path);
+}
+if ( ! file_exists(A11YC_CONFIG_PATH))
 {
 	header('Content-Type: text/plain; charset=UTF-8', true, 403);
 	die('set config.');
 }
-include $config_path;
+include A11YC_CONFIG_PATH;
 
 // load kontiki
 define('KONTIKI_DEFAULT_LANG',    A11YC_LANG);
