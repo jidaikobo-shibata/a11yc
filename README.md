@@ -35,9 +35,13 @@ if you want to use SQLITE, create directory
 
 and create symlinks
 
-ln -s a11yc/assets
-ln -s a11yc/index.php
-ln -s a11yc/post.php
+ ln -s a11yc/assets
+ ln -s a11yc/index.php
+ ln -s a11yc/post.php
+
+mv a11yc/.htaccess.dist to document root and rename it.
+
+ mv a11yc/.htaccess.dist .htaccess
 
 ##[ja]
 
@@ -71,6 +75,10 @@ SQLITEを使う場合は、
  ln -s a11yc/assets
  ln -s a11yc/index.php
  ln -s a11yc/post.php
+
+ドキュメントルートに.htaccess.distを.htaccessとして設置してください。
+
+ mv a11yc/.htaccess.dist .htaccess
 
 報告書作成画面にアクセスできるIPを制限したい場合はA11YC_APPROVED_IPSを書いてください。特にない場合は、define()しないようにしてください。
 
