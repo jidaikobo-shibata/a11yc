@@ -21,27 +21,27 @@ See how it works.  [A11yc Accessibility Check Service](https://a11yc.com/check/e
 
 Upload files and duplicate
 
- a11yc/config/config.dist.php
+> a11yc/config/config.dist.php
 
 to
 
- a11yc/config/config.php
+> a11yc/config/config.php
 
 set A11YC_URL, A11YC_USERS, A11YC_LANG.
 
 if you want to use SQLITE, create directory
 
- a11yc/db
+> a11yc/db
 
 and create symlinks
 
- ln -s a11yc/assets
- ln -s a11yc/index.php
- ln -s a11yc/post.php
+> ln -s a11yc/assets
+> ln -s a11yc/index.php
+> ln -s a11yc/post.php
 
 mv a11yc/.htaccess.dist to document root and rename it.
 
- mv a11yc/.htaccess.dist .htaccess
+> mv a11yc/.htaccess.dist .htaccess
 
 ##[ja]
 
@@ -56,35 +56,35 @@ JIS X 8341-3:2016 (WCAG 2.0) に基づいたアクセシビリティ報告書と
 
 サーバにファイル一式をアップしたのち、
 
- config/config.dist.php
+> config/config.dist.php
 
 を複製して、
 
- config/config.php
+> config/config.php
 
 を作り、環境設定してください。ほとんどの場合、A11YC_URL (ファイルを設置したアドレス) とA11YC_USERS (管理者情報) を設定したら大丈夫だと思います。
 
 SQLITEを使う場合は、
 
- a11yc/db
+> a11yc/db
 
 を設置してください。
 
 フロントコントローラへのシンボリックリンクをはります。
 
- ln -s a11yc/assets
- ln -s a11yc/index.php
- ln -s a11yc/post.php
+> ln -s a11yc/assets
+> ln -s a11yc/index.php
+> ln -s a11yc/post.php
 
 ドキュメントルートに.htaccess.distを.htaccessとして設置してください。
 
- mv a11yc/.htaccess.dist .htaccess
+> mv a11yc/.htaccess.dist .htaccess
 
 報告書作成画面にアクセスできるIPを制限したい場合はA11YC_APPROVED_IPSを書いてください。特にない場合は、define()しないようにしてください。
 
 パスワードはconfig.dist.phpにもありますが、コマンドラインで
 
-  php -r "echo password_hash('password', CRYPT_BLOWFISH);\n"
+>  php -r "echo password_hash('password', CRYPT_BLOWFISH);\n"
 
 というようにハッシュして保存してください。
 
@@ -96,11 +96,11 @@ SQLITEを使う場合は、
 
 ### 報告書と方針
 
- a11yc/report.dist.php
+> a11yc/report.dist.php
 
 を適当なファイル名に変更します。PHPがわかる方なら、適当にパスをいじって好きなところにおいてください。わからない場合でも、HTMLはいじっても大丈夫ですので、
 
- report.php
+> report.php
 
 あたりにrenameしてください。
 
@@ -112,24 +112,24 @@ WordPressのプラグインでは、投稿のたびに投稿内容のアクセ�
 
 A11ycでチェックするために記事のURLを取得します。WordPressの場合は、get_permalink($post->ID)のようなものです。一時的なチェックの場合は、サイトトップのURLを入れても動きます。
 
-  require_once ('/path/to/a11yc/main.php');
-  $url = get_permalink($post->ID);
+> require_once ('/path/to/a11yc/main.php');
+> $url = get_permalink($post->ID);
 
 HTMLのすべてをチェックするときには、headの中などのチェックも行いますが、投稿内容のみをチェックする場合は、不要なのでそのように設定します。
 
-  \A11yc\Validate::$is_partial = true;
+> \A11yc\Validate::$is_partial = true;
 
 Validateの中のリンクチェッカは処理に時間がかかるので、何らかの方法で、オンオフできるようにします。
 
-  \A11yc\Validate::$do_link_check = \A11yc\Input::post('jwp_a11y_link_check', false);
+> \A11yc\Validate::$do_link_check = \A11yc\Input::post('jwp_a11y_link_check', false);
 
 CSSのチェックも普段は不要かもしれません。
 
-  \A11yc\Validate::$do_css_check  = \A11yc\Input::post('jwp_a11y_css_check', false);
+> \A11yc\Validate::$do_css_check  = \A11yc\Input::post('jwp_a11y_css_check', false);
 
 Validateクラスに検査対象のHTMLをセットします。以下はWordPressの例です。
 
-  \A11yc\Validate::html($url, apply_filters('the_content', $obj->post_content));
+> \A11yc\Validate::html($url, apply_filters('the_content', $obj->post_content));
 
 チェックの後、
 
