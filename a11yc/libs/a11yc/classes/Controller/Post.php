@@ -124,6 +124,7 @@ class Post
 			Docs::each($criterion); // $body set
 			$doc = View::fetch('doc');
 			define('A11YC_LANG_POST_TITLE', $doc['name']);
+			return;
 		}
 		Util::error('service not available.');
 	}
