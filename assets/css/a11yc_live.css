@@ -1,0 +1,138 @@
+@charset "utf-8";
+html
+{
+}
+
+/* head */
+.a11yc_live_head
+{
+	clear: both;
+	z-index: 2147483642;
+	font-family: monospace;
+	font-size: 12px;
+	line-height: 1.2em;
+	padding: 5px;
+	border-top: 2px solid #ccc;
+	color: #000;
+	background: #fefefe;
+	overflow: auto;
+	width: 100%;
+	box-sizing: border-box;
+	text-align: left !important;
+/*	height: 240px;
+	position: absolute;
+	top: -240px;
+	*/
+}
+.a11yc_live_head br
+{
+	line-height: 1.2;
+}
+/* body */
+.a11yc_validation_code_error
+{
+	display: block;
+	position: absolute;
+	left: auto;
+	right: auto;
+	top: auto;
+	bottom: auto;
+	padding: 1px 3px 0;
+	background-color: #900;
+	color: #fff;
+	border-radius: 3px;
+	text-align: left;
+	font-size: 13px;
+	font-weight: bold;
+	font-family: Arial;
+	line-height: 1.5em;
+	border: 2px solid rgba( 255,255,255,.75 );
+}
+.a11yc_validation_code_error .a11yc_error_text {
+	display: block;
+	font-weight: normal;
+}
+
+.a11yc_validation_code_error:hover + .a11yc_live_error_wrapper,
+.a11yc_live_error_wrapper.on
+{
+	outline-color: #000;
+	opacity: .7;
+}
+.a11yc_validation_code_notice
+{
+	color: #000;
+	background-color: #fea05a;
+}
+
+.a11yc_live_error_outline,
+.a11yc_live_notice_outline
+{
+	display: inline;
+	outline: 2px dashed #900;
+	outline-offset: -1px;
+}
+.a11yc_live_notice_outline
+{
+	outline-color: #fea05a;
+}
+.a11yc_live_error_outline.a11yc_live_on,
+.a11yc_live_notice_outline.a11yc_live_on
+{
+	outline: 2px dashed #000;
+	background-color: rgba( 240, 60, 60, .5 );
+}
+
+/*
+ * alt attributes of image
+ */
+.a11yc_live_img_wrapper {
+	position: relative;
+/*	padding-bottom: 16px;*/
+}
+.a11yc_live_img_wrapper .a11yc_live_alt {
+	color: #000;
+	display: block;
+	background-color: #fefebb !important;
+	font-size: 12px !important;
+	font-weight: normal !important;
+	line-height: 16px !important;
+	text-align: left !important;
+	position: absolute !important;
+	white-space: nowrap !important;
+	top: 0;
+	right: 0;
+	
+/* need control position */
+}
+
+/* z-index */
+/* max of z-index: 2147483647 */
+/*
+.a11yc_overlay {
+	position: absolute;
+	outline: 1px dotted blue;
+	z-index: 2147483600;
+}
+*/
+
+.a11yc_live_error_outline
+{
+	z-index: 2147483630;
+}
+.a11yc_validation_code_error,
+.a11yc_live_img_wrapper .a11yc_live_alt
+{
+	z-index: 2147483640;
+}
+.a11yc_live_error_outline.a11yc_live_on,
+.a11yc_live_notice_outline.a11yc_live_on
+{
+	z-index: 2147483645;
+}
+.a11yc_validation_code_error:hover,
+.a11yc_live_img_wrapper .a11yc_live_alt:hover,
+body :focus
+{
+	z-index: 2147483647;
+}

@@ -2,15 +2,10 @@
 !/config/.htaccess
 !/libs/.htaccess
 config/config.php
-readme.txt
 composer.json
 composer.lock
 composer.phar
 config/config.php
 db/
-test.html
 /libs/spyc/.gitignore
 /libs/spyc/phpunit.xml
-/assets
-/index.php
-/post.php
