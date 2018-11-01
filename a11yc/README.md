@@ -6,7 +6,7 @@
 
 ## screenshot
 
-<img src="https://raw.githubusercontent.com/jidaikobo-shibata/a11yc/master/screenshots/machine-check.png" width="300" alt="machine check"> <img src="https://raw.githubusercontent.com/jidaikobo-shibata/a11yc/master/screenshots/checklist.png" width="300" alt="checklist"> <img src="https://raw.githubusercontent.com/jidaikobo-shibata/a11yc/master/screenshots/pages.png" width="300" alt="list of pages"> <img src="https://raw.githubusercontent.com/jidaikobo-shibata/a11yc/master/screenshots/results.png" width="300" alt="evaluate results">
+<img src="https://raw.githubusercontent.com/jidaikobo-shibata/a11yc/master/a11yc/screenshots/checklist_en.png" width="300" alt="checklist - English"> <img src="https://raw.githubusercontent.com/jidaikobo-shibata/a11yc/master/a11yc/screenshots/checklist_ja.png" width="300" alt="checklist - Japanese">
 
 ##[en]
 
@@ -21,13 +21,23 @@ See how it works.  [A11yc Accessibility Check Service](https://a11yc.com/check/e
 
 Upload files and duplicate
 
- config/config.dist.php
+ a11yc/config/config.dist.php
 
 to
 
- config/config.php
+ a11yc/config/config.php
 
 set A11YC_URL, A11YC_USERS, A11YC_LANG.
+
+if you want to use SQLITE, create directory
+
+ a11yc/db
+
+and create symlinks
+
+ln -s a11yc/assets
+ln -s a11yc/index.php
+ln -s a11yc/post.php
 
 ##[ja]
 
@@ -50,6 +60,18 @@ JIS X 8341-3:2016 (WCAG 2.0) に基づいたアクセシビリティ報告書と
 
 を作り、環境設定してください。ほとんどの場合、A11YC_URL (ファイルを設置したアドレス) とA11YC_USERS (管理者情報) を設定したら大丈夫だと思います。
 
+SQLITEを使う場合は、
+
+ a11yc/db
+
+を設置してください。
+
+フロントコントローラへのシンボリックリンクをはります。
+
+ ln -s a11yc/assets
+ ln -s a11yc/index.php
+ ln -s a11yc/post.php
+
 報告書作成画面にアクセスできるIPを制限したい場合はA11YC_APPROVED_IPSを書いてください。特にない場合は、define()しないようにしてください。
 
 パスワードはconfig.dist.phpにもありますが、コマンドラインで
@@ -66,7 +88,7 @@ JIS X 8341-3:2016 (WCAG 2.0) に基づいたアクセシビリティ報告書と
 
 ### 報告書と方針
 
- report.dist.php
+ a11yc/report.dist.php
 
 を適当なファイル名に変更します。PHPがわかる方なら、適当にパスをいじって好きなところにおいてください。わからない場合でも、HTMLはいじっても大丈夫ですので、
 
