@@ -11,6 +11,6 @@ db/
 test.html
 /libs/spyc/.gitignore
 /libs/spyc/phpunit.xml
-/asset
+/assets
 /index.php
 /post.php
