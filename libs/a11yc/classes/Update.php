@@ -19,6 +19,8 @@ class Update
 	 */
 	public static function check()
 	{
+		if (A11YC_DB_TYPE == 'none') return;
+
 		// update 1.x.x -> 2.x.x
 		if (Db::isTableExist(A11YC_TABLE_SETUP_OLD) && ! Db::isTableExist(A11YC_TABLE_CACHES))
 		{

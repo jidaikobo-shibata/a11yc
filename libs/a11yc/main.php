@@ -44,7 +44,7 @@ define('A11YC_RESOURCE_PATH', A11YC_PATH.'/resources/'.$lang);
 include A11YC_PATH.'/languages/'.$lang.'/a11yc.php';
 
 // database
-if (defined('A11YC_DB_TYPE') && A11YC_DB_TYPE == 'mysql')
+if (A11YC_DB_TYPE == 'mysql')
 {
 	// forge MySQL
 	Db::forge(
@@ -56,7 +56,7 @@ if (defined('A11YC_DB_TYPE') && A11YC_DB_TYPE == 'mysql')
 			'password' => A11YC_DB_PASSWORD,
 		));
 }
-else
+elseif (KONTIKI_DB_TYPE != 'none')
 {
 	Db::forge(array(
 			'dbtype' => 'sqlite',
@@ -71,7 +71,7 @@ Db::initTable();
 Update::check();
 
 // setup
-if ( ! defined('A11YC_IS_GUEST_VALIDATION'))
+if ( ! defined('A11YC_IS_GUEST_VALIDATION') && KONTIKI_DB_TYPE != 'none')
 {
 	if ( ! Input::post('target_level') && ! Arr::get(Model\Settings::fetchAll(), 'target_level'))
 	{

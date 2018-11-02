@@ -25,6 +25,8 @@ class Base extends Validate
 	 */
 	public static function check($url, $regex)
 	{
+		if (A11YC_DB_TYPE == 'none') return;
+
 		$str = Element\Get::ignoredHtml($url);
 		$n = 0;
 		foreach (Model\Issues::fetchByUrl($url) as $v)

@@ -22,6 +22,7 @@ class Db extends \Kontiki\Db
 	 */
 	public static function initTable($name = 'default')
 	{
+		if (A11YC_DB_TYPE == 'none') return;
 		// init default tables
 		if (static::isTableExist(A11YC_TABLE_CACHES, $name)) return;
 		self::initDefault($name);
