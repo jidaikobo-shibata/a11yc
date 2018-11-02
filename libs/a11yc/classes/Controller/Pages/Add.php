@@ -217,7 +217,7 @@ class Add
 	 * @param  Array $pages
 	 * @return Void
 	 */
-	protected static function addPages($is_force = false, $pages = array())
+	public static function addPages($is_force = false, $pages = array())
 	{
 		$pages = $pages ?: explode("\n", trim(Input::post('pages')));
 

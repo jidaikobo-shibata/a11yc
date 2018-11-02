@@ -307,7 +307,7 @@ class Pages
 	public static function count($type = 'all')
 	{
 		// count all
-		$cntsql = 'SELECT count(url) AS num FROM '.A11YC_TABLE_PAGES.' WHERE ';
+		$cntsql = 'SELECT count(url) AS num FROM '.A11YC_TABLE_PAGES.' WHERE `url` <> "" AND ';
 
 		switch ($type)
 		{
