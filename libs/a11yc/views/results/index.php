@@ -6,14 +6,14 @@
 	<!-- standard -->
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_STANDARD_REPORT ?></th>
-		<td><?php echo $standards[$settings['standard']] ?></td>
+		<td><?php echo $standards[Arr::get($settings, 'standard', 0)] ?></td>
 	</tr>
 	<!-- /standard -->
 
 	<!-- target level -->
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_TARGET_LEVEL ?></th>
-		<td><?php echo Util::num2str($settings['target_level']) ?></td>
+		<td><?php echo Util::num2str(Arr::get($settings, 'target_level')) ?></td>
 	</tr>
 	<!-- /target level -->
 
@@ -34,7 +34,7 @@
 	<!-- /current level -->
 	<?php endif; ?>
 
-	<?php if ($is_total && $settings['dependencies']): ?>
+	<?php if ($is_total && Arr::get($settings, 'dependencies')): ?>
 	<!-- dependencies -->
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_DEPENDENCIES ?></th>
@@ -51,7 +51,7 @@
 	<!-- dependencies -->
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_CANDIDATES_TITLE ?></th>
-		<td><?php echo $selectedMethods[$settings['selected_method']]; ?></td>
+		<td><?php echo $selectedMethods[Arr::get($settings, 'selected_method', 0)]; ?></td>
 	</tr>
 	<!-- /dependencies -->
 	<?php endif; ?>
@@ -145,7 +145,7 @@
 	<tr>
 	<?php if ($is_total): ?>
 		<th scope="row"><?php echo A11YC_LANG_TEST_PERIOD ?></th>
-		<td><?php echo $settings['test_period'] ?></td>
+		<td><?php echo Arr::get($settings, 'test_period', '') ?></td>
 	<?php else: ?>
 		<th scope="row"><?php echo A11YC_LANG_TEST_DATE ?></th>
 		<td><?php echo $page['date'] ?></td>
@@ -154,7 +154,7 @@
 	<!-- /period of date -->
 
 	<!-- contact -->
-	<?php if ($settings['contact']): ?>
+	<?php if (Arr::get($settings, 'contact', false)): ?>
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_CONTACT ?></th>
 		<td><?php echo $settings['contact']; ?></td>
@@ -165,7 +165,7 @@
 </table>
 
 <!-- report -->
-<?php if ($is_total && $settings['report']): ?>
+<?php if ($is_total && Arr::get($settings, 'report', false)): ?>
 <h2><?php echo A11YC_LANG_OPINION ?></h2>
 <?php echo htmlspecialchars_decode($settings['report']); ?>
 <?php endif; ?>
