@@ -34,6 +34,7 @@ define('A11YC_LANG_ALT_URL_EXCEPTION', 'Result including alternative content');
 define('A11YC_LANG_CURRENT_LEVEL_WEBPAGES', 'Achieved level of the site');
 define('A11YC_LANG_NUM_OF_CHECKED', 'Number of checked pages');
 define('A11YC_LANG_CHECKED_PAGES_URLS', 'Target pages\' URL');
+define('A11YC_LANG_CHECKED_PAGES', 'List of URL');
 define('A11YC_LANG_UNPASSED_PAGES', 'Page less than the achievement grade as a target');
 define('A11YC_LANG_UNPASSED_PAGES_NO', 'All checked page meet success criteria to target');
 define('A11YC_LANG_RELATED', 'Related');
