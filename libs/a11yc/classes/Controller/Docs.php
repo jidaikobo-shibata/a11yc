@@ -187,7 +187,11 @@ class Docs
 		}
 
 		// reference urls
-		$standard = Arr::get(Model\Settings::fetchAll(), 'standard', 0);
+		$standard = 0;
+		if (A11YC_DB_TYPE != 'none')
+		{
+			$standard = Arr::get(Model\Settings::fetchAll(), 'standard', 0);
+		}
 		$refs = Values::getRefUrls();
 		View::assign('refs', $refs[$standard]);
 
