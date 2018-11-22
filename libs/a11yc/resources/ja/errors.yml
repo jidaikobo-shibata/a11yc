@@ -1,7 +1,7 @@
 errors:
 
   alt_attr_of_img:
-    title: img要素のalt属性の有無
+    title: img要素のalt属性の存在を確認
     message: img要素のalt属性（代替テキスト）がありません。装飾目的の画像であってもalt属性そのものを省略しないでください
     criterions:
       - 1-1-1
@@ -11,7 +11,7 @@ errors:
       - F65
 
   empty_alt_attr_of_img_inside_a:
-    title: a要素内のimg要素の空のalt属性値
+    title: a要素内のimg要素のalt属性値が空でないか確認
     message: a要素の中にimg要素しかない場合、img要素のalt属性値（代替テキスト）は空文字でなくリンクの目的を表す文字を入れてください
     criterions:
       - 1-1-1
@@ -22,7 +22,7 @@ errors:
       - H37
 
   area_has_alt:
-    title: area要素のalt属性値
+    title: area要素のalt属性値の存在を確認
     message: area要素のalt属性（代替テキスト）が存在しないか、alt属性値は空文字です。area要素の目的を表す文字を入れてください
     criterions:
       - 1-1-1
@@ -33,7 +33,7 @@ errors:
       - F65
 
   img_input_has_alt:
-    title: type属性値がimageのinput要素のalt属性値
+    title: type属性値がimageのinput要素のalt属性値の存在を確認
     message: input要素のalt属性（代替テキスト）が存在しないか、alt属性値が空文字です。input要素のtypeがimageの時には目的を表す文字を入れてください
     criterions:
       - 1-1-1
@@ -42,7 +42,7 @@ errors:
       - H36
 
   empty_link_element:
-    title: リンク文字列のないリンク
+    title: リンク文字列のないリンクが存在しないか確認
     message: リンク先があるのにリンク文字列のない要素があります
     criterions:
       - 2-4-4
@@ -53,7 +53,7 @@ errors:
       - G53
 
   here_link:
-    title: 「こちら」的リンク
+    title: リンクの目的が明確でないリンク文字列が存在しないか確認
     message: 「こちら」のような文字列をリンクにしないでください
     criterions:
       - 2-4-9
@@ -61,41 +61,50 @@ errors:
       - G53
 
   css_suspicious_paren_num:
-    title: CSSのブレース
+    title: CSSのブレースが妥当か確認
     message: CSSのブレース（{}）の数に不釣り合いがあるようです。
     criterions:
       - 4-1-1
+    techs:
+      - C6
 
   css_suspicious_props:
-    title: 疑わしいCSSのプロパティ
+    title: 疑わしいCSSのプロパティが存在しないか確認
     message: 疑わしいCSSのプロパティがあります。
     criterions:
       - 4-1-1
+    techs:
+      - C6
 
   css_suspicious_prop_and_vals:
-    title: 疑わしいCSSのプロパティと値
+    title: 疑わしいCSSのプロパティと値が存在しないか確認
     message: 疑わしいCSSのプロパティと値があります。
     criterions:
       - 4-1-1
+    techs:
+      - C6
 
   css_is_meanfull_content:
-    title: contentによるコンテンツの挿入
+    title: contentによるコンテンツの挿入が存在しないか確認
     message: CSSのcontentでコンテンツが挿入されています。装飾目的でないコンテンツでないか確認してください。
     criterions:
       - 1-3-1
     notice: true
     techs:
+      - C9
       - F87
 
   css_invisible:
-    title: CSSによる非表示
+    title: CSSによる非表示が存在しないか確認
     message: CSSで非表示にしているコンテンツがあります。視覚的に情報を得ている利用者を阻害していないか、確認してください。
     criterions:
       - 1-3-1
     notice: true
+    techs:
+      - C6
 
   css_background_image_only:
-    title: CSSでの背景色を指定しない背景画像
+    title: CSSでの背景色を指定しない背景画像が存在しないか確認
     message: CSSで背景色を指定せずに背景画像を指定すると、画像を読み込まない環境で、前景情報が取得できない場合があります。
     criterions:
       - 1-4-3
@@ -103,10 +112,11 @@ errors:
       - 1-4-8
     notice: true
     techs:
+      - C23
       - F24
 
   too_much_opens:
-    title: 開始タグの数
+    title: 開始タグの数が妥当か確認
     message: 開始タグが多すぎるようです。このエラーは場所の特定に失敗するので、ブラウザのDOM閲覧などで構造を確認してください
     criterions:
       - 4-1-1
@@ -116,7 +126,7 @@ errors:
       - H88
 
   too_much_ends:
-    title: 終了タグの数
+    title: 終了タグの数が妥当か確認
     message: 終了タグが多すぎるようです。このエラーは場所の特定に失敗するので、ブラウザのDOM閲覧などで構造を確認してください
     criterions:
       - 4-1-1
@@ -126,7 +136,7 @@ errors:
       - H88
 
   unclosed_elements:
-    title: 不完全なタグ
+    title: 不完全なタグが存在しないか確認
     message: 不完全なタグのようです
     criterions:
       - 4-1-1
@@ -135,7 +145,7 @@ errors:
       - H88
 
   suspicious_ends:
-    title: 疑わしい終了タグ
+    title: 疑わしい終了タグが存在しないか確認
     message: 疑わしい終了タグがあります
     criterions:
       - 4-1-1
@@ -145,7 +155,7 @@ errors:
       - H88
 
   appropriate_heading_descending:
-    title: 見出しの降順
+    title: 見出しの降順が妥当か確認
     message: 見出しの降順が妥当ではありません
     criterions:
       - 1-3-1
@@ -154,7 +164,7 @@ errors:
       - F2
 
   meanless_element_timing:
-    title: 動き、点滅
+    title: 動き、点滅が存在しないか確認
     message: 動き、点滅をHTMLでマークアップしないでください
     criterions:
       - 2-2-2
@@ -162,7 +172,7 @@ errors:
       - F47
 
   titleless:
-    title: title要素の存在
+    title: title要素の存在を確認
     message: title要素が存在しないか、title要素の中身が空（あるいは空文字）です
     criterions:
       - 2-4-2
@@ -172,7 +182,7 @@ errors:
       - H25
 
   langless:
-    title: 文書の基本言語
+    title: 文書の基本言語を指定しているか確認
     message: html要素で文書の基本言語を特定してください
     criterions:
       - 3-1-1
@@ -189,7 +199,7 @@ errors:
   #     - H57
 
   invalid_page_lang:
-    title: 妥当なlang属性値
+    title: lang属性値が妥当か確認
     message: ページの基本的な言語指定におけるlangの値が妥当でありません
     criterions:
       - 3-1-1
@@ -197,7 +207,7 @@ errors:
       - H57
 
   invalid_partial_lang:
-    title: 妥当なlang属性値（一部の言語）
+    title: lang属性値（一部の言語）が妥当か確認
     message: 一部分の言語指定におけるlangの値が妥当でありません
     criterions:
       - 3-1-2
@@ -205,19 +215,21 @@ errors:
       - H58
 
   link_check:
-    title: リンク切れ
+    title: リンク切れが存在しないか確認
     message: リンク切れの疑いがあります
     criterions:
       - 2-4-4
+    not4checklist: true
 
   no_broken_link_found:
     title: 有効なリンク
     message: リンク切れは見つかりませんでした
     criterions:
       - 2-4-4
+    not4checklist: true
 
   duplicated_attributes:
-    title: 属性値の重複
+    title: 属性値の重複が存在しないか確認
     message: 属性値が重複している可能性があります
     criterions:
       - 4-1-1
@@ -226,7 +238,7 @@ errors:
       - H88
 
   suspicious_attributes:
-    title: 疑わしい属性値
+    title: 疑わしい属性値が存在しないか確認
     message: 疑わしい属性値があります
     criterions:
       - 4-1-1
@@ -235,7 +247,7 @@ errors:
       - H88
 
   no_space_between_attributes:
-    title: 属性間の空白
+    title: 属性間の空白が妥当か確認
     message: 属性間に空白がありません
     criterions:
       - 4-1-1
@@ -244,7 +256,7 @@ errors:
       - H88
 
   duplicated_ids:
-    title: idの重複
+    title: idの重複が存在しないか確認
     message: idが重複しています
     criterions:
       - 4-1-1
@@ -252,7 +264,7 @@ errors:
       - F77
 
   duplicated_accesskeys:
-    title: accesskeyの重複
+    title: accesskeyの重複が存在しないか確認
     message: accesskeyが重複しています
     criterions:
       - 4-1-1
@@ -261,7 +273,7 @@ errors:
       - H88
 
   unbalanced_quotation:
-    title: 引用符の数
+    title: 引用符の数が妥当か確認
     message: 引用符の数が一致していないようです
     criterions:
       - 4-1-1
@@ -270,7 +282,7 @@ errors:
       - H88
 
   cannot_contain_multibyte_space:
-    title: タグの中の全角スペース
+    title: タグの中の全角スペースが存在しないか確認
     message: タグの中に全角スペースが存在します
     criterions:
       - 4-1-1
@@ -279,7 +291,7 @@ errors:
       - H88
 
   contain_plural_form_elements:
-    title: 妥当なlabel要素
+    title: label要素が1対1対応になっているか確認
     message: labelは、複数のラベル付け可能な要素を含まないほうが良いです
     criterions:
       - 2-4-6
@@ -287,7 +299,7 @@ errors:
       - H44
 
   labelless:
-    title: form要素使用時のlabel要素の存在
+    title: form要素使用時のlabel要素の存在を確認
     message: form要素を使う時には、labelを使いましょう
     criterions:
       - 1-3-1
@@ -296,7 +308,7 @@ errors:
       - H65
 
   not_label_but_title:
-    title: ユーザインタフェースコンポーネント使用時のlabel要素の存在
+    title: ユーザインタフェースコンポーネント使用時のlabel要素の存在を確認
     message: input/textarea/select要素を使う時には、labelを使いましょう。labelが使えない場合は、title属性を使ってください
     criterions:
       - 1-3-1
@@ -305,7 +317,7 @@ errors:
       - H65
 
   lackness_of_form_ends:
-    title: 妥当なform要素
+    title: form要素の開始タグおよび終了タグの存在を確認
     message: 終了していないform要素があるようです
     criterions:
       - 4-1-1
@@ -314,7 +326,7 @@ errors:
       - H88
 
   submitless:
-    title: 送信ボタンの存在
+    title: 送信ボタンの存在を確認
     message: formに送信ボタンがありません。予告なしに状況が変化する状態になっていませんか？
     criterions:
       - 3-2-2
@@ -323,7 +335,7 @@ errors:
       - F37
 
   duplicated_names:
-    title: name属性値の重複
+    title: name属性値の重複が存在しないか確認
     message: ひとつのform内でcheckboxやradio以外の要素について、name属性値に重複があるようです
     criterions:
       - 4-1-2
@@ -333,7 +345,7 @@ errors:
       - H88
 
   meta_refresh:
-    title: meta要素のrefresh
+    title: meta要素のrefreshによる自動更新が存在しないか確認
     message: meta要素のrefreshによる自動更新は避けてください
     criterions:
       - 2-2-1
@@ -344,7 +356,7 @@ errors:
       - H76
 
   titleless_frame:
-    title: frame/iframe要素のtitle属性
+    title: frame/iframe要素のtitle属性の存在を確認
     message: frame/iframe要素にtitle属性がありません
     criterions:
       - 2-4-1
@@ -353,31 +365,31 @@ errors:
       - H64
 
   user_scalable_no:
-    title: viewport設定
+    title: viewport設定にuser-scalable=noが存在しないか確認
     message: viewport設定でuser-scalable=noを設定すると、好みの大きさに変更できないので、避けましょう
     criterions:
       - 1-4-4
 
-  must_be_numeric_attr:
-    title: 数値でなければいけない値
-    message: 数値でなければいけない値があります
-    criterions:
-      - 4-1-1
-    techs:
-      - F70
-      - H88
+  # must_be_numeric_attr:
+  #   title: 数値であるべき値が妥当か確認
+  #   message: 数値であるべき値があります
+  #   criterions:
+  #     - 4-1-1
+  #   techs:
+  #     - F70
+  #     - H88
 
-  invalid_single_tag_close:
-    title: 妥当な単独タグ
-    message: 単独タグを明示する際、"/>"の前には空白を入れましょう
-    criterions:
-      - 4-1-1
-    techs:
-      - F70
-      - H88
+  # invalid_single_tag_close:
+  #   title: 妥当な単独タグ
+  #   message: 単独タグを明示する際、"/>"の前には空白を入れましょう
+  #   criterions:
+  #     - 4-1-1
+  #   techs:
+  #     - F70
+  #     - H88
 
   headerless_section:
-    title: section見出し
+    title: section要素に見出しが含まれているか確認
     message: section要素はh1-6要素を含めることをおすすめします
     criterions:
       - 1-3-1
@@ -388,7 +400,7 @@ errors:
       - H69
 
   meanless_element:
-    title: 意味づけのないHTML要素
+    title: 意味づけのないHTML要素が存在しないか確認
     message: 意味づけのないHTML要素を使っています
     criterions:
       - 1-3-1
@@ -397,21 +409,22 @@ errors:
       - G115
 
   cannot_contain_newline:
-    title: 属性値の中の改行コード
+    title: 属性値の中の改行コードが存在しないか確認
     message: 属性値の中に改行コードを含めることは避けた方が良いです
     criterions:
       - 1-3-2
     notice: true
+    not4checklist: true
 
   check_doctype:
-    title: DOCTYPE宣言の存在
+    title: DOCTYPE宣言の存在を確認
     message: DOCTYPE宣言を使用してDTDを指定してください
     criterions:
       - 4-1-1
     notice: true
 
   notice_img_exists:
-    title: alt属性値の確認
+    title: alt属性値の存在を確認し、検証を促す
     message: img要素がありますが、alt属性値（代替テキスト）は妥当ですか？
     criterions:
       - 1-1-1
@@ -422,14 +435,15 @@ errors:
       - F39
 
   notice_non_html_exists:
-    title: PDF、Word、Excel、PowerPointの存在確認
+    title: PDF、Word、Excel、PowerPointの存在を確認し、検証を促す
     message: 以下項目が存在しますが、アクセシブルですか？
     criterions:
       - 1-1-1
     notice: true
+    not4checklist: true
 
   style_for_structure:
-    title: 色や大きさに依存した情報提供の可能性
+    title: 色や大きさに依存した情報提供の存在を確認し、検証を促す
     message: 色や大きさに依存した情報提供の可能性があります
     criterions:
       - 1-3-1
@@ -439,7 +453,7 @@ errors:
       - F2
 
   same_alt_and_filename_of_img:
-    title: ファイル名と同一のalt属性値
+    title: ファイル名と同一のalt属性値の存在を確認し、検証を促す
     message: img要素のalt属性値（代替テキスト）がファイル名と同一です。問題でない場合もあります
     criterions:
       - 1-1-1
@@ -449,7 +463,7 @@ errors:
       - F39
 
   ja_word_breaking_space:
-    title: 空白による整形
+    title: 空白による整形の存在を確認し、検証を促す
     message: 空白による整形の可能性があります
     criterions:
       - 1-3-2
@@ -458,7 +472,7 @@ errors:
       - F32
 
   alt_attr_of_empty:
-    title: 空のalt属性値
+    title: 空のalt属性値の存在を確認し、検証を促す
     message: 空のalt属性値（代替テキスト）ですが、情報を持たない画像ですか？
     criterions:
       - 1-1-1
@@ -468,14 +482,14 @@ errors:
       - H67
 
   tell_user_file_type:
-    title: ファイルサイズ等の情報
+    title: リンクテキストにファイルサイズ等の情報が提供されているか確認
     message: リンク先がファイルの場合、ファイルの形式やファイルサイズを明記した方が親切です
     criterions:
       - 2-4-4
     notice: true
 
   same_urls_should_have_same_text:
-    title: 同じURLの異なったリンク文字列
+    title: 同じURLの異なったリンク文字列が存在しないか確認
     message: 同じURLなのにリンク文字列が異なります
     criterions:
       - 3-2-4
@@ -485,7 +499,7 @@ errors:
       - G197
 
   alt_attr_of_blank_only:
-    title: 空白文字によるalt属性値
+    title: 空白文字によるalt属性値が存在しないか確認
     message: 装飾目的の画像の場合、alt属性値（代替テキスト）は空白文字でなく、空にしてください
     criterions:
       - 1-1-1
@@ -495,7 +509,7 @@ errors:
       - H67
 
   same_page_title_in_same_site:
-    title: ウェブページ一式内でのtitle要素の重複
+    title: ウェブページ一式内でのtitle要素の重複が存在しないか確認
     message: チェック対象のサイトに同じtitle要素のページが存在します
     criterions:
       - 2-4-2
@@ -506,7 +520,7 @@ errors:
       - H25
 
   unique_label:
-    title: label文字列の重複
+    title: label文字列の重複が存在しないか確認
     message: labelの文字列に重複があり、識別性が損なわれている可能性があります
     criterions:
       - 2-4-6
@@ -517,7 +531,7 @@ errors:
       - ARIA6
 
   table_use_th:
-    title: thによるtableの構造化
+    title: thによるtableの構造化を行なっているか確認
     message: tableは、thを用いて構造化しましょう
     criterions:
       - 1-3-1
@@ -526,7 +540,7 @@ errors:
       - F46
 
   table_use_scope:
-    title: thのscope属性値の存在
+    title: thのscope属性値の存在を確認
     message: thにscope属性を用いることで、見出しセルとデータセルを関連づけることができます
     criterions:
       - 1-3-1
@@ -535,7 +549,7 @@ errors:
       - H63
 
   table_use_valid_scope:
-    title: scope属性の妥当性
+    title: scope属性の属性値の妥当性を確認
     message: scope属性にはcol、row、rowgroup、colgroupのいずれかを用いてください
     criterions:
       - 1-3-1
@@ -544,7 +558,7 @@ errors:
       - H63
 
   table_use_summary:
-    title: tableのsummary
+    title: tableにsummary属性が存在するか確認（HTML4.01およびXHTMLのみ）
     message: tableは、summaryを用いて、概要を説明しましょう
     criterions:
       - 1-3-1
@@ -553,7 +567,7 @@ errors:
       - H73
 
   table_use_caption:
-    title: tableのcaption
+    title: tableのcaptionの存在を確認
     message: tableは、captionを用いて表題を与えましょう。スクリーンリーダでの利便性が向上します
     criterions:
       - 1-3-1
@@ -562,7 +576,7 @@ errors:
       - H39
 
   fieldsetless:
-    title: radio/checkbox使用時のfieldsetの有無
+    title: radio/checkbox使用時のfieldsetの有無を確認
     message: radio/checkbox使用時にはfieldsetを用いて、構造を明確にしましょう
     criterions:
       - 1-3-1
@@ -572,7 +586,7 @@ errors:
       - H71
 
   legendless:
-    title: fieldset内のlegendの有無
+    title: fieldset内のlegendの有無を確認
     message: fieldset使用時には、lagendを使いましょう
     criterions:
       - 1-3-1

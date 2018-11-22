@@ -13,6 +13,11 @@ namespace A11yc\Model;
 class Settings
 {
 	protected static $settings = null;
+	protected static $serializeds = array(
+		'additional_criterions',
+		'non_exist_and_passed_criterions',
+		'non_use_techs',
+	);
 
 	/**
 	 * fetch setup
@@ -39,6 +44,19 @@ class Settings
 				static::$settings[$v['key']] = $v['value'];
 			}
 		}
+
+		// serialized values
+		foreach (static::$serializeds as $serialized)
+		{
+			$vals = array();
+			if (isset(static::$settings[$serialized]) && ! empty(static::$settings[$serialized]))
+			{
+				$str = str_replace('&quot;', '"', static::$settings[$serialized]);
+				$vals = unserialize($str);
+			}
+			static::$settings[$serialized] = $vals;
+		}
+
 		return static::$settings;
 	}
 
@@ -94,16 +112,24 @@ class Settings
 			}
 			$cols['base_url'] = rtrim($cols['base_url'], '/');
 
-			// additional_criterions
-			$additional_criterions = array();
-			if (Input::postArr('additional_criterions'))
+			// serialized values
+			$serializeds = array(
+				'additional_criterions',
+				'non_exist_and_passed_criterions',
+				'non_use_techs',
+			);
+			foreach ($serializeds as $serialized)
 			{
-				foreach (array_keys(Input::postArr('additional_criterions')) as $code)
+				$values = array();
+				if (Input::postArr($serialized))
 				{
-					$additional_criterions[] = $code;
+					foreach (array_keys(Input::postArr($serialized)) as $code)
+					{
+						$values[] = $code;
+					}
 				}
+				$cols[$serialized] = serialize($values);
 			}
-			$cols['additional_criterions'] = serialize($additional_criterions);
 
 			// database io
 			$r = true;

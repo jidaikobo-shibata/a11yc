@@ -24,6 +24,7 @@ define('A11YC_LANG_TEST_METHOD', 'Test Method');
 define('A11YC_LANG_TEST_METHOD_AC', 'Automated Check');
 define('A11YC_LANG_TEST_METHOD_AF', 'Automated Find');
 define('A11YC_LANG_TEST_METHOD_HC', 'Human Check');
+define('A11YC_LANG_TEST_METHOD_AC_AF', 'AC/AF');
 define('A11YC_LANG_CRITERION', 'Criterion');
 define('A11YC_LANG_HERE', 'here, click here, click');
 define('A11YC_LANG_TEST_RESULT', 'Test result');
@@ -144,6 +145,7 @@ define('A11YC_LANG_PAGES_LABEL_HTML_EXP', 'This HTML is used for judgment, such 
 define('A11YC_LANG_PAGES_LABEL_EXPORT_RESULT_HTML', 'Download result HTML');
 define('A11YC_LANG_PAGES_LABEL_EXPORT_RESULT_HTML_EXP', 'All test results HTML will be outputted with concatenation. use csplit a11yc_results.txt /====A11YC_RESULTS_CSPLIT====/ {*}');
 define('A11YC_LANG_PAGES_LABEL_BULK_CHECK_ALL', 'Check All');
+define('A11YC_LANG_PAGES_LABEL_BULK_UNCHECK_ALL', 'Uncheck All');
 
 // setup
 define('A11YC_LANG_SETTINGS_TITLE', 'settings');
@@ -160,6 +162,9 @@ define('A11YC_LANG_SETTINGS_BASIC_AUTH_USER', 'Basic Auth user');
 define('A11YC_LANG_SETTINGS_BASIC_AUTH_PASS', 'Basic Auth password');
 define('A11YC_LANG_SETTINGS_IS_USE_GUZZLE', 'Stop Guzzle');
 define('A11YC_LANG_SETTINGS_IS_USE_GUZZLE_EXP', 'If Guzzle conflicts for some reason, please stop Guzzle. Even if you stop Guzzle, you can perform accessibility checks on the updated posts, but lose features such as report creation. If possible, please remove the cause.');
+define('A11YC_LANG_SETTINGS_EXIST_NON_AND_PASS', 'Criterion that "not Present And Conformance"');
+define('A11YC_LANG_SETTINGS_NON_USE_TECHS', 'non use technique in implements checklist');
+define('A11YC_LANG_SETTINGS_NON_USE_TECHS_CANDIDATES', 'Use usual setting');
 
 define('A11YC_LANG_DECLARE_DATE', 'Declare Date');
 define('A11YC_LANG_STANDARD', 'Standard');
@@ -199,7 +204,8 @@ define('A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR_NO_SCHEME', 'do not omit http(s)
 define('A11YC_LANG_CHECKLIST_NOT_FOUND_ERR', 'Could not find an error in the automatic check');
 define('A11YC_LANG_CHECKLIST_COULD_NOT_DRAW_HTML', 'Failed to acquire HTML for some reason');
 define('A11YC_LANG_CHECKLIST_TITLE', 'Checklist');
-define('A11YC_LANG_CHECKLIST_IMPLEMENT_TITLE', 'Implement Checklist');
+define('A11YC_LANG_CHECKLIST_CRITERIONSLIST_TITLE', 'Criterion Checklist');
+define('A11YC_LANG_CHECKLIST_IMPLEMENTSLIST_TITLE', 'Implement Checklist');
 define('A11YC_LANG_CHECKLIST_DONE', 'Done');
 define('A11YC_LANG_CHECKLIST_RESTOFNUM', 'Rest Of Numbers');
 define('A11YC_LANG_CHECKLIST_TOTAL', 'Total');

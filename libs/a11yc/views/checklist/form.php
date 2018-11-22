@@ -121,7 +121,7 @@
 
 			// check target level and additional_criterions
 			if (
-				! in_array($vvv['code'], Values::additionalCriterions()) &&
+				! in_array($vvv['code'], Model\Settings::fetch('additional_criterions')) &&
 				intval($target_level) < strlen($vvv['level']['name'])
 			) continue;
 
@@ -216,7 +216,7 @@
 			<!-- /.a11yc_issues -->
 
 			<details class="a11yc_check_disclosure">
-				<summary><?php echo A11YC_LANG_CHECKLIST_IMPLEMENT_TITLE ?></summary>
+				<summary><?php echo A11YC_LANG_CHECKLIST_IMPLEMENTSLIST_TITLE ?></summary>
 				<?php
 				// main check form
 				foreach (array('t', 'f') as $tf):

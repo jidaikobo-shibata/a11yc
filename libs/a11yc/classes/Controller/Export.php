@@ -27,12 +27,12 @@ class Export
 	}
 
 	/**
-	 * csv
+	 * generateCsv
 	 *
 	 * @param  String|Array $url
-	 * @return Void
+	 * @return Array
 	 */
-	public static function csv($url)
+	public static function generateCsv($url)
 	{
 		// get Pages
 		if (is_array($url))
@@ -72,10 +72,22 @@ class Export
 			$csv = self::addImgs2Csv($url, $csv, $n);
 			$csv[] = array();
 		}
+		return $csv;
+	}
+
+	/**
+	 * csv
+	 *
+	 * @param  String|Array $url
+	 * @return Void
+	 */
+	public static function csv($url)
+	{
+		$csv = static::generateCsv($url);
 
 		// export
 		$filename = 'a11yc.csv';
-		$filepath = '/tmp/'.$filename;
+		$filepath = sys_get_temp_dir().$filename;
 		$fp = fopen($filepath, 'w');
 		if ($fp === FALSE) throw new Exception('failed to export');
 

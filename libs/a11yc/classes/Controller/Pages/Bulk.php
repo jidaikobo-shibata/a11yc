@@ -96,58 +96,8 @@ class Bulk
 	{
 		if (class_exists('ZipArchive'))
 		{
-			if (ini_get('zlib.output_compression'))
-			{
-				ini_set('zlib.output_compression', 'Off');
-			}
-
-			$zip  = new \ZipArchive();
-			$file = 'a11yc.zip';
-			$dir  = '/tmp/a11yc/';
-			if ( ! file_exists($dir))
-			{
-				mkdir($dir);
-			}
-
-			$result = $zip->open($dir.$file, \ZIPARCHIVE::CREATE | \ZIPARCHIVE::OVERWRITE);
-			if ($result !== true) Util::error('zip failed');
-
-			set_time_limit(0);
-			$n =1;
-			$exist = false;
-			foreach (array_keys(Input::postArr('bulk')) as $url)
-			{
-				\A11yc\Controller\Results::each($url);
-				$each_result = View::fetch('body');
-				if ( ! $each_result) continue;
-				$exist = true;
-				$zip->addFromString('result'.$n.'.html', $each_result);
-				$n++;
-			}
-
-			// empty zip cannot destroy: warning
-			// http://php.net/manual/ja/class.ziparchive.php
-			if ( ! $exist)
-			{
-				$zip->addFromString('result'.$n.'.html', 'empty');
-			}
-
-			$zip->close();
-
-			// output to stream
-			mb_http_output("pass");
-			header('Content-Type: application/zip; name="' . $file . '"');
-			header('Content-Disposition: attachment; filename="' . $file . '"');
-			header('Content-Length: '.filesize($dir.$file));
-			readfile($dir.$file);
-
-			// unlink temporary files
-			if (file_exists($dir.$file))
-			{
-				unlink($dir.$file);
-				unlink($dir);
-			}
-			exit();
+			$is_full = false;
+			Report::download($is_full);
 		}
 
 		$str = '';

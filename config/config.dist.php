@@ -60,6 +60,10 @@ define('A11YC_DB_TYPE', 'sqlite'); // 'mysql', 'sqlite', 'none'
 define('A11YC_DATA_PATH', dirname(__DIR__).'/db');
 define('A11YC_DATA_FILE', '/db.sqlite');
 
+// download
+define('A11YC_NON_DOWNLOAD_START', '<!-- a11yc non download -->');
+define('A11YC_NON_DOWNLOAD_END',   '<!-- /a11yc non download -->');
+
 // old tables
 define('A11YC_TABLE_SETUP_OLD',       'a11y_setup');
 define('A11YC_TABLE_PAGES_OLD',       'a11y_pages');

@@ -206,12 +206,14 @@ errors:
     message: Suspected broken links
     criterions:
       - 2-4-4
+    not4checklist: true
 
   no_broken_link_found:
     title: no broken link found
     message: No broken link was found
     criterions:
       - 2-4-4
+    not4checklist: true
 
   duplicated_attributes:
     title: duplicated attributes
@@ -355,23 +357,23 @@ errors:
     criterions:
       - 1-4-4
 
-  must_be_numeric_attr:
-    title: must be numeric attribute
-    message: Must be numeric attribute
-    criterions:
-      - 4-1-1
-    techs:
-      - F70
-      - H88
+  # must_be_numeric_attr:
+  #   title: must be numeric attribute
+  #   message: Must be numeric attribute
+  #   criterions:
+  #     - 4-1-1
+  #   techs:
+  #     - F70
+  #     - H88
 
-  invalid_single_tag_close:
-    title: invalid single tag close
-    message: When specifying a single tag, put a space before "/>"
-    criterions:
-      - 4-1-1
-    techs:
-      - F70
-      - H88
+  # invalid_single_tag_close:
+  #   title: invalid single tag close
+  #   message: When specifying a single tag, put a space before "/>"
+  #   criterions:
+  #     - 4-1-1
+  #   techs:
+  #     - F70
+  #     - H88
 
   headerless_section:
     title: headerless section
@@ -399,6 +401,7 @@ errors:
     criterions:
       - 1-3-2
     notice: true
+    not4checklist: true
 
   check_doctype:
     title: check doctype
@@ -424,6 +427,7 @@ errors:
     criterions:
       - 1-1-1
     notice: true
+    not4checklist: true
 
   style_for_structure:
     title: style for structure

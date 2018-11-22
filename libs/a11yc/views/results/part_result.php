@@ -12,13 +12,27 @@ foreach ($yml['criterions'] as $criterion => $v):
 		// additional condition
 		(
 			! $include && strlen($v['level']['name']) > $target_level &&
-			in_array($criterion, Values::additionalCriterions())
+			in_array($criterion, Model\Settings::fetch('additional_criterions'))
 		)
 	):
 
 	// strs
-	$exist_str = Arr::get($results, "{$criterion}.non_exist") == 1 ? A11YC_LANG_EXIST_NON : A11YC_LANG_EXIST;
-	$pass_str = Arr::get($results, "{$criterion}.passed") >= 1 ? A11YC_LANG_PASS : A11YC_LANG_PASS_NON;
+	$exist_str = A11YC_LANG_EXIST;
+	if (
+		in_array($criterion, $non_exist_and_passed_criterions) ||
+		Arr::get($results, "{$criterion}.non_exist") == 1
+	):
+		$exist_str = A11YC_LANG_EXIST_NON;
+	endif;
+
+	$pass_str = A11YC_LANG_PASS_NON;
+	if (
+		in_array($criterion, $non_exist_and_passed_criterions) ||
+		Arr::get($results, "{$criterion}.passed") >= 1
+	):
+		$pass_str = A11YC_LANG_PASS;
+	endif;
+
 	$memo = Util::s(Arr::get($results, "{$criterion}.memo", ''));
 	$alert_class = $pass_str == '-' ? ' class="a11yc_not_passed"' : '';
 

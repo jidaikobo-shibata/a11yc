@@ -24,7 +24,7 @@ endif;
 echo $policy;
 
 // implements
-include('implements.php');
+include('criterions_checklist.php');
 
 if ($settings['show_results']):
 ?>

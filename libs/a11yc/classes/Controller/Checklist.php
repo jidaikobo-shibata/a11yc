@@ -167,7 +167,7 @@ class Checklist
 		View::assign('done_date', $done_date);
 		View::assign('target_level', intval(@$settings['target_level']));
 		View::assign('page', $page);
-		View::assign('additional_criterions', join('","',Values::additionalCriterions()));
+		View::assign('additional_criterions', join('","', Model\Settings::fetch('additional_criterions')));
 		View::assign('is_new', $is_new);
 		View::assign('is_bulk', $is_bulk);
 		View::assign('checkstatus', self::getCheckStatus($url));

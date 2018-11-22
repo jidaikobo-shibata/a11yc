@@ -1,4 +1,13 @@
 <?php namespace A11yc; ?>
+
+<?php
+if (Auth::auth()):
+	echo A11YC_NON_DOWNLOAD_START;
+	echo '<p><a href="'.$download_link.'">'.A11YC_LANG_PAGES_LABEL_EXPORT_RESULT_HTML.'</a></p>';
+	echo A11YC_NON_DOWNLOAD_END;
+endif;
+?>
+
 <h2><?php echo $title ?> <?php if (Arr::get($settings, 'declare_date') && Arr::get($settings, 'declare_date') != '0000-00-00'): echo '('.$settings['declare_date'].')'; endif;?></h2>
 
 <table class="a11yc_table a11yc_table_report">
@@ -174,7 +183,7 @@
 <!-- site results -->
 <?php
 // implements
-include('implements.php');
+include('criterions_checklist.php');
 
 // related page
 if ( ! $is_center) include (__DIR__.'/inc_related.php');

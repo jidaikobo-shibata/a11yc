@@ -56,6 +56,19 @@ class Results
 				array('a11yc_pages', 1)
 			));
 
+		// download
+		$download_link = Util::removeQueryStrings(
+			Util::uri(),
+			array('a11yc_policy', 'a11yc_report', 'a11yc_pages', 'url', 'a11yc_version', 'a')
+		);
+
+		$download_link = Util::addQueryStrings(
+			$download_link,
+			array(
+				array('a', 'download')
+			));
+
+		View::assign('download_link', $download_link);
 		View::assign('results_link', $results_link);
 		View::assign('policy_link',  $policy_link);
 		View::assign('report_link',  $report_link);
@@ -285,7 +298,7 @@ class Results
 		$additional = '';
 		if ($target_level != 3)
 		{
-			self::partResult($results, $target_level, '',false);
+			self::partResult($results, $target_level, '', false);
 			$additional = View::fetch('result');
 		}
 
@@ -302,8 +315,13 @@ class Results
 	 * @param  Bool    $include
 	 * @return Void
 	 */
-	private static function partResult($results, $target_level, $url = '',$include = TRUE)
+	private static function partResult($results, $target_level, $url = '', $include = TRUE)
 	{
+		View::assign(
+			'non_exist_and_passed_criterions',
+			Model\Settings::fetch('non_exist_and_passed_criterions')
+		);
+
 		View::assign('cs', Model\Checklist::fetch($url));
 		View::assign('is_total', empty($url));
 		View::assign('setup', Model\Settings::fetchAll());
@@ -312,5 +330,58 @@ class Results
 		View::assign('include', $include);
 		View::assign('yml', Yaml::fetch(), FALSE);
 		View::assign('result', View::fetchTpl('results/part_result.php'), FALSE);
+	}
+
+	/**
+	 * implements Checklist
+	 *
+	 * @return Void
+	 */
+	public static function implementsChecklist()
+	{
+		$errors = Yaml::each('errors');
+
+		$checks = array();
+		foreach ($errors as $k => $v)
+		{
+			if (Arr::get($v, 'not4checklist') == true) continue;
+			foreach ($v['criterions'] as $criterion)
+			{
+				if ( ! isset($checks[$criterion])) $checks[$criterion] = array();
+				$techs = Arr::get($v, 'techs', array());
+
+				foreach ($techs as $kk => $vv)
+				{
+					// remove F
+					if ($vv[0] == 'F') unset($techs[$kk]);
+				}
+
+				$checks[$criterion][$k] = array(
+					'title' => $v['title'],
+					'techs' => $techs
+				);
+			}
+		}
+		ksort($checks);
+
+		// tech_codes
+		$tech_codes = array();
+		$tech_codes_origi = Yaml::each('techs_codes');
+		foreach ($tech_codes_origi as $criterion => $v)
+		{
+			$v['t'] = array_diff($v['t'], Model\Settings::fetch('non_use_techs'));
+			$tech_codes[$criterion] = $v['t'];
+		}
+
+		View::assign('implements', $checks);
+		View::assign('errors', $errors);
+		View::assign('criterions', Yaml::each('criterions'));
+		View::assign('techs_codes', $tech_codes);
+		View::assign('techs', Yaml::each('techs'));
+		View::assign(
+			'implements_checklist',
+			View::fetchTpl('results/implements_checklist.php'),
+			FALSE
+		);
 	}
 }

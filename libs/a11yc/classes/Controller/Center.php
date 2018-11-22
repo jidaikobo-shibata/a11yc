@@ -32,6 +32,17 @@ class Center
 
 		static::index();
 	}
+	/**
+	 * action
+	 *
+	 * @return Void
+	 */
+	public static function actionDownload()
+	{
+		if ( ! \A11yc\Auth::auth()) Util::error();
+		$is_full = true;
+		Report::download($is_full);
+	}
 
 	/**
 	 * Show A11y Center Index
@@ -48,6 +59,9 @@ class Center
 			Results::all($is_center);
 			$body = View::fetch('body');
 		}
+
+		Results::implementsChecklist();
+		$body.= View::fetch('implements_checklist');
 
 		View::assign('title', A11YC_LANG_CENTER_TITLE);
 		$center = View::fetchTpl('center/index.php');

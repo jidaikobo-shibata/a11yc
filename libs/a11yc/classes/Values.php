@@ -151,22 +151,6 @@ class Values
 	}
 
 	/**
-	 * get additional criterions
-	 *
-	 * @return Array
-	 */
-	public static function additionalCriterions()
-	{
-		$settings = Model\Settings::fetchAll();
-		if(isset($settings['additional_criterions']) && $settings['additional_criterions'])
-		{
-			$str = str_replace('&quot;', '"', $settings['additional_criterions']);
-			return unserialize($str);
-		}
-		return array();
-	}
-
-	/**
 	 * results options
 	 *
 	 * @return Array
@@ -279,5 +263,68 @@ class Values
 			4 => A11YC_LANG_CHECKLIST_MACHINE_CHECK_NONEXIST,
 			5 => A11YC_LANG_CHECKLIST_MACHINE_CHECK_SKIPED,
 		);
+	}
+
+	/**
+	 * non use techs candidates
+	 *
+	 * @return Array
+	 */
+	public static function nonUseTechsCandidates()
+	{
+
+		return array (
+			'G5', 'G17', 'G54', 'G56', 'G65', 'G70', 'G71', 'G75', 'G76', 'G79',
+			'G81', 'G86', 'G101', 'G103', 'G105', 'G110', 'G112', 'G127', 'G128',
+			'G136', 'G139', 'G141', 'G150', 'G151', 'G153', 'G156', 'G157', 'G160',
+			'G163', 'G169', 'G172', 'G175', 'G181', 'G188', 'G190', 'G192', 'G193',
+			'G194', 'G199', 'G200', 'G201', 'G203', 'G204', 'G205', 'G206', 'H34',
+			'H40', 'H45', 'H46', 'H54', 'H56', 'H59', 'H60', 'H62', 'H76', 'H89',
+			'H95', 'H96', 'H97', 'C17', 'C18', 'C19', 'C20', 'C21', 'C23', 'C24',
+			'C25', 'C29', 'SCR14', 'SCR28', 'SCR29', 'SCR34', 'SCR36', 'SCR38',
+			'SVR1', 'SVR2', 'SVR3', 'SVR4', 'SVR5', 'ARIA2', 'ARIA4', 'ARIA5',
+			'ARIA6', 'ARIA7', 'ARIA8', 'ARIA9', 'ARIA10', 'ARIA11', 'ARIA12',
+			'ARIA13', 'ARIA14', 'ARIA15', 'ARIA16', 'ARIA17', 'ARIA18', 'ARIA19',
+			'ARIA20', 'ARIA21', 'PDF1', 'PDF2', 'PDF3', 'PDF4', 'PDF5', 'PDF6',
+			'PDF7', 'PDF8', 'PDF9', 'PDF10', 'PDF11', 'PDF12', 'PDF13', 'PDF14',
+			'PDF15', 'PDF16', 'PDF17', 'PDF18', 'PDF19', 'PDF20', 'PDF21', 'PDF22',
+			'PDF23', 'F1', 'F2', 'F3', 'F4', 'F7', 'F8', 'F9', 'F10', 'F12', 'F13',
+			'F14', 'F15', 'F16', 'F19', 'F20', 'F22', 'F23', 'F24', 'F25', 'F26',
+			'F30', 'F31', 'F32', 'F33', 'F34', 'F36', 'F37', 'F38', 'F39', 'F40',
+			'F41', 'F42', 'F43', 'F44', 'F46', 'F47', 'F48', 'F49', 'F50', 'F52',
+			'F54', 'F55', 'F58', 'F59', 'F60', 'F61', 'F63', 'F65', 'F66', 'F67',
+			'F68', 'F69', 'F70', 'F71', 'F72', 'F73', 'F74', 'F75', 'F77', 'F78',
+			'F79', 'F80', 'F81', 'F82', 'F83', 'F84', 'F85', 'F86', 'F87', 'F88',
+			'F89', 'F90', 'F91', 'F92', 'F93'
+		);
+	}
+
+	/**
+	 * target criterions
+	 *
+	 * @return Array
+	 */
+	public static function targetCriterions()
+	{
+		$retvals = array();
+		$target_level = (int) Model\Settings::fetch('target_level');
+		if (empty($target_level)) return $retvals;
+
+		$additional_criterions = Model\Settings::fetch('additional_criterions');
+		$non_exist_and_passed_criterions = Model\Settings::fetch('non_exist_and_passed_criterions');
+		foreach (Yaml::each('criterions') as $criterion => $v)
+		{
+			if (
+				(
+					strlen($v['level']['name']) <= $target_level ||
+					in_array($criterion, $additional_criterions)
+				) &&
+				! in_array($criterion, $non_exist_and_passed_criterions)
+			)
+			{
+				$retvals[] = $criterion;
+			}
+		}
+		return $retvals;
 	}
 }

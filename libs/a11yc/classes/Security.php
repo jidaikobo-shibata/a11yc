@@ -21,10 +21,13 @@ class Security extends \Kontiki\Security
 	{
 		$result = true;
 		$content = 'Deny From All';
+		$config_path = substr(A11YC_CONFIG_PATH, -4) == '.php' ?
+								 dirname(A11YC_CONFIG_PATH) :
+								 A11YC_CONFIG_PATH;
 
 		// use constant only
 		$dirs = array(
-			A11YC_CONFIG_PATH,
+			$config_path,
 			A11YC_LIB_PATH,
 		);
 
@@ -39,8 +42,7 @@ class Security extends \Kontiki\Security
 		// faild
 		if ( ! $result)
 		{
-
-Session::add('messages', 'error', 'failred to put .htaccess. add .htaccess with "deny from all"'.A11YC_CONFIG_PATH.', '.A11YC_LIB_PATH);
+			Session::add('messages', 'error', 'failred to put .htaccess. add .htaccess with "deny from all"'.A11YC_CONFIG_PATH.', '.A11YC_LIB_PATH);
 		}
 	}
 }

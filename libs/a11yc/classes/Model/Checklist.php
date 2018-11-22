@@ -23,6 +23,7 @@ class Checklist
 	 */
 	public static function fetch($url, $force = false)
 	{
+		if (empty($url)) return array();
 		if (isset(static::$checks[$url]) && ! $force) return static::$checks[$url];
 		$sql = 'SELECT * FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = ?'.Db::versionSql().';';
 		foreach (Db::fetchAll($sql, array($url)) as $v)

@@ -100,27 +100,92 @@
 		</td>
 	</tr>
 
+<?php
+$levels = array(
+	'A' => 1,
+	'AA' => 2,
+	'AAA' => 3,
+);
+?>
+
 <?php if (@$settings['target_level'] && $settings['target_level'] != 3): ?>
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_CHECKLIST_CONFORMANCE_ADDITIONAL ?></th>
 		<td>
-			<ul id="a11yc_additional_criterions_list">
+			<ul class="a11yc_serialized_values">
 			<?php
-				$levels = array(
-					'A' => 1,
-					'AA' => 2,
-					'AAA' => 3,
-				);
 				$n = 0;
 				foreach ($yml['criterions'] as $code => $v):
 					if ($levels[$v['level']['name']] <= $settings['target_level']) continue;
-					if ($n % 2 === 0):
-						echo '<li class="odd">';
-					else:
-						echo '<li class="even">';
-					endif;
-					$checked = in_array($code, Values::additionalCriterions()) ? ' checked="checked"' : '';
-					echo '<label for="additional_criterions_'.$code.'"><input'.$checked.' type="checkbox" name="additional_criterions['.$code.']" id="additional_criterions_'.$code.'" value="1" /> '.$v['code'].' '.$v['name'].' ('.$v['level']['name'].')</label></li>';
+					echo ($n % 2 === 0) ? '<li class="odd">' : '<li class="even">';
+					$checked = in_array($code, Model\Settings::fetch('additional_criterions')) ? ' checked="checked"' : '';
+					echo '<label for="additional_criterions_'.$code.'"><input'.$checked.' type="checkbox" name="additional_criterions['.$code.']" id="additional_criterions_'.$code.'" value="1" /> '.$v['code'].' '.$v['name'].' ('.$v['level']['name'].')</label></li>'."\n";
+					$n++;
+				endforeach;
+			?>
+			</ul>
+		</td>
+	</tr>
+<?php endif; ?>
+
+<?php if (@$settings['target_level']): ?>
+	<tr>
+		<th><?php echo A11YC_LANG_SETTINGS_EXIST_NON_AND_PASS ?></th>
+		<td>
+			<ul class="a11yc_serialized_values">
+			<?php
+				$n = 0;
+				foreach ($yml['criterions'] as $code => $v):
+					if ($levels[$v['level']['name']] > $settings['target_level']) continue;
+					echo ($n % 2 === 0) ? '<li class="odd">' : '<li class="even">';
+					$checked = in_array($code, Model\Settings::fetch('non_exist_and_passed_criterions')) ? ' checked="checked"' : '';
+					echo '<label for="non_exist_and_passed_criterions_'.$code.'"><input'.$checked.' type="checkbox" name="non_exist_and_passed_criterions['.$code.']" id="non_exist_and_passed_criterions_'.$code.'" value="1" /> '.$v['code'].' '.$v['name'].' ('.$v['level']['name'].')</label></li>'."\n";
+					$n++;
+				endforeach;
+			?>
+			</ul>
+		</td>
+	</tr>
+<?php endif; ?>
+
+<?php if (@$settings['target_level']): ?>
+	<tr>
+		<th><?php echo A11YC_LANG_SETTINGS_NON_USE_TECHS ?></th>
+		<td>
+			<?php
+				// JavaScript
+				$non_use_techs_candidates = array();
+				foreach (Values::nonUseTechsCandidates() as $v):
+					$non_use_techs_candidates[] = 'non_use_techs_'.$v;
+				endforeach;
+				$non_use_techs_str = json_encode($non_use_techs_candidates);
+			?>
+			<script>
+				function a11yc_uncheck_all ()
+				{
+					$('#non_use_techs_list li input').each(function(){
+						$(this).prop("checked", false);
+					});
+				}
+
+				function a11yc_check_candidates ()
+				{
+					var non_use_techs = <?php echo $non_use_techs_str ?>;
+					Object.keys(non_use_techs).forEach(function (key) {
+						$('#non_use_techs_list li input#'+non_use_techs[key]).prop("checked", true);
+					});
+				}
+			</script>
+			<?php
+				echo '<a href="javascript::void(0)" onclick="a11yc_uncheck_all()">'.A11YC_LANG_PAGES_LABEL_BULK_UNCHECK_ALL.'</a> - ';
+				echo '<a href="javascript::void(0)" onclick="a11yc_check_candidates()">'.A11YC_LANG_SETTINGS_NON_USE_TECHS_CANDIDATES.'</a>';
+			?>
+
+			<ul id="non_use_techs_list">
+			<?php
+				foreach ($yml['techs'] as $code => $v):
+					$checked = in_array($code, Model\Settings::fetch('non_use_techs')) ? ' checked="checked"' : '';
+					echo '<li><label for="non_use_techs_'.$code.'"><input'.$checked.' type="checkbox" name="non_use_techs['.$code.']" id="non_use_techs_'.$code.'" value="1" /> '.$v['title'].'</label></li>'."\n";
 					$n++;
 				endforeach;
 			?>

@@ -1346,17 +1346,17 @@ span.a11yc_icon_expand:before {
 #a11yc_setup {
 	padding-bottom: 6em;
 }
-#a11yc_additional_criterions_list {
+.a11yc_serialized_values {
 	list-style-type: none;
 	padding-left: 0;
 }
-#a11yc_additional_criterions_list li {
+.a11yc_serialized_values li {
 	float: left;
 	width: calc(50% - 10px);
 	margin-top: 0;
 	margin-bottom: .75em;
 }
-#a11yc_additional_criterions_list li:nth-child(odd) {
+.a11yc_serialized_values li:nth-child(odd) {
 	clear: left;
 }
 .a11yc_policy_sample {

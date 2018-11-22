@@ -21,9 +21,10 @@ define('A11YC_LANG_PASS_NON', '不適合');
 define('A11YC_LANG_PASS_PARTIAL', '部分適合');
 define('A11YC_LANG_NOT_CHECKED', '未判定');
 define('A11YC_LANG_TEST_METHOD', '試験方法');
-define('A11YC_LANG_TEST_METHOD_AC', '全機械試験');
-define('A11YC_LANG_TEST_METHOD_AF', '半機械試験');
-define('A11YC_LANG_TEST_METHOD_HC', '人間試験');
+define('A11YC_LANG_TEST_METHOD_AC', 'AC');
+define('A11YC_LANG_TEST_METHOD_AF', 'AF');
+define('A11YC_LANG_TEST_METHOD_HC', 'HC');
+define('A11YC_LANG_TEST_METHOD_AC_AF', '機械判定の内容');
 define('A11YC_LANG_CRITERION', '達成基準');
 define('A11YC_LANG_HERE', 'こちら,ここ,ここをクリック,コチラ');
 define('A11YC_LANG_TEST_RESULT', '試験結果');
@@ -143,6 +144,7 @@ define('A11YC_LANG_PAGES_LABEL_HTML_EXP', 'HTMLの自動取得に失敗すると
 define('A11YC_LANG_PAGES_LABEL_EXPORT_RESULT_HTML', '試験結果HTMLをダウンロード');
 define('A11YC_LANG_PAGES_LABEL_EXPORT_RESULT_HTML_EXP', 'すべての試験結果HTMLを連結した状態で出力します。csplit a11yc_results.txt /====A11YC_RESULTS_CSPLIT====/ {*} で分割してください。');
 define('A11YC_LANG_PAGES_LABEL_BULK_CHECK_ALL', 'すべて選択');
+define('A11YC_LANG_PAGES_LABEL_BULK_UNCHECK_ALL', 'すべて選択をはずす');
 
 // setup
 define('A11YC_LANG_SETTINGS_TITLE', '設定');
@@ -159,6 +161,9 @@ define('A11YC_LANG_SETTINGS_BASIC_AUTH_USER', '基本認証ユーザ名');
 define('A11YC_LANG_SETTINGS_BASIC_AUTH_PASS', '基本認証パスワード');
 define('A11YC_LANG_SETTINGS_IS_USE_GUZZLE', 'Guzzleを停止');
 define('A11YC_LANG_SETTINGS_IS_USE_GUZZLE_EXP', 'なんらかの理由でGuzzleが競合する場合、Guzzleを停止してください。Guzzleを停止しても、更新された投稿のアクセシビリティチェックは行えますが、報告書作成等の機能が失われます。できれば、原因を取り除いてください');
+define('A11YC_LANG_SETTINGS_EXIST_NON_AND_PASS', '「適用なし適合」になる達成基準');
+define('A11YC_LANG_SETTINGS_NON_USE_TECHS', '実装チェックリストで用いない達成方法');
+define('A11YC_LANG_SETTINGS_NON_USE_TECHS_CANDIDATES', '定番的に用いない達成方法をチェック');
 
 define('A11YC_LANG_DECLARE_DATE', '表明日');
 define('A11YC_LANG_STANDARD', '規格の種類');
@@ -198,7 +203,8 @@ define('A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR_NO_SCHEME', 'http(s)://を省略
 define('A11YC_LANG_CHECKLIST_NOT_FOUND_ERR', '自動チェックではアクセシビリティ上の問題は見つかりませんでした');
 define('A11YC_LANG_CHECKLIST_COULD_NOT_DRAW_HTML', 'なんらかの理由でHTMLの取得に失敗しました');
 define('A11YC_LANG_CHECKLIST_TITLE', 'チェックリスト');
-define('A11YC_LANG_CHECKLIST_IMPLEMENT_TITLE', '達成基準チェックリスト');
+define('A11YC_LANG_CHECKLIST_CRITERIONSLIST_TITLE', '達成基準チェックリスト');
+define('A11YC_LANG_CHECKLIST_IMPLEMENTSLIST_TITLE', '実装チェックリスト');
 define('A11YC_LANG_CHECKLIST_DONE', 'チェック終了');
 define('A11YC_LANG_CHECKLIST_RESTOFNUM', '残りのチェック項目数');
 define('A11YC_LANG_CHECKLIST_TOTAL', '計');
