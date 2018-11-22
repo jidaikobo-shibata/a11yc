@@ -128,7 +128,7 @@ class SuspiciousElements extends Validate
 		$suspicious_ends = array();
 		foreach ($endless as $v)
 		{
-			if (strpos($str, '</'.$v) !== false)
+			if (strpos($str, '</'.$v.'>') !== false)
 			{
 				$suspicious_ends[] = '/'.$v;
 			}
