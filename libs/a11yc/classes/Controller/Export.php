@@ -70,6 +70,7 @@ class Export
 			$n = 1;
 			$csv = self::addErr2Csv($url, $csv, $n);
 			$csv = self::addImgs2Csv($url, $csv, $n);
+			$csv = self::addIssues2Csv($url, $csv, $n);
 			$csv[] = array();
 		}
 		return $csv;
@@ -165,6 +166,37 @@ class Export
 		return $csv;
 	}
 
+	/**
+	 * issue
+	 *
+	 * @param  String  $url
+	 * @param  Array|Null   $csv
+	 * @param  Integer $n
+	 * @return Array
+	 */
+	private static function addIssues2Csv($url, $csv, $n)
+	{
+		if (is_null($csv)) return array();
+		$csv[] = array();
+
+		foreach (Model\Issues::fetchByUrl($url) as $issue)
+		{
+			$err_type = $issue['n_or_e'] == 0 ? 'notice' : 'error';
+
+			$csv[] = array(
+				$url,
+				$n,
+				'-',
+				$err_type,
+				'-',
+				$issue['error_message'],
+				$issue['html'],
+				'',
+			);
+			$n++;
+		}
+		return $csv;
+	}
 
 	/**
 	 * add images to csv

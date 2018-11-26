@@ -10,6 +10,8 @@
  */
 namespace A11yc\Model;
 
+use A11yc\Element;
+
 class Html
 {
 	protected static $htmls = array();
@@ -165,19 +167,25 @@ class Html
 		}
 
 		// check cache
-		$sql = 'SELECT `data` FROM '.A11YC_TABLE_CACHES.' WHERE ';
-		$sql.= '`url` = ? AND `type` = ? AND `updated_at` > ?;';
-		$result = Db::fetch($sql, array($url, $type, date('Y-m-d H:i:s', time() - 86400)));
+		$sql = 'SELECT `data`, `updated_at` FROM '.A11YC_TABLE_CACHES.' WHERE ';
+		$sql.= '`url` = ? AND `type` = ?;';
+		$result = Db::fetch($sql, array($url, $type));
 
-		if ($result['data'] && $force === false)
+		if ($result['updated_at'] < date('Y-m-d H:i:s', time() - 86400))
+		{
+			// fetch from internet
+			$html = self::fetchHtml($url, $ua, $type);
+		}
+
+		if (
+			($result['data'] && $force === false) ||
+			($result['data'] && $html === false)
+		)
 		{
 			static::$htmls[$url][$ua][$type] = $result['data'];
 		}
 		else
 		{
-			// fetch from internet
-			$html = self::fetchHtml($url, $ua, $type);
-
 			// add and fetch
 			if ($html === false) return false;
 			self::addHtml($url, $ua, $html, $type);
