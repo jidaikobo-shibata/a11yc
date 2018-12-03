@@ -174,14 +174,14 @@ class Html
 		$html = false;
 		if (
 			strtotime($result['updated_at']) < time() - 86400 ||
-			strlen($result['data']) == 65535
+			strlen($result['data']) >= 65530
 		)
 		{
 			// fetch from internet
 			$html = self::fetchHtml($url, $ua, $type);
 		}
 
-		if (strlen($result['data']) == 65535 && strlen($html) >= 65535)
+		if (strlen($result['data']) >= 65530 && strlen($html) >= 65535)
 		{
 			static::$htmls[$url][$ua][$type] = $html;
 		}
