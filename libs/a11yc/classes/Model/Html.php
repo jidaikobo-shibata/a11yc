@@ -172,13 +172,20 @@ class Html
 		$result = Db::fetch($sql, array($url, $type));
 
 		$html = false;
-		if (strtotime($result['updated_at']) < time() - 86400)
+		if (
+			strtotime($result['updated_at']) < time() - 86400 ||
+			strlen($result['data']) == 65535
+		)
 		{
 			// fetch from internet
 			$html = self::fetchHtml($url, $ua, $type);
 		}
 
-		if (
+		if (strlen($result['data']) == 65535 && strlen($html) >= 65535)
+		{
+			static::$htmls[$url][$ua][$type] = $html;
+		}
+		elseif (
 			($result['data'] && $html === false && $force === false) ||
 			($result['data'] && $html === false)
 		)

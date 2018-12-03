@@ -115,7 +115,6 @@ class SuspiciousElements extends Validate
 		return array($too_much_opens, $too_much_ends);
 	}
 
-
 	/**
 	 * suspicious ends
 	 *
