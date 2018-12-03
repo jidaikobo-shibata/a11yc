@@ -171,14 +171,15 @@ class Html
 		$sql.= '`url` = ? AND `type` = ?;';
 		$result = Db::fetch($sql, array($url, $type));
 
-		if ($result['updated_at'] < date('Y-m-d H:i:s', time() - 86400))
+		$html = false;
+		if (strtotime($result['updated_at']) < time() - 86400)
 		{
 			// fetch from internet
 			$html = self::fetchHtml($url, $ua, $type);
 		}
 
 		if (
-			($result['data'] && $force === false) ||
+			($result['data'] && $html === false && $force === false) ||
 			($result['data'] && $html === false)
 		)
 		{
