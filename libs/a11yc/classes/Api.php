@@ -22,7 +22,7 @@ class Api
 		require (dirname(__DIR__).'/main.php');
 		$params = Input::post('ua');
 
-var_dump($params);
+// var_dump($params);
 
 		return '{"first_name":"一郎", "last_name":"鈴木"}';
 	}
