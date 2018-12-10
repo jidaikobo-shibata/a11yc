@@ -3,7 +3,7 @@ guidelines:
     code: 1-1
     name: テキストによる代替
     principle: *p1
-    url: http://waic.jp/docs/WCAG20/Overview.html#text-equiv
+    url: https://waic.jp/docs/WCAG20/Overview.html#text-equiv
     summary: |
       すべての非テキストコンテンツには、拡大印刷、点字、音声、シンボル、平易な言葉などの利用者が必要とする形式に変換できるように、テキストによる代替を提供すること。
 
@@ -11,7 +11,7 @@ guidelines:
     code: 1-2
     name: 時間依存メディア
     principle: *p1
-    url: http://waic.jp/docs/WCAG20/Overview.html#media-equiv
+    url: https://waic.jp/docs/WCAG20/Overview.html#media-equiv
     summary: |
       時間依存メディアには代替コンテンツを提供すること。
 
@@ -19,7 +19,7 @@ guidelines:
     code: 1-3
     name: 適応可能
     principle: *p1
-    url: http://waic.jp/docs/UNDERSTANDING-WCAG20/content-structure-separation.html
+    url: https://waic.jp/docs/UNDERSTANDING-WCAG20/content-structure-separation.html
     summary: |
       情報、及び構造を損なうことなく、様々な方法 (例えば、よりシンプルなレイアウト) で提供できるようにコンテンツを制作すること。
 
@@ -27,7 +27,7 @@ guidelines:
     code: 1-4
     name: 判別可能
     principle: *p1
-    url: http://waic.jp/docs/UNDERSTANDING-WCAG20/visual-audio-contrast.html
+    url: https://waic.jp/docs/UNDERSTANDING-WCAG20/visual-audio-contrast.html
     summary: |
       コンテンツを、利用者にとって見やすく、聞きやすいものにすること。これには、前景と背景を区別することも含む。
 
@@ -35,7 +35,7 @@ guidelines:
     code: 2-1
     name: キーボード操作可能
     principle: *p2
-    url: http://waic.jp/docs/UNDERSTANDING-WCAG20/keyboard-operation.html
+    url: https://waic.jp/docs/UNDERSTANDING-WCAG20/keyboard-operation.html
     summary: |
       すべての機能をキーボードから利用できるようにすること。
 
@@ -43,7 +43,7 @@ guidelines:
     code: 2-2
     name: 十分な時間
     principle: *p2
-    url: http://waic.jp/docs/UNDERSTANDING-WCAG20/time-limits.html
+    url: https://waic.jp/docs/UNDERSTANDING-WCAG20/time-limits.html
     summary: |
       利用者がコンテンツを読み、使用するために十分な時間を提供すること。
 
@@ -51,7 +51,7 @@ guidelines:
     code: 2-3
     name: 発作の防止
     principle: *p2
-    url: http://waic.jp/docs/UNDERSTANDING-WCAG20/seizure.html
+    url: https://waic.jp/docs/UNDERSTANDING-WCAG20/seizure.html
     summary: |
       発作を引き起こすようなコンテンツを設計しないこと。
 
@@ -59,7 +59,7 @@ guidelines:
     code: 2-4
     name: ナビゲーション可能
     principle: *p2
-    url: http://waic.jp/docs/UNDERSTANDING-WCAG20/navigation-mechanisms.html
+    url: https://waic.jp/docs/UNDERSTANDING-WCAG20/navigation-mechanisms.html
     summary: |
       利用者がナビゲートしたり、コンテンツを探し出したり、現在位置を確認したりすることを手助けする手段を提供すること。
 
@@ -67,7 +67,7 @@ guidelines:
     code: 3-1
     name: 読みやすさ
     principle: *p3
-    url: http://waic.jp/docs/UNDERSTANDING-WCAG20/meaning.html
+    url: https://waic.jp/docs/UNDERSTANDING-WCAG20/meaning.html
     summary: |
       テキストのコンテンツを読みやすく理解可能にすること。
 
@@ -75,7 +75,7 @@ guidelines:
     code: 3-2
     name: 予測可能
     principle: *p3
-    url: http://waic.jp/docs/UNDERSTANDING-WCAG20/consistent-behavior.html
+    url: https://waic.jp/docs/UNDERSTANDING-WCAG20/consistent-behavior.html
     summary: |
       ウェブページの表示や挙動を予測可能にすること。
 
@@ -83,7 +83,7 @@ guidelines:
     code: 3-3
     name: 入力支援
     principle: *p3
-    url: http://waic.jp/docs/UNDERSTANDING-WCAG20/minimize-error.html
+    url: https://waic.jp/docs/UNDERSTANDING-WCAG20/minimize-error.html
     summary: |
       利用者の間違いを防ぎ、修正を支援すること。
 
@@ -91,6 +91,6 @@ guidelines:
     code: 4-1
     name: 互換性
     principle: *p4
-    url: http://waic.jp/docs/UNDERSTANDING-WCAG20/ensure-compat.html
+    url: https://waic.jp/docs/UNDERSTANDING-WCAG20/ensure-compat.html
     summary: |
       現在及び将来の、支援技術を含むユーザエージェントとの互換性を最大化すること。
