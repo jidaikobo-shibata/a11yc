@@ -19,7 +19,11 @@ See how it works.  [A11yc Accessibility Check Service](https://a11yc.com/check/e
 
 ### deploy
 
-Upload files and duplicate
+Download zip and put it all in the folder `a11yc` or,
+
+```
+git clone git@github.com:jidaikobo-shibata/a11yc.git a11yc
+```
 
 ```
 a11yc/config/config.dist.php
@@ -62,9 +66,19 @@ JIS X 8341-3:2016 (WCAG 2.0) に基づいたアクセシビリティ報告書と
 [A11yc Accessibility Check Service](https://a11yc.com/check/index.php)で動いているものを確認できます。
 [WordPressプラグイン版 jwp-a11y](https://ja.wordpress.org/plugins/jwp-a11y/)もあります。
 
+### 動作環境
+
+PHP 5.6以上
+
 ### 設置方法
 
-サーバにファイル一式をアップしたのち、
+zipをダウンロードして、`a11yc`というフォルダにすべて入れるか、
+
+```
+git clone git@github.com:jidaikobo-shibata/a11yc.git a11yc
+```
+
+してください。
 
 ```
 config/config.dist.php
@@ -91,6 +105,11 @@ a11yc/db
 ```
 ln -s a11yc/assets
 ln -s a11yc/index.php
+```
+
+アクセシビリティのチェッカだけを使うのであれば、以下のシンボリックリンクを用意してください。
+
+```
 ln -s a11yc/post.php
 ```
 
@@ -99,6 +118,19 @@ ln -s a11yc/post.php
 ```
 mv a11yc/.htaccess.dist .htaccess
 ```
+
+最終的に、
+
+```
+.htaccess
+assets
+index.php
+a11yc/
+```
+
+という状態になっていれば動作します。
+
+権限等の問題でシンボリックリンクを張れない場合は、それぞれのphpをinclude()する方法でもいけます。しかし、この場合でも、assetsだけは、ドキュメントルートに複製する必要があります。
 
 報告書作成画面にアクセスできるIPを制限したい場合はA11YC_APPROVED_IPSを書いてください。特にない場合は、define()しないようにしてください。
 

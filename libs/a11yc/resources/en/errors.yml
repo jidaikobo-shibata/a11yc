@@ -318,6 +318,7 @@ errors:
     criterions:
       - 3-2-2
     techs:
+      - H32
       - F36
       - F37
 
