@@ -2,3 +2,8 @@
 html
 {
 }
+
+table
+{
+	border: 1px #aaa solid;
+}
