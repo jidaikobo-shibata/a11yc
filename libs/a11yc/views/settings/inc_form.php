@@ -13,6 +13,13 @@
 	</tr>
 
 	<tr>
+		<th scope="row"><label for="a11yc_client_name"><?php echo A11YC_LANG_CLIENT_NAME ?></label></th>
+		<td>
+			<input type="text" name="client_name" id="a11yc_client_name" size="20" value="<?php echo @$settings['client_name'] ?>">
+		</td>
+	</tr>
+
+	<tr>
 		<th scope="row"><label for="a11yc_declare_date"><?php echo A11YC_LANG_DECLARE_DATE ?></label></th>
 		<td>
 			<input type="text" name="declare_date" id="a11yc_declare_date" size="10" value="<?php echo @$settings['declare_date'] ?>">

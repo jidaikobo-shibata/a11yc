@@ -48,13 +48,9 @@ class Settings
 		// serialized values
 		foreach (static::$serializeds as $serialized)
 		{
-			$vals = array();
-			if (isset(static::$settings[$serialized]) && ! empty(static::$settings[$serialized]))
-			{
-				$str = str_replace('&quot;', '"', static::$settings[$serialized]);
-				$vals = unserialize($str);
-			}
-			static::$settings[$serialized] = $vals;
+			static::$settings[$serialized] = isset(static::$settings[$serialized]) ?
+																		 Util::unquoteUnserialize(static::$settings[$serialized]) :
+																		 array();
 		}
 
 		return static::$settings;
@@ -96,6 +92,7 @@ class Settings
 
 			// stripslashes
 			$stripslashes =array(
+				'client_name',
 				'declare_date',
 				'test_period',
 				'dependencies',

@@ -21,7 +21,46 @@ class Issues
 	 */
 	public static function actionIndex()
 	{
-		static::index();
+		Issues\Index::failures();
+	}
+	/**
+	 * Yet
+	 *
+	 * @return Void
+	 */
+	public static function actionYet()
+	{
+		Issues\Index::any(0);
+	}
+
+	/**
+	 * Progress
+	 *
+	 * @return Void
+	 */
+	public static function actionProgress()
+	{
+		Issues\Index::any(1);
+	}
+
+	/**
+	 * Done
+	 *
+	 * @return Void
+	 */
+	public static function actionDone()
+	{
+		Issues\Index::any(2);
+	}
+
+	/**
+	 * Trash
+	 *
+	 * @return Void
+	 */
+	public static function actionTrash()
+	{
+		Issues\Index::any(3);
 	}
 
 	/**
@@ -86,26 +125,6 @@ class Issues
 	}
 
 	/**
-	 * Issue index
-	 *
-	 * @return Void
-	 */
-	public static function index()
-	{
-		$issues = array(
-			'yet' =>      Model\Issues::fetchByStatus(0),
-			'progress' => Model\Issues::fetchByStatus(1),
-			'done' =>     Model\Issues::fetchByStatus(2),
-			'trash' =>    Model\Issues::fetchTrashed(),
-		);
-		View::assign('yml',      Yaml::each('techs'));
-		View::assign('issues',   $issues);
-		View::assign('failures', Model\Checklist::fetchFailures());
-		View::assign('title',    A11YC_LANG_ISSUES_TITLE.A11YC_LANG_ISSUES_STATUS);
-		View::assign('body',     View::fetchTpl('issues/index.php'), FALSE);
-	}
-
-	/**
 	 * add/edit Issue
 	 *
 	 * @param  Bool $is_add
@@ -124,12 +143,12 @@ class Issues
 		else
 		{
 			$id        = intval(Input::get('id'));
+			if ($id === 0) Util::error('id not found');
 			$issue     = Model\Issues::fetch($id);
 			if (Arr::get($issue, 'trash') == 1) Util::error('issue not found');
 			$url       = Arr::get($issue, 'url');
 			$criterion = Arr::get($issue, 'criterion');
 		}
-		if ( ! $url || ! $criterion) Util::error();
 
 		// set current user
 		$current_user_id = self::setCurrentUser($current_user_id, $users);
@@ -140,14 +159,18 @@ class Issues
 			// add
 			if ($is_add)
 			{
-				self::add($url, $criterion);
+				$id = self::add($url, $criterion);
+				self::upload($id);
 			}
 
 			// update
 			else if (isset($id) && is_numeric($id))
 			{
 				$issue = self::update($id);
+				self::upload($id, $issue['image_path']);
 			}
+
+			Util::redirect(A11YC_ISSUES_EDIT_URL.$id);
 		}
 
 		View::assign('is_new',    $is_add);
@@ -155,6 +178,7 @@ class Issues
 		View::assign('is_common', Arr::get($issue, 'is_common', ''));
 		View::assign('url',       Arr::get($issue, 'url', $url));
 		View::assign('criterion', Arr::get($issue, 'criterion', $criterion));
+		View::assign('image_path', Arr::get($issue, 'image_path', ''));
 		View::assign('statuses',  Values::issueStatus());
 		View::assign('status',    intval(Arr::get($issue, 'status', 0)));
 
@@ -223,9 +247,9 @@ class Issues
 	 *
 	 * @param  string $url
 	 * @param  string $criterion
-	 * @return Void
+	 * @return Integer|Bool
 	 */
-	private static function add($url, $criterion)
+	private static function add($url = '', $criterion = '')
 	{
 		$args = array(
 			'is_common'     => Input::post('is_common', false),
@@ -243,12 +267,13 @@ class Issues
 		if ($issue_id = Model\Issues::add($args))
 		{
 			Session::add('messages', 'messages', A11YC_LANG_ISSUES_ADDED);
-			Util::redirect(A11YC_ISSUES_EDIT_URL.$issue_id);
 		}
 		else
 		{
 			Session::add('messages', 'errors', A11YC_LANG_ISSUES_ADDED_FAILED);
 		}
+
+		return $issue_id;
 	}
 
 	/**
@@ -270,7 +295,6 @@ class Issues
 		if ($r1 && $r2 && $r3 && $r4 && $r5 && $r6 && $r7)
 		{
 			Session::add('messages', 'messages', A11YC_LANG_ISSUES_EDITED);
-			Util::redirect(A11YC_ISSUES_EDIT_URL.$id);
 		}
 		else
 		{
@@ -303,7 +327,7 @@ class Issues
 							 sprintf(A11YC_LANG_PAGES_DELETE_DONE, 'id: '.$id) :
 							 sprintf(A11YC_LANG_PAGES_DELETE_FAILED, 'id: '.$id);
 		Session::add('messages', $mess_type, $mess_str);
-		Util::redirect(A11YC_ISSUES_INDEX_URL);
+		Util::redirect(A11YC_ISSUES_BASE_URL.'index');
 	}
 
 	/**
@@ -328,7 +352,7 @@ class Issues
 							 sprintf(A11YC_LANG_PAGES_UNDELETE_DONE, 'id: '.$id) :
 							 sprintf(A11YC_LANG_PAGES_UNDELETE_FAILED, 'id: '.$id);
 		Session::add('messages', $mess_type, $mess_str);
-		Util::redirect(A11YC_ISSUES_INDEX_URL);
+		Util::redirect(A11YC_ISSUES_BASE_URL.'index');
 	}
 
 	/**
@@ -346,6 +370,60 @@ class Issues
 							 sprintf(A11YC_LANG_PAGES_PURGE_DONE, 'id: '.$id) :
 							 sprintf(A11YC_LANG_PAGES_PURGE_FAILED, 'id: '.$id);
 		Session::add('messages', $mess_type, $mess_str);
-		Util::redirect(A11YC_ISSUES_INDEX_URL);
+		Util::redirect(A11YC_ISSUES_BASE_URL.'index');
+	}
+
+	/**
+	 * Upload File
+	 *
+	 * @param Integer $id
+	 * @param String $old_path
+	 * @return Bool|String
+	 */
+	public static function upload($id, $old_path = '')
+	{
+		$file = Input::file('file');
+		if (empty($file['name'])) return;
+
+		// mkdir
+		$upload_path = A11YC_UPLOAD_PATH.'/'.$id;
+		if ( ! file_exists($upload_path)) mkdir($upload_path);
+
+		// unlink
+		if (file_exists($upload_path.'/'.$old_path)) unlink($upload_path.'/'.$old_path);
+
+		// prepare
+		require(A11YC_LIB_PATH.'/Upload/Autoloader.php');
+		\Upload\Autoloader::register();
+		$storage = new \Upload\Storage\FileSystem($upload_path);
+		$file = new \Upload\File('file', $storage);
+
+		// set unique name
+		$new_filename = uniqid();
+		$file->setName($new_filename);
+
+		// validate
+		$file->addValidations(array(
+				new \Upload\Validation\Mimetype(array('image/png', 'image/gif', 'image/jpg', 'image/jpeg')),
+				new \Upload\Validation\Size('5M')
+			));
+
+		// upload
+		try
+		{
+			$file->upload();
+		}
+		catch (\Exception $e)
+		{
+			$errors = $file->getErrors();
+		}
+
+		Model\Issues::updateField($id, 'image_path', $file->getNameWithExtension());
+
+		// $mess_type = $r ? 'messages' : 'errors';
+		// $mess_str  = $r ?
+		// 					 sprintf(A11YC_LANG_PAGES_PURGE_DONE, 'id: '.$id) :
+		// 					 sprintf(A11YC_LANG_PAGES_PURGE_FAILED, 'id: '.$id);
+		// Session::add('messages', $mess_type, $mess_str);
 	}
 }

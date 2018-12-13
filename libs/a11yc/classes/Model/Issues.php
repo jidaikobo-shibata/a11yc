@@ -24,7 +24,8 @@ class Issues
 	public static function fetch($id, $force = false)
 	{
 		if (isset(static::$issues[$id]) && ! $force) return static::$issues[$id];
-		$sql = 'SELECT * FROM '.A11YC_TABLE_ISSUES.' WHERE `id` = ?;';
+		$sql = 'SELECT * FROM '.A11YC_TABLE_ISSUES.' WHERE `id` = ?';
+		$sql.= Db::currentVersionSql();
 		static::$issues[$id] = Db::fetch($sql, array($id));
 		return static::$issues[$id];
 	}
@@ -35,46 +36,46 @@ class Issues
 	 * @param  String $url
 	 * @return Array
 	 */
-	public static function fetchByUrl($url)
+	public static function fetchByUrl($url = 'common')
 	{
 		if (isset(static::$issues[$url])) return static::$issues[$url];
+
 		$sql = 'SELECT * FROM '.A11YC_TABLE_ISSUES;
-		$sql.= ' WHERE (`url` = ? OR `is_common` = 1);';
-		static::$issues[$url] = Db::fetchAll($sql, array($url));
+		$sql.= $url == 'common' ? ' WHERE `is_common` = 1' : ' WHERE `url` = ?';
+		$sql.= Db::currentVersionSql();
+		static::$issues[$url] = $url == 'common' ?
+													Db::fetchAll($sql) :
+													Db::fetchAll($sql, array($url));
 		return static::$issues[$url];
 	}
 
 	/**
 	 * fetch by status
 	 *
-	 * @param  String $status [0 not yet, 1 in progress, 2 finish]
+	 * @param  String $status [0 not yet, 1 in progress, 2 finish, 3 trashed]
 	 * @return Array
 	 */
 	public static function fetchByStatus($status)
 	{
-		$sql = 'SELECT * FROM '.A11YC_TABLE_ISSUES;
-		$sql.= ' WHERE `status` = ? AND `version` = 0 AND `trash` = 0;';
 		$rets = array('common' => array());
-		foreach (Db::fetchAll($sql, array($status)) as $v)
+		if ($status < 3)
 		{
-			$key = $v['is_common'] ? 'common' : $v['url'];
-			$rets[$key][] = $v;
+			$sql = 'SELECT * FROM '.A11YC_TABLE_ISSUES;
+			$sql.= ' WHERE `status` = ? AND `trash` = 0';
+			$sql.= Db::currentVersionSql(true);
+			$sql.= ' ORDER BY `url` ASC';
+			$items = Db::fetchAll($sql, array($status));
 		}
-		if (empty($rets['common'])) unset($rets['common']);
-		return $rets;
-	}
+		else
+		{
+			$sql = 'SELECT * FROM '.A11YC_TABLE_ISSUES;
+			$sql.= ' WHERE `trash` = 1';
+			$sql.= Db::currentVersionSql(true);
+			$sql.= ' ORDER BY `url` ASC';
+			$items = Db::fetchAll($sql);
+		}
 
-	/**
-	 * fetch trashed
-	 *
-	 * @return Array
-	 */
-	public static function fetchTrashed()
-	{
-		$sql = 'SELECT * FROM '.A11YC_TABLE_ISSUES;
-		$sql.= ' WHERE `version` = 0 AND `trash` = 1;';
-		$rets = array('common' => array());
-		foreach (Db::fetchAll($sql) as $v)
+		foreach ($items as $v)
 		{
 			$key = $v['is_common'] ? 'common' : $v['url'];
 			$rets[$key][] = $v;
@@ -132,7 +133,7 @@ class Issues
 		$error_message = Arr::get($args, 'error_message', '');
 		$uid           = Arr::get($args, 'uid', 1);
 
-		if ( ! $url || ! $criterion) return false;
+//		if ( ! $url || ! $criterion) return false;
 		$url = Util::urldec($url);
 
 		$sql = 'INSERT INTO '.A11YC_TABLE_ISSUES;

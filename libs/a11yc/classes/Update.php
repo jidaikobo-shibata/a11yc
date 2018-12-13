@@ -44,5 +44,11 @@ class Update
 		{
 			Update\UpdateSettings::update();
 		}
+
+		// update add `image_path` to issue
+		if ( ! Db::isFieldsExist(A11YC_TABLE_ISSUES, array('image_path')))
+		{
+			Update\AddImgpth2Issues::update();
+		}
 	}
 }

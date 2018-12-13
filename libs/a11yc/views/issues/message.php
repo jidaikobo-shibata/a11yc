@@ -10,7 +10,7 @@
 <?php endif; ?>
 
 <tr>
-	<th><label for="a11yc_n_or_e"><?php echo A11YC_LANG_ISSUES_N_OR_E ?></label></th>
+	<th><?php echo A11YC_LANG_ISSUES_N_OR_E ?></th>
 	<td>
 	<?php
 	if ($issue['n_or_e'] == 0):
@@ -23,22 +23,22 @@
 </tr>
 
 <tr>
-	<th><label for="a11yc_html"><?php echo A11YC_LANG_ISSUES_HTML ?></label></th>
+	<th><?php echo A11YC_LANG_ISSUES_HTML ?></th>
 	<td><?php echo $issue['html'] ?></td>
 </tr>
 
 <tr>
-	<th><label for="a11yc_error_message"><?php echo A11YC_LANG_ISSUES_ERRMSG ?></label></th>
+	<th><?php echo A11YC_LANG_ISSUES_ERRMSG ?></th>
 	<td><?php echo nl2br($issue['error_message']) ?></td>
 </tr>
 
 <tr>
-	<th><label for="a11yc_uid"><?php echo A11YC_LANG_CTRL_PERSONS ?></label></th>
+	<th><?php echo A11YC_LANG_CTRL_PERSONS ?></th>
 	<td><?php echo Arr::get($users, $issue['uid']) ?></td>
 </tr>
 
 <tr>
-	<th><label for="a11yc_status"><?php echo A11YC_LANG_ISSUES_STATUS ?></label></th>
+	<th><?php echo A11YC_LANG_ISSUES_STATUS ?></th>
 	<td>
 	<select name="status" id="a11yc_status">
 		<?php $selected = $issue['status'] == 0 ? ' selected="selected"': ''; ?>
@@ -53,7 +53,7 @@
 
 <?php if ($issue['tech_url']): ?>
 <tr>
-	<th><label for="a11yc_tech_url"><?php echo A11YC_LANG_ISSUES_TECH ?></label></th>
+	<th><?php echo A11YC_LANG_ISSUES_TECH ?></th>
 	<td>
 	<?php
 	foreach (explode("\n", $issue['tech_url']) as $tech_url):
@@ -63,12 +63,24 @@
 	</td>
 </tr>
 <?php endif; ?>
+
+<?php if ( ! empty($issue['image_path'])): ?>
+<tr>
+	<th><?php echo A11YC_LANG_ISSUES_SCREENSHOT ?></th>
+	<td>
+	<?php
+	echo '<div><img src="'.dirname(A11YC_URL).'/screenshots/'.$issue['id'].'/'.$issue['image_path'].'" alt="" /></div>';
+
+	?>
+	</td>
+</tr>
+<?php endif; ?>
 </table>
 
 <h2><?php echo A11YC_LANG_ISSUES_MESSAGE ?></h2>
 <?php
 foreach ($bbss as $bbs):
-	echo '<h3><label for="a11yc_issuesbbs_'.$bbs['id'].'">'.$users[$bbs['uid']].' ('.$bbs['created_at'].')</label></h3>';
+	echo '<h3>'.$users[$bbs['uid']].' ('.$bbs['created_at'].')</h3>';
 	echo '<textarea name="a11yc_issuesbbs['.$bbs['id'].']" id="a11yc_issuesbbs_'.$bbs['id'].'" cols="35" rows="7">'.$bbs['message'].'</textarea>';
 endforeach;
 ?>

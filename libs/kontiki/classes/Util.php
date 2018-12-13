@@ -224,4 +224,17 @@ class Util
 		return $bytes;
 	}
 
+	/**
+	 * unquoteUnserialize
+	 *
+	 * @param  String $str
+	 * @return Array
+	 */
+	public static function unquoteUnserialize($str)
+	{
+		if ( ! is_string($str)) return array();
+		$str = str_replace('&quot;', '"', $str);
+		$vals = @unserialize($str);
+		return is_array($vals) ? $vals : array();
+	}
 }

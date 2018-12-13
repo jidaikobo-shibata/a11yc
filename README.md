@@ -6,7 +6,7 @@
 
 ## screenshot
 
-<img src="https://raw.githubusercontent.com/jidaikobo-shibata/a11yc/master/screenshots/checklist_en.png" width="300" alt="checklist - English"> <img src="https://raw.githubusercontent.com/jidaikobo-shibata/a11yc/master/screenshots/checklist_ja.png" width="300" alt="checklist - Japanese">
+<img src="https://raw.githubusercontent.com/jidaikobo-shibata/a11yc/master/assets/example/checklist_en.png" width="300" alt="checklist - English"> <img src="https://raw.githubusercontent.com/jidaikobo-shibata/a11yc/master/assets/example/checklist_ja.png" width="300" alt="checklist - Japanese">
 
 ## [en]
 

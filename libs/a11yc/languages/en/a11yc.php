@@ -167,6 +167,7 @@ define('A11YC_LANG_SETTINGS_NON_USE_TECHS', 'non use technique in implements che
 define('A11YC_LANG_SETTINGS_NON_USE_TECHS_CANDIDATES', 'Use usual setting');
 
 define('A11YC_LANG_DECLARE_DATE', 'Declare Date');
+define('A11YC_LANG_CLIENT_NAME', 'Client Name');
 define('A11YC_LANG_STANDARD', 'Standard');
 define('A11YC_LANG_STANDARD_REPORT', 'Number and Year of standard');
 define('A11YC_LANG_DEPENDENCIES', 'List of dependent Web content technology');
@@ -323,6 +324,10 @@ define('A11YC_LANG_ISSUES_EDITED', 'Issue was edited');
 define('A11YC_LANG_ISSUES_EDITED_FAILED', 'Issue was not edited');
 define('A11YC_LANG_ISSUES_MESSAGE', 'Messages');
 define('A11YC_LANG_ISSUES_MESSAGE_ADD', 'Add Message');
+define('A11YC_LANG_ISSUES_TECH_RELATED', 'Related Techniques');
+define('A11YC_LANG_ISSUES_SCREENSHOT', 'Screenshot');
+define('A11YC_LANG_ISSUES_EXPORT', 'Export');
+define('A11YC_LANG_ISSUES_REPORT_HEAD_SUFFIX', 'JIS X 8341-3:2016 Report');
 
 // image list
 define('A11YC_LANG_IMAGES_TITLE', 'Image List');

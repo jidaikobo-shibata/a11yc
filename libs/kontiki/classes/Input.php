@@ -208,7 +208,7 @@ class Input
 	 * @param  Mixed $default The default value
 	 * @return String|Array
 	 */
-	public static function file($index, $default = null)
+	public static function file($index = null, $default = null)
 	{
 		$files = $_FILES;
 

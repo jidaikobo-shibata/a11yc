@@ -1,6 +1,6 @@
 <?php namespace A11yc; ?>
 
-<form action="<?php echo Util::uri() ?>" method="POST">
+<form action="<?php echo Util::uri() ?>" method="POST" enctype="multipart/form-data">
 
 <?php echo $form ?>
 

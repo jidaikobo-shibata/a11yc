@@ -76,4 +76,17 @@
 	</td>
 </tr>
 
+<tr>
+	<th><label for="a11yc_tech_url"><?php echo A11YC_LANG_ISSUES_SCREENSHOT ?></label></th>
+	<td>
+		<input type="text" name="file_path" value="<?php echo Util::s($image_path) ?>"/>
+		<input type="file" name="file" value=""/>
+		<?php
+		if ($image_path):
+			echo '<div><img src="'.dirname(A11YC_URL).'/screenshots/'.$issue_id.'/'.$image_path.'" alt="" /></div>';
+		endif;
+		?>
+	</td>
+</tr>
+
 </table>

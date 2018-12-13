@@ -166,6 +166,7 @@ define('A11YC_LANG_SETTINGS_NON_USE_TECHS', '実装チェックリストで用�
 define('A11YC_LANG_SETTINGS_NON_USE_TECHS_CANDIDATES', '定番的に用いない達成方法をチェック');
 
 define('A11YC_LANG_DECLARE_DATE', '表明日');
+define('A11YC_LANG_CLIENT_NAME', 'クライアント名');
 define('A11YC_LANG_STANDARD', '規格の種類');
 define('A11YC_LANG_STANDARD_REPORT', '規格の規格番号及び改正年');
 define('A11YC_LANG_DEPENDENCIES', '依存したウェブコンテンツ技術のリスト');
@@ -327,6 +328,10 @@ define('A11YC_LANG_ISSUES_TITLE_TRASH', '削除済みの問題点');
 define('A11YC_LANG_ISSUES_TITLE_PROGRESS', '対応中の問題点');
 define('A11YC_LANG_ISSUES_TITLE_DONE', '対応済みの問題点');
 define('A11YC_LANG_ISSUES_TECH_FAILURE', '達成方法集の不適合事例のチェックがあるページ');
+define('A11YC_LANG_ISSUES_TECH_RELATED', '関連する達成方法集');
+define('A11YC_LANG_ISSUES_SCREENSHOT', 'スクリーンショット');
+define('A11YC_LANG_ISSUES_EXPORT', '結果出力');
+define('A11YC_LANG_ISSUES_REPORT_HEAD_SUFFIX', 'JIS X 8341-3:2016 試験報告');
 
 // image list
 define('A11YC_LANG_IMAGES_TITLE', '画像一覧');
