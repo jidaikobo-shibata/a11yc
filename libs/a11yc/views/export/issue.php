@@ -40,7 +40,6 @@ endif;
 ?>
 
 <section class="each_page">
-
 <?php if ( ! empty($issue['image_path'])): ?>
 	<h2 class="heading"><?php echo A11YC_LANG_ISSUES_SCREENSHOT ?></h2>
 	<?php
@@ -81,7 +80,7 @@ endif;
 	?>
 	</div>
 <?php endif; ?>
-
+</section><!-- /.issue -->
 </section><!-- /.each_page -->
 <?php endforeach; ?>
 </article>

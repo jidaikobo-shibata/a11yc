@@ -57,7 +57,7 @@ pre
 	page-break-after: always;
 	position: relative;
 }
-.each_page:last-of-type
+body > :last-child
 {
 	page-break-after: auto;
 }
