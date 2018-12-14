@@ -2,8 +2,134 @@
 html
 {
 }
-
-table
+body
+{
+	font-family: sans-serif;
+	width: 100%;
+	max-width: 190mm;
+	
+	margin: auto;
+	position: relative;
+}
+body *
+{
+	box-sizing: border-box;
+	word-break: break-all;
+}
+body > *
+{
+	max-width: 100%;
+}
+img
+{
+	max-width: 100%;
+	width: auto;
+	height: auto;
+	border: none;
+}
+.a11yc_table
 {
 	border: 1px #aaa solid;
+}
+pre
+{
+	margin: 0;
+	padding: 2mm;
+	white-space: pre-wrap;
+	border: 2px solid #ccc;
+	font-size: 1rem;
+}
+
+.issue_header
+{
+	position: absolute;
+	top: 10px;
+	right: 20px;
+	text-align: right;
+	font-size: .8em;
+	line-height: 2;
+}
+.cover_page,
+.each_page
+{
+	min-height: 20em;
+	padding: 5mm 0;
+	page-break-after: always;
+	position: relative;
+}
+.each_page:last-of-type
+{
+	page-break-after: auto;
+}
+.cover_page
+{
+	text-align: center;
+}
+.cover_page .heading
+{
+	font-size: 2rem;
+	line-height: 1.5;
+	display: block;
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+	height: 4em;
+	padding: 1em;
+}
+.screenshot
+{
+	display: block;
+	margin: 1em auto;
+	max-height: 70vh;
+}
+.each_page  > .heading
+{
+	margin-top: 5em;
+	font-size: 1.2rem;
+	line-height: 1;
+}
+.issue 
+{
+	font-size: .87rem;
+}
+
+.issue > .heading
+{
+	font-size: 1rem;
+	margin-bottom: 0;
+}
+
+@media print {
+	html
+	{
+		font-size: .9em;
+	}
+	.cover_page,
+	.each_page
+	{
+		padding: 25mm 0 10mm;
+		height: 251mm;
+	}
+	.issue_header
+	{
+		position: fixed;
+		top: 7mm;
+		right: 10mm;
+	}
+	.screenshot
+	{
+		max-height: 50vh;
+	}
+	.each_page  > .heading:first-child
+	{
+		margin-top: 0;
+	}
+}
+
+@page {
+	size: A4;
+	margin: 0;
 }
