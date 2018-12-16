@@ -20,6 +20,7 @@ javascript:(function(){
 <div id="a11yc_center_about" class="a11yc_cmt">
 <h2><?php echo A11YC_LANG_CENTER_ABOUT ?></h2>
 <img src="<?php echo A11YC_ASSETS_URL ?>/img/logo_author.png" id="a11yc_logo_author" alt="<?php echo A11YC_LANG_CENTER_LOGO ?>">
+<img src="<?php echo A11YC_ASSETS_URL ?>/img/logo.png" id="a11yc_logo" alt="A11yc Logo">
 <p><?php echo A11YC_LANG_CENTER_ABOUT_CONTENT ?></p>
 </div><!-- /.a11yc_cmt -->
 <?php endif; ?>
