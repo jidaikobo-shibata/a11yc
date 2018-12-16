@@ -10,15 +10,6 @@
  */
 namespace A11yc;
 
-// old tables
-define('A11YC_TABLE_SETUP_OLD',       'a11y_setup');
-define('A11YC_TABLE_PAGES_OLD',       'a11y_pages');
-define('A11YC_TABLE_CHECKS_OLD',      'a11y_checks');
-define('A11YC_TABLE_CHECKS_NGS_OLD',  'a11y_checks_ngs');
-define('A11YC_TABLE_BULK_OLD',        'a11y_bulk');
-define('A11YC_TABLE_BULK_NGS_OLD',    'a11y_bulk_ngs');
-define('A11YC_TABLE_MAINTENANCE_OLD', 'a11y_maintenance');
-
 class Update
 {
 	/**
