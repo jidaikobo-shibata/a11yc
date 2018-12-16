@@ -221,6 +221,7 @@ Validateクラスに検査対象のHTMLをセットします。以下はWordPres
 
 * [spyc](https://github.com/mustangostang/spyc)
 * [guzzle](https://github.com/guzzle/guzzle)
+* [Upload](https://github.com/brandonsavage/Upload)
 
 ### チェック
 

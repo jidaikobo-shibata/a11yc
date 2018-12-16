@@ -1,5 +1,5 @@
 <?php namespace A11yc; ?>
-<?php 	echo A11YC_NON_DOWNLOAD_START;  ?>
+<?php echo A11YC_NON_DOWNLOAD_START;  ?>
 <h2><?php echo A11YC_LANG_RELATED ?></h2>
 <ul>
 	<li><?php echo '<a href="'.$policy_link.'">'.A11YC_LANG_POLICY.'</a>'; ?></li>
