@@ -51,6 +51,30 @@ define('A11YC_DB_TYPE', 'sqlite'); // 'mysql', 'sqlite', 'none'
 define('A11YC_DATA_PATH', dirname(__DIR__).'/db');
 define('A11YC_DATA_FILE', '/db.sqlite');
 
+// old tables - leave these tables for lower compatibility
+define('A11YC_TABLE_SETUP_OLD',       'a11y_setup');
+define('A11YC_TABLE_PAGES_OLD',       'a11y_pages');
+define('A11YC_TABLE_CHECKS_OLD',      'a11y_checks');
+define('A11YC_TABLE_CHECKS_NGS_OLD',  'a11y_checks_ngs');
+define('A11YC_TABLE_BULK_OLD',        'a11y_bulk');
+define('A11YC_TABLE_BULK_NGS_OLD',    'a11y_bulk_ngs');
+define('A11YC_TABLE_MAINTENANCE_OLD', 'a11y_maintenance');
+
+// tables
+define('A11YC_TABLE_PAGES',       'a11yc_pages');
+define('A11YC_TABLE_UAS',         'a11yc_uas');
+define('A11YC_TABLE_CACHES',      'a11yc_caches');
+define('A11YC_TABLE_VERSIONS',    'a11yc_versions');
+define('A11YC_TABLE_RESULTS',     'a11yc_results');
+define('A11YC_TABLE_BRESULTS',    'a11yc_bresults');
+define('A11YC_TABLE_CHECKS',      'a11yc_checks');
+define('A11YC_TABLE_BCHECKS',     'a11yc_bchecks');
+define('A11YC_TABLE_BNGS',        'a11yc_bngs');
+define('A11YC_TABLE_ISSUES',      'a11yc_issues');
+define('A11YC_TABLE_ISSUESBBS',   'a11yc_issuesbbs');
+define('A11YC_TABLE_SETTINGS',    'a11yc_settings');
+define('A11YC_TABLE_MAINTENANCE', 'a11yc_maintenance');
+
 // for css and js
 define('A11YC_ASSETS_URL',    dirname(A11YC_URL).'/assets');
 
