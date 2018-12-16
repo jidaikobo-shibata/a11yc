@@ -26,6 +26,7 @@ if ( ! file_exists(A11YC_CONFIG_PATH))
 	die('set config.');
 }
 include A11YC_CONFIG_PATH;
+include A11YC_PATH.'/consts.php';
 
 // load kontiki
 define('KONTIKI_DEFAULT_LANG',    A11YC_LANG);

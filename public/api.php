@@ -10,5 +10,5 @@
  */
 
 // controller
-require (__DIR__.'/libs/a11yc/classes/Api.php');
+require (dirname(__DIR__).'/libs/a11yc/classes/Api.php');
 echo \A11yc\Api::forge();

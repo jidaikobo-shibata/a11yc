@@ -11,7 +11,7 @@
 namespace A11yc;
 
 // kontiki and a11yc
-require (__DIR__.'/libs/a11yc/main.php');
+require (dirname(__DIR__).'/libs/a11yc/main.php');
 
 // select version
 $version = Input::get('a11yc_version', false);

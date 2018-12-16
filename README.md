@@ -46,15 +46,15 @@ a11yc/db
 and create symlinks
 
 ```
-ln -s a11yc/assets
-ln -s a11yc/index.php
-ln -s a11yc/post.php
+ln -s a11yc/public/assets
+ln -s a11yc/public/index.php
+ln -s a11yc/public/post.php
 ```
 
-mv a11yc/.htaccess.dist to document root and rename it.
+mv a11yc/public/.htaccess.dist to document root and rename it.
 
 ```
-mv a11yc/.htaccess.dist .htaccess
+mv a11yc/public/.htaccess.dist .htaccess
 ```
 
 ## [ja]
@@ -103,28 +103,28 @@ a11yc/db
 フロントコントローラへのシンボリックリンクをはります。
 
 ```
-ln -s a11yc/assets
-ln -s a11yc/index.php
+ln -s a11yc/public/assets
+ln -s a11yc/public/index.php
 ```
 
 アクセシビリティのチェッカだけを使うのであれば、以下のシンボリックリンクを用意してください。
 
 ```
-ln -s a11yc/post.php
+ln -s a11yc/public/post.php
 ```
 
 ドキュメントルートに.htaccess.distを.htaccessとして設置してください。
 
 ```
-mv a11yc/.htaccess.dist .htaccess
+mv a11yc/public/.htaccess.dist .htaccess
 ```
 
 最終的に、
 
 ```
 .htaccess
-assets
 index.php
+assets/
 a11yc/
 ```
 
@@ -151,16 +151,10 @@ php -r "echo password_hash('password', CRYPT_BLOWFISH);\n"
 ### 報告書と方針
 
 ```
-a11yc/report.dist.php
+a11yc/public/report.php
 ```
 
-を適当なファイル名に変更します。PHPがわかる方なら、適当にパスをいじって好きなところにおいてください。わからない場合でも、HTMLはいじっても大丈夫ですので、
-
-```
-report.php
-```
-
-あたりにrenameしてください。
+を適当なファイル名に変更します。PHPがわかる方なら、適当にパスをいじって好きなところにおいてください。わからない場合でも、HTMLはいじっても大丈夫です。
 
 ブラウザでこのファイルにアクセスすれば、状況に応じた報告書が生成されています。
 

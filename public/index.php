@@ -11,11 +11,14 @@
 
 // a11yc
 namespace A11yc;
-require (__DIR__.'/libs/a11yc/main.php');
+require (dirname(__DIR__).'/libs/a11yc/main.php');
 
 // is ip allowed
-$allowed = unserialize(A11YC_APPROVED_IPS);
-if ( ! in_array($_SERVER['REMOTE_ADDR'], $allowed)) Util::error();
+if (defined('A11YC_APPROVED_IPS'))
+{
+	$allowed = unserialize(A11YC_APPROVED_IPS);
+	if ( ! in_array($_SERVER['REMOTE_ADDR'], $allowed)) Util::error();
+}
 
 // set users before authentication
 Users::forge(unserialize(A11YC_USERS));
