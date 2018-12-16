@@ -244,7 +244,7 @@ class Export
 				'notice',
 				'1.1.1',
 				$alt_alert,
-				$v['attrs']['src'],
+				Arr::get($v['attrs'], 'src', ''),
 				$alt,
 			);
 			$n++;
