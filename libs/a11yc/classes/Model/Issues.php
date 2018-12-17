@@ -41,7 +41,7 @@ class Issues
 		if (isset(static::$issues[$url])) return static::$issues[$url];
 
 		$sql = 'SELECT * FROM '.A11YC_TABLE_ISSUES;
-		$sql.= $url == 'common' ? ' WHERE `is_common` = 1' : ' WHERE `url` = ?';
+		$sql.= $url == 'common' ? ' WHERE (`is_common` = 1 OR `url` = "")' : ' WHERE `url` = ?';
 		$sql.= Db::currentVersionSql();
 		static::$issues[$url] = $url == 'common' ?
 													Db::fetchAll($sql) :

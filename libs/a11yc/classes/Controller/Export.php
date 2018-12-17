@@ -16,6 +16,16 @@ use A11yc\Validate;
 class Export
 {
 	/**
+	 * action dbexport
+	 *
+	 * @return Void
+	 */
+	public static function actionDbexport()
+	{
+		static::dbexport();
+	}
+
+	/**
 	 * action csv
 	 *
 	 * @return Void
@@ -282,5 +292,46 @@ class Export
 				'body.php',
 			));
 		exit();
+	}
+
+	/**
+	 * dbexport
+	 *
+	 * @return Void
+	 */
+	public static function dbexport()
+	{
+		$retvals = array(
+			'pages' => array(),
+			'results' => array(),
+			'checklists' => array(),
+			'issues' => array(),
+		);
+		$retvals['pages'] = Model\Pages::fetch();
+		foreach ($retvals['pages'] as $page)
+		{
+			$retvals['results'][] = Model\Results::fetch($page['url']);
+			$retvals['checklists'][] = Model\Checklist::fetch($page['url']);
+			$retvals['issues'][] = Model\Issues::fetchByUrl($page['url']);
+			$retvals['issues'][] = Model\Issues::fetchByUrl(); // common
+		}
+
+		$sql = 'SELECT * FROM '.A11YC_TABLE_CACHES.';';
+		$retvals['htmls'] = Db::fetch($sql);
+		foreach ($retvals['htmls'] as $k => $html)
+		{
+			if ( ! isset($html['data'])) continue;
+			$retvals['htmls'][$k]['data'] = htmlspecialchars($html['data'], ENT_QUOTES);
+		}
+
+		$sql = 'SELECT * FROM '.A11YC_TABLE_ISSUESBBS.';';
+		$retvals['issuebbs'] = Db::fetch($sql);
+
+
+		echo '<textarea style="width:100%;height:200px;background-color:#fff;color:#111;font-size:90%;font-family:monospace;position:relative;z-index:9999">';
+var_dump($retvals);
+echo '</textarea>';
+die();
+
 	}
 }

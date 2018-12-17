@@ -1,4 +1,13 @@
 <?php namespace A11yc; ?>
+
+<?php
+echo '<a href="'.A11YC_EXPORT_URL.'dbexport">試験結果をExport</a><br />';
+echo '<a href="'.A11YC_EXPORT_URL.'dbimport">試験結果をImport&Merge</a>';
+
+echo $result;
+echo $implements_checklist;
+?>
+
 <?php if ( ! Input::get('url')): ?>
 <!-- Bookmarklet -->
 <h2>Bookmarklet</h2>
