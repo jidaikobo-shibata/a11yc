@@ -116,24 +116,14 @@ class Issues
 	}
 
 	/**
-	 * add each page
+	 * insert each page
 	 *
 	 * @param  Array $args
 	 * @return Integer|Bool
 	 */
-	public static function add($args)
+	public static function insert($args)
 	{
-		$is_common     = Arr::get($args, 'is_common', '');
-		$url           = Arr::get($args, 'url', '');
-		$criterion     = Arr::get($args, 'criterion', '');
-		$html          = Arr::get($args, 'html', '');
-		$n_or_e        = Arr::get($args, 'n_or_e', 0);
-		$status        = Arr::get($args, 'status', 0);
-		$tech_url      = Arr::get($args, 'tech_url', '');
-		$error_message = Arr::get($args, 'error_message', '');
-		$uid           = Arr::get($args, 'uid', 1);
-
-//		if ( ! $url || ! $criterion) return false;
+		$url = Arr::get($args, 'url', '');
 		$url = Util::urldec($url);
 
 		$sql = 'INSERT INTO '.A11YC_TABLE_ISSUES;
@@ -153,15 +143,15 @@ class Issues
 		$r = Db::execute(
 			$sql,
 			array(
-				intval($is_common),
+				intval(Arr::get($args, 'is_common', '')),
 				$url,
-				$criterion,
-				$html,
-				intval($n_or_e),
-				intval($status),
-				$tech_url,
-				$error_message,
-				intval($uid),
+				Arr::get($args, 'criterion', ''),
+				Arr::get($args, 'html', ''),
+				intval(Arr::get($args, 'n_or_e', 0)),
+				intval(Arr::get($args, 'status', 0)),
+				Arr::get($args, 'tech_url', ''),
+				Arr::get($args, 'error_message', ''),
+				intval(Arr::get($args, 'uid', 1)),
 				date('Y-m-d H:i:s')
 			)
 		);

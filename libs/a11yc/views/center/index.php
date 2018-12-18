@@ -1,8 +1,16 @@
 <?php namespace A11yc; ?>
 
 <?php
-echo '<a href="'.A11YC_EXPORT_URL.'dbexport">試験結果をExport</a><br />';
-echo '<a href="'.A11YC_EXPORT_URL.'dbimport">試験結果をImport&Merge</a>';
+if (Auth::auth()):
+	echo A11YC_NON_DOWNLOAD_START;
+	echo '<ul>';
+	echo '<li><a href="'.A11YC_EXPORT_URL.'resultexport">'.A11YC_LANG_PAGES_LABEL_EXPORT_CHECK_RESULT.'</a><br /></li>';
+	echo '<li><a href="'.A11YC_EXPORT_URL.'resultimport">'.A11YC_LANG_PAGES_LABEL_IMPORT_CHECK_RESULT.'</a></li>';
+	echo '<li><a href="'.$download_link.'">'.A11YC_LANG_PAGES_LABEL_EXPORT_RESULT_HTML.'</a></li>';
+	echo '</ul>';
+	echo A11YC_NON_DOWNLOAD_END;
+endif;
+
 
 echo $result;
 echo $implements_checklist;

@@ -25,16 +25,16 @@ class Issuesbbs
 	}
 
 	/**
-	 * add each message
+	 * insert each message
 	 *
-	 * @param  Array $args
+	 * @param  Array $vals
 	 * @return Integer|Bool
 	 */
-	public static function add($args)
+	public static function insert($vals)
 	{
-		$issue_id = Arr::get($args, 'issue_id', '');
-		$uid      = Arr::get($args, 'uid', '');
-		$message  = Arr::get($args, 'message', '');
+		$issue_id   = Arr::get($vals, 'issue_id', '');
+		$uid        = Arr::get($vals, 'uid', '');
+		$message    = Arr::get($vals, 'message', '');
 
 		if ( ! $issue_id || ! $uid || ! $message) return false;
 
@@ -47,7 +47,12 @@ class Issuesbbs
 
 		return Db::execute(
 			$sql,
-			array($issue_id, $uid, $message, date('Y-m-d H:i:s'))
+			array(
+				$issue_id,
+				$uid,
+				$message,
+				Arr::get($vals, 'created_at', date('Y-m-d H:i:s'))
+			)
 		);
 	}
 

@@ -77,19 +77,42 @@ class Results
 		// update
 		foreach ($results as $criterion => $v)
 		{
-			$result = intval(Arr::get($v, 'result', 0));
-			$method = intval(Arr::get($v, 'method', 0));
-			$uid    = intval(Arr::get($v, 'uid', 0));
-			$memo   = stripslashes(Arr::get($v, 'memo', ''));
-
-			$sql = 'INSERT INTO '.A11YC_TABLE_RESULTS;
-			$sql.= ' (`url`, `criterion`, `memo`, `uid`, `result`, `method`, `version`)';
-			$sql.= ' VALUES (?, ?, ?, ?, ?, ?, 0);';
-			Db::execute(
-				$sql,
-				array($url, $criterion, $memo, $uid, $result, $method)
-			);
+			$v['criterion'] = $criterion;
+			$v['url'] = $url;
+			static::insert($v);
 		}
+	}
+
+	/**
+	 * insert results
+	 *
+	 * @param  Array  $vals
+	 * @return Bool
+	 */
+	public static function insert($vals)
+	{
+		$url       = Arr::get($vals, 'url', '');
+		$criterion = Arr::get($vals, 'criterion', '');
+		if (empty($url) || empty($criterion)) return;
+
+		$sql = 'SELECT `url` FROM '.A11YC_TABLE_RESULTS.' WHERE `url` = ? AND `criterion` = ?';
+		$sql.= Db::currentVersionSql().';';
+		if ( ! empty(Db::fetchAll($sql, array($url, $criterion)))) return false;
+
+		$sql = 'INSERT INTO '.A11YC_TABLE_RESULTS;
+		$sql.= ' (`url`, `criterion`, `memo`, `uid`, `result`, `method`, `version`)';
+		$sql.= ' VALUES (?, ?, ?, ?, ?, ?, 0);';
+		return Db::execute(
+			$sql,
+			array(
+				$url,
+				$criterion,
+				stripslashes(Arr::get($vals, 'memo', '')),
+				intval(Arr::get($vals, 'uid', 0)),
+				intval(Arr::get($vals, 'result', 0)),
+				intval(Arr::get($vals, 'method', 0))
+			)
+		);
 	}
 
 	/**
