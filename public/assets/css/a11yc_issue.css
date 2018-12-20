@@ -79,6 +79,12 @@ body > :last-child
 	height: 4em;
 	padding: 1em;
 }
+.cover_page .issue_url
+{
+	font-size: 1.25rem;
+}
+
+
 .screenshot
 {
 	display: block;
@@ -100,6 +106,10 @@ body > :last-child
 {
 	font-size: 1rem;
 	margin-bottom: 0;
+}
+.issue > .heading + p
+{
+	margin-top: 0;
 }
 
 @media print {

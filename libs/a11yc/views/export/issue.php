@@ -34,7 +34,7 @@ endif;
 if ($k == 0 && isset($issues[0]) && ! empty($issues[0]['url'])):
 	echo '<section class="cover_page">';
 	echo $header;
-	echo '<h1 class="heading">'.$issue['url'].'</h1>';
+	echo '<h1 class="heading"><span class="issue_title"></span><br><span class="issue_url">'.$issue['url'].'</span></h1>';
 	echo '</section>';
 endif;
 ?>
