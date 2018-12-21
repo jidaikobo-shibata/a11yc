@@ -261,6 +261,55 @@ class Pages
 	}
 
 	/**
+	 * insert page
+	 *
+	 * @param  Array $vals
+	 * @return Bool
+	 */
+	public static function insert($vals)
+	{
+		$url = Arr::get($vals, 'url', '');
+		if (empty($url)) return false;
+
+		$sql = 'INSERT INTO '.A11YC_TABLE_PAGES.' (';
+		$sql.= '`url`,';
+		$sql.= '`alt_url`,';
+		$sql.= '`type`,';
+		$sql.= '`title`,';
+		$sql.= '`level`,';
+		$sql.= '`standard`,';
+		$sql.= '`selection_reason`,';
+		$sql.= '`done`,';
+		$sql.= '`trash`,';
+		$sql.= '`date`,';
+		$sql.= '`created_at`,';
+		$sql.= '`updated_at`,';
+		$sql.= '`version`,';
+		$sql.= '`seq`';
+		$sql.= ')';
+		$sql.= ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);';
+		return Db::execute(
+			$sql,
+			array(
+				$url,
+				Arr::get($vals, 'alt_url', ''),
+				intval(Arr::get($vals, 'type', 0)),
+				Arr::get($vals, 'title', ''),
+				intval(Arr::get($vals, 'level', 0)),
+				intval(Arr::get($vals, 'standard', 0)),
+				intval(Arr::get($vals, 'selection_reason', 0)),
+				intval(Arr::get($vals, 'done', 0)),
+				intval(Arr::get($vals, 'trash', 0)),
+				Arr::get($vals, 'date', ''),
+				Arr::get($vals, 'created_at', ''),
+				Arr::get($vals, 'updated_at', ''),
+				Arr::get($vals, 'version', 0), // do not intval()
+				intval(Arr::get($vals, 'seq', 0))
+			)
+		);
+	}
+
+	/**
 	 * delete
 	 *
 	 * @param  String $url

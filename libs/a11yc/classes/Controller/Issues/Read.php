@@ -56,7 +56,7 @@ class Read
 						'uid'      => $current_user_id,
 						'message'  => $v,
 					);
-					$r = Model\Issuesbbs::add($args);
+					$r = Model\Issuesbbs::insert($args);
 				}
 				else if($k != 'new')
 				{

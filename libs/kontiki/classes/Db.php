@@ -285,7 +285,7 @@ class Db
 	 * @param  String $sql
 	 * @param  Array $placeholders
 	 * @param  String $name
-	 * @return Void
+	 * @return Bool
 	 */
 	public static function execute
 		(

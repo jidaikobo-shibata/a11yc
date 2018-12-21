@@ -16,6 +16,26 @@ use A11yc\Validate;
 class Export
 {
 	/**
+	 * action resultexport
+	 *
+	 * @return Void
+	 */
+	public static function actionResultexport()
+	{
+		Export\Result::export();
+	}
+
+	/**
+	 * action resultimport
+	 *
+	 * @return Void
+	 */
+	public static function actionResultimport()
+	{
+		Export\Result::import();
+	}
+
+	/**
 	 * action csv
 	 *
 	 * @return Void
@@ -275,8 +295,8 @@ class Export
 		$settings = Model\Settings::fetchAll();
 		View::assign('issues', $issues);
 		View::assign('settings', $settings);
-		View::assign('title',  $settings['client_name'].' - '.A11YC_LANG_ISSUES_REPORT_HEAD_SUFFIX);
-		View::assign('body',  View::fetchTpl('export/issue.php'), FALSE);
+		View::assign('title', $settings['client_name'].' - '.A11YC_LANG_ISSUES_REPORT_HEAD_SUFFIX);
+		View::assign('body', View::fetchTpl('export/issue.php'), FALSE);
 
 		View::display(array(
 				'body.php',

@@ -57,12 +57,14 @@ class Center
 		{
 			$is_center = true;
 			Results::all($is_center);
-			$body = View::fetch('body');
+			$result = View::fetch('body');
 		}
 
 		Results::implementsChecklist();
-		$body.= View::fetch('implements_checklist');
+		$implements_checklist = View::fetch('implements_checklist');
 
+		View::assign('result', $result, false);
+		View::assign('implements_checklist', $implements_checklist, false);
 		View::assign('title', A11YC_LANG_CENTER_TITLE);
 		$center = View::fetchTpl('center/index.php');
 		View::assign('body', $body.$center, false);

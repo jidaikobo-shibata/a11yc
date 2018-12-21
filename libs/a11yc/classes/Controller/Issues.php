@@ -264,7 +264,7 @@ class Issues
 		);
 		extract($args);
 
-		if ($issue_id = Model\Issues::add($args))
+		if ($issue_id = Model\Issues::insert($args))
 		{
 			Session::add('messages', 'messages', A11YC_LANG_ISSUES_ADDED);
 		}

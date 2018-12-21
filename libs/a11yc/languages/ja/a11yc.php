@@ -141,6 +141,11 @@ define('A11YC_LANG_PAGES_ADD_TO_CANDIDATE', 'HTMLから候補になるURLを取�
 define('A11YC_LANG_PAGES_IT_TAKES_TIME', 'この処理には、時間がかかります');
 define('A11YC_LANG_PAGES_LABEL_EDIT', '編集');
 define('A11YC_LANG_PAGES_LABEL_HTML_EXP', 'HTMLの自動取得に失敗するときなど、このHTMLが判定に用いられます。今後、自動取得に成功した時点で自動的に書き換わります。');
+define('A11YC_LANG_PAGES_LABEL_EXPORT_CHECK_RESULT', '試験結果をマージ用にエクスポート');
+define('A11YC_LANG_EXPORT_TITLE', 'エクスポート＆インポート');
+define('A11YC_LANG_PAGES_LABEL_IMPORT_CHECK_RESULT', '試験結果をインポートしてマージ');
+define('A11YC_LANG_PAGES_LABEL_EXPORT_CHECK_RESULT_EXP', '「チェック結果」と「問題点」をエクスポートします。以下textareaに出力されている文字列をすべてコピーして、目的の環境で「'.A11YC_LANG_PAGES_LABEL_IMPORT_CHECK_RESULT.'」で表示されるtextareaに貼り付けてください。');
+define('A11YC_LANG_PAGES_LABEL_IMPORT_CHECK_RESULT_EXP', '「チェック結果」と「問題点」をインポートします。「'.A11YC_LANG_PAGES_LABEL_EXPORT_CHECK_RESULT.'」で取得した結果をtextareaに貼り付けてください。');
 define('A11YC_LANG_PAGES_LABEL_EXPORT_RESULT_HTML', '試験結果HTMLをダウンロード');
 define('A11YC_LANG_PAGES_LABEL_EXPORT_RESULT_HTML_EXP', 'すべての試験結果HTMLを連結した状態で出力します。csplit a11yc_results.txt /====A11YC_RESULTS_CSPLIT====/ {*} で分割してください。');
 define('A11YC_LANG_PAGES_LABEL_BULK_CHECK_ALL', 'すべて選択');

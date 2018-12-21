@@ -26,6 +26,7 @@ class Checklist
 		if (empty($url)) return array();
 		if (isset(static::$checks[$url]) && ! $force) return static::$checks[$url];
 		$sql = 'SELECT * FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = ?'.Db::versionSql().';';
+		static::$checks[$url] = array();
 		foreach (Db::fetchAll($sql, array($url)) as $v)
 		{
 			static::$checks[$url][$v['code']] = $v;
@@ -66,6 +67,38 @@ class Checklist
 	}
 
 	/**
+	 * insert results
+	 *
+	 * @param  Array  $vals
+	 * @return Bool
+	 */
+	public static function insert($vals)
+	{
+		$url  = Arr::get($vals, 'url', '');
+		$code = Arr::get($vals, 'code', '');
+		if (empty($url) || empty($code)) return;
+
+		$sql = 'SELECT `url` FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = ? AND `code` = ?';
+		$sql.= Db::currentVersionSql().';';
+		if ( ! empty(Db::fetchAll($sql, array($url, $code)))) return false;
+
+		$yml = Yaml::fetch();
+
+		$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS;
+		$sql.= ' (`url`, `code`, `is_checked`, `is_failure`, `version`)';
+		$sql.= ' VALUES (?, ?, ?, ?, 0);';
+		return Db::execute(
+			$sql,
+			array(
+				$url,
+				$code,
+				TRUE,
+				($yml['techs'][$code]['type'] == 'F')
+			)
+		);
+	}
+
+	/**
 	 * update
 	 *
 	 * @param  String $url
@@ -79,19 +112,10 @@ class Checklist
 		// delete all from checks
 		self::delete($url);
 
-		$yml = Yaml::fetch();
-
-		foreach (array_keys($checks) as $code)
+		foreach (array_keys($checks) as $vals)
 		{
-			$is_failure = ($yml['techs'][$code]['type'] == 'F');
-
-			$sql = 'INSERT INTO '.A11YC_TABLE_CHECKS;
-			$sql.= ' (`url`, `code`, `is_checked`, `is_failure`, `version`)';
-			$sql.= ' VALUES (?, ?, ?, ?, 0);';
-			Db::execute(
-				$sql,
-				array($url, $code, TRUE, $is_failure)
-			);
+			$vals['url'] = $url;
+			static::insert($vals);
 		}
 	}
 
