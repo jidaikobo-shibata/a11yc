@@ -50,5 +50,11 @@ class Update
 		{
 			Update\AddImgpth2Issues::update();
 		}
+
+		// add implement table
+		if (Db::isTableExist(A11YC_TABLE_IMPLEMENT))
+		{
+			Update\AddImplement::update();
+		}
 	}
 }

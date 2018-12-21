@@ -14,9 +14,10 @@ else:
 <thead>
 <tr>
 	<th scope="col" class="a11yc_result" style="min-width: 12em;">URL</th>
+	<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_ISSUES_TITLE ?></th>
+	<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGES_CTRL ?></th>
 	<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_ISSUES_EXPORT ?></th>
 	<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGES_CHECK ?></th>
-	<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_ISSUES_TITLE ?></th>
 </tr>
 </thead>
 <tr>
@@ -28,16 +29,6 @@ else:
 		<?php echo Model\Html::fetchPageTitle($url) ?><br><a href="<?php echo Util::urldec($url) ?>"><?php echo Util::s($url) ?></a>
 	<?php endif; ?>
 	</th>
-
-	<td class="a11yc_result">
-		<a href="<?php echo A11YC_EXPORT_URL.'issue&url='.Util::urlenc($url) ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_ISSUES_EXPORT ?></span><span class="a11yc_icon_export a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a>
-	</td>
-
-	<td class="a11yc_result">
-	<?php if ($url != 'common'): ?>
-		 <a href="<?php echo A11YC_CHECKLIST_URL.Util::urlenc($url) ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_CHECK ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a>
-	<?php endif; ?>
-	</td>
 
 	<td class="a11yc_issue_data"><ul>
 	<?php
@@ -54,19 +45,29 @@ else:
 			<?php if ($each_issue['trash'] != 1): ?>
 			</a>
 			<?php endif; ?>
+		</li>
+	<?php endforeach; ?>
+	</ul></td>
 
-		 (<?php if ($each_issue['trash'] != 0): ?>
+	<td class="a11yc_result" style="white-space: nowrap;">
+		<?php if ($each_issue['trash'] != 0): ?>
 			<a href="<?php echo A11YC_ISSUES_UNDELETE_URL.intval($each_issue['id']) ?>"><?php echo A11YC_LANG_PAGES_UNDELETE ?></a><?php echo ' - '; ?>
 			<a href="<?php echo A11YC_ISSUES_PURGE_URL.intval($each_issue['id']) ?>" data-a11yc-confirm="<?php echo sprintf(A11YC_LANG_CTRL_CONFIRM, A11YC_LANG_PAGES_PURGE) ?>"><?php echo A11YC_LANG_PAGES_PURGE ?></a>
 		<?php else: ?>
 			<a href="<?php echo A11YC_ISSUES_EDIT_URL.intval($each_issue['id']) ?>"><?php echo A11YC_LANG_PAGES_LABEL_EDIT ?></a><?php echo ' - '; ?>
 			<a href="<?php echo A11YC_ISSUES_DELETE_URL.intval($each_issue['id']) ?>"><?php echo A11YC_LANG_PAGES_DELETE ?></a>
-		<?php endif; ?>)
+		<?php endif; ?>
+	</td>
 
-		</li>
-	<?php endforeach; ?>
-	</ul></td>
+	<td class="a11yc_result">
+		<a href="<?php echo A11YC_EXPORT_URL.'issue&url='.Util::urlenc($url) ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_ISSUES_EXPORT ?></span><span class="a11yc_icon_export a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a>
+	</td>
 
+	<td class="a11yc_result">
+	<?php if ($url != 'common' && ! empty($url)): ?>
+		 <a href="<?php echo A11YC_CHECKLIST_URL.Util::urlenc($url) ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_CHECK ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a>
+	<?php endif; ?>
+	</td>
 </tr>
 <?php endforeach; ?>
 </table>

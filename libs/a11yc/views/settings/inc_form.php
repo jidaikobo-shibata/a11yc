@@ -211,7 +211,7 @@ $levels = array(
 
 	<tr>
 		<th><label for="a11yc_base_url"><?php echo A11YC_LANG_SETTINGS_BASE_URL ?></label></th>
-		<td><input type="text" name="base_url" id="a11yc_base_url" style="width: 100%;" value="<?php echo Util::s(@$settings['base_url']) ?>" /><p>ex) http://example.com</p></td>
+		<td><p>ex) http://example.com</p><input type="text" name="base_url" id="a11yc_base_url" style="width: 100%;" value="<?php echo Util::s(@$settings['base_url']) ?>" /></td>
 	</tr>
 
 	<tr>
@@ -235,7 +235,12 @@ $levels = array(
 		<?php
 			$checked = isset($settings['stop_guzzle']) && $settings['stop_guzzle'] ? ' checked="checked"' : '';
 		?>
-		<td><label for="a11yc_stop_guzzle"><input type="checkbox" name="stop_guzzle" id="a11yc_stop_guzzle" value="1"<?php echo $checked ?> /><?php echo A11YC_LANG_SETTINGS_IS_USE_GUZZLE ?></label><br /><p><?php echo A11YC_LANG_SETTINGS_IS_USE_GUZZLE_EXP ?></p></td>
+		<td><p><?php echo A11YC_LANG_SETTINGS_IS_USE_GUZZLE_EXP ?></p><label for="a11yc_stop_guzzle"><input type="checkbox" name="stop_guzzle" id="a11yc_stop_guzzle" value="1"<?php echo $checked ?> /><?php echo A11YC_LANG_SETTINGS_IS_USE_GUZZLE ?></label><br /></td>
+	</tr>
+
+	<tr>
+		<th><label for="a11yc_cache_time"><?php echo A11YC_LANG_SETTINGS_CACHE_TIME ?></label></th>
+		<td><p><?php echo A11YC_LANG_SETTINGS_CACHE_TIME_EXP ?></p><input type="text" name="cache_time" id="a11yc_cache_time" size="5" value="<?php echo intval(Arr::get($settings, 'cache_time', '60')) ?>" /></td>
 	</tr>
 
 	</tbody>

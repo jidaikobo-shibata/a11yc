@@ -170,6 +170,8 @@ define('A11YC_LANG_SETTINGS_IS_USE_GUZZLE_EXP', 'If Guzzle conflicts for some re
 define('A11YC_LANG_SETTINGS_EXIST_NON_AND_PASS', 'Criterion that "not Present And Conformance"');
 define('A11YC_LANG_SETTINGS_NON_USE_TECHS', 'non use technique in implements checklist');
 define('A11YC_LANG_SETTINGS_NON_USE_TECHS_CANDIDATES', 'Use usual setting');
+define('A11YC_LANG_SETTINGS_CACHE_TIME', 'Cache Period');
+define('A11YC_LANG_SETTINGS_CACHE_TIME_EXP', 'Please enter in minutes. A value of -1 will not update the cache.');
 
 define('A11YC_LANG_DECLARE_DATE', 'Declare Date');
 define('A11YC_LANG_CLIENT_NAME', 'Client Name');
@@ -202,6 +204,9 @@ define('A11YC_LANG_CANDIDATES_ALL', 'All pages are subject');
 define('A11YC_LANG_CANDIDATES_PAGEVIEW', 'Pages with many accesses');
 define('A11YC_LANG_CANDIDATES_NEW', 'New pages');
 define('A11YC_LANG_CANDIDATES_ETC', 'Pages selected based on other criteria');
+
+// implement
+define('A11YC_LANG_IMPLEMENT_TITLE', 'Implement Checklist');
 
 // checklist
 define('A11YC_LANG_CHECKLIST_TARGETPAGE', 'Target Page');
