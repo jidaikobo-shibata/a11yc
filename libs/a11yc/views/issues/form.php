@@ -83,7 +83,7 @@
 		<input type="file" name="file" value=""/>
 		<?php
 		if ($image_path):
-			echo '<div><img src="'.dirname(A11YC_URL).'/screenshots/'.$issue_id.'/'.$image_path.'" alt="" /></div>';
+			echo '<div><img src="'.dirname(A11YC_URL).'/screenshots/issues/'.$issue_id.'/'.$image_path.'" alt="" /></div>';
 		endif;
 		?>
 	</td>

@@ -9,4 +9,5 @@ endforeach;
 ?>
 	<li><a href="<?php echo A11YC_ISSUES_BASE_URL.'index' ?>"><?php echo A11YC_LANG_ISSUES_TECH_FAILURE ?></a></li>
 	<li><a href="<?php echo A11YC_ISSUES_BASE_URL.'add' ?>"><?php echo A11YC_LANG_ISSUES_ADD ?></a></li>
+	<li><a href="<?php echo A11YC_EXPORT_URL.'issue' ?>"><?php echo A11YC_LANG_ISSUES_EXPORT ?></a></li>
 </ul>

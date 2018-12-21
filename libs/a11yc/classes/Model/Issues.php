@@ -77,7 +77,7 @@ class Issues
 
 		foreach ($items as $v)
 		{
-			$key = $v['is_common'] ? 'common' : $v['url'];
+			$key = $v['is_common'] || empty($v['url']) ? 'common' : $v['url'];
 			$rets[$key][] = $v;
 		}
 		if (empty($rets['common'])) unset($rets['common']);

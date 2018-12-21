@@ -21,5 +21,14 @@ class AddImgpth2Issues
 	{
 		$sql = 'ALTER TABLE '.A11YC_TABLE_ISSUES.' ADD `image_path` TEXT DEFAULT "";';
 		Db::execute($sql);
+
+		$sql = 'ALTER TABLE '.A11YC_TABLE_ISSUES.' ADD `title` TEXT DEFAULT "";';
+		Db::execute($sql);
+
+		$sql = 'ALTER TABLE '.A11YC_TABLE_ISSUES.' ADD `seq` INTEGER DEFAULT 0;';
+		Db::execute($sql);
+
+		$sql = 'ALTER TABLE '.A11YC_TABLE_PAGES.' ADD `image_path` TEXT DEFAULT "";';
+		Db::execute($sql);
 	}
 }

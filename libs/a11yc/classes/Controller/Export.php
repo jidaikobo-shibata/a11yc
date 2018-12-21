@@ -279,20 +279,22 @@ class Export
 	 */
 	public static function actionIssue()
 	{
-		$url = Util::enuniqueUri(Input::param('url', '', FILTER_VALIDATE_URL));
-		static::issue($url);
+		static::issue();
 	}
 
 	/**
 	 * issue
 	 *
-	 * @param  String|Array $url
 	 * @return Void
 	 */
-	public static function issue($url)
+	public static function issue()
 	{
-		$issues = Model\Issues::fetchByUrl($url);
+		$issues = Model\Issues::fetchByStatus(0);
 		$settings = Model\Settings::fetchAll();
+		$pages = Model\Pages::fetch();
+		$pages = array_column($pages, 'title', 'url');
+
+		View::assign('pages', $pages);
 		View::assign('issues', $issues);
 		View::assign('settings', $settings);
 		View::assign('title', $settings['client_name'].' - '.A11YC_LANG_ISSUES_REPORT_HEAD_SUFFIX);

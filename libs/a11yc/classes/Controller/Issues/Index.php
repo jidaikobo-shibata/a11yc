@@ -56,8 +56,8 @@ class Index
 		$issues = View::fetch('issues');
 		$keys = array_keys($issues);
 
-		View::assign('items',    Model\Issues::fetchByStatus($issue_type));
-		View::assign('title',    constant('A11YC_LANG_ISSUES_TITLE_'.strtoupper($keys[$issue_type])));
-		View::assign('body',     View::fetchTpl('issues/index_any.php'), FALSE);
+		View::assign('items', Model\Issues::fetchByStatus($issue_type));
+		View::assign('title', constant('A11YC_LANG_ISSUES_TITLE_'.strtoupper($keys[$issue_type])));
+		View::assign('body',  View::fetchTpl('issues/index_any.php'), FALSE);
 	}
 }

@@ -14,28 +14,32 @@
 <body>
 <article>
 <?php
-
 $header = '<header class="issue_header">'.$title.'<br>'.A11YC_LANG_TEST_PERIOD.' '.$settings['test_period'].'</header>';
 
-// common cover page
-if (isset($issues[0]) && ($issues[0]['is_common'] || empty($issues[0]['url']))):
-//	echo '<section class="each_issue">';
+$show_common_cover_page = false;
+$show_each_cover_page = array();
+?>
+
+
+
+<?php foreach ($issues as $type => $issue_parents): ?>
+<?php foreach ($issue_parents as $issue): ?>
+
+<?php
+// each cover page
+if ( ! empty($issue['url']) && ! in_array($issue['url'], $show_each_cover_page)):
+	$show_each_cover_page[] = $issue['url'];
+	echo '<section class="cover_page">';
+	echo $header;
+	echo '<h1 class="heading">'.$pages[$issue['url']].'<br />'.$issue['url'].'</h1>';
+	echo '</section>';
+elseif ($show_common_cover_page === false):
+	// common
+	$show_common_cover_page = true;
 	echo '<div class="cover_page common">';
 	echo $header;
 	echo '<h1 class="heading">'.A11YC_LANG_ISSUES_IS_COMMON.'</h1>';
 	echo '</div>';
-endif;
-?>
-
-<?php foreach ($issues as $k => $issue): ?>
-
-<?php
-// each cover page
-if ($k == 0 && isset($issues[0]) && ! empty($issues[0]['url'])):
-	echo '<section class="cover_page">';
-	echo $header;
-	echo '<h1 class="heading">'.$issue['url'].'</h1>';
-	echo '</section>';
 endif;
 ?>
 
@@ -71,6 +75,7 @@ endif;
 <?php endif; ?>
 </section><!-- /.issue -->
 </section><!-- /.each_page -->
+<?php endforeach; ?>
 <?php endforeach; ?>
 </article>
 </body>

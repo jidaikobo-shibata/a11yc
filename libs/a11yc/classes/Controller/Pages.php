@@ -123,6 +123,7 @@ class Pages
 	 */
 	public static function edit()
 	{
+		$url_path = base64_encode(Input::get('url'));
 		$url = Util::urldec(Input::get('url'));
 		$is_success = false;
 		$redirect_to = '';
@@ -160,6 +161,10 @@ class Pages
 					Model\Pages::updateField($url, 'seq', intval(Input::post('seq')));
 					$ua = 'using';
 					Model\Html::addHtml($url, $ua, Input::post('html'));
+					$page = Model\Pages::fetchPage($url);
+					$newfilename = Upload::img('pages', $url_path, $page['image_path']);
+					Model\Pages::updateField($url, 'image_path', $newfilename);
+
 					break;
 			}
 		}
@@ -184,7 +189,8 @@ class Pages
 
 		View::assign('list', 'all');
 		self::count();
-		View::assign('url',   Util::urlenc($url));
+		View::assign('url', Util::urlenc($url));
+		View::assign('url_path', $url_path);
 		View::assign('title', A11YC_LANG_PAGES_LABEL_EDIT);
 		View::assign('page_title', isset($page['title']) ? $page['title'] : '');
 		View::assign('page',  $page);

@@ -113,7 +113,7 @@ class Html
 	 */
 	public static function addHtml($url, $ua = 'using', $html = '', $type = 'raw')
 	{
-		if ( ! is_string($html)) Util::error('invalid HTML was given');
+//		if ( ! is_string($html)) Util::error('invalid HTML was given');
 
 		// insert
 		$types = array(
@@ -254,9 +254,18 @@ class Html
 	{
 		if (isset(static::$titles[$url])) return static::$titles[$url];
 		$html = self::getHtml($url, 'using', 'raw', $is_from_web);
-		if ($html === false) return '';
+		$title = '';
+		if ($html === false)
+		{
+			$page = Pages::fetchPage($url);
+			$title = $page['title'];
+		}
+		else
+		{
+			$title = self::fetchPageTitleFromHtml($html);
+		}
+		static::$titles[$url] = $title;
 
-		static::$titles[$url] = self::fetchPageTitleFromHtml($html);
 		return static::$titles[$url];
 	}
 

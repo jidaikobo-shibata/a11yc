@@ -5,7 +5,7 @@
 <?php echo $submenu; ?>
 
 <!-- add pages form -->
-<form action="<?php echo A11YC_PAGES_EDIT_URL ?>&amp;url=<?php echo $url ?>" method="POST">
+<form action="<?php echo A11YC_PAGES_EDIT_URL ?>&amp;url=<?php echo $url ?>" method="POST" enctype="multipart/form-data">
 <h2><label for="a11yc_title"><?php echo A11YC_LANG_PAGES_PAGETITLE ?></label></h2>
 <input type="text" name="title" id="a11yc_title" size="120" value="<?php echo Util::s($page_title) ?>" />
 
@@ -15,6 +15,16 @@
 <h2><label for="a11yc_add_pages">HTML</label></h2>
 <p><?php echo A11YC_LANG_PAGES_LABEL_HTML_EXP ?></p>
 <textarea id="a11yc_add_pages" name="html" rows="7" style="width: 100%;"><?php echo $html ?></textarea>
+
+<h2><label for="a11yc_title"><?php echo A11YC_LANG_ISSUES_SCREENSHOT ?></label></h2>
+<input type="text" name="file_path" value="<?php echo Util::s($page['image_path']) ?>"/>
+<input type="file" name="file" value=""/>
+<?php
+if ($page['image_path']):
+	echo '<div><img src="'.dirname(A11YC_URL).'/screenshots/pages/'.$url_path.'/'.$page['image_path'].'" alt="" /></div>';
+endif;
+?>
+
 <?php echo isset($add_nonce) ? $add_nonce : ''; ?>
 
 <div id="a11yc_submit">

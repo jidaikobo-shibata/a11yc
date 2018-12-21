@@ -160,15 +160,16 @@ class Issues
 			if ($is_add)
 			{
 				$id = self::add($url, $criterion);
-				self::upload($id);
+				$newfilename = Upload::img('issues', $id);
 			}
 
 			// update
 			else if (isset($id) && is_numeric($id))
 			{
 				$issue = self::update($id);
-				self::upload($id, $issue['image_path']);
+				$newfilename = Upload::img('issues', $id, $issue['image_path']);
 			}
+			Model\Issues::updateField($id, 'image_path', $newfilename);
 
 			Util::redirect(A11YC_ISSUES_EDIT_URL.$id);
 		}
@@ -371,59 +372,5 @@ class Issues
 							 sprintf(A11YC_LANG_PAGES_PURGE_FAILED, 'id: '.$id);
 		Session::add('messages', $mess_type, $mess_str);
 		Util::redirect(A11YC_ISSUES_BASE_URL.'index');
-	}
-
-	/**
-	 * Upload File
-	 *
-	 * @param Integer $id
-	 * @param String $old_path
-	 * @return Bool|String
-	 */
-	public static function upload($id, $old_path = '')
-	{
-		$file = Input::file('file');
-		if (empty($file['name'])) return;
-
-		// mkdir
-		$upload_path = A11YC_UPLOAD_PATH.'/'.$id;
-		if ( ! file_exists($upload_path)) mkdir($upload_path);
-
-		// unlink
-		if (file_exists($upload_path.'/'.$old_path)) unlink($upload_path.'/'.$old_path);
-
-		// prepare
-		require(A11YC_LIB_PATH.'/Upload/Autoloader.php');
-		\Upload\Autoloader::register();
-		$storage = new \Upload\Storage\FileSystem($upload_path);
-		$file = new \Upload\File('file', $storage);
-
-		// set unique name
-		$new_filename = uniqid();
-		$file->setName($new_filename);
-
-		// validate
-		$file->addValidations(array(
-				new \Upload\Validation\Mimetype(array('image/png', 'image/gif', 'image/jpg', 'image/jpeg')),
-				new \Upload\Validation\Size('5M')
-			));
-
-		// upload
-		try
-		{
-			$file->upload();
-		}
-		catch (\Exception $e)
-		{
-			$errors = $file->getErrors();
-		}
-
-		Model\Issues::updateField($id, 'image_path', $file->getNameWithExtension());
-
-		// $mess_type = $r ? 'messages' : 'errors';
-		// $mess_str  = $r ?
-		// 					 sprintf(A11YC_LANG_PAGES_PURGE_DONE, 'id: '.$id) :
-		// 					 sprintf(A11YC_LANG_PAGES_PURGE_FAILED, 'id: '.$id);
-		// Session::add('messages', $mess_type, $mess_str);
 	}
 }
