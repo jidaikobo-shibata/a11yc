@@ -31,7 +31,7 @@ if ( ! empty($issue['url']) && ! in_array($issue['url'], $show_each_cover_page))
 	$show_each_cover_page[] = $issue['url'];
 	echo '<section class="cover_page">';
 	echo $header;
-	echo '<h1 class="heading">'.$pages[$issue['url']].'<br />'.$issue['url'].'</h1>';
+	echo '<h1 class="heading"><span class="issue_title">'.$pages[$issue['url']].'</span><br><span class="issue_url">'.$issue['url'].'</span></h1>';
 	echo '</section>';
 elseif ($show_common_cover_page === false):
 	// common
@@ -53,16 +53,16 @@ endif;
 <?php endif; ?>
 
 <section class="issue">
+<?php if($issue['html'] ): ?>
 	<h3 class="heading"><?php echo A11YC_LANG_ISSUES_HTML ?></h3>
 	<div>
 		<pre><code><?php echo $issue['html'] ?></code></pre>
 	</div>
-
+<?php endif ; ?>
 	<h3 class="heading"><?php echo A11YC_LANG_ISSUES_ERRMSG ?></h3>
 	<p>
 		<?php echo nl2br($issue['error_message']) ?>
 	</p>
-
 <?php if ($issue['tech_url']): ?>
 	<h3 class="heading"><?php echo A11YC_LANG_ISSUES_TECH ?></h3>
 	<div>
