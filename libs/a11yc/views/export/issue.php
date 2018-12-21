@@ -33,7 +33,6 @@ endif;
 // each cover page
 if ($k == 0 && isset($issues[0]) && ! empty($issues[0]['url'])):
 	echo '<section class="cover_page">';
-	echo $header;
 	echo '<h1 class="heading"><span class="issue_title"></span><br><span class="issue_url">'.$issue['url'].'</span></h1>';
 	echo '</section>';
 endif;
@@ -49,6 +48,7 @@ endif;
 <?php endif; ?>
 
 <section class="issue">
+<?php /* ?>
 	<h3 class="heading"><?php echo A11YC_LANG_ISSUES_N_OR_E ?></h3>
 	<p>
 	<?php
@@ -59,17 +59,17 @@ endif;
 	endif;
 	?>
 	</p>
-
+<?php */ ?>
+<?php if($issue['html'] ): ?>
 	<h3 class="heading"><?php echo A11YC_LANG_ISSUES_HTML ?></h3>
 	<div>
 		<pre><code><?php echo $issue['html'] ?></code></pre>
 	</div>
-
+<?php endif ; ?>
 	<h3 class="heading"><?php echo A11YC_LANG_ISSUES_ERRMSG ?></h3>
 	<p>
 		<?php echo nl2br($issue['error_message']) ?>
 	</p>
-
 <?php if ($issue['tech_url']): ?>
 	<h3 class="heading"><?php echo A11YC_LANG_ISSUES_TECH ?></h3>
 	<div>

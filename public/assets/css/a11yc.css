@@ -1139,6 +1139,11 @@ a.a11yc_hasicon:focus span  {
 	text-decoration: none;
 	line-height: 1em;
 }
+table td.a11yc_result .a11yc_icon_fa
+{
+	display: inline-block;
+	padding-top: .3em;
+}
 a.a11yc_hasicon span {
 	text-decoration: underline;
 }
@@ -1524,7 +1529,7 @@ table .a11yc_result {
 }
 table td.a11yc_result,
 table th.a11yc_result {
-	vertical-align: middle;
+/*	vertical-align: middle;*/
 }
 .a11yc_table.a11yc_report th a {
 	font-weight: normal;

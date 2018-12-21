@@ -54,11 +54,13 @@ pre
 {
 	min-height: 20em;
 	padding: 5mm 0;
-	page-break-after: always;
+/*	page-break-after: always;*/
+	page-break-inside: avoid;
 	position: relative;
 }
 body > :last-child
 {
+	
 	page-break-after: auto;
 }
 .cover_page
@@ -88,7 +90,7 @@ body > :last-child
 .screenshot
 {
 	display: block;
-	margin: 1em auto;
+	margin: 1em 0;
 	max-height: 70vh;
 }
 .each_page  > .heading
@@ -117,11 +119,15 @@ body > :last-child
 	{
 		font-size: .9em;
 	}
+	.cover_page
+	{
+		height: 251mm;
+	}
 	.cover_page,
 	.each_page
 	{
 		padding: 25mm 0 10mm;
-		height: 251mm;
+/*		min-height: calc( 50vh - 35mm );*/
 	}
 	.issue_header
 	{
