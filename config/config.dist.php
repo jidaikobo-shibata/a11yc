@@ -74,6 +74,7 @@ define('A11YC_TABLE_ISSUES',      'a11yc_issues');
 define('A11YC_TABLE_ISSUESBBS',   'a11yc_issuesbbs');
 define('A11YC_TABLE_SETTINGS',    'a11yc_settings');
 define('A11YC_TABLE_MAINTENANCE', 'a11yc_maintenance');
+define('A11YC_TABLE_IMPLEMENT',   'a11yc_implement');
 
 // for css and js
 define('A11YC_ASSETS_URL',    dirname(A11YC_URL).'/assets');

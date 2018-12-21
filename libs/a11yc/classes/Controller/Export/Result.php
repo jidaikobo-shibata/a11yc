@@ -148,5 +148,14 @@ class Result
 				}
 			}
 		}
+
+		// import cache
+		$results['htmls'];
+		foreach ($results['htmls'] as $k => $vals)
+		{
+			if ( ! isset($vals['data'])) continue;
+			$vals['data'] = htmlspecialchars_decode($vals['data']);
+			Model\Html::insert($vals);
+		}
 	}
 }

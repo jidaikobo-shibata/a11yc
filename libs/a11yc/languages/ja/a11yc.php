@@ -151,7 +151,7 @@ define('A11YC_LANG_PAGES_LABEL_EXPORT_RESULT_HTML_EXP', 'すべての試験結�
 define('A11YC_LANG_PAGES_LABEL_BULK_CHECK_ALL', 'すべて選択');
 define('A11YC_LANG_PAGES_LABEL_BULK_UNCHECK_ALL', 'すべて選択をはずす');
 
-// setup
+// settings
 define('A11YC_LANG_SETTINGS_TITLE', '設定');
 define('A11YC_LANG_SETTINGS_TITLE_BASE', '基本設定');
 define('A11YC_LANG_SETTINGS_TITLE_UA', 'UA管理');
@@ -169,6 +169,8 @@ define('A11YC_LANG_SETTINGS_IS_USE_GUZZLE_EXP', 'なんらかの理由でGuzzle�
 define('A11YC_LANG_SETTINGS_EXIST_NON_AND_PASS', '「適用なし適合」になる達成基準');
 define('A11YC_LANG_SETTINGS_NON_USE_TECHS', '実装チェックリストで用いない達成方法');
 define('A11YC_LANG_SETTINGS_NON_USE_TECHS_CANDIDATES', '定番的に用いない達成方法をチェック');
+define('A11YC_LANG_SETTINGS_CACHE_TIME', 'キャッシュ期間');
+define('A11YC_LANG_SETTINGS_CACHE_TIME_EXP', '分単位で入力してください。-1にすると、キャッシュを更新しません。');
 
 define('A11YC_LANG_DECLARE_DATE', '表明日');
 define('A11YC_LANG_CLIENT_NAME', 'クライアント名');
@@ -201,6 +203,9 @@ define('A11YC_LANG_CANDIDATES_ALL', 'すべてのページが対象のため');
 define('A11YC_LANG_CANDIDATES_PAGEVIEW', 'アクセス数の多いページ');
 define('A11YC_LANG_CANDIDATES_NEW', '新しいページ');
 define('A11YC_LANG_CANDIDATES_ETC', 'その他の基準で選出');
+
+// implement
+define('A11YC_LANG_IMPLEMENT_TITLE', '実装チェックリスト');
 
 // checklist
 define('A11YC_LANG_CHECKLIST_TARGETPAGE', '対象ページ');

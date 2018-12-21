@@ -140,11 +140,44 @@ class Html
 			}
 
 			// sql
-			$sql = 'INSERT INTO '.A11YC_TABLE_CACHES;
-			$sql.= ' (`url`, `ua`, `type`, `data`, `updated_at`) VALUES';
-			$sql.= ' (?, ?, ?, ?, ?);';
-			Db::execute($sql, array($url, $ua, $each_type, $html, date('Y-m-d H:i:s')));
+			static::insert(
+				array(
+					'url' => $url,
+					'ua' => $ua,
+					'type' => $each_type,
+					'data' => $html,
+					'updated_at' => date('Y-m-d H:i:s')
+				)
+			);
 		}
+	}
+
+	/**
+	 * insert
+	 *
+	 * @param  Array $vals
+	 * @return Bool
+	 */
+	public static function insert($vals)
+	{
+		$url = Arr::get($vals, 'url', '');
+		if (empty($url)) return false;
+
+		$url = Util::urldec($url);
+
+		$sql = 'INSERT INTO '.A11YC_TABLE_CACHES;
+		$sql.= ' (`url`, `ua`, `type`, `data`, `updated_at`) VALUES';
+		$sql.= ' (?, ?, ?, ?, ?);';
+		Db::execute(
+			$sql,
+			array(
+				$url,
+				Arr::get($vals, 'ua', ''),
+				Arr::get($vals, 'each_type', ''),
+				Arr::get($vals, 'html', ''),
+				Arr::get($vals, 'updated_at', date('Y-m-d H:i:s'))
+			)
+		);
 	}
 
 	/**
@@ -171,10 +204,14 @@ class Html
 		$sql.= '`url` = ? AND `type` = ?;';
 		$result = Db::fetch($sql, array($url, $type));
 
+		$cache_time = intval(Settings::fetch('cache_time', 60));
 		$html = false;
 		if (
-			strtotime($result['updated_at']) < time() - 86400 ||
-			strlen($result['data']) >= 65530
+			$cache_time != -1 &&
+			(
+				strtotime($result['updated_at']) < time() - $cache_time ||
+				strlen($result['data']) >= 65530
+			)
 		)
 		{
 			// fetch from internet

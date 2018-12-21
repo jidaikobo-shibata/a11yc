@@ -31,16 +31,8 @@ class Implement
 	 */
 	public static function index()
 	{
-		// if ( ! View::fetch('a11yc_doc_url'))
-		// {
-		// 	View::assign('a11yc_doc_url', A11YC_DOC_URL);
-		// }
-		// View::assign('word', $word);
-		// View::assign('results', $r);
-		// View::assign('yml', Yaml::fetch(), FALSE);
-		// View::assign('tests', Yaml::each('tests'));
-		// View::assign('title', A11YC_LANG_DOCS_TITLE);
-		// View::assign('search_form', View::fetchTpl('docs/search.php'), FALSE);
-		// View::assign('body', View::fetchTpl('docs/index.php'), FALSE);
+		View::assign('yml', Yaml::fetch(), FALSE);
+		View::assign('title', A11YC_LANG_IMPLEMENT_TITLE);
+		View::assign('body', View::fetchTpl('implement/index.php'), FALSE);
 	}
 }

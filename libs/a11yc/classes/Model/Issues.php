@@ -118,12 +118,12 @@ class Issues
 	/**
 	 * insert each page
 	 *
-	 * @param  Array $args
+	 * @param  Array $vals
 	 * @return Integer|Bool
 	 */
-	public static function insert($args)
+	public static function insert($vals)
 	{
-		$url = Arr::get($args, 'url', '');
+		$url = Arr::get($vals, 'url', '');
 		$url = Util::urldec($url);
 
 		$sql = 'INSERT INTO '.A11YC_TABLE_ISSUES;
@@ -143,16 +143,16 @@ class Issues
 		$r = Db::execute(
 			$sql,
 			array(
-				intval(Arr::get($args, 'is_common', '')),
+				intval(Arr::get($vals, 'is_common', '')),
 				$url,
-				Arr::get($args, 'criterion', ''),
-				Arr::get($args, 'html', ''),
-				intval(Arr::get($args, 'n_or_e', 0)),
-				intval(Arr::get($args, 'status', 0)),
-				Arr::get($args, 'tech_url', ''),
-				Arr::get($args, 'error_message', ''),
-				intval(Arr::get($args, 'uid', 1)),
-				date('Y-m-d H:i:s')
+				Arr::get($vals, 'criterion', ''),
+				Arr::get($vals, 'html', ''),
+				intval(Arr::get($vals, 'n_or_e', 0)),
+				intval(Arr::get($vals, 'status', 0)),
+				Arr::get($vals, 'tech_url', ''),
+				Arr::get($vals, 'error_message', ''),
+				intval(Arr::get($vals, 'uid', 1)),
+				Arr::get($vals, 'created_at', date('Y-m-d H:i:s'))
 			)
 		);
 

@@ -34,6 +34,7 @@
 		<ul>
 			<li class="a11yc_menu_item a11yc_center"><a href="?c=center&amp;a=index" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_CENTER_TITLE ?></a></li>
 			<li class="a11yc_menu_item a11yc_settings"><a href="?c=settings&amp;a=form" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_SETTINGS_TITLE ?></a></li>
+			<li class="a11yc_menu_item a11yc_implement"><a href="?c=implement&amp;a=index" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_IMPLEMENT_TITLE ?></a></li>
 			<li class="a11yc_menu_item a11yc_pages"><a href="?c=pages&amp;a=index" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_PAGES_TITLE ?></a></li>
 			<li class="a11yc_menu_item a11yc_issues"><a href="?c=issues&amp;a=yet" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_ISSUES_TITLE ?></a></li>
 			<li class="a11yc_menu_item a11yc_bulk"><a href="?c=bulk&amp;a=index" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_BULK_TITLE ?></a></li>

@@ -48,18 +48,6 @@ endif;
 <?php endif; ?>
 
 <section class="issue">
-<?php /* ?>
-	<h3 class="heading"><?php echo A11YC_LANG_ISSUES_N_OR_E ?></h3>
-	<p>
-	<?php
-	if ($issue['n_or_e'] == 0):
-		echo 'Notice';
-	else:
-		echo 'Error';
-	endif;
-	?>
-	</p>
-<?php */ ?>
 <?php if($issue['html'] ): ?>
 	<h3 class="heading"><?php echo A11YC_LANG_ISSUES_HTML ?></h3>
 	<div>

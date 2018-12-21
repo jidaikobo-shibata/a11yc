@@ -83,6 +83,7 @@ class Settings
 				'stop_guzzle',
 				'standard',
 				'show_results',
+				'cache_time',
 			);
 			$cols = array();
 			foreach ($intvals as $v)
