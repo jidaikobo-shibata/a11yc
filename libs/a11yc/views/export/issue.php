@@ -20,19 +20,17 @@ $show_common_cover_page = false;
 $show_each_cover_page = array();
 ?>
 
-
-
+<?php $page_num = 0 ?>
 <?php foreach ($issues as $type => $issue_parents): ?>
 <?php foreach ($issue_parents as $issue): ?>
-
 <?php
 // each cover page
 if ( ! empty($issue['url']) && ! in_array($issue['url'], $show_each_cover_page)):
 	$show_each_cover_page[] = $issue['url'];
 	echo '<section class="cover_page">';
-	echo $header;
-	echo '<h1 class="heading"><span class="issue_title">'.$pages[$issue['url']].'</span><br><span class="issue_url">'.$issue['url'].'</span></h1>';
+	echo '<h1 class="heading"><span class="issue_title">'.++$page_num.': '.$pages[$issue['url']].'</span><br><span class="issue_url">'.$issue['url'].'</span></h1>';
 	echo '</section>';
+	$issue_num = 0;
 elseif ($show_common_cover_page === false):
 	// common
 	$show_common_cover_page = true;
@@ -43,13 +41,14 @@ elseif ($show_common_cover_page === false):
 endif;
 ?>
 
-<section class="each_page">
+<section class="each_issue">
+<h2 class="heading"><?php echo ( $page_num === 0 ? 'c' : $page_num) .'-'.++$issue_num  //issue title?  ?>:</h2>
 <?php if ( ! empty($issue['image_path'])): ?>
-	<h2 class="heading"><?php echo A11YC_LANG_ISSUES_SCREENSHOT ?></h2>
+	<section class="screenshot"><h3 class="heading"><?php echo A11YC_LANG_ISSUES_SCREENSHOT ?></h3>
 	<?php
-	echo '<div><img src="'.dirname(A11YC_URL).'/screenshots/'.$issue['id'].'/'.$issue['image_path'].'" alt="" class="screenshot"></div>';
-
+	echo '<img src="'.dirname(A11YC_URL).'/screenshots/issues/'.$issue['id'].'/'.$issue['image_path'].'" alt="">';
 	?>
+	</section>
 <?php endif; ?>
 
 <section class="issue">
@@ -68,13 +67,13 @@ endif;
 	<div>
 	<?php
 	foreach (explode("\n", $issue['tech_url']) as $tech_url):
-		echo '<a href="'.$tech_url.'">'.$tech_url.'</a>';
+		echo '<a href="'.$tech_url.'">'.$tech_url.'</a><br>';
 	endforeach;
 	?>
 	</div>
 <?php endif; ?>
 </section><!-- /.issue -->
-</section><!-- /.each_page -->
+</section><!-- /.each_issue -->
 <?php endforeach; ?>
 <?php endforeach; ?>
 </article>
