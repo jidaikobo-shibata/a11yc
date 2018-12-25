@@ -15,14 +15,14 @@
 	<tr>
 		<th scope="row"><label for="a11yc_client_name"><?php echo A11YC_LANG_CLIENT_NAME ?></label></th>
 		<td>
-			<input type="text" name="client_name" id="a11yc_client_name" size="20" value="<?php echo @$settings['client_name'] ?>">
+			<input type="text" name="client_name" id="a11yc_client_name" size="40" style="width: 100%;" value="<?php echo @$settings['client_name'] ?>">
 		</td>
 	</tr>
 
 	<tr>
 		<th scope="row"><label for="a11yc_declare_date"><?php echo A11YC_LANG_DECLARE_DATE ?></label></th>
 		<td>
-			<input type="text" name="declare_date" id="a11yc_declare_date" size="10" value="<?php echo @$settings['declare_date'] ?>">
+			<input type="text" name="declare_date" id="a11yc_declare_date" size="20" value="<?php echo @$settings['declare_date'] ?>">
 		</td>
 	</tr>
 
@@ -86,7 +86,7 @@
 		<th scope="row"><label for="a11yc_policy"><?php echo A11YC_LANG_POLICY ?></label></th>
 		<td>
 			<p><?php echo A11YC_LANG_POLICY_DESC ?></p>
-			<div class="a11yc_policy_sample a11yc_cmt"><?php echo nl2br($sample_policy) ?></div>
+			<div class="a11yc_policy_sample"><?php echo nl2br($sample_policy) ?></div>
 			<textarea name="policy" id="a11yc_policy" style="width:100%;" rows="7"><?php echo Util::s(@$settings['policy']) ?></textarea>
 		</td>
 	</tr>
