@@ -125,6 +125,29 @@ class Util extends \Kontiki\Util
 	}
 
 	/**
+	 * modify criterion based array
+	 *
+	 * @param  Array $vals
+	 * @return Array
+	 */
+	public static function modCriterionBasedArr($vals)
+	{
+		$retvals = array();
+		$criterions = Yaml::each('criterions');
+		foreach ($criterions as $criterion)
+		{
+			$code = self::key2code($criterion['code']);
+			$retvals[$code] = array();
+			foreach ($vals as $v)
+			{
+				if ($v['criterion'] != $code) continue;
+				$retvals[$code][] = $v;
+			}
+		}
+		return $retvals;
+	}
+
+	/**
 	 * create doc link of '\d-\d-\d\w' in the text
 	 *
 	 * @param  String $text

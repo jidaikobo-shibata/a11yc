@@ -23,7 +23,7 @@ class Upload
 	public static function img($target_path, $id, $old_path = '')
 	{
 		$file = Input::file('file');
-		if (empty($file['name'])) return;
+		if (empty($file['name'])) return $old_path;
 
 		// mkdir
 		$upload_path = A11YC_UPLOAD_PATH.'/'.$target_path.'/'.$id;

@@ -292,9 +292,9 @@ class Export
 		$issues = Model\Issues::fetchByStatus(0);
 		$settings = Model\Settings::fetchAll();
 		$pages = Model\Pages::fetch();
-		$pages = array_column($pages, 'title', 'url');
 
-		View::assign('pages', $pages);
+		View::assign('titles', array_column($pages, 'title', 'url'));
+		View::assign('images', array_column($pages, 'image_path', 'url'));
 		View::assign('issues', $issues);
 		View::assign('settings', $settings);
 		View::assign('title', $settings['client_name'].' - '.A11YC_LANG_ISSUES_REPORT_HEAD_SUFFIX);

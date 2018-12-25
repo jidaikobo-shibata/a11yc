@@ -206,7 +206,7 @@ define('A11YC_LANG_CANDIDATES_NEW', 'New pages');
 define('A11YC_LANG_CANDIDATES_ETC', 'Pages selected based on other criteria');
 
 // implement
-define('A11YC_LANG_IMPLEMENT_TITLE', 'Implement Checklist');
+define('A11YC_LANG_ICLS_TITLE', 'Implement Checklist');
 
 // checklist
 define('A11YC_LANG_CHECKLIST_TARGETPAGE', 'Target Page');
@@ -312,6 +312,7 @@ define('A11YC_LANG_RESULTS_PASSED_CHECKITEM', 'Passed Check Item');
 
 // issues
 define('A11YC_LANG_ISSUES_TITLE', 'Issue');
+define('A11YC_LANG_ISSUES_TITLE_EACH', 'Name of Issue');
 define('A11YC_LANG_ISSUES_ADD', 'Add Issue');
 define('A11YC_LANG_ISSUES_EDIT', 'Edit Issue');
 define('A11YC_LANG_ISSUES_IS_COMMON_EXP', 'Please check if there is a common problem in the site. All checklists will be treated as a problem');

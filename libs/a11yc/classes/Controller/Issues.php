@@ -175,6 +175,7 @@ class Issues
 		}
 
 		View::assign('is_new',    $is_add);
+		View::assign('issue_title', Arr::get($issue, 'title', ''));
 		View::assign('issue_id',  Arr::get($issue, 'id', ''));
 		View::assign('is_common', Arr::get($issue, 'is_common', ''));
 		View::assign('url',       Arr::get($issue, 'url', $url));
@@ -253,6 +254,7 @@ class Issues
 	private static function add($url = '', $criterion = '')
 	{
 		$args = array(
+			'title'         => Input::post('title', ''),
 			'is_common'     => Input::post('is_common', false),
 			'url'           => $url,
 			'criterion'     => $criterion,
@@ -285,6 +287,7 @@ class Issues
 	 */
 	private static function update($id)
 	{
+		$r0 = Model\Issues::updateField($id, 'title',         Input::post('title', ''));
 		$r1 = Model\Issues::updateField($id, 'is_common',     Input::post('is_common', 0));
 		$r2 = Model\Issues::updateField($id, 'html',          Input::post('html', ''));
 		$r3 = Model\Issues::updateField($id, 'n_or_e',        Input::post('n_or_e', 0));
@@ -293,7 +296,7 @@ class Issues
 		$r6 = Model\Issues::updateField($id, 'error_message', Input::post('error_message', ''));
 		$r7 = Model\Issues::updateField($id, 'uid',           Input::post('uid', 1));
 
-		if ($r1 && $r2 && $r3 && $r4 && $r5 && $r6 && $r7)
+		if ($r0 && $r1 && $r2 && $r3 && $r4 && $r5 && $r6 && $r7)
 		{
 			Session::add('messages', 'messages', A11YC_LANG_ISSUES_EDITED);
 		}

@@ -3,6 +3,13 @@
 <table class="a11yc_table a11yc_issues">
 
 <tr>
+	<th><?php echo A11YC_LANG_ISSUES_TITLE_EACH ?></th>
+	<td>
+		<label><input type="text" name="title" value="<?php echo $issue_title ?>" /></label>
+	</td>
+</tr>
+
+<tr>
 	<th><?php echo A11YC_LANG_ISSUES_IS_COMMON ?></th>
 	<td>
 		<p><?php echo A11YC_LANG_ISSUES_IS_COMMON_EXP ?></p>

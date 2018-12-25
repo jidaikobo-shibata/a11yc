@@ -14,13 +14,18 @@
 <body>
 <article>
 <?php
-$header = '<header class="issue_header">'.$title.'<br>'.A11YC_LANG_TEST_PERIOD.' '.$settings['test_period'].'</header>';
+$header = '<header class="issue_header">'.$title;
+$header.= ! empty($settings['test_period']) ? '<br>'.A11YC_LANG_TEST_PERIOD.' '.$settings['test_period'] : '' ;
+$header.= '</header>';
 
 $show_common_cover_page = false;
 $show_each_cover_page = array();
 ?>
 
-<?php $page_num = 0 ?>
+<?php
+$page_num = 0;
+$issue_num = 0;
+?>
 <?php foreach ($issues as $type => $issue_parents): ?>
 <?php foreach ($issue_parents as $issue): ?>
 <?php
@@ -28,9 +33,13 @@ $show_each_cover_page = array();
 if ( ! empty($issue['url']) && ! in_array($issue['url'], $show_each_cover_page)):
 	$show_each_cover_page[] = $issue['url'];
 	echo '<section class="cover_page">';
-	echo '<h1 class="heading"><span class="issue_title">'.++$page_num.': '.$pages[$issue['url']].'</span><br><span class="issue_url">'.$issue['url'].'</span></h1>';
+	echo '<h1 class="heading"><span class="issue_title">'.++$page_num.': '.$titles[$issue['url']].'</span><br><span class="issue_url">'.$issue['url'].'</span></h1>';
 	echo '</section>';
-	$issue_num = 0;
+		echo '<section class="cover_page">';
+		if ( ! empty($images[$issue['url']])):
+			echo '<p><img src="'.dirname(A11YC_URL).'/screenshots/pages/'.base64_encode($issue['url']).'/'.$images[$issue['url']].'" alt="'.A11YC_LANG_ISSUES_SCREENSHOT.'" /></p>';
+		endif;
+	echo '</section>';
 elseif ($show_common_cover_page === false):
 	// common
 	$show_common_cover_page = true;

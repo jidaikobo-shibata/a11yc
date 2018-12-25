@@ -14,15 +14,18 @@ else:
 <thead>
 <tr>
 	<th scope="col" class="a11yc_result" style="min-width: 12em;">URL</th>
+	<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGES_CHECK ?></th>
 	<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_ISSUES_TITLE ?></th>
 	<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGES_CTRL ?></th>
-	<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_ISSUES_EXPORT ?></th>
-	<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGES_CHECK ?></th>
 </tr>
 </thead>
+
 <tr>
-	<?php foreach ($items as $url => $each_issues): ?>
-	<th scope="row" class="a11yc_issue_url">
+	<?php
+	 foreach ($items as $url => $each_issues):
+		 $rowspan = count($each_issues) + 1;
+	?>
+	<th scope="row" rowspan="<?php echo $rowspan ?>" class="a11yc_issue_url">
 	<?php if ($url == 'common' || empty($url)): ?>
 		<?php echo A11YC_LANG_ISSUES_IS_COMMON ?>
 	<?php else: ?>
@@ -30,14 +33,22 @@ else:
 	<?php endif; ?>
 	</th>
 
+	<td class="a11yc_result" rowspan="<?php echo $rowspan ?>">
+	<?php if ($url != 'common' && ! empty($url)): ?>
+		 <a href="<?php echo A11YC_CHECKLIST_URL.Util::urlenc($url) ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_CHECK ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a>
+	<?php endif; ?>
+	</td>
+</tr>
+
+<?php foreach ($each_issues as $each_issue): ?>
+<tr>
 	<td class="a11yc_issue_data"><ul>
-	<?php
-		foreach ($each_issues as $each_issue):
-		$type = $each_issue['n_or_e'] == 0 ?
-						'<span class="a11yc_validation_code_notice">NOTICE</span>':
-						'<span class="a11yc_validation_code_error">ERROR!</span>';
-	?>
-		<li><?php echo $type ?>
+		<?php
+			$type = $each_issue['n_or_e'] == 0 ?
+							'<span class="a11yc_validation_code_notice">NOTICE</span>':
+							'<span class="a11yc_validation_code_error">ERROR!</span>';
+		?>
+		<?php echo $type ?>
 			<?php if ($each_issue['trash'] != 1): ?>
 			<a href="<?php echo A11YC_ISSUES_READ_URL.intval($each_issue['id']) ?>">
 			<?php endif; ?>
@@ -46,8 +57,7 @@ else:
 			</a>
 			<?php endif; ?>
 		</li>
-	<?php endforeach; ?>
-	</ul></td>
+	</td>
 
 	<td class="a11yc_result" style="white-space: nowrap;">
 		<?php if ($each_issue['trash'] != 0): ?>
@@ -58,17 +68,9 @@ else:
 			<a href="<?php echo A11YC_ISSUES_DELETE_URL.intval($each_issue['id']) ?>"><?php echo A11YC_LANG_PAGES_DELETE ?></a>
 		<?php endif; ?>
 	</td>
-
-	<td class="a11yc_result">
-		<a href="<?php echo A11YC_EXPORT_URL.'issue&url='.Util::urlenc($url) ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_ISSUES_EXPORT ?></span><span class="a11yc_icon_export a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a>
-	</td>
-
-	<td class="a11yc_result">
-	<?php if ($url != 'common' && ! empty($url)): ?>
-		 <a href="<?php echo A11YC_CHECKLIST_URL.Util::urlenc($url) ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_CHECK ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a>
-	<?php endif; ?>
-	</td>
 </tr>
 <?php endforeach; ?>
+<?php endforeach; ?>
+
 </table>
 <?php endif; ?>

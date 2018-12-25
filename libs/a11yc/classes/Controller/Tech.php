@@ -26,6 +26,8 @@ class Tech
 	 */
 	public static function actionImport()
 	{
+		die();
+
 		// physical path of Techniques for WCAG 2.0 complete.html
 		$path = '/Users/FOOBAR/Desktop/complete.html';
 		if ( ! file_exists($path)) Util::error();

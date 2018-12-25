@@ -205,7 +205,7 @@ define('A11YC_LANG_CANDIDATES_NEW', '新しいページ');
 define('A11YC_LANG_CANDIDATES_ETC', 'その他の基準で選出');
 
 // implement
-define('A11YC_LANG_IMPLEMENT_TITLE', '実装チェックリスト');
+define('A11YC_LANG_ICLS_TITLE', '実装チェックリスト');
 
 // checklist
 define('A11YC_LANG_CHECKLIST_TARGETPAGE', '対象ページ');
@@ -311,6 +311,7 @@ define('A11YC_LANG_RESULTS_PASSED_CHECKITEM', '達成しているチェック項
 
 // issues
 define('A11YC_LANG_ISSUES_TITLE', '問題点');
+define('A11YC_LANG_ISSUES_TITLE_EACH', '問題点の名称');
 define('A11YC_LANG_ISSUES_ADD', '問題点を登録');
 define('A11YC_LANG_ISSUES_EDIT', '問題点を編集');
 define('A11YC_LANG_ISSUES_IS_COMMON_EXP', 'サイト内で共通の問題の場合はチェックしてください。すべてのチェックリストで問題点として扱われます');
