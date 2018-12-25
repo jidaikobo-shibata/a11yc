@@ -80,6 +80,7 @@ class Issues
 			$key = $v['is_common'] || empty($v['url']) ? 'common' : $v['url'];
 			$rets[$key][] = $v;
 		}
+
 		if (empty($rets['common'])) unset($rets['common']);
 		return $rets;
 	}

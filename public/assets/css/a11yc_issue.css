@@ -136,7 +136,7 @@ body > :last-child
 	}
 	.cover_page
 	{
-		height: 251mm;
+		height: 290mm;
 	}
 	.cover_page:not(.common):before
 	{

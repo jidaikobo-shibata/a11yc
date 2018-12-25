@@ -5,7 +5,7 @@
 <tr>
 	<th><?php echo A11YC_LANG_ISSUES_TITLE_EACH ?></th>
 	<td>
-		<label><input type="text" name="title" value="<?php echo $issue_title ?>" /></label>
+		<label><input type="text" name="title" style="width: 100%;" value="<?php echo $issue_title ?>" /></label>
 	</td>
 </tr>
 

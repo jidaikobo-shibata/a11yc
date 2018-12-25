@@ -24,18 +24,17 @@ $show_each_cover_page = array();
 
 <?php
 $page_num = 0;
-$issue_num = 0;
 ?>
-<?php foreach ($issues as $type => $issue_parents): ?>
-<?php foreach ($issue_parents as $issue): ?>
 <?php
+foreach ($issues as $type => $issue_parents):
+$issue_num = 0;
 // each cover page
-if ( ! empty($issue['url']) && ! in_array($issue['url'], $show_each_cover_page)):
+if ($type != 'common'):
 	$show_each_cover_page[] = $issue['url'];
 	echo '<section class="cover_page">';
-	echo '<h1 class="heading"><span class="issue_title">'.++$page_num.': '.$titles[$issue['url']].'</span><br><span class="issue_url">'.$issue['url'].'</span></h1>';
+	echo '<h1 class="heading"><span class="issue_title">'.sprintf('%02d', ++$page_num).': '.$titles[$issue['url']].'</span><br><span class="issue_url">'.$issue['url'].'</span></h1>';
 	echo '</section>';
-		echo '<section class="cover_page">';
+		echo '<section class="cover_page screenshot">';
 		if ( ! empty($images[$issue['url']])):
 			echo '<p><img src="'.dirname(A11YC_URL).'/screenshots/pages/'.base64_encode($issue['url']).'/'.$images[$issue['url']].'" alt="'.A11YC_LANG_ISSUES_SCREENSHOT.'" /></p>';
 		endif;
@@ -48,10 +47,11 @@ elseif ($show_common_cover_page === false):
 	echo '<h1 class="heading">'.A11YC_LANG_ISSUES_IS_COMMON.'</h1>';
 	echo '</div>';
 endif;
-?>
+
+foreach ($issue_parents as $issue): ?>
 
 <section class="each_issue">
-<h2 class="heading"><?php echo ( $page_num === 0 ? 'c' : $page_num) .'-'.++$issue_num  //issue title?  ?>:</h2>
+<h2 class="heading"><?php echo ( $page_num === 0 ? 'c' : sprintf('%02d', $page_num)) .'-'.++$issue_num.': '.$issue['title']  //issue title?  ?></h2>
 <?php if ( ! empty($issue['image_path'])): ?>
 	<section class="screenshot"><h3 class="heading"><?php echo A11YC_LANG_ISSUES_SCREENSHOT ?></h3>
 	<?php
