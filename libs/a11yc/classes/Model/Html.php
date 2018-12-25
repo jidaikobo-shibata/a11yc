@@ -168,13 +168,14 @@ class Html
 		$sql = 'INSERT INTO '.A11YC_TABLE_CACHES;
 		$sql.= ' (`url`, `ua`, `type`, `data`, `updated_at`) VALUES';
 		$sql.= ' (?, ?, ?, ?, ?);';
+
 		Db::execute(
 			$sql,
 			array(
 				$url,
 				Arr::get($vals, 'ua', ''),
-				Arr::get($vals, 'each_type', ''),
-				Arr::get($vals, 'html', ''),
+				Arr::get($vals, 'type', ''),
+				Arr::get($vals, 'data', ''),
 				Arr::get($vals, 'updated_at', date('Y-m-d H:i:s'))
 			)
 		);
