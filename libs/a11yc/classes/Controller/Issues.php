@@ -265,7 +265,7 @@ class Issues
 			'error_message' => Input::post('error_message', ''),
 			'uid'           => Input::post('uid', 1),
 		);
-		extract($args);
+//		extract($args);
 
 		if ($issue_id = Model\Issues::insert($args))
 		{

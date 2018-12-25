@@ -130,6 +130,7 @@ class Issues
 		$sql = 'INSERT INTO '.A11YC_TABLE_ISSUES;
 		$sql.= ' (`is_common`,';
 		$sql.= '`url`,';
+		$sql.= '`title`,';
 		$sql.= '`criterion`,';
 		$sql.= '`html`,';
 		$sql.= '`n_or_e`,';
@@ -139,13 +140,14 @@ class Issues
 		$sql.= '`uid`,';
 		$sql.= '`created_at`,';
 		$sql.= '`version`) VALUES ';
-		$sql.= '(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0);';
+		$sql.= '(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0);';
 
 		$r = Db::execute(
 			$sql,
 			array(
 				intval(Arr::get($vals, 'is_common', '')),
 				$url,
+				Arr::get($vals, 'title', ''),
 				Arr::get($vals, 'criterion', ''),
 				Arr::get($vals, 'html', ''),
 				intval(Arr::get($vals, 'n_or_e', 0)),
