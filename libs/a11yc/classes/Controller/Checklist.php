@@ -152,7 +152,10 @@ class Checklist
 		$refs = Values::getRefUrls();
 
 		// assign
-		View::assign('target_title', Model\Html::fetchPageTitle($url));
+		View::assign('target_title', empty($page['title']) ?
+			Model\Html::fetchPageTitle($url) :
+			$page['title']
+		);
 		View::assign('url', $url);
 		View::assign('statuses', Values::issueStatus());
 		View::assign('machine_check_status', Values::machineCheckStatus());

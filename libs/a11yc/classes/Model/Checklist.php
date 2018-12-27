@@ -112,9 +112,14 @@ class Checklist
 		// delete all from checks
 		self::delete($url);
 
-		foreach (array_keys($checks) as $vals)
+		$vals = array();
+		foreach (array_keys($checks) as $code)
 		{
-			$vals['url'] = $url;
+			$vals = array(
+				'code' => $code,
+				'url' => $url,
+			);
+
 			static::insert($vals);
 		}
 	}
