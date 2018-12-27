@@ -1,6 +1,6 @@
 <?php namespace A11yc; ?>
 <?php if ($url == 'bulk'): ?>
-	<form action="<?php echo A11YC_BULK_URL ?>" method="POST" id="a11yc_form_checklist">
+	<form action="<?php echo A11YC_BULK_URL ?>index" method="POST" id="a11yc_form_checklist">
 <?php else: ?>
 	<form action="<?php echo A11YC_CHECKLIST_URL ?>&amp;url=<?php echo Util::urlenc($url) ?>" method="POST" id="a11yc_form_checklist">
 <?php endif; ?>

@@ -30,7 +30,7 @@ function a11yc_gen_icls_table($vals, $situation_id = 0)
 }
 
 $html = '';
-$html.= '<form action="str" method="POST">';
+$html.= '<form action="'.A11YC_ICLS_URL.'index" method="POST">';
 foreach ($yml['criterions'] as $i):
 	$code = Util::key2code($i['code']);
 	if (empty($icls[$code])) continue;
@@ -44,6 +44,11 @@ foreach ($yml['criterions'] as $i):
 		endforeach;
 	endif;
 endforeach;
+
+$html.= '<div id="a11yc_submit">';
+$html.= '<input type="submit" value="'.A11YC_LANG_CTRL_SEND.'">';
+$html.= '</div>';
+
 $html.= '</form>';
 
 echo $html;

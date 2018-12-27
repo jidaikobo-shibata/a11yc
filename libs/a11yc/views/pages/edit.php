@@ -5,7 +5,7 @@
 <?php echo $submenu; ?>
 
 <!-- add pages form -->
-<form action="<?php echo A11YC_PAGES_EDIT_URL ?>&amp;url=<?php echo $url ?>" method="POST" enctype="multipart/form-data">
+<form action="<?php echo A11YC_PAGES_URL ?>edit&amp;url=<?php echo $url ?>" method="POST" enctype="multipart/form-data">
 <h2><label for="a11yc_title"><?php echo A11YC_LANG_PAGES_PAGETITLE ?></label></h2>
 <input type="text" name="title" id="a11yc_title" size="120" value="<?php echo Util::s($page_title) ?>" />
 

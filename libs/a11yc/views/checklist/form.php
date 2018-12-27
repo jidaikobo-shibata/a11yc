@@ -200,13 +200,13 @@
 
 			<!-- a11yc_issues -->
 			<div class="a11yc_issues">
-				<a href="<?php echo A11YC_ISSUES_ADD_URL.Util::urlenc($url).'&amp;criterion='.$criterion ?>" target="_blank"><?php echo A11YC_LANG_ISSUES_ADD ?></a>
+				<a href="<?php echo A11YC_ISSUES_URL.'add&amp;url='.Util::urlenc($url).'&amp;criterion='.$criterion ?>" target="_blank"><?php echo A11YC_LANG_ISSUES_ADD ?></a>
 
 			<?php
 			if ($issues[$criterion]):
 				echo '<ul>';
 				foreach ($issues[$criterion] as $issue):
-					echo '<li><a href="'.A11YC_ISSUES_READ_URL.intval($issue['id']).'" target="_blank">'.Util::s($issue['id'].': '.$issue['error_message']).' ['.$statuses[$issue['status']].']</a></li>';
+					echo '<li><a href="'.A11YC_ISSUES_URL.'read&amp;id='.intval($issue['id']).'" target="_blank">'.Util::s($issue['id'].': '.$issue['error_message']).' ['.$statuses[$issue['status']].']</a></li>';
 				endforeach;
 				echo '</ul>';
 			endif;

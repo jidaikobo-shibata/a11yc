@@ -109,7 +109,7 @@ class Add
 		// done
 		if (count($urls) === 0)
 		{
-			echo '<p><a id="a11yc_back_to_pages" href="'.A11YC_PAGES_URL.'">'.A11YC_LANG_PAGES_NOT_FOUND_ALL.'</a></p>';
+			echo '<p><a id="a11yc_back_to_pages" href="'.A11YC_PAGES_URL.'index">'.A11YC_LANG_PAGES_NOT_FOUND_ALL.'</a></p>';
 
 			if (strpos($base_url, 'https:') !== false)
 			{
@@ -118,7 +118,7 @@ class Add
 		}
 		else
 		{
-			echo '<p><a id="a11yc_back_to_pages" href="'.A11YC_PAGES_ADD_URL.'">'.A11YC_LANG_PAGES_RETURN_TO_PAGES.'</a></p>';
+			echo '<p><a id="a11yc_back_to_pages" href="'.A11YC_PAGES_URL.'add">'.A11YC_LANG_PAGES_RETURN_TO_PAGES.'</a></p>';
 		}
 		echo '<script>a11yc_stop_scroll()</script>'."\n";
 
@@ -282,7 +282,7 @@ class Add
 
 		echo '</div>';
 		// done
-		echo '<p><a id="a11yc_back_to_pages" href="'.A11YC_PAGES_URL.'">'.A11YC_LANG_PAGES_DONE.'</a></p>';
+		echo '<p><a id="a11yc_back_to_pages" href="'.A11YC_PAGES_URL.'index">'.A11YC_LANG_PAGES_DONE.'</a></p>';
 		echo '<script>a11yc_stop_scroll()</script>'."\n";
 		if ( ! headers_sent())
 		{
