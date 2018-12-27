@@ -55,7 +55,6 @@ pre
 /*	page-break-after: always;*/
 	page-break-inside: avoid;
 	position: relative;
-	min-height: 20em;
 }
 body > :last-child
 {
@@ -65,6 +64,7 @@ body > :last-child
 .cover_page
 {
 	text-align: center;
+	min-height: 20em;
 }
 .cover_page:not(.common):before
 {

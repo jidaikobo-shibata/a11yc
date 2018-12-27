@@ -25,14 +25,17 @@ $show_each_cover_page = array();
 <?php
 $page_num = 0;
 ?>
+
 <?php
 foreach ($issues as $type => $issue_parents):
 $issue_num = 0;
+
 // each cover page
 if ($type != 'common'):
-	$show_each_cover_page[] = $issue['url'];
+	$current_url = isset($issue_parents[0]) ? $issue_parents[0]['url'] : '';
+	$show_each_cover_page[] = $current_url;
 	echo '<section class="cover_page">';
-	echo '<h1 class="heading"><span class="issue_title">'.sprintf('%02d', ++$page_num).': '.$titles[$issue['url']].'</span><br><span class="issue_url">'.$issue['url'].'</span></h1>';
+	echo '<h1 class="heading"><span class="issue_title">'.sprintf('%02d', ++$page_num).': '.$titles[$current_url].'</span><br><span class="issue_url">'.$current_url.'</span></h1>';
 	echo '</section>';
 		echo '<section class="cover_page screenshot">';
 		if ( ! empty($images[$issue['url']])):
