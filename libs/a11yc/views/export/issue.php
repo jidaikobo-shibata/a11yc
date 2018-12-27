@@ -29,7 +29,6 @@ $page_num = 0;
 <?php
 foreach ($issues as $type => $issue_parents):
 $issue_num = 0;
-
 // each cover page
 if ($type != 'common'):
 	$current_url = isset($issue_parents[0]) ? $issue_parents[0]['url'] : '';
@@ -38,8 +37,8 @@ if ($type != 'common'):
 	echo '<h1 class="heading"><span class="issue_title">'.sprintf('%02d', ++$page_num).': '.$titles[$current_url].'</span><br><span class="issue_url">'.$current_url.'</span></h1>';
 	echo '</section>';
 		echo '<section class="cover_page screenshot">';
-		if ( ! empty($images[$issue['url']])):
-			echo '<p><img src="'.dirname(A11YC_URL).'/screenshots/pages/'.base64_encode($issue['url']).'/'.$images[$issue['url']].'" alt="'.A11YC_LANG_ISSUES_SCREENSHOT.'" /></p>';
+		if ( ! empty($images[$current_url])):
+			echo '<p><img src="'.dirname(A11YC_URL).'/screenshots/pages/'.base64_encode($current_url).'/'.$images[$current_url].'" alt="'.A11YC_LANG_ISSUES_SCREENSHOT.'" /></p>';
 		endif;
 	echo '</section>';
 elseif ($show_common_cover_page === false):
@@ -70,7 +69,7 @@ foreach ($issue_parents as $issue): ?>
 		<pre><code><?php echo $issue['html'] ?></code></pre>
 	</div>
 <?php endif ; ?>
-	<h3 class="heading"><?php echo A11YC_LANG_ISSUES_ERRMSG ?></h3>
+	<h3 class="heading"><?php echo A11YC_LANG_UNDERSTANDING ?></h3>
 	<p>
 		<?php echo nl2br($issue['error_message']) ?>
 	</p>
