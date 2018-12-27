@@ -92,7 +92,7 @@ if ($pages):
 		<td class="a11yc_result"><a href="<?php echo A11YC_EXPORT_URL.'csv&url='.Util::urlenc($url) ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_EXPORT ?></span><span class="a11yc_icon_export a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
 		<?php endif; ?>
 
-		<td class="a11yc_result"><a href="<?php echo A11YC_PAGES_EDIT_URL ?>&amp;url=<?php echo Util::urlenc($url) ?>" class="a11yc_hasicon"><?php echo A11YC_LANG_PAGES_CTRL ?><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_DELETE ?></span><!-- <span class="a11yc_icon_delete a11yc_icon_fa" role="presentation" aria-hidden="true"></span> --></a></td>
+		<td class="a11yc_result"><a href="<?php echo A11YC_PAGES_URL ?>edit&amp;url=<?php echo Util::urlenc($url) ?>" class="a11yc_hasicon"><?php echo A11YC_LANG_PAGES_CTRL ?><span class="a11yc_skip"><?php echo A11YC_LANG_PAGES_DELETE ?></span><!-- <span class="a11yc_icon_delete a11yc_icon_fa" role="presentation" aria-hidden="true"></span> --></a></td>
 
 		<td class="a11yc_result"><input type="text" name="seq[<?php echo $url ?>]" aria-labelledby="a11yc_label_seq" size="3" value="<?php echo intval($page['seq']); ?>" /></td>
 

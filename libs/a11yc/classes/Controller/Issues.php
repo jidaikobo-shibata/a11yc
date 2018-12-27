@@ -171,7 +171,7 @@ class Issues
 			}
 			Model\Issues::updateField($id, 'image_path', $newfilename);
 
-			Util::redirect(A11YC_ISSUES_EDIT_URL.$id);
+			Util::redirect(A11YC_ISSUES_URL.'edit&amp;id='.$id);
 		}
 
 		View::assign('is_new',    $is_add);
@@ -331,7 +331,7 @@ class Issues
 							 sprintf(A11YC_LANG_PAGES_DELETE_DONE, 'id: '.$id) :
 							 sprintf(A11YC_LANG_PAGES_DELETE_FAILED, 'id: '.$id);
 		Session::add('messages', $mess_type, $mess_str);
-		Util::redirect(A11YC_ISSUES_BASE_URL.'index');
+		Util::redirect(A11YC_ISSUES_URL.'index');
 	}
 
 	/**
@@ -356,7 +356,7 @@ class Issues
 							 sprintf(A11YC_LANG_PAGES_UNDELETE_DONE, 'id: '.$id) :
 							 sprintf(A11YC_LANG_PAGES_UNDELETE_FAILED, 'id: '.$id);
 		Session::add('messages', $mess_type, $mess_str);
-		Util::redirect(A11YC_ISSUES_BASE_URL.'index');
+		Util::redirect(A11YC_ISSUES_URL.'index');
 	}
 
 	/**
@@ -374,6 +374,6 @@ class Issues
 							 sprintf(A11YC_LANG_PAGES_PURGE_DONE, 'id: '.$id) :
 							 sprintf(A11YC_LANG_PAGES_PURGE_FAILED, 'id: '.$id);
 		Session::add('messages', $mess_type, $mess_str);
-		Util::redirect(A11YC_ISSUES_BASE_URL.'index');
+		Util::redirect(A11YC_ISSUES_URL.'index');
 	}
 }

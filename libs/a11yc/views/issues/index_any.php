@@ -50,7 +50,7 @@ else:
 		?>
 		<?php echo $type ?>
 			<?php if ($each_issue['trash'] != 1): ?>
-			<a href="<?php echo A11YC_ISSUES_READ_URL.intval($each_issue['id']) ?>">
+			<a href="<?php echo A11YC_ISSUES_URL.'read&amp;id='.intval($each_issue['id']) ?>">
 			<?php endif; ?>
 				<?php echo $each_issue['id'].': '.nl2br(Util::s($each_issue['error_message'])) ?>
 			<?php if ($each_issue['trash'] != 1): ?>
@@ -61,11 +61,11 @@ else:
 
 	<td class="a11yc_result" style="white-space: nowrap;">
 		<?php if ($each_issue['trash'] != 0): ?>
-			<a href="<?php echo A11YC_ISSUES_UNDELETE_URL.intval($each_issue['id']) ?>"><?php echo A11YC_LANG_PAGES_UNDELETE ?></a><?php echo ' - '; ?>
-			<a href="<?php echo A11YC_ISSUES_PURGE_URL.intval($each_issue['id']) ?>" data-a11yc-confirm="<?php echo sprintf(A11YC_LANG_CTRL_CONFIRM, A11YC_LANG_PAGES_PURGE) ?>"><?php echo A11YC_LANG_PAGES_PURGE ?></a>
+			<a href="<?php echo A11YC_ISSUES_URL.'undelete&amp;id='.intval($each_issue['id']) ?>"><?php echo A11YC_LANG_PAGES_UNDELETE ?></a><?php echo ' - '; ?>
+			<a href="<?php echo A11YC_ISSUES_URL.'purge&amp;id='.intval($each_issue['id']) ?>" data-a11yc-confirm="<?php echo sprintf(A11YC_LANG_CTRL_CONFIRM, A11YC_LANG_PAGES_PURGE) ?>"><?php echo A11YC_LANG_PAGES_PURGE ?></a>
 		<?php else: ?>
-			<a href="<?php echo A11YC_ISSUES_EDIT_URL.intval($each_issue['id']) ?>"><?php echo A11YC_LANG_PAGES_LABEL_EDIT ?></a><?php echo ' - '; ?>
-			<a href="<?php echo A11YC_ISSUES_DELETE_URL.intval($each_issue['id']) ?>"><?php echo A11YC_LANG_PAGES_DELETE ?></a>
+			<a href="<?php echo A11YC_ISSUES_URL.'edit&amp;id='.intval($each_issue['id']) ?>"><?php echo A11YC_LANG_PAGES_LABEL_EDIT ?></a><?php echo ' - '; ?>
+			<a href="<?php echo A11YC_ISSUES_URL.'delete&amp;id='.intval($each_issue['id']) ?>"><?php echo A11YC_LANG_PAGES_DELETE ?></a>
 		<?php endif; ?>
 	</td>
 </tr>

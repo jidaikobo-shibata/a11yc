@@ -140,20 +140,20 @@ class Pages
 				case 'delete' :
 					$is_success = Model\Pages::delete($url);
 					$message = $is_success ? A11YC_LANG_PAGES_DELETE_DONE : A11YC_LANG_PAGES_DELETE_FAILED;
-					$redirect_to = A11YC_PAGES_URL;
+					$redirect_to = A11YC_PAGES_URL.'index';
 					break;
 
 				case 'undelete' :
 					$is_success = Model\Pages::undelete($url);
 					$message = $is_success ? A11YC_LANG_PAGES_UNDELETE_DONE : A11YC_LANG_PAGES_UNDELETE_FAILED;
-					$redirect_to = A11YC_PAGES_URL;
+					$redirect_to = A11YC_PAGES_URL.'index';
 					break;
 
 				case 'purge' :
 					$is_success = Model\Pages::purge($url);
 					Model\Checklist::delete($url);
 					$message = $is_success ? A11YC_LANG_PAGES_PURGE_DONE : A11YC_LANG_PAGES_PURGE_FAILED;
-					$redirect_to = A11YC_PAGES_URL;
+					$redirect_to = A11YC_PAGES_URL.'index';
 					break;
 
 				default :

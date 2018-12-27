@@ -100,7 +100,7 @@ class Message
 
 			if ( ! defined('A11YC_IS_GUEST_VALIDATION'))
 			{
-				$ret.= '[<a href="'.A11YC_ISSUES_ADD_URL.$url.'&amp;criterion='.$each_criterion.'&amp;err_id='.$code_str.'&amp;src='.rawurlencode(Util::s($place['str'])).'" target="a11yc_issue">'.A11YC_LANG_ISSUES_ADD.'</a>] ';
+				$ret.= '[<a href="'.A11YC_ISSUES_URL.'add&amp;url='.$url.'&amp;criterion='.$each_criterion.'&amp;err_id='.$code_str.'&amp;src='.rawurlencode(Util::s($place['str'])).'" target="a11yc_issue">'.A11YC_LANG_ISSUES_ADD.'</a>] ';
 			}
 
 			$ret.= '</span>';

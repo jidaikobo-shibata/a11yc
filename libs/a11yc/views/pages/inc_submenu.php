@@ -13,10 +13,10 @@
 			$q = '&amp;list='.$index_list;
 		endif;
 
-		$lis[] = "\t".'<li><a href="'.A11YC_PAGES_URL.$q.'"'.$class_str.'>'.constant('A11YC_LANG_PAGES_'.strtoupper($index_list)).'('.$count[$index_list].')</a></li>';
+		$lis[] = "\t".'<li><a href="'.A11YC_PAGES_URL.'index'.$q.'"'.$class_str.'>'.constant('A11YC_LANG_PAGES_'.strtoupper($index_list)).'('.$count[$index_list].')</a></li>';
 	endforeach;
 
-	$lis[] = "\t".'<li><a href="'.A11YC_PAGES_ADD_URL.'">'.A11YC_LANG_CTRL_ADDNEW.'</a></li>';
+	$lis[] = "\t".'<li><a href="'.A11YC_PAGES_URL.'add">'.A11YC_LANG_CTRL_ADDNEW.'</a></li>';
 	echo join("\n", $lis);
 ?>
 </ul>
