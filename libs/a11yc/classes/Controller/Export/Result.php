@@ -101,9 +101,12 @@ class Result
 
 		// import result
 		$result_num = 0;
-		foreach ($results['results'] as $vals)
+		foreach ($results['results'] as $pages)
+		{
+		foreach ($pages as $vals)
 		{
 			if (Model\Results::insert($vals)) $result_num++;
+		}
 		}
 
 		// evaluate
@@ -116,11 +119,16 @@ class Result
 			);
 		}
 
+
+
 		// import checklists
 		$checklists_num = 0;
-		foreach ($results['checklists'] as $vals)
+		foreach ($results['checklists'] as $pages)
+		{
+		foreach ($pages as $vals)
 		{
 			if (Model\Checklist::insert($vals)) $checklists_num++;
+		}
 		}
 
 		// import issue

@@ -64,23 +64,25 @@ foreach ($issue_parents as $issue): ?>
 
 <section class="issue">
 <?php if($issue['html'] ): ?>
-	<h3 class="heading"><?php echo A11YC_LANG_ISSUES_HTML ?></h3>
-	<div>
+	<div class="issue_html">
+		<h3 class="heading"><?php echo A11YC_LANG_ISSUES_HTML ?></h3>
 		<pre><code><?php echo $issue['html'] ?></code></pre>
 	</div>
 <?php endif ; ?>
-	<h3 class="heading"><?php echo A11YC_LANG_UNDERSTANDING ?></h3>
-	<p>
-		<?php echo nl2br($issue['error_message']) ?>
-	</p>
+	<div class="issue_understanding">
+		<h3 class="heading"><?php echo A11YC_LANG_UNDERSTANDING ?></h3>
+		<p>
+			<?php echo nl2br($issue['error_message']) ?>
+		</p>
+	</div>
 <?php if ($issue['tech_url']): ?>
-	<h3 class="heading"><?php echo A11YC_LANG_ISSUES_TECH ?></h3>
-	<div>
-	<?php
-	foreach (explode("\n", $issue['tech_url']) as $tech_url):
-		echo '<a href="'.$tech_url.'">'.$tech_url.'</a><br>';
-	endforeach;
-	?>
+	<div class="issue_tech">
+		<h3 class="heading"><?php echo A11YC_LANG_ISSUES_TECH ?></h3>
+		<?php
+		foreach (explode("\n", $issue['tech_url']) as $tech_url):
+			echo '<a href="'.$tech_url.'">'.$tech_url.'</a><br>';
+		endforeach;
+		?>
 	</div>
 <?php endif; ?>
 </section><!-- /.issue -->

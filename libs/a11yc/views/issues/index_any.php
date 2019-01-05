@@ -52,7 +52,10 @@ else:
 			<?php if ($each_issue['trash'] != 1): ?>
 			<a href="<?php echo A11YC_ISSUES_URL.'read&amp;id='.intval($each_issue['id']) ?>">
 			<?php endif; ?>
-				<?php echo $each_issue['id'].': '.(  $each_issue['title'] ? '<strong>'.$each_issue['title'].'</strong><br>' : '' ).nl2br(Util::s($each_issue['error_message'])) ?>
+				<?php
+					echo $each_issue['id'].': '.(  $each_issue['title'] ? '<strong>'.$each_issue['title'].'</strong>' : '' ).'</a>';
+					echo '<details>'.nl2br(Util::s($each_issue['error_message'])).'</details>' ;
+				?>
 			<?php if ($each_issue['trash'] != 1): ?>
 			</a>
 			<?php endif; ?>
