@@ -82,7 +82,7 @@ body > :last-child
 	background-color: #eee;
 }
 
-.cover_page .heading
+.cover_page > .heading
 {
 	font-size: 2rem;
 	line-height: 1.5;
@@ -95,6 +95,17 @@ body > :last-child
 	margin: auto;
 	height: 4em;
 	padding: 1em;
+}
+.cover_page.has_image .heading
+{
+	font-size: 2rem;
+	position: static;
+	height: auto;
+}
+.cover_page.has_image img
+{
+	max-height: 480px;
+	margin: auto;
 }
 .cover_page .issue_url
 {

@@ -33,13 +33,13 @@ $issue_num = 0;
 if ($type != 'common'):
 	$current_url = isset($issue_parents[0]) ? $issue_parents[0]['url'] : '';
 	$show_each_cover_page[] = $current_url;
-	echo '<section class="cover_page">';
+	echo '<section class="cover_page'.( ! empty($images[$current_url]) ? ' has_image' : '' ).'">';
+	echo '<div class="heading">';
 	echo '<h1 class="heading"><span class="issue_title">'.sprintf('%02d', ++$page_num).': '.$titles[$current_url].'</span><br><span class="issue_url">'.$current_url.'</span></h1>';
-	echo '</section>';
-		echo '<section class="cover_page screenshot">';
-		if ( ! empty($images[$current_url])):
-			echo '<p><img src="'.dirname(A11YC_URL).'/screenshots/pages/'.base64_encode($current_url).'/'.$images[$current_url].'" alt="'.A11YC_LANG_ISSUES_SCREENSHOT.'" /></p>';
-		endif;
+	if ( ! empty($images[$current_url])):
+		echo '<p class="screenshot"><img src="'.dirname(A11YC_URL).'/screenshots/pages/'.base64_encode($current_url).'/'.$images[$current_url].'" alt="'.A11YC_LANG_ISSUES_SCREENSHOT.'" /></p>';
+	endif;
+	echo '</div><!-- /.heading -->';
 	echo '</section>';
 elseif ($show_common_cover_page === false):
 	// common
