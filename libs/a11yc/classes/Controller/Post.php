@@ -107,7 +107,7 @@ class Post
 	{
 		View::assign('a11yc_doc_url', A11YC_POST_SCRIPT_URL.'?a=doc&amp;criterion=');
 		Docs::index(); // $body set
-		define('A11YC_LANG_POST_TITLE', A11YC_LANG_DOCS_TITLE);
+		define('A11YC_LANG_POST_TITLE', A11YC_LANG_DOC_TITLE);
 	}
 
 	/**
@@ -235,7 +235,7 @@ class Post
 		}
 		elseif ( ! empty($url))
 		{
-			$target_html = Model\Html::fetchHtml($url, $ua); // not use Database
+			$target_html = Model\Html::fetchHtmlFromInternet($url, $ua); // not use Database
 			$do_validate = self::failedOrDoOtherAction($url, $doc_root);
 		}
 		return array($target_html, $do_validate);

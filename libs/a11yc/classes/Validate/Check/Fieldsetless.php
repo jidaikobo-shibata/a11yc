@@ -18,7 +18,7 @@ class Fieldsetless extends Validate
 	/**
 	 * fieldsetless
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Void
 	 */
 	public static function check($url)
@@ -56,7 +56,7 @@ class Fieldsetless extends Validate
 	/**
 	 * getRadioCheckNames
 	 *
-	 * @param  Array $ms
+	 * @param Array $ms
 	 * @return Array
 	 */
 	private static function getRadioCheckNames($ms)
@@ -81,8 +81,8 @@ class Fieldsetless extends Validate
 	/**
 	 * eliminateRadioCheckNames
 	 *
-	 * @param  Array $mms
-	 * @param  Array $radio_check_names
+	 * @param Array $mms
+	 * @param Array $radio_check_names
 	 * @return Array
 	 */
 	private static function eliminateRadioCheckNames($mms, $radio_check_names)
@@ -112,8 +112,8 @@ class Fieldsetless extends Validate
 	/**
 	 * legendless
 	 *
-	 * @param  String $url
-	 * @param  Array $mms
+	 * @param String $url
+	 * @param Array $mms
 	 * @return Void
 	 */
 	private static function legendless($url, $mms)
@@ -131,9 +131,9 @@ class Fieldsetless extends Validate
 	/**
 	 * legendless
 	 *
-	 * @param  String $url
-	 * @param  Array $ms
-	 * @param  Array $radio_check_names
+	 * @param String $url
+	 * @param Array $ms
+	 * @param Array $radio_check_names
 	 * @return Void
 	 */
 	private static function fieldsetless($url, $ms, $radio_check_names)

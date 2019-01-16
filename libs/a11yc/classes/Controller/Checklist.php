@@ -30,7 +30,7 @@ class Checklist
 	/**
 	 * check
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Void
 	 */
 	public static function check($url)
@@ -56,8 +56,8 @@ class Checklist
 		}
 		else
 		{
-			$title = A11YC_LANG_CHECKLIST_TITLE.':'.Model\Html::fetchPageTitle($url);
-			$page = Model\Pages::fetchPage($url);
+			$title = A11YC_LANG_CTRL_CHECK.':'.Model\Html::fetchPageTitle($url);
+			$page = Model\Page::fetch($url);
 		}
 
 		// assign
@@ -76,34 +76,30 @@ class Checklist
 	/**
 	 * dbio
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Void
 	 */
 	public static function dbio($url)
 	{
 		Model\Checklist::update($url, Input::postArr('chk'));
-		Model\Results::update($url, Input::postArr('results'));
+		Model\Result::update($url, Input::postArr('results'));
 
-		// update page
-		$page_title       = stripslashes(Input::post('page_title'));
-		$done             = intval(Input::post('done', 0));
-		$done_date        = Input::post('done_date') ?
-											date('Y-m-d', strtotime(Input::post('done_date'))) :
-											date('Y-m-d');
-		$alt_url          = Util::urldec(Input::post('alt_url'));
-		$standard         = intval(Input::post('standard'));
-		$selection_reason = intval(Input::post('selection_reason'));
-		$type             = substr($url, -4) == '.pdf' ? 2 : 1; // 1: html
-
-		Model\Pages::updateField($url, 'title', $page_title);
-		Model\Pages::updateField($url, 'type', $type);
-		Model\Pages::updateField($url, 'done', $done);
-		Model\Pages::updateField($url, 'date', $done_date);
-		Model\Pages::updateField($url, 'updated_at', date('Y-m-d H:i:s'));
-		Model\Pages::updateField($url, 'alt_url', $alt_url);
-		Model\Pages::updateField($url, 'standard', $standard);
-		Model\Pages::updateField($url, 'selection_reason', $selection_reason);
-		Model\Pages::updateField($url, 'level', Evaluate::getLevelByUrl($url));
+		$page = array();
+		$page['alt_url']          = Util::urldec(Input::post('alt_url'));
+		$page['type']             = substr($url, -4) == '.pdf' ? 2 : 1; // 1: html
+		$page['title']            = stripslashes(Input::post('page_title'));
+		$page['level']            = Evaluate::getLevelByUrl($url);
+		$page['done']             = intval(Input::post('done', 0));
+		$page['date']             = Input::post('done_date') ?
+															date('Y-m-d', strtotime(Input::post('done_date'))) :
+															date('Y-m-d');
+		$page['standard']         = intval(Input::post('standard'));
+		$page['selection_reason'] = intval(Input::post('selection_reason'));
+		$page['updated_at']       = date('Y-m-d H:i:s');
+		foreach ($page as $key => $value)
+		{
+			Model\Page::updatePartial($url, $key, $value);
+		}
 
 		// message
 		Session::add('messages', 'messages', A11YC_LANG_UPDATE_SUCCEED);
@@ -114,9 +110,9 @@ class Checklist
 	 * need to wrap <form> and add a submit button
 	 * this method also used by bulk
 	 *
-	 * @param  String $url
-	 * @param  Array $users
-	 * @param  Integer $current_user_id
+	 * @param String $url
+	 * @param Array $users
+	 * @param Integer $current_user_id
 	 * @return Void
 	 */
 	public static function form($url, $users = array(), $current_user_id = null)
@@ -152,10 +148,11 @@ class Checklist
 		$refs = Values::getRefUrls();
 
 		// assign
-		View::assign('target_title', empty($page['title']) ?
+		View::assign('target_title', empty($page['title']) && $url != 'bulk' ?
 			Model\Html::fetchPageTitle($url) :
-			$page['title']
+			Arr::get($page, 'title', '')
 		);
+
 		View::assign('url', $url);
 		View::assign('statuses', Values::issueStatus());
 		View::assign('machine_check_status', Values::machineCheckStatus());
@@ -170,10 +167,12 @@ class Checklist
 		View::assign('done_date', $done_date);
 		View::assign('target_level', intval(@$settings['target_level']));
 		View::assign('page', $page);
-		View::assign('additional_criterions', join('","', Model\Settings::fetch('additional_criterions')));
+		View::assign('additional_criterions', join('","', Model\Setting::fetch('additional_criterions')));
 		View::assign('is_new', $is_new);
 		View::assign('is_bulk', $is_bulk);
-		View::assign('checkstatus', self::getCheckStatus($url));
+		View::assign('icls', Model\icl::fetchAll('icl', true));
+		View::assign('iclsits', Model\icl::fetch4Checklist(true));
+		View::assign('iclusings', Model\Setting::fetch('icl', array(), true));
 
 		self::assginValidation($url, $is_new, $is_bulk);
 
@@ -184,33 +183,8 @@ class Checklist
 	/**
 	 * get basic values
 	 *
-	 * @param  String $url
-	 * @return Array
-	 */
-	private static function getCheckStatus($url)
-	{
-		$retvals = array('passed' => array(), 'failed' => array());
-		foreach (Validate\Get::logs($url) as $v)
-		{
-			foreach ($v as $vv)
-			{
-				if ($vv == -1)
-				{
-				}
-				else if ($vv == 2)
-				{
-				}
-			}
-		}
-
-		return $retvals;
-	}
-
-	/**
-	 * get basic values
-	 *
-	 * @param  String $url
-	 * @param  Array|Bool $page
+	 * @param String $url
+	 * @param Array|Bool $page
 	 * @return Array
 	 */
 	private static function getBasicValues($url, $page)
@@ -218,7 +192,7 @@ class Checklist
 		if ( ! is_array($page)) Util::error('invalid value was given');
 
 		// settings
-		$settings = Model\Settings::fetchAll();
+		$settings = Model\Setting::fetchAll();
 
 		// standards
 		$standards = Yaml::each('standards');
@@ -238,7 +212,7 @@ class Checklist
 		$issues = array();
 		foreach (array_keys($yml['criterions']) as $criterion)
 		{
-			$issues[$criterion] = Model\Issues::fetch4Checklist($url, $criterion);
+			$issues[$criterion] = Model\Issue::fetch4Checklist($url, $criterion);
 		}
 
 		return array($settings, $standards, $standard, $done_date, $issues);
@@ -247,17 +221,17 @@ class Checklist
 	/**
 	 * get page
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Array
 	 */
 	private static function getPage($url)
 	{
-		$page = Model\Pages::fetchPage($url, true);
+		$page = Model\Page::fetch($url, true);
 		if ( ! $page && $url)
 		{
-			Model\Pages::addPage($url);
+			Model\Page::addPage($url);
 			$force = true;
-			$page = Model\Pages::fetchPage($url, $force);
+			$page = Model\Page::fetch($url, $force);
 			if ( ! $page)
 			{
 				Session::add(
@@ -273,9 +247,9 @@ class Checklist
 	/**
 	 * assgin vaidated value
 	 *
-	 * @param  String $url
-	 * @param  Bool $is_new
-	 * @param  Bool $is_bulk
+	 * @param String $url
+	 * @param Bool $is_new
+	 * @param Bool $is_bulk
 	 * @return Void
 	 */
 	private static function assginValidation($url, $is_new, $is_bulk)
@@ -287,7 +261,7 @@ class Checklist
 		}
 		else
 		{
-			View::assign('results', Model\Results::fetch($url));
+			View::assign('results', Model\Result::fetch($url));
 			View::assign('cs', Model\Checklist::fetch($url));
 		}
 

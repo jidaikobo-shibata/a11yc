@@ -24,10 +24,12 @@ class Center
 		if (Input::get('a11yc_pages', false))
 		{
 			static::pages();
+			return;
 		}
 		elseif (Input::get('url'))
 		{
 			static::each();
+			return;
 		}
 
 		static::index();
@@ -52,19 +54,15 @@ class Center
 	public static function index()
 	{
 		$body = '';
-		$settings = Model\Settings::fetchAll();
+		$settings = Model\Setting::fetchAll();
 		if ( ! empty($settings))
 		{
 			$is_center = true;
-			Results::all($is_center);
+			Result::all($is_center);
 			$result = View::fetch('body');
 		}
 
-		Results::implementsChecklist();
-		$implements_checklist = View::fetch('implements_checklist');
-
 		View::assign('result', $result, false);
-		View::assign('implements_checklist', $implements_checklist, false);
 		View::assign('title', A11YC_LANG_CENTER_TITLE);
 		$center = View::fetchTpl('center/index.php');
 		View::assign('body', $body.$center, false);
@@ -77,7 +75,7 @@ class Center
 	 */
 	public static function pages()
 	{
-		Results::pages();
+		Result::pages();
 	}
 
 	/**
@@ -87,7 +85,6 @@ class Center
 	 */
 	public static function each()
 	{
-		$url = Util::urldec(Input::get('url', '', FILTER_VALIDATE_URL));
-		Results::each($url);
+		Result::each(Input::get('url', ''));
 	}
 }

@@ -18,7 +18,7 @@ class AppropriateHeadingDescending extends Validate
 	/**
 	 * appropriate heading descending
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Void
 	 */
 	public static function check($url)

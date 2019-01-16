@@ -17,12 +17,12 @@ class Get extends Validate
 	/**
 	 * errorCnts
 	 *
-	 * @param  String $value
-	 * @param  String $url
-	 * @param  Array  $codes
-	 * @param  String $ua
-	 * @param  Bool   $force
-	 * @param  Mixed  $default
+	 * @param String $value
+	 * @param String $url
+	 * @param Array  $codes
+	 * @param String $ua
+	 * @param Bool   $force
+	 * @param Mixed  $default
 	 * @return Array|String
 	 */
 	private static function base($value, $url, $codes, $ua, $force, $default = array())
@@ -39,10 +39,10 @@ class Get extends Validate
 	/**
 	 * errorCnts
 	 *
-	 * @param  String $url
-	 * @param  Array  $codes
-	 * @param  String $ua
-	 * @param  Bool   $force
+	 * @param String $url
+	 * @param Array  $codes
+	 * @param String $ua
+	 * @param Bool   $force
 	 * @return Array
 	 */
 	public static function errorCnts($url, $codes = array(), $ua = 'using', $force = false)
@@ -53,10 +53,10 @@ class Get extends Validate
 	/**
 	 * errors
 	 *
-	 * @param  String $url
-	 * @param  Array  $codes
-	 * @param  String $ua
-	 * @param  Bool   $force
+	 * @param String $url
+	 * @param Array  $codes
+	 * @param String $ua
+	 * @param Bool   $force
 	 * @return Array
 	 */
 	public static function errors($url, $codes = array(), $ua = 'using', $force = false)
@@ -67,10 +67,10 @@ class Get extends Validate
 	/**
 	 * get HighLightedHtml
 	 *
-	 * @param  String $url
-	 * @param  Array  $codes
-	 * @param  String $ua
-	 * @param  Bool   $force
+	 * @param String $url
+	 * @param Array  $codes
+	 * @param String $ua
+	 * @param Bool   $force
 	 * @return String
 	 */
 	public static function highLightedHtml($url, $codes = array(), $ua = 'using', $force = false)
@@ -83,7 +83,7 @@ class Get extends Validate
 	/**
 	 * get error ids
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Array
 	 */
 	public static function errorIds($url)
@@ -94,7 +94,7 @@ class Get extends Validate
 	/**
 	 * get logs
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Array
 	 */
 	public static function logs($url)

@@ -18,7 +18,7 @@ class Titleless extends Validate
 	/**
 	 * titleless
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Void
 	 */
 	public static function check($url)

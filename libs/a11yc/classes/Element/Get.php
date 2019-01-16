@@ -22,8 +22,8 @@ class Get extends Element
 	/**
 	 * get Elements ignored HTML
 	 *
-	 * @param  String $url
-	 * @param  Bool $force
+	 * @param String $url
+	 * @param Bool $force
 	 * @return String
 	 */
 	public static function ignoredHtml($url, $force = false)
@@ -32,8 +32,7 @@ class Get extends Element
 
 		if ( ! isset(Validate::$hl_htmls[$url]))
 		{
-			Model\Html::getHtml($url);
-			Validate::$hl_htmls[$url] = Model\Html::getHtml($url);
+			Validate::$hl_htmls[$url] = Model\Html::fetch($url);
 		}
 
 		$str = self::ignoreElementsByStr(Validate::$hl_htmls[$url]);
@@ -44,7 +43,7 @@ class Get extends Element
 	/**
 	 * get first tag
 	 *
-	 * @param  String $str
+	 * @param String $str
 	 * @return String
 	 */
 	public static function firstTag($str)
@@ -66,7 +65,7 @@ class Get extends Element
 	/**
 	 * attributes
 	 *
-	 * @param  String $str
+	 * @param String $str
 	 * @return Array
 	 */
 	public static function attributes($str)
@@ -94,10 +93,10 @@ class Get extends Element
 	/**
 	 * get elements by regular expression
 	 *
-	 * @param  String $str
-	 * @param  String $ignore_type
-	 * @param  String $type (anchors|anchors_and_values|imgs|tags)
-	 * @param  Bool $force
+	 * @param String $str
+	 * @param String $ignore_type
+	 * @param String $type (anchors|anchors_and_values|imgs|tags)
+	 * @param Bool $force
 	 * @return Array
 	 */
 	public static function elementsByRe($str, $ignore_type, $type = 'tags', $force = false)
@@ -135,7 +134,7 @@ class Get extends Element
 	/**
 	 * Prepare For Image
 	 *
-	 * @param  Array $ret
+	 * @param Array $ret
 	 * @return Array
 	 */
 	private static function prepareForImage($ret)
@@ -155,7 +154,7 @@ class Get extends Element
 	/**
 	 * anchors
 	 *
-	 * @param  String $str
+	 * @param String $str
 	 * @return Array
 	 */
 	private static function anchors($str)
@@ -175,7 +174,7 @@ class Get extends Element
 	/**
 	 * anchors_and_values
 	 *
-	 * @param  String $str
+	 * @param String $str
 	 * @return Array
 	 */
 	private static function anchorsAndValues($str)
@@ -196,7 +195,7 @@ class Get extends Element
 	/**
 	 * tags
 	 *
-	 * @param  String $str
+	 * @param String $str
 	 * @return Array
 	 */
 	private static function tags($str)
@@ -231,8 +230,8 @@ class Get extends Element
 	 * I gived up with http://php.net/manual/ja/class.domdocument.php
 	 * DOMDocument doesn't return appropriate value for me.
 	 *
-	 * @param  String $str whole html
-	 * @param  String $id
+	 * @param String $str whole html
+	 * @param String $id
 	 * @return String|Bool
 	 */
 	public static function elementById($str, $id)
@@ -292,7 +291,7 @@ class Get extends Element
 	/**
 	 * TextFromElement
 	 *
-	 * @param  String $str whole html
+	 * @param String $str whole html
 	 * @return String|Bool
 	 */
 	public static function textFromElement($str)
@@ -329,7 +328,7 @@ class Get extends Element
 	/**
 	 * get doctype
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Mixed|String|Bool|Null
 	 */
 	public static function doctype($url)
@@ -367,7 +366,7 @@ class Get extends Element
 	/**
 	 * get lang
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return String
 	 */
 	public static function lang($url)

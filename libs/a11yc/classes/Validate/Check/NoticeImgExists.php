@@ -18,7 +18,7 @@ class NoticeImgExists extends Validate
 	/**
 	 * img exists
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Void
 	 */
 	public static function check($url)

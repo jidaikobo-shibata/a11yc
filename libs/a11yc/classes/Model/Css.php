@@ -23,7 +23,7 @@ class Css
 	/**
 	 * fetch css
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Array
 	 */
 	public static function fetchCss($url, $ua = 'using')
@@ -32,7 +32,7 @@ class Css
 		if ( ! is_string($ua)) Util::error();
 		if (isset(static::$csses[$url][$ua])) return static::$csses[$url][$ua];
 
-		$html = Html::fetchHtml($url, $url);
+		$html = Html::fetchHtmlFromInternet($url, $url);
 		if ($html === false) return array();
 		$css = self::getConvinedCssFromHtml($html, $ua);
 		static::$csses[$url][$ua] = Css\Format::makeArray($css);
@@ -43,8 +43,8 @@ class Css
 	/**
 	 * get css from html
 	 *
-	 * @param  String|Bool $html
-	 * @param  String $ua
+	 * @param String|Bool $html
+	 * @param String $ua
 	 * @return String
 	 */
 	private static function getConvinedCssFromHtml($html, $ua)
@@ -71,8 +71,8 @@ class Css
 	/**
 	 * get css from link
 	 *
-	 * @param  String|Bool $html
-	 * @param  String $ua
+	 * @param String|Bool $html
+	 * @param String $ua
 	 * @return String
 	 */
 	private static function getCssFileFromLink($html, $ua)
@@ -111,8 +111,8 @@ class Css
 	/**
 	 * fetch from internet
 	 *
-	 * @param  String $url
-	 * @param  String $ua
+	 * @param String $url
+	 * @param String $ua
 	 * @return String
 	 */
 	private static function fetchFromInternet($url, $ua = 'using')
@@ -129,8 +129,8 @@ class Css
 	/**
 	 * enuniqueUri
 	 *
-	 * @param  String $url
-	 * @param  String $css_url
+	 * @param String $url
+	 * @param String $css_url
 	 * @return String
 	 */
 	private static function enuniqueUri($url, $css_url = '')
@@ -151,8 +151,8 @@ class Css
 	/**
 	 * enuniqueCssUri
 	 *
-	 * @param  String $url
-	 * @param  String $css_url
+	 * @param String $url
+	 * @param String $css_url
 	 * @return String
 	 */
 	private static function enuniqueCssUri($url, $css_url = '')

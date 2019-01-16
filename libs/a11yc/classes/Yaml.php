@@ -58,7 +58,7 @@ class Yaml
 	/**
 	 * get each
 	 *
-	 * @param  String $name
+	 * @param String $name
 	 * @return Array
 	 */
 	public static function each($name)

@@ -18,7 +18,7 @@ class SameAltAndFilenameOfImg extends Validate
 	/**
 	 * same alt and filename of img
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Void
 	 */
 	public static function check($url)

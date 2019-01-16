@@ -83,7 +83,7 @@ class Validate
 	/**
 	 * codes2name
 	 *
-	 * @param  Array  $codes
+	 * @param Array  $codes
 	 * @return String
 	 */
 	public static function codes2name($codes = array())
@@ -94,7 +94,7 @@ class Validate
 	/**
 	 * html2id
 	 *
-	 * @param  String $html
+	 * @param String $html
 	 * @return String
 	 */
 	public static function html2id($html)
@@ -105,16 +105,17 @@ class Validate
 	/**
 	 * html
 	 *
-	 * @param  String $url
-	 * @param  String|Array|Bool $html
-	 * @param  Array  $codes
-	 * @param  String $ua
-	 * @param  Bool   $force
+	 * @param String $url
+	 * @param String|Array|Bool $html
+	 * @param Array  $codes
+	 * @param String $ua
+	 * @param Bool   $force
 	 * @return Void
 	 */
 	public static function html($url, $html, $codes = array(), $ua = 'using', $force = false)
 	{
-		if ( ! is_string($html)) Util::error('invalid HTML was given');
+//		if ( ! is_string($html)) Util::error('invalid HTML was given');
+		$html = ! is_string($html) ? '' : $html;
 
 		$codes = $codes ?: self::$codes;
 		$name = static::codes2name($codes);
@@ -155,10 +156,10 @@ class Validate
 	/**
 	 * url
 	 *
-	 * @param  String $url
-	 * @param  Array  $codes
-	 * @param  String $ua
-	 * @param  Bool   $force
+	 * @param String $url
+	 * @param Array  $codes
+	 * @param String $ua
+	 * @param Bool   $force
 	 * @return Void
 	 */
 	public static function url($url, $codes = array(), $ua = 'using', $force = false)
@@ -169,14 +170,14 @@ class Validate
 		if (isset(static::$results[$url][$name][$ua]) && ! $force) return static::$results[$url][$name][$ua];
 
 		// get html and set it to temp value
-		self::html($url, Model\Html::getHtml($url, $ua), $codes, $ua, $force);
+		self::html($url, Model\Html::fetch($url, $ua), $codes, $ua, $force);
 	}
 
 	/**
 	 * css
 	 *
-	 * @param  String $url
-	 * @param  String $ua
+	 * @param String $url
+	 * @param String $ua
 	 * @return Array
 	 */
 	public static function css($url, $ua = 'using')
@@ -188,7 +189,7 @@ class Validate
 	/**
 	 * set message
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Array
 	 */
 	private static function setMessage($url)
@@ -218,11 +219,11 @@ class Validate
 	/**
 	 * add error to html
 	 *
-	 * @param  String $url
-	 * @param  String $error_id
-	 * @param  Array  $s_errors
-	 * @param  String $ignore_vals
-	 * @param  String $issue_html
+	 * @param String $url
+	 * @param String $error_id
+	 * @param Array  $s_errors
+	 * @param String $ignore_vals
+	 * @param String $issue_html
 	 * @return Void
 	 */
 	public static function addErrorToHtml(
@@ -259,6 +260,8 @@ class Validate
 
 		foreach ($errors as $k => $error)
 		{
+			if (empty($error)) continue;
+
 			list($replaces, $replaced, $end_replaced) = self::replaceSafeStrings($replaces, $k, $lv, $error_id, $current_err);
 
 			$error_len = mb_strlen($error, "UTF-8");
@@ -284,6 +287,7 @@ class Validate
 				// cannot define error place
 				continue;
 			}
+			if ($pos === false) continue;
 
 			// add error
 			// not use null. see http://php.net/manual/ja/function.mb-substr.php#77515
@@ -322,31 +326,33 @@ class Validate
 	/**
 	 * set current error
 	 *
-	 * @param  String $url
-	 * @param  String $error_id
-	 * @param  String $issue_html
+	 * @param String $url
+	 * @param String $error_id
+	 * @param String $issue_html
 	 * @return  Array|Bool
 	 */
 	public static function setCurrentErr($url, $error_id, $issue_html = '')
 	{
 		$yml = Yaml::fetch();
 		$current_err = array();
+
 		if ( ! isset($yml['errors'][$error_id]))
 		{
-			$issue = Model\Issues::fetch4Validation($url, $issue_html);
+			$issue = Model\Issue::fetch4Validation($url, $issue_html);
 			if (empty($issue)) return false;
-			$current_err['message'] = $issue['error_message'];
-			if (strpos($issue['criterion'], ',') !== false)
+			$message = Arr::get($issue, 'error_message', '');
+			$current_err['message'] = str_replace(array("\n", "\r"), '', $message);
+			if (strpos(Arr::get($issue, 'criterion', ''), ',') !== false)
 			{
-				$issue_criterions = explod(',', $issue['criterion']);
+				$issue_criterions = explod(',', Arr::get($issue, 'criterion', ''));
 				$current_err['criterions'] = array(trim($issue_criterions[0])); // use one
 			}
 			else
 			{
-				$current_err['criterions'] = array(trim($issue['criterion']));
+				$current_err['criterions'] = array(trim(Arr::get($issue, 'criterion', '')));
 			}
 			$current_err['code']   = '';
-			$current_err['notice'] = ($issue['n_or_e'] == 0);
+			$current_err['notice'] = (Arr::get($issue, 'n_or_e', '') == 0);
 		}
 		else
 		{
@@ -392,11 +398,11 @@ class Validate
 	 * replace Safe Strings
 	 * hash strgings to avoid wrong replace
 	 *
-	 * @param  Array $replaces
-	 * @param  Integer $k
-	 * @param  String  $lv
-	 * @param  String  $error_id
-	 * @param  Array|Bool   $current_err
+	 * @param Array $replaces
+	 * @param Integer $k
+	 * @param String  $lv
+	 * @param String  $error_id
+	 * @param Array|Bool   $current_err
 	 * @return  Array
 	 */
 	private static function replaceSafeStrings($replaces, $k, $lv, $error_id, $current_err)
@@ -430,7 +436,7 @@ class Validate
 	/**
 	 * revert html
 	 *
-	 * @param  String|Array $html
+	 * @param String|Array $html
 	 * @return String
 	 */
 	public static function revertHtml($html)

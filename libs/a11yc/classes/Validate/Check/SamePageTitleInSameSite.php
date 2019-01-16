@@ -19,7 +19,7 @@ class SamePageTitleInSameSite extends Validate
 	/**
 	 * same page title in same site
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Void
 	 */
 	public static function check($url)
@@ -28,13 +28,20 @@ class SamePageTitleInSameSite extends Validate
 		if (Validate::$is_partial === true) return;
 		Validate\Set::log($url, 'same_page_title_in_same_site', self::$unspec, 1);
 
-		$title = Model\Html::fetchPageTitle($url);
-		$sql = 'SELECT count(*) as num FROM '.A11YC_TABLE_PAGES.' WHERE `title` = ?';
-		$sql.= Db::versionSql().';';
-		$results = Db::fetch($sql, array($title));
+		$str = Element\Get::ignoredHtml($url);
+		$title = Model\Html::fetchPageTitleFromHtml($str);
+		$pages = Model\Page::fetchAll();
+
+		$titles = array();
+		$exists = false;
+		foreach ($pages as $page)
+		{
+			if (in_array($title, $titles)) $exists = true;
+			$titles[] = Model\Html::fetchPageTitleFromHtml(Model\Html::fetch($page['url']));
+		}
 
 		Validate\Set::errorAndLog(
-			intval($results['num']) >= 2,
+			$exists,
 			$url,
 			'same_page_title_in_same_site',
 			0,

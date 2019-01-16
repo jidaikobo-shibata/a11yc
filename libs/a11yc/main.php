@@ -11,7 +11,7 @@
 namespace A11yc;
 
 // version
-define('A11YC_VERSION', '2.1.1');
+define('A11YC_VERSION', '3.0.0');
 // git tag 2.1.1 & git push origin --tags
 
 // config
@@ -74,13 +74,9 @@ Update::check();
 // setup
 if ( ! defined('A11YC_IS_GUEST_VALIDATION') && KONTIKI_DB_TYPE != 'none')
 {
-	if ( ! Input::post('target_level') && ! Arr::get(Model\Settings::fetchAll(), 'target_level'))
+	if ( ! Input::post('target_level') && ! Arr::get(Model\Setting::fetchAll(), 'target_level'))
 	{
 		Session::add('messages', 'errors', A11YC_LANG_ERROR_NON_TARGET_LEVEL);
-	}
-	if ( ! Input::post('base_url') && ! Arr::get(Model\Settings::fetchAll(), 'base_url'))
-	{
-		Session::add('messages', 'errors', A11YC_LANG_ERROR_NON_BASE_URL);
 	}
 }
 

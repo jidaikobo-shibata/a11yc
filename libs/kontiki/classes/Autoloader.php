@@ -19,8 +19,8 @@ class Autoloader
 	/**
 	 * add path
 	 *
-	 * @param  String $path
-	 * @param  String $namespace
+	 * @param String $path
+	 * @param String $namespace
 	 * @return Void
 	 */
 	public static function addPath($path, $namespace = '')
@@ -92,9 +92,9 @@ class Autoloader
 	/**
 	 * add core namespace
 	 *
-	 * @param  string $path
-	 * @param  string $namespace
-	 * @param  bool   $prefix
+	 * @param string $path
+	 * @param string $namespace
+	 * @param bool   $prefix
 	 * @return void
 	 */
 	public static function addCoreNamespace($path, $namespace, $prefix = true)
@@ -112,7 +112,7 @@ class Autoloader
 	/**
 	 * Prepares a given path by making sure the directory separators are correct.
 	 *
-	 * @param   string  $path  Path to prepare
+	 * @param  string  $path  Path to prepare
 	 * @return  string  Prepped path
 	 */
 	public static function prepPath($path)
@@ -123,7 +123,7 @@ class Autoloader
 	/**
 	 * file path to classname
 	 *
-	 * @param   string  $path  Path
+	 * @param  string  $path  Path
 	 * @return  string|bool  classname
 	 */
 	public static function corePath2class($path)
@@ -143,8 +143,8 @@ class Autoloader
 	/**
 	 * search loaded class
 	 *
-	 * @param   string  $sub_namespace
-	 * @param   string  $naked_class
+	 * @param  string  $sub_namespace
+	 * @param  string  $naked_class
 	 * @return  Array
 	 */
 	public static function searchLoadedClass($sub_namespace, $naked_class)
@@ -171,7 +171,7 @@ class Autoloader
 	/**
 	 * search unloaded class
 	 *
-	 * @param   string  $naked_class
+	 * @param  string  $naked_class
 	 * @return  Array
 	 */
 	public static function searchUnloadedClass($naked_class)
@@ -196,7 +196,7 @@ class Autoloader
 	/**
 	 * search unloaded namespace
 	 *
-	 * @param   string  $naked_class
+	 * @param  string  $naked_class
 	 * @return  Array
 	 */
 	public static function searchLoadedNamespace($sub_namespace, $naked_class)

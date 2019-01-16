@@ -18,7 +18,7 @@ class MetaRefresh extends Validate
 	/**
 	 * meta refresh
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Void
 	 */
 	public static function check($url)

@@ -16,17 +16,18 @@ class Upload
 	 * img
 	 *
 	 * @param String $target_path
-	 * @param Integer $id
+	 * @param Integer|String $id
 	 * @param String $old_path
 	 * @return Bool|String
 	 */
-	public static function img($target_path, $id, $old_path = '')
+	public static function img($target_path, $id = '', $old_path = '')
 	{
 		$file = Input::file('file');
 		if (empty($file['name'])) return $old_path;
 
 		// mkdir
-		$upload_path = A11YC_UPLOAD_PATH.'/'.$target_path.'/'.$id;
+		$upload_path = A11YC_UPLOAD_PATH.'/'.Model\Data::groupId().'/'.$target_path.'/'.$id;
+		$upload_path = empty($id) ? dirname($upload_path) : $upload_path;
 		if ( ! file_exists($upload_path)) mkdir($upload_path);
 
 		// unlink
@@ -62,8 +63,8 @@ class Upload
 
 		// $mess_type = $r ? 'messages' : 'errors';
 		// $mess_str  = $r ?
-		// 					 sprintf(A11YC_LANG_PAGES_PURGE_DONE, 'id: '.$id) :
-		// 					 sprintf(A11YC_LANG_PAGES_PURGE_FAILED, 'id: '.$id);
+		// 					 sprintf(A11YC_LANG_CTRL_PURGE_DONE, 'id: '.$id) :
+		// 					 sprintf(A11YC_LANG_CTRL_PURGE_FAILED, 'id: '.$id);
 		// Session::add('messages', $mess_type, $mess_str);
 	}
 }

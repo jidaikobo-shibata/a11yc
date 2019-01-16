@@ -16,6 +16,6 @@ if ( ! headers_sent()):
 <div style="word-break: break-all;">
 <!-- <script>a11yc_auto_scroll()</script> -->
 <h1><?php echo $title ?></h1>
-<p><?php echo A11YC_LANG_PAGES_IT_TAKES_TIME ?></p>
+<p><?php echo A11YC_LANG_PAGE_IT_TAKES_TIME ?></p>
 <hr />
 <div id="a11yc_pages_scroll" style="height: 300px;overflow: auto;background-color: #fff;">

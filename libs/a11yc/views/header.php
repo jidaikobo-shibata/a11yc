@@ -33,23 +33,20 @@
 		<a href="#a11yc_content" class="a11yc_skip a11yc_show_if_focus"><?php echo A11YC_LANG_JUMP_TO_CONTENT ?></a>
 		<ul>
 			<li class="a11yc_menu_item a11yc_center"><a href="?c=center&amp;a=index" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_CENTER_TITLE ?></a></li>
-			<li class="a11yc_menu_item a11yc_settings"><a href="?c=settings&amp;a=form" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_SETTINGS_TITLE ?></a></li>
-			<li class="a11yc_menu_item a11yc_icls"><a href="?c=icls&amp;a=index" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_ICLS_TITLE ?></a></li>
-			<li class="a11yc_menu_item a11yc_pages"><a href="?c=pages&amp;a=index" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_PAGES_TITLE ?></a></li>
-			<li class="a11yc_menu_item a11yc_issues"><a href="?c=issues&amp;a=yet" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_ISSUES_TITLE ?></a></li>
+			<li class="a11yc_menu_item a11yc_setting"><a href="?c=setting&amp;a=form" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_SETTING_TITLE ?></a></li>
+			<li class="a11yc_menu_item a11yc_icl"><a href="?c=icl&amp;a=index" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_ICL_TITLE ?></a></li>
+			<li class="a11yc_menu_item a11yc_page"><a href="?c=page&amp;a=index" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_PAGE_TITLE ?></a></li>
+			<li class="a11yc_menu_item a11yc_issue"><a href="?c=issue&amp;a=yet" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_ISSUE_TITLE ?></a></li>
 			<li class="a11yc_menu_item a11yc_bulk"><a href="?c=bulk&amp;a=index" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_BULK_TITLE ?></a></li>
-			<li class="a11yc_menu_item a11yc_docs"><a href="?c=docs&amp;a=index" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_DOCS_TITLE ?></a></li>
-			<li class="a11yc_menu_item a11yc_logout a11yc_fr"><?php echo $login_user[2].'&nbsp;' ?> <a href="?c=auth&amp;a=logout" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_LOGOUT ?></a></li>
-		<?php if ($login_user[0] == 'root'): ?>
-			<li class="a11yc_menu_item a11yc_dev_info a11yc_fr"><span role="presentation"><?php echo Performance::calcTime().' '.Performance::calcMemory() ?></span></li>
-		<?php endif; ?>
+			<li class="a11yc_menu_item a11yc_doc"><a href="?c=doc&amp;a=index" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_DOC_TITLE ?></a></li>
+			<li class="a11yc_menu_item a11yc_logout a11yc_fr" title="<?php echo Performance::calcTime().' '.Performance::calcMemory() ?>"><?php echo $login_user[2].'&nbsp;' ?> <a href="?c=auth&amp;a=logout" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_LOGOUT ?></a></li>
 		</ul>
 		</nav><!--#a11yc_menu-->
 	</div><!--#a11yc_menu_wrapper-->
 	<a id="a11yc_content" tabindex="0" class="a11yc_skip a11yc_show_if_focus"><?php echo A11YC_LANG_BEGINNING_OF_THE_CONTENT ?></a>
 <?php endif; ?>
 <?php
-	$h1 = constant('A11YC_LANG_'.strtoupper($mode).'_TITLE');
+	$h1 = $title;
 	$titile_attr_str ='';
 	if($mode == 'docs'):
 		if( ! (Input::get('a') == 'each')):

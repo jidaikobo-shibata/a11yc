@@ -18,7 +18,7 @@ class HeaderlessSection extends Validate
 	/**
 	 * headerless section
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Void
 	 */
 	public static function check($url)

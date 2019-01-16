@@ -19,7 +19,7 @@ class CssContent extends Validate
 	/**
 	 * check content
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Void
 	 */
 	public static function check($url)

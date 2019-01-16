@@ -21,41 +21,19 @@ class Result
 	 */
 	public static function export()
 	{
-		$results = array(
-			'pages' => array(),
-			'results' => array(),
-			'checklists' => array(),
-			'issues' => array(),
-		);
-		$results['pages'] = Model\Pages::fetch();
-		foreach ($results['pages'] as $page)
+		$vals = array();
+
+		$vals['page'] = Model\Page::fetchAll();
+		$vals['issue']  = Model\Issue::fetchAll();
+		foreach ($vals['page'] as $page)
 		{
-			$sql = 'SELECT * FROM '.A11YC_TABLE_RESULTS.' WHERE `url` = ?'.Db::versionSql().';';
-			$results['results'][] = Db::fetchAll($sql, array($page['url']));;
-
-			$sql = 'SELECT * FROM '.A11YC_TABLE_CHECKS.' WHERE `url` = ?'.Db::versionSql().';';
-			$results['checklists'][] = Db::fetchAll($sql, array($page['url']));
-
-			$sql = 'SELECT * FROM '.A11YC_TABLE_ISSUES.' WHERE `url` = ?;';
-			$results['issues'][] = Db::fetchAll($sql, array($page['url']));
+			$vals['result'][$page['url']] = Model\Result::fetch($page['url']);
+			$vals['check'][$page['url']]  = Model\Checklist::fetch($page['url']);
+			$vals['html'][$page['url']] = Model\Html::fetch($page['url'], '', true, true);
 		}
 
-		$sql = 'SELECT * FROM '.A11YC_TABLE_ISSUES.' WHERE (`is_common` = 1 OR `url` = "");';
-		$results['issues'][] = Db::fetchAll($sql);
-
-		$sql = 'SELECT * FROM '.A11YC_TABLE_CACHES.';';
-		$results['htmls'] = Db::fetch($sql);
-		foreach ($results['htmls'] as $k => $html)
-		{
-			if ( ! isset($html['data'])) continue;
-			$results['htmls'][$k]['data'] = htmlspecialchars($html['data'], ENT_QUOTES);
-		}
-
-		$sql = 'SELECT * FROM '.A11YC_TABLE_ISSUESBBS.';';
-		$results['issuebbs'] = Db::fetchAll($sql);
-
-		View::assign('results', serialize($results));
-		View::assign('title', A11YC_LANG_PAGES_LABEL_EXPORT_CHECK_RESULT);
+		View::assign('vals', json_encode($vals));
+		View::assign('title', A11YC_LANG_PAGE_LABEL_EXPORT_CHECK_RESULT);
 		View::assign('body', View::fetchTpl('export/resultexport.php'), FALSE);
 	}
 
@@ -71,7 +49,7 @@ class Result
 			static::dbio();
 		}
 
-		View::assign('title', A11YC_LANG_PAGES_LABEL_EXPORT_CHECK_RESULT);
+		View::assign('title', A11YC_LANG_PAGE_LABEL_EXPORT_CHECK_RESULT);
 		View::assign('body', View::fetchTpl('export/resultimport.php'), FALSE);
 	}
 
@@ -84,78 +62,76 @@ class Result
 	{
 		$results = Input::post('result');
 		if (empty($results)) return;
-		$results = unserialize($results);
+		$results = json_decode($results, true);
 
 		// import page
-		$page_num = 0;
-		if (isset($results['pages']))
+		if (isset($results['page']))
 		{
-			$this_pages = Model\Pages::fetch();
+			$this_pages = Model\Page::fetchAll();
 			$this_pages = array_column($this_pages, 'url');
-			foreach ($results['pages'] as $vals)
+			foreach ($results['page'] as $vals)
 			{
 				if (in_array($vals['url'], $this_pages)) continue;
-				if (Model\Pages::insert($vals)) $page_num++;
+				Model\Page::insert($vals['url'], $vals);
 			}
 		}
 
 		// import result
-		$result_num = 0;
-		foreach ($results['results'] as $vals)
+		foreach ($results['result'] as $url => $vals)
 		{
-			if (Model\Results::insert($vals)) $result_num++;
+			$ins = Model\Result::fetch($url);
+			foreach ($vals as $criterion => $val)
+			{
+				if ( ! isset($ins[$criterion]) || empty($ins[$criterion]))
+				{
+					$ins[$criterion] = $val;
+				}
+			}
+			Model\Result::insert($url, $vals);
 		}
 
 		// evaluate
-		foreach ($results['pages'] as $vals)
+		foreach ($results['page'] as $vals)
 		{
-			Model\Pages::updateField(
-				$vals['url'],
-				'level',
-				Evaluate::getLevelByUrl($vals['url'])
-			);
+			$url = $vals['url'];
+			Model\Page::updatePartial($url, 'level', Evaluate::getLevelByUrl($url));
 		}
 
 		// import checklists
-		$checklists_num = 0;
-		foreach ($results['checklists'] as $vals)
+		foreach ($results['check'] as $url => $vals)
 		{
-			if (Model\Checklist::insert($vals)) $checklists_num++;
+			$ins = Model\Checklist::fetch($url);
+			foreach ($vals as $criterion => $val)
+			{
+				if (isset($ins[$criterion]))
+				{
+					$ins[$criterion] = array_merge($ins[$criterion], $val);
+					continue;
+				}
+				$ins[$criterion] = $val;
+			}
+			Model\Checklist::update($url, $ins);
 		}
 
 		// import issue
-		$issues_num = 0;
-		foreach ($results['issues'] as $v)
+		foreach ($results['issue'] as $url => $vals)
 		{
-			if (empty($v)) continue;
-			foreach ($v as $vals)
+			if (empty($vals)) continue;
+			foreach ($vals as $criterion => $val)
 			{
-				if ( ! isset($vals['id'])) continue;
-				$old_id = $vals['id'];
-				unset($vals['id']);
-				if ($issue_id = Model\Issues::insert($vals))
+				foreach ($val as $v)
 				{
-					$issues_num++;
-					foreach ($results['issuebbs'] as $bbs)
-					{
-						if ($bbs['issue_id'] == $old_id)
-						{
-							unset($bbs['id']);
-							$bbs['issue_id'] = $issue_id;
-							Model\Issuesbbs::insert($bbs);
-						}
-					}
+					Model\Issue::insert($v);
 				}
 			}
 		}
 
 		// import cache
-		$results['htmls'];
-		foreach ($results['htmls'] as $k => $vals)
+		foreach ($results['html'] as $url => $val)
 		{
-			if ( ! isset($vals['data'])) continue;
-			$vals['data'] = htmlspecialchars_decode($vals['data']);
-			Model\Html::insert($vals);
+			if ( ! isset($val)) continue;
+			$val = htmlspecialchars_decode($val);
+			Model\Html::insert($url, '', $val);
 		}
 	}
 }

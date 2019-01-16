@@ -17,11 +17,11 @@ class Set extends Validate
 	/**
 	 * set Error
 	 *
-	 * @param  String $url
-	 * @param  String|Array $error_name
-	 * @param  Integer $count
-	 * @param  String $id
-	 * @param  String $str
+	 * @param String $url
+	 * @param String|Array $error_name
+	 * @param Integer $count
+	 * @param String $id
+	 * @param String $str
 	 * @return Void
 	 */
 	public static function error($url, $error_name, $count, $id, $str)
@@ -35,12 +35,12 @@ class Set extends Validate
 	/**
 	 * set Error and Log
 	 *
-	 * @param  Bool|Integer $exp
-	 * @param  String $url
-	 * @param  String|Array $error_name
-	 * @param  Integer $count
-	 * @param  String $id
-	 * @param  String $str
+	 * @param Bool|Integer $exp
+	 * @param String $url
+	 * @param String|Array $error_name
+	 * @param Integer $count
+	 * @param String $id
+	 * @param String $str
 	 * @return Void
 	 */
 	public static function errorAndLog($exp, $url, $error_name, $count, $id, $str)
@@ -57,10 +57,10 @@ class Set extends Validate
 	/**
 	 * set Log
 	 *
-	 * @param  String $url
-	 * @param  String|Array $error_name
-	 * @param  String $target_str
-	 * @param  Integer $status
+	 * @param String $url
+	 * @param String|Array $error_name
+	 * @param String $target_str
+	 * @param Integer $status
 	 * status:
 	 * -1 failed
 	 *  0 ignore

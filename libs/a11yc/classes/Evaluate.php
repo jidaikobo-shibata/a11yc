@@ -17,13 +17,13 @@ class Evaluate
 	/**
 	 * check level url
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Integer [-1 Non-Interferences, 0 A-, 1 A, 2 AA, 3 AAA]
 	 */
 	public static function getLevelByUrl($url)
 	{
-		$results = Model\Results::fetchPassed($url);
-		$levels = self::criterionsOfLevels();
+		$results = Model\Result::fetchPassed($url);
+		$levels = Util::criterionsOfLevels();
 
 		// Non-Interferences
 		if (array_diff(Yaml::nonInterferences(), $results)) return -1;
@@ -42,34 +42,11 @@ class Evaluate
 	}
 
 	/**
-	 * criterionsOfLevels
-	 *
-	 * @return Array
-	 */
-	private static function criterionsOfLevels()
-	{
-		$yml = Yaml::fetch();
-		// levels
-		$levels = array();
-		foreach ($yml['levels'] as $v)
-		{
-			foreach ($yml['criterions'] as $criterion => $vv)
-			{
-				if ($vv['level']['name'] != $v['name']) continue;
-				$levels[$v['name']][] = $criterion;
-			}
-		}
-		$levels['AA'] = array_merge($levels['AA'], $levels['A']);
-		$levels['AAA'] = array_merge($levels['AAA'], $levels['AA']);
-		return $levels;
-	}
-
-	/**
 	 * result string
 	 *
-	 * @param  Integer $level
-	 * @param  Integer $target_level
-	 * @param  Bool $is_str
+	 * @param Integer $level
+	 * @param Integer $target_level
+	 * @param Bool $is_str
 	 * @return String
 	 */
 	public static function resultStr($level, $target_level, $is_str = TRUE)
@@ -115,16 +92,17 @@ class Evaluate
 	/**
 	 * check site level
 	 *
-	 * @return String
+	 * @return Integer
 	 */
 	public static function checkSiteLevel()
 	{
-		$sql = 'SELECT MIN(`level`) as min FROM '.A11YC_TABLE_PAGES.' WHERE `done` = 1';
-		$sql.= Db::versionSql();
-		$sql.= ' AND `alt_url` = ""';
-		$min = Db::fetch($sql);
-		$min_level = is_null($min['min']) ? 0 : $min['min'];
-		return $min_level;
+		$levels = array();
+		foreach (Model\Page::fetchAll(array('list' => 'done')) as $page)
+		{
+			if ( ! empty($page['alt_url'])) continue;
+			$levels[] = intval(Arr::get($page, 'level', 0));
+		}
+		return empty($levels) ? 0 : min($levels);
 	}
 
 	/**
@@ -134,26 +112,30 @@ class Evaluate
 	 */
 	public static function checkAltUrlException()
 	{
-		$sql = 'SELECT `level` FROM '.A11YC_TABLE_PAGES.' WHERE `done` = 1';
-		$sql.= Db::versionSql();
-		$sql.= ' AND `alt_url` <> ""';
-		return Db::fetchAll($sql) ? true : false;
+		$alt_pages = array();
+		foreach (Model\Page::fetchAll(array('list' => 'done')) as $page)
+		{
+			if (empty($page['alt_url'])) continue;
+			$alt_pages[] = $page;
+		}
+		return empty($alt_pages) ? false : true;
 	}
 
 	/**
 	 * evaluate url
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Array array('1-1-1' => 0, '1-1-2' => 1 or 2 ....)
 	 */
 	public static function evaluateUrl($url)
 	{
-		$rets = Model\Results::fetch($url);
+		$rets = Model\Result::fetch($url);
 
 		// passed and non_exist
 		$results = array();
 		foreach ($rets as $criterion => $ret)
 		{
+			if ( ! isset($ret['result'])) continue;
 			$results[$criterion]['passed'] = ($ret['result'] >= 1);
 			$results[$criterion]['non_exist'] = ($ret['result'] == 1);
 			$results[$criterion]['memo'] = $ret['memo'];
@@ -173,13 +155,14 @@ class Evaluate
 		$args = array(
 			'list' => 'done',
 		);
-		$pages = Model\Pages::fetch($args);
+		$pages = Model\Page::fetchAll($args);
 
 		// calculate percentage
 		$results = array();
 		$passes = array();
 		$non_exists = array();
 		$total = array();
+
 		foreach ($pages as $p)
 		{
 			$url = Arr::get($p, 'alt_url') ?: Arr::get($p, 'url');

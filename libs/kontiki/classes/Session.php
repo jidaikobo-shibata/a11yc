@@ -17,7 +17,7 @@ class Session
 	/**
 	 * Create Session
 	 *
-	 * @param  String $session_name
+	 * @param String $session_name
 	 * @return void
 	 */
 	public static function forge($session_name = 'KNTKSESSID')
@@ -96,9 +96,9 @@ class Session
 	/**
 	 * add
 	 *
-	 * @param  String $realm
-	 * @param  String $key
-	 * @param  Mixed $vals
+	 * @param String $realm
+	 * @param String $key
+	 * @param Mixed $vals
 	 * @return Void
 	 */
 	public static function add($realm, $key, $vals)
@@ -128,9 +128,9 @@ class Session
 	/**
 	 * remove
 	 *
-	 * @param  String $realm
-	 * @param  String $key
-	 * @param  Integer $c_key
+	 * @param String $realm
+	 * @param String $key
+	 * @param Integer $c_key
 	 * @return Void
 	 */
 	public static function remove($realm, $key = '', $c_key = '')
@@ -178,9 +178,9 @@ class Session
 	 * fetch data from SESSION and static value.
 	 * after fetching data will be deleted (default).
 	 *
-	 * @param  String $realm
-	 * @param  String $key
-	 * @param  Bool $is_once
+	 * @param String $realm
+	 * @param String $key
+	 * @param Bool $is_once
 	 * @return Mixed
 	 */
 	public static function fetch($realm, $key = '', $is_once = true)
@@ -220,8 +220,8 @@ class Session
 	/**
 	 * show
 	 *
-	 * @param  String $realm
-	 * @param  String $key
+	 * @param String $realm
+	 * @param String $key
 	 * @return Mixed
 	 */
 	public static function show($realm = '', $key = '')

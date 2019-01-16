@@ -50,7 +50,7 @@ if (A11YC_POST_GOOGLE_ANALYTICS_CODE)
 	<ul>
 		<li class="a11yc_menu_item a11yc_validation"><a href="<?php echo $base_url ?>" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_POST_INDEX ?></a></li>
 		<li class="a11yc_menu_item a11yc_readme"><a href="<?php echo $base_url ?>?a=readme" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_POST_README ?></a></li>
-		<li class="a11yc_menu_item a11yc_docs"><a href="<?php echo $base_url ?>?a=docs" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_DOCS_TITLE ?></a></li>
+		<li class="a11yc_menu_item a11yc_docs"><a href="<?php echo $base_url ?>?a=docs" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_DOC_TITLE ?></a></li>
 		<?php if (in_array(Input::server('REMOTE_ADDR'), unserialize(A11YC_APPROVED_GUEST_IPS))): ?>
 		<li class="a11yc_menu_item a11yc_dev_info a11yc_fr"><span role="presentation"><?php echo Performance::calcTime().' '.Performance::calcMemory() ?></span></li>
 		<?php endif; ?>

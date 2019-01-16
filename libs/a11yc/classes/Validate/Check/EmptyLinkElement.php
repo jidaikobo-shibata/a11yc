@@ -18,7 +18,7 @@ class EmptyLinkElement extends Validate
 	/**
 	 * empty_link_element
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Void
 	 */
 	public static function check($url)
@@ -63,9 +63,9 @@ class EmptyLinkElement extends Validate
 	/**
 	 * getAriaLabelledby
 	 *
-	 * @param  String $eles
-	 * @param  String $str
-	 * @param  String|Bool $text
+	 * @param String $eles
+	 * @param String $str
+	 * @param String|Bool $text
 	 * @return String
 	 */
 	private static function getAriaLabelledby($eles, $str, $text = '')
@@ -106,8 +106,8 @@ class EmptyLinkElement extends Validate
 	 sample1 + NVDA: reads "foo". speak from the outside.
 
 	 *
-	 * @param  String $eles
-	 * @param  String|Bool $text
+	 * @param String $eles
+	 * @param String|Bool $text
 	 * @return String
 	 */
 	private static function getAriaLabel($eles, $text = '')

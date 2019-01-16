@@ -19,8 +19,8 @@ class Base extends Validate
 	/**
 	 * elements
 	 *
-	 * @param  String $url
-	 * @param  String $regex
+	 * @param String $url
+	 * @param String $regex
 	 * @return Void
 	 */
 	public static function check($url, $regex)
@@ -29,20 +29,23 @@ class Base extends Validate
 
 		$str = Element\Get::ignoredHtml($url);
 		$n = 0;
-		foreach (Model\Issues::fetchByUrl($url) as $v)
+		foreach (Model\Issue::fetchByUrl($url) as $vals)
 		{
-			if (
-				! empty($v['html']) &&
-				preg_match($regex, $v['html']) &&
-				strpos($str, $v['html']) !== false
-			)
+			foreach ($vals as $v)
 			{
-				// add errors
-				$key = static::html2id($v['html']);
-				static::$error_ids[$url][$key][$n]['id'] = $v['html'];
-				static::$error_ids[$url][$key][$n]['str'] = $v['html'];
-				static::addErrorToHtml($url, $key, static::$error_ids[$url], 'ignores', $v['html']);
-				$n++;
+				if (
+					! empty($v['html']) &&
+					preg_match($regex, $v['html']) &&
+					strpos($str, $v['html']) !== false
+				)
+				{
+					// add errors
+					$key = static::html2id($v['html']);
+					static::$error_ids[$url][$key][$n]['id'] = $v['html'];
+					static::$error_ids[$url][$key][$n]['str'] = $v['html'];
+					static::addErrorToHtml($url, $key, static::$error_ids[$url], 'ignores', $v['html']);
+					$n++;
+				}
 			}
 		}
 	}

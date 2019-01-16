@@ -27,7 +27,7 @@ $uas = array(
 </label>
 
 <section>
-	<label for="doc_root"><?php echo A11YC_LANG_SETTINGS_BASE_URL ?> (ex: <code>http://example.com</code>)
+	<label for="doc_root"><?php echo A11YC_LANG_SETTING_BASE_URL ?> (ex: <code>http://example.com</code>)
 		<input type="text" name="doc_root" id="doc_root" size="30" value="<?php echo $doc_root ?>">
 	</label>
 </section>
@@ -73,7 +73,7 @@ if ((Input::isPostExists() || Input::get('url')) && isset($result)):
 <table id="a11yc_targetpage_info">
 <?php if (isset($page_title) && ! empty($page_title)): ?>
 	<tr>
-		<th scope="row"><?php echo A11YC_LANG_PAGES_PAGETITLE ?></th>
+		<th scope="row"><?php echo A11YC_LANG_PAGE_PAGETITLE ?></th>
 		<td><?php echo $page_title ?></td>
 	</tr>
 <?php endif; ?>

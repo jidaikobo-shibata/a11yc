@@ -10,6 +10,8 @@
  */
 namespace A11yc;
 
+use A11yc\Model;
+
 class Update
 {
 	/**
@@ -21,6 +23,11 @@ class Update
 	{
 		if (A11YC_DB_TYPE == 'none') return;
 
+		$created = Model\Data::fetch('db_create', 'global');
+
+		if ( ! $created) return;
+		Model\Data::delete('db_create', 'global');
+
 		// update 1.x.x -> 2.x.x
 		if (Db::isTableExist(A11YC_TABLE_SETUP_OLD) && ! Db::isTableExist(A11YC_TABLE_CACHES))
 		{
@@ -30,25 +37,21 @@ class Update
 		// update add seq to pages
 		if ( ! Db::isFieldsExist(A11YC_TABLE_PAGES, array('seq')))
 		{
-			Update\AddSeq2Pages::update();
+			Update\AddSeq2Page::update();
 		}
 
 		// update add trash to issues
 		if ( ! Db::isFieldsExist(A11YC_TABLE_ISSUES, array('trash')))
 		{
-			Update\AddTrash2Issues::update();
+			Update\AddTrash2Issue::update();
 		}
 
 		// update settings table
 		if (Db::isFieldsExist(A11YC_TABLE_SETTINGS, array('target_level')))
 		{
-			Update\UpdateSettings::update();
+			Update\UpdateSetting::update();
 		}
 
-		// add implement table
-		if ( ! Db::isTableExist(A11YC_TABLE_ICLS))
-		{
-			Update\AddIcls::update();
-		}
+		Update\AddData::update();
 	}
 }

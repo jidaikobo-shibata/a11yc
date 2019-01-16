@@ -15,9 +15,9 @@ class Maintenance
 	 * sqlite
 	 * Be care for directory traversal
 	 *
-	 * @param  String $path
-	 * @param  String $file
-	 * @param  Bool $is_force
+	 * @param String $path
+	 * @param String $file
+	 * @param Bool $is_force
 	 * @return Void
 	 */
 	public static function sqlite ($path, $file, $is_force = FALSE)
@@ -65,7 +65,7 @@ class Maintenance
 	/**
 	 * garbageCollection
 	 *
-	 * @param  String $path
+	 * @param String $path
 	 * @return Void
 	 */
 	private static function garbageCollection ($path)

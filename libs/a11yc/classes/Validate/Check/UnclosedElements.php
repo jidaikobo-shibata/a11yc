@@ -18,7 +18,7 @@ class UnclosedElements extends Validate
 	/**
 	 * unclosed_elements
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Void
 	 */
 	public static function check($url)

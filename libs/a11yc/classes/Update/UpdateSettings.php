@@ -23,7 +23,7 @@ class UpdateSettings
 		$data = Db::fetchAll($sql);
 
 		self::dropSettings();
-		Db::createSettings('default');
+		self::createSettings('default');
 
 		foreach ($data as $each)
 		{
@@ -35,6 +35,23 @@ class UpdateSettings
 				Db::execute($sql, array($k, $v, $version));
 			}
 		}
+	}
+
+	/**
+	 * createSettings
+	 *
+	 * @return Void
+	 */
+	protected static function createSettings($name)
+	{
+		$set_utf8 = A11YC_DB_TYPE == 'mysql' ? ' SET utf8' : '';
+		// init setups
+		$sql = 'CREATE TABLE '.A11YC_TABLE_SETTINGS.' (';
+		$sql.= '`key`     TEXT CHARACTER'.$set_utf8.',';
+		$sql.= '`value`   TEXT CHARACTER'.$set_utf8.',';
+		$sql.= '`version` INTEGER NOT NULL DEFAULT 0';
+		$sql.= ');';
+		Db::execute($sql, array(), $name);
 	}
 
 	/**

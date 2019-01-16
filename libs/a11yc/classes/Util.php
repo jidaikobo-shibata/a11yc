@@ -15,7 +15,7 @@ class Util extends \Kontiki\Util
 	/**
 	 * search words
 	 *
-	 * @param  String $word
+	 * @param String $word
 	 * @return Array
 	 */
 	public static function searchWords2Arr($word)
@@ -34,14 +34,14 @@ class Util extends \Kontiki\Util
 	/**
 	 * enunique Uri
 	 *
-	 * @param  String $uri
-	 * @param  String $base_uri
+	 * @param String $uri
+	 * @param String $base_uri
 	 * @return String
 	 */
 	public static function enuniqueUri($uri, $base_uri = '')
 	{
 		if (empty($uri)) return '';
-		$base_url = $base_uri ?: Model\Settings::fetch('base_url');
+		$base_url = $base_uri ?: Model\Data::baseUrl();
 
 		if (strlen($uri) >= 2 && $uri[0] == '/' && $uri[1] != '/')
 		{
@@ -69,7 +69,7 @@ class Util extends \Kontiki\Util
 	/**
 	 * doc Html Whitelist
 	 *
-	 * @param  String $txt
+	 * @param String $txt
 	 * @return Array
 	 */
 	public static function docHtmlWhitelist($txt)
@@ -91,8 +91,8 @@ class Util extends \Kontiki\Util
 	 * number to 'A' or 'AA' or 'AAA'
 	 * to get conformance level string
 	 *
-	 * @param  Integer $num
-	 * @param  String $default
+	 * @param Integer $num
+	 * @param String $default
 	 * @return String
 	 */
 	public static function num2str($num, $default = '-')
@@ -105,7 +105,7 @@ class Util extends \Kontiki\Util
 	/**
 	 * replace '-' to '.' to convert '1-1-1' to '1.1.1'
 	 *
-	 * @param  String $str
+	 * @param String $str
 	 * @return String
 	 */
 	public static function key2code($str)
@@ -116,7 +116,7 @@ class Util extends \Kontiki\Util
 	/**
 	 * replace '.' to '-' to convert '1.1.1' to '1-1-1'
 	 *
-	 * @param  String $str
+	 * @param String $str
 	 * @return String
 	 */
 	public static function code2key($str)
@@ -127,7 +127,7 @@ class Util extends \Kontiki\Util
 	/**
 	 * modify criterion based array
 	 *
-	 * @param  Array $vals
+	 * @param Array $vals
 	 * @return Array
 	 */
 	public static function modCriterionBasedArr($vals)
@@ -136,7 +136,7 @@ class Util extends \Kontiki\Util
 		$criterions = Yaml::each('criterions');
 		foreach ($criterions as $criterion)
 		{
-			$code = self::key2code($criterion['code']);
+			$code = $criterion['code'];
 			$retvals[$code] = array();
 			foreach ($vals as $v)
 			{
@@ -150,8 +150,8 @@ class Util extends \Kontiki\Util
 	/**
 	 * create doc link of '\d-\d-\d\w' in the text
 	 *
-	 * @param  String $text
-	 * @param  String $doc_url
+	 * @param String $text
+	 * @param String $doc_url
 	 * @return String
 	 */
 	public static function key2link($text, $doc_url = '')
@@ -195,5 +195,69 @@ class Util extends \Kontiki\Util
 		}
 
 		return $text;
+	}
+
+	/**
+	 * criterionsOfLevels
+	 *
+	 * @return Array
+	 */
+	public static function criterionsOfLevels()
+	{
+		$yml = Yaml::fetch();
+		// levels
+		$levels = array();
+		foreach ($yml['levels'] as $v)
+		{
+			foreach ($yml['criterions'] as $criterion => $vv)
+			{
+				if ($vv['level']['name'] != $v['name']) continue;
+				$levels[$v['name']][] = $criterion;
+			}
+		}
+		$levels['AA'] = array_merge($levels['AA'], $levels['A']);
+		$levels['AAA'] = array_merge($levels['AAA'], $levels['AA']);
+		return $levels;
+	}
+
+	/**
+	 * getLevelFromCriterion
+	 *
+	 * @param String $criterion
+	 * @return Integer
+	 */
+	public static function getLevelFromCriterion($criterion)
+	{
+		$levels = static::criterionsOfLevels();
+
+		$level = 1;
+		if (in_array($criterion, $levels['AAA']) && ! in_array($criterion, $levels['AA']))
+		{
+			$level = 3;
+		}
+		elseif (in_array($criterion, $levels['AA']) && ! in_array($criterion, $levels['A']))
+		{
+			$level = 2;
+		}
+
+		return $level;
+	}
+
+	/**
+	 * set message
+	 *
+	 * @param Bool $succeed
+	 * @return Void
+	 */
+	public static function setMassage($succeed)
+	{
+		if ($succeed)
+		{
+			Session::add('messages', 'messages', A11YC_LANG_UPDATE_SUCCEED);
+		}
+		else
+		{
+			Session::add('messages', 'errors', A11YC_LANG_UPDATE_FAILED);
+		}
 	}
 }

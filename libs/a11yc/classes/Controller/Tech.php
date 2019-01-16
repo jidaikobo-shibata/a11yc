@@ -29,7 +29,7 @@ class Tech
 		die();
 
 		// physical path of Techniques for WCAG 2.0 complete.html
-		$path = '/Users/FOOBAR/Desktop/complete.html';
+		$path = 'https://waic.jp/docs/WCAG-TECHS/complete.html';
 		if ( ! file_exists($path)) Util::error();
 		$text = file_get_contents($path);
 

@@ -45,7 +45,7 @@ interface ValidationInterface
      * This method is responsible for validating an `\Upload\FileInfoInterface` instance.
      * If validation fails, an exception should be thrown.
      *
-     * @param  \Upload\FileInfoInterface $fileInfo
+     * @param \Upload\FileInfoInterface $fileInfo
      * @throws \Exception                If validation fails
      */
     public function validate(\Upload\FileInfoInterface $fileInfo);

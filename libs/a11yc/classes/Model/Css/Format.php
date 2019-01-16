@@ -98,7 +98,7 @@ class Format
 	/**
 	 * makeArray
 	 *
-	 * @param  String $css
+	 * @param String $css
 	 * @return Array
 	 */
 	public static function makeArray($css)
@@ -146,8 +146,8 @@ class Format
 	/**
 	 * divide blocks
 	 *
-	 * @param  Array  $arr
-	 * @param  String $css
+	 * @param Array  $arr
+	 * @param String $css
 	 * @return Array
 	 */
 	private static function divideBlocks($arr, $css)
@@ -169,7 +169,7 @@ class Format
 	/**
 	 * divide selectors and properties
 	 *
-	 * @param  Array  $csses
+	 * @param Array  $csses
 	 * @return Array
 	 */
 	private static function divideSelectorsAndProperties($csses)
@@ -211,8 +211,8 @@ class Format
 	/**
 	 * divideStr
 	 *
-	 * @param  String $strs
-	 * @param  String $delimiter
+	 * @param String $strs
+	 * @param String $delimiter
 	 * @return Array
 	 */
 	private static function divideStrs($strs, $delimiter)
@@ -228,10 +228,11 @@ class Format
 		}
 		return $each_strs;
 	}
+
 	/**
 	 * divide each properties
 	 *
-	 * @param  Array $each_properties
+	 * @param Array $each_properties
 	 * @return Array
 	 */
 	private static function divideEachProperties($each_properties)

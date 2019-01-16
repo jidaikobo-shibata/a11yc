@@ -58,7 +58,7 @@ class Autoloader
 
     /**
      * Autoload classname
-     * @param  string $className The class to load
+     * @param string $className The class to load
      */
     static public function autoload($className)
     {

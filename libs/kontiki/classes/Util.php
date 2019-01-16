@@ -35,8 +35,8 @@ class Util
 	 * add query strings
 	 * this medhod doesn't apply sanitizing
 	 *
-	 * @param  String $uri
-	 * @param  Array $query_strings array(array('key', 'val'),...)
+	 * @param String $uri
+	 * @param Array $query_strings array(array('key', 'val'),...)
 	 * @return String
 	 */
 	public static function addQueryStrings($uri, $query_strings = array())
@@ -54,8 +54,8 @@ class Util
 	/**
 	 * remove query strings
 	 *
-	 * @param  String $uri
-	 * @param  Array $query_strings array('key',....)
+	 * @param String $uri
+	 * @param Array $query_strings array('key',....)
 	 * @return String
 	 */
 	public static function removeQueryStrings($uri, $query_strings = array())
@@ -98,12 +98,13 @@ class Util
 	/**
 	 * sanitiz html
 	 *
-	 * @param  String|Array|Bool $str
+	 * @param String|Array|Bool $str
 	 * @return String|Array
 	 */
 	public static function s($str)
 	{
 		if (is_bool($str)) return $str;
+		if (is_object($str)) return $str;
 		if (is_array($str)) return array_map(array('\Kontiki\Util', 's'), $str);
 		return htmlentities($str, ENT_QUOTES, 'UTF-8', false);
 	}
@@ -111,9 +112,9 @@ class Util
 	/**
 	 * truncate
 	 *
-	 * @param  String $str
-	 * @param  Integer $len
-	 * @param  String $lead
+	 * @param String $str
+	 * @param Integer $len
+	 * @param String $lead
 	 * @return String
 	 */
 	public static function truncate($str, $len, $lead = '...')
@@ -125,7 +126,7 @@ class Util
 	/**
 	 * urlenc
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Bool
 	 */
 	public static function urlenc($url)
@@ -147,7 +148,7 @@ class Util
 	/**
 	 * urldec
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Bool
 	 */
 	public static function urldec($url)
@@ -164,7 +165,7 @@ class Util
 	/**
 	 * redirect
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Void
 	 */
 	public static function redirect($url)
@@ -193,7 +194,7 @@ class Util
 	/**
 	 * byte2Str
 	 *
-	 * @param  Integer $bytes
+	 * @param Integer $bytes
 	 * @return String
 	 * @link http://qiita.com/git6_com/items/ecaafb1afb42fc207814
 	 */
@@ -227,7 +228,7 @@ class Util
 	/**
 	 * unquoteUnserialize
 	 *
-	 * @param  String $str
+	 * @param String $str
 	 * @return Array
 	 */
 	public static function unquoteUnserialize($str)
@@ -236,5 +237,39 @@ class Util
 		$str = str_replace('&quot;', '"', $str);
 		$vals = @unserialize($str);
 		return is_array($vals) ? $vals : array();
+	}
+
+	/**
+	 * Check if a string is serialized
+	 *
+	 * @param String $str
+	 * @return Array
+	 */
+	public static function is_serialized($str)
+	{
+		return (@unserialize($str) !== false);
+	}
+
+	/**
+	 * multisort
+	 *
+	 * @param Array $array
+	 * @param String $by
+	 * @param Order $order
+	 * @return Array
+	 */
+	public static function multisort($array, $by = 'seq', $order = 'asc')
+	{
+		$order = strtolower($order) == 'asc' ? SORT_ASC : SORT_DESC ;
+
+		$keys = array();
+		foreach($array as $key => $value)
+		{
+			if ( ! isset($array[$key])) return $array;
+			$keys[$key] = Arr::get($value, $by);
+		}
+		array_multisort($keys, $order, $array);
+
+		return $array;
 	}
 }

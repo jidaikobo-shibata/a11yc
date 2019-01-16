@@ -19,7 +19,7 @@ class IssuesNonTag extends Validate
 	/**
 	 * elements
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Void
 	 */
 	public static function check($url)

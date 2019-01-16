@@ -18,7 +18,7 @@ class AltAttrOfImg extends Validate
 	/**
 	 * alt attr of img
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Void
 	 */
 	public static function check($url)

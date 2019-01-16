@@ -29,13 +29,13 @@ class Live
 	/**
 	 * view
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Void
 	 */
 	public static function view($url)
 	{
 		// keep head
-		$html = Model\Html::getHtml($url);
+		$html = Model\Html::fetch($url);
 		if ($html === false) Util::error('failed to get HTML');
 		$mod_head = self::modifyHead($html);
 
@@ -61,7 +61,7 @@ class Live
 	/**
 	 * modify head
 	 *
-	 * @param  String|Bool $html
+	 * @param String|Bool $html
 	 * @return String
 	 */
 	private static function modifyHead($html)
@@ -100,14 +100,14 @@ class Live
 	/**
 	 * replace strs
 	 *
-	 * @param  String $url
-	 * @param  String $html
+	 * @param String $url
+	 * @param String $html
 	 * @return String
 	 */
 	public static function replaceUrls($url, $html)
 	{
 
-		$settings = Model\Settings::fetchAll();
+		$settings = Model\Setting::fetchAll();
 		if ($settings['base_url'])
 		{
 			$root = $settings['base_url'];
@@ -151,7 +151,7 @@ class Live
 	/**
 	 * replace a11yc error strs
 	 *
-	 * @param  String $html
+	 * @param String $html
 	 * @return String
 	 */
 	private static function replaceErrorStrs($html)

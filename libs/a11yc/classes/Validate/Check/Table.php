@@ -18,7 +18,7 @@ class Table extends Validate
 	/**
 	 * table
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Void
 	 */
 	public static function check($url)
@@ -88,10 +88,10 @@ class Table extends Validate
 	/**
 	 * scopeless
 	 *
-	 * @param  Integer $n
-	 * @param  String $m
-	 * @param  String $url
-	 * @param  String $tstr
+	 * @param Integer $n
+	 * @param String $m
+	 * @param String $url
+	 * @param String $tstr
 	 * @return Void
 	 */
 	private static function scopeless($n, $m, $url, $tstr)
@@ -120,11 +120,11 @@ class Table extends Validate
 	/**
 	 * summaryless
 	 *
-	 * @param  Integer $n
-	 * @param  String $m
-	 * @param  String $url
-	 * @param  String $tstr
-	 * @param  String $table_tag
+	 * @param Integer $n
+	 * @param String $m
+	 * @param String $url
+	 * @param String $tstr
+	 * @param String $table_tag
 	 * @return Void
 	 */
 	private static function summaryless($n, $m, $url, $tstr, $table_tag)

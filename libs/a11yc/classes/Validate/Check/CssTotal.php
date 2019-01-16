@@ -19,7 +19,7 @@ class CssTotal extends Validate
 	/**
 	 * check content
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Void
 	 */
 	public static function check($url)
@@ -79,10 +79,10 @@ class CssTotal extends Validate
 	/**
 	 * set error or log
 	 *
-	 * @param  Array $props
-	 * @param  String $url
-	 * @param  String|Array $error_name
-	 * @param  String $id
+	 * @param Array $props
+	 * @param String $url
+	 * @param String|Array $error_name
+	 * @param String $id
 	 * @return Void
 	 */
 	private static function serErrorOrLog($props, $url, $error_name, $id)

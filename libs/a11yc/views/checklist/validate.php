@@ -68,7 +68,7 @@ if (Arr::get($errs, 'errors') || Arr::get($errs, 'notices')):
 								echo $err['dt'];
 							endif;
 
-							echo $err['li'];
+							echo Arr::get($err, 'li', '');
 
 							$next = $k + 1;
 							if (isset($errs['notices'][$next]['dt'])):

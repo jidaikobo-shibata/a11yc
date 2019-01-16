@@ -38,7 +38,7 @@ Db::initTable();
 View::forge(A11YC_PATH.'/views/');
 
 // assign
-Controller\Results::index();
+Controller\Result::index();
 
 ?><!DOCTYPE html>
 <html lang="<?php echo A11YC_LANG ?>">

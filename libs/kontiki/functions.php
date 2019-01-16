@@ -12,7 +12,7 @@
 /**
  * Encodes the given string
  *
- * @param   string  $str
+ * @param  string  $str
  * @return  string
  */
 if ( ! function_exists('s'))

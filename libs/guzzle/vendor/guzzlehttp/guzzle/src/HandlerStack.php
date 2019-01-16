@@ -223,10 +223,10 @@ class HandlerStack
     /**
      * Splices a function into the middleware list at a specific position.
      *
-     * @param          $findName
-     * @param          $withName
+     * @param         $findName
+     * @param         $withName
      * @param callable $middleware
-     * @param          $before
+     * @param         $before
      */
     private function splice($findName, $withName, callable $middleware, $before)
     {

@@ -51,14 +51,18 @@ pre
 .cover_page,
 .each_issue
 {
-	padding: 10mm 0;
 /*	page-break-after: always;*/
 	page-break-inside: avoid;
+}
+.cover_page,
+.each_issue
+{
+	padding: 10mm 0;
 	position: relative;
 }
 body > :last-child
 {
-	
+
 	page-break-after: auto;
 }
 .cover_page
@@ -78,7 +82,7 @@ body > :last-child
 	background-color: #eee;
 }
 
-.cover_page .heading
+.cover_page > .heading
 {
 	font-size: 2rem;
 	line-height: 1.5;
@@ -91,6 +95,17 @@ body > :last-child
 	margin: auto;
 	height: 4em;
 	padding: 1em;
+}
+.cover_page.has_image .heading
+{
+	font-size: 2rem;
+	position: static;
+	height: auto;
+}
+.cover_page.has_image img
+{
+	max-height: 480px;
+	margin: auto;
 }
 .cover_page .issue_url
 {
@@ -110,7 +125,7 @@ body > :last-child
 	font-size: 1.2rem;
 	line-height: 1;
 }
-.issue 
+.issue
 {
 	font-size: .87rem;
 }
@@ -158,7 +173,7 @@ body > :last-child
 	}
 	.screenshot img
 	{
-		max-height: 50vh;
+		max-height: 33vh;
 	}
 	.each_issue  > .heading:first-child
 	{

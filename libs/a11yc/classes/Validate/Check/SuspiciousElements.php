@@ -18,7 +18,7 @@ class SuspiciousElements extends Validate
 	/**
 	 * suspicious elements
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Void
 	 */
 	public static function check($url)
@@ -68,8 +68,8 @@ class SuspiciousElements extends Validate
 	/**
 	 * count tags
 	 *
-	 * @param  Array|Null $tags
-	 * @param  Array $ignores
+	 * @param Array|Null $tags
+	 * @param Array $ignores
 	 * @return Array
 	 */
 	public static function countTags($tags, $ignores)
@@ -118,8 +118,8 @@ class SuspiciousElements extends Validate
 	/**
 	 * suspicious ends
 	 *
-	 * @param  Array $endless
-	 * @param  String $str
+	 * @param Array $endless
+	 * @param String $str
 	 * @return Array
 	 */
 	public static function suspiciousEnds($endless, $str)

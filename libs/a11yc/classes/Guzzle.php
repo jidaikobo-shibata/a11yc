@@ -47,7 +47,7 @@ class Guzzle
 	 */
 	public static function envCheck()
 	{
-		$setup = Model\Settings::fetchAll();
+		$setup = Model\Setting::fetchAll();
 		if (Arr::get($setup, 'stop_guzzle')) return false;
 		if (version_compare(PHP_VERSION, '5.6.0') <= 0) return false;
 		return true;
@@ -56,7 +56,7 @@ class Guzzle
 	/**
 	 * instance
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Instance
 	 */
 	public static function instance($url)
@@ -67,8 +67,8 @@ class Guzzle
 	/**
 	 * Create Crawler object
 	 *
-	 * @param  String $url Identifier for this request
-	 * @param  Array $cons configuration
+	 * @param String $url Identifier for this request
+	 * @param Array $cons configuration
 	 * @return Void
 	 */
 	public static function forge($url, $cons = array())
@@ -80,7 +80,7 @@ class Guzzle
 			static::$_instances[$url] = new static($url, $cons);
 
 			// set basic auth from setup
-			$setup = Model\Settings::fetchAll();
+			$setup = Model\Setting::fetchAll();
 			$basic_user = Arr::get($setup, 'basic_user');
 			$basic_pass = Arr::get($setup, 'basic_pass');
 			if ($basic_user && $basic_pass)
@@ -95,8 +95,8 @@ class Guzzle
 	 * simply try to access and store status code.
 	 * HEAD request is little bit faster than GET request.
 	 *
-	 * @param  String $url Identifier for this request
-	 * @param  Array $cons configuration
+	 * @param String $url Identifier for this request
+	 * @param Array $cons configuration
 	 */
 	public function __construct($url, $cons = array())
 	{
@@ -210,7 +210,7 @@ class Guzzle
 	/**
 	 * text encoding
 	 *
-	 * @param  String $body
+	 * @param String $body
 	 * @return Void
 	 */
 	private function encoding($body)
@@ -235,7 +235,7 @@ class Guzzle
 	/**
 	 * is html.
 	 *
-	 * @param  Object $response
+	 * @param Object $response
 	 * @return Void
 	 */
 	private function is_html($response)
@@ -246,8 +246,8 @@ class Guzzle
 	/**
 	 * set config
 	 *
-	 * @param  String $name
-	 * @param  Mixed  $val
+	 * @param String $name
+	 * @param Mixed  $val
 	 * @return Void
 	 */
 	public function set_config($name, $val)
@@ -272,7 +272,7 @@ class Guzzle
 	/**
 	 * Fetch a values
 	 *
-	 * @param  String $name
+	 * @param String $name
 	 * @return Mixed
 	 */
 	public function __get($name)

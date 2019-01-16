@@ -20,7 +20,7 @@ class SameUrlsShouldHaveSameText extends Validate
 	 * NOTE: some screen readers read anchor's title attribute.
 	 * and user cannot understand that title is exist or not.
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Void
 	 */
 	public static function check($url)

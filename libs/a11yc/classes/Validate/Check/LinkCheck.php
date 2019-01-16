@@ -18,7 +18,7 @@ class LinkCheck extends Validate
 	/**
 	 * check
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Void
 	 */
 	public static function check($url)
@@ -94,7 +94,7 @@ class LinkCheck extends Validate
 	/**
 	 * get target url
 	 *
-	 * @param  Array $attrs
+	 * @param Array $attrs
 	 * @return String
 	 */
 	protected static function getTargetUrl($attrs)

@@ -17,8 +17,8 @@ class Images
 	/**
 	 * get images
 	 *
-	 * @param  String $url
-	 * @param  String $base_uri
+	 * @param String $url
+	 * @param String $base_uri
 	 * @return  Array
 	 */
 	public static function getImages($url, $base_uri = '')
@@ -67,9 +67,9 @@ class Images
 	/**
 	 * imagesInA
 	 *
-	 * @param  Integer $n
-	 * @param  String $str
-	 * @param  Array $retvals
+	 * @param Integer $n
+	 * @param String $str
+	 * @param Array $retvals
 	 * @return  Array
 	 */
 	private static function imagesInA($n, $str, $retvals)
@@ -108,9 +108,9 @@ class Images
 	/**
 	 * get Area
 	 *
-	 * @param  Integer $n
-	 * @param  String $str
-	 * @param  Array $retvals
+	 * @param Integer $n
+	 * @param String $str
+	 * @param Array $retvals
 	 * @return  Array
 	 */
 	private static function getArea($n, $str, $retvals)
@@ -135,9 +135,9 @@ class Images
 	/**
 	 * get Button
 	 *
-	 * @param  Integer $n
-	 * @param  String $str
-	 * @param  Array $retvals
+	 * @param Integer $n
+	 * @param String $str
+	 * @param Array $retvals
 	 * @return  Array
 	 */
 	private static function getButton($n, $str, $retvals)
@@ -174,9 +174,9 @@ class Images
 	/**
 	 * get Input
 	 *
-	 * @param  Integer $n
-	 * @param  String $str
-	 * @param  Array $retvals
+	 * @param Integer $n
+	 * @param String $str
+	 * @param Array $retvals
 	 * @return  Array
 	 */
 	private static function getInput($n, $str, $retvals)
@@ -205,9 +205,9 @@ class Images
 	/**
 	 * tidy alt
 	 *
-	 * @param  Integer $k
-	 * @param  Array $v
-	 * @param  Array $retvals
+	 * @param Integer $k
+	 * @param Array $v
+	 * @param Array $retvals
 	 * @return  Array
 	 */
 	private static function tidyAlt($k, $v, $retvals)

@@ -18,7 +18,7 @@ class NoticeNonHtmlExists extends Validate
 	/**
 	 * non html exists
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Void
 	 */
 	public static function check($url)

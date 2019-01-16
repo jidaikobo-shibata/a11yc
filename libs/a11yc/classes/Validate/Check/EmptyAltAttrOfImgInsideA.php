@@ -18,7 +18,7 @@ class EmptyAltAttrOfImgInsideA extends Validate
 	/**
 	 * empty alt attr of img inside a
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Void
 	 */
 	public static function check($url)

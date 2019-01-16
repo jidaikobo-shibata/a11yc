@@ -57,7 +57,7 @@ class Values
 	{
 		$selection_reasons = Values::selectionReasons();
 
-		switch (Arr::get(Model\Settings::fetchAll(), 'selected_method'))
+		switch (Arr::get(Model\Setting::fetchAll(), 'selected_method'))
 		{
 			case 0: // not site unit
 				$selection_reasons = array(6 => $selection_reasons[6]);
@@ -188,9 +188,9 @@ class Values
 	public static function issueStatus()
 	{
 		return array(
-			A11YC_LANG_ISSUES_STATUS_1,
-			A11YC_LANG_ISSUES_STATUS_2,
-			A11YC_LANG_ISSUES_STATUS_3,
+			A11YC_LANG_ISSUE_STATUS_1,
+			A11YC_LANG_ISSUE_STATUS_2,
+			A11YC_LANG_ISSUE_STATUS_3,
 		);
 	}
 
@@ -228,24 +228,6 @@ class Values
 			'html' => 1,
 			'pdf' => 2,
 		);
-	}
-
-	/**
-	 * standaoneConsts
-	 *
-	 * @return Array
-	 */
-	public static function standaoneConsts()
-	{
-		// max post a day by ip
-		defined('A11YC_POST_IP_MAX_A_DAY') or define('A11YC_POST_IP_MAX_A_DAY', 150);
-		defined('A11YC_POST_COOKIE_A_10MIN') or define('A11YC_POST_COOKIE_A_10MIN', 10);
-
-		// script name
-		defined('A11YC_POST_SCRIPT_NAME') or define('A11YC_POST_SCRIPT_NAME', '/post.php');
-
-		// Google Analytics
-		defined('A11YC_POST_GOOGLE_ANALYTICS_CODE') or define('A11YC_POST_GOOGLE_ANALYTICS_CODE', '');
 	}
 
 	/**
@@ -307,11 +289,11 @@ class Values
 	public static function targetCriterions()
 	{
 		$retvals = array();
-		$target_level = (int) Model\Settings::fetch('target_level');
+		$target_level = (int) Model\Setting::fetch('target_level');
 		if (empty($target_level)) return $retvals;
 
-		$additional_criterions = Model\Settings::fetch('additional_criterions');
-		$non_exist_and_passed_criterions = Model\Settings::fetch('non_exist_and_passed_criterions');
+		$additional_criterions = Model\Setting::fetch('additional_criterions');
+		$non_exist_and_passed_criterions = Model\Setting::fetch('non_exist_and_passed_criterions');
 		foreach (Yaml::each('criterions') as $criterion => $v)
 		{
 			if (

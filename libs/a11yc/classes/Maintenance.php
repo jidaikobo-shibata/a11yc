@@ -10,6 +10,8 @@
  */
 namespace A11yc;
 
+use A11yc\Model;
+
 class Maintenance extends \Kontiki\Maintenance
 {
 	public static $is_first_of_day = null;
@@ -26,22 +28,40 @@ class Maintenance extends \Kontiki\Maintenance
 	{
 		if ( ! is_null(static::$is_first_of_day)) return static::$is_first_of_day;
 
-		// check
-		$sql = 'SELECT `last_checked` FROM '.A11YC_TABLE_MAINTENANCE.';';
-		$ret = Db::fetch($sql);
+		$today = date('Y-m-d');
 
-		static::$is_first_of_day = true;
-		if (empty($ret))
+		// check
+		$last_checked = Model\Setting::fetch('last_checked');
+
+		// check limit for github
+		$count_arr = array('date' => $today, 'count' => 0);
+		$checktimes = Model\Setting::fetch('checktimes', $count_arr);
+		if ($checktimes['count'] > 5) return false;
+
+		if ($checktimes['date'] == $today)
 		{
-			$sql = 'INSERT INTO '.A11YC_TABLE_MAINTENANCE.' (`last_checked`) VALUES (?);';
-			Db::execute($sql, array(date('Y-m-d')));
+			$checktimes['count']++;
+			Model\Setting::update('checktimes', $checktimes);
+			return false;
 		}
-		elseif (isset($ret['last_checked']) && strtotime($ret['last_checked']) >= time() - 86400)
+
+		Model\Setting::update('checktimes', $count_arr);
+		static::$is_first_of_day = true;
+		if (empty($last_checked))
+		{
+			Model\Setting::insert(array(
+					'last_checked' => $today
+				));
+		}
+		elseif ( ! empty($last_checked) && strtotime($last_checked) >= time() - 86400)
 		{
 			static::$is_first_of_day = false;
 		}
-		$sql = 'UPDATE '.A11YC_TABLE_MAINTENANCE.' set `last_checked` = ?;';
-		Db::execute($sql, array(date('Y-m-d')));
+
+		if ($last_checked != $today)
+		{
+			Model\Setting::update('last_checked', $today);
+		}
 		return static::$is_first_of_day;
 	}
 

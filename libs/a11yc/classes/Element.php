@@ -74,7 +74,7 @@ class Element
 	/**
 	 * is ignorable
 	 *
-	 * @param  String $str
+	 * @param String $str
 	 * @return Bool
 	 */
 	public static function isIgnorable($str)
@@ -114,7 +114,7 @@ class Element
 	/**
 	 * ignoreElementsByStr
 	 *
-	 * @param  String $str
+	 * @param String $str
 	 * @return String
 	 */
 	public static function ignoreElementsByStr($str)
@@ -131,7 +131,7 @@ class Element
 	/**
 	 * prepare strings
 	 *
-	 * @param  String $str
+	 * @param String $str
 	 * @return Array
 	 */
 	public static function prepareStrings($str)
@@ -220,7 +220,7 @@ class Element
 	/**
 	 * explode Strings
 	 *
-	 * @param  String $str
+	 * @param String $str
 	 * @return Array
 	 */
 	public static function explodeStrings($str)
@@ -273,7 +273,7 @@ class Element
 	/**
 	 * recoverStr
 	 *
-	 * @param  String $val
+	 * @param String $val
 	 * @return String
 	 */
 	private static function recoverStr($val)

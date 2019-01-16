@@ -111,7 +111,7 @@ class One2Two
 		$yml = self::yml();
 
 		// migrate results
-		foreach (Model\Pages::fetch() as $page)
+		foreach (Model\Page::fetch() as $page)
 		{
 			$url = $page['url'];
 
@@ -169,7 +169,7 @@ class One2Two
 				$results[$criterion]['memo']   = $memo;
 			}
 
-			Model\Results::update($url, $results);
+			Model\Result::update($url, $results);
 		}
 	}
 
@@ -279,8 +279,8 @@ class One2Two
 	/**
 	 * passed
 	 *
-	 * @param  Array $cs
-	 * @param  Array $yml
+	 * @param Array $cs
+	 * @param Array $yml
 	 * @return Array array('1-1-1' => array('1-1-1a', '1-1-b' ....))
 	 */
 	private static function passed($cs, $yml)
@@ -310,9 +310,9 @@ class One2Two
 	 * 1: non exist and conformity
 	 * 2: conformity
 	 *
-	 * @param  Array $cs
-	 * @param  Array $ngs
-	 * @param  Array $yml
+	 * @param Array $cs
+	 * @param Array $ngs
+	 * @param Array $yml
 	 * @return Array $results = array('1-1-1' => 0, '1-1-2' => 1 or 2 ....)
 	 */
 	private static function doEvaluate($cs, $ngs, $yml)

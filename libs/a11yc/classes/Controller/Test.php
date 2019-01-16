@@ -43,7 +43,6 @@ class Test
 		var_export($rets);
 		echo '</textarea>';
 		die();
-
 	}
 
 	/**
@@ -128,12 +127,11 @@ class Test
 			if ( ! ctype_alnum($v)) continue;
 			$implements[] = trim($v);
 		}
-		$implement = serialize($implements);
 
 		// 実装方法	適合	適用	試験方法	注記	状況-番号-項目	関連する実装テクニック	検証方法
 		$ret['title'] = $cols[0];
 		$ret['identifier'] = $cols[5];
-		$ret['implements'] = $implement;
+		$ret['techs'] = $implements;
 		$ret['inspection'] = $cols[7];
 		return $ret;
 	}

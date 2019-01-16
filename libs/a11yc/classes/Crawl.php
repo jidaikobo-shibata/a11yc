@@ -15,7 +15,7 @@ class Crawl
 	/**
 	 * is target webpage
 	 *
-	 * @param  String  $url
+	 * @param String  $url
 	 * @return Bool
 	 */
 	public static function isTargetMime($url)
@@ -38,7 +38,7 @@ class Crawl
 	/**
 	 * is page exist
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Bool
 	 */
 	public static function isPageExist($url)
@@ -55,7 +55,7 @@ class Crawl
 	/**
 	 * set target path
 	 *
-	 * @param  String $target_path
+	 * @param String $target_path
 	 * @return Void
 	 */
 	public static function setTargetPath($target_path)
@@ -67,7 +67,7 @@ class Crawl
 	/**
 	 * get target path
 	 *
-	 * @param  Bool $is_raw
+	 * @param Bool $is_raw
 	 * @return  string
 	 */
 	public static function getTargetPath($is_raw = false)
@@ -79,7 +79,7 @@ class Crawl
 	/**
 	 * is valid scheme
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Bool
 	 */
 	public static function isValidScheme($url)
@@ -101,7 +101,7 @@ class Crawl
 	/**
 	 * remove_filename
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return String
 	 */
 	public static function removeFilename($url)
@@ -131,7 +131,7 @@ class Crawl
 	/**
 	 * upperPath
 	 *
-	 * @param  String $str
+	 * @param String $str
 	 * @return String
 	 */
 	public static function upperPath($str)
@@ -165,7 +165,7 @@ class Crawl
 	/**
 	 * get host from url
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return String|Bool
 	 */
 	public static function getHostFromUrl($url)
@@ -191,7 +191,7 @@ class Crawl
 	 * if this function returns false, real url is not exists.
 	 * therefore if this returns sting (url), then target url returned 200.
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return String
 	 */
 	public static function real_url($url)

@@ -18,7 +18,7 @@ class TellUserFileType extends Validate
 	/**
 	 * tell user file type
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Void
 	 */
 	public static function check($url)
@@ -90,8 +90,8 @@ class TellUserFileType extends Validate
 	/**
 	 * add check strings
 	 *
-	 * @param  String|Bool $inner
-	 * @param  String $vv
+	 * @param String|Bool $inner
+	 * @param String $vv
 	 * @return String
 	 */
 	private static function addCheckStrings($inner, $vv)
@@ -126,7 +126,7 @@ class TellUserFileType extends Validate
 	/**
 	 * exist Check
 	 *
-	 * @param  String $href
+	 * @param String $href
 	 * @return Array
 	 */
 	private static function existCheck($href)

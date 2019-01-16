@@ -18,7 +18,7 @@ class JaWordBreakingSpace extends Validate
 	/**
 	 * ja word breaking space
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Void
 	 */
 	public static function check($url)

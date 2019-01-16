@@ -18,7 +18,7 @@ class TitlelessFrame extends Validate
 	/**
 	 * titleless frame
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Void
 	 */
 	public static function check($url)

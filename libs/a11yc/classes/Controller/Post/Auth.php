@@ -73,7 +73,7 @@ class Auth
 	/**
 	 * ip check for guest users
 	 *
-	 * @param  String $ip
+	 * @param String $ip
 	 * @return Void
 	 */
 	private static function ipCheckForGuestUsers($ip)

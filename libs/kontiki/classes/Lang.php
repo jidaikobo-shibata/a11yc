@@ -14,7 +14,7 @@ class Lang
 	/**
 	 * getLangs
 	 *
-	 * @param  String $dir
+	 * @param String $dir
 	 * @return Array
 	 */
 	public static function getLangs($dir)

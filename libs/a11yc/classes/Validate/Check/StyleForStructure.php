@@ -18,7 +18,7 @@ class StyleForStructure extends Validate
 	/**
 	 * style for structure
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Void
 	 */
 	public static function check($url)

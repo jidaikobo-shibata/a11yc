@@ -18,7 +18,7 @@ class InvalidTag extends Validate
 	/**
 	 * invalid tag
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Void
 	 */
 	public static function check($url)

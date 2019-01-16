@@ -77,7 +77,7 @@ if(!$('.a11yc')[0])
 /*
  *  common functions
  */
- 
+
 /*=== display when javascript is active === */
 jQuery(function($){
 	$('.a11yc_hide_if_no_js').removeClass('a11yc_hide_if_no_js').addClass('a11yc_show_if_js');
@@ -194,7 +194,7 @@ function a11yc_smooth_scroll(href) {
 		if(!$('.a11yc')[0]) return;
 		//If already scrolling, stop scroll and start from that position
 		console.log(a11yc_env.header_height);
-		
+
 		$(a11yc_env.scrollable_element).stop();
 		var $t = $(href),
 			t_position = $t[0] ? $t.offset().top : false,
@@ -309,7 +309,7 @@ jQuery(function($){
 			var $error_anchors = $('#a11yc_validation_code').find('.a11yc_source span');
 			var $error_places = $();
 			var $validation_code = $('#a11yc_validation_code');
-			
+
 			// click validate_link
 			$(document).on('click', '.a11yc_validate_link a', function(e){
 				var $t = $($(e.currentTarget).attr('href'));
@@ -490,7 +490,48 @@ jQuery(function($){
 	});
 });
 
+/* === choose related techniques === */
+jQuery(function($){
+	var $default_situations = $('#a11yc_situation option');
 
+	function a11yc_criterion_implements()
+	{
+		var criterion = $('#a11yc_criterion').val();
+		$('.a11yc_implement_item').each(function(){
+			if ($.inArray(criterion, $(this).data('criterions')))
+			{
+				$(this).hide();
+			}
+			else
+			{
+				$(this).show();
+			}
+		});
+		$('#a11yc_situation option').each(function(){
+			if($(this).data('criterion') !== criterion ) $(this).remove();
+		});
+		if( ! $('#a11yc_situation').find('option')[0] )
+		{
+			$('#a11yc_situation').append($default_situations).val('');
+		}
+	}
+
+	function a11yc_criterion_implements_situation()
+	{
+		var criterion = $('#a11yc_situation option:selected').data('criterion');
+		criterion = criterion == '' ? '1-1-1' : criterion;
+		$('#a11yc_criterion').val(criterion).trigger('change');
+	}
+
+	$('#a11yc_criterion').on('change', a11yc_criterion_implements);
+	$('#a11yc_situation').on('change', a11yc_criterion_implements_situation);
+
+	if (location.search.indexOf('criterion') == -1)
+	{
+		a11yc_criterion_implements();
+		a11yc_criterion_implements_situation();
+	}
+});
 
 /* === pages === */
 // auto scroll for pages
@@ -504,7 +545,6 @@ function a11yc_stop_scroll(){
 	window.scrollTo(0,document.body.scrollHeight);
 	clearInterval(a11yc_load_url);
 }
-
 
 /* === get validation error_message === */
 /*
@@ -554,5 +594,3 @@ function a11yc_select_validation_code_txt(){
 	window.getSelection().addRange(range);
 }
 */
-
-

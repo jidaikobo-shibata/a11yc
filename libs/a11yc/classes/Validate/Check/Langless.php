@@ -18,7 +18,7 @@ class Langless extends Validate
 	/**
 	 * langless
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Void
 	 */
 	public static function check($url)

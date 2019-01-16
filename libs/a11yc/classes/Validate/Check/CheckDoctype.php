@@ -18,7 +18,7 @@ class CheckDoctype extends Validate
 	/**
 	 * check doctype
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Void
 	 */
 	public static function check($url)

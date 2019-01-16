@@ -19,7 +19,7 @@ class CssInvisibles extends Validate
 	/**
 	 * check content
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Void
 	 */
 	public static function check($url)
@@ -69,10 +69,10 @@ class CssInvisibles extends Validate
 	/**
 	 * check display properly and visibility property
 	 *
-	 * @param  String  $url
-	 * @param  String  $selector
-	 * @param  Integer $k
-	 * @param  Array   $props
+	 * @param String  $url
+	 * @param String  $selector
+	 * @param Integer $k
+	 * @param Array   $props
 	 * @return Bool
 	 */
 	private static function checkDisplayVisibility($url, $selector, $k, $props)
@@ -92,10 +92,10 @@ class CssInvisibles extends Validate
 	/**
 	 * check background-image without background-color
 	 *
-	 * @param  String  $url
-	 * @param  String  $selector
-	 * @param  Integer $k
-	 * @param  Array   $props
+	 * @param String  $url
+	 * @param String  $selector
+	 * @param Integer $k
+	 * @param Array   $props
 	 * @return Bool
 	 */
 	private static function checkBgImageWithoutBgColor($url, $selector, $k, $props)

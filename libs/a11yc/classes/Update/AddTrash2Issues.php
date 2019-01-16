@@ -27,7 +27,7 @@ class AddTrash2Issues
 		$sql = 'SELECT * FROM '.A11YC_TABLE_ISSUES;
 		foreach (Db::fetchAll($sql) as $v)
 		{
-			Model\Issues::updateField($v['id'], 'trash', 0);
+			Model\Issue::update($v['id'], 'trash', 0);
 		}
 	}
 }

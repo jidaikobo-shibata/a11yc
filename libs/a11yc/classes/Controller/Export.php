@@ -49,7 +49,7 @@ class Export
 	/**
 	 * generateCsv
 	 *
-	 * @param  String|Array $url
+	 * @param String|Array $url
 	 * @return Array
 	 */
 	public static function generateCsv($url)
@@ -72,7 +72,7 @@ class Export
 			A11YC_LANG_LEVEL,
 			A11YC_LANG_IMPORTANCE,
 			A11YC_LANG_CRITERION,
-			A11YC_LANG_PAGES_CHECK,
+			A11YC_LANG_CTRL_CHECK,
 			A11YC_LANG_CHECKLIST_SOURCE,
 			A11YC_LANG_CHECKLIST_MEMO,
 		);
@@ -80,8 +80,8 @@ class Export
 		// check and generate csv
 		foreach ($urls as $url)
 		{
-			$html = Model\Html::getHtml($url);
-			if ( ! $html) continue;
+			$html = Model\Html::fetch($url);
+			if ($html === false) continue;
 
 			// validate
 			Validate::url($url);
@@ -99,7 +99,7 @@ class Export
 	/**
 	 * csv
 	 *
-	 * @param  String|Array $url
+	 * @param String|Array $url
 	 * @return Void
 	 */
 	public static function csv($url)
@@ -131,37 +131,20 @@ class Export
 	/**
 	 * add errors to csv
 	 *
-	 * @param  String  $url
-	 * @param  Array   $csv
-	 * @param  Integer $n
+	 * @param String  $url
+	 * @param Array   $csv
+	 * @param Integer $n
 	 * @return Array
 	 */
 	private static function addErr2Csv($url, $csv, $n)
 	{
 		$yml = Yaml::fetch();
+
 		foreach (Validate\Get::errorIds($url) as $err_code => $errs)
 		{
 			foreach ($errs as $err)
 			{
-				// Yaml not exist
-				$current_err = array();
-				if ( ! isset($yml['errors'][$err_code]))
-				{
-					$issue = Model\Issues::fetch4Validation($url, $err['str']);
-					if (empty($issue)) return;
-					$current_err['message'] = $issue['error_message'];
-					$current_err['criterion'] = $issue['criterion'];
-					$current_err['code'] = '';
-					if ($issue['n_or_e'] == 0)
-					{
-						$current_err['notice'] = true;
-					}
-				}
-				else
-				{
-					$current_err = $yml['errors'][$err_code];
-				}
-
+				$current_err = $yml['errors'][$err_code];
 				$err_type = isset($current_err['notice']) ? 'notice' : 'error';
 
 				// alt mention is not need. alt will be revealed
@@ -187,11 +170,30 @@ class Export
 	}
 
 	/**
+	 * stack issue
+	 *
+	 * @param String $url
+	 * @param Array $issues
+	 * @return Array
+	 */
+	private static function stackIssue($url, $issues = array())
+	{
+		foreach (Model\Issue::fetchByUrl($url) as $val)
+		{
+			foreach ($val as $v)
+			{
+				$issues[] = $v;
+			}
+		}
+		return $issues;
+	}
+
+	/**
 	 * issue
 	 *
-	 * @param  String  $url
-	 * @param  Array|Null   $csv
-	 * @param  Integer $n
+	 * @param String  $url
+	 * @param Array|Null   $csv
+	 * @param Integer $n
 	 * @return Array
 	 */
 	private static function addIssues2Csv($url, $csv, $n)
@@ -199,7 +201,9 @@ class Export
 		if (is_null($csv)) return array();
 		$csv[] = array();
 
-		foreach (Model\Issues::fetchByUrl($url) as $issue)
+		$issues = self::stackIssue($url, self::stackIssue('commons'));
+
+		foreach ($issues as $issue)
 		{
 			$err_type = $issue['n_or_e'] == 0 ? 'notice' : 'error';
 
@@ -221,9 +225,9 @@ class Export
 	/**
 	 * add images to csv
 	 *
-	 * @param  String  $url
-	 * @param  Array|Null   $csv
-	 * @param  Integer $n
+	 * @param String  $url
+	 * @param Array|Null   $csv
+	 * @param Integer $n
 	 * @return Array
 	 */
 	private static function addImgs2Csv($url, $csv, $n)
@@ -289,15 +293,21 @@ class Export
 	 */
 	public static function issue()
 	{
-		$issues = Model\Issues::fetchByStatus(0);
-		$settings = Model\Settings::fetchAll();
-		$pages = Model\Pages::fetch();
+		$issues = Model\Issue::fetchByStatus(0);
+		$settings = Model\Setting::fetchAll();
+		$pages = Model\Page::fetchAll();
 
-		View::assign('titles', array_column($pages, 'title', 'url'));
+		$titles = array_column($pages, 'title', 'url');
+		if ( ! isset($titles['commons']))
+		{
+			$titles['commons'] = A11YC_LANG_ISSUE_IS_COMMON;
+		}
+
+		View::assign('titles', $titles);
 		View::assign('images', array_column($pages, 'image_path', 'url'));
 		View::assign('issues', $issues);
 		View::assign('settings', $settings);
-		View::assign('title', $settings['client_name'].' - '.A11YC_LANG_ISSUES_REPORT_HEAD_SUFFIX);
+		View::assign('title', $settings['client_name'].' - '.A11YC_LANG_ISSUE_REPORT_HEAD_SUFFIX);
 		View::assign('body', View::fetchTpl('export/issue.php'), FALSE);
 
 		View::display(array(

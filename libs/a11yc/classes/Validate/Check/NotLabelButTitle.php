@@ -86,7 +86,7 @@ class NotLabelButTitle extends Validate
 	/**
 	 * set label and element
 	 *
-	 * @param  Array $ms
+	 * @param Array $ms
 	 * @return Array
 	 */
 	private static function setLabelAndElement($ms)
@@ -135,8 +135,8 @@ class NotLabelButTitle extends Validate
 	/**
 	 * set delete element
 	 *
-	 * @param  Array $eles
-	 * @param  Array $fors
+	 * @param Array $eles
+	 * @param Array $fors
 	 * @return Array
 	 */
 	private static function setDeleteElement($eles, $fors)
@@ -161,8 +161,8 @@ class NotLabelButTitle extends Validate
 	/**
 	 * set delete for
 	 *
-	 * @param  Array $eles
-	 * @param  Array $del_eles
+	 * @param Array $eles
+	 * @param Array $del_eles
 	 * @return Array
 	 */
 	private static function setDeleteFor($eles, $del_eles)
@@ -186,8 +186,8 @@ class NotLabelButTitle extends Validate
 	/**
 	 * set secondary delete element
 	 *
-	 * @param  String $str
-	 * @param  Array $eles
+	 * @param String $str
+	 * @param Array $eles
 	 * @return Array
 	 */
 	private static function setSecondaryDeleteElement($str, $eles)

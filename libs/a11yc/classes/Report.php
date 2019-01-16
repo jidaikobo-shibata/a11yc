@@ -40,9 +40,8 @@ class Report
 			// create archive
 			if ($is_full)
 			{
-				$urls = array_column(Model\Pages::fetch(), 'url');
+				$urls = array_column(Model\Page::fetchAll(), 'url');
 				$zip = self::results($zip);
-				$zip = self::implementsChecklist($zip);
 				$zip = self::pageList($zip);
 				$zip = self::csv($zip, $urls);
 			}
@@ -88,7 +87,8 @@ class Report
 		$exist = false;
 		foreach ($urls as $url)
 		{
-			\A11yc\Controller\Results::each($url);
+			if ( ! Controller\Result::each($url, true)) continue;
+
 			$body = View::fetch('body');
 			if ( ! $body) continue;
 			$exist = true;
@@ -115,7 +115,7 @@ class Report
 	private static function results($zip)
 	{
 		$is_center = true;
-		Controller\Results::all($is_center);
+		Controller\Result::all($is_center);
 		$body = View::fetch('body');
 		$body = self::replaceStrings($body);
 		$zip->addFromString('index.html', $body);
@@ -152,22 +152,6 @@ class Report
 	}
 
 	/**
-	 * implements checklist
-	 *
-	 * @param Object $zip
-	 * @return Object
-	 */
-	private static function implementsChecklist($zip)
-	{
-		Controller\Results::implementsChecklist();
-		$body = View::fetch('implements_checklist');
-		$body = self::replaceStrings($body);
-		$zip->addFromString('implements_checklist.html', $body);
-
-		return $zip;
-	}
-
-	/**
 	 * page list
 	 *
 	 * @param Object $zip
@@ -175,7 +159,7 @@ class Report
 	 */
 	private static function pageList($zip)
 	{
-		Controller\Results::pages();
+		Controller\Result::pages();
 		$body = View::fetch('body');
 		$body = self::replaceStrings($body);
 		$zip->addFromString('pages.html', $body);

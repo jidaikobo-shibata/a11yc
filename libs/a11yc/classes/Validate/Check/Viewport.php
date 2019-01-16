@@ -18,7 +18,7 @@ class Viewport extends Validate
 	/**
 	 * viewport
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Void
 	 */
 	public static function check($url)

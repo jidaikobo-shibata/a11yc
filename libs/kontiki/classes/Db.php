@@ -20,7 +20,7 @@ class Db
 	/**
 	 * instance
 	 *
-	 * @param  String $name
+	 * @param String $name
 	 * @return Instance
 	 */
 	public static function instance($name = 'default')
@@ -31,8 +31,8 @@ class Db
 	/**
 	 * Create Db object
 	 *
-	 * @param  String|Array $name Identifier for this db
-	 * @param  Array $cons Configuration
+	 * @param String|Array $name Identifier for this db
+	 * @param Array $cons Configuration
 	 * @return Void
 	 */
 	public static function forge($name = 'default', $cons = array())
@@ -102,7 +102,7 @@ class Db
 	/**
 	 * init table
 	 *
-	 * @param  String $name
+	 * @param String $name
 	 * @return void
 	 */
 	public static function initTable($name = 'default')
@@ -113,8 +113,8 @@ class Db
 	/**
 	 * get fields
 	 *
-	 * @param  String $table
-	 * @param  String $name
+	 * @param String $table
+	 * @param String $name
 	 * @return Array
 	 */
 	public static function getFields($table, $name = 'default')
@@ -171,8 +171,8 @@ class Db
 	/**
 	 * isTableExist
 	 *
-	 * @param   string  $table
-	 * @param   string  $name
+	 * @param  string  $table
+	 * @param  string  $name
 	 * @return  bool
 	 */
 	public static function isTableExist($table, $name = 'default')
@@ -193,9 +193,9 @@ class Db
 	/**
 	 * isFieldsExist
 	 *
-	 * @param  String $table
-	 * @param  Array $fields
-	 * @param  String $name
+	 * @param String $table
+	 * @param Array $fields
+	 * @param String $name
 	 * @return Bool
 	 */
 	public static function isFieldsExist($table, $fields = array(), $name = 'default')
@@ -222,8 +222,8 @@ class Db
 	/**
 	 * escape
 	 *
-	 * @param  String|Array $str
-	 * @param  String $name
+	 * @param String|Array $str
+	 * @param String $name
 	 * @return String|Array
 	 */
 	public static function escape($str, $name = 'default')
@@ -238,9 +238,9 @@ class Db
 	/**
 	 * fetch one
 	 *
-	 * @param  String $sql
-	 * @param  Array $placeholders
-	 * @param  String $name
+	 * @param String $sql
+	 * @param Array $placeholders
+	 * @param String $name
 	 * @return Array
 	 */
 	public static function fetch
@@ -260,9 +260,9 @@ class Db
 	/**
 	 * fetch all
 	 *
-	 * @param  String $sql
-	 * @param  Array $placeholders
-	 * @param  String $name
+	 * @param String $sql
+	 * @param Array $placeholders
+	 * @param String $name
 	 * @return Array
 	 */
 	public static function fetchAll
@@ -282,9 +282,9 @@ class Db
 	/**
 	 * execute sql
 	 *
-	 * @param  String $sql
-	 * @param  Array $placeholders
-	 * @param  String $name
+	 * @param String $sql
+	 * @param Array $placeholders
+	 * @param String $name
 	 * @return Bool
 	 */
 	public static function execute

@@ -16,7 +16,7 @@ class Input
 	/**
 	 * delete null-byte
 	 *
-	 * @param  String $str
+	 * @param String $str
 	 * @return String
 	 */
 	public static function deleteNullByte($str = '')
@@ -27,7 +27,7 @@ class Input
 	/**
 	 * Return's the referrer
 	 *
-	 * @param  String $default
+	 * @param String $default
 	 * @return String
 	 */
 	public static function referrer($default = '')
@@ -38,7 +38,7 @@ class Input
 	/**
 	 * Return's the user agent
 	 *
-	 * @param  String $default
+	 * @param String $default
 	 * @return String
 	 */
 	public static function userAgent($default = '')
@@ -59,10 +59,10 @@ class Input
 	/**
 	 * Gets the specified GET or Post variable.
 	 *
-	 * @param  String $index The index to get
-	 * @param  String $default The default value
-	 * @param  String $filter default: FILTER_DEFAULT
-	 * @param  String $options for filter_input()
+	 * @param String $index The index to get
+	 * @param String $default The default value
+	 * @param String $filter default: FILTER_DEFAULT
+	 * @param String $options for filter_input()
 	 * @return String|Array
 	 */
 	public static function param(
@@ -83,10 +83,10 @@ class Input
 	/**
 	 * Gets the specified GET variable.
 	 *
-	 * @param  String $index The index to get
-	 * @param  Mixed $default The default value
-	 * @param  String $filter default: FILTER_DEFAULT
-	 * @param  String $options for filter_input()
+	 * @param String $index The index to get
+	 * @param Mixed $default The default value
+	 * @param String $filter default: FILTER_DEFAULT
+	 * @param String $options for filter_input()
 	 * @return String|Array
 	 */
 	public static function get(
@@ -104,9 +104,9 @@ class Input
 	/**
 	 * Gets the specified Array GET variable.
 	 *
-	 * @param  String $index The index to get
-	 * @param  String $default The default value
-	 * @param  String $filter default: FILTER_DEFAULT
+	 * @param String $index The index to get
+	 * @param String $default The default value
+	 * @param String $filter default: FILTER_DEFAULT
 	 * @return String|Array
 	 */
 	public static function getArr(
@@ -121,10 +121,10 @@ class Input
 	/**
 	 * Gets the specified POST variable.
 	 *
-	 * @param  String $index The index to get
-	 * @param  Mixed $default The default value
-	 * @param  String $filter default: FILTER_DEFAULT
-	 * @param  String  $options  for filter_input()
+	 * @param String $index The index to get
+	 * @param Mixed $default The default value
+	 * @param String $filter default: FILTER_DEFAULT
+	 * @param String  $options  for filter_input()
 	 * @return String|Array
 	 */
 	public static function post(
@@ -142,9 +142,9 @@ class Input
 	/**
 	 * Gets the specified Array POST variable.
 	 *
-	 * @param  String $index The index to get
-	 * @param  String $default The default value
-	 * @param  String $filter default: FILTER_DEFAULT
+	 * @param String $index The index to get
+	 * @param String $default The default value
+	 * @param String $filter default: FILTER_DEFAULT
 	 * @return String|Array
 	 */
 	public static function postArr(
@@ -159,10 +159,10 @@ class Input
 	/**
 	 * Gets the specified COOKIE variable.
 	 *
-	 * @param  String $index The index to get
-	 * @param  String $default The default value
-	 * @param  String $filter default: FILTER_DEFAULT
-	 * @param  String $options for filter_input()
+	 * @param String $index The index to get
+	 * @param String $default The default value
+	 * @param String $filter default: FILTER_DEFAULT
+	 * @param String $options for filter_input()
 	 * @return String|Array
 	 */
 	public static function cookie(
@@ -180,10 +180,10 @@ class Input
 	/**
 	 * Gets the specified SERVER variable.
 	 *
-	 * @param  String $index The index to get
-	 * @param  String $default The default value
-	 * @param  String $filter default: FILTER_DEFAULT
-	 * @param  String $options for filter_input()
+	 * @param String $index The index to get
+	 * @param String $default The default value
+	 * @param String $filter default: FILTER_DEFAULT
+	 * @param String $options for filter_input()
 	 * @return String|Array
 	 */
 	public static function server(
@@ -204,8 +204,8 @@ class Input
 	/**
 	 * Fetch an item from the FILE array
 	 *
-	 * @param  String $index The index to get
-	 * @param  Mixed $default The default value
+	 * @param String $index The index to get
+	 * @param Mixed $default The default value
 	 * @return String|Array
 	 */
 	public static function file($index = null, $default = null)

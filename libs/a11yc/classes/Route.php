@@ -18,8 +18,8 @@ class Route extends \Kontiki\Route
 	/**
 	 * forge
 	 *
-	 * @param  String $controller
-	 * @param  String $action
+	 * @param String $controller
+	 * @param String $action
 	 * @return Void
 	 */
 	public static function forge($controller = '\A11yc\Controller\Center', $action = 'actionIndex')

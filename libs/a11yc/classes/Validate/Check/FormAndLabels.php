@@ -18,7 +18,7 @@ class FormAndLabels extends Validate
 	/**
 	 * form and labels
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Void
 	 */
 	public static function check($url)
@@ -107,8 +107,8 @@ class FormAndLabels extends Validate
 	/**
 	 * endlress form
 	 *
-	 * @param  String $url
-	 * @param  String $str
+	 * @param String $url
+	 * @param String $str
 	 * @return Bool
 	 */
 	private static function lacknessOfFormEnds($url, $str)
@@ -128,7 +128,7 @@ class FormAndLabels extends Validate
 	/**
 	 * collect form items
 	 *
-	 * @param  Array $ms
+	 * @param Array $ms
 	 * @return Array
 	 */
 	private static function collectFormItems($ms)
@@ -188,8 +188,8 @@ class FormAndLabels extends Validate
 	/**
 	 * ignore form
 	 *
-	 * @param  Array $uniqued_types
-	 * @param  Array $uniqued_eles
+	 * @param Array $uniqued_types
+	 * @param Array $uniqued_eles
 	 * @return Bool
 	 */
 	private static function ignoreForm($uniqued_types, $uniqued_eles)
@@ -211,10 +211,10 @@ class FormAndLabels extends Validate
 	/**
 	 * labelless
 	 *
-	 * @param  Integer $n
-	 * @param  String $url
-	 * @param  Array $v
-	 * @param  String $action
+	 * @param Integer $n
+	 * @param String $url
+	 * @param Array $v
+	 * @param String $action
 	 * @return Bool
 	 */
 	private static function labelless($n, $url, $v, $action)
@@ -232,12 +232,12 @@ class FormAndLabels extends Validate
 	/**
 	 * submitless
 	 *
-	 * @param  Integer $n
-	 * @param  String $url
-	 * @param  Array $v
-	 * @param  String $action
-	 * @param  Array $uniqued_types
-	 * @param  Array $uniqued_eles
+	 * @param Integer $n
+	 * @param String $url
+	 * @param Array $v
+	 * @param String $action
+	 * @param Array $uniqued_types
+	 * @param Array $uniqued_eles
 	 * @return Void
 	 */
 	private static function submitless($n, $url, $v, $action, $uniqued_types, $uniqued_eles)
@@ -261,10 +261,10 @@ class FormAndLabels extends Validate
 	/**
 	 * unique label
 	 *
-	 * @param  Integer $k
-	 * @param  String $url
-	 * @param  String $whole_form
-	 * @param  String $v
+	 * @param Integer $k
+	 * @param String $url
+	 * @param String $whole_form
+	 * @param String $v
 	 * @return Bool
 	 */
 	private static function uniqueLabel($k, $url, $whole_form, $v)
@@ -312,11 +312,11 @@ class FormAndLabels extends Validate
 	/**
 	 * duplicated names
 	 *
-	 * @param  Integer $k
-	 * @param  String $url
-	 * @param  String $whole_form
-	 * @param  Array $v
-	 * @param  String $action
+	 * @param Integer $k
+	 * @param String $url
+	 * @param String $whole_form
+	 * @param Array $v
+	 * @param String $action
 	 * @return Bool
 	 */
 	private static function duplicatedNames($k, $url, $whole_form, $v, $action)
@@ -347,9 +347,9 @@ class FormAndLabels extends Validate
 	/**
 	 * miss match "for" and "id"
 	 *
-	 * @param  Integer $n
-	 * @param  String $url
-	 * @param  Array $ms
+	 * @param Integer $n
+	 * @param String $url
+	 * @param Array $ms
 	 * @return Bool
 	 */
 	private static function missMatchForAndId($n, $url, $ms)

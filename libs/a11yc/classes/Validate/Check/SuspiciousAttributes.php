@@ -18,7 +18,7 @@ class SuspiciousAttributes extends Validate
 	/**
 	 * suspicious attributes
 	 *
-	 * @param  String $url
+	 * @param String $url
 	 * @return Void
 	 */
 	public static function check($url)
