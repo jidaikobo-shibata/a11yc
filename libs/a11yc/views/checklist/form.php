@@ -246,7 +246,7 @@ function a11yc_implement_checklist_row($id, $criterion, $arr, $cs, $yml, $refs)
 			if ($issues[$criterion]):
 				echo '<ul>';
 				foreach ($issues[$criterion] as $issue):
-					echo '<li><a href="'.A11YC_ISSUE_URL.'read&amp;id='.intval($issue['id']).'" target="_blank">'.Util::s($issue['id'].': '.$issue['error_message']).' ['.$statuses[$issue['status']].']</a></li>';
+					echo '<li><a href="'.A11YC_ISSUE_URL.'read&amp;id='.intval($issue['id']).'" target="_blank">'.nl2br(Util::s($issue['id'].': '.$issue['error_message'])).' ['.$statuses[$issue['status']].']</a></li>';
 				endforeach;
 				echo '</ul>';
 			endif;

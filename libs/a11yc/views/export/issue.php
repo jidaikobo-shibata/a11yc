@@ -68,6 +68,7 @@ endif;
 
 <section class="issue">
 <?php if($issue['html'] ): ?>
+<<<<<<< HEAD
 	<h3 class="heading"><?php echo A11YC_LANG_ISSUE_HTML ?></h3>
 	<div>
 		<pre><code><?php echo $issue['html'] ?></code></pre>
@@ -90,6 +91,27 @@ endif;
 	endforeach;
 	?>
 	</ul>
+=======
+	<div class="issue_html">
+		<h3 class="heading"><?php echo A11YC_LANG_ISSUES_HTML ?></h3>
+		<pre><code><?php echo $issue['html'] ?></code></pre>
+	</div>
+<?php endif ; ?>
+	<div class="issue_understanding">
+		<h3 class="heading"><?php echo A11YC_LANG_UNDERSTANDING ?></h3>
+		<p>
+			<?php echo nl2br($issue['error_message']) ?>
+		</p>
+	</div>
+<?php if ($issue['tech_url']): ?>
+	<div class="issue_tech">
+		<h3 class="heading"><?php echo A11YC_LANG_ISSUES_TECH ?></h3>
+		<?php
+		foreach (explode("\n", $issue['tech_url']) as $tech_url):
+			echo '<a href="'.$tech_url.'">'.$tech_url.'</a><br>';
+		endforeach;
+		?>
+>>>>>>> 6caf0c91dd51ba28d67e771453a9fedce468fe86
 	</div>
 <?php endif; ?>
 

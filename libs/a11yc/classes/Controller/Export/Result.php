@@ -97,6 +97,8 @@ class Result
 			Model\Page::updatePartial($url, 'level', Evaluate::getLevelByUrl($url));
 		}
 
+
+
 		// import checklists
 		foreach ($results['check'] as $url => $vals)
 		{
@@ -121,7 +123,7 @@ class Result
 			{
 				foreach ($val as $v)
 				{
-					Model\Issue::insert($v);
+					Model\Issue::insert($url, $v);
 				}
 			}
 		}
