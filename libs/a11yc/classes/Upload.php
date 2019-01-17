@@ -27,7 +27,11 @@ class Upload
 
 		// mkdir
 		$upload_path = A11YC_UPLOAD_PATH.'/'.Model\Data::groupId().'/'.$target_path.'/'.$id;
-		$upload_path = empty($id) ? dirname($upload_path) : $upload_path;
+		$upload_path = empty($id) ? rtrim($upload_path, '/') : $upload_path;
+
+		// at least 3 times
+		if ( ! file_exists(dirname(dirname($upload_path)))) mkdir(dirname(dirname($upload_path)));
+		if ( ! file_exists(dirname($upload_path))) mkdir(dirname($upload_path));
 		if ( ! file_exists($upload_path)) mkdir($upload_path);
 
 		// unlink

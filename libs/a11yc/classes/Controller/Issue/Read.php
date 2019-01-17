@@ -64,7 +64,7 @@ class Read
 			$r = Model\Issue::updatePartial($id, 'bbs', $bbs);
 
 			$mess_type = $r ? 'messages' : 'errors';
-			$mess_str  = $r ? A11YC_LANG_ISSUE_EDITED : A11YC_LANG_ISSUE_EDITED_FAILED;
+			$mess_str  = $r ? A11YC_LANG_UPDATE_SUCCEED : A11YC_LANG_UPDATE_FAILED;
 			Session::add('messages', $mess_type, $mess_str);
 			$issue = Model\Issue::fetch($id, true);
 		}

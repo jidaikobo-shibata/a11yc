@@ -25,6 +25,7 @@ define('A11YC_LANG_TEST_METHOD_AC', 'AC');
 define('A11YC_LANG_TEST_METHOD_AF', 'AF');
 define('A11YC_LANG_TEST_METHOD_HC', 'HC');
 define('A11YC_LANG_TEST_METHOD_AC_AF', '機械判定の内容');
+
 define('A11YC_LANG_CRITERION', '達成基準');
 define('A11YC_LANG_HERE', 'こちら,ここ,ここをクリック,コチラ');
 define('A11YC_LANG_TEST_RESULT', '試験結果');
@@ -37,6 +38,7 @@ define('A11YC_LANG_CHECKED_PAGES_URLS', '試験を行ったウェブページの
 define('A11YC_LANG_CHECKED_PAGES', 'URLの一覧');
 define('A11YC_LANG_UNPASSED_PAGES', '目標とする適合レベルに満たないページ');
 define('A11YC_LANG_UNPASSED_PAGES_NO', 'すべてのチェック済みページが目標とする達成基準を満たしています');
+
 define('A11YC_LANG_RELATED', '関連項目');
 define('A11YC_LANG_VALUE', '値');
 define('A11YC_LANG_AS', 'アクセシビリティ・サポーテッド');
@@ -168,6 +170,7 @@ define('A11YC_LANG_SETTING_TITLE_VERSIONS_EXP', 'バージョンに名前をつ�
 define('A11YC_LANG_SETTING_TITLE_ETC', 'その他の設定');
 define('A11YC_LANG_SETTING_SITE_CHANGE', '対象サイトの変更');
 define('A11YC_LANG_SETTING_SITE_ADD_EXP', '対象サイトのドキュメントルートURLを入力してください（ex: https://example.com）。');
+
 define('A11YC_LANG_SETTING_BASIC_AUTH_TITLE', '基本認証');
 define('A11YC_LANG_SETTING_BASIC_AUTH_EXP', '試験対象のサイトが基本認証で守られている場合、ここに基本認証用のユーザ名とパスワードを入力してください');
 define('A11YC_LANG_SETTING_BASIC_AUTH_USER', '基本認証ユーザ名');
@@ -321,6 +324,7 @@ define('A11YC_LANG_ISSUE_N_OR_E', 'Notice/Error');
 define('A11YC_LANG_ISSUE_N_OR_E_EXP', 'Notice（注意喚起）かError（明確な問題）か選択してください');
 define('A11YC_LANG_ISSUE_TECH', '達成方法集のURL');
 define('A11YC_LANG_ISSUE_TECH_EXP', 'WCAG 2.0 達成方法集のURLを入力してください。複数存在する場合は改行で区切ってください');
+
 define('A11YC_LANG_ISSUE_STATUS', '対応状況');
 define('A11YC_LANG_ISSUE_STATUS_1', '未対応');
 define('A11YC_LANG_ISSUE_STATUS_2', '対応中');
@@ -329,6 +333,7 @@ define('A11YC_LANG_ISSUE_ERRMSG', 'エラーの内容');
 define('A11YC_LANG_ISSUE_ERRMSG_EXP', '問題点の表題かつLiveモードおよびCSVなどに表示されるエラーメッセージ');
 define('A11YC_LANG_ISSUE_MESSAGE', 'メッセージ');
 define('A11YC_LANG_ISSUE_MESSAGE_ADD', 'メッセージを新規追加');
+
 define('A11YC_LANG_ISSUE_TITLE_YET', '未解決の問題点');
 define('A11YC_LANG_ISSUE_TITLE_TRASH', '削除済みの問題点');
 define('A11YC_LANG_ISSUE_TITLE_PROGRESS', '対応中の問題点');
@@ -366,11 +371,8 @@ define('A11YC_LANG_SAMPLE_POLICY', '例文：\n<p>【あなたの名前／団体
 // stand alones
 define('A11YC_LANG_POST_SERVICE_NAME', 'A11yc アクセシビリティ チェック サービス');
 define('A11YC_LANG_POST_SERVICE_NAME_ABBR', 'A11yc ACS');
-
 define('A11YC_LANG_POST_INDEX', 'チェック');
-
 define('A11YC_LANG_POST_DESCRIPTION', 'ウェブアクセシビリティのチェッカーです。だれでもお使いいただけます');
-
 define('A11YC_LANG_POST_README', '使い方');
 
 define('A11YC_LANG_POST_HOWTO', '<p>HTMLに対して、機械的にできるアクセシビリティのチェックを行います。<a href="%s">'.A11YC_LANG_POST_INDEX.'</a>の<code>URL</code>に検査対象のURLを入力するか、<code>HTML Source</code>のtextareaにHTMLを貼付して、送信してください。アクセシビリティ上のチェックポイントとその解説文を表示します。</p><p>URLによるチェックの場合は、アクセシビリティのチェックの他に、画像とaltの確認を行うことができます。</p>');

@@ -45,12 +45,12 @@
 	</td>
 </tr>
 
-<?php if ($issue['tech_url']): ?>
+<?php if ($issue['techs']): ?>
 <tr>
 	<th><?php echo A11YC_LANG_ISSUE_TECH ?></th>
 	<td>
 	<?php
-	foreach (explode("\n", $issue['tech_url']) as $tech_url):
+	foreach (explode("\n", $issue['techs']) as $tech_url):
 		echo '<a href="'.$tech_url.'">'.$tech_url.'</a>';
 	endforeach;
 	?>
@@ -63,7 +63,7 @@
 	<th><?php echo A11YC_LANG_ISSUE_SCREENSHOT ?></th>
 	<td>
 	<?php
-	echo '<div><img src="'.A11YC_UPLOAD_URL.'/'.Model\Data::groupId().'/issues/'.$issue['id'].'/'.$issue['image_path'].'" alt="" /></div>';
+	echo '<div><img src="'.A11YC_UPLOAD_URL.'/'.Model\Data::groupId().'/issues/'.$issue['image_path'].'" alt="" /></div>';
 
 	?>
 	</td>

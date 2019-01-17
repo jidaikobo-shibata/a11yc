@@ -25,6 +25,7 @@ define('A11YC_LANG_TEST_METHOD_AC', 'Automated Check');
 define('A11YC_LANG_TEST_METHOD_AF', 'Automated Find');
 define('A11YC_LANG_TEST_METHOD_HC', 'Human Check');
 define('A11YC_LANG_TEST_METHOD_AC_AF', 'AC/AF');
+
 define('A11YC_LANG_CRITERION', 'Criterion');
 define('A11YC_LANG_HERE', 'here, click here, click');
 define('A11YC_LANG_TEST_RESULT', 'Test result');
@@ -33,11 +34,11 @@ define('A11YC_LANG_EXP_TARGET_PAGES', 'Short Description of target pages');
 define('A11YC_LANG_ALT_URL_LEVEL', 'Level of <a href="%s">Alternative Content</a>');
 define('A11YC_LANG_ALT_URL_EXCEPTION', 'Result including alternative content');
 define('A11YC_LANG_CURRENT_LEVEL_WEBPAGES', 'Achieved level of the site');
-define('A11YC_LANG_NUM_OF_CHECKED', 'Number of checked pages');
 define('A11YC_LANG_CHECKED_PAGES_URLS', 'Target pages\' URL');
 define('A11YC_LANG_CHECKED_PAGES', 'List of URL');
 define('A11YC_LANG_UNPASSED_PAGES', 'Page less than the achievement grade as a target');
 define('A11YC_LANG_UNPASSED_PAGES_NO', 'All checked page meet success criteria to target');
+
 define('A11YC_LANG_RELATED', 'Related');
 define('A11YC_LANG_VALUE', 'Value');
 define('A11YC_LANG_AS', 'Accessibility Supported');
@@ -161,6 +162,7 @@ define('A11YC_LANG_PAGE_LABEL_EXPORT_RESULT_HTML_EXP', 'All test results HTML wi
 define('A11YC_LANG_SETTING_TITLE', 'settings');
 define('A11YC_LANG_SETTING_TITLE_BASE', 'BASIC Settings');
 define('A11YC_LANG_SETTING_TITLE_SITE', 'Site Settings');
+define('A11YC_LANG_SETTING_TITLE_SITE_ADD', 'Add New Site');
 define('A11YC_LANG_SETTING_TITLE_UA', 'UA');
 define('A11YC_LANG_SETTING_TITLE_UA_EXP', 'You can add a UA by entering it in the last blank line. If '.A11YC_LANG_CTRL_PURGE.' is checked and sent, the user agent will be deleted but '.A11YC_LANG_UA_USING.' can not be deleted or edited except for its name.');
 define('A11YC_LANG_SETTING_TITLE_VERSIONS', 'Versions');
@@ -168,6 +170,7 @@ define('A11YC_LANG_SETTING_TITLE_VERSIONS_EXP', 'You can name the version. Check
 define('A11YC_LANG_SETTING_TITLE_ETC', 'etc.');
 define('A11YC_LANG_SETTING_SITE_CHANGE', 'Change Target Site');
 define('A11YC_LANG_SETTING_SITE_ADD_EXP', 'Please enter the document root URL of the target site (ex: https://example.com).');
+
 define('A11YC_LANG_SETTING_BASIC_AUTH_TITLE', 'Basic Auth');
 define('A11YC_LANG_SETTING_BASIC_AUTH_EXP', 'If the site to be tested is protected by basic authentication, please enter the user name and password for basic authentication here.');
 define('A11YC_LANG_SETTING_BASIC_AUTH_USER', 'Basic Auth user');
@@ -179,6 +182,7 @@ define('A11YC_LANG_SETTING_NON_USE_TECHS', 'non use technique in implements chec
 define('A11YC_LANG_SETTING_NON_USE_TECHS_CANDIDATES', 'Use usual setting');
 define('A11YC_LANG_SETTING_CACHE_TIME', 'Cache Period');
 define('A11YC_LANG_SETTING_CACHE_TIME_EXP', 'Please enter in minutes. A value of -1 will not update the cache.');
+define('A11YC_LANG_PAGE_CANNOT_IMPORT_HTML', 'Cannot fetch HTML from internet because '.A11YC_LANG_SETTING_CACHE_TIME.' is -1 at '.A11YC_LANG_SETTING_TITLE);
 
 define('A11YC_LANG_DECLARE_DATE', 'Declare Date');
 define('A11YC_LANG_CLIENT_NAME', 'Client Name');
@@ -320,18 +324,21 @@ define('A11YC_LANG_ISSUE_N_OR_E', 'Notice/Error');
 define('A11YC_LANG_ISSUE_N_OR_E_EXP', 'Choose Notice or Error');
 define('A11YC_LANG_ISSUE_TECH', 'URL of Techniques for WCAG 2.0');
 define('A11YC_LANG_ISSUE_TECH_EXP', 'Please enter URL of Techniques for WCAG 2.0. If there are multiple, please separate them with line breaks');
+
 define('A11YC_LANG_ISSUE_STATUS', 'Status');
 define('A11YC_LANG_ISSUE_STATUS_1', 'Not Yet');
 define('A11YC_LANG_ISSUE_STATUS_2', 'Doing');
 define('A11YC_LANG_ISSUE_STATUS_3', 'Done');
 define('A11YC_LANG_ISSUE_ERRMSG', 'Error Message');
 define('A11YC_LANG_ISSUE_ERRMSG_EXP', 'Error messages displayed in Live mode, CSV, etc.');
-define('A11YC_LANG_ISSUE_ADDED', 'Issue was added');
-define('A11YC_LANG_ISSUE_ADDED_FAILED', 'Issue was not added');
-define('A11YC_LANG_ISSUE_EDITED', 'Issue was edited');
-define('A11YC_LANG_ISSUE_EDITED_FAILED', 'Issue was not edited');
 define('A11YC_LANG_ISSUE_MESSAGE', 'Messages');
 define('A11YC_LANG_ISSUE_MESSAGE_ADD', 'Add Message');
+
+define('A11YC_LANG_ISSUE_TITLE_YET', 'Yet');
+define('A11YC_LANG_ISSUE_TITLE_TRASH', 'Trash');
+define('A11YC_LANG_ISSUE_TITLE_PROGRESS', 'In Progress');
+define('A11YC_LANG_ISSUE_TITLE_DONE', 'Done');
+define('A11YC_LANG_ISSUE_TECH_FAILURE', 'Pages with check of incompatibility examples of achievement method collection');
 define('A11YC_LANG_ISSUE_TECH_RELATED', 'Related Techniques');
 define('A11YC_LANG_ISSUE_SCREENSHOT', 'Screenshot');
 define('A11YC_LANG_ISSUE_EXPORT', 'Export');
@@ -364,11 +371,8 @@ define('A11YC_LANG_SAMPLE_POLICY', 'sample:\n<p>[Your Name / Organization Name] 
 // stand alones
 define('A11YC_LANG_POST_SERVICE_NAME', 'A11yc Accessibility Check Service');
 define('A11YC_LANG_POST_SERVICE_NAME_ABBR', 'A11yc ACS');
-
 define('A11YC_LANG_POST_INDEX', 'Check');
-
 define('A11YC_LANG_POST_DESCRIPTION', 'This is a kind of web accessibility checker. anyone can use.');
-
 define('A11YC_LANG_POST_README', 'Read me');
 
 define('A11YC_LANG_POST_HOWTO', '<p>Mechanical accessibility check for the HTML. Please paste your HTML in the textarea of ​​<code>HTML Source</code> or enter target URL to <code>URL</code> in <a href="%s">'.A11YC_LANG_POST_INDEX.'</a> and send it. Display accessibility checkpoints and their commentary.</p><p>In the case of check by URL, in addition to checking accessibility, you can check images and alt.</p>');

@@ -69,7 +69,7 @@ class AddData
 	 */
 	private static function serialize2json()
 	{
-		$sql = 'ALTER TABLE '.A11YC_TABLE_SETTINGS.' ADD `is_array` NOT NULL DEFAULT 0;';
+		$sql = 'ALTER TABLE '.A11YC_TABLE_SETTINGS.' ADD `is_array` BOOL NOT NULL DEFAULT 0;';
 		Db::execute($sql);
 
 		$serializeds = array(
@@ -80,6 +80,7 @@ class AddData
 		foreach ($serializeds as $serialized)
 		{
 			$sql = 'SELECT `version` FROM '.A11YC_TABLE_SETTINGS.' GROUP BY `version`;';
+
 			foreach (Db::fetchAll($sql) as $v)
 			{
 				$version = $v['version'];
@@ -363,6 +364,7 @@ class AddData
 				$vals['title'] = '';
 				$vals['seq'] = 0;
 				$vals['url'] = $vals['is_common'] == 1 || empty($vals['url']) ? 'common' : $vals['url'] ;
+				$vals['is_common'] = $vals['url'] == 'common' ? 1 : $vals['is_common'];
 				$vals['techs'] = array();
 				$vals['other_urls'] = '';
 
