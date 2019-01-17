@@ -111,7 +111,9 @@ class One2Two
 		$yml = self::yml();
 
 		// migrate results
-		foreach (Model\Page::fetch() as $page)
+		$sql   = 'SELECT * FROM '.A11YC_TABLE_PAGES.';';
+		$pages = Db::fetchAll($sql);
+		foreach ($pages as $page)
 		{
 			$url = $page['url'];
 

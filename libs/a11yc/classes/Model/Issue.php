@@ -60,7 +60,7 @@ class Issue
 
 		$commons = self::setCommonOrder($commons);
 		static::$vals = array();
-		if ($commons)
+		if ( ! empty($commons))
 		{
 			static::$vals['commons'] = self::setCommonOrder($commons);
 		}
@@ -100,16 +100,7 @@ class Issue
 	{
 		foreach ($vals as $url => $val)
 		{
-			foreach ($val as $criterion => $v)
-			{
-				$v = Util::multisort($v, 'seq');
-				$tmp = array();
-				foreach ($v as $vv)
-				{
-					$tmp[$vv['id']] = $vv;
-				}
-				$vals[$url][$criterion] = $tmp;
-			}
+			$vals[$url] = self::setCommonOrder($val);
 		}
 
 		// Page::fetchAll() returns sqe ordered array

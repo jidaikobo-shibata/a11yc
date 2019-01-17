@@ -135,7 +135,6 @@ class AddData
 	/**
 	 * updateSettings
 	 *
-	 * @param String $url
 	 * @return Void
 	 */
 	private static function updateSettings()
@@ -427,6 +426,7 @@ class AddData
 	 */
 	private static function initKeysByCriterions()
 	{
+		$vals = array();
 		$criterions = Yaml::each('criterions');
 		foreach (array_keys($criterions) as $criterion)
 		{

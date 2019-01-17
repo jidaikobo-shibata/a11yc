@@ -54,8 +54,6 @@ class Data
 			$value = $v['value'];
 			$data  = $v['is_array'] ? json_decode($value, true) : $value;
 
-
-
 			$is_id = $key == 'issue' || substr($key, 0, 3) == 'icl';
 			if (isset($v['id']) && $is_id)
 			{
@@ -80,13 +78,13 @@ class Data
 	 *
 	 * @param String $key
 	 * @param String $url
-	 * @param String $default
-	 * @param String $force
+	 * @param String|Array $default
+	 * @param Bool $force
 	 * @param Integer $version
 	 * @param Integer $group_id
 	 * @return String|Array
 	 */
-	public static function fetch($key, $url = '*', $default = '', $force = false, $version = 0, $group_id = null)
+	public static function fetch($key, $url = '*', $default = array(), $force = false, $version = 0, $group_id = null)
 	{
 		$group_id = is_null($group_id) ? static::groupId() : $group_id;
 		$vals = self::fetchAll($force, $version, $group_id);
@@ -318,7 +316,7 @@ class Data
 	/**
 	 * delete by id
 	 *
-	 * @param String $key
+	 * @param Integer $id
 	 * @return Bool
 	 */
 	public static function deleteById($id)
