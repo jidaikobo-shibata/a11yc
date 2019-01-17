@@ -252,6 +252,25 @@ class Get extends Element
 		$target = $mms[0];
 
 		// nest
+		$close = self::getClosePos($target, $elename, $end_pure);
+		if ( ! $close) return false;
+
+		// whole tag
+		$target = mb_substr($target, 0, $close).$end_pure;
+
+		return $target;
+	}
+
+	/**
+	 * getClosePos
+	 *
+	 * @param String $target
+	 * @param String $elename
+	 * @param String $end_pure
+	 * @return Integer|Bool
+	 */
+	private static function getClosePos($target, $elename, $end_pure)
+	{
 		$loop = true;
 		$open_pos = 1;
 		$close_pos = 1;
@@ -279,13 +298,7 @@ class Get extends Element
 
 			$loop = false;
 		}
-
-		if ( ! $close) return false;
-
-		// whole tag
-		$target = mb_substr($target, 0, $close).$end_pure;
-
-		return $target;
+		return $close;
 	}
 
 	/**
