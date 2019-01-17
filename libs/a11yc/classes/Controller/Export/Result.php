@@ -46,7 +46,14 @@ class Result
 	{
 		if (Input::isPostExists())
 		{
-			static::dbio();
+			$results = Input::post('result', array());
+			$results = json_decode($results, true);
+
+			self::importPage($results);
+			self::importResult($results);
+			self::importChecklists($results);
+			self::importIssue($results);
+			self::importCache($results);
 		}
 
 		View::assign('title', A11YC_LANG_PAGE_LABEL_EXPORT_CHECK_RESULT);
@@ -54,29 +61,33 @@ class Result
 	}
 
 	/**
-	 * dbio
+	 * page
 	 *
+	 * @param Array $results
 	 * @return Void
 	 */
-	private static function dbio()
+	private static function importPage($results)
 	{
-		$results = Input::post('result');
-		if (empty($results)) return;
-		$results = json_decode($results, true);
-
-		// import page
-		if (isset($results['page']))
+		if ( ! isset($results['page'])) return;
+		$this_pages = Model\Page::fetchAll();
+		$this_pages = array_column($this_pages, 'url');
+		foreach ($results['page'] as $vals)
 		{
-			$this_pages = Model\Page::fetchAll();
-			$this_pages = array_column($this_pages, 'url');
-			foreach ($results['page'] as $vals)
-			{
-				if (in_array($vals['url'], $this_pages)) continue;
-				Model\Page::insert($vals['url'], $vals);
-			}
+			if (in_array($vals['url'], $this_pages)) continue;
+			Model\Page::insert($vals['url'], $vals);
 		}
+	}
 
-		// import result
+	/**
+	 * result
+	 *
+	 * @param Array $results
+	 * @return Void
+	 */
+	private static function importResult($results)
+	{
+		if ( ! isset($results['result'])) return;
+
 		foreach ($results['result'] as $url => $vals)
 		{
 			$ins = Model\Result::fetch($url);
@@ -96,10 +107,18 @@ class Result
 			$url = $vals['url'];
 			Model\Page::updatePartial($url, 'level', Evaluate::getLevelByUrl($url));
 		}
+	}
 
+	/**
+	 * checklist
+	 *
+	 * @param Array $results
+	 * @return Void
+	 */
+	private static function importChecklist($results)
+	{
+		if ( ! isset($results['check'])) return;
 
-
-		// import checklists
 		foreach ($results['check'] as $url => $vals)
 		{
 			$ins = Model\Checklist::fetch($url);
@@ -114,8 +133,18 @@ class Result
 			}
 			Model\Checklist::update($url, $ins);
 		}
+	}
 
-		// import issue
+	/**
+	 * issue
+	 *
+	 * @param Array $results
+	 * @return Void
+	 */
+	private static function importIssue($results)
+	{
+		if ( ! isset($results['issue'])) return;
+
 		foreach ($results['issue'] as $url => $vals)
 		{
 			if (empty($vals)) continue;
@@ -127,8 +156,18 @@ class Result
 				}
 			}
 		}
+	}
 
-		// import cache
+	/**
+	 * cache
+	 *
+	 * @param Array $results
+	 * @return Void
+	 */
+	private static function importCache($results)
+	{
+		if ( ! isset($results['html'])) return;
+
 		foreach ($results['html'] as $url => $val)
 		{
 			if ( ! isset($val)) continue;
@@ -136,4 +175,5 @@ class Result
 			Model\Html::insert($url, '', $val);
 		}
 	}
+
 }

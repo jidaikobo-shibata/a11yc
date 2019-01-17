@@ -19,7 +19,7 @@ class Checklist
 	 *
 	 * @param String $url
 	 * @param Bool $force
-	 * @return Bool|Array
+	 * @return Array
 	 */
 	public static function fetch($url, $force = false)
 	{
