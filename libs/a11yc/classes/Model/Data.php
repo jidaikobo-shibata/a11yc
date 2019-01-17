@@ -78,7 +78,7 @@ class Data
 	 *
 	 * @param String $key
 	 * @param String $url
-	 * @param String|Array $default
+	 * @param Mixed $default
 	 * @param Bool $force
 	 * @param Integer $version
 	 * @param Integer $group_id
