@@ -73,19 +73,13 @@ class FormAndLabels extends Validate
 			self::submitless($n, $url, $v, $action, $uniqued_types, $uniqued_eles);
 
 			// whole form
-			$replace = str_replace(
-				array('<', '>', '/', '.', '[', ']'),
-				array('\<', '\>', '\/', '\.', '\[', '\]'),
-				$v['form']);
-			preg_match('/'.$replace.'.+?<\/form\>*/is', $tmp_html, $whole_form);
+			$replace = preg_quote($v['form'], '/').'.+?\<\/form\>*';
+			preg_match('/'.$replace.'/is', $tmp_html, $whole_form);
 			$whole_form = Arr::get($whole_form, 0, '');
 
 			// avoid get same form
-			$tmp_html = mb_substr(
-				$tmp_html,
-				mb_strpos($tmp_html, $v['form']) + mb_strlen($whole_form),
-				null,
-				"UTF-8");
+			$start = mb_strpos($tmp_html, $v['form']) + mb_strlen($whole_form);
+			$tmp_html = mb_substr($tmp_html, $start, null, "UTF-8");
 
 			// unique_label
 			self::uniqueLabel($k, $url, $whole_form, $v);
@@ -118,10 +112,8 @@ class FormAndLabels extends Validate
 			Validate\Set::error($url, 'lackness_of_form_ends', 0, '', '');
 			return true;
 		}
-		else
-		{
-			Validate\Set::log($url, 'lackness_of_form_ends', self::$unspec, 2);
-		}
+
+		Validate\Set::log($url, 'lackness_of_form_ends', self::$unspec, 2);
 		return false;
 	}
 
@@ -154,8 +146,6 @@ class FormAndLabels extends Validate
 				$forms[$n]['form']   = $m;
 				$forms[$n]['labels'] = array();
 				$forms[$n]['eles']   = array();
-				$forms[$n]['fors']   = array();
-				$forms[$n]['ids']    = array();
 				$forms[$n]['types']  = array();
 				$forms[$n]['names']  = array();
 				continue;
@@ -171,8 +161,6 @@ class FormAndLabels extends Validate
 
 			$attrs = Element\Get::attributes($m);
 
-			if (isset($attrs['for']))  $forms[$n]['fors'][]  = $attrs['for'];
-			if (isset($attrs['id']))   $forms[$n]['ids'][]   = $attrs['id'];
 			if (isset($attrs['type'])) $forms[$n]['types'][] = $attrs['type'];
 		}
 

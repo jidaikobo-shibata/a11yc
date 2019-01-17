@@ -27,7 +27,7 @@ $uas = array(
 </label>
 
 <section>
-	<label for="doc_root"><?php echo A11YC_LANG_SETTING_BASE_URL ?> (ex: <code>http://example.com</code>)
+	<label for="doc_root"><?php echo A11YC_LANG_BASE_URL ?> (ex: <code>http://example.com</code>)
 		<input type="text" name="doc_root" id="doc_root" size="30" value="<?php echo $doc_root ?>">
 	</label>
 </section>

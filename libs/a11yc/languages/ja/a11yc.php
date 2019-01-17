@@ -93,6 +93,7 @@ define('A11YC_LANG_ELEMENT', '要素');
 define('A11YC_LANG_ATTRS', '属性');
 define('A11YC_LANG_IMPORTANT', '重要');
 define('A11YC_LANG_NEED_CHECK', '要確認');
+define('A11YC_LANG_BASE_URL', 'ドキュメントルートURL');
 
 // ua
 define('A11YC_LANG_UA_USING',  '現在のブラウザ');

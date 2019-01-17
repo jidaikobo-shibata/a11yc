@@ -94,6 +94,7 @@ define('A11YC_LANG_ELEMENT', 'Element');
 define('A11YC_LANG_ATTRS', 'Attributes');
 define('A11YC_LANG_IMPORTANT', 'IMPORTANT');
 define('A11YC_LANG_NEED_CHECK', 'Need Check');
+define('A11YC_LANG_BASE_URL', 'Document Root URL');
 
 // ua
 define('A11YC_LANG_UA_USING',  'Current Browser');
