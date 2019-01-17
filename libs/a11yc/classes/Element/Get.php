@@ -105,19 +105,7 @@ class Get extends Element
 		{
 			return static::$res[$ignore_type][$type];
 		}
-
-		switch ($type)
-		{
-			case 'anchors':
-				$ret = self::anchors($str);
-				break;
-			case 'anchors_and_values':
-				$ret = self::anchorsAndValues($str);
-				break;
-			default:
-				$ret = self::tags($str);
-				break;
-		}
+		$ret = self::decideRe($str, $type);
 
 		// imgs
 		if (isset($ret[1]) && $type == 'imgs')
@@ -129,6 +117,26 @@ class Get extends Element
 		if ($force) return $ret;
 		static::$res[$ignore_type][$type] = $ret;
 		return static::$res[$ignore_type][$type];
+	}
+
+	/**
+	 * get elements by regular expression
+	 *
+	 * @param String $str
+	 * @param String $type (anchors|anchors_and_values|imgs|tags)
+	 * @return Array
+	 */
+	private static function decideRe($str, $type)
+	{
+		switch ($type)
+		{
+			case 'anchors':
+				return self::anchors($str);
+			case 'anchors_and_values':
+				return self::anchorsAndValues($str);
+			default:
+				return self::tags($str);
+		}
 	}
 
 	/**
