@@ -12,12 +12,14 @@ foreach (Yaml::each('criterions') as $criterion => $criterion_vals):
 
 	// implement exists?
 	$implements = array();
-	foreach ($icls[$criterion] as $icls_id => $situation):
-		if ( ! isset($implements[$icls_id])) $implements[$icls_id] = array();
-		foreach ($situation['implements'] as $sit):
-			$implements[$icls_id] = array_merge($implements[$icls_id], $sit['techs']);
+	if (isset($icls[$criterion])):
+		foreach ($icls[$criterion] as $icls_id => $situation):
+			if ( ! isset($implements[$icls_id])) $implements[$icls_id] = array();
+			foreach ($situation['implements'] as $sit):
+				$implements[$icls_id] = array_merge($implements[$icls_id], $sit['techs']);
+			endforeach;
 		endforeach;
-	endforeach;
+	endif;
 	if (empty($implements)) continue;
 
 	$html.= '<h2>'.Util::key2code($criterion).' '.$criterion_vals['name'].' ['.$criterion_vals['level']['name'].']</h2>';

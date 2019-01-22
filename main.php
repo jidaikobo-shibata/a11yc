@@ -17,7 +17,7 @@ define('A11YC_VERSION', '3.0.0');
 // config
 if ( ! defined('A11YC_CONFIG_PATH'))
 {
-	$config_path = dirname(dirname(__DIR__)).'/config/config.php';
+	$config_path = __DIR__.'/config/config.php';
 	define('A11YC_CONFIG_PATH', $config_path);
 }
 if ( ! file_exists(A11YC_CONFIG_PATH))

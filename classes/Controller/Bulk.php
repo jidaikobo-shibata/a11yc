@@ -25,7 +25,7 @@ class Bulk extends Checklist
 	}
 
 	/**
-	 * dbio
+	 * dbio - override
 	 *
 	 * @param String $url
 	 * @return Void
