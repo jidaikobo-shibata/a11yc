@@ -281,7 +281,7 @@ class Result
 		self::assignResults($settings['target_level']);
 
 		// policy
-		View::assign('versions', Model\Versions::fetch());
+		View::assign('versions', Model\Version::fetchAll());
 		View::assign('policy', $settings['policy'], false);
 		View::assign('title', A11YC_LANG_POLICY);
 		View::assign('body', View::fetchTpl('result/policy.php'), false);
