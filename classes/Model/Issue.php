@@ -242,7 +242,6 @@ class Issue
 		// 							Element\Get::firstTag(Element\Get::ignoredHtml($url)) :
 		// 							$vals['html'];
 		$vals['is_common'] = $url == 'common' ? true : $vals['is_common'];
-
 		return $vals;
 	}
 
