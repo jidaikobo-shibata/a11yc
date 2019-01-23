@@ -238,9 +238,9 @@ class Issue
 	 */
 	public static function valueFilter($url, $vals)
 	{
-		$vals['html'] = empty($vals['html']) ?
-									Element\Get::firstTag(Element\Get::ignoredHtml($url)) :
-									$vals['html'];
+		// $vals['html'] = empty($vals['html']) ?
+		// 							Element\Get::firstTag(Element\Get::ignoredHtml($url)) :
+		// 							$vals['html'];
 		$vals['is_common'] = $url == 'common' ? true : $vals['is_common'];
 
 		return $vals;
