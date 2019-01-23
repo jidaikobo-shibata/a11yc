@@ -297,17 +297,18 @@ class Export
 		$settings = Model\Setting::fetchAll();
 		$pages = Model\Page::fetchAll();
 
+		$vals = array();
 		foreach ($issues as $url => $criterions)
 		{
-			foreach ($criterions as $criterion => $vals)
+			foreach ($criterions as $criterion => $v)
 			{
-				foreach ($vals as $key => $val)
+				foreach ($v as $key => $val)
 				{
-					if ($val['output'] === false) unset($issues[$url][$criterion][$key]);
+					if ($val['output'] === false) continue;
+					$vals[$url][] = $val;
 				}
-				if (empty($issues[$url][$criterion])) unset($issues[$url][$criterion]);
 			}
-			if (empty($issues[$url])) unset($issues[$url]);
+			$vals[$url] = Util::multisort($vals[$url], 'seq');
 		}
 
 		$titles = array_column($pages, 'title', 'url');
@@ -318,7 +319,7 @@ class Export
 
 		View::assign('titles', $titles);
 		View::assign('images', array_column($pages, 'image_path', 'url'));
-		View::assign('issues', $issues);
+		View::assign('issues', $vals);
 		View::assign('settings', $settings);
 		View::assign('title', $settings['client_name'].' - '.A11YC_LANG_ISSUE_REPORT_HEAD_SUFFIX);
 		View::assign('body', View::fetchTpl('export/issue.php'), FALSE);

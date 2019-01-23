@@ -35,8 +35,7 @@ if ($url == 'commons' && $show_common_cover_page === false):
 	echo '</div>';
 endif;
 
-foreach ($issue_parents as $criterion => $each):
-foreach ($each as $issue):
+foreach ($issue_parents as $criterion => $issue):
 
 // each cover page
 if ($url != 'commons' && ! in_array($url, $show_each_cover_page)):
@@ -112,7 +111,6 @@ $other_urls = explode("\n", $other_url);
 
 </section><!-- /.issue -->
 </section><!-- /.each_issue -->
-<?php endforeach; ?>
 <?php endforeach; ?>
 <?php endforeach; ?>
 </article>
