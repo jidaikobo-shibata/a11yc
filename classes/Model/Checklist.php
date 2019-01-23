@@ -26,6 +26,7 @@ class Checklist
 		if (empty($url)) return array();
 		if (isset(static::$checks[$url]) && ! $force) return static::$checks[$url];
 		$vals = Data::fetch('check', $url, array(), $force);
+		$vals = is_array($vals) ? $vals : array();
 
 		static::$checks[$url] = array();
 		foreach ($vals as $criterion => $val)
@@ -48,6 +49,7 @@ class Checklist
 	public static function fetchFailures($url = '')
 	{
 		$vals = Data::fetch('check');
+		$vals = is_array($vals) ? $vals : array();
 
 		foreach ($vals as $each_url => $val)
 		{

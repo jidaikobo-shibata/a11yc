@@ -51,7 +51,7 @@ class Result
 
 			self::importPage($results);
 			self::importResult($results);
-			self::importChecklists($results);
+			self::importChecklist($results);
 			self::importIssue($results);
 			self::importCache($results);
 		}

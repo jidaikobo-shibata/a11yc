@@ -23,7 +23,8 @@ class Ua
 	public static function fetch($force = false)
 	{
 		if ( ! is_null(static::$uas) && ! $force) return static::$uas;
-		static::$uas = Setting::fetch('user_agents', array(), $force);
+		$vals = Setting::fetch('user_agents', array(), $force);
+		static::$uas = is_array($vals) ? $vals : array();
 		return static::$uas;
 	}
 
@@ -64,7 +65,7 @@ class Ua
 			}
 
 			// message
-			if (Setting::update('user_agents', $value))
+			if (Setting::update('user_agents', $value) === true)
 			{
 				Session::add('messages', 'messages', A11YC_LANG_UPDATE_SUCCEED);
 			}

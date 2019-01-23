@@ -87,7 +87,7 @@ class Report
 		$exist = false;
 		foreach ($urls as $url)
 		{
-			if ( ! Controller\Result::each($url, true)) continue;
+			if (Controller\Result::each($url, true) === false) continue;
 
 			$body = View::fetch('body');
 			if ( ! $body) continue;

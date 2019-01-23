@@ -223,6 +223,7 @@ class Issue
 	 */
 	private static function args()
 	{
+		$args = array();
 		foreach (Model\Issue::$fields as $key => $default)
 		{
 			$args[$key] = Input::post($key, $default);
@@ -236,12 +237,12 @@ class Issue
 	 * url
 	 *
 	 * @param Bool $is_common
-	 * @return Array
+	 * @return String
 	 */
 	private static function url($is_common = false)
 	{
 		$url = Input::post('url', Model\Data::baseUrl());
-		return $is_common == true ? 'common' : $url;
+		return $is_common === true ? 'common' : $url;
 	}
 
 	/**
@@ -286,8 +287,7 @@ class Issue
 			$act == 'undelete' && $item['trash'] == 1
 		)
 		{
-			$item['trash'] = ! $item['trash'];
-			$r = Model\Issue::update($id, $item);
+			$r = Model\Issue::updatePartial($id, 'trash', ! $item['trash']);
 		}
 		elseif ($act == 'purge' && $item['trash'] == 1)
 		{

@@ -239,7 +239,7 @@ class Data
 	 *
 	 * @param String $key
 	 * @param String $url
-	 * @param Array $value
+	 * @param Mixed $value
 	 * @param Integer $version
 	 * @param Integer $group_id
 	 * @return Integer|Bool

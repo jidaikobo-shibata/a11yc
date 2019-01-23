@@ -217,7 +217,7 @@ class Input
 			return $files;
 		}
 
-		if ($index && isset($files[$index]))
+		if ( ! is_null($index) && isset($files[$index]))
 		{
 			return $files[$index];
 		}

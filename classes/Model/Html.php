@@ -77,7 +77,7 @@ class Html
 		// fetch from internet
 		if (
 			strtotime($updated_at) < time() - $cache_time ||
-			strlen($cache_html) >= 65530 // maybe broken, too long for sqlite
+			strlen($html) >= 65530 // maybe broken, too long for sqlite
 		)
 		{
 			$html = self::fetchHtmlFromInternet($url, $ua);
@@ -172,7 +172,7 @@ class Html
 	 *
 	 * @param String $url
 	 * @param String $ua
-	 * @param String|Bool $html
+	 * @param String|Bool $data
 	 * @return Void
 	 */
 	public static function insert($url, $ua = 'using', $data = '')
@@ -202,7 +202,6 @@ class Html
 	{
 		if (isset(static::$titles[$url])) return static::$titles[$url];
 		$html = self::fetch($url, 'using', $is_from_web);
-		$title = '';
 		$page = Page::fetch($url);
 		$title_from_db = Arr::get($page, 'title', '');
 

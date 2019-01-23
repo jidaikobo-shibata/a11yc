@@ -37,7 +37,8 @@ class Version
 	public static function fetchAll($force = false)
 	{
 		if ( ! is_null(static::$versions) && ! $force) return static::$versions;
-		static::$versions = Data::fetch('version', 'common', array(), $force, 0);
+		$vals = Data::fetch('version', 'common', array(), $force, 0);
+		static::$versions = is_array($vals) ? $vals : array();
 		return static::$versions;
 	}
 

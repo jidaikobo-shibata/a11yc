@@ -38,9 +38,9 @@ class Page
 	public static function fetchAll($args = array(), $force = false)
 	{
 //		$is_current   = Arr::get($args, 'is_current', true);
-		$placeholders = array();
 
 		$pages = Data::fetch('page', '*', array(), $force);
+		$pages = is_array($pages) ? $pages : array();
 		foreach ($pages as $url => $page)
 		{
 			$pages[$url]['url'] = $url;

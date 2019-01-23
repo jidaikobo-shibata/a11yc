@@ -261,7 +261,6 @@ class Icl
 			$r = Model\Icl::purge($id);
 		}
 
-		$act = strtoupper($act);
 		Util::setMassage($r);
 		Util::redirect(A11YC_ICL_URL.'index');
 	}

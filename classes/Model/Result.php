@@ -30,7 +30,8 @@ class Result
 	public static function fetch($url, $force = false)
 	{
 		if (isset(static::$results[$url]) && ! $force) return static::$results[$url];
-		static::$results[$url] = Data::fetch('result', $url, array(), $force);
+		$vals = Data::fetch('result', $url, array(), $force);
+		static::$results[$url] = is_array($vals) ? $vals : array();
 		return static::$results[$url];
 	}
 

@@ -137,6 +137,7 @@ class Checklist
 			Validate::$do_css_check  = Input::post('do_css_check', false);
 			Validate::url($url);
 		}
+		if ( ! is_array($page)) Util::error('invalid value was given');
 
 		// get basic values
 		list($settings, $standards, $standard, $done_date, $issues) = self::getBasicValues($url, $page);
@@ -189,8 +190,6 @@ class Checklist
 	 */
 	private static function getBasicValues($url, $page)
 	{
-		if ( ! is_array($page)) Util::error('invalid value was given');
-
 		// settings
 		$settings = Model\Setting::fetchAll();
 
@@ -227,12 +226,12 @@ class Checklist
 	private static function getPage($url)
 	{
 		$page = Model\Page::fetch($url, true);
-		if ( ! $page && $url)
+		if ($page === false && $url)
 		{
 			Model\Page::addPage($url);
 			$force = true;
 			$page = Model\Page::fetch($url, $force);
-			if ( ! $page)
+			if ($page === false)
 			{
 				Session::add(
 					'messages',

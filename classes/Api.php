@@ -19,11 +19,8 @@ class Api
 	 */
 	public static function forge()
 	{
-		require (dirname(__DIR__).'/main.php');
-		$params = Input::post('ua');
-
-// var_dump($params);
-
-		return '{"first_name":"一郎", "last_name":"鈴木"}';
+		// require (dirname(__DIR__).'/main.php');
+		// $params = Input::post('ua');
+		// return '{"first_name":"一郎", "last_name":"鈴木"}';
 	}
 }

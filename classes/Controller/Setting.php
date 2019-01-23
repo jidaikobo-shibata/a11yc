@@ -143,7 +143,7 @@ class Setting
 			foreach ($cols as $key => $value)
 			{
 				$r = Model\Setting::update($key, $value);
-				if ( ! $r) continue;
+				if ($r === false) continue;
 			}
 
 			if ($r)
@@ -227,13 +227,12 @@ class Setting
 		if (Input::isPostExists())
 		{
 			self::addNewSite($sites);
-			self::changeSite($sites);
+			self::changeSite();
 			self::changeSiteUrl($sites);
 		}
 		$sites = Model\Data::fetchSites(true);
 
 		// assign
-		$force = true;
 		View::assign('title',    A11YC_LANG_SETTING_TITLE_SITE);
 		View::assign('group_id', Model\Data::groupId(true));
 		View::assign('sites',    $sites);
@@ -267,10 +266,9 @@ class Setting
 	/**
 	 * change target site
 	 *
-	 * @param Array $sites
 	 * @return Void
 	 */
-	private static function changeSite($sites)
+	private static function changeSite()
 	{
 		if ($site = Input::post('site'))
 		{
@@ -312,6 +310,6 @@ class Setting
 		}
 
 		$sites[$group_id] = $new_url;
-		Model\Data::update('sites', 'global', $sites, 0, 1, true);
+		Model\Data::update('sites', 'global', $sites, 0, 1);
 	}
 }

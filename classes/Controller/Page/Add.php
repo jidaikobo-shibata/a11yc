@@ -190,7 +190,7 @@ class Add
 	/**
 	 * addPageMessage
 	 *
-	 * @param Bool $is_success
+	 * @param Bool|Integer $is_success
 	 * @param String $url
 	 * @param String $title
 	 * @return Void

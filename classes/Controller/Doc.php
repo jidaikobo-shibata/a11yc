@@ -111,6 +111,7 @@ class Doc
 	private static function searchStringsFromCriterions($word)
 	{
 		$yaml = Yaml::fetch();
+		$r = array();
 		$r['criterions'] = array();
 
 		foreach ($yaml['criterions'] as $v)

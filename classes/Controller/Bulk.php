@@ -65,7 +65,7 @@ class Bulk extends Checklist
 			$value[$criterion]['result'] = intval(Arr::get($v, 'result', 0));
 			$value[$criterion]['method'] = intval(Arr::get($v, 'method', 0));
 		}
-		$r = Model\Setting::insert(array(
+		Model\Setting::insert(array(
 				'bulk_results' => $value,
 			));
 
@@ -73,14 +73,12 @@ class Bulk extends Checklist
 		Model\Setting::delete('bulk_checks');
 
 		// insert
-		$r = false;
-		$value = array();
 		$chks = Input::postArr('chk');
 		$r = Model\Setting::insert(array(
 				'bulk_checks' => $chks,
 			));
 
-		if ($r || empty($chks))
+		if ($r === true || empty($chks))
 		{
 			Session::add('messages', 'messages', A11YC_LANG_UPDATE_SUCCEED);
 			return;

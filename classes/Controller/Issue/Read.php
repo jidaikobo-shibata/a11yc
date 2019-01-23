@@ -38,12 +38,10 @@ class Read
 
 		if (Input::isPostExists())
 		{
-			$r = true;
-
 			// update status
 			if ($issue['status'] != Input::post('status'))
 			{
-				$r = Model\Issue::updatePartial($id, 'status', Input::post('status', 0));
+				Model\Issue::updatePartial($id, 'status', Input::post('status', 0));
 			}
 
 			// update message

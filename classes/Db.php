@@ -51,19 +51,19 @@ class Db extends \Kontiki\Db
 		$sql.= '`is_array` BOOL NOT NULL DEFAULT 0,';
 		$sql.= '`version`  INTEGER NOT NULL DEFAULT 0';
 		$sql.= ');';
-		Db::execute($sql, array());
+		Db::execute($sql, array(), $name);
 
 		if (A11YC_DB_TYPE == 'mysql')
 		{
 			$sql = 'ALTER TABLE '.A11YC_TABLE_DATA;
 			$sql.= ' ADD INDEX a11yc_data_idx(`group_id`, `url`, `key`, `version`)';
-			Db::execute($sql, array());
+			Db::execute($sql, array(), $name);
 		}
 		else
 		{
 			$sql = 'CREATE INDEX a11yc_data_idx ON '.A11YC_TABLE_DATA;
 			$sql.= ' (`group_id`, `url`, `key`, `version`)';
-			Db::execute($sql, array());
+			Db::execute($sql, array(), $name);
 		}
 
 		// first create flag

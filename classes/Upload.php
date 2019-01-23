@@ -61,6 +61,7 @@ class Upload
 		catch (\Exception $e)
 		{
 			$errors = $file->getErrors();
+			return empty($errors);
 		}
 
 		return $file->getNameWithExtension();

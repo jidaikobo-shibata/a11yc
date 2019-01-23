@@ -55,6 +55,7 @@ class Center
 	{
 		$body = '';
 		$settings = Model\Setting::fetchAll();
+		$result = '';
 		if ( ! empty($settings))
 		{
 			$is_center = true;

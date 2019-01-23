@@ -31,6 +31,7 @@ class Setting
 	{
 		if ( ! is_null(static::$vals) && ! $force) return static::$vals;
 		$vals = Data::fetch('setting', 'common', array(), $force);
+		$vals = is_array($vals) ? $vals : array();
 		static::$vals = self::mustBeArray($vals);
 		return static::$vals;
 	}
@@ -39,8 +40,8 @@ class Setting
 	 * fetch setup
 	 *
 	 * @param String $field
-	 * @param String $default
-	 * @param String $force
+	 * @param String|Array $default
+	 * @param Bool $force
 	 * @return String|Array
 	 */
 	public static function fetch($field, $default = '', $force = false)
