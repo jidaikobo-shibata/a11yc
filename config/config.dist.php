@@ -23,8 +23,6 @@ define('A11YC_DATA_FILE', '/db.sqlite');
 defined('A11YC_CONFIG_PATH') or define('A11YC_CONFIG_PATH', dirname(__FILE__));
 define('A11YC_LIB_PATH',    dirname(__DIR__).'/libs');
 define('A11YC_PATH',        A11YC_LIB_PATH.'/a11yc');
-define('A11YC_UPLOAD_PATH', dirname(dirname(__DIR__)).'/screenshots');
-define('A11YC_UPLOAD_URL',  dirname(A11YC_URL).'/screenshots');
 
 // users
 // array must be started with 1 (not 0)

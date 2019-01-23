@@ -19,6 +19,12 @@ define('A11YC_NON_DOWNLOAD_END',   '<!-- /a11yc non download -->');
 define('A11YC_TARGET',     '');
 define('A11YC_TARGET_OUT', '');
 
+if ( ! defined('A11YC_UPLOAD_PATH'))
+{
+	define('A11YC_UPLOAD_PATH', dirname(dirname(__DIR__)).'/screenshots');
+	define('A11YC_UPLOAD_URL',  dirname(A11YC_URL).'/screenshots');
+}
+
 // old tables - leave these tables for lower compatibility
 if ( ! defined('A11YC_TABLE_SETUP_OLD'))
 {
