@@ -207,7 +207,7 @@ class Issue
 	public static function fetch4Validation($url, $html)
 	{
 		$vals = static::fetchAll();
-		$html = empty($html) ? Element\Get::firstTag(Element\Get::ignoredHtml($url)) : $html;
+		$html = empty($html) ? Element\Get\Each::firstTag(Element\Get::ignoredHtml($url)) : $html;
 
 		foreach (array($url, 'commons') as $key)
 		{
@@ -239,7 +239,7 @@ class Issue
 	public static function valueFilter($url, $vals)
 	{
 		// $vals['html'] = empty($vals['html']) ?
-		// 							Element\Get::firstTag(Element\Get::ignoredHtml($url)) :
+		// 							Element\Get\Each::firstTag(Element\Get::ignoredHtml($url)) :
 		// 							$vals['html'];
 		$vals['is_common'] = $url == 'common' ? true : $vals['is_common'];
 		return $vals;

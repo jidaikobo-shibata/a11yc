@@ -30,7 +30,7 @@ class CheckDoctype extends Validate
 		}
 
 		Validate\Set::errorAndLog(
-			is_null(Element\Get::doctype($url)),
+			is_null(Element\Get\Each::doctype($url)),
 			$url,
 			'check_doctype',
 			0,

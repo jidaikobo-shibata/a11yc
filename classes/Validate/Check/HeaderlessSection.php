@@ -36,7 +36,7 @@ class HeaderlessSection extends Validate
 
 		foreach ($secs[0] as $k => $v)
 		{
-			$tstr = Element\Get::firstTag($v);
+			$tstr = Element\Get\Each::firstTag($v);
 
 			Validate\Set::errorAndLog(
 				 ! preg_match("/\<h\d/", $v),

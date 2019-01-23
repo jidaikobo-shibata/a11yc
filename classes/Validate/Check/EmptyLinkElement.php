@@ -34,7 +34,7 @@ class EmptyLinkElement extends Validate
 			if (strpos($m, 'href') === false) continue;
 
 			// img's alt
-			$text = Element\Get::textFromElement($ms[2][$k]);
+			$text = Element\Get\Each::textFromElement($ms[2][$k]);
 
 			// aria-labelledby
 			if (empty($text))
@@ -85,7 +85,7 @@ class EmptyLinkElement extends Validate
 				foreach (explode(' ', $ids) as $id)
 				{
 					$eachele = Element\Get::elementById($str, $id);
-					$text.= Element\Get::textFromElement($eachele);
+					$text.= Element\Get\Each::textFromElement($eachele);
 				}
 			}
 		}

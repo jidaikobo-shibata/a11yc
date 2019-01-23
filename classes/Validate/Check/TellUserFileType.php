@@ -51,7 +51,7 @@ class TellUserFileType extends Validate
 
 					if ( ! isset($attrs['href'])) continue;
 					$href = strtolower($attrs['href']);
-					$inner = Element\Get::textFromElement($m);
+					$inner = Element\Get\Each::textFromElement($m);
 					$f_inner = self::addCheckStrings($inner, $vv);
 
 					list($len, $is_exists) = self::existCheck($href);

@@ -129,7 +129,7 @@ class Table extends Validate
 	 */
 	private static function summaryless($n, $m, $url, $tstr, $table_tag)
 	{
-		if (in_array(Element\Get::doctype($url), array('html4', 'xhtml')))
+		if (in_array(Element\Get\Each::doctype($url), array('html4', 'xhtml')))
 		{
 			// summary less
 			Validate\Set::errorAndLog(
