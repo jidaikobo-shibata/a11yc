@@ -365,7 +365,7 @@ class AddData
 				unset($vals['id']);
 
 				$vals['bbs'] = $bbses;
-				$vals['title'] = '';
+				$vals['title'] = Arr::get($vals, 'title', '');
 				$vals['seq'] = 0;
 				$vals['url'] = $vals['is_common'] == 1 || empty($vals['url']) ? 'common' : $vals['url'] ;
 				$vals['is_common'] = $vals['url'] == 'common' ? 1 : $vals['is_common'];
