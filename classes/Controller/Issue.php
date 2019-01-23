@@ -227,6 +227,7 @@ class Issue
 		{
 			$args[$key] = Input::post($key, $default);
 		}
+		$args['output'] = Input::post('output', false); // checkbox
 		return $args;
 	}
 

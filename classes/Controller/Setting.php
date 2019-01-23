@@ -228,6 +228,7 @@ class Setting
 		{
 			self::addNewSite($sites);
 			self::changeSite($sites);
+			self::changeSiteUrl($sites);
 		}
 		$sites = Model\Data::fetchSites(true);
 
@@ -280,5 +281,37 @@ class Setting
 				Session::add('messages', 'message', A11YC_LANG_CTRL_ADDED_NORMALLY);
 			}
 		}
+	}
+
+	/**
+	 * change target site url
+	 *
+	 * @param Array $sites
+	 * @return Void
+	 */
+	private static function changeSiteUrl($sites)
+	{
+		if (Input::post('change_url_confirm') == false) return;
+
+		$group_id = Input::post('change_url_target');
+		if ( ! isset($sites[$group_id])) return;
+
+		$new_url = Input::post('change_url_new_url', '');
+		if (empty($new_url)) return;
+
+		if (in_array($new_url, $sites))
+		{
+			Session::add('messages', 'errors', A11YC_LANG_CTRL_ALREADY_EXISTS);
+			return;
+		}
+
+		// update site
+		if (Model\Data::updateUrl($sites[$group_id], $new_url, 0, $group_id))
+		{
+			Session::add('messages', 'messages', A11YC_LANG_UPDATE_SUCCEED);
+		}
+
+		$sites[$group_id] = $new_url;
+		Model\Data::update('sites', 'global', $sites, 0, 1, true);
 	}
 }

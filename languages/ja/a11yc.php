@@ -64,7 +64,8 @@ define('A11YC_LANG_CTRL_ADDNEW', '新規追加');
 define('A11YC_LANG_CTRL_SAVE', '保存');
 define('A11YC_LANG_CTRL_PERSONS', '担当者');
 define('A11YC_LANG_COUNT_ITEMS', '%s個');
-define('A11YC_LANG_EXPORT_ERRORS_CSV',  'レポートをCSVで出力する');
+define('A11YC_LANG_EXPORT_ERRORS_CSV', 'レポートをCSVで出力する');
+define('A11YC_LANG_EXPORT', '出力する');
 define('A11YC_LANG_CTRL_DELETE', '削除');
 define('A11YC_LANG_CTRL_UNDELETE', '復活');
 define('A11YC_LANG_CTRL_PURGE', '完全に削除');
@@ -98,12 +99,12 @@ define('A11YC_LANG_NEED_CHECK', '要確認');
 define('A11YC_LANG_BASE_URL', 'ドキュメントルートURL');
 
 // ua
-define('A11YC_LANG_UA_USING',  '現在のブラウザ');
-define('A11YC_LANG_UA_FEATUREPHONE',  'フィーチャーフォン');
-define('A11YC_LANG_UA_IPHONE',  'スマートフォン（iPhone）');
-define('A11YC_LANG_UA_IPAD',  'タブレット（iPad）');
-define('A11YC_LANG_UA_ANDROID',  'スマートフォン（Android）');
-define('A11YC_LANG_UA_ANDROID_TABLET',  'タブレット（Android）');
+define('A11YC_LANG_UA_USING', '現在のブラウザ');
+define('A11YC_LANG_UA_FEATUREPHONE', 'フィーチャーフォン');
+define('A11YC_LANG_UA_IPHONE', 'スマートフォン（iPhone）');
+define('A11YC_LANG_UA_IPAD', 'タブレット（iPad）');
+define('A11YC_LANG_UA_ANDROID', 'スマートフォン（Android）');
+define('A11YC_LANG_UA_ANDROID_TABLET', 'タブレット（Android）');
 
 // login
 define('A11YC_LANG_AUTH_TITLE', 'ログイン');
@@ -149,27 +150,31 @@ define('A11YC_LANG_PAGE_NOT_FOUND_SSL', '.htaccessで、httpへのアクセス�
 define('A11YC_LANG_PAGE_ADD_TO_DATABASE', 'URLをデータベースに登録します');
 define('A11YC_LANG_PAGE_ADD_TO_CANDIDATE', 'HTMLから候補になるURLを取得します');
 define('A11YC_LANG_PAGE_IT_TAKES_TIME', 'この処理には、時間がかかります');
-define('A11YC_LANG_PAGE_LABEL_HTML_EXP', 'HTMLの自動取得に失敗するときなど、このHTMLが判定に用いられます。今後、自動取得に成功した時点で自動的に書き換わります。');
+define('A11YC_LANG_PAGE_LABEL_HTML_EXP', 'HTMLの自動取得に失敗するときなど、このHTMLが判定に用いられます。今後、自動取得に成功した時点で自動的に書き換わります');
 define('A11YC_LANG_PAGE_LABEL_EXPORT_CHECK_RESULT', '試験結果をマージ用にエクスポート');
 define('A11YC_LANG_EXPORT_TITLE', 'エクスポート＆インポート');
 define('A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT', '試験結果をインポートしてマージ');
-define('A11YC_LANG_PAGE_LABEL_EXPORT_CHECK_RESULT_EXP', '「チェック結果」と「問題点」をエクスポートします。以下textareaに出力されている文字列をすべてコピーして、目的の環境で「'.A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT.'」で表示されるtextareaに貼り付けてください。');
-define('A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT_EXP', '「チェック結果」と「問題点」をインポートします。「'.A11YC_LANG_PAGE_LABEL_EXPORT_CHECK_RESULT.'」で取得した結果をtextareaに貼り付けてください。');
+define('A11YC_LANG_PAGE_LABEL_EXPORT_CHECK_RESULT_EXP', '「チェック結果」と「問題点」をエクスポートします。以下textareaに出力されている文字列をすべてコピーして、目的の環境で「'.A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT.'」で表示されるtextareaに貼り付けてください');
+define('A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT_EXP', '「チェック結果」と「問題点」をインポートします。「'.A11YC_LANG_PAGE_LABEL_EXPORT_CHECK_RESULT.'」で取得した結果をtextareaに貼り付けてください');
 define('A11YC_LANG_PAGE_LABEL_EXPORT_RESULT_HTML', '試験結果HTMLをダウンロード');
-define('A11YC_LANG_PAGE_LABEL_EXPORT_RESULT_HTML_EXP', 'すべての試験結果HTMLを連結した状態で出力します。csplit a11yc_results.txt /====A11YC_RESULT_CSPLIT====/ {*} で分割してください。');
+define('A11YC_LANG_PAGE_LABEL_EXPORT_RESULT_HTML_EXP', 'すべての試験結果HTMLを連結した状態で出力します。csplit a11yc_results.txt /====A11YC_RESULT_CSPLIT====/ {*} で分割してください');
 
-// settings
+// setting
 define('A11YC_LANG_SETTING_TITLE', '設定');
 define('A11YC_LANG_SETTING_TITLE_BASE', '基本設定');
 define('A11YC_LANG_SETTING_TITLE_SITE', 'サイト設定');
 define('A11YC_LANG_SETTING_TITLE_SITE_ADD', 'サイト新規追加');
 define('A11YC_LANG_SETTING_TITLE_UA', 'UA管理');
-define('A11YC_LANG_SETTING_TITLE_UA_EXP', '一番最後の空行に入力することで、UAを追加できます。「'.A11YC_LANG_CTRL_PURGE.'」をチェックして送信するとユーザエージェントを削除します。「'.A11YC_LANG_UA_USING.'」は名称以外編集も削除もできません。');
+define('A11YC_LANG_SETTING_TITLE_UA_EXP', '一番最後の空行に入力することで、UAを追加できます。「'.A11YC_LANG_CTRL_PURGE.'」をチェックして送信するとユーザエージェントを削除します。「'.A11YC_LANG_UA_USING.'」は名称以外編集も削除もできません');
 define('A11YC_LANG_SETTING_TITLE_VERSIONS', 'バージョン管理');
-define('A11YC_LANG_SETTING_TITLE_VERSIONS_EXP', 'バージョンに名前をつけることができます。「'.A11YC_LANG_CTRL_PURGE.'」をチェックして送信すると当該バージョンを完全に削除します。復活できないのでご注意ください。一般表示をしない場合は、「'.A11YC_LANG_CTRL_VIEW.'」のチェックを外してください。');
+define('A11YC_LANG_SETTING_TITLE_VERSIONS_EXP', 'バージョンに名前をつけることができます。「'.A11YC_LANG_CTRL_PURGE.'」をチェックして送信すると当該バージョンを完全に削除します。復活できないのでご注意ください。一般表示をしない場合は、「'.A11YC_LANG_CTRL_VIEW.'」のチェックを外してください');
 define('A11YC_LANG_SETTING_TITLE_ETC', 'その他の設定');
 define('A11YC_LANG_SETTING_SITE_CHANGE', '対象サイトの変更');
-define('A11YC_LANG_SETTING_SITE_ADD_EXP', '対象サイトのドキュメントルートURLを入力してください（ex: https://example.com）。');
+define('A11YC_LANG_SETTING_SITE_ADD_EXP', '対象サイトのドキュメントルートURLを入力してください（ex: https://example.com）');
+define('A11YC_LANG_SETTING_SITE_CHANGE_URL', 'サイトのURLの変更');
+define('A11YC_LANG_SETTING_SITE_CHANGE_URL_TARGET', 'URLを変更するサイト');
+define('A11YC_LANG_SETTING_SITE_CHANGE_URL_NEW', '新しいURL');
+define('A11YC_LANG_SETTING_SITE_CHANGE_URL_CHECK', '「'.A11YC_LANG_SETTING_SITE_CHANGE_URL.'」を実行する');
 
 define('A11YC_LANG_SETTING_BASIC_AUTH_TITLE', '基本認証');
 define('A11YC_LANG_SETTING_BASIC_AUTH_EXP', '試験対象のサイトが基本認証で守られている場合、ここに基本認証用のユーザ名とパスワードを入力してください');
@@ -181,8 +186,8 @@ define('A11YC_LANG_SETTING_EXIST_NON_AND_PASS', '「適用なし適合」にな�
 define('A11YC_LANG_SETTING_NON_USE_TECHS', '実装チェックリストで用いない達成方法');
 define('A11YC_LANG_SETTING_NON_USE_TECHS_CANDIDATES', '定番的に用いない達成方法をチェック');
 define('A11YC_LANG_SETTING_CACHE_TIME', 'キャッシュ期間');
-define('A11YC_LANG_SETTING_CACHE_TIME_EXP', '分単位で入力してください。-1にすると、キャッシュを更新しません。');
-define('A11YC_LANG_PAGE_CANNOT_IMPORT_HTML', A11YC_LANG_SETTING_TITLE.'で、'.A11YC_LANG_SETTING_CACHE_TIME.'が「-1」に設定されているため、HTMLをインターネットから取得できません。');
+define('A11YC_LANG_SETTING_CACHE_TIME_EXP', '分単位で入力してください。-1にすると、キャッシュを更新しません');
+define('A11YC_LANG_PAGE_CANNOT_IMPORT_HTML', A11YC_LANG_SETTING_TITLE.'で、'.A11YC_LANG_SETTING_CACHE_TIME.'が「-1」に設定されているため、HTMLをインターネットから取得できません');
 
 define('A11YC_LANG_DECLARE_DATE', '表明日');
 define('A11YC_LANG_CLIENT_NAME', 'クライアント名');
@@ -316,14 +321,15 @@ define('A11YC_LANG_ISSUE_TITLE', '問題点');
 define('A11YC_LANG_ISSUE_TITLE_EACH', '問題点の名称');
 define('A11YC_LANG_ISSUE_ADD', '問題点を登録');
 define('A11YC_LANG_ISSUE_EDIT', '問題点を編集');
-define('A11YC_LANG_ISSUE_IS_COMMON_EXP', 'サイト内で共通の問題の場合はチェックしてください。すべてのチェックリストで問題点として扱われます。URLは自動的に「common」になります。');
+define('A11YC_LANG_ISSUE_IS_COMMON_EXP', 'サイト内で共通の問題の場合はチェックしてください。すべてのチェックリストで問題点として扱われます。URLは自動的に「common」になります');
 define('A11YC_LANG_ISSUE_IS_COMMON', 'サイト内で共通の問題');
 define('A11YC_LANG_ISSUE_HTML', '問題箇所のHTML片');
-define('A11YC_LANG_ISSUE_HTML_EXP', '問題箇所のHTML片を入力すると、レポート等に表示されます。HTMLにはコメントアウト部分、scriptの内部等は含めることができません。空にすると最初のタグを利用します。');
+define('A11YC_LANG_ISSUE_HTML_EXP', '問題箇所のHTML片を入力すると、レポート等に表示されます。HTMLにはコメントアウト部分、scriptの内部等は含めることができません。空にすると最初のタグを利用します');
 define('A11YC_LANG_ISSUE_N_OR_E', 'Notice/Error');
 define('A11YC_LANG_ISSUE_N_OR_E_EXP', 'Notice（注意喚起）かError（明確な問題）か選択してください');
 define('A11YC_LANG_ISSUE_TECH', '達成方法集のURL');
 define('A11YC_LANG_ISSUE_TECH_EXP', 'WCAG 2.0 達成方法集のURLを入力してください。複数存在する場合は改行で区切ってください');
+define('A11YC_LANG_ISSUE_EXPORT_EXP', 'レポートに出力するかどうかを選択します');
 
 define('A11YC_LANG_ISSUE_STATUS', '対応状況');
 define('A11YC_LANG_ISSUE_STATUS_1', '未対応');
@@ -341,7 +347,7 @@ define('A11YC_LANG_ISSUE_TITLE_DONE', '対応済みの問題点');
 define('A11YC_LANG_ISSUE_TECH_FAILURE', '達成方法集の不適合事例のチェックがあるページ');
 define('A11YC_LANG_ISSUE_TECH_RELATED', '関連する達成方法集');
 define('A11YC_LANG_ISSUE_SCREENSHOT', 'スクリーンショット');
-define('A11YC_LANG_ISSUE_EXPORT', '結果出力');
+define('A11YC_LANG_ISSUE_EXPORT', 'レポート出力');
 define('A11YC_LANG_ISSUE_REPORT_HEAD_SUFFIX', 'JIS X 8341-3:2016 試験報告');
 define('A11YC_LANG_ISSUE_MEMO', '内部用のメモ');
 define('A11YC_LANG_ISSUE_OTHER_URLS', 'その他の参考URL');
@@ -423,5 +429,5 @@ define('A11YC_LANG_PLUGIN_TITLE', 'アクセシビリティ チェックリス�
 define('A11YC_LANG_PLUGIN_SKIP', 'アクセシビリティチェックリストを読み飛ばす');
 define('A11YC_LANG_PLUGIN_SKIP_TARGET', 'アクセシビリティチェックリストここまで');
 define('A11YC_LANG_PLUGIN_NODEADLINK', 'リンク切れは見つかりませんでした');
-define('A11YC_LANG_PLUGIN_ERROR', 'このチェックリストは、WCAG2.0 (Web Content Accessibility Guidelines)に基づいています。');
-define('A11YC_LANG_PLUGIN_NOTICE', 'アクセシビリティ上の問題はないかもしれませんが、念のため、ご確認ください。');
+define('A11YC_LANG_PLUGIN_ERROR', 'このチェックリストは、WCAG2.0 (Web Content Accessibility Guidelines)に基づいています');
+define('A11YC_LANG_PLUGIN_NOTICE', 'アクセシビリティ上の問題はないかもしれませんが、念のため、ご確認ください');

@@ -14,7 +14,6 @@ class Page
 {
 	protected static $loaded_pages = array();
 	public static $fields = array(
-		'url'              => '',
 		'alt_url'          => '',
 		'type'             => 0,
 		'title'            => '',
@@ -42,6 +41,10 @@ class Page
 		$placeholders = array();
 
 		$pages = Data::fetch('page', '*', array(), $force);
+		foreach ($pages as $url => $page)
+		{
+			$pages[$url]['url'] = $url;
+		}
 
 		// list - yet, done, trash, all
 		$pages = self::filterList($pages, Arr::get($args, 'list', 'all'));
@@ -220,7 +223,6 @@ class Page
 		{
 			$vals[$key] = Arr::get($vals, $key, $default);
 		}
-		$vals['url'] = $url;
 		$vals['updated_at'] = empty($vals['updated_at']) ?
 												date('Y-m-d H:i:s') :
 												date('Y-m-d H:i:s', strtotime($vals['updated_at']));
@@ -256,7 +258,7 @@ class Page
 	public static function delete($url)
 	{
 		$url = Util::urldec($url);
-		return self::update($url, 'trash', 1);
+		return self::updatePartial($url, 'trash', 1);
 	}
 
 	/**
@@ -268,7 +270,7 @@ class Page
 	public static function undelete($url)
 	{
 		$url = Util::urldec($url);
-		return self::update($url, 'trash', 0);
+		return self::updatePartial($url, 'trash', 0);
 	}
 
 	/**

@@ -96,7 +96,7 @@ class Result
 	}
 
 	/**
-	 * insert page
+	 * insert
 	 *
 	 * @param String $url
 	 * @param Array $vals
@@ -110,22 +110,13 @@ class Result
 			{
 				$vals[$criterion][$key] = Arr::get($val, $key, $default);
 			}
-
-			// $vals[$criterion] = array(
-			// 	'url'       => Arr::get($val, 'url', $url),
-			// 	'criterion' => Arr::get($val, 'criterion', ''),
-			// 	'memo'      => Arr::get($val, 'memo', ''),
-			// 	'uid'       => Arr::get($val, 'uid', 0),
-			// 	'result'    => Arr::get($val, 'result', 0),
-			// 	'method'    => Arr::get($val, 'method', 0),
-			// );
 		}
 
 		return Data::insert('result', $url, $vals);
 	}
 
 	/**
-	 * update results
+	 * update
 	 *
 	 * @param String $url
 	 * @param array  $vals
@@ -135,6 +126,6 @@ class Result
 	{
 		$url = Util::urldec($url);
 		Data::delete('result', $url);
-		Data::insert('result', $url, $vals);
+		static::insert($url, $vals);
 	}
 }

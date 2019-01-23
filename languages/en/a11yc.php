@@ -64,7 +64,8 @@ define('A11YC_LANG_CTRL_ADDNEW', 'Add New');
 define('A11YC_LANG_CTRL_SAVE', 'Save');
 define('A11YC_LANG_CTRL_PERSONS', 'Person');
 define('A11YC_LANG_COUNT_ITEMS', '%s items');
-define('A11YC_LANG_EXPORT_ERRORS_CSV',  'Export CSV');
+define('A11YC_LANG_EXPORT_ERRORS_CSV', 'Export CSV');
+define('A11YC_LANG_EXPORT', 'Export');
 define('A11YC_LANG_CTRL_DELETE', 'Delete');
 define('A11YC_LANG_CTRL_UNDELETE', 'Undelete');
 define('A11YC_LANG_CTRL_PURGE', 'Purge');
@@ -82,8 +83,8 @@ define('A11YC_LANG_CTRL_DONE', 'Done');
 define('A11YC_LANG_CTRL_YET', 'Yet');
 define('A11YC_LANG_CTRL_CHECK', 'Check');
 define('A11YC_LANG_CTRL_ORDER_SEQ', 'Order');
-define('A11YC_LANG_CTRL_ORDER_SEQ_ASC', 'Order Asc.');
-define('A11YC_LANG_CTRL_ORDER_SEQ_DESC', 'Order Desc.');
+define('A11YC_LANG_CTRL_ORDER_SEQ_ASC', 'Order Asc');
+define('A11YC_LANG_CTRL_ORDER_SEQ_DESC', 'Order Desc');
 define('A11YC_LANG_CTRL_ACT', 'Action');
 define('A11YC_LANG_CTRL_ALL', 'All');
 define('A11YC_LANG_CTRL_TRASH', 'Trash');
@@ -98,12 +99,12 @@ define('A11YC_LANG_NEED_CHECK', 'Need Check');
 define('A11YC_LANG_BASE_URL', 'Document Root URL');
 
 // ua
-define('A11YC_LANG_UA_USING',  'Current Browser');
-define('A11YC_LANG_UA_FEATUREPHONE',  'Feature Phone');
-define('A11YC_LANG_UA_IPHONE',  'iPhone');
-define('A11YC_LANG_UA_IPAD',  'iPad');
-define('A11YC_LANG_UA_ANDROID',  'Android');
-define('A11YC_LANG_UA_ANDROID_TABLET',  'Android Tablet');
+define('A11YC_LANG_UA_USING', 'Current Browser');
+define('A11YC_LANG_UA_FEATUREPHONE', 'Feature Phone');
+define('A11YC_LANG_UA_IPHONE', 'iPhone');
+define('A11YC_LANG_UA_IPAD', 'iPad');
+define('A11YC_LANG_UA_ANDROID', 'Android');
+define('A11YC_LANG_UA_ANDROID_TABLET', 'Android Tablet');
 
 // login
 define('A11YC_LANG_AUTH_TITLE', 'Login');
@@ -115,10 +116,10 @@ define('A11YC_LANG_LOGOUT', 'Logout');
 
 // center
 define('A11YC_LANG_CENTER_TITLE', 'Center');
-define('A11YC_LANG_CENTER_BOOKMARKLET_EXP', 'Please register the following link into your browser\'s bookmark. You can be inspected any page.');
+define('A11YC_LANG_CENTER_BOOKMARKLET_EXP', 'Please register the following link into your browser\'s bookmark. You can be inspected any page');
 define('A11YC_LANG_CENTER_ABOUT', 'About A11yc');
 define('A11YC_LANG_CENTER_LOGO', 'Logo');
-define('A11YC_LANG_CENTER_ABOUT_CONTENT', 'A11yc is a web accessibility checker compatible with WCAG 2.0 created by Jidaikobo Inc.');
+define('A11YC_LANG_CENTER_ABOUT_CONTENT', 'A11yc is a web accessibility checker compatible with WCAG 2.0 created by Jidaikobo Inc');
 
 // pages
 define('A11YC_LANG_PAGE_TITLE', 'Target Pages');
@@ -130,31 +131,31 @@ define('A11YC_LANG_PAGE_URLS_ADD_FORCE', 'Add forcibly whether or not it exists'
 define('A11YC_LANG_PAGE_NOT_FOUND', 'No pages to check found');
 define('A11YC_LANG_PAGE_LIVE', 'LIVE');
 define('A11YC_LANG_PAGE_EXPORT', 'CSV');
-define('A11YC_LANG_PAGE_ORDER_CREATED_AT_ASC', 'Add Date Asc.');
-define('A11YC_LANG_PAGE_ORDER_CREATED_AT_DESC', 'Add Date Desc.');
+define('A11YC_LANG_PAGE_ORDER_CREATED_AT_ASC', 'Add Date Asc');
+define('A11YC_LANG_PAGE_ORDER_CREATED_AT_DESC', 'Add Date Desc');
 define('A11YC_LANG_PAGE_ORDER_TEST_DATE_ASC', 'Test Date Asc');
 define('A11YC_LANG_PAGE_ORDER_TEST_DATE_DESC', 'Test Date Desc');
-define('A11YC_LANG_PAGE_ORDER_URL_ASC', 'URL Asc.');
-define('A11YC_LANG_PAGE_ORDER_URL_DESC', 'URL Desc.');
-define('A11YC_LANG_PAGE_ORDER_TITLE_ASC', 'Page name Asc.');
-define('A11YC_LANG_PAGE_ORDER_TITLE_DESC', 'Page name Desc.');
-define('A11YC_LANG_PAGE_URL_FOR_EACH_LINE', 'Enter one URL to each line, please press the "'.A11YC_LANG_PAGE_URLS_ADD.'".  Please once the registration is in the order of twenty. The program may be stopped at the registration process and too many.');
+define('A11YC_LANG_PAGE_ORDER_URL_ASC', 'URL Asc');
+define('A11YC_LANG_PAGE_ORDER_URL_DESC', 'URL Desc');
+define('A11YC_LANG_PAGE_ORDER_TITLE_ASC', 'Page name Asc');
+define('A11YC_LANG_PAGE_ORDER_TITLE_DESC', 'Page name Desc');
+define('A11YC_LANG_PAGE_URL_FOR_EACH_LINE', 'Enter one URL to each line, please press the "'.A11YC_LANG_PAGE_URLS_ADD.'".  Please once the registration is in the order of twenty. The program may be stopped at the registration process and too many');
 define('A11YC_LANG_PAGE_GET_URLS', 'Get Urls');
-define('A11YC_LANG_PAGE_GET_URLS_EXP', 'To generate a list of URL from a element of the target page. Recursive scan of the site structure is not supported.');
+define('A11YC_LANG_PAGE_GET_URLS_EXP', 'To generate a list of URL from a element of the target page. Recursive scan of the site structure is not supported');
 define('A11YC_LANG_PAGE_GET_URLS_BTN', A11YC_LANG_PAGE_GET_URLS);
-define('A11YC_LANG_PAGE_RETURN_TO_PAGES', 'A list of linked pages is found. please click this link and go back to "'.A11YC_LANG_PAGE_INDEX.'" to register.');
-define('A11YC_LANG_PAGE_PRESS_ADD_BUTTON', 'A list of linked pages is found. After checking the contents of the list, please press "'.A11YC_LANG_PAGE_URLS_ADD.'" to register.');
+define('A11YC_LANG_PAGE_RETURN_TO_PAGES', 'A list of linked pages is found. please click this link and go back to "'.A11YC_LANG_PAGE_INDEX.'" to register');
+define('A11YC_LANG_PAGE_PRESS_ADD_BUTTON', 'A list of linked pages is found. After checking the contents of the list, please press "'.A11YC_LANG_PAGE_URLS_ADD.'" to register');
 define('A11YC_LANG_PAGE_NOT_FOUND_ALL', 'We could not find a valid link destination. Anyway, please click here to return to '.A11YC_LANG_PAGE_INDEX);
-define('A11YC_LANG_PAGE_NOT_FOUND_SSL', 'In .htaccess, redirecting access to http to https may not find the link. Please try adding <code>RewriteCond %{QUERY_STRING} !a11yc=ssl</code> line to the condition of SSL related redirect after <code>RewriteEngine On</code> of .htaccess .');
+define('A11YC_LANG_PAGE_NOT_FOUND_SSL', 'In .htaccess, redirecting access to http to https may not find the link. Please try adding <code>RewriteCond %{QUERY_STRING} !a11yc=ssl</code> line to the condition of SSL related redirect after <code>RewriteEngine On</code> of .htaccess');
 define('A11YC_LANG_PAGE_ADD_TO_DATABASE', 'Register the URLs in the database');
 define('A11YC_LANG_PAGE_ADD_TO_CANDIDATE', 'Acquire candidate URLs from HTML');
-define('A11YC_LANG_PAGE_IT_TAKES_TIME', 'This process takes time.');
-define('A11YC_LANG_PAGE_LABEL_HTML_EXP', 'This HTML is used for judgment, such as when automatic acquisition of HTML fails. It will be rewritten automatically when the automatic acquisition succeeds in the future.');
+define('A11YC_LANG_PAGE_IT_TAKES_TIME', 'This process takes time');
+define('A11YC_LANG_PAGE_LABEL_HTML_EXP', 'This HTML is used for judgment, such as when automatic acquisition of HTML fails. It will be rewritten automatically when the automatic acquisition succeeds in the future');
 define('A11YC_LANG_PAGE_LABEL_EXPORT_CHECK_RESULT', 'Export test results for merging');
 define('A11YC_LANG_EXPORT_TITLE', 'Export &ampl Import');
 define('A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT', 'Import test results and merge');
-define('A11YC_LANG_PAGE_LABEL_EXPORT_CHECK_RESULT_EXP', 'Export "checklist" and "issue". Copy all the character string outputted to textarea below and paste it on the textarea displayed in "'.A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT.'" in the target environment.');
-define('A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT_EXP', 'I will import "checklist" and "issue". Please paste the result obtained by "'.A11YC_LANG_PAGE_LABEL_EXPORT_CHECK_RESULT.'" to textarea.');
+define('A11YC_LANG_PAGE_LABEL_EXPORT_CHECK_RESULT_EXP', 'Export "checklist" and "issue". Copy all the character string outputted to textarea below and paste it on the textarea displayed in "'.A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT.'" in the target environment');
+define('A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT_EXP', 'I will import "checklist" and "issue". Please paste the result obtained by "'.A11YC_LANG_PAGE_LABEL_EXPORT_CHECK_RESULT.'" to textarea');
 define('A11YC_LANG_PAGE_LABEL_EXPORT_RESULT_HTML', 'Download result HTML');
 define('A11YC_LANG_PAGE_LABEL_EXPORT_RESULT_HTML_EXP', 'All test results HTML will be outputted with concatenation. use csplit a11yc_results.txt /====A11YC_RESULT_CSPLIT====/ {*}');
 
@@ -164,24 +165,28 @@ define('A11YC_LANG_SETTING_TITLE_BASE', 'BASIC Settings');
 define('A11YC_LANG_SETTING_TITLE_SITE', 'Site Settings');
 define('A11YC_LANG_SETTING_TITLE_SITE_ADD', 'Add New Site');
 define('A11YC_LANG_SETTING_TITLE_UA', 'UA');
-define('A11YC_LANG_SETTING_TITLE_UA_EXP', 'You can add a UA by entering it in the last blank line. If '.A11YC_LANG_CTRL_PURGE.' is checked and sent, the user agent will be deleted but '.A11YC_LANG_UA_USING.' can not be deleted or edited except for its name.');
+define('A11YC_LANG_SETTING_TITLE_UA_EXP', 'You can add a UA by entering it in the last blank line. If '.A11YC_LANG_CTRL_PURGE.' is checked and sent, the user agent will be deleted but '.A11YC_LANG_UA_USING.' can not be deleted or edited except for its name');
 define('A11YC_LANG_SETTING_TITLE_VERSIONS', 'Versions');
-define('A11YC_LANG_SETTING_TITLE_VERSIONS_EXP', 'You can name the version. Check '.A11YC_LANG_CTRL_PURGE.' and send it completely to delete that version. Please note that you can not recover. If you do not want general display, please uncheck '.A11YC_LANG_CTRL_VIEW.'.');
+define('A11YC_LANG_SETTING_TITLE_VERSIONS_EXP', 'You can name the version. Check '.A11YC_LANG_CTRL_PURGE.' and send it completely to delete that version. Please note that you can not recover. If you do not want general display, please uncheck '.A11YC_LANG_CTRL_VIEW);
 define('A11YC_LANG_SETTING_TITLE_ETC', 'etc.');
 define('A11YC_LANG_SETTING_SITE_CHANGE', 'Change Target Site');
-define('A11YC_LANG_SETTING_SITE_ADD_EXP', 'Please enter the document root URL of the target site (ex: https://example.com).');
+define('A11YC_LANG_SETTING_SITE_ADD_EXP', 'Please enter the document root URL of the target site (ex: https://example.com)');
+define('A11YC_LANG_SETTING_SITE_CHANGE_URL', 'Change the URL of the site');
+define('A11YC_LANG_SETTING_SITE_CHANGE_URL_TARGET', 'Sites that change URL');
+define('A11YC_LANG_SETTING_SITE_CHANGE_URL_NEW', 'New URL');
+define('A11YC_LANG_SETTING_SITE_CHANGE_URL_CHECK', 'execute "'.A11YC_LANG_SETTING_SITE_CHANGE_URL.'"');
 
 define('A11YC_LANG_SETTING_BASIC_AUTH_TITLE', 'Basic Auth');
-define('A11YC_LANG_SETTING_BASIC_AUTH_EXP', 'If the site to be tested is protected by basic authentication, please enter the user name and password for basic authentication here.');
+define('A11YC_LANG_SETTING_BASIC_AUTH_EXP', 'If the site to be tested is protected by basic authentication, please enter the user name and password for basic authentication here');
 define('A11YC_LANG_SETTING_BASIC_AUTH_USER', 'Basic Auth user');
 define('A11YC_LANG_SETTING_BASIC_AUTH_PASS', 'Basic Auth password');
 define('A11YC_LANG_SETTING_IS_USE_GUZZLE', 'Stop Guzzle');
-define('A11YC_LANG_SETTING_IS_USE_GUZZLE_EXP', 'If Guzzle conflicts for some reason, please stop Guzzle. Even if you stop Guzzle, you can perform accessibility checks on the updated posts, but lose features such as report creation. If possible, please remove the cause.');
+define('A11YC_LANG_SETTING_IS_USE_GUZZLE_EXP', 'If Guzzle conflicts for some reason, please stop Guzzle. Even if you stop Guzzle, you can perform accessibility checks on the updated posts, but lose features such as report creation. If possible, please remove the cause');
 define('A11YC_LANG_SETTING_EXIST_NON_AND_PASS', 'Criterion that "not Present And Conformance"');
 define('A11YC_LANG_SETTING_NON_USE_TECHS', 'non use technique in implements checklist');
 define('A11YC_LANG_SETTING_NON_USE_TECHS_CANDIDATES', 'Use usual setting');
 define('A11YC_LANG_SETTING_CACHE_TIME', 'Cache Period');
-define('A11YC_LANG_SETTING_CACHE_TIME_EXP', 'Please enter in minutes. A value of -1 will not update the cache.');
+define('A11YC_LANG_SETTING_CACHE_TIME_EXP', 'Please enter in minutes. A value of -1 will not update the cache');
 define('A11YC_LANG_PAGE_CANNOT_IMPORT_HTML', 'Cannot fetch HTML from internet because '.A11YC_LANG_SETTING_CACHE_TIME.' is -1 at '.A11YC_LANG_SETTING_TITLE);
 
 define('A11YC_LANG_DECLARE_DATE', 'Declare Date');
@@ -193,12 +198,12 @@ define('A11YC_LANG_TEST_PERIOD', 'Test Period');
 define('A11YC_LANG_TEST_DATE', 'Test Date');
 define('A11YC_LANG_TARGET_LEVEL', 'Target Level');
 define('A11YC_LANG_POLICY', 'Accessibility Policy');
-define('A11YC_LANG_POLICY_DESC', 'Why you work in web accessibility ensure, goal date, corresponding policies, exceptions, please write and achieve grade to which you want to add to goal.');
+define('A11YC_LANG_POLICY_DESC', 'Why you work in web accessibility ensure, goal date, corresponding policies, exceptions, please write and achieve grade to which you want to add to goal');
 define('A11YC_LANG_REPORT', 'Accessibility Report');
 define('A11YC_LANG_OPINION', 'Opinion');
-define('A11YC_LANG_REPORT_DESC', 'If you have any findings, etc., please describe.');
+define('A11YC_LANG_REPORT_DESC', 'If you have any findings, etc., please describe');
 define('A11YC_LANG_CONTACT', 'Contact Us About Accessibility');
-define('A11YC_LANG_CONTACT_DESC', 'Such as for accessibility of deficiencies, contact details of when that could not get the information, or please write the contact information on the web accessibility.');
+define('A11YC_LANG_CONTACT_DESC', 'Such as for accessibility of deficiencies, contact details of when that could not get the information, or please write the contact information on the web accessibility');
 define('A11YC_LANG_SHOW_RESULTS', 'Show Result');
 
 define('A11YC_LANG_CANDIDATES_TITLE', 'Selected Method');
@@ -247,9 +252,9 @@ define('A11YC_LANG_CHECKLIST_MEMO', 'Note');
 define('A11YC_LANG_NO_BROKEN_LINK_FOUND', 'No broken link was found');
 define('A11YC_LANG_CHECKLIST_PERCENTAGE', 'Achievement');
 define('A11YC_LANG_CHECKLIST_NG_REASON', 'Nonconformity Reason');
-define('A11YC_LANG_CHECKLIST_IMPORTANT_EMP', 'Elements included in a element are displayed as "IMPORTANT".');
-define('A11YC_LANG_CHECKLIST_IMPORTANT_EMP2', 'If "alt" is empty for the "important" element, "'.A11YC_LANG_NEED_CHECK.'" is displayed.');
-define('A11YC_LANG_CHECKLIST_IMPORTANT_EMP3', 'You may see, <a href="%s">1.1.1</a>.');
+define('A11YC_LANG_CHECKLIST_IMPORTANT_EMP', 'Elements included in a element are displayed as "IMPORTANT"');
+define('A11YC_LANG_CHECKLIST_IMPORTANT_EMP2', 'If "alt" is empty for the "important" element, "'.A11YC_LANG_NEED_CHECK.'" is displayed');
+define('A11YC_LANG_CHECKLIST_IMPORTANT_EMP3', 'You may see, <a href="%s">1.1.1</a>');
 define('A11YC_LANG_CHECKLIST_ALT_NULL', 'alt attribute not exist');
 define('A11YC_LANG_CHECKLIST_ALT_EMPTY', 'alt attribute is empty');
 define('A11YC_LANG_CHECKLIST_ALT_BLANK', 'alt attribute is blank character');
@@ -286,16 +291,16 @@ define('A11YC_LANG_DOC_EACH_SUBTITLE', 'About "%s"');
 define('A11YC_LANG_DOC_EACH_SUBTITLE_HOWTO', 'Document of "%s"');
 define('A11YC_LANG_DOC_TEST', 'About Testing');
 define('A11YC_LANG_DOC_UNDERSTANDING', 'Understanding SC&nbsp;%s');
-define('A11YC_LANG_DOC_SEARCH_RESULT_NONE', 'Appropriate documentation was not found.');
+define('A11YC_LANG_DOC_SEARCH_RESULT_NONE', 'Appropriate documentation was not found');
 
 // errors
 define('A11YC_LANG_ERROR_COULD_NOT_GET_HTML', 'Acquisition of HTML failed: ');
-define('A11YC_LANG_ERROR_BASIC_AUTH', 'Access is not possible because it is protected by basic authentication. Please enter the information for Basic Authentication in "Setting".');
-define('A11YC_LANG_ERROR_BASIC_AUTH_WRONG', 'Information for basic authentication seems to be wrong. Please check "Setting".');
-define('A11YC_LANG_ERROR_SSL', 'When targeting SSL sites, please enter the target domain in "Settings".');
-define('A11YC_LANG_ERROR_GET_NEW_A11YC', '<a href="%s">There is a new version of A11yc</a> (current version:%s latest version:%s).');
-define('A11YC_LANG_ERROR_NO_URL_NO_CHECK_SAME', 'Without URL, link destination and link string can not be confirmed. Executed other checks.');
-define('A11YC_LANG_ERROR_COULD_NOT_ESTABLISH_CONNECTION', 'For some reason (ex. SSL certificate), Could not get the source.');
+define('A11YC_LANG_ERROR_BASIC_AUTH', 'Access is not possible because it is protected by basic authentication. Please enter the information for Basic Authentication in "Setting"');
+define('A11YC_LANG_ERROR_BASIC_AUTH_WRONG', 'Information for basic authentication seems to be wrong. Please check "Setting"');
+define('A11YC_LANG_ERROR_SSL', 'When targeting SSL sites, please enter the target domain in "Settings"');
+define('A11YC_LANG_ERROR_GET_NEW_A11YC', '<a href="%s">There is a new version of A11yc</a> (current version:%s latest version:%s)');
+define('A11YC_LANG_ERROR_NO_URL_NO_CHECK_SAME', 'Without URL, link destination and link string can not be confirmed. Executed other checks');
+define('A11YC_LANG_ERROR_COULD_NOT_ESTABLISH_CONNECTION', 'For some reason (ex. SSL certificate), Could not get the source');
 
 // results
 define('A11YC_LANG_RESULT_TITLE', A11YC_LANG_TEST_RESULT);
@@ -303,10 +308,10 @@ define('A11YC_LANG_RESULT_NEWEST_VERSION', 'Newest version');
 define('A11YC_LANG_RESULT_CHANGE_VERSION', 'Switch policy, report, exam version');
 define('A11YC_LANG_RESULT_VERSION_NOT_FOUND', 'Specified version was not found');
 define('A11YC_LANG_RESULT_PROTECT_VERSION_TITLE', 'Data protection');
-define('A11YC_LANG_RESULT_PROTECT_VERSION_EXP', 'Protect current policies, tests and reports. Protected data is not subject to editing. Protected data will be laundered and readable when displaying accessibility policy. Protection is on a daily basis. Overwrite existing data if there is today\'s data.');
-define('A11YC_LANG_RESULT_DELETE_SAMEDATE', 'Since there was protected data created today, overwrote it.');
-define('A11YC_LANG_RESULT_PROTECT_DATA_SAVED', 'Data was protected.');
-define('A11YC_LANG_RESULT_PROTECT_DATA_FAILD', 'Data protection failed.');
+define('A11YC_LANG_RESULT_PROTECT_VERSION_EXP', 'Protect current policies, tests and reports. Protected data is not subject to editing. Protected data will be laundered and readable when displaying accessibility policy. Protection is on a daily basis. Overwrite existing data if there is today\'s data');
+define('A11YC_LANG_RESULT_DELETE_SAMEDATE', 'Since there was protected data created today, overwrote it');
+define('A11YC_LANG_RESULT_PROTECT_DATA_SAVED', 'Data was protected');
+define('A11YC_LANG_RESULT_PROTECT_DATA_FAILD', 'Data protection failed');
 define('A11YC_LANG_RESULT_PROTECT_DATA_CONFIRM', 'Do you really want to protect your data?');
 define('A11YC_LANG_RESULT_VERSION_EXISTS', 'Versions');
 define('A11YC_LANG_RESULT_PASSED_CHECKITEM', 'Passed Check Item');
@@ -319,11 +324,12 @@ define('A11YC_LANG_ISSUE_EDIT', 'Edit Issue');
 define('A11YC_LANG_ISSUE_IS_COMMON_EXP', 'Please check if there is a common problem in the site. All checklists will be treated as a problem');
 define('A11YC_LANG_ISSUE_IS_COMMON', 'Common Problem');
 define('A11YC_LANG_ISSUE_HTML', 'HTML piece of the problem part');
-define('A11YC_LANG_ISSUE_HTML_EXP', 'When you enter the HTML piece of the problem part, it is displayed in the report etc. HTML can not include a comment-out part, the inside of script, etc. When empty, we will use the first tag.');
+define('A11YC_LANG_ISSUE_HTML_EXP', 'When you enter the HTML piece of the problem part, it is displayed in the report etc. HTML can not include a comment-out part, the inside of script, etc. When empty, we will use the first tag');
 define('A11YC_LANG_ISSUE_N_OR_E', 'Notice/Error');
 define('A11YC_LANG_ISSUE_N_OR_E_EXP', 'Choose Notice or Error');
 define('A11YC_LANG_ISSUE_TECH', 'URL of Techniques for WCAG 2.0');
 define('A11YC_LANG_ISSUE_TECH_EXP', 'Please enter URL of Techniques for WCAG 2.0. If there are multiple, please separate them with line breaks');
+define('A11YC_LANG_ISSUE_EXPORT_EXP', 'Choose whether to output to the report');
 
 define('A11YC_LANG_ISSUE_STATUS', 'Status');
 define('A11YC_LANG_ISSUE_STATUS_1', 'Not Yet');
@@ -363,7 +369,7 @@ define('A11YC_LANG_ICL_REASON', 'List of grounds that it is "applicable conformi
 define('A11YC_LANG_IMAGES_TITLE', 'Image List');
 
 // errors
-define('A11YC_LANG_ERROR_NON_TARGET_LEVEL', 'Please perform the check from select "Target Level" in setting.');
+define('A11YC_LANG_ERROR_NON_TARGET_LEVEL', 'Please perform the check from select "Target Level" in setting');
 
 // sample
 define('A11YC_LANG_SAMPLE_POLICY', 'sample:\n<p>[Your Name / Organization Name] will endeavor to create an accessible website that anyone can use in the same way regardless of the presence or absence of disability or age.</p>\n<p>[Please describe the meaning of this website to secure accessibility.]</p>\n<p>We set up accessibility policy as follows and will constantly secure accessibility.</p>\n\n<h2>Policy</h2>\n<p>[Please describe the accessibility policy.]</p>\n\n<h2>'.A11YC_LANG_EXP_TARGET_PAGES.'</h2>\n<p>[Please describe as "target pages below http://example.com".]</p>\n\n<h2>Achievement target date</h2>\n<p>[Please describe the target date of accomplishment.]</p>\n\n<h2>Exceptions</h2>\n<p>[Please list if any.]</p>');
@@ -372,46 +378,46 @@ define('A11YC_LANG_SAMPLE_POLICY', 'sample:\n<p>[Your Name / Organization Name] 
 define('A11YC_LANG_POST_SERVICE_NAME', 'A11yc Accessibility Check Service');
 define('A11YC_LANG_POST_SERVICE_NAME_ABBR', 'A11yc ACS');
 define('A11YC_LANG_POST_INDEX', 'Check');
-define('A11YC_LANG_POST_DESCRIPTION', 'This is a kind of web accessibility checker. anyone can use.');
+define('A11YC_LANG_POST_DESCRIPTION', 'This is a kind of web accessibility checker. anyone can use');
 define('A11YC_LANG_POST_README', 'Read me');
 
 define('A11YC_LANG_POST_HOWTO', '<p>Mechanical accessibility check for the HTML. Please paste your HTML in the textarea of ​​<code>HTML Source</code> or enter target URL to <code>URL</code> in <a href="%s">'.A11YC_LANG_POST_INDEX.'</a> and send it. Display accessibility checkpoints and their commentary.</p><p>In the case of check by URL, in addition to checking accessibility, you can check images and alt.</p>');
 
 define('A11YC_LANG_POST_SERVICE_NAME_TITLE', 'Name of service');
-define('A11YC_LANG_POST_SERVICE_NAME_EXP', '"<strong>'.A11YC_LANG_POST_SERVICE_NAME.'</strong>" Short version is "<strong>'.A11YC_LANG_POST_SERVICE_NAME_ABBR.'</strong>".');
+define('A11YC_LANG_POST_SERVICE_NAME_EXP', '"<strong>'.A11YC_LANG_POST_SERVICE_NAME.'</strong>" Short version is "<strong>'.A11YC_LANG_POST_SERVICE_NAME_ABBR.'</strong>"');
 
 define('A11YC_LANG_POST_CONDITION_TITLE', 'Limit');
-define('A11YC_LANG_POST_CONDITION_EXP_FREE', 'It is free.');
-define('A11YC_LANG_POST_CONDITION_EXP_10MIN', 'More than 10 posts in 10 minutes, you can not post for a few minutes.');
-define('A11YC_LANG_POST_CONDITION_EXP_24H', 'More than 150 posts from one IP address in 24 hours, you will not be able to post for a while.');
+define('A11YC_LANG_POST_CONDITION_EXP_FREE', 'It is free');
+define('A11YC_LANG_POST_CONDITION_EXP_10MIN', 'More than 10 posts in 10 minutes, you can not post for a few minutes');
+define('A11YC_LANG_POST_CONDITION_EXP_24H', 'More than 150 posts from one IP address in 24 hours, you will not be able to post for a while');
 
 define('A11YC_LANG_POST_COLLECTION_TITLE', 'Collected information');
-define('A11YC_LANG_POST_COLLECTION_GOOGLE', 'We are using Google Analytics.');
-define('A11YC_LANG_POST_COLLECTION_IP', 'Because of limitation by IP address, IP address and time accessed from that IP address are saved.');
+define('A11YC_LANG_POST_COLLECTION_GOOGLE', 'We are using Google Analytics');
+define('A11YC_LANG_POST_COLLECTION_IP', 'Because of limitation by IP address, IP address and time accessed from that IP address are saved');
 
 define('A11YC_LANG_POST_VENDOR_TITLE', 'Vendor');
 define('A11YC_LANG_POST_VENDOR_JIDAIKOBO', 'Jidaikobo Inc.');
 define('A11YC_LANG_POST_VENDOR_JIDAIKOBO_TWITTER', 'Twitter of Jidaikobo Inc.');
 
 define('A11YC_LANG_POST_TECH_TITLE', 'Technical information');
-define('A11YC_LANG_POST_TECH_A11YC', 'Based on the library called A11yc. <a href="https://github.com/jidaikobo-shibata/a11yc">A11yc is available on github </a>. Is is also made by Jidaikobo.');
+define('A11YC_LANG_POST_TECH_A11YC', 'Based on the library called A11yc. <a href="https://github.com/jidaikobo-shibata/a11yc">A11yc is available on github </a>. Is is also made by Jidaikobo');
 define('A11YC_LANG_POST_TECH_A11YC_ADD', 'In A11yc, there are functions to prepare reports and test results (check list)');
-define('A11YC_LANG_POST_TECH_JWP_A11YC', 'Plugin for WordPress <a href="https://en.wordpress.org/plugins/jwp-a11y/">jwp-a11y</a> also has the same function as A11yc, so please do it.');
-define('A11YC_LANG_POST_TECH_JWP_A11YC_ADD', 'In Wordpress Plugin, execute validation function of '.A11YC_LANG_POST_SERVICE_NAME_ABBR.' every time posting, constantly manage the site with accessibility awareness.');
+define('A11YC_LANG_POST_TECH_JWP_A11YC', 'Plugin for WordPress <a href="https://en.wordpress.org/plugins/jwp-a11y/">jwp-a11y</a> also has the same function as A11yc, so please do it');
+define('A11YC_LANG_POST_TECH_JWP_A11YC_ADD', 'In Wordpress Plugin, execute validation function of '.A11YC_LANG_POST_SERVICE_NAME_ABBR.' every time posting, constantly manage the site with accessibility awareness');
 
 define('A11YC_LANG_POST_FEEDBACK_TITLE', 'Feedback');
-define('A11YC_LANG_POST_FEEDBACK_EXP', 'If there is a request or correction part on the expression of the function, commentary, etc., please send us email (<a href="mailto:info@jidaikobo.com">info@jidaikobo.com</a>), <a href="https://twitter.com/jidaikobo">Twitter</a>, <a href="https://github.com/jidaikobo-shibata/a11yc">GitHub</a>.');
+define('A11YC_LANG_POST_FEEDBACK_EXP', 'If there is a request or correction part on the expression of the function, commentary, etc., please send us email (<a href="mailto:info@jidaikobo.com">info@jidaikobo.com</a>), <a href="https://twitter.com/jidaikobo">Twitter</a>, <a href="https://github.com/jidaikobo-shibata/a11yc">GitHub</a>');
 
-define('A11YC_LANG_POST_DONE', 'Done.');
-define('A11YC_LANG_POST_DONE_POINTS', '%s Warnned Points.');
-define('A11YC_LANG_POST_DONE_NOTICE_POINTS', '%s Noitced Points.');
-define('A11YC_LANG_POST_DONE_IMAGE_LIST', 'Displaying list of images and alt. Depending on the referrer settings, images may not be displayed.');
+define('A11YC_LANG_POST_DONE', 'Done');
+define('A11YC_LANG_POST_DONE_POINTS', '%s Warnned Points');
+define('A11YC_LANG_POST_DONE_NOTICE_POINTS', '%s Noitced Points');
+define('A11YC_LANG_POST_DONE_IMAGE_LIST', 'Displaying list of images and alt. Depending on the referrer settings, images may not be displayed');
 define('A11YC_LANG_POST_NO_IMAGES_FOUND', 'No Images found');
 
 define('A11YC_LANG_POST_DO_CHECK', 'Do Accessibility check');
 define('A11YC_LANG_POST_SHOW_LIST_IMAGES', 'Show list of images and alt');
 define('A11YC_LANG_POST_BEHAVIOUR', 'Behaviour');
-define('A11YC_LANG_POST_CANT_SHOW_LIST_IMAGES', 'can not display images and alt lists with HTML source check.');
+define('A11YC_LANG_POST_CANT_SHOW_LIST_IMAGES', 'can not display images and alt lists with HTML source check');
 
 define('A11YC_LANG_POST_BASIC_AUTH_EXP', 'Could not pass basic authentication');
 
@@ -420,8 +426,8 @@ define('A11YC_LANG_POST_SOCIAL_FACEBOOK', 'Facebook Like Button');
 
 // plugin
 define('A11YC_LANG_PLUGIN_TITLE', 'Accessibility Checklist');
-define('A11YC_LANG_PLUGIN_SKIP', 'Skip accessibility checklist messages.');
-define('A11YC_LANG_PLUGIN_SKIP_TARGET', 'End line of accessibility checklist.');
-define('A11YC_LANG_PLUGIN_NODEADLINK', 'No dead links were found.');
+define('A11YC_LANG_PLUGIN_SKIP', 'Skip accessibility checklist messages');
+define('A11YC_LANG_PLUGIN_SKIP_TARGET', 'End line of accessibility checklist');
+define('A11YC_LANG_PLUGIN_NODEADLINK', 'No dead links were found');
 define('A11YC_LANG_PLUGIN_ERROR', 'This checklist is according to WCAG2.0 (Web Content Accessibility Guidelines)');
-define('A11YC_LANG_PLUGIN_NOTICE', 'There may be no accessibility problems, but just in case, please check.');
+define('A11YC_LANG_PLUGIN_NOTICE', 'There may be no accessibility problems, but just in case, please check');

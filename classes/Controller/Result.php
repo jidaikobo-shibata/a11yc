@@ -32,16 +32,15 @@ class Result
 	 */
 	public static function assignLinks()
 	{
-		$url = Util::removeQueryStrings(
-			Util::uri(),
-			array('a11yc_policy', 'a11yc_report', 'a11yc_pages', 'url')
-		);
+		$removes = array('a11yc_policy', 'a11yc_report', 'a11yc_pages', 'url');
+		if ( ! array_key_exists(Input::get('a11yc_version'), Model\Version::fetchAll()))
+		{
+			$removes[] = 'a11yc_version';
+		}
+		$url = Util::removeQueryStrings(Util::uri(), $removes);
 
 		// base page
-		$results_link = Util::removeQueryStrings(
-			$url,
-			array('a11yc_version')
-		);
+		$results_link = Util::removeQueryStrings($url, array('a11yc_version'));
 
 		// other pages
 		$policy_link = $url;
@@ -117,11 +116,11 @@ class Result
 	{
 		$page = Model\Page::fetch($url);
 
-		if ( ! $page || ! $page['done'])
+		if ( ! $page || ! $page['done'] || $page['trash'])
 		{
 			if ($is_assign) return false;
-			Session::add('messages', 'errors', A11YC_LANG_PAGE_NOT_FOUND);
-			header("location:javascript://history.go(-1)");
+			header("HTTP/1.0 404 Not Found");
+			echo '404 Not Found';
 			exit();
 		}
 
@@ -278,7 +277,7 @@ class Result
 
 		// assign results
 		View::assign('is_policy', true);
-		self::assignResults($settings['target_level']);
+//		self::assignResults($settings['target_level']);
 
 		// policy
 		View::assign('versions', Model\Version::fetchAll());

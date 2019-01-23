@@ -30,7 +30,7 @@ class Setting
 	public static function fetchAll($force = false)
 	{
 		if ( ! is_null(static::$vals) && ! $force) return static::$vals;
-		$vals = Data::fetch('setting', Data::baseUrl(true), array(), $force);
+		$vals = Data::fetch('setting', 'common', array(), $force);
 		static::$vals = self::mustBeArray($vals);
 		return static::$vals;
 	}
@@ -76,10 +76,9 @@ class Setting
 	 */
 	private static function insertData($vals)
 	{
-		$base_url = Data::baseUrl(true);
-		Data::delete('setting', $base_url);
+		Data::delete('setting', 'common');
 		$vals = self::mustBeArray($vals);
-		return Data::insert('setting', $base_url, $vals);
+		return Data::insert('setting', 'common', $vals);
 	}
 
 	/**

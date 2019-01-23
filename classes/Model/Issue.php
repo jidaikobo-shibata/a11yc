@@ -29,6 +29,7 @@ class Issue
 		'uid'           => 1,
 		'seq'           => 0,
 		'trash'         => 0,
+		'output'        => true,
 		'bbs'           => array(),
 	);
 
@@ -48,6 +49,8 @@ class Issue
 			foreach ($val as $v)
 			{
 				$v['url'] = $url;
+				$v = array_merge(static::$fields, $v);
+
 				$criterion = empty($v['criterion']) ? '1-1-1' : $v['criterion'];
 				if ($v['is_common'] == 1 || empty($url))
 				{

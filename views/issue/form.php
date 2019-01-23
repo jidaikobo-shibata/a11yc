@@ -10,6 +10,15 @@
 </tr>
 
 <tr>
+	<th><?php echo A11YC_LANG_EXPORT ?></th>
+	<td>
+		<p><?php echo A11YC_LANG_ISSUE_EXPORT_EXP ?></p>
+		<?php $checked = Arr::get($item, 'output', false) ? ' checked="checked"' : ''; ?>
+		<label><input<?php echo $checked ?> type="checkbox" id="a11yc_output" name="output" value="1" /><?php echo A11YC_LANG_EXPORT ?></label>
+	</td>
+</tr>
+
+<tr>
 	<th><?php echo A11YC_LANG_ISSUE_IS_COMMON ?></th>
 	<td>
 		<p><?php echo A11YC_LANG_ISSUE_IS_COMMON_EXP ?></p>

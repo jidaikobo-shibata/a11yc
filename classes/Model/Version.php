@@ -17,6 +17,15 @@ class Version
 		'page',
 		'check',
 		'setting',
+		'result',
+		'issue',
+		'icl',
+		'iclsit',
+	);
+	public static $fields = array(
+		'version' => 0,
+		'name'    => '',
+		'trash'   => false,
 	);
 
 	/**
@@ -28,7 +37,7 @@ class Version
 	public static function fetchAll($force = false)
 	{
 		if ( ! is_null(static::$versions) && ! $force) return static::$versions;
-		static::$versions = Data::fetch('versions', 'global', 0, $force);
+		static::$versions = Data::fetch('version', 'common', array(), $force, 0);
 		return static::$versions;
 	}
 
@@ -41,7 +50,7 @@ class Version
 	 */
 	public static function fetch($version, $force = false)
 	{
-		return Arr::get(static::fetchAll($force), $version, '');
+		return Arr::get(static::fetchAll($force), $version, 0);
 	}
 
 	/**
@@ -61,16 +70,15 @@ class Version
 		}
 
 		// insert
-		foreach (static::$keys as $key)
+		foreach (Data::fetchRaw() as $vals)
 		{
-			foreach (Data::fetch($key) as $vals)
-			{
-				Data::insert($key, '', $vals,$version);
-			}
+			if ( ! in_array($vals['key'], static::$keys)) continue;
+			Data::insert($vals['key'], $vals['url'], json_decode($vals['value'], true), $version);
 		}
 
 		// update version table
 		$vals = static::fetchAll(true);
+
 		$vals[$version] = array(
 					'name' => $version,
 					'trash' => 0
@@ -78,7 +86,7 @@ class Version
 		self::updateVersions($vals);
 
 		return true;
-}
+	}
 
 	/**
 	 * update
@@ -87,23 +95,20 @@ class Version
 	 */
 	public static function update()
 	{
-		$names      = Input::postArr('name');
-		$is_visible = Input::postArr('trash');
-		$deletes    = Input::postArr('delete');
-		$r          = false;
+		$names   = Input::postArr('name');
+		$trashes = Input::postArr('trash');
+		$deletes = Input::postArr('delete');
 
 		// update
+		$vals = array();
 		foreach ($names as $version => $name)
 		{
-			$key = self::keyname($version);
-			$is_trash = isset($is_visible[$version]) ? 0 : 1;
-			$vals = array(
-				'version' => $version,
+			$vals[$version] = array(
 				'name'    => $name,
-				'trash'   => $is_trash,
+				'trash'   => isset($trashes[$version]) ? 0 : 1,
 			);
-			$r = Setting::update($key, $vals);
 		}
+		$r = Data::update('version', 'common', $vals);
 
 		// delete
 		foreach ($deletes as $version)
@@ -127,7 +132,7 @@ class Version
 	 */
 	private static function updateVersions($versions)
 	{
-		return Data::update('versions', 'global',$versions);
+		return Data::update('version', 'common', $versions);
 	}
 
 	/**

@@ -7,6 +7,22 @@
  * @license    The MIT License (MIT)
  * @copyright  Jidaikobo Inc.
  * @link       http://www.jidaikobo.com
+ *
+ * key field:
+ * - setting
+ * - page
+ * - check
+ * - result
+ * - issue
+ * - html
+ * - icl
+ * - iclsit
+ * - vesion
+ *
+ * url field:
+ * - url is specified url
+ * - "common" is non specified url. used by issue, setting and version.
+ * - "global" whole system setting. this key's group_id must be 1.
  */
 namespace A11yc\Model;
 
@@ -23,9 +39,10 @@ class Data
 	 * @param Integer $group_id
 	 * @return Array
 	 */
-	public static function fetchRaw($version = 0, $group_id = null)
+	public static function fetchRaw($version = null, $group_id = null)
 	{
 		$group_id = is_null($group_id) ? static::groupId() : $group_id;
+		$version = is_null($version) ? self::versionByQuerystring() : $version;
 		$sql = 'SELECT * FROM '.A11YC_TABLE_DATA.' WHERE ';
 		$sql.= '`group_id` = ? AND `version` = ?;';
 		return Db::fetchAll($sql, array($group_id, $version));
@@ -39,10 +56,9 @@ class Data
 	 * @param Integer $group_id
 	 * @return Array
 	 */
-	public static function fetchAll($force = false, $version = 0, $group_id = null)
+	public static function fetchAll($force = false, $version = null, $group_id = null)
 	{
 		if ( ! is_null(static::$vals) && ! $force) return static::$vals;
-		$group_id = is_null($group_id) ? static::groupId() : $group_id;
 		$ret = static::fetchRaw($version, $group_id);
 
 		$vals = array();
@@ -53,6 +69,7 @@ class Data
 			$key   = $v['key'];
 			$value = $v['value'];
 			$data  = $v['is_array'] ? json_decode($value, true) : $value;
+			// if ($key == 'html') continue;
 
 			$is_id = $key == 'issue' || substr($key, 0, 3) == 'icl';
 			if (isset($v['id']) && $is_id)
@@ -77,16 +94,15 @@ class Data
 	 * fetch stored data
 	 *
 	 * @param String $key
-	 * @param String $url
+	 * @param String $url `url`|common|global|*
 	 * @param Mixed $default
 	 * @param Bool $force
 	 * @param Integer $version
 	 * @param Integer $group_id
 	 * @return String|Array
 	 */
-	public static function fetch($key, $url = '*', $default = array(), $force = false, $version = 0, $group_id = null)
+	public static function fetch($key, $url = '*', $default = array(), $force = false, $version = null, $group_id = null)
 	{
-		$group_id = is_null($group_id) ? static::groupId() : $group_id;
 		$vals = self::fetchAll($force, $version, $group_id);
 
 		if ($key == 'global')
@@ -123,6 +139,21 @@ class Data
 	}
 
 	/**
+	 * versionByQuerystring
+	 *
+	 * @return Integer
+	 */
+	private static function versionByQuerystring()
+	{
+		$version = Input::get('a11yc_version', 0);
+		if (array_key_exists($version, Version::fetchAll()))
+		{
+			return intval($version);
+		}
+		return 0;
+	}
+
+	/**
 	 * fetch group_id
 	 *
 	 * @param Bool $force
@@ -139,7 +170,6 @@ class Data
 		// $ret = Db::fetch($sql);
 
 		$sql = 'SELECT * FROM '.A11YC_TABLE_DATA.' WHERE `url` = "global";';
-
 		$group_id = 1;
 		foreach (Db::fetchAll($sql) as $v)
 		{
@@ -147,6 +177,7 @@ class Data
 			$group_id = intval($v['value']);
 			break;
 		}
+
 		static::$group_id = $group_id;
 
 		return static::$group_id;
@@ -218,6 +249,7 @@ class Data
 		if (empty($url) && empty($key)) return false;
 
 		$group_id = is_null($group_id) ? self::groupId() : $group_id;
+		$group_id = $url == 'global' ? 1 : $group_id;
 		$url = Util::urldec($url);
 		list($is_array, $value) = self::jsonCheck($value);
 
@@ -254,11 +286,21 @@ class Data
 	 */
 	public static function update($key, $url, $value, $version = 0, $group_id = null)
 	{
+		// basic value
 		$group_id = is_null($group_id) ? self::groupId() : $group_id;
+		$group_id = $url == 'global' ? 1 : $group_id;
 		$url = Util::urldec($url);
 
-		$vals = self::fetchAll(true);
+		// existence criterion value
+		$sql = 'SELECT `url`, `key` FROM '.A11YC_TABLE_DATA;
+		$sql.= ' WHERE `version` = ? AND `group_id` = ?;';
+		$vals = array();
+		foreach (Db::fetchAll($sql, array($version, $group_id)) as $v)
+		{
+			$vals[$v['url']][$v['key']] = true;
+		}
 
+		// insert or update
 		if( ! isset($vals[$url][$key]))
 		{
 			$r = static::insert($key, $url, $value, $version, $group_id);
@@ -291,6 +333,27 @@ class Data
 		$sql = 'UPDATE '.A11YC_TABLE_DATA.' SET `value` = ?, `is_array` = ?';
 		$sql.= ' WHERE `group_id` = ? AND `id` = ? AND `version` = ?;';
 		return Db::execute($sql, array($value, $is_array, $group_id, $id, $version));
+	}
+
+	/**
+	 * update url
+	 *
+	 * @param String $oldurl
+	 * @param String $newurl
+	 * @param Integer $version
+	 * @param Integer $group_id
+	 * @return Bool
+	 */
+	public static function updateUrl($oldurl, $newurl, $version = 0, $group_id = null)
+	{
+		$group_id = is_null($group_id) ? self::groupId() : $group_id;
+		$oldurl = trim($oldurl);
+		$newurl = trim($newurl);
+
+		$sql = 'UPDATE '.A11YC_TABLE_DATA.' SET `url` =';
+		$sql.= ' REPLACE (`url`, ?, ?)';
+		$sql.= ' WHERE `group_id` = ? AND `url` LIKE ? AND `version` = ?;';
+		return Db::execute($sql, array($oldurl, $newurl, $group_id, $oldurl.'%', $version));
 	}
 
 	/**

@@ -83,22 +83,22 @@ class Page
 			switch (Input::post('operation'))
 			{
 				case 'delete':
-					Pages\Bulk::delete();
+					Page\Bulk::delete();
 					break;
 				case 'undelete':
-					Pages\Bulk::undelete();
+					Page\Bulk::undelete();
 					break;
 				case 'purge':
-					Pages\Bulk::purge();
+					Page\Bulk::purge();
 					break;
 				case 'result':
-					Pages\Bulk::result();
+					Page\Bulk::result();
 					break;
 				case 'export':
 					Export::csv(array_keys(Input::postArr('bulk')));
 					break;
 				default: // update order
-					Pages\Bulk::updateSeq();
+					Page\Bulk::updateSeq();
 					break;
 			}
 		}

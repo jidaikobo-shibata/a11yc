@@ -148,19 +148,19 @@ class AddData
 			$version = $v['version'];
 			$sql = 'SELECT * FROM '.A11YC_TABLE_SETTINGS.' WHERE `version` = ?;';
 
-			$settings = array();
+			$vals = array();
 			foreach (Db::fetchAll($sql, array($version)) as $v)
 			{
-				$settings[$v['key']] = $v['is_array'] ? json_decode($v['value'], true) : $v['value'];
+				$vals[$v['key']] = $v['is_array'] ? json_decode($v['value'], true) : $v['value'];
 			}
 
 			// update urls
-			$url = Arr::get($settings, 'base_url', 'https://example.com');
+			$url = Arr::get($vals, 'base_url', 'https://example.com');
 			Model\Data::update('sites', 'global', array(1 => $url));
-			unset($settings['base_url']);
+			unset($vals['base_url']);
 
 			// update settings
-			Model\Data::update('setting', $url, $settings, $version);
+			Model\Data::update('setting', 'common', $vals, $version);
 		}
 	}
 
@@ -183,6 +183,7 @@ class AddData
 			{
 				// update settings
 				$url = $vals['url'];
+				unset($vals['url']);
 				$vals['image_path'] = isset($vals['image_path']) ? $vals['image_path'] : '';
 				$vals['type'] = $vals['type'] == 2 ? 'pdf' : 'html';
 				Model\Data::insert('page', $url, $vals, $version);
@@ -208,7 +209,7 @@ class AddData
 		}
 		if (empty($vals)) return;
 
-		Model\Data::update('versions', 'global', $vals);
+		Model\Data::update('versions', 'common', $vals);
 	}
 
 	/**
@@ -268,7 +269,10 @@ class AddData
 			foreach ($results as $v)
 			{
 				unset($v['version']);
-				$value[$v['criterion']] = $v;
+				unset($v['url']);
+				$criterion = $v['criterion'];
+				unset($v['criterion']);
+				$value[$criterion] = $v;
 			}
 
 			Model\Data::insert('result', $url, $value, $version);

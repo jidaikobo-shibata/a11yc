@@ -297,6 +297,19 @@ class Export
 		$settings = Model\Setting::fetchAll();
 		$pages = Model\Page::fetchAll();
 
+		foreach ($issues as $url => $criterions)
+		{
+			foreach ($criterions as $criterion => $vals)
+			{
+				foreach ($vals as $key => $val)
+				{
+					if ($val['output'] === false) unset($issues[$url][$criterion][$key]);
+				}
+				if (empty($issues[$url][$criterion])) unset($issues[$url][$criterion]);
+			}
+			if (empty($issues[$url])) unset($issues[$url]);
+		}
+
 		$titles = array_column($pages, 'title', 'url');
 		if ( ! isset($titles['commons']))
 		{

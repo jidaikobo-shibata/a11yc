@@ -7,9 +7,10 @@ if ($versions):
 	$html.= '<div><label for="a11yc_version">'.A11YC_LANG_RESULT_CHANGE_VERSION.'</label>';
 	$html.= '<select name="a11yc_version" id="a11yc_version">';
 	$html.= '<option value="">'.A11YC_LANG_RESULT_NEWEST_VERSION.'</option>';
-	foreach ($versions as $version):
-		$selected = Input::get('a11yc_version', '') == $version ? ' selected="selected"' : '';
-		$html.= '<option'.$selected.' value="'.$version['version'].'">'.$version['name'].'</option>';
+
+	foreach ($versions as $version_name => $version):
+		$selected = Input::get('a11yc_version', '') == $version_name ? ' selected="selected"' : '';
+		$html.= '<option'.$selected.' value="'.$version_name.'">'.$version['name'].'</option>';
 	endforeach;
 	$html.= '</select>';
 	$html.= '<input type="submit" value="'.A11YC_LANG_CTRL_SEND.'">';

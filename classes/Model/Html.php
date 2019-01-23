@@ -69,7 +69,7 @@ class Html
 		$updated_at = Arr::get($cache, 'updated_at', 0);
 		$html       = Arr::get($cache, $ua, false);
 		$cache_time = intval(Setting::fetch('cache_time', 60));
-		$cache_time = $is_use_cache ? -1 : $cache_time;
+		$cache_time = $is_use_cache ? $cache_time : -1;
 
 		// do not use internet
 		if ($cache_time == -1) return $html;
