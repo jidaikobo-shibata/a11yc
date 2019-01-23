@@ -228,6 +228,7 @@ class Issue
 			$args[$key] = Input::post($key, $default);
 		}
 		$args['output'] = Input::post('output', false); // checkbox
+		$args['techs'] = Input::postArr('techs', array()); // checkbox
 		return $args;
 	}
 

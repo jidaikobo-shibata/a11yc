@@ -518,6 +518,7 @@ jQuery(function($){
 
 	function a11yc_criterion_implements_situation()
 	{
+		if (!$('#a11yc_situation')[0]) return;
 		var criterion = $('#a11yc_situation option:selected').data('criterion');
 		criterion = criterion == '' ? '1-1-1' : criterion;
 		$('#a11yc_criterion').val(criterion).trigger('change');
