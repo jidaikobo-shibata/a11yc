@@ -68,7 +68,7 @@ class Extension implements \Upload\ValidationInterface
     /**
      * Validate
      *
-     * @param  \Upload\FileInfoInterface $fileInfo
+     * @param \Upload\FileInfoInterface $fileInfo
      * @throws \RuntimeException         If validation fails
      */
     public function validate(\Upload\FileInfoInterface $fileInfo)

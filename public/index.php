@@ -11,7 +11,7 @@
 
 // a11yc
 namespace A11yc;
-require (dirname(__DIR__).'/libs/a11yc/main.php');
+require (dirname(__DIR__).'/main.php');
 
 // is ip allowed
 if (defined('A11YC_APPROVED_IPS'))

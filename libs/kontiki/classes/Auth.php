@@ -18,7 +18,7 @@ class Auth
 	 * forge
 	 * start session
 	 *
-	 * @param  String $session_name
+	 * @param String $session_name
 	 * @return Void
 	 */
 	public static function forge($session_name = 'KNTKSESSID')
@@ -72,7 +72,7 @@ class Auth
 	/**
 	 * hash
 	 *
-	 * @param  String $str
+	 * @param String $str
 	 * @return String
 	 */
 	public static function hash ($str)
@@ -83,8 +83,8 @@ class Auth
 	/**
 	 * verify
 	 *
-	 * @param  String|Array $password
-	 * @param  String $hash
+	 * @param String|Array $password
+	 * @param String $hash
 	 * @return Bool
 	 */
 	public static function verify ($password, $hash)

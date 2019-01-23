@@ -19,7 +19,7 @@ class Arr
 	 * will return the result of the closure, if not, it will simply return the
 	 * value.
 	 *
-	 * @param   mixed  $var  The value to get
+	 * @param  mixed  $var  The value to get
 	 * @return  mixed
 	 */
 	public static function value($var)
@@ -31,9 +31,9 @@ class Arr
 	 * Gets a dot-notated key from an array, with a default value if it does
 	 * not exist.
 	 *
-	 * @param   array   $array    The search array
-	 * @param   mixed   $key      The dot-notated key or array of keys
-	 * @param   string  $default  The default value
+	 * @param  array   $array    The search array
+	 * @param  mixed   $key      The dot-notated key or array of keys
+	 * @param  string  $default  The default value
 	 * @return  mixed
 	 */
 	public static function get($array, $key, $default = null)
@@ -60,6 +60,7 @@ class Arr
 		}
 
 		is_object($key) and $key = (string) $key;
+		is_bool($key) and $key = '';
 
 		if (array_key_exists($key, $array))
 		{
@@ -85,9 +86,9 @@ class Arr
 	/**
 	 * Set an array item (dot-notated) to the value.
 	 *
-	 * @param   array   $array  The array to insert it into
-	 * @param   mixed   $key    The dot-notated key to set or array of keys
-	 * @param   mixed   $value  The value
+	 * @param  array   $array  The array to insert it into
+	 * @param  mixed   $key    The dot-notated key to set or array of keys
+	 * @param  mixed   $value  The value
 	 * @return  void
 	 */
 	public static function set(&$array, $key, $value = null)

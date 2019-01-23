@@ -62,7 +62,7 @@ pre
 }
 body > :last-child
 {
-	
+
 	page-break-after: auto;
 }
 .cover_page
@@ -125,7 +125,7 @@ body > :last-child
 	font-size: 1.2rem;
 	line-height: 1;
 }
-.issue 
+.issue
 {
 	font-size: .87rem;
 }

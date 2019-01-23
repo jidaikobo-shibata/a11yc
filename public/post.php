@@ -10,5 +10,5 @@
  */
 
 // controller
-require (dirname(__DIR__).'/libs/a11yc/classes/Controller/Post.php');
+require (dirname(__DIR__).'/classes/Controller/Post.php');
 \A11yc\Controller\Post::forge();

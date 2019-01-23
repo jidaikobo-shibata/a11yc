@@ -90,10 +90,10 @@ class FileInfo extends \SplFileInfo implements \Upload\FileInfoInterface
 
     /**
      * Set file name (without extension)
-     * 
+     *
      * It also makes sure file name is safe
      *
-     * @param  string           $name
+     * @param string           $name
      * @return \Upload\FileInfo Self
      */
     public function setName($name)
@@ -118,7 +118,7 @@ class FileInfo extends \SplFileInfo implements \Upload\FileInfoInterface
     /**
      * Set file extension (without dot prefix)
      *
-     * @param  string           $extension
+     * @param string           $extension
      * @return \Upload\FileInfo Self
      */
     public function setExtension($extension)

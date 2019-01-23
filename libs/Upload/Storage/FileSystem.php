@@ -56,8 +56,8 @@ class FileSystem implements \Upload\StorageInterface
     /**
      * Constructor
      *
-     * @param  string                    $directory Relative or absolute path to upload directory
-     * @param  bool                      $overwrite Should this overwrite existing files?
+     * @param string                    $directory Relative or absolute path to upload directory
+     * @param bool                      $overwrite Should this overwrite existing files?
      * @throws \InvalidArgumentException            If directory does not exist
      * @throws \InvalidArgumentException            If directory is not writable
      */
@@ -76,7 +76,7 @@ class FileSystem implements \Upload\StorageInterface
     /**
      * Upload
      *
-     * @param  \Upload\FileInfoInterface $file The file object to upload
+     * @param \Upload\FileInfoInterface $file The file object to upload
      * @throws \Upload\Exception               If overwrite is false and file already exists
      * @throws \Upload\Exception               If error moving file to destination
      */
@@ -98,8 +98,8 @@ class FileSystem implements \Upload\StorageInterface
      * This method allows us to stub this method in unit tests to avoid
      * hard dependency on the `move_uploaded_file` function.
      *
-     * @param  string $source      The source file
-     * @param  string $destination The destination file
+     * @param string $source      The source file
+     * @param string $destination The destination file
      * @return bool
      */
     protected function moveUploadedFile($source, $destination)

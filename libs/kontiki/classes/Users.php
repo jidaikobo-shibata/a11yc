@@ -18,7 +18,7 @@ class Users
 	 * set users
 	 * key must be started with 1 (not 0)
 	 *
-	 * @param  Array array(1 => array(username, password, display_name, memo))
+	 * @param Array array(1 => array(username, password, display_name, memo))
 	 * @return Void
 	 */
 	public static function forge($users = array())

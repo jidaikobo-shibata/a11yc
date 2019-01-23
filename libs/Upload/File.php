@@ -109,8 +109,8 @@ class File implements \ArrayAccess, \IteratorAggregate, \Countable
     /**
      * Constructor
      *
-     * @param  string                    $key     The $_FILES[] key
-     * @param  \Upload\StorageInterface  $storage The upload delegate instance
+     * @param string                    $key     The $_FILES[] key
+     * @param \Upload\StorageInterface  $storage The upload delegate instance
      * @throws \RuntimeException                  If file uploads are disabled in the php.ini file
      * @throws \InvalidArgumentException          If $_FILES[] does not contain key
      */
@@ -168,7 +168,7 @@ class File implements \ArrayAccess, \IteratorAggregate, \Countable
     /**
      * Set `beforeValidation` callable
      *
-     * @param  callable                  $callable Should accept one `\Upload\FileInfoInterface` argument
+     * @param callable                  $callable Should accept one `\Upload\FileInfoInterface` argument
      * @return \Upload\File                        Self
      * @throws \InvalidArgumentException           If argument is not a Closure or invokable object
      */
@@ -185,7 +185,7 @@ class File implements \ArrayAccess, \IteratorAggregate, \Countable
     /**
      * Set `afterValidation` callable
      *
-     * @param  callable                  $callable Should accept one `\Upload\FileInfoInterface` argument
+     * @param callable                  $callable Should accept one `\Upload\FileInfoInterface` argument
      * @return \Upload\File                        Self
      * @throws \InvalidArgumentException           If argument is not a Closure or invokable object
      */
@@ -202,7 +202,7 @@ class File implements \ArrayAccess, \IteratorAggregate, \Countable
     /**
      * Set `beforeUpload` callable
      *
-     * @param  callable                  $callable Should accept one `\Upload\FileInfoInterface` argument
+     * @param callable                  $callable Should accept one `\Upload\FileInfoInterface` argument
      * @return \Upload\File                        Self
      * @throws \InvalidArgumentException           If argument is not a Closure or invokable object
      */
@@ -219,7 +219,7 @@ class File implements \ArrayAccess, \IteratorAggregate, \Countable
     /**
      * Set `afterUpload` callable
      *
-     * @param  callable                  $callable Should accept one `\Upload\FileInfoInterface` argument
+     * @param callable                  $callable Should accept one `\Upload\FileInfoInterface` argument
      * @return \Upload\File                        Self
      * @throws \InvalidArgumentException           If argument is not a Closure or invokable object
      */
@@ -236,8 +236,8 @@ class File implements \ArrayAccess, \IteratorAggregate, \Countable
     /**
      * Apply callable
      *
-     * @param  string                    $callbackName
-     * @param  \Upload\FileInfoInterface $file
+     * @param string                    $callbackName
+     * @param \Upload\FileInfoInterface $file
      * @return \Upload\File              Self
      */
     protected function applyCallback($callbackName, \Upload\FileInfoInterface $file)
@@ -256,7 +256,7 @@ class File implements \ArrayAccess, \IteratorAggregate, \Countable
     /**
      * Add file validations
      *
-     * @param  array[\Upload\ValidationInterface] $validations
+     * @param array[\Upload\ValidationInterface] $validations
      * @return \Upload\File                       Self
      */
     public function addValidations(array $validations)
@@ -271,7 +271,7 @@ class File implements \ArrayAccess, \IteratorAggregate, \Countable
     /**
      * Add file validation
      *
-     * @param  \Upload\ValidationInterface $validation
+     * @param \Upload\ValidationInterface $validation
      * @return \Upload\File                Self
      */
     public function addValidation(\Upload\ValidationInterface $validation)
@@ -440,7 +440,7 @@ class File implements \ArrayAccess, \IteratorAggregate, \Countable
     /**
      * Convert human readable file size (e.g. "10K" or "3M") into bytes
      *
-     * @param  string $input
+     * @param string $input
      * @return int
      */
     public static function humanReadableToBytes($input)

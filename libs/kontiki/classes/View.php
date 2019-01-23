@@ -18,7 +18,7 @@ class View
 	/**
 	 * set template path
 	 *
-	 * @param  String $tpl_path
+	 * @param String $tpl_path
 	 * @return Void
 	 */
 	public static function forge($tpl_path)
@@ -31,7 +31,7 @@ class View
 	 * add template path
 	 * added template pathes is stronger than forged template path
 	 *
-	 * @param  String $tpl_path
+	 * @param String $tpl_path
 	 * @return Void
 	 */
 	public static function addTplPath($tpl_path)
@@ -44,7 +44,7 @@ class View
 	 * tpl_path
 	 * specified / fallback template path
 	 *
-	 * @param  String $tpl
+	 * @param String $tpl
 	 * @return String|Bool
 	 */
 	public static function tplPath($tpl)
@@ -84,7 +84,7 @@ class View
 	 * fetchTpl
 	 * fetch specified / fallback template
 	 *
-	 * @param  String $tpl
+	 * @param String $tpl
 	 * @return String
 	 */
 	public static function fetchTpl($tpl)
@@ -106,9 +106,9 @@ class View
 	/**
 	 * assign
 	 *
-	 * @param  String $key
-	 * @param  String $val
-	 * @param  Bool $escape
+	 * @param String $key
+	 * @param String $val
+	 * @param Bool $escape
 	 * @return Void
 	 */
 	public static function assign($key, $val, $escape = TRUE)
@@ -124,7 +124,7 @@ class View
 	/**
 	 * display
 	 *
-	 * @param  Array $tpls order of templates
+	 * @param Array $tpls order of templates
 	 * @return Void
 	 */
 	public static function display(array $tpls)

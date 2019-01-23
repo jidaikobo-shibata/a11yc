@@ -11,34 +11,13 @@
 namespace A11yc;
 
 // kontiki and a11yc
-require (dirname(__DIR__).'/libs/a11yc/main.php');
-
-// select version
-$version = Input::get('a11yc_version', false);
-$target = $version ? Controller_Disclosure::version2filename($version) : A11YC_DATA_FILE;
-
-// database
-Db::forge(array(
-		'dbtype' => 'sqlite',
-		'path'   => A11YC_DATA_PATH.$target,
-	));
-
-// versions
-// Db::forge(
-// 	'versions',
-// 	array(
-// 		'dbtype' => 'sqlite',
-// 		'path' => A11YC_DATA_PATH.'/versions.sqlite',
-// 	));
-
-// init table
-Db::initTable();
+require (dirname(__DIR__).'/main.php');
 
 // view
 View::forge(A11YC_PATH.'/views/');
 
 // assign
-Controller\Results::index();
+Controller\Result::index();
 
 ?><!DOCTYPE html>
 <html lang="<?php echo A11YC_LANG ?>">

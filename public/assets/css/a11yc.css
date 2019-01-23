@@ -418,19 +418,19 @@ table.a11yc_table_info {
 #a11yc_menu .a11yc_center span:after {
 	content: "\f015";
 }
-#a11yc_menu .a11yc_settings span:after {
+#a11yc_menu .a11yc_setting span:after {
 	content: "\f013";
 }
-#a11yc_menu .a11yc_pages span:after {
+#a11yc_menu .a11yc_page span:after {
 	content: "\f016";
 }
-#a11yc_menu .a11yc_issues span:after {
+#a11yc_menu .a11yc_issue span:after {
 	content: "\f0fa";
 }
 #a11yc_menu .a11yc_bulk span:after {
 	content: "\f0c5";
 }
-#a11yc_menu .a11yc_docs span:after {
+#a11yc_menu .a11yc_doc span:after {
 	content: "\f02d";
 }
 #a11yc_menu .a11yc_logout span:after {
