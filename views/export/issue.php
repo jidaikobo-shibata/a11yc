@@ -55,7 +55,7 @@ endif;
 
 ?>
 <section class="each_issue">
-<h2 class="heading"><?php echo ( $page_num === 0 ? 'c' : sprintf('%02d', $page_num)) .'-'.++$issue_num.': '.$issue['title']  //issue title?  ?></h2>
+<h2 class="heading"><?php echo ( $page_num === 0 ? '0' : sprintf('%02d', $page_num)) .'-'.++$issue_num.': '.$issue['title']  //issue title?  ?></h2>
 <?php if ( ! empty($issue['image_path'])): ?>
 	<section class="screenshot"><h3 class="heading"><?php echo A11YC_LANG_ISSUE_SCREENSHOT ?></h3>
 	<?php
@@ -95,13 +95,14 @@ endif;
 <?php
 $other_url = Arr::get($issue, 'other_urls', false);
 if ($other_url):
-$other_urls = explode("\n", $other_url);
+$other_urls = explode("\n", $other_url.trim());
 ?>
 	<h3 class="heading"><?php echo A11YC_LANG_ISSUE_OTHER_URLS ?></h3>
 	<div>
 	<ul>
 	<?php
 	foreach ($other_urls as $each_url):
+		if( ! $each_url ) continue;
 		echo '<li><a href="'.$each_url.'">'.$each_url.'</a></li>';
 	endforeach;
 	?>
