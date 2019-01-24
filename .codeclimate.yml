@@ -90,9 +90,12 @@ ratings:
 exclude_paths:
 - config/
 - db/
-- libs/spyc
-- libs/guzzle
-- assets/css/font-awesome
+- libs/spyc/
+- libs/guzzle/
+- libs/Upload/
+- public/assets/css/font-awesome/
+- public/assets/js/jquery-1.11.1.min.js
 - libs/kontiki/classes/Session.php
 - libs/a11yc/resources/ietf_langs.php
 - libs/a11yc/languages
+- views/
