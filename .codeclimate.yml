@@ -97,5 +97,6 @@ exclude_paths:
 - public/assets/js/jquery-1.11.1.min.js
 - libs/kontiki/classes/Session.php
 - resources/ietf_langs.php
+- resources/icls_default_waic.php
 - languages
 - views/
