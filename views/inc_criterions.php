@@ -4,6 +4,7 @@
 	<th><label for="a11yc_criterion"><?php echo A11YC_LANG_CRITERION ?></label></th>
 	<td>
 		<select id="a11yc_criterion" name="criterion">
+			<option value="0">-</option>
 		<?php
 			foreach (Yaml::each('criterions') as $k => $v):
 				$selected = $k == Arr::get($item, 'criterion', Input::get('criterion')) ?
