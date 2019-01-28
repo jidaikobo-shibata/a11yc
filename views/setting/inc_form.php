@@ -193,5 +193,13 @@ $levels = array(
 		<td><p><?php echo A11YC_LANG_SETTING_CACHE_TIME_EXP ?></p><input type="text" name="cache_time" id="a11yc_cache_time" size="5" value="<?php echo intval(Arr::get($settings, 'cache_time', '60')) ?>" /></td>
 	</tr>
 
+	<tr>
+		<th><label for="a11yc_show_url_results"><?php echo A11YC_LANG_CTRL_VIEW ?></label></th>
+		<td>
+			<?php $checked = Arr::get($settings, 'show_url_results') == 1 ? ' checked="checked"' : ''; ?>
+			<label><input type="checkbox" name="show_url_results" id="a11yc_show_url_results" value="1"<?php   echo $checked ?>/><?php echo A11YC_LANG_SETTING_RESULT_HIDE_URL ?></label>
+		</td>
+	</tr>
+
 	</tbody>
 </table>

@@ -17,6 +17,7 @@ class Page
 		'alt_url'          => '',
 		'type'             => 0,
 		'title'            => '',
+		'real_title'       => '',
 		'level'            => 0,
 		'standard'         => 0,
 		'selection_reason' => 0,
@@ -296,5 +297,20 @@ class Page
 	public static function count($type = 'all')
 	{
 		return count(static::fetchAll(array('list' => $type)));
+	}
+
+	/**
+	 * update all page titles
+	 *
+	 * @return Void
+	 */
+	public static function updateAllPageTitles()
+	{
+		foreach (static::fetchAll() as $page)
+		{
+			$title = Html::fetchPageTitleFromHtml(Html::fetch($page['url']));
+			static::updatePartial($page['url'], 'real_title', $title);
+		}
+		Session::add('messages', 'messages', 'Page titles\' database were updated.');
 	}
 }

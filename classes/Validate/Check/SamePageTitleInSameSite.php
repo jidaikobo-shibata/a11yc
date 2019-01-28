@@ -37,7 +37,7 @@ class SamePageTitleInSameSite extends Validate
 		foreach ($pages as $page)
 		{
 			if (in_array($title, $titles)) $exists = true;
-			$titles[] = Model\Html::fetchPageTitleFromHtml(Model\Html::fetch($page['url']));
+			$titles[] = Arr::get($page, 'real_title');
 		}
 
 		Validate\Set::errorAndLog(

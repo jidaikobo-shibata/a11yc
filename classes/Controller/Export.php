@@ -80,7 +80,7 @@ class Export
 		// check and generate csv
 		foreach ($urls as $url)
 		{
-			$html = Model\Html::fetch($url);
+			$html = Model\Html::fetch($url, false, true, true);
 			if ($html === false) continue;
 
 			// validate
@@ -93,6 +93,7 @@ class Export
 			$csv = self::addIssues2Csv($url, $csv, $n);
 			$csv[] = array();
 		}
+
 		return $csv;
 	}
 
@@ -106,10 +107,9 @@ class Export
 	{
 		$csv = static::generateCsv($url);
 
-		// export
-		$filename = 'a11yc.csv';
-		$filepath = sys_get_temp_dir().$filename;
-		$fp = fopen($filepath, 'w');
+		// output
+		ob_start();
+		$fp = fopen('php://output', 'w');
 		if ($fp === FALSE) throw new Exception('failed to export');
 
 		foreach ($csv as $fields)
@@ -119,13 +119,10 @@ class Export
 		}
 		fclose($fp);
 
-		header("HTTP/1.1 200 OK");
-		header('Content-Type: application/octet-stream');
-		header('Content-Length: '.filesize($filepath));
-		header('Content-Transfer-Encoding: binary');
-		header('Content-Disposition: attachment; filename='.$filename);
-		readfile($filepath);
-		exit();
+		$buffer = ob_get_contents();
+		ob_end_clean();
+
+		File::download('a11yc.csv', $buffer);
 	}
 
 	/**
@@ -144,6 +141,7 @@ class Export
 		{
 			foreach ($errs as $err)
 			{
+				if ( ! isset($yml['errors'][$err_code])) continue;
 				$current_err = $yml['errors'][$err_code];
 				$err_type = isset($current_err['notice']) ? 'notice' : 'error';
 

@@ -127,9 +127,14 @@ class Validate
 		static::$error_ids[$url] = array();
 		static::$logs[$url] = array();
 
+		// $s = microtime(true);
+
 		// validate
 		foreach ($codes as $class_name)
 		{
+			// echo $class_name;
+			// echo number_format(microtime(true) - $s, 2).' sec.';
+
 			if (array_key_exists($class_name, static::$codes_alias))
 			{
 				$class = static::$codes_alias[$class_name][0];

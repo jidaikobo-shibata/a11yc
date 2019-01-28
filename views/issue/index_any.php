@@ -22,19 +22,21 @@ else:
 
 	<?php
 	foreach ($items as $url => $vals):
-
-	$rowspan = 1;
-	foreach ($vals as $criterion => $each_issues):
-		 $rowspan = $rowspan + count($each_issues);
-	endforeach;
+		$rowspan = 1;
+		foreach ($vals as $criterion => $each_issues):
+			 $rowspan = $rowspan + count($each_issues);
+		endforeach;
 	?>
 <tr>
 	<th scope="row" rowspan="<?php echo $rowspan ?>" class="a11yc_issue_url">
-	<?php if ($url == 'commons' || empty($url)): ?>
-		<?php echo A11YC_LANG_ISSUE_IS_COMMON ?>
-	<?php else: ?>
-		<?php echo Model\Html::fetchPageTitle($url) ?><br><a href="<?php echo Util::urldec($url) ?>"><?php echo Util::s($url) ?></a>
-	<?php endif; ?>
+	<?php
+	if ($url == 'commons' || empty($url)):
+		echo A11YC_LANG_ISSUE_IS_COMMON;
+	else:
+		$page = Model\Page::fetch($url);
+		echo $page['title'].'<br><a href="'.Util::urldec($url).'">'.Util::s($url).'</a>';
+	endif;
+	?>
 	</th>
 	<td class="a11yc_result" rowspan="<?php echo $rowspan ?>">
 	<?php if ($url != 'common' && ! empty($url)): ?>

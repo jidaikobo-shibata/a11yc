@@ -151,12 +151,12 @@ class Issue
 			if ($is_add)
 			{
 				$item = self::add();
-				$newfilename = Upload::img('issues', '');
+				$newfilename = File::uploadImg('issues', '');
 			}
 			else
 			{
 				$item = self::update($id);
-				$newfilename = Upload::img('issues', '', $item['image_path']);
+				$newfilename = File::uploadImg('issues', '', $item['image_path']);
 			}
 			Model\Issue::updatePartial($item['id'], 'image_path', $newfilename);
 			Util::redirect(A11YC_ISSUE_URL.'edit&amp;id='.$item['id']);
