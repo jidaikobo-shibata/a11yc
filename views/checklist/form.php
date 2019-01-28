@@ -5,8 +5,8 @@
 function a11yc_implement_checklist_row($id, $criterion, $arr, $cs, $yml, $refs)
 {
 	$html = '';
-	$html.= '<dl><dt>'.htmlspecialchars_decode($arr[$criterion][$id]['title']).'</dt>';
-	$html.= '<dd><ul>';
+	$html.= '<dl class="a11yc_implement_checklist_each"><dt>'.htmlspecialchars_decode($arr[$criterion][$id]['title']).'</dt>';
+	$html.= '<dd><ul class="a11yc_each_list">';
 
 	$li = '';
 	if ( ! empty($arr[$criterion][$id]['techs']))
@@ -20,7 +20,7 @@ function a11yc_implement_checklist_row($id, $criterion, $arr, $cs, $yml, $refs)
 							 '';
 
 			$li.= '<li>';
-			$li.= '<label for="'.$idfor.'" class="a11yc_checkitem"><input type="checkbox"'.$checked.' id="'.$idfor.'" name="chk['.$criterion.'][]" value="'.$implement.'" /><span class="a11yc_icon_fa a11yc_icon_checkbox" role="presentation" aria-hidden="true"></span>'.$yml['techs'][$implement]['title'].'</label>';
+			$li.= '<label for="'.$idfor.'" class="a11yc_checkitem"><input type="checkbox"'.$checked.' id="'.$idfor.'" class="a11yc_skip" name="chk['.$criterion.'][]" value="'.$implement.'" /><span class="a11yc_icon_fa a11yc_icon_checkbox" role="presentation" aria-hidden="true"></span>'.$yml['techs'][$implement]['title'].'</label>';
 			$li.= '<a'.A11YC_TARGET.' href="'.$refs['t'].$implement.'.html" title="'.A11YC_LANG_DOC_TITLE.'" class="a11yc_link_howto"><span role="presentation" aria-hidden="true" class="a11yc_icon_fa a11yc_icon_howto"></span><span class="a11yc_skip"><?php echo A11YC_LANG_DOC_TITLE ?></span></a>';
 			$li.= '</li>';
 		}
@@ -33,7 +33,7 @@ function a11yc_implement_checklist_row($id, $criterion, $arr, $cs, $yml, $refs)
 						 '';
 
 		$li.= '<li>';
-		$li.= '<label for="'.$idfor.'" class="a11yc_checkitem"><input type="checkbox"'.$checked.' id="'.$idfor.'" name="chk['.$criterion.'][]" value="'.$id.'" /><span class="a11yc_icon_fa a11yc_icon_checkbox" role="presentation" aria-hidden="true"></span>'.A11YC_LANG_CHECKLIST_IMPLEMENT_CHECK.'</label>';
+		$li.= '<label for="'.$idfor.'" class="a11yc_checkitem"><input type="checkbox"'.$checked.' id="'.$idfor.'" class="a11yc_skip" name="chk['.$criterion.'][]" value="'.$id.'" /><span class="a11yc_icon_fa a11yc_icon_checkbox" role="presentation" aria-hidden="true"></span>'.A11YC_LANG_CHECKLIST_IMPLEMENT_CHECK.'</label>';
 		$li.= '</li>';
 	}
 	$html.= $li.'</ul></dd></dl>';
@@ -283,10 +283,10 @@ endif;
 if ( ! empty($html)):
 ?>
 
-			<details class="a11yc_check_disclosure">
+			<details class="a11yc_check_disclosure a11yc_implement_checklist">
 				<summary><?php echo A11YC_LANG_CHECKLIST_IMPLEMENTSLIST_TITLE ?></summary>
 
-				<table class="a11yc_table a11yc_table_check"><tbody>
+				<table class="a11yc_table a11yc_table_check a11yc_nohighlight"><tbody>
 					<?php echo $html; ?>
 				</tbody></table>
 			</details>

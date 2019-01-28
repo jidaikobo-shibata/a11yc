@@ -1,5 +1,4 @@
 <?php namespace A11yc; ?>
-
 <h2><?php echo A11YC_LANG_UNDERSTANDING ?></h2>
 
 <?php

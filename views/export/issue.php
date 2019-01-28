@@ -55,6 +55,7 @@ endif;
 
 ?>
 <section class="each_issue">
+<div class="pring_block">
 <h2 class="heading"><?php echo ( $page_num === 0 ? '0' : sprintf('%02d', $page_num)) .'-'.++$issue_num.': '.$issue['title']  //issue title?  ?></h2>
 <?php if ( ! empty($issue['image_path'])): ?>
 	<section class="screenshot"><h3 class="heading"><?php echo A11YC_LANG_ISSUE_SCREENSHOT ?></h3>
@@ -64,20 +65,26 @@ endif;
 	?>
 	</section>
 <?php endif; ?>
-
+</div><!-- ./print_block -->
 <section class="issue">
 <?php if($issue['html'] ): ?>
+<div class="print_block">
 	<h3 class="heading"><?php echo A11YC_LANG_ISSUE_HTML ?></h3>
 	<div>
 		<pre><code><?php echo $issue['html'] ?></code></pre>
 	</div>
+</div><!-- ./print_block -->
 <?php endif ; ?>
-	<h3 class="heading"><?php echo A11YC_LANG_ISSUE_ERRMSG ?></h3>
+<?php if( trim($issue['error_message']) !== '' ): ?>
+<div class="print_block">
+	<h3 class="heading"><?php echo A11YC_LANG_UNDERSTANDING ?></h3>
 	<p>
 		<?php echo nl2br($issue['error_message']) ?>
 	</p>
-
+</div><!-- ./print_block -->
+<?php endif; ?>
 <?php if (isset($issue['techs']) && ! empty($issue['techs'])): ?>
+<div class="print_block">
 	<h3 class="heading"><?php echo A11YC_LANG_ISSUE_TECH ?></h3>
 	<div>
 	<ul>
@@ -90,6 +97,7 @@ endif;
 	?>
 	</ul>
 	</div>
+</div><!-- ./print_block -->
 <?php endif; ?>
 
 <?php
@@ -97,6 +105,7 @@ $other_url = Arr::get($issue, 'other_urls', false);
 if ($other_url):
 $other_urls = explode("\n", $other_url.trim());
 ?>
+<div class="print_block">
 	<h3 class="heading"><?php echo A11YC_LANG_ISSUE_OTHER_URLS ?></h3>
 	<div>
 	<ul>
@@ -108,6 +117,7 @@ $other_urls = explode("\n", $other_url.trim());
 	?>
 	</ul>
 	</div>
+</div><!-- ./print_block -->
 <?php endif; ?>
 
 </section><!-- /.issue -->
