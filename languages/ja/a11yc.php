@@ -151,11 +151,13 @@ define('A11YC_LANG_PAGE_ADD_TO_DATABASE', 'URLをデータベースに登録し�
 define('A11YC_LANG_PAGE_ADD_TO_CANDIDATE', 'HTMLから候補になるURLを取得します');
 define('A11YC_LANG_PAGE_IT_TAKES_TIME', 'この処理には、時間がかかります');
 define('A11YC_LANG_PAGE_LABEL_HTML_EXP', 'HTMLの自動取得に失敗するときなど、このHTMLが判定に用いられます。今後、自動取得に成功した時点で自動的に書き換わります');
-define('A11YC_LANG_PAGE_LABEL_EXPORT_CHECK_RESULT', '試験結果をマージ用にエクスポート');
+define('A11YC_LANG_PAGE_LABEL_EXPORT_CHECK_RESULT', '試験結果一式をエクスポート');
+define('A11YC_LANG_PAGE_LABEL_EXPORT_ALL', 'サイト一式をエクスポート');
 define('A11YC_LANG_EXPORT_TITLE', 'エクスポート＆インポート');
 define('A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT', '試験結果をインポートしてマージ');
 define('A11YC_LANG_PAGE_LABEL_EXPORT_CHECK_RESULT_EXP', '「チェック結果」と「問題点」をエクスポートします。以下textareaに出力されている文字列をすべてコピーして、目的の環境で「'.A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT.'」で表示されるtextareaに貼り付けてください');
-define('A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT_EXP', '「チェック結果」と「問題点」をインポートします。「'.A11YC_LANG_PAGE_LABEL_EXPORT_CHECK_RESULT.'」で取得した結果をtextareaに貼り付けてください');
+define('A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT_EXP', '「チェック結果」と「問題点」をインポートします。「'.A11YC_LANG_PAGE_LABEL_EXPORT_CHECK_RESULT.'」で取得した結果をアップロードしてください');
+define('A11YC_LANG_PAGE_LABEL_IMPORT_CHOOSE_FILE', 'ファイル選択');
 define('A11YC_LANG_PAGE_LABEL_EXPORT_RESULT_HTML', '試験結果HTMLをダウンロード');
 define('A11YC_LANG_PAGE_LABEL_EXPORT_RESULT_HTML_EXP', 'すべての試験結果HTMLを連結した状態で出力します。csplit a11yc_results.txt /====A11YC_RESULT_CSPLIT====/ {*} で分割してください');
 
@@ -188,6 +190,7 @@ define('A11YC_LANG_SETTING_NON_USE_TECHS_CANDIDATES', '定番的に用いない�
 define('A11YC_LANG_SETTING_CACHE_TIME', 'キャッシュ期間');
 define('A11YC_LANG_SETTING_CACHE_TIME_EXP', '分単位で入力してください。-1にすると、キャッシュを更新しません');
 define('A11YC_LANG_PAGE_CANNOT_IMPORT_HTML', A11YC_LANG_SETTING_TITLE.'で、'.A11YC_LANG_SETTING_CACHE_TIME.'が「-1」に設定されているため、HTMLをインターネットから取得できません');
+define('A11YC_LANG_SETTING_RESULT_HIDE_URL', '試験結果に各ページのURLを表示しない');
 
 define('A11YC_LANG_DECLARE_DATE', '表明日');
 define('A11YC_LANG_CLIENT_NAME', 'クライアント名');
@@ -364,6 +367,7 @@ define('A11YC_LANG_ICL_RELATED', '関連する達成方法');
 define('A11YC_LANG_ICL_ID', '状況-番号-項目');
 define('A11YC_LANG_ICL_VALIDATE', '検証方法');
 define('A11YC_LANG_ICL_REASON', '「適用あり適合」とした根拠の一覧');
+define('A11YC_LANG_ICL_REASON_EXP', '実装チェックリストに基づきこのページの試験を行い、「適用がある（試験対象技術が存在する）」ものを適合とした根拠を表示します');
 
 // image list
 define('A11YC_LANG_IMAGES_TITLE', '画像一覧');

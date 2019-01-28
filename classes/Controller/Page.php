@@ -162,7 +162,7 @@ class Page
 					$ua = 'using';
 					Model\Html::insert($url, $ua, Input::post('html'));
 					$page = Model\Page::fetch($url);
-					$newfilename = Upload::img('pages', $url_path, Arr::get($page, 'image_path'));
+					$newfilename = File::uploadImg('pages', $url_path, Arr::get($page, 'image_path'));
 					Model\Page::updatePartial($url, 'image_path', $newfilename);
 
 					break;

@@ -53,6 +53,7 @@ class Index
 	public static function any($issue_type)
 	{
 		self::assignIssueTypes();
+
 		$issues = View::fetch('issues');
 		$keys = array_keys($issues);
 

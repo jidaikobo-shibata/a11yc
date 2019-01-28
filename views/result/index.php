@@ -1,6 +1,11 @@
-<?php namespace A11yc; ?>
+<?php
+namespace A11yc;
+$is_assign = isset($is_assign) && $is_assign == true ? true : false ;
+?>
 
+<?php if ( ! $is_assign): ?>
 <h2><?php echo $title ?> <?php if (Arr::get($settings, 'declare_date') && Arr::get($settings, 'declare_date') != '0000-00-00'): echo '('.$settings['declare_date'].')'; endif;?></h2>
+<?php endif; ?>
 
 <table class="a11yc_table a11yc_table_report">
 
@@ -71,13 +76,13 @@ if (isset($page) && $page['selection_reason'] != '0'): ?>
 	<!-- /selected method -->
 	<?php endif; ?>
 
-	<?php if (isset($page) && Arr::get($page, 'url')): ?>
+	<?php if ( ! $is_assign && isset($page) || ( $is_total && isset($page) && Arr::get($page, 'url'))): ?>
 	<!-- target page -->
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_PAGE_URLS ?></th>
 		<td><?php
 			echo '<a href="'.$page['url'].'">'.$page['url'].'</a>';
-			if (\Kontiki\Auth::auth()):
+			if (\Kontiki\Auth::auth() && ! $is_assign):
 				echo ' <a href="'.A11YC_CHECKLIST_URL.Util::urlenc($page['url']).'"'.A11YC_TARGET.' class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_CTRL_CHECK ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a>';
 			endif;
 		?></td>
@@ -86,7 +91,7 @@ if (isset($page) && $page['selection_reason'] != '0'): ?>
 	<?php endif; ?>
 
 	<!-- number of checked -->
-	<?php if (isset($done) && $is_total): ?>
+	<?php if ( ! $is_assign && isset($done) && $is_total && Arr::get($settings, 'show_url_results')): ?>
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_CHECKED_PAGES_URLS ?></th>
 		<td><?php
@@ -98,7 +103,7 @@ if (isset($page) && $page['selection_reason'] != '0'): ?>
 	<!-- /number of checked -->
 
 	<!-- unpassed pages -->
-	<?php if (isset($unpassed_pages) && $is_total): ?>
+	<?php if ( ! $is_assign && isset($unpassed_pages) && $is_total): ?>
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_UNPASSED_PAGES ?></th>
 		<td>
@@ -109,8 +114,9 @@ if (isset($page) && $page['selection_reason'] != '0'): ?>
 				$url = Util::s($v['url']);
 			?>
 				<li>
-					<a href="<?php echo $url ?>"<?php echo A11YC_TARGET ?>><?php echo $url ?></a>
+					<a href="<?php echo $url ?>"<?php echo A11YC_TARGET ?>><?php echo $v['title'] ?></a>
 					<?php
+					if ( ! $is_assign):
 					$chk = Util::addQueryStrings(
 						Util::uri(),
 						array(
@@ -124,6 +130,7 @@ if (isset($page) && $page['selection_reason'] != '0'): ?>
 
 					if (Auth::auth()):
 						echo ' <a href="'.A11YC_CHECKLIST_URL.Util::urlenc($url).'"'.A11YC_TARGET.' class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_CTRL_CHECK ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a>';
+					endif;
 					endif;
 					?>
 				</li>
@@ -144,10 +151,10 @@ if (isset($page) && $page['selection_reason'] != '0'): ?>
 
 	<!-- period of date -->
 	<tr>
-	<?php if ($is_total): ?>
+	<?php if ( ! $is_assign && $is_total): ?>
 		<th scope="row"><?php echo A11YC_LANG_TEST_PERIOD ?></th>
 		<td><?php echo Arr::get($settings, 'test_period', '') ?></td>
-	<?php else: ?>
+	<?php elseif ( ! $is_assign): ?>
 		<th scope="row"><?php echo A11YC_LANG_TEST_DATE ?></th>
 		<td><?php echo $page['date'] ?></td>
 	<?php endif; ?>

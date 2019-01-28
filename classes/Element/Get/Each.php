@@ -51,7 +51,7 @@ class Each
 			foreach ($imgs as $img)
 			{
 				if (strpos($img, 'img') === false) continue;
-				$attrs = self::attributes($img.">");
+				$attrs = \A11yc\Element\Get::attributes($img.">");
 
 				foreach ($attrs as $kk => $vv)
 				{

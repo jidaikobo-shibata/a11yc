@@ -9,8 +9,6 @@ $techs = Yaml::each('techs');
 /* template */
 
 $html = '';
-$html.= '<h2>'.A11YC_LANG_CHECKLIST_IMPLEMENTSLIST_TITLE.'</h2>';
-$html.= '<p>'.A11YC_LANG_ICL_REASON.'</p>';
 
 foreach (Yaml::each('criterions') as $criterion => $criterion_vals):
 	if ( ! isset($cs[$criterion])) continue;
@@ -78,4 +76,9 @@ foreach (Yaml::each('criterions') as $criterion => $criterion_vals):
 	endforeach;
 
 endforeach;
+
+if ( ! empty($html)):
+	$html = '<h2>'.A11YC_LANG_ICL_REASON.'</h2><p>'.A11YC_LANG_ICL_REASON_EXP.'</p>'.$html;
+endif;
+
 echo $html;

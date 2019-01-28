@@ -187,6 +187,9 @@ class Report
 
 		// replace url
 
+		// add header and footer
+		$str = View::fetchTpl('inc_report_header.php').$str.View::fetchTpl('inc_report_footer.php');
+
 		return $str;
 	}
 }

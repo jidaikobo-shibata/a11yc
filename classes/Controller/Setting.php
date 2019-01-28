@@ -97,6 +97,7 @@ class Setting
 				'stop_guzzle',
 				'standard',
 				'show_results',
+				'show_url_results',
 				'cache_time',
 			);
 			$cols = array();

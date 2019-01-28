@@ -151,11 +151,13 @@ define('A11YC_LANG_PAGE_ADD_TO_DATABASE', 'Register the URLs in the database');
 define('A11YC_LANG_PAGE_ADD_TO_CANDIDATE', 'Acquire candidate URLs from HTML');
 define('A11YC_LANG_PAGE_IT_TAKES_TIME', 'This process takes time');
 define('A11YC_LANG_PAGE_LABEL_HTML_EXP', 'This HTML is used for judgment, such as when automatic acquisition of HTML fails. It will be rewritten automatically when the automatic acquisition succeeds in the future');
-define('A11YC_LANG_PAGE_LABEL_EXPORT_CHECK_RESULT', 'Export test results for merging');
+define('A11YC_LANG_PAGE_LABEL_EXPORT_CHECK_RESULT', 'Export test results');
+define('A11YC_LANG_PAGE_LABEL_EXPORT_ALL', 'Export Site');
 define('A11YC_LANG_EXPORT_TITLE', 'Export &ampl Import');
 define('A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT', 'Import test results and merge');
 define('A11YC_LANG_PAGE_LABEL_EXPORT_CHECK_RESULT_EXP', 'Export "checklist" and "issue". Copy all the character string outputted to textarea below and paste it on the textarea displayed in "'.A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT.'" in the target environment');
-define('A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT_EXP', 'I will import "checklist" and "issue". Please paste the result obtained by "'.A11YC_LANG_PAGE_LABEL_EXPORT_CHECK_RESULT.'" to textarea');
+define('A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT_EXP', 'Import "checklist" and "issue". Please upload the result obtained by "'.A11YC_LANG_PAGE_LABEL_EXPORT_CHECK_RESULT);
+define('A11YC_LANG_PAGE_LABEL_IMPORT_CHOOSE_FILE', 'Choose File');
 define('A11YC_LANG_PAGE_LABEL_EXPORT_RESULT_HTML', 'Download result HTML');
 define('A11YC_LANG_PAGE_LABEL_EXPORT_RESULT_HTML_EXP', 'All test results HTML will be outputted with concatenation. use csplit a11yc_results.txt /====A11YC_RESULT_CSPLIT====/ {*}');
 
@@ -188,6 +190,7 @@ define('A11YC_LANG_SETTING_NON_USE_TECHS_CANDIDATES', 'Use usual setting');
 define('A11YC_LANG_SETTING_CACHE_TIME', 'Cache Period');
 define('A11YC_LANG_SETTING_CACHE_TIME_EXP', 'Please enter in minutes. A value of -1 will not update the cache');
 define('A11YC_LANG_PAGE_CANNOT_IMPORT_HTML', 'Cannot fetch HTML from internet because '.A11YC_LANG_SETTING_CACHE_TIME.' is -1 at '.A11YC_LANG_SETTING_TITLE);
+define('A11YC_LANG_SETTING_RESULT_HIDE_URL', 'Do not display the URL of each page in the test result');
 
 define('A11YC_LANG_DECLARE_DATE', 'Declare Date');
 define('A11YC_LANG_CLIENT_NAME', 'Client Name');
@@ -364,6 +367,7 @@ define('A11YC_LANG_ICL_RELATED', 'Related Techniques');
 define('A11YC_LANG_ICL_ID', 'Sit-Num-Item');
 define('A11YC_LANG_ICL_VALIDATE', 'Validation');
 define('A11YC_LANG_ICL_REASON', 'List of grounds that it is "applicable conformity"');
+define('A11YC_LANG_ICL_REASON_EXP', 'Based on the implementation checklist, this page is tested and the basis for which "Applicable (Examination target technology exists)" is conforming is displayed');
 
 // image list
 define('A11YC_LANG_IMAGES_TITLE', 'Image List');

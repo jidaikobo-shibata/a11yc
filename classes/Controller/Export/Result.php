@@ -23,8 +23,16 @@ class Result
 	{
 		$vals = array();
 
+
+		if (Input::get('site') == 1)
+		{
+			$vals['base_url'] = Model\Data::baseUrl();
+		}
+		$vals['setting'] = Model\Setting::fetchAll();
 		$vals['page'] = Model\Page::fetchAll();
 		$vals['issue']  = Model\Issue::fetchAll();
+		$vals['iclsit'] = Model\Icl::fetchAll('iclsit');
+		$vals['icl'] = Model\Icl::fetchAll();
 		foreach ($vals['page'] as $page)
 		{
 			$vals['result'][$page['url']] = Model\Result::fetch($page['url']);
@@ -32,9 +40,7 @@ class Result
 			$vals['html'][$page['url']] = Model\Html::fetch($page['url'], '', true, true);
 		}
 
-		View::assign('vals', json_encode($vals));
-		View::assign('title', A11YC_LANG_PAGE_LABEL_EXPORT_CHECK_RESULT);
-		View::assign('body', View::fetchTpl('export/resultexport.php'), FALSE);
+		File::download('export.txt', json_encode($vals));
 	}
 
 	/**
@@ -46,9 +52,13 @@ class Result
 	{
 		if (Input::isPostExists())
 		{
-			$results = Input::post('result', array());
-			$results = json_decode($results, true);
+			$file = Input::file('import');
+			if ( ! file_exists(Arr::get($file, 'tmp_name'))) Util::redirect(A11YC_URL);
+			$results = json_decode(file_get_contents($file['tmp_name']), true);
 
+			$is_add = self::addNewSite($results);
+			self::importSetting($results, $is_add);
+			self::importIcl($results, $is_add);
 			self::importPage($results);
 			self::importResult($results);
 			self::importChecklist($results);
@@ -56,8 +66,70 @@ class Result
 			self::importCache($results);
 		}
 
-		View::assign('title', A11YC_LANG_PAGE_LABEL_EXPORT_CHECK_RESULT);
+		View::assign('title', A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT);
 		View::assign('body', View::fetchTpl('export/resultimport.php'), FALSE);
+	}
+
+	/**
+	 * add new site
+	 *
+	 * @param Array $results
+	 * @return Bool
+	 */
+	private static function addNewSite($results)
+	{
+		if ( ! isset($results['base_url'])) return false;
+
+		// add new site
+		$new_site = $results['base_url'];
+		$sites = Model\Data::fetchSites();
+		// if (in_array($new_site, $sites))
+		// {
+		// 	Session::add('messages', 'errors', A11YC_LANG_CTRL_ALREADY_EXISTS);
+		// 	Util::redirect(A11YC_URL);
+		// }
+//		$sites[] = Util::urldec($new_site);
+//		Model\Data::update('sites', 'global', $sites);
+		Model\Data::update('group_id', 'global', max(array_keys($sites)), 0, 1);
+
+echo '<textarea style="width:100%;height:200px;background-color:#fff;color:#111;font-size:90%;font-family:monospace;position:relative;z-index:9999">';
+var_dump(Model\Data::groupId(true));
+echo '</textarea>';
+die();
+
+		return true;
+	}
+
+	/**
+	 * setting
+	 *
+	 * @param Array $results
+	 * @param Bool $is_add
+	 * @return Void
+	 */
+	private static function importSetting($results, $is_add)
+	{
+		if ( ! isset($results['setting'])) return;
+
+		// add new site
+		// $new_site = $results['base_url'];
+		// $sites = Model\Data::fetchSites();
+		// if (in_array($new_site, $sites)) return false;
+		// $sites[] = Util::urldec($new_site);
+		// Model\Data::update('sites', 'global', $sites);
+
+echo '<textarea style="width:100%;height:200px;background-color:#fff;color:#111;font-size:90%;font-family:monospace;position:relative;z-index:9999">';
+var_dump($results['setting']);
+echo '</textarea>';
+die();
+
+		$this_pages = Model\Page::fetchAll();
+		$this_pages = array_column($this_pages, 'url');
+		foreach ($results['page'] as $vals)
+		{
+			if (in_array($vals['url'], $this_pages)) continue;
+			Model\Page::insert($vals['url'], $vals);
+		}
 	}
 
 	/**

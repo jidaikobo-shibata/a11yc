@@ -154,6 +154,7 @@ class Result
 		View::assign('title', A11YC_LANG_TEST_RESULT.': '.Model\Html::fetchPageTitle($url));
 		View::assign('standards', Yaml::each('standards'));
 		View::assign('is_center', false);
+		View::assign('is_assign', $is_assign);
 
 		// assign results
 		self::assignResults($settings['target_level'], $url);

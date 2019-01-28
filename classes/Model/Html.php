@@ -164,7 +164,7 @@ class Html
 			}
 		}
 
-		return $charset;
+		return $charset ?: "JIS, eucjp-win, sjis-win";
 	}
 
 	/**
