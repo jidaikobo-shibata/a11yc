@@ -282,10 +282,7 @@ class Page
 	 */
 	public static function purge($url)
 	{
-		$url = Util::urldec($url);
-
-		$sql = 'DELETE FROM '.A11YC_TABLE_PAGES.' WHERE `url` = ?'.Db::currentVersionSql();
-		return Db::execute($sql, array($url));
+		return Model\Data::delete('page', $url);
 	}
 
 	/**
