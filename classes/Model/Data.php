@@ -69,7 +69,7 @@ class Data
 			$key   = $v['key'];
 			$value = $v['value'];
 			$data  = $v['is_array'] ? json_decode($value, true) : $value;
-			// if ($key == 'html') continue;
+			//if ($key == 'html') continue;
 
 			$is_id = $key == 'issue' || substr($key, 0, 3) == 'icl';
 			if (isset($v['id']) && $is_id)
@@ -127,6 +127,40 @@ class Data
 	}
 
 	/**
+	 * fetch stored data by array
+	 *
+	 * @param String $key
+	 * @param String $url `url`|common|global|*
+	 * @param Mixed $default
+	 * @param Bool $force
+	 * @param Integer $version
+	 * @param Integer $group_id
+	 * @return Array
+	 */
+	public static function fetchArr($key, $url = '*', $default = array(), $force = false, $version = null, $group_id = null)
+	{
+		$vals = static::fetch($key, $url, $default, $force, $version, $group_id);
+		return is_array($vals) ? $vals : array();
+	}
+
+	/**
+	 * fetch stored data by one
+	 *
+	 * @param String $key
+	 * @param String $url `url`|common|global|*
+	 * @param Mixed $default
+	 * @param Bool $force
+	 * @param Integer $version
+	 * @param Integer $group_id
+	 * @return Array
+	 */
+	public static function fetchOne($key, $url = '*', $default = '', $force = false, $version = null, $group_id = null)
+	{
+		$vals = static::fetch($key, $url, $default, $force, $version, $group_id);
+		return ! is_array($vals) ? $vals : $default;
+	}
+
+	/**
 	 * fetch by id
 	 *
 	 * @param String $id
@@ -140,6 +174,7 @@ class Data
 
 	/**
 	 * versionByQuerystring
+	 * depend on QUERY_STRING
 	 *
 	 * @return Integer
 	 */
@@ -162,7 +197,17 @@ class Data
 	public static function groupId($force = false)
 	{
 		if ( ! is_null(static::$group_id) && ! $force) return static::$group_id;
+		static::$group_id = static::fetchGroupId() ?: 1;
+		return static::$group_id;
+	}
 
+	/**
+	 * fetch group_id
+	 *
+	 * @return Integer|Bool
+	 */
+	public static function fetchGroupId()
+	{
 		// what a hell is going on! >_<
 		// $sql = 'SELECT `value` FROM '.A11YC_TABLE_DATA.' WHERE ';
 		// $sql.= '`group_id` = 1 AND `version` = 0 AND ';
@@ -170,17 +215,14 @@ class Data
 		// $ret = Db::fetch($sql);
 
 		$sql = 'SELECT * FROM '.A11YC_TABLE_DATA.' WHERE `url` = "global";';
-		$group_id = 1;
+		$group_id = false;
 		foreach (Db::fetchAll($sql) as $v)
 		{
 			if ($v['key'] != 'group_id') continue;
 			$group_id = intval($v['value']);
 			break;
 		}
-
-		static::$group_id = $group_id;
-
-		return static::$group_id;
+		return $group_id;
 	}
 
 	/**
@@ -215,6 +257,82 @@ class Data
 			static::fetchSites($force);
 		}
 		return Arr::get(static::$sites, static::groupId($force), 'https://example.com');
+	}
+
+	/**
+	 * filter
+	 *
+	 * @param Array $vals
+	 * @param Array $fields
+	 * @return Array
+	 */
+	public static function filter($vals, $fields)
+	{
+		foreach ($fields as $k => $v)
+		{
+			$vals[$k] = Arr::get($vals, $k, $v);
+
+			// type cast by default value
+			if (is_int($v))
+			{
+				$vals[$k] = intval($vals[$k]);
+				continue;
+			}
+
+			if (is_bool($v))
+			{
+				$vals[$k] = (bool) $vals[$k];
+				continue;
+			}
+
+			if (is_string($v))
+			{
+				$vals[$k] = trim($vals[$k]);
+				continue;
+			}
+
+			if (is_array($v) && is_array($vals[$k])) continue;
+			if (empty($vals[$k]))
+			{
+				$vals[$k] = array();
+				continue;
+			}
+			$vals[$k] = array($vals[$k]);
+		}
+
+		return $vals;
+	}
+
+	/**
+	 * deep filter
+	 *
+	 * @param Array $vals
+	 * @param Array $fields
+	 * @return Array
+	 */
+	public static function deepfilter($vals, $fields)
+	{
+		foreach ($vals as $k => $v)
+		{
+			$vals[$k] = static::filter($v, $fields);
+		}
+		return $vals;
+	}
+
+	/**
+	 * post filter
+	 *
+	 * @param Array $fields
+	 * @return Array
+	 */
+	public static function postfilter($fields)
+	{
+		$vals = array();
+		foreach ($fields as $k => $v)
+		{
+			$vals[$k] = is_array($v) ? Input::postArr($k, $v) : Input::post($k, $v);
+		}
+		return static::filter($vals, $fields);
 	}
 
 	/**
@@ -301,7 +419,7 @@ class Data
 		}
 
 		// insert or update
-		if( ! isset($vals[$url][$key]))
+		if( ! isset($vals[$url][$key]) && ! in_array($url, array('common', 'global')))
 		{
 			$r = static::insert($key, $url, $value, $version, $group_id);
 		}

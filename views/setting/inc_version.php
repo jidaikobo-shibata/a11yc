@@ -1,7 +1,7 @@
 <?php namespace A11yc; ?>
 <?php if ( ! empty($versions)): ?>
-<h2><?php echo A11YC_LANG_SETTING_TITLE_VERSIONS ?></h2>
-<p><?php echo A11YC_LANG_SETTING_TITLE_VERSIONS_EXP ?></p>
+<h2><?php echo A11YC_LANG_SETTING_TITLE_VERSION ?></h2>
+<p><?php echo A11YC_LANG_SETTING_TITLE_VERSION_EXP ?></p>
 <table class="a11yc_table">
 <thead>
 <tr>

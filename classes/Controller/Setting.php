@@ -15,15 +15,14 @@ use A11yc\Model;
 class Setting
 {
 	/**
-	 * action form
+	 * action base
 	 *
 	 * @return Void
 	 */
-	public static function actionForm()
+	public static function actionBase()
 	{
-		self::form();
-		View::assign('form', View::fetch('form'), false);
-		View::assign('body', View::fetchTpl('setting/form.php'), false);
+		self::base();
+		View::assign('body', View::fetchTpl('setting/base.php'), false);
 	}
 
 	/**
@@ -34,128 +33,47 @@ class Setting
 	public static function actionUa()
 	{
 		self::ua();
-		View::assign('form', View::fetch('form'), false);
 		View::assign('body', View::fetchTpl('setting/ua.php'), false);
 	}
 
 	/**
-	 * action versions
+	 * action version
 	 *
 	 * @return Void
 	 */
-	public static function actionVersions()
+	public static function actionVersion()
 	{
-		self::versions();
-		View::assign('form', View::fetch('form'), false);
-		View::assign('body', View::fetchTpl('setting/versions.php'), false);
+		self::version();
+		View::assign('body', View::fetchTpl('setting/version.php'), false);
 	}
 
 	/**
-	 * action sites
+	 * action site
 	 *
 	 * @return Void
 	 */
-	public static function actionSites()
+	public static function actionSite()
 	{
-		self::sites();
-		View::assign('form', View::fetch('form'), false);
-		View::assign('body', View::fetchTpl('setting/sites.php'), false);
+		self::site();
+		View::assign('body', View::fetchTpl('setting/site.php'), false);
 	}
 
 	/**
-	 * settings form
+	 * base
 	 *
 	 * @return Void
 	 */
-	public static function form()
-	{
-		self::dbio();
-
-		// assign
-		$force = true;
-		View::assign('title',         A11YC_LANG_SETTING_TITLE_BASE);
-		View::assign('sample_policy', str_replace("\\n", "\n", A11YC_LANG_SAMPLE_POLICY));
-		View::assign('settings',      Model\Setting::fetchAll($force));
-		View::assign('standards',     Yaml::each('standards'));
-		View::assign('yml',           Yaml::fetch());
-		View::assign('submenu',       View::fetchTpl('setting/inc_submenu.php'), FALSE);
-		View::assign('form',          View::fetchTpl('setting/inc_form.php'), FALSE);
-	}
-
-	/**
-	 * dbio
-	 *
-	 * @return Void
-	 */
-	private static function dbio()
+	public static function base()
 	{
 		if (Input::isPostExists())
 		{
-			$intvals = array(
-				'target_level',
-				'selected_method',
-				'stop_guzzle',
-				'standard',
-				'show_results',
-				'show_url_results',
-				'cache_time',
-			);
-			$cols = array();
-			foreach ($intvals as $v)
-			{
-				$cols[$v] = intval(Input::post($v, 0));
-			}
-
-			// stripslashes
-			$stripslashes =array(
-				'client_name',
-				'declare_date',
-				'test_period',
-				'dependencies',
-				'policy',
-				'report',
-				'contact',
-				'base_url',
-				'basic_user',
-				'basic_pass',
-			);
-			foreach ($stripslashes as $v)
-			{
-				$cols[$v] = stripslashes(Input::post($v, ''));
-			}
-			$cols['base_url'] = rtrim($cols['base_url'], '/');
-
-			// json_encode values
-			foreach (Model\Setting::$json_encodes as $json_encode)
-			{
-				$values = array();
-				if (Input::postArr($json_encode))
-				{
-					foreach (array_keys(Input::postArr($json_encode)) as $code)
-					{
-						$values[] = $code;
-					}
-				}
-				$cols[$json_encode] = $values;
-			}
-
-			// database io
-			$r = true;
-			foreach ($cols as $key => $value)
-			{
-				$r = Model\Setting::update($key, $value);
-				if ($r === false) continue;
-			}
-
-			if ($r)
-			{
-				Session::add('messages', 'messages', A11YC_LANG_UPDATE_SUCCEED);
-			}
-			else
-			{
-				Session::add('messages', 'errors', A11YC_LANG_UPDATE_FAILED);
-			}
+			Util::setMassage(Model\Setting::updateAll(Model\Data::postFilter(Model\Setting::$fields)));
 		}
+
+		// assign
+		View::assign('title',    A11YC_LANG_SETTING_TITLE_BASE);
+		View::assign('settings', Model\Setting::fetchAll(true));
+		View::assign('form',     View::fetchTpl('setting/inc_base.php'), FALSE);
 	}
 
 	/**
@@ -165,64 +83,126 @@ class Setting
 	 */
 	public static function ua()
 	{
-		Model\Ua::dbio();
+		if (Input::isPostExists())
+		{
+			self::updateUa();
+		}
 
-		// assign
-		$force = true;
-		View::assign('title',   A11YC_LANG_SETTING_TITLE_UA);
-		View::assign('uas',     Model\Ua::fetch($force));
-		View::assign('submenu', View::fetchTpl('setting/inc_submenu.php'), FALSE);
-		View::assign('form',    View::fetchTpl('setting/inc_ua.php'), FALSE);
+		View::assign('title', A11YC_LANG_SETTING_TITLE_UA);
+		View::assign('uas',   Model\Ua::fetch(true));
+		View::assign('form',  View::fetchTpl('setting/inc_ua.php'), FALSE);
 	}
 
 	/**
-	 * settings versions
+	 * settings updateUa
 	 *
 	 * @return Void
 	 */
-	public static function versions()
+	private static function updateUa()
+	{
+		$names   = Input::postArr('name');
+		$strs    = Input::postArr('str');
+		$deletes = Input::postArr('delete');
+
+		// id 1 is default ua. can not delete or edit str.
+		$strs[1] = '';
+		if (isset($deletes[1])) unset($deletes[1]);
+
+		$value = array();
+		foreach ($names as $id => $v)
+		{
+			if (in_array($id, $deletes)) continue;
+			$value[$id]['id'] = $id;
+			$value[$id]['name'] = $names[$id];
+			$value[$id]['str'] = $strs[$id];
+		}
+
+		$name = trim(Input::post('new_name'));
+		$str  = trim(Input::post('new_str'));
+		if ( ! empty($name.$str))
+		{
+			$id = max(array_keys($value)) + 1;
+			$value[$id]['id'] = $id;
+			$value[$id]['name'] = $name;
+			$value[$id]['str'] = $str;
+		}
+
+		Util::setMassage(Model\Setting::update('user_agents', $value));
+	}
+
+	/**
+	 * settings version
+	 *
+	 * @return Void
+	 */
+	public static function version()
 	{
 		if (Input::isPostExists())
 		{
 			if (Input::post('protect_data'))
 			{
-				if (Model\Version::protect())
-				{
-					Session::add('messages', 'messages', A11YC_LANG_RESULT_PROTECT_DATA_SAVED);
-				}
-				else
-				{
-					Session::add('messages', 'errors', A11YC_LANG_RESULT_PROTECT_DATA_FAILD);
-				}
+				Util::setMassage(
+					Model\Version::protect(),
+					A11YC_LANG_RESULT_PROTECT_DATA_SAVED,
+					A11YC_LANG_RESULT_PROTECT_DATA_FAILD
+				);
 			}
 			else
 			{
-				if (Model\Version::update())
-				{
-					Session::add('messages', 'messages', A11YC_LANG_UPDATE_SUCCEED);
-				}
-				else
-				{
-					Session::add('messages', 'errors', A11YC_LANG_UPDATE_FAILED);
-				}
+				Util::setMassage(self::updateVersion());
 			}
 		}
 
 		// assign
 		$force = true;
-		View::assign('title',        A11YC_LANG_SETTING_TITLE_VERSIONS);
+		View::assign('title',        A11YC_LANG_SETTING_TITLE_VERSION);
 		View::assign('versions',     Model\Version::fetchAll($force));
-		View::assign('submenu',      View::fetchTpl('setting/inc_submenu.php'), FALSE);
 		View::assign('protect_form', View::fetchTpl('setting/inc_protect.php'), FALSE);
-		View::assign('form',         View::fetchTpl('setting/inc_versions.php'), FALSE);
+		View::assign('form',         View::fetchTpl('setting/inc_version.php'), FALSE);
 	}
 
 	/**
-	 * settings sites
+	 * update
 	 *
 	 * @return Void
 	 */
-	public static function sites()
+	private static function updateVersion()
+	{
+		$names   = Input::postArr('name');
+		$trashes = Input::postArr('trash');
+		$deletes = Input::postArr('delete');
+
+		// update
+		$vals = array();
+		foreach ($names as $version => $name)
+		{
+			$vals[$version] = array(
+				'name'  => $name,
+				'trash' => isset($trashes[$version]) ? 0 : 1,
+			);
+		}
+		$r = Model\Data::update('version', 'common', $vals);
+
+		// delete
+		foreach ($deletes as $version)
+		{
+			self::delete($version);
+			Session::add(
+				'messages',
+				'messages',
+				sprintf(A11YC_LANG_CTRL_DELETE_DONE, $names[$version])
+			);
+		}
+
+		return $r;
+	}
+
+	/**
+	 * settings site
+	 *
+	 * @return Void
+	 */
+	public static function site()
 	{
 		$sites = Model\Data::fetchSites();
 		if (Input::isPostExists())
@@ -237,8 +217,7 @@ class Setting
 		View::assign('title',    A11YC_LANG_SETTING_TITLE_SITE);
 		View::assign('group_id', Model\Data::groupId(true));
 		View::assign('sites',    $sites);
-		View::assign('submenu',  View::fetchTpl('setting/inc_submenu.php'), FALSE);
-		View::assign('form',     View::fetchTpl('setting/inc_sites.php'), FALSE);
+		View::assign('form',     View::fetchTpl('setting/inc_site.php'), FALSE);
 	}
 
 	/**
@@ -254,13 +233,12 @@ class Setting
 			if (in_array($new_site, $sites))
 			{
 				Session::add('messages', 'errors', A11YC_LANG_CTRL_ALREADY_EXISTS);
+				return;
 			}
-			else
-			{
-				$sites[] = Util::urldec($new_site);
-				Model\Data::update('sites', 'global', $sites);
-				Session::add('messages', 'message', A11YC_LANG_CTRL_ADDED_NORMALLY);
-			}
+
+			$sites[] = Util::urldec($new_site);
+			Model\Data::update('sites', 'global', $sites);
+			Session::add('messages', 'message', A11YC_LANG_CTRL_ADDED_NORMALLY);
 		}
 	}
 
@@ -273,10 +251,16 @@ class Setting
 	{
 		if ($site = Input::post('site'))
 		{
-			$site = intval($site);
 			if ($site != Model\Data::groupId())
 			{
-				Model\Data::update('group_id', 'global', $site, 0, 1);
+				if (Model\Data::fetchGroupId())
+				{
+					Model\Data::update('group_id', 'global', $site, 0, 1);
+				}
+				else
+				{
+					Model\Data::insert('group_id', 'global', $site, 0, 1);
+				}
 				Session::add('messages', 'message', A11YC_LANG_CTRL_ADDED_NORMALLY);
 			}
 		}
@@ -305,10 +289,7 @@ class Setting
 		}
 
 		// update site
-		if (Model\Data::updateUrl($sites[$group_id], $new_url, 0, $group_id))
-		{
-			Session::add('messages', 'messages', A11YC_LANG_UPDATE_SUCCEED);
-		}
+		Util::setMassage(Model\Data::updateUrl($sites[$group_id], $new_url, 0, $group_id));
 
 		$sites[$group_id] = $new_url;
 		Model\Data::update('sites', 'global', $sites, 0, 1);

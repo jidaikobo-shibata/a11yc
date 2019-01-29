@@ -247,17 +247,17 @@ class Util extends \Kontiki\Util
 	 * set message
 	 *
 	 * @param Bool $succeed
+	 * @param String $success_message
+	 * @param String $error_message
 	 * @return Void
 	 */
-	public static function setMassage($succeed)
+	public static function setMassage($succeed, $success_message = A11YC_LANG_UPDATE_SUCCEED, $error_message = A11YC_LANG_UPDATE_FAILED)
 	{
 		if ($succeed)
 		{
-			Session::add('messages', 'messages', A11YC_LANG_UPDATE_SUCCEED);
+			Session::add('messages', 'messages', $success_message);
+			return;
 		}
-		else
-		{
-			Session::add('messages', 'errors', A11YC_LANG_UPDATE_FAILED);
-		}
+		Session::add('messages', 'errors', $error_message);
 	}
 }
