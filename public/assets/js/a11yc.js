@@ -255,6 +255,7 @@ jQuery(function($){
 	$('.a11yc_narrow_level').each(function(){
 		a11yc_narrow_level( $(this).find('.current'), $($(this).data('a11ycNarrowTarget')));
 	});
+/*	
 	// click
 	$(document).on('click', '.a11yc_narrow_level a', function(e){
 		e.stopPropagation();
@@ -265,16 +266,13 @@ jQuery(function($){
 		a11yc_narrow_level($(this), $($(this).parent().data('a11ycNarrowTarget')), e);
 		return false;
 	});
-
+*/
 	function a11yc_narrow_level($target, $narrow_target, e){
-//	console.log($target);
 		if(!$target) return;
 		var $checks = $narrow_target.find('.a11yc_level_a,.a11yc_level_aa,.a11yc_level_aaa');
-//		console.log('function:'+'a11yc_narrow_level');
 		// no e (page loading) or in disclosure , stop propagation
 		if(e && $target.closest('.a11yc_disclosure.show')[0]) e.stopPropagation();
 		var level_arr = $target.data('narrowLevel') ? $target.data('narrowLevel') : [];
-		//ここ、いつかlevel_arrの値の頭にl_がつかないようにして整理したい。むしろl_でいろいろちゃんと動くようにすべきか
 		var $levels = $(level_arr.map(function(el){ return '.a11yc_leve'+el }).join(','));
 
 		$checks.addClass('a11yc_dn');
@@ -285,14 +283,6 @@ jQuery(function($){
 		{
 			a11yc_validation_code_display(level_arr);
 		}
-
-		//この条件も要検討
-		if($narrow_target.hasClass('a11yc_section_principle'))
-		{
-			//empty table
-			a11yc_empty_table();
-		}
-
 		$target.parent().find('a').removeClass('current');
 		$target.addClass('current');
 	}
@@ -343,124 +333,16 @@ jQuery(function($){
 });
 }
 
-/* === hide empty table === */
-function a11yc_empty_table(){
-//console.time('a11yc_empty_table');
-jQuery(function($){
-//	console.log('function:'+'a11yc_empty_table');
-	if(!a11yc_env.is_hide_passed_item) return;
-
-	// hide disuse items
-	$('.a11yc form').find('.a11yc_section_guideline, .a11yc_table_check').each(function(){
-		var $t = !$(this).is('table') ? $(this) : $(this).closest('.a11yc_section_criterion');
-
-		if (!$(this).find('tr:not(.off)')[0]) // 見えているものがない場合
-		{
-				$t.hide();
-		}
-		else
-		{
-			if(!$t.hasClass('a11yc_dn')) $t.show();
-		}
-	});
-});
-//	console.timeEnd('a11yc_empty_table');
-}
-
 /*
  * for checklist
  */
 jQuery(function($){
 	if(!$('#a11yc_checks')[0]) return;
+
 	/* === assist === */
 	//チェック関連の挙動
 	if($('.a11yc_table_check')[0])
 	{
-		var c_id = $('#a11yc_checks').data('a11ycCurrentUser');
-		// toggle check items
-		//ページ読み込み時にチェックの状態を反映
-		a11yc_toggle_item();
-
-		//click checkbox
-		$('.a11yc_table_check input[type="checkbox"]').on('click', function(e){
-			// display
-			a11yc_toggle_item(e);
-
-			// for not used items
-			a11yc_empty_table();
-
-			// adjust position
-			if (a11yc_env.is_hide_passed_item)
-			{
-				$.fn.a11yc_adjust_position($(this))
-			}
-		});
-	}
-	function a11yc_toggle_item(e){
-//		console.log('function:'+'a11yc_toggle_item');
-		var input = e ? $(e.target) : '',
-				input_name = input ? $(input).attr('name').replace('[','\\[').replace(']','\\]') : '',
-				$same_name = input ? $(document).find("[name="+input_name+"]:not(#"+input.id+")") : $(),
-		    $checked = $('.a11yc_table_check th :checked'),
-		    data_pass_arr = [],
-		    $show_items = $();
-		if(!input) //ページ読み込み時
-		{
-			a11yc_set_pass_items($checked);
-		}
-		else
-		{
-			//位置調整用。チェックした行の表示がずれないように位置を取得しておく
-			a11yc_env.current_position = input.offset().top;
-
-			if(input.prop('checked'))
-			{
-				a11yc_set_pass_items(input);
-			}
-			else //チェックが外されたとき
-			{
-				a11yc_set_pass_items($checked, input);
-			}
-			// 同じnameのアイテムにも同じ値を反映
-			$same_name.prop('checked', input.prop('checked'))
-		}
-	}
-	function a11yc_set_pass_items($target, $passed){
-//	console.log('function:'+'a11yc_set_pass_items');
-		var $show_items = $();
-		$pass_items = a11yc_set_passes($target);
-		//$passedがなければ、passする処理
-		if(!$passed){
-			$pass_items.closest('tr').addClass('off').find(':input').prop("disabled", true);
-			return;
-		}else{
-		//$passed があれば、パスしなくなったものを表示して終了
-			$not_pass_items = a11yc_set_passes($passed);
-			$not_pass_items.each(function(){
-				// パスするものの中にあれば除外
-				if($pass_items[0] && $pass_items.index(this) !== -1 ) return;
-				$show_items = $show_items.add(this);
-			});
-			$show_items = $pass_items[0] ? $show_items : $not_pass_items;
-			$show_items.closest('tr').removeClass('off').find(':input').prop("disabled", false);
-		}
-	}
-		function a11yc_set_passes($target){
-//	console.log('function:'+'a11yc_set_passes');
-		if(!$target) return ;
-		var $items = $();
-		$target.each(function(){
-			data_pass_arr = $(this).data('pass') ? $(this).data('pass').split(',') : [];
-			for(var k in data_pass_arr)
-			{
-				if({}.hasOwnProperty.call(data_pass_arr, k))
-				{
-					if(data_pass_arr[k]===this.id) continue; //自分自身は相手にしない？
-					$items = $items.add('#'+data_pass_arr[k]);
-				}
-			}
-		});
-		return $items;
 	}
 
 	// resize
@@ -601,23 +483,4 @@ jQuery(function($){
 		});
 	}
 });
-*/
-//not used
-/*
-jQuery(function($){
-	//validationのテキストのみの欄を作成。ソースをコピーする機能用
-	$.fn.a11yc_set_validation_code_txt = function(){
-//	console.log('function:'+'$.fn.a11yc_set_validation_code_txt');
-		var $txt = $('#a11yc_validation_code_txt');
-		$txt.find(':not(br)').remove();
-	}
-});
-function a11yc_select_validation_code_txt(){
-//	console.log('function:'+'a11yc_select_validation_code_txt');
-	var $code = $('#a11yc_validation_code_raw');
-	var $txt = $('#a11yc_validation_code_txt');
-	var range = document.createRange();
-	range.selectNodeContents($txt[0]);
-	window.getSelection().addRange(range);
-}
 */
