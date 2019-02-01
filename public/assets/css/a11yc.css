@@ -94,6 +94,14 @@
 	display: inline-block;
 	width: calc( 100% - 20px );
 }
+.a11yc details h1
+{
+	font-size: 1em;
+	font-weight: normal;
+	border-bottom: none;
+	display: inline;
+}
+
 .a11yc details ul
 {
 	padding-left: 25px;
@@ -967,7 +975,8 @@ h2.a11yc_header_principle:after {
 	width: 100%;
 	height: 8em;
 }
-.a11yc_result label.a11yc_checkitem:hover {
+.a11yc_result label.a11yc_checkitem:hover,
+:hover + .a11yc_checkitem {
 	background-color: #fefedd;
 }
 
@@ -1069,16 +1078,50 @@ ul.a11yc_outlink li {
 .a11yc_table_check td:first-child {
 	border-left: 1px #bbb solid;
 }
-.a11yc_implement_checklist_each
+.a11yc_section_criterion details .a11yc_implement_heading
 {
-	white-space: normal;
+	font-size: .9em;
+	margin: 2em 0 1em;
 }
-.a11yc_implement_checklist_each dd
+.a11yc_section_criterion details .a11yc_implement_heading:first-child
 {
-	margin-left: 0;
+	margin-top: .5em;
 }
-details .a11yc_implement_checklist_each ul.a11yc_each_list
+.a11yc_section_criterion details .a11yc_implement_checklist,
+.a11yc_section_criterion details .a11yc_failure_checklist 
 {
+	padding: 8px ;
+	border: 1px solid #bbb;
+	background-color: #fff;
+}
+.a11yc_section_criterion details .a11yc_failure_checklist .a11yc_table_check
+{
+	margin-top: 0;
+}
+.a11yc_section_criterion .a11yc_implement_checklist fieldset
+{
+	border: none;
+	background: transparent;
+	padding: 0;
+	margin: 0;
+}
+.a11yc_section_criterion .a11yc_implement_checklist fieldset + fieldset
+{
+	margin-top: 1.5em;
+} 
+.a11yc_section_criterion .a11yc_implement_checklist legend
+{
+	margin-bottom: .5em;
+	font-size: .8em;
+	font-weight: bold;
+}
+.a11yc_section_criterion .a11yc_implement_checklist fieldset > label
+{
+	font-size: .8em;
+}
+.a11yc_section_criterion .a11yc_implement_checklist_each table.a11yc_each_list
+{
+	margin: 0;
 	padding-left: 0;
 }
 .a11yc_implement_checklist_each .a11yc_each_list li
@@ -1087,36 +1130,19 @@ details .a11yc_implement_checklist_each ul.a11yc_each_list
 	display: block;
 	padding-left: 5px;
 }
-.a11yc_implement_checklist_each .a11yc_each_list li:before
+.a11yc_implement_checklist_each .a11yc_each_list li:after
 {
-/*
 	content: '';
 	display: block;
-	position: absolute;
-	top: 0;
-	left: -25px;
-	right: 0;
-	width: calc( 100% + 25px ) ;
 	height: 0;
-	border-top: 1px solid #bbb;
-*/
+	clear: both; 
 }
-
 
 label.a11yc_checkitem
 {
 	position: relative;
 	padding-left: 1.75em;
 }
-.a11yc_implement_checklist_each label.a11yc_checkitem
-{
-	width: calc( 100% - 4em );
-	clear: left;
-	float: left;
-}
-.a11yc_implement_checklist_each label.a11yc_checkitem
-
-
 .a11yc .non_interference h4 .a11yc_header_criterion_level {
 	color: #e00;
 }
@@ -1127,7 +1153,7 @@ label.a11yc_checkitem {
 .a11yc_table_check input {
 	margin: 0;
 }
-.a11yc_table_check td {
+.a11yc_table_check th + td {
 	padding: 8px 3px;
 	white-space: nowrap;
 }
@@ -1150,11 +1176,6 @@ td.a11yc_table_check_howto {
 #a11yc_pages .a11yc_table:not(.a11yc_nohighlight) tr:focus-within th,
 #a11yc_pages .a11yc_table:not(.a11yc_nohighlight) tr:hover td,
 #a11yc_pages .a11yc_table:not(.a11yc_nohighlight) tr:focus-within td
-{
-	background-color: #fefedd;
-}
-.a11yc_check_disclosure.a11yc_implement_checklist li:hover,
-.a11yc_check_disclosure.a11yc_implement_checklist li:focus-within
 {
 	background-color: #fefedd;
 }
@@ -1225,8 +1246,9 @@ input+label.a11yc_checkitem {
 	color: #000;
 	background-color: #fefedd;
 }
-.a11yc_table_check_test_result input[value="-1"]:checked  + label {
+input.a11yc_check_conformance[value="-1"]:checked  + label {
 	color: #d00;
+	background-color: #fef0f0;
 }
 .a11yc_icon_checkbox:before {
 	content: "\f1db";
