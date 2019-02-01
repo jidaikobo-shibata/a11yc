@@ -82,7 +82,7 @@ class Icl
 	public static function actionImport()
 	{
 		$is_waic_imported = Model\Setting::fetch('is_waic_imported');
-		if ($is_waic_imported) Util::redirect(A11YC_URL);
+//		if ($is_waic_imported) Util::redirect(A11YC_URL);
 
 		$icls = include(A11YC_PATH.'/resources/icls_default_waic.php');
 
@@ -95,25 +95,23 @@ class Icl
 					'criterion' => Util::code2key($criterion),
 				);
 
-				// iclssit - situation
+				// iclsit - situation
 				if ( ! is_array($row))
 				{
 					$values['title'] = $row;
-					$values['seq'] = 0;
-					$values['is_sit'] = true;
-					$iclssit_id = Model\Data::insert('iclsit', 'common', $values);
+					$iclssit_id = Model\Icl::insert($values, true);
+					continue;
 				}
-				// icls
-				else
-				{
-					$values = array_merge($row, $values);
-					$values['situation'] = $iclssit_id;
-					Model\Data::insert('icl', 'common', $values);
-				}
+
+				// icl
+				$values = array_merge($row, $values);
+				$values['situation'] = $iclssit_id;
+				$values['title_short'] = $values['title'];
+				Model\Icl::insert($values, false);
 			}
 		}
 
-		Model\Setting::update('is_waic_imported', true);
+		//		Model\Setting::update('is_waic_imported', true);
 		Util::redirect(A11YC_ICL_URL.'index');
 	}
 
@@ -134,10 +132,7 @@ class Icl
 
 		View::assign('is_view', false);
 		View::assign('checks',  Model\Setting::fetch('icl', array(), true));
-		View::assign('techs',   Yaml::each('techs'));
-		View::assign('icls',    Model\Icl::fetch4ImplementChecklist(), FALSE);
 		View::assign('title',   A11YC_LANG_ICL_TITLE);
-		View::assign('submenu', View::fetchTpl('icl/inc_submenu.php'), FALSE);
 		View::assign('body',    View::fetchTpl('icl/implements_checklist.php'), FALSE);
 	}
 
@@ -149,8 +144,6 @@ class Icl
 	public static function view()
 	{
 		View::assign('is_view', true);
-		View::assign('techs',   Yaml::each('techs'));
-		View::assign('icls',    Model\Icl::fetch4ImplementChecklist(), FALSE);
 		View::assign('title',   A11YC_LANG_ICL_TITLE);
 		View::assign('body',    View::fetchTpl('icl/implements_checklist.php'), FALSE);
 
@@ -169,28 +162,28 @@ class Icl
 	 */
 	public static function edit()
 	{
-		$id = Input::get('id', false);
+		$id     = Input::get('id', false);
 		$is_sit = Input::get('is_sit', false);
-		$qstr = $is_sit ? '&amp;is_sit=1' : '';
-		$item = $id ? Model\Icl::fetch($id) : array();
+		$item   = $id ? Model\Icl::fetch($id) : array();
+		$qstr   = '&amp;id=';
+		$qstr   = $is_sit ? '&amp;is_sit=1'.$qstr : $qstr;
 
 		// create or update
 		if (Input::isPostExists())
 		{
 			$id = Input::post('is_add', false) ? self::add($is_sit) : self::update($id, $is_sit);
-			Util::redirect(A11YC_ICL_URL.'edit&amp;id='.$id.$qstr);
+			Util::redirect(A11YC_ICL_URL.'edit'.$qstr.$id); // redirect to new id
 		}
+		$qstr.= $id; // action destination
 
 		View::assign('item', $item);
 
-		$form = $is_sit ? 'form_sit' :'form';
+		$form = $is_sit ? 'inc_edit_iclsit' :'inc_edit_icl';
 		View::assign('is_add', ! $id);
-		View::assign('qstr', $qstr);
-		View::assign('iclsits', Model\Icl::fetchAll('iclsit'));
-		View::assign('title', A11YC_LANG_ICL_TITLE);
-		View::assign('submenu', View::fetchTpl('icl/inc_submenu.php'), FALSE);
-		View::assign('form',  View::fetchTpl('icl/'.$form.'.php'), FALSE);
-		View::assign('body',  View::fetchTpl('icl/edit.php'), FALSE);
+		View::assign('qstr',   $qstr);
+		View::assign('title',  A11YC_LANG_ICL_TITLE);
+		View::assign('form',   View::fetchTpl('icl/'.$form.'.php'), FALSE);
+		View::assign('body',   View::fetchTpl('icl/edit.php'), FALSE);
 	}
 
 	/**
@@ -202,12 +195,7 @@ class Icl
 	private static function args($is_sit = false)
 	{
 		$type = $is_sit ? 'iclsit' : 'icl';
-		$vals = array();
-		foreach (Model\Icl::$fields[$type] as $key => $default)
-		{
-			$vals[$key] = Input::post($key, $default);
-		}
-		return $vals;
+		return Model\Data::postfilter(Model\Icl::$fields[$type]);
 	}
 
 	/**

@@ -1,35 +1,39 @@
 <?php
 namespace A11yc;
 
+$techs = Yaml::each('techs');
+$criterions = Yaml::each('criterions');
+$icls = Model\Icl::fetchAll();
 $html = '';
 
 if ( ! $is_view):
-	$html.= $submenu;
+	include('inc_submenu.php');
 	$html.= '<form action="'.A11YC_ICL_URL.'index" method="POST">';
 endif;
 
-foreach (Yaml::each('criterions') as $criterion => $criterion_vals):
+foreach (Model\Icl::fetchTree() as $criterion => $parents):
 
-	// implement exists?
-	$implements = array();
-	if (isset($icls[$criterion])):
-		foreach ($icls[$criterion] as $icls_id => $situation):
-			if ( ! isset($implements[$icls_id])) $implements[$icls_id] = array();
-			foreach ($situation['implements'] as $sit):
-				$implements[$icls_id] = array_merge($implements[$icls_id], $sit['techs']);
-			endforeach;
-		endforeach;
-	endif;
-	if (empty($implements)) continue;
-
-	$html.= '<h2>'.Util::key2code($criterion).' '.$criterion_vals['name'].' ['.$criterion_vals['level']['name'].']</h2>';
+	$html.= '<h2>'.Util::key2code($criterion).' '.$criterions[$criterion]['name'].' ['.$criterions[$criterion]['level']['name'].']</h2>';
 
 	// main loop
-	foreach ($icls[$criterion] as $sit):
-		if (isset($sit['title'])):
-			$html.= '<h3>'.$sit['title'].'</h3>';
+	foreach ($parents as $parent => $ids):
+
+		// draw situation
+		if (isset($icls[$parent])):
+			$html.= '<h3>'.$icls[$parent]['title'];
+			if ( ! $is_view):
+				if (Arr::get($icls[$parent], 'trash', 0) != 0):
+					$html.= '<a href="'.A11YC_ICL_URL.'undelete&amp;is_sit=1&amp;id='.intval($parent).'">'.A11YC_LANG_CTRL_UNDELETE.'</a> - ';
+					$html.= '<a href="'.A11YC_ICL_URL.'purge&amp;is_sit=1&amp;id='.intval($parent).'" data-a11yc-confirm="'.sprintf(A11YC_LANG_CTRL_CONFIRM, A11YC_LANG_CTRL_PURGE).'">'.A11YC_LANG_CTRL_PURGE.'</a>';
+				else:
+					$html.= '<a href="'.A11YC_ICL_URL.'edit&amp;is_sit=1&amp;id='.intval($parent).'">'.A11YC_LANG_CTRL_LABEL_EDIT.'</a>'.' - ';
+					$html.= '<a href="'.A11YC_ICL_URL.'delete&amp;is_sit=1&amp;id='.intval($parent).'">'.A11YC_LANG_CTRL_DELETE.'</a>';
+				endif;
+			endif;
+			$html.= '</h3>';
 		endif;
 
+		// draw thead
 		$html.= '<table class="a11yc_table">';
 		$html.= '<thead>';
 		$html.= '<tr>';
@@ -37,8 +41,10 @@ foreach (Yaml::each('criterions') as $criterion => $criterion_vals):
 			$html.= '<th scope="col">'.A11YC_LANG_CTRL_CHECK.'</th>';
 		endif;
 		$html.= '<th scope="col" style="width:30%;">'.A11YC_LANG_ICL_IMPLEMENT.'</th>';
-		$html.= '<th scope="col" style="width:12%;">'.A11YC_LANG_ICL_ID.'</th>';
-		$html.= '<th scope="col">'.A11YC_LANG_ICL_RELATED.'</th>';
+		if ($is_view):
+			$html.= '<th scope="col" style="width:12%;">'.A11YC_LANG_ICL_ID.'</th>';
+			$html.= '<th scope="col">'.A11YC_LANG_ICL_RELATED.'</th>';
+		endif;
 		$html.= '<th scope="col" style="width:30%;">'.A11YC_LANG_ICL_VALIDATE.'</th>';
 		if ( ! $is_view):
 			$html.= '<th scope="col">'.A11YC_LANG_CTRL_ACT.'</th>';
@@ -46,56 +52,58 @@ foreach (Yaml::each('criterions') as $criterion => $criterion_vals):
 		$html.= '</tr>';
 		$html.= '</thead>';
 
-		foreach ($sit['implements'] as $implement):
+		foreach ($ids as $id):
+			if ( ! isset($icls[$id])) continue;
+			$val = $icls[$id];
 
-			$id = $implement['id'];
-			$checked = ! $is_view && in_array($id, $checks) ? ' checked="checked"' : '';
-
-			// title
+			// title and checkbox
 			$html.= '<tr><td>';
 			if ( ! $is_view):
-				$html.= '<input type="checkbox" name="icls[]" id="icls_'.$id.'" data-level="'.$implement['level'].'" value="'.$id.'"'.$checked.'></td>';
-				$html.= '<td><label for="icls_'.$id.'">'.$implement['title'].'</label>';
+				$checked = in_array($id, $checks) ? ' checked="checked"' : '';
+				$html.= '<input type="checkbox" name="icls[]" id="icls_'.$id.'" value="'.$id.'"'.$checked.'></td>';
+				$html.= '<td><label for="icls_'.$id.'">'.$val['title_short'].'</label>';
 			else:
-				$html.= $implement['title'];
+				$html.= $val['title_short'];
 			endif;
 			$html.= '</td><td>';
 
-			// identifier
-			$html.= $implement['identifier'];
-			$html.= '</td><td>';
+			if ($is_view):
+				// identifier
+				$html.= $val['identifier'];
+				$html.= '</td><td>';
 
-			// techs
-			$ul = '';
-			foreach ($implement['techs'] as $tech):
-				if ( ! isset($techs[$tech])) continue;
+				// techs
+				$ul = '';
+				foreach ($val['techs'] as $tech):
+					if ( ! isset($techs[$tech])) continue;
 
-				$ul.= '<li>'.$techs[$tech]['title'].'</li>';
-			endforeach;
-			$html.= ! empty($ul) ? '<ul>'.$ul.'</ul>' : '';
-			$html.= '</td><td>';
+					$ul.= '<li>'.$techs[$tech]['title'].'</li>';
+				endforeach;
+				$html.= ! empty($ul) ? '<ul>'.$ul.'</ul>' : '';
+				$html.= '</td><td>';
+			endif;
 
 			// inspection
-			$html.= $implement['inspection'];
+			$html.= $val['inspection'];
 			$html.= '</td>';
 
 			// ctrl
 			if ( ! $is_view):
 				$html.= '<td class="a11yc_result" style="white-space: nowrap;">';
-				if (Arr::get($implement, 'trash', 0) != 0):
-					$html.= '<a href="'.A11YC_ICL_URL.'undelete&amp;id='.intval($implement['id']).'">'.A11YC_LANG_CTRL_UNDELETE.'</a> - ';
-					$html.= '<a href="'.A11YC_ICL_URL.'purge&amp;id='.intval($implement['id']).'" data-a11yc-confirm="'.sprintf(A11YC_LANG_CTRL_CONFIRM, A11YC_LANG_CTRL_PURGE).'">'.A11YC_LANG_CTRL_PURGE.'</a>';
+				if (Arr::get($val, 'trash', 0) != 0):
+					$html.= '<a href="'.A11YC_ICL_URL.'undelete&amp;id='.intval($id).'">'.A11YC_LANG_CTRL_UNDELETE.'</a> - ';
+					$html.= '<a href="'.A11YC_ICL_URL.'purge&amp;id='.intval($id).'" data-a11yc-confirm="'.sprintf(A11YC_LANG_CTRL_CONFIRM, A11YC_LANG_CTRL_PURGE).'">'.A11YC_LANG_CTRL_PURGE.'</a>';
 				else:
-					$html.= '<a href="'.A11YC_ICL_URL.'edit&amp;id='.intval($implement['id']).'">'.A11YC_LANG_CTRL_LABEL_EDIT.'</a>'.' - ';
-					$html.= '<a href="'.A11YC_ICL_URL.'delete&amp;id='.intval($implement['id']).'">'.A11YC_LANG_CTRL_DELETE.'</a>';
+					$html.= '<a href="'.A11YC_ICL_URL.'edit&amp;id='.intval($id).'">'.A11YC_LANG_CTRL_LABEL_EDIT.'</a>'.' - ';
+					$html.= '<a href="'.A11YC_ICL_URL.'delete&amp;id='.intval($id).'">'.A11YC_LANG_CTRL_DELETE.'</a>';
 				endif;
 				$html.= '</td>';
 			endif;
 
 			$html.= '</tr>';
 		endforeach;
-
 		$html.= '</table>';
+
 	endforeach;
 
 endforeach;

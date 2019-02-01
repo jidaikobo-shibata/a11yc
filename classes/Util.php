@@ -125,29 +125,6 @@ class Util extends \Kontiki\Util
 	}
 
 	/**
-	 * modify criterion based array
-	 *
-	 * @param Array $vals
-	 * @return Array
-	 */
-	public static function modCriterionBasedArr($vals)
-	{
-		$retvals = array();
-		$criterions = Yaml::each('criterions');
-		foreach ($criterions as $criterion)
-		{
-			$code = $criterion['code'];
-			$retvals[$code] = array();
-			foreach ($vals as $v)
-			{
-				if ($v['criterion'] != $code) continue;
-				$retvals[$code][] = $v;
-			}
-		}
-		return $retvals;
-	}
-
-	/**
 	 * create doc link of '\d-\d-\d\w' in the text
 	 *
 	 * @param String $text
@@ -218,29 +195,6 @@ class Util extends \Kontiki\Util
 		$levels['AA'] = array_merge($levels['AA'], $levels['A']);
 		$levels['AAA'] = array_merge($levels['AAA'], $levels['AA']);
 		return $levels;
-	}
-
-	/**
-	 * getLevelFromCriterion
-	 *
-	 * @param String $criterion
-	 * @return Integer
-	 */
-	public static function getLevelFromCriterion($criterion)
-	{
-		$levels = static::criterionsOfLevels();
-
-		$level = 1;
-		if (in_array($criterion, $levels['AAA']) && ! in_array($criterion, $levels['AA']))
-		{
-			$level = 3;
-		}
-		elseif (in_array($criterion, $levels['AA']) && ! in_array($criterion, $levels['A']))
-		{
-			$level = 2;
-		}
-
-		return $level;
 	}
 
 	/**

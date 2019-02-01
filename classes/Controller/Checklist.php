@@ -82,6 +82,7 @@ class Checklist
 	public static function dbio($url)
 	{
 		Model\Checklist::update($url, Input::postArr('chk'));
+		Model\Iclchk::update($url, Input::postArr('iclchks'));
 		Model\Result::update($url, Input::postArr('results'));
 
 		$page = array();
@@ -155,10 +156,7 @@ class Checklist
 		);
 
 		View::assign('url', $url);
-		View::assign('statuses', Values::issueStatus());
-		View::assign('machine_check_status', Values::machineCheckStatus());
 		View::assign('issues', $issues);
-		View::assign('selection_reasons', Values::filteredSelectionReasons());
 		View::assign('refs', $refs[$standard]);
 		View::assign('users', $users);
 		View::assign('current_user_id', $current_user_id);
@@ -168,17 +166,13 @@ class Checklist
 		View::assign('done_date', $done_date);
 		View::assign('target_level', intval(@$settings['target_level']));
 		View::assign('page', $page);
-		View::assign('additional_criterions', join('","', Model\Setting::fetch('additional_criterions')));
 		View::assign('is_new', $is_new);
 		View::assign('is_bulk', $is_bulk);
-		View::assign('icls', Model\icl::fetchAll('icl', true));
-		View::assign('iclsits', Model\icl::fetch4Checklist(true));
-		View::assign('iclusings', Model\Setting::fetch('icl', array(), true));
 
 		self::assginValidation($url, $is_new, $is_bulk);
 
 		// form
-		View::assign('form', View::fetchTpl('checklist/form.php'), FALSE);
+		View::assign('form', View::fetchTpl('checklist/inc_form.php'), FALSE);
 	}
 
 	/**
@@ -257,11 +251,13 @@ class Checklist
 		{
 			View::assign('results', Model\Bulk::fetchResults());
 			View::assign('cs', Model\Bulk::fetchChecks());
+			View::assign('iclchks', Model\Bulk::fetchIclchk());
 		}
 		else
 		{
 			View::assign('results', Model\Result::fetch($url));
 			View::assign('cs', Model\Checklist::fetch($url));
+			View::assign('iclchks', Model\Iclchk::fetch($url));
 		}
 
 		$errs = Validate\Get::errors($url) ?: array('errors' => array(), 'notices' => array());

@@ -1,45 +1,14 @@
-<?php namespace A11yc; ?>
-<div id="a11yc_checks" data-a11yc-target_level="<?php echo str_repeat('a',$target_level) ?>" data-a11yc-additional_criterions='[<?php echo $additional_criterions ? '"'.$additional_criterions.'"' : ''?>]' data-a11yc-current-user="<?php echo $current_user_id ?>" data-a11yc-lang='{"expand":"<?php echo A11YC_LANG_CTRL_EXPAND ?>", "compress": "<?php echo A11YC_LANG_CTRL_COMPRESS ?>", "conformance": "<?php echo A11YC_LANG_CHECKLIST_CONFORMANCE.','.A11YC_LANG_CHECKLIST_CONFORMANCE_PARTIAL ?>"}'>
-
 <?php
-function a11yc_implement_checklist_row($id, $criterion, $arr, $cs, $yml, $refs)
-{
-	$html = '';
-	$html.= '<dl><dt>'.htmlspecialchars_decode($arr[$criterion][$id]['title']).'</dt>';
-	$html.= '<dd><ul>';
+namespace A11yc;
 
-	$li = '';
-	if ( ! empty($arr[$criterion][$id]['techs']))
-	{
-		foreach ($arr[$criterion][$id]['techs'] as $implement)
-		{
-			if ( ! isset($yml['techs'][$implement]['title'])) continue;
-			$idfor = $criterion.'_'.$id.'_'.$implement;
-			$checked = isset($cs[$criterion]) && in_array($implement, $cs[$criterion]) ?
-							 ' checked="checked"' :
-							 '';
-
-			$li.= '<li>';
-			$li.= '<label for="'.$idfor.'" class="a11yc_checkitem"><input type="checkbox"'.$checked.' id="'.$idfor.'" name="chk['.$criterion.'][]" value="'.$implement.'" /><span class="a11yc_icon_fa a11yc_icon_checkbox" role="presentation" aria-hidden="true"></span>'.$yml['techs'][$implement]['title'].'</label>';
-			$li.= '<a'.A11YC_TARGET.' href="'.$refs['t'].$implement.'.html" title="'.A11YC_LANG_DOC_TITLE.'" class="a11yc_link_howto"><span role="presentation" aria-hidden="true" class="a11yc_icon_fa a11yc_icon_howto"></span><span class="a11yc_skip"><?php echo A11YC_LANG_DOC_TITLE ?></span></a>';
-			$li.= '</li>';
-		}
-	}
-	else
-	{
-		$idfor = $criterion.'_'.$id;
-		$checked = isset($cs[$criterion]) && in_array($id, $cs[$criterion]) ?
-						 ' checked="checked"' :
-						 '';
-
-		$li.= '<li>';
-		$li.= '<label for="'.$idfor.'" class="a11yc_checkitem"><input type="checkbox"'.$checked.' id="'.$idfor.'" name="chk['.$criterion.'][]" value="'.$id.'" /><span class="a11yc_icon_fa a11yc_icon_checkbox" role="presentation" aria-hidden="true"></span>'.A11YC_LANG_CHECKLIST_IMPLEMENT_CHECK.'</label>';
-		$li.= '</li>';
-	}
-	$html.= $li.'</ul></dd></dl>';
-	return $html;
-}
+$statuses              = Values::issueStatus();
+$selection_reasons     = Values::filteredSelectionReasons();
+$additional_criterions = join('","', Model\Setting::fetch('additional_criterions'));
+$icls                  = Model\icl::fetchAll(true);
+$icltree               = Model\icl::fetchTree(true);
 ?>
+
+<div id="a11yc_checks" data-a11yc-target_level="<?php echo str_repeat('a',$target_level) ?>" data-a11yc-additional_criterions='[<?php echo $additional_criterions ? '"'.$additional_criterions.'"' : ''?>]' data-a11yc-current-user="<?php echo $current_user_id ?>" data-a11yc-lang='{"expand":"<?php echo A11YC_LANG_CTRL_EXPAND ?>", "compress": "<?php echo A11YC_LANG_CTRL_COMPRESS ?>", "conformance": "<?php echo A11YC_LANG_CHECKLIST_CONFORMANCE.','.A11YC_LANG_CHECKLIST_CONFORMANCE_PARTIAL ?>"}'>
 
 <!-- header -->
 <div id="a11yc_header">
@@ -56,13 +25,6 @@ function a11yc_implement_checklist_row($id, $criterion, $arr, $cs, $yml, $refs)
 			<tr>
 				<th class=""><?php echo A11YC_LANG_PAGE_URLS ?></th>
 				<td title="<?php echo Util::s(Util::urldec($url)) ?>"><?php echo '<a href="'.Util::s(Util::urldec($url)).'">'.Util::s(Util::urldec($url)).'</a>' ?></td>
-	<?php /* ?>
-	<?php // 振る舞いが怪しいので、ちょっと様子見 ?>
-				<th><label for="a11yc_mod_url"><?php echo A11YC_LANG_PAGE_URLS ?></label></th>
-				<td>
-					<input type="text" name="mod_url" id="a11yc_mod_url" size="30" value="<?php echo Util::urldec($url) ?>" />
-				</td>
-	<?php */ ?>
 			</tr>
 			</table>
 		</div><!-- /#a11yc_targetpage_data -->
@@ -257,40 +219,94 @@ function a11yc_implement_checklist_row($id, $criterion, $arr, $cs, $yml, $refs)
 
 <?php
 // implement checklist
-
-$iclusings = array_map('intval', $iclusings);
-
-// situation exists
 $html = '';
-if (isset($iclsits[$criterion]) && $iclsits[$criterion]):
-// using icl?
-	foreach ($iclsits[$criterion] as $iclsit):
-		if (count(array_diff($iclsit['implements'], $iclusings)) == count($iclsit['implements'])) continue;
+foreach ($icltree[$criterion] as $parent_id => $ids):
 
-		$html.= '<tr><th>'.$iclsit['title'].'</th></tr>';
-		foreach ($iclsit['implements'] as $icl):
-			if ( ! in_array($icl, $iclusings)) continue;
-			$html.= '<tr><td>'.a11yc_implement_checklist_row($icl, $criterion, $icls, $cs, $yml, $refs).'</td></tr>';
+	if (isset($icls[$parent_id])):
+		$html.= '<h2>'.$icls[$parent_id]['title'].'</h2>';
+	endif;
+
+
+	$html.= '<table class="a11y_table">';
+	foreach ($ids as $id):
+		if ( ! isset($icls[$id])) continue;
+		$val = $icls[$id];
+		$html.= '<tr><th>';
+		$html.= strip_tags($val['title_short']);
+		$html.= '</th><td>';
+
+		foreach (Values::iclOptions() as $k => $v):
+			$selected = Arr::get($iclchks, $id, 1) == $k ? ' checked="checked"' : '';
+			$html.= '<input type="radio" name="iclchks['.$id.']" id="icl_'.$k.'"'.$selected.' value="'.$k.'"><label for="icl_'.$k.'"><span class="" role="presentation" aria-hidden="true"></span>'.$v.'</label>';
 		endforeach;
-	endforeach;
-elseif (isset($icls[$criterion])):
-	foreach ($icls[$criterion] as $id => $v):
-		if ( ! in_array($id, $iclusings)) continue;
-		$html.= '<tr><td>'.a11yc_implement_checklist_row($id, $criterion, $icls, $cs, $yml, $refs).'</td></tr>';
-	endforeach;
-endif;
 
-if ( ! empty($html)):
-?>
+		$html.= '</td></tr><tr><td><ul>';
 
+		$li = '';
+		// tech exists
+		if ( ! empty($val['techs'])):
+			foreach ($val['techs'] as $implement)
+			{
+				if ( ! isset($yml['techs'][$implement]['title'])) continue;
+				$idfor = $criterion.'_'.$id.'_'.$implement;
+				$checked = in_array($implement, Arr::get($cs, $criterion, array())) ? ' checked="checked"' : '';
+
+				$li.= '<li>';
+				$li.= '<label for="'.$idfor.'" class="a11yc_checkitem"><input type="checkbox"'.$checked.' id="'.$idfor.'" name="chk['.$criterion.'][]" value="'.$implement.'" /><span class="a11yc_icon_fa a11yc_icon_checkbox" role="presentation" aria-hidden="true"></span>'.$yml['techs'][$implement]['title'].'</label>';
+				$li.= '<a'.A11YC_TARGET.' href="'.$refs['t'].$implement.'.html" title="'.A11YC_LANG_DOC_TITLE.'" class="a11yc_link_howto"><span role="presentation" aria-hidden="true" class="a11yc_icon_fa a11yc_icon_howto"></span><span class="a11yc_skip"><?php echo A11YC_LANG_DOC_TITLE ?></span></a>';
+				$li.= '</li>';
+			}
+
+		else:
+		// tech is not exists
+
+			$idfor = $criterion.'_'.$id;
+			$checked = in_array($id, Arr::get($cs, $criterion, array())) ? ' checked="checked"' : '';
+
+			$li.= '<li>';
+			$li.= '<label for="'.$idfor.'" class="a11yc_checkitem"><input type="checkbox"'.$checked.' id="'.$idfor.'" name="chk['.$criterion.'][]" value="'.$id.'" /><span class="a11yc_icon_fa a11yc_icon_checkbox" role="presentation" aria-hidden="true"></span>'.A11YC_LANG_CHECKLIST_IMPLEMENT_CHECK.'</label>';
+			$li.= '</li>';
+
+		endif;
+		$html.= $li.'</ul></td></tr>';
+	endforeach;
+	$html.= '</table>';
+endforeach;
+
+if ( ! empty($html)): ?>
 			<details class="a11yc_check_disclosure">
-				<summary><?php echo A11YC_LANG_CHECKLIST_IMPLEMENTSLIST_TITLE ?></summary>
-
-				<table class="a11yc_table a11yc_table_check"><tbody>
-					<?php echo $html; ?>
-				</tbody></table>
+				<summary><h1><?php echo A11YC_LANG_CHECKLIST_IMPLEMENTSLIST_TITLE ?></h1></summary>
+				<?php echo $html; ?>
 			</details>
 <?php endif; ?>
+
+<?php
+// failure
+$html = '';
+if (isset($yml['techs_codes'][$criterion]['f'])):
+	$li = '';
+	foreach ($yml['techs_codes'][$criterion]['f'] as $v):
+		$checked = in_array($v, Arr::get($cs, $criterion, array())) ? ' checked="checked"' : '';
+		$idfor = $criterion.'_'.$v;
+
+		$li.= '<li>';
+		$li.= '<label for="'.$idfor.'" class="a11yc_checkitem"><input type="checkbox"'.$checked.' id="'.$idfor.'" name="chk['.$criterion.'][]" value="'.$v.'" /><span class="a11yc_icon_fa a11yc_icon_checkbox" role="presentation" aria-hidden="true"></span>'.$yml['techs'][$v]['title'].'</label></li>';
+	endforeach;
+	if ( ! empty($li)):
+		$html = '<ul>'.$li.'</ul>';
+	endif;
+endif;
+
+if ( ! empty($html)): ?>
+	<details class="a11yc_check_disclosure">
+		<summary><h1><?php echo A11YC_LANG_CHECKLIST_NG_REASON ?></h1></summary>
+
+		<table class="a11yc_table a11yc_table_check"><tbody>
+			<?php echo $html; ?>
+		</tbody></table>
+	</details>
+<?php endif; ?>
+
 
 			</div><!--/#c_<?php echo $criterion ?>.l_<?php echo strtolower($vvv['level']['name']) ?>-->
 		<?php endforeach; ?>

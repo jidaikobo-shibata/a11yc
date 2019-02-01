@@ -1,7 +1,8 @@
 <?php namespace A11yc; ?>
-<?php echo $submenu ?>
 
-<form action="<?php echo Util::uri() ?>" method="POST">
+<?php include('inc_submenu.php'); ?>
+
+<form action="<?php echo A11YC_ICL_URL ?>edit<?php echo $qstr ?>" method="POST">
 
 <?php echo $form ?>
 

@@ -1,6 +1,8 @@
 <?php
 namespace A11yc;
 
+$machine_check_status  = Values::machineCheckStatus();
+
 // call from post
 $is_call_from_post = isset($is_call_from_post);
 

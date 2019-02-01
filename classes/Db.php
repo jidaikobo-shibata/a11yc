@@ -143,30 +143,11 @@ class Db extends \Kontiki\Db
 		$group_id = is_null($group_id) ? static::groupId() : $group_id;
 		$group_id = $url == 'global' ? 1 : $group_id;
 		$url = Util::urldec($url);
+		list($is_array, $value) = self::jsonCheck($value);
 
-		// existence criterion value
-		$sql = 'SELECT `url`, `key` FROM '.A11YC_TABLE_DATA;
-		$sql.= ' WHERE `version` = ? AND `group_id` = ?;';
-		$vals = array();
-		foreach (Db::fetchAll($sql, array($version, $group_id)) as $v)
-		{
-			$vals[$v['url']][$v['key']] = true;
-		}
-
-		// insert or update
-		if( ! isset($vals[$url][$key]) && ! in_array($url, array('common', 'global')))
-		{
-			$r = static::insert($key, $url, $value, $version, $group_id);
-		}
-		else
-		{
-			list($is_array, $value) = self::jsonCheck($value);
-			$sql = 'UPDATE '.A11YC_TABLE_DATA.' SET `value` = ?, `is_array` = ?';
-			$sql.= ' WHERE `group_id` = ? AND `key` = ? AND `url` = ? AND `version` = ?;';
-			$r = Db::execute($sql, array($value, $is_array, $group_id, $key, $url, $version));
-		}
-
-		return $r;
+		$sql = 'UPDATE '.A11YC_TABLE_DATA.' SET `value` = ?, `is_array` = ?';
+		$sql.= ' WHERE `group_id` = ? AND `key` = ? AND `url` = ? AND `version` = ?;';
+		return Db::execute($sql, array($value, $is_array, $group_id, $key, $url, $version));
 	}
 
 	/**

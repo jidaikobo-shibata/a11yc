@@ -166,6 +166,20 @@ class Values
 	}
 
 	/**
+	 * icl options
+	 *
+	 * @return Array
+	 */
+	public static function iclOptions()
+	{
+		return array(
+			1 => A11YC_LANG_EXIST_NON,
+			2 => A11YC_LANG_PASS,
+			-1 => A11YC_LANG_PASS_NON,
+		);
+	}
+
+	/**
 	 * test methods options
 	 *
 	 * @return Array

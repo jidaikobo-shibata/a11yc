@@ -3,6 +3,13 @@
 <table class="a11yc_table">
 
 <tr>
+	<th><label for="a11yc_title_short"><?php echo A11YC_LANG_ICL_IMPLEMENT ?></label></th>
+	<td>
+		<textarea id="a11yc_title_short" name="title_short" style="width: 100%;" rows="7"><?php echo Arr::get($item, 'title_short', '') ?></textarea><br />
+	</td>
+</tr>
+
+<tr>
 	<th><label for="a11yc_title"><?php echo A11YC_LANG_ICL_IMPLEMENT ?></label></th>
 	<td>
 		<textarea id="a11yc_title" name="title" style="width: 100%;" rows="7"><?php echo Arr::get($item, 'title', '') ?></textarea><br />
@@ -15,12 +22,11 @@
 		<select id="a11yc_situation" name="situation" style="width:100%">
 			<option data-criterion="" value="0"></option>
 		<?php
-			foreach ($iclsits as $criterion => $val):
-				foreach ($val as $id => $v):
+			foreach (Model\Icl::fetchAll() as $id => $v):
+				if ($v['is_sit'] === false) continue;
 					$selected = $id == Arr::get($item, 'situation', '') ? ' selected="selected"' : '' ;
 			?>
-				<option<?php echo $selected ?> data-criterion="<?php echo $criterion ?>" value="<?php echo $id ?>"><?php echo $v['title'].' - '.Util::key2code($criterion) ?></option>
-			<?php endforeach; ?>
+				<option<?php echo $selected ?> data-criterion="<?php echo $v['criterion'] ?>" value="<?php echo $id ?>"><?php echo $v['title'].' - '.Util::key2code($v['criterion']) ?></option>
 		<?php endforeach; ?>
 		</select>
 	</td>

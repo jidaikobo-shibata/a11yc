@@ -16,7 +16,7 @@ return array (
     ),
     2 =>
     array (
-      'title' => 'applet 要素にalt属性がある',
+      'title' => 'applet要素にalt属性がある',
       'identifier' => 'A-1, Short-4',
       'techs' =>
       array (
@@ -26,7 +26,7 @@ return array (
     ),
     3 =>
     array (
-      'title' => 'object 要素のボディに代替テキストを記述する',
+      'title' => 'object要素のボディに代替テキストを記述する',
       'identifier' => 'A-1, Short-5',
       'techs' =>
       array (

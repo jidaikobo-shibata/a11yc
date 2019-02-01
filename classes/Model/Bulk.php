@@ -48,4 +48,14 @@ class Bulk
 	{
 		return Setting::fetch('bulk_results', array(), true);
 	}
+
+	/**
+	 * fetch iclchk
+	 *
+	 * @return Array
+	 */
+	public static function fetchIclchk()
+	{
+		return Setting::fetch('bulk_iclchks', array(), true);
+	}
 }

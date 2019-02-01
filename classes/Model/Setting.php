@@ -17,7 +17,7 @@ class Setting
 		'target_level'                    => '',
 		'selected_method'                 => '',
 		'stop_guzzle'                     => '',
-		'standard'                        => '',
+		'standard'                        => 0,
 		'show_results'                    => false,
 		'show_url_results'                => false,
 		'cache_time'                      => '',

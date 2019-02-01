@@ -1,6 +1,6 @@
 <?php
 /**
- * A11yc\Model\Checklist
+ * A11yc\Model\Iclchk
  *
  * @package    part of A11yc
  * @author     Jidaikobo Inc.
@@ -10,7 +10,7 @@
  */
 namespace A11yc\Model;
 
-class Checklist
+class Iclchk
 {
 	protected static $checks = null;
 
@@ -25,53 +25,13 @@ class Checklist
 	{
 		if (empty($url)) return array();
 		if (isset(static::$checks[$url]) && ! $force) return static::$checks[$url];
-		$vals = Data::fetchArr('check', $url, array(), $force);
-
-		static::$checks[$url] = array();
-		foreach ($vals as $criterion => $val)
-		{
-			foreach ($val as $code => $v)
-			{
-				static::$checks[$url][$criterion][$code] = $v;
-			}
-		}
-
+		$vals = Data::fetchArr('iclchk', $url, array(), $force);
+		static::$checks[$url] = array_map('intval', Arr::get($vals, 0, array()));
 		return static::$checks[$url];
 	}
 
 	/**
-	 * fetch failures
-	 *
-	 * @param String $url
-	 * @return Array
-	 */
-	public static function fetchFailures($url = '')
-	{
-		$vals = Data::fetchArr('check');
-
-		foreach ($vals as $each_url => $val)
-		{
-			foreach ($val as $criterion => $v)
-			{
-				foreach ($v as $kk => $vv)
-				{
-					if (substr($vv, 0, 1) != 'F') unset($vals[$each_url][$criterion][$kk]);
-				}
-				if (empty($vals[$each_url][$criterion])) unset($vals[$each_url][$criterion]);
-			}
-			if (empty($vals[$each_url])) unset($vals[$each_url]);
-		}
-
-		if (empty($url))
-		{
-			return $vals;
-		}
-
-		return Arr::get($vals, $url, array());
-	}
-
-	/**
-	 * insert results
+	 * insert
 	 *
 	 * @param String $url
 	 * @param Array $vals
@@ -79,7 +39,8 @@ class Checklist
 	 */
 	public static function insert($url, $vals)
 	{
-		return Data::insert('check', $url, $vals);
+		$vals = array_map('intval', $vals);
+		return Data::insert('iclchk', $url, $vals);
 	}
 
 	/**
@@ -103,6 +64,6 @@ class Checklist
 	 */
 	public static function delete($url)
 	{
-		Data::delete('check', $url);
+		Data::delete('iclchk', $url);
 	}
 }
