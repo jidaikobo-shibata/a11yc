@@ -82,7 +82,7 @@ class Icl
 	public static function actionImport()
 	{
 		$is_waic_imported = Model\Setting::fetch('is_waic_imported');
-//		if ($is_waic_imported) Util::redirect(A11YC_URL);
+		if ($is_waic_imported) Util::redirect(A11YC_URL);
 
 		$icls = include(A11YC_PATH.'/resources/icls_default_waic.php');
 
@@ -106,7 +106,7 @@ class Icl
 				// icl
 				$values = array_merge($row, $values);
 				$values['situation'] = $iclssit_id;
-				$values['title_short'] = $values['title'];
+				$values['title_short'] = Arr::get($values, 'title_short', $values['title']);
 				Model\Icl::insert($values, false);
 			}
 		}

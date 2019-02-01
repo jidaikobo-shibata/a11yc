@@ -49,7 +49,7 @@ class Issue
 			foreach ($val as $v)
 			{
 				$v['url'] = $url;
-				$v = array_merge(static::$fields, $v);
+				$v = Data::filter($v, static::$fields);
 
 				$criterion = empty($v['criterion']) ? '1-1-1' : $v['criterion'];
 				if ($v['is_common'] == 1 || empty($url))
@@ -61,11 +61,11 @@ class Issue
 			}
 		}
 
-		$commons = self::setCommonOrder($commons);
+		$commons = self::issueOrder($commons);
 		static::$vals = array();
 		if ( ! empty($commons))
 		{
-			static::$vals['commons'] = self::setCommonOrder($commons);
+			static::$vals['commons'] = self::issueOrder($commons);
 		}
 		static::$vals = array_merge(static::$vals, self::setIssueOrder($vals));
 
@@ -75,12 +75,12 @@ class Issue
 	/**
 	 * set common order
 	 *
-	 * @param Array $commons
+	 * @param Array $issues
 	 * @return Array
 	 */
-	private static function setCommonOrder($commons)
+	private static function issueOrder($issues)
 	{
-		foreach ($commons as $criterion => $v)
+		foreach ($issues as $criterion => $v)
 		{
 			$v = Util::multisort($v, 'seq');
 			$vals = array();
@@ -88,9 +88,9 @@ class Issue
 			{
 				$vals[$vv['id']] = $vv;
 			}
-			$commons[$criterion] = $vals;
+			$issues[$criterion] = $vals;
 		}
-		return $commons;
+		return $issues;
 	}
 
 	/**
@@ -103,7 +103,7 @@ class Issue
 	{
 		foreach ($vals as $url => $val)
 		{
-			$vals[$url] = self::setCommonOrder($val);
+			$vals[$url] = self::issueOrder($val);
 		}
 
 		// Page::fetchAll() returns sqe ordered array

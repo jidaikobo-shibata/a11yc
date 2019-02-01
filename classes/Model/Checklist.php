@@ -25,17 +25,7 @@ class Checklist
 	{
 		if (empty($url)) return array();
 		if (isset(static::$checks[$url]) && ! $force) return static::$checks[$url];
-		$vals = Data::fetchArr('check', $url, array(), $force);
-
-		static::$checks[$url] = array();
-		foreach ($vals as $criterion => $val)
-		{
-			foreach ($val as $code => $v)
-			{
-				static::$checks[$url][$criterion][$code] = $v;
-			}
-		}
-
+		static::$checks[$url] = Data::fetchArr('check', $url, array(), $force);
 		return static::$checks[$url];
 	}
 
@@ -45,33 +35,33 @@ class Checklist
 	 * @param String $url
 	 * @return Array
 	 */
-	public static function fetchFailures($url = '')
+	public static function fetchFailures($url = '*')
 	{
-		$vals = Data::fetchArr('check');
-
-		foreach ($vals as $each_url => $val)
-		{
-			foreach ($val as $criterion => $v)
-			{
-				foreach ($v as $kk => $vv)
-				{
-					if (substr($vv, 0, 1) != 'F') unset($vals[$each_url][$criterion][$kk]);
-				}
-				if (empty($vals[$each_url][$criterion])) unset($vals[$each_url][$criterion]);
-			}
-			if (empty($vals[$each_url])) unset($vals[$each_url]);
-		}
-
-		if (empty($url))
-		{
-			return $vals;
-		}
-
-		return Arr::get($vals, $url, array());
+		return Data::fetchArr('check_failure', $url, array());
 	}
 
 	/**
-	 * insert results
+	 * filter failure
+	 *
+	 * @param Array $vals
+	 * @return Bool
+	 */
+	public static function filterFailure($vals)
+	{
+		$failures = array();
+		foreach ($vals as $criterion => $val)
+		{
+			foreach ($val as $v)
+			{
+				if (substr($v, 0, 1) != 'F') continue;
+				$failures[$criterion][] = $v;
+			}
+		}
+		return $failures;
+	}
+
+	/**
+	 * insert
 	 *
 	 * @param String $url
 	 * @param Array $vals
@@ -79,6 +69,7 @@ class Checklist
 	 */
 	public static function insert($url, $vals)
 	{
+		Data::insert('check_failure', $url, static::filterFailure($vals));
 		return Data::insert('check', $url, $vals);
 	}
 
@@ -104,5 +95,6 @@ class Checklist
 	public static function delete($url)
 	{
 		Data::delete('check', $url);
+		Data::delete('check_failure', $url);
 	}
 }

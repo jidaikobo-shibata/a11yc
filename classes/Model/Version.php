@@ -21,6 +21,7 @@ class Version
 		'issue',
 		'icl',
 		'iclsit',
+		'iclchk',
 	);
 	public static $fields = array(
 		'version' => 0,

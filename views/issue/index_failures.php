@@ -13,8 +13,11 @@
 </tr>
 </thead>
 <tr>
-<?php foreach ($failures as $url => $vals): ?>
-	<th scope="row" class="a11yc_issue_url"><?php echo Model\Html::fetchPageTitle($url) ?><br><a href="<?php echo Util::urldec($url) ?>"><?php echo Util::s($url) ?></a></th>
+<?php
+	foreach ($failures as $url => $vals):
+	$page = Model\Page::fetch($url);
+?>
+	<th scope="row" class="a11yc_issue_url"><?php echo $page['title'] ?><br><a href="<?php echo Util::urldec($url) ?>"><?php echo Util::s($url) ?></a></th>
 
 	<td class="a11yc_result"><a href="<?php echo A11YC_CHECKLIST_URL.Util::urlenc($url) ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_CTRL_CHECK ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
 

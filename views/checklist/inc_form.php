@@ -120,7 +120,6 @@ $icltree               = Model\icl::fetchTree(true);
 		<!-- criterions -->
 		<?php
 		foreach ($yml['criterions'] as $criterion => $vvv):
-
 			// check target level and additional_criterions
 			if (
 				! in_array($vvv['code'], Model\Setting::fetch('additional_criterions')) &&

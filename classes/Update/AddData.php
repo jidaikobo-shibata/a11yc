@@ -244,6 +244,7 @@ class AddData
 				}
 			}
 
+			Model\Data::insert('check_failure', $url, Model\Checklist::filterFailure($value), $version);
 			Model\Data::insert('check', $url, $value, $version);
 		}
 	}

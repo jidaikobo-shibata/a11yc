@@ -17,6 +17,7 @@
  * - html
  * - icl
  * - iclsit
+ * - iclchk
  * - vesion
  *
  * url field:
