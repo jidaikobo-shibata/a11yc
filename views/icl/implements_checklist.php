@@ -94,6 +94,7 @@ foreach (Model\Icl::fetchTree() as $criterion => $parents):
 					$html.= '<a href="'.A11YC_ICL_URL.'undelete&amp;id='.intval($id).'">'.A11YC_LANG_CTRL_UNDELETE.'</a> - ';
 					$html.= '<a href="'.A11YC_ICL_URL.'purge&amp;id='.intval($id).'" data-a11yc-confirm="'.sprintf(A11YC_LANG_CTRL_CONFIRM, A11YC_LANG_CTRL_PURGE).'">'.A11YC_LANG_CTRL_PURGE.'</a>';
 				else:
+					$html.= '<a href="'.A11YC_ICL_URL.'read&amp;id='.intval($id).'">'.A11YC_LANG_CTRL_VIEW.'</a>'.' - ';
 					$html.= '<a href="'.A11YC_ICL_URL.'edit&amp;id='.intval($id).'">'.A11YC_LANG_CTRL_LABEL_EDIT.'</a>'.' - ';
 					$html.= '<a href="'.A11YC_ICL_URL.'delete&amp;id='.intval($id).'">'.A11YC_LANG_CTRL_DELETE.'</a>';
 				endif;

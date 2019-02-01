@@ -57,7 +57,7 @@ define('A11YC_LANG_CTRL_PREV', '前へ');
 define('A11YC_LANG_CTRL_NEXT', '次へ');
 define('A11YC_LANG_CTRL_EXPAND', '展開する');
 define('A11YC_LANG_CTRL_COMPRESS', '縮小する');
-define('A11YC_LANG_CTRL_VIEW', '表示する');
+define('A11YC_LANG_CTRL_VIEW', '表示');
 define('A11YC_LANG_CTRL_NAME', '名称');
 define('A11YC_LANG_CTRL_DATE', '作成日');
 define('A11YC_LANG_CTRL_ADDNEW', '新規追加');

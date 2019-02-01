@@ -35,6 +35,16 @@ class Icl
 	}
 
 	/**
+	 * read
+	 *
+	 * @return Void
+	 */
+	public static function actionRead()
+	{
+		static::read();
+	}
+
+	/**
 	 * edit
 	 *
 	 * @return Void
@@ -133,7 +143,7 @@ class Icl
 		View::assign('is_view', false);
 		View::assign('checks',  Model\Setting::fetch('icl', array(), true));
 		View::assign('title',   A11YC_LANG_ICL_TITLE);
-		View::assign('body',    View::fetchTpl('icl/implements_checklist.php'), FALSE);
+		View::assign('body',    View::fetchTpl('icl/implements_checklist.php'), false);
 	}
 
 	/**
@@ -145,7 +155,7 @@ class Icl
 	{
 		View::assign('is_view', true);
 		View::assign('title',   A11YC_LANG_ICL_TITLE);
-		View::assign('body',    View::fetchTpl('icl/implements_checklist.php'), FALSE);
+		View::assign('body',    View::fetchTpl('icl/implements_checklist.php'), false);
 
 		View::display(array(
 				'inc_report_header.php',
@@ -153,6 +163,21 @@ class Icl
 				'inc_report_footer.php',
 			));
 		exit();
+	}
+
+	/**
+	 * read
+	 *
+	 * @return Void
+	 */
+	public static function read()
+	{
+		$id = Input::get('id', false);
+		if ( ! $id) Util::redirect(A11YC_URL);
+
+		View::assign('title', A11YC_LANG_ICL_TITLE);
+		View::assign('item',  Model\Icl::fetch($id), false);
+		View::assign('body',  View::fetchTpl('icl/read.php'), false);
 	}
 
 	/**
@@ -182,8 +207,8 @@ class Icl
 		View::assign('is_add', ! $id);
 		View::assign('qstr',   $qstr);
 		View::assign('title',  A11YC_LANG_ICL_TITLE);
-		View::assign('form',   View::fetchTpl('icl/'.$form.'.php'), FALSE);
-		View::assign('body',   View::fetchTpl('icl/edit.php'), FALSE);
+		View::assign('form',   View::fetchTpl('icl/'.$form.'.php'), false);
+		View::assign('body',   View::fetchTpl('icl/edit.php'), false);
 	}
 
 	/**

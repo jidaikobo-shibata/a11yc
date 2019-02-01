@@ -231,6 +231,7 @@ foreach (Arr::get($icltree, $criterion, array()) as $parent_id => $ids):
 		$html.= '<fieldset><legend>';
 		$html.= strip_tags($val['title_short']);
 		$html.= '</legend>';
+		$html.= '<a href="'.A11YC_ICL_URL.'read&amp;id='.intval($id).'" target="_blank">'.A11YC_LANG_CTRL_VIEW.'</a>';
 
 		foreach (Values::iclOptions() as $ik => $iv):
 			$selected = Arr::get($iclchks, $id, 1) == $ik ? ' checked="checked"' : '';
@@ -271,10 +272,10 @@ endforeach;
 $html.= '</div><!-- /.a11yc_implement_checklist -->';
 
 if ( ! empty($html)): ?>
-			<details class="a11yc_check_disclosure">
-				<summary><h1><?php echo A11YC_LANG_CHECKLIST_IMPLEMENTSLIST_TITLE ?></h1></summary>
-				<?php echo $html; ?>
-			</details>
+	<details class="a11yc_check_disclosure">
+		<summary><h1><?php echo A11YC_LANG_CHECKLIST_IMPLEMENTSLIST_TITLE ?></h1></summary>
+		<?php echo $html; ?>
+	</details>
 <?php endif; ?>
 
 <?php
