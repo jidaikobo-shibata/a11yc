@@ -26,7 +26,7 @@
  */
 namespace A11yc\Model;
 
-class Data
+class Data extends \A11yc\Db
 {
 	protected static $vals     = null;
 	protected static $sites    = null;
@@ -69,7 +69,7 @@ class Data
 			$key   = $v['key'];
 			$value = $v['value'];
 			$data  = $v['is_array'] ? json_decode($value, true) : $value;
-			// if ($key == 'html') continue;
+			//if ($key == 'html') continue;
 
 			$is_id = $key == 'issue' || substr($key, 0, 3) == 'icl';
 			if (isset($v['id']) && $is_id)
@@ -127,6 +127,40 @@ class Data
 	}
 
 	/**
+	 * fetch stored data by array
+	 *
+	 * @param String $key
+	 * @param String $url `url`|common|global|*
+	 * @param Mixed $default
+	 * @param Bool $force
+	 * @param Integer $version
+	 * @param Integer $group_id
+	 * @return Array
+	 */
+	public static function fetchArr($key, $url = '*', $default = array(), $force = false, $version = null, $group_id = null)
+	{
+		$vals = static::fetch($key, $url, $default, $force, $version, $group_id);
+		return is_array($vals) ? $vals : array();
+	}
+
+	/**
+	 * fetch stored data by one
+	 *
+	 * @param String $key
+	 * @param String $url `url`|common|global|*
+	 * @param Mixed $default
+	 * @param Bool $force
+	 * @param Integer $version
+	 * @param Integer $group_id
+	 * @return Array
+	 */
+	public static function fetchOne($key, $url = '*', $default = '', $force = false, $version = null, $group_id = null)
+	{
+		$vals = static::fetch($key, $url, $default, $force, $version, $group_id);
+		return ! is_array($vals) ? $vals : $default;
+	}
+
+	/**
 	 * fetch by id
 	 *
 	 * @param String $id
@@ -140,6 +174,7 @@ class Data
 
 	/**
 	 * versionByQuerystring
+	 * depend on QUERY_STRING
 	 *
 	 * @return Integer
 	 */
@@ -162,7 +197,17 @@ class Data
 	public static function groupId($force = false)
 	{
 		if ( ! is_null(static::$group_id) && ! $force) return static::$group_id;
+		static::$group_id = static::fetchGroupId() ?: 1;
+		return static::$group_id;
+	}
 
+	/**
+	 * fetch group_id
+	 *
+	 * @return Integer|Bool
+	 */
+	public static function fetchGroupId()
+	{
 		// what a hell is going on! >_<
 		// $sql = 'SELECT `value` FROM '.A11YC_TABLE_DATA.' WHERE ';
 		// $sql.= '`group_id` = 1 AND `version` = 0 AND ';
@@ -170,17 +215,14 @@ class Data
 		// $ret = Db::fetch($sql);
 
 		$sql = 'SELECT * FROM '.A11YC_TABLE_DATA.' WHERE `url` = "global";';
-		$group_id = 1;
+		$group_id = false;
 		foreach (Db::fetchAll($sql) as $v)
 		{
 			if ($v['key'] != 'group_id') continue;
 			$group_id = intval($v['value']);
 			break;
 		}
-
-		static::$group_id = $group_id;
-
-		return static::$group_id;
+		return $group_id;
 	}
 
 	/**
@@ -218,173 +260,78 @@ class Data
 	}
 
 	/**
-	 * jsonCheck
+	 * filter
 	 *
-	 * @param Srting|Array $vals
+	 * @param Array $vals
+	 * @param Array $fields
 	 * @return Array
 	 */
-	private static function jsonCheck($vals)
+	public static function filter($vals, $fields)
 	{
-		$is_array = false;
-		if (is_array($vals))
+		foreach ($fields as $k => $v)
 		{
-			$vals = json_encode($vals);
-			$is_array = true;
+			$vals[$k] = Arr::get($vals, $k, $v);
+
+			// type cast by default value
+			if (is_int($v))
+			{
+				$vals[$k] = intval($vals[$k]);
+				continue;
+			}
+
+			if (is_bool($v))
+			{
+				$vals[$k] = (bool) $vals[$k];
+				continue;
+			}
+
+			if (is_string($v))
+			{
+				$vals[$k] = trim($vals[$k]);
+				continue;
+			}
+
+			if (is_array($v) && is_array($vals[$k])) continue;
+			if (empty($vals[$k]))
+			{
+				$vals[$k] = array();
+				continue;
+			}
+			$vals[$k] = array($vals[$k]);
 		}
-		return array($is_array, $vals);
+
+		return $vals;
 	}
 
 	/**
-	 * insert
+	 * deep filter
 	 *
-	 * @param String $key
-	 * @param String $url
-	 * @param Mixed $value
-	 * @param Integer $version
-	 * @param Integer $group_id
-	 * @return Integer|Bool
+	 * @param Array $vals
+	 * @param Array $fields
+	 * @return Array
 	 */
-	public static function insert($key, $url, $value, $version = 0, $group_id = null)
+	public static function deepfilter($vals, $fields)
 	{
-		if (empty($url) && empty($key)) return false;
-
-		$group_id = is_null($group_id) ? self::groupId() : $group_id;
-		$group_id = $url == 'global' ? 1 : $group_id;
-		$url = Util::urldec($url);
-		list($is_array, $value) = self::jsonCheck($value);
-
-		$sql = 'INSERT INTO '.A11YC_TABLE_DATA.' (';
-		$sql.= '`group_id`,';
-		$sql.= '`key`,';
-		$sql.= '`url`,';
-		$sql.= '`value`,';
-		$sql.= '`is_array`,';
-		$sql.= '`version`';
-		$sql.= ')';
-		$sql.= ' VALUES (?, ?, ?, ?, ?, ?);';
-
-		$r = Db::execute($sql, array($group_id, $key, $url, $value, $is_array, $version));
-
-		if ( ! $r) return false;
-
-		$sql = 'SELECT `id` FROM '.A11YC_TABLE_DATA;
-		$sql.= ' ORDER BY `id` desc LIMIT 1;';
-		$data = Db::fetch($sql);
-
-		return isset($data['id']) ? intval($data['id']) : false;
+		foreach ($vals as $k => $v)
+		{
+			$vals[$k] = static::filter($v, $fields);
+		}
+		return $vals;
 	}
 
 	/**
-	 * update
+	 * post filter
 	 *
-	 * @param String $key
-	 * @param String $url
-	 * @param Mixed $value
-	 * @param Integer $version
-	 * @param Integer $group_id
-	 * @return Bool
+	 * @param Array $fields
+	 * @return Array
 	 */
-	public static function update($key, $url, $value, $version = 0, $group_id = null)
+	public static function postfilter($fields)
 	{
-		// basic value
-		$group_id = is_null($group_id) ? self::groupId() : $group_id;
-		$group_id = $url == 'global' ? 1 : $group_id;
-		$url = Util::urldec($url);
-
-		// existence criterion value
-		$sql = 'SELECT `url`, `key` FROM '.A11YC_TABLE_DATA;
-		$sql.= ' WHERE `version` = ? AND `group_id` = ?;';
 		$vals = array();
-		foreach (Db::fetchAll($sql, array($version, $group_id)) as $v)
+		foreach ($fields as $k => $v)
 		{
-			$vals[$v['url']][$v['key']] = true;
+			$vals[$k] = is_array($v) ? Input::postArr($k, $v) : Input::post($k, $v);
 		}
-
-		// insert or update
-		if( ! isset($vals[$url][$key]))
-		{
-			$r = static::insert($key, $url, $value, $version, $group_id);
-		}
-		else
-		{
-			list($is_array, $value) = self::jsonCheck($value);
-			$sql = 'UPDATE '.A11YC_TABLE_DATA.' SET `value` = ?, `is_array` = ?';
-			$sql.= ' WHERE `group_id` = ? AND `key` = ? AND `url` = ? AND `version` = ?;';
-			$r = Db::execute($sql, array($value, $is_array, $group_id, $key, $url, $version));
-		}
-
-		return $r;
-	}
-
-	/**
-	 * update by id
-	 *
-	 * @param Integer $id
-	 * @param Mixed $value
-	 * @param Integer $version
-	 * @param Integer $group_id
-	 * @return Bool
-	 */
-	public static function updateById($id, $value, $version = 0, $group_id = null)
-	{
-		$group_id = is_null($group_id) ? self::groupId() : $group_id;
-		list($is_array, $value) = self::jsonCheck($value);
-
-		$sql = 'UPDATE '.A11YC_TABLE_DATA.' SET `value` = ?, `is_array` = ?';
-		$sql.= ' WHERE `group_id` = ? AND `id` = ? AND `version` = ?;';
-		return Db::execute($sql, array($value, $is_array, $group_id, $id, $version));
-	}
-
-	/**
-	 * update url
-	 *
-	 * @param String $oldurl
-	 * @param String $newurl
-	 * @param Integer $version
-	 * @param Integer $group_id
-	 * @return Bool
-	 */
-	public static function updateUrl($oldurl, $newurl, $version = 0, $group_id = null)
-	{
-		$group_id = is_null($group_id) ? self::groupId() : $group_id;
-		$oldurl = trim($oldurl);
-		$newurl = trim($newurl);
-
-		$sql = 'UPDATE '.A11YC_TABLE_DATA.' SET `url` =';
-		$sql.= ' REPLACE (`url`, ?, ?)';
-		$sql.= ' WHERE `group_id` = ? AND `url` LIKE ? AND `version` = ?;';
-		return Db::execute($sql, array($oldurl, $newurl, $group_id, $oldurl.'%', $version));
-	}
-
-	/**
-	 * delete
-	 *
-	 * @param String $key
-	 * @param String $url
-	 * @param Integer $version
-	 * @param Integer $group_id
-	 * @return Bool
-	 */
-	public static function delete($key, $url, $version = 0, $group_id = null)
-	{
-		$group_id = is_null($group_id) ? self::groupId() : $group_id;
-		$url = Util::urldec($url);
-
-		$sql = 'DELETE FROM '.A11YC_TABLE_DATA.' WHERE ';
-		$sql.= '`group_id` = ? AND `key` = ? AND `url` = ? AND `version` = ?;';
-
-		return Db::execute($sql, array($group_id, $key, $url, $version));
-	}
-
-	/**
-	 * delete by id
-	 *
-	 * @param Integer $id
-	 * @return Bool
-	 */
-	public static function deleteById($id)
-	{
-		$sql = 'DELETE FROM '.A11YC_TABLE_DATA.' WHERE `id` = ?;';
-		return Db::execute($sql, array($id));
+		return static::filter($vals, $fields);
 	}
 }

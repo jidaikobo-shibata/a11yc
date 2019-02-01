@@ -13,12 +13,29 @@ namespace A11yc\Model;
 class Setting
 {
 	protected static $vals = null;
-	public static $json_encodes = array(
-		'additional_criterions',
-		'non_exist_and_passed_criterions',
-		'non_use_techs',
-		'bulk_checks',
-		'bulk_results',
+	public static $fields = array(
+		'target_level'                    => '',
+		'selected_method'                 => '',
+		'stop_guzzle'                     => '',
+		'standard'                        => '',
+		'show_results'                    => false,
+		'show_url_results'                => false,
+		'cache_time'                      => '',
+		'client_name'                     => '',
+		'declare_date'                    => '',
+		'test_period'                     => '',
+		'dependencies'                    => '',
+		'policy'                          => '',
+		'report'                          => '',
+		'contact'                         => '',
+		'base_url'                        => '',
+		'basic_user'                      => '',
+		'basic_pass'                      => '',
+		'additional_criterions'           => array(),
+		'non_exist_and_passed_criterions' => array(),
+		'non_use_techs'                   => array(),
+		'bulk_checks'                     => array(),
+		'bulk_results'                    => array(),
 	);
 
 	/**
@@ -30,9 +47,8 @@ class Setting
 	public static function fetchAll($force = false)
 	{
 		if ( ! is_null(static::$vals) && ! $force) return static::$vals;
-		$vals = Data::fetch('setting', 'common', array(), $force);
-		$vals = is_array($vals) ? $vals : array();
-		static::$vals = self::mustBeArray($vals);
+		$vals = Data::fetchArr('setting', 'common', array(), $force);
+		static::$vals = Data::filter($vals, static::$fields);
 		return static::$vals;
 	}
 
@@ -51,52 +67,6 @@ class Setting
 	}
 
 	/**
-	 * update field
-	 *
-	 * @param Array $vals
-	 * @return Array
-	 */
-	private static function mustBeArray($vals)
-	{
-		if (empty($vals)) return array();
-		foreach (static::$json_encodes as $json_encode)
-		{
-			if ( ! isset($vals[$json_encode]) || empty($vals[$json_encode]))
-			{
-				$vals[$json_encode] = array();
-			}
-		}
-		return $vals;
-	}
-
-	/**
-	 * insert data
-	 *
-	 * @param Array $vals
-	 * @return Bool
-	 */
-	private static function insertData($vals)
-	{
-		Data::delete('setting', 'common');
-		$vals = self::mustBeArray($vals);
-		return Data::insert('setting', 'common', $vals);
-	}
-
-	/**
-	 * update
-	 *
-	 * @param String $key
-	 * @param Mixed  $value
-	 * @return Bool
-	 */
-	public static function update($key, $value)
-	{
-		$settings = self::fetchAll(true);
-		$settings[$key] = $value;
-		return self::insertData($settings);
-	}
-
-	/**
 	 * insert
 	 *
 	 * @param Array $vals
@@ -110,6 +80,32 @@ class Setting
 			$result = self::update($key, $value);
 		}
 		return $result;
+	}
+
+	/**
+	 * update all
+	 *
+	 * @param Array $vals
+	 * @return Bool
+	 */
+	public static function updateAll($vals)
+	{
+		$vals = Data::filter($vals, self::fetchAll(true));
+		return Data::update('setting', 'common', $vals);
+	}
+
+	/**
+	 * update
+	 *
+	 * @param String $key
+	 * @param Mixed  $value
+	 * @return Bool
+	 */
+	public static function update($key, $value)
+	{
+		$settings = self::fetchAll(true);
+		$settings[$key] = $value;
+		return self::updateAll($settings);
 	}
 
 	/**
@@ -139,6 +135,6 @@ class Setting
 	{
 		$vals = self::fetchAll(true);
 		unset($vals[$key]);
-		return self::insertData($vals);
+		return self::updateAll($vals);
 	}
 }

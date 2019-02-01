@@ -33,7 +33,7 @@
 		<a href="#a11yc_content" class="a11yc_skip a11yc_show_if_focus"><?php echo A11YC_LANG_JUMP_TO_CONTENT ?></a>
 		<ul>
 			<li class="a11yc_menu_item a11yc_center"><a href="?c=center&amp;a=index" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_CENTER_TITLE ?></a></li>
-			<li class="a11yc_menu_item a11yc_setting"><a href="?c=setting&amp;a=form" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_SETTING_TITLE ?></a></li>
+			<li class="a11yc_menu_item a11yc_setting"><a href="?c=setting&amp;a=base" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_SETTING_TITLE ?></a></li>
 			<li class="a11yc_menu_item a11yc_icl"><a href="?c=icl&amp;a=index" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_ICL_TITLE ?></a></li>
 			<li class="a11yc_menu_item a11yc_page"><a href="?c=page&amp;a=index" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_PAGE_TITLE ?></a></li>
 			<li class="a11yc_menu_item a11yc_issue"><a href="?c=issue&amp;a=yet" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_ISSUE_TITLE ?></a></li>

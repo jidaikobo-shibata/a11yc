@@ -15,14 +15,14 @@
 	<tr>
 		<th scope="row"><label for="a11yc_client_name"><?php echo A11YC_LANG_CLIENT_NAME ?></label></th>
 		<td>
-			<input type="text" name="client_name" id="a11yc_client_name" size="40" style="width: 100%;" value="<?php echo @$settings['client_name'] ?>">
+			<input type="text" name="client_name" id="a11yc_client_name" size="40" style="width: 100%;" value="<?php echo Arr::get($settings, 'client_name', '') ?>">
 		</td>
 	</tr>
 
 	<tr>
 		<th scope="row"><label for="a11yc_declare_date"><?php echo A11YC_LANG_DECLARE_DATE ?></label></th>
 		<td>
-			<input type="text" name="declare_date" id="a11yc_declare_date" size="20" value="<?php echo @$settings['declare_date'] ?>">
+			<input type="text" name="declare_date" id="a11yc_declare_date" size="20" value="<?php echo Arr::get($settings, 'declare_date', '') ?>">
 		</td>
 	</tr>
 
@@ -31,7 +31,7 @@
 		<td>
 			<select name="standard" id="a11yc_standard">
 				<?php
-					foreach ($standards as $k => $v):
+					foreach (Yaml::each('standards') as $k => $v):
 					$selected = $k == Arr::get($settings, 'standard') ? ' selected="selected"' : '';
 				?>
 				<option<?php echo $selected ?> value="<?php echo $k ?>"><?php echo $v ?></option>
@@ -71,14 +71,14 @@
 	<tr>
 		<th scope="row"><label for="a11yc_test_period"><?php echo A11YC_LANG_TEST_PERIOD ?></label></th>
 		<td>
-			<input type="text" name="test_period" id="a11yc_test_period" size="30" value="<?php echo Util::s(@$settings['test_period']) ?>">
+			<input type="text" name="test_period" id="a11yc_test_period" size="30" value="<?php echo Util::s(Arr::get($settings, 'test_period', '')) ?>">
 		</td>
 	</tr>
 
 	<tr>
 		<th scope="row"><label for="a11yc_dependencies"><?php echo A11YC_LANG_DEPENDENCIES ?></label></th>
 		<td>
-			<textarea name="dependencies" id="a11yc_dependencies" style="width:100%;" rows="7"><?php echo Util::s(@$settings['dependencies']) ?></textarea>
+			<textarea name="dependencies" id="a11yc_dependencies" style="width:100%;" rows="7"><?php echo Util::s(Arr::get($settings, 'dependencies')) ?></textarea>
 		</td>
 	</tr>
 
@@ -86,8 +86,8 @@
 		<th scope="row"><label for="a11yc_policy"><?php echo A11YC_LANG_POLICY ?></label></th>
 		<td>
 			<p><?php echo A11YC_LANG_POLICY_DESC ?></p>
-			<div class="a11yc_policy_sample"><?php echo nl2br($sample_policy) ?></div>
-			<textarea name="policy" id="a11yc_policy" style="width:100%;" rows="7"><?php echo Util::s(@$settings['policy']) ?></textarea>
+			<div class="a11yc_policy_sample"><?php echo nl2br(str_replace("\\n", "\n", A11YC_LANG_SAMPLE_POLICY)) ?></div>
+			<textarea name="policy" id="a11yc_policy" style="width:100%;" rows="7"><?php echo Util::s(Arr::get($settings, 'policy', '')) ?></textarea>
 		</td>
 	</tr>
 
@@ -95,7 +95,7 @@
 		<th scope="row"><label for="a11yc_report"><?php echo A11YC_LANG_OPINION ?></label></th>
 		<td>
 			<p><?php echo A11YC_LANG_REPORT_DESC ?></p>
-			<textarea name="report" id="a11yc_report" style="width:100%;" rows="7"><?php echo Util::s(@$settings['report']) ?></textarea>
+			<textarea name="report" id="a11yc_report" style="width:100%;" rows="7"><?php echo Util::s(Arr::get($settings, 'report', '')) ?></textarea>
 		</td>
 	</tr>
 
@@ -103,7 +103,7 @@
 		<th scope="row"><label for="a11yc_contact"><?php echo A11YC_LANG_CONTACT ?></label></th>
 		<td>
 			<p><?php echo A11YC_LANG_CONTACT_DESC ?></p>
-			<textarea name="contact" id="a11yc_contact" style="width:100%;" rows="7"><?php echo Util::s(@$settings['contact']) ?></textarea>
+			<textarea name="contact" id="a11yc_contact" style="width:100%;" rows="7"><?php echo Util::s(Arr::get($settings, 'contact', '')) ?></textarea>
 		</td>
 	</tr>
 
@@ -115,18 +115,18 @@ $levels = array(
 );
 ?>
 
-<?php if (@$settings['target_level'] && $settings['target_level'] != 3): ?>
+<?php if (Arr::get($settings['target_level'], 0) != 3): ?>
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_CHECKLIST_CONFORMANCE_ADDITIONAL ?></th>
 		<td>
 			<ul class="a11yc_serialized_values">
 			<?php
 				$n = 0;
-				foreach ($yml['criterions'] as $code => $v):
+				foreach (Yaml::each('criterions') as $code => $v):
 					if ($levels[$v['level']['name']] <= $settings['target_level']) continue;
 					echo ($n % 2 === 0) ? '<li class="odd">' : '<li class="even">';
-					$checked = in_array($code, Model\Setting::fetch('additional_criterions')) ? ' checked="checked"' : '';
-					echo '<label for="additional_criterions_'.$code.'"><input'.$checked.' type="checkbox" name="additional_criterions['.$code.']" id="additional_criterions_'.$code.'" value="1" /> '.$v['code'].' '.$v['name'].' ('.$v['level']['name'].')</label></li>'."\n";
+					$checked = in_array($code, Arr::get($settings, 'additional_criterions', array())) ? ' checked="checked"' : '';
+					echo '<label for="additional_criterions_'.$code.'"><input'.$checked.' type="checkbox" name="additional_criterions[]" id="additional_criterions_'.$code.'" value="'.$code.'" /> '.$v['code'].' '.$v['name'].' ('.$v['level']['name'].')</label></li>'."\n";
 					$n++;
 				endforeach;
 			?>
@@ -142,11 +142,11 @@ $levels = array(
 			<ul class="a11yc_serialized_values">
 			<?php
 				$n = 0;
-				foreach ($yml['criterions'] as $code => $v):
+				foreach (Yaml::each('criterions') as $code => $v):
 					if ($levels[$v['level']['name']] > $settings['target_level']) continue;
 					echo ($n % 2 === 0) ? '<li class="odd">' : '<li class="even">';
-					$checked = in_array($code, Model\Setting::fetch('non_exist_and_passed_criterions')) ? ' checked="checked"' : '';
-					echo '<label for="non_exist_and_passed_criterions_'.$code.'"><input'.$checked.' type="checkbox" name="non_exist_and_passed_criterions['.$code.']" id="non_exist_and_passed_criterions_'.$code.'" value="1" /> '.$v['code'].' '.$v['name'].' ('.$v['level']['name'].')</label></li>'."\n";
+					$checked = in_array($code, Arr::get($settings, 'non_exist_and_passed_criterions', array())) ? ' checked="checked"' : '';
+					echo '<label for="non_exist_and_passed_criterions_'.$code.'"><input'.$checked.' type="checkbox" name="non_exist_and_passed_criterions[]" id="non_exist_and_passed_criterions_'.$code.'" value="'.$code.'" /> '.$v['code'].' '.$v['name'].' ('.$v['level']['name'].')</label></li>'."\n";
 					$n++;
 				endforeach;
 			?>

@@ -13,7 +13,7 @@ namespace A11yc\Model;
 class Version
 {
 	protected static $versions = null;
-	protected static $keys = array(
+	protected static $targets = array(
 		'page',
 		'check',
 		'setting',
@@ -37,8 +37,8 @@ class Version
 	public static function fetchAll($force = false)
 	{
 		if ( ! is_null(static::$versions) && ! $force) return static::$versions;
-		$vals = Data::fetch('version', 'common', array(), $force, 0);
-		static::$versions = is_array($vals) ? $vals : array();
+		$vals = Data::fetchArr('version', 'common', array(), $force, 0);
+		static::$versions = Data::deepFilter($vals, static::$fields);
 		return static::$versions;
 	}
 
@@ -67,13 +67,13 @@ class Version
 		if ( ! empty(static::fetch($version)))
 		{
 			self::delete($version);
-			Session::add('messages', 'messages', A11YC_LANG_RESULT_DELETE_SAMEDATE);
+			Session::add('messages', 'errors', A11YC_LANG_RESULT_DELETE_SAMEDATE);
 		}
 
 		// insert
 		foreach (Data::fetchRaw() as $vals)
 		{
-			if ( ! in_array($vals['key'], static::$keys)) continue;
+			if ( ! in_array($vals['key'], static::$targets)) continue;
 			Data::insert($vals['key'], $vals['url'], json_decode($vals['value'], true), $version);
 		}
 
@@ -87,53 +87,6 @@ class Version
 		self::updateVersions($vals);
 
 		return true;
-	}
-
-	/**
-	 * update
-	 *
-	 * @return Void
-	 */
-	public static function update()
-	{
-		$names   = Input::postArr('name');
-		$trashes = Input::postArr('trash');
-		$deletes = Input::postArr('delete');
-
-		// update
-		$vals = array();
-		foreach ($names as $version => $name)
-		{
-			$vals[$version] = array(
-				'name'    => $name,
-				'trash'   => isset($trashes[$version]) ? 0 : 1,
-			);
-		}
-		$r = Data::update('version', 'common', $vals);
-
-		// delete
-		foreach ($deletes as $version)
-		{
-			self::delete($version);
-			Session::add(
-				'messages',
-				'messages',
-				sprintf(A11YC_LANG_CTRL_DELETE_DONE, $names[$version])
-			);
-		}
-
-		return $r;
-	}
-
-	/**
-	 * update versions
-	 *
-	 * @param Array $versions
-	 * @return Void
-	 */
-	private static function updateVersions($versions)
-	{
-		return Data::update('version', 'common', $versions);
 	}
 
 	/**
@@ -151,5 +104,20 @@ class Version
 		$vals = static::fetchAll(true);
 		unset($vals[$version]);
 		self::updateVersions($vals);
+	}
+
+	/**
+	 * update versions
+	 *
+	 * @param Array $versions
+	 * @return Bool
+	 */
+	private static function updateVersions($versions)
+	{
+		if (static::fetchAll(true))
+		{
+			return Data::update('version', 'common', $versions);
+		}
+		return Data::insert('version', 'common', $versions);
 	}
 }

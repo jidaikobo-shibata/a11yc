@@ -71,51 +71,173 @@ class Db extends \Kontiki\Db
 	}
 
 	/**
-	 * build version sql
+	 * jsonCheck
 	 *
-	 * @param bool $is_and
-	 * @return string
+	 * @param Srting|Array $vals
+	 * @return Array
 	 */
-	public static function versionSql($is_and = true)
+	private static function jsonCheck($vals)
 	{
-		$sql = ' `version` = '.self::getVersion();
-		return $is_and ? ' AND'.$sql : ' WHERE'.$sql ;
+		$is_array = false;
+		if (is_array($vals))
+		{
+			$vals = json_encode($vals);
+			$is_array = true;
+		}
+		return array($is_array, $vals);
 	}
 
 	/**
-	 * build version sql
+	 * insert
 	 *
-	 * @param bool $is_and
-	 * @return string
+	 * @param String $key
+	 * @param String $url
+	 * @param Mixed $value
+	 * @param Integer $version
+	 * @param Integer $group_id
+	 * @return Integer|Bool
 	 */
-	public static function currentVersionSql($is_and = true)
+	public static function insert($key, $url, $value, $version = 0, $group_id = null)
 	{
-		$sql = ' `version` = 0';
-		return $is_and ? ' AND'.$sql : ' WHERE'.$sql ;
+		if (empty($url) && empty($key)) return false;
+
+		$group_id = is_null($group_id) ? static::groupId() : $group_id;
+		$group_id = $url == 'global' ? 1 : $group_id;
+		$url = Util::urldec($url);
+		list($is_array, $value) = self::jsonCheck($value);
+
+		$sql = 'INSERT INTO '.A11YC_TABLE_DATA.' (';
+		$sql.= '`group_id`,';
+		$sql.= '`key`,';
+		$sql.= '`url`,';
+		$sql.= '`value`,';
+		$sql.= '`is_array`,';
+		$sql.= '`version`';
+		$sql.= ')';
+		$sql.= ' VALUES (?, ?, ?, ?, ?, ?);';
+
+		$r = Db::execute($sql, array($group_id, $key, $url, $value, $is_array, $version));
+
+		if ( ! $r) return false;
+
+		$sql = 'SELECT `id` FROM '.A11YC_TABLE_DATA;
+		$sql.= ' ORDER BY `id` desc LIMIT 1;';
+		$data = Db::fetch($sql);
+
+		return isset($data['id']) ? intval($data['id']) : false;
 	}
 
 	/**
-	 * get version
-	 * depend on user request value
+	 * update
 	 *
-	 * @return string
+	 * @param String $key
+	 * @param String $url
+	 * @param Mixed $value
+	 * @param Integer $version
+	 * @param Integer $group_id
+	 * @return Bool
 	 */
-	public static function getVersion()
+	public static function update($key, $url, $value, $version = 0, $group_id = null)
 	{
-		if ( ! is_null(static::$version)) return static::$version;
+		// basic value
+		$group_id = is_null($group_id) ? static::groupId() : $group_id;
+		$group_id = $url == 'global' ? 1 : $group_id;
+		$url = Util::urldec($url);
 
-		// check get request - zero is current
-		$version = intval(Input::get('a11yc_version', '0'));
-		if (static::$version == 0) return static::$version = $version;
+		// existence criterion value
+		$sql = 'SELECT `url`, `key` FROM '.A11YC_TABLE_DATA;
+		$sql.= ' WHERE `version` = ? AND `group_id` = ?;';
+		$vals = array();
+		foreach (Db::fetchAll($sql, array($version, $group_id)) as $v)
+		{
+			$vals[$v['url']][$v['key']] = true;
+		}
 
-		// check db
-		// $sql = 'SELECT `version` FROM '.A11YC_TABLE_SETUP.' GROUP BY `version`;';
-		// $versions = Db::fetchAll($sql);
-		// if (in_array($version, $versions['version']))
-		// {
-		// 	static::$version = $version;
-		// }
+		// insert or update
+		if( ! isset($vals[$url][$key]) && ! in_array($url, array('common', 'global')))
+		{
+			$r = static::insert($key, $url, $value, $version, $group_id);
+		}
+		else
+		{
+			list($is_array, $value) = self::jsonCheck($value);
+			$sql = 'UPDATE '.A11YC_TABLE_DATA.' SET `value` = ?, `is_array` = ?';
+			$sql.= ' WHERE `group_id` = ? AND `key` = ? AND `url` = ? AND `version` = ?;';
+			$r = Db::execute($sql, array($value, $is_array, $group_id, $key, $url, $version));
+		}
 
-		return static::$version;
+		return $r;
+	}
+
+	/**
+	 * update by id
+	 *
+	 * @param Integer $id
+	 * @param Mixed $value
+	 * @param Integer $version
+	 * @param Integer $group_id
+	 * @return Bool
+	 */
+	public static function updateById($id, $value, $version = 0, $group_id = null)
+	{
+		$group_id = is_null($group_id) ? static::groupId() : $group_id;
+		list($is_array, $value) = self::jsonCheck($value);
+
+		$sql = 'UPDATE '.A11YC_TABLE_DATA.' SET `value` = ?, `is_array` = ?';
+		$sql.= ' WHERE `group_id` = ? AND `id` = ? AND `version` = ?;';
+		return Db::execute($sql, array($value, $is_array, $group_id, $id, $version));
+	}
+
+	/**
+	 * update url
+	 *
+	 * @param String $oldurl
+	 * @param String $newurl
+	 * @param Integer $version
+	 * @param Integer $group_id
+	 * @return Bool
+	 */
+	public static function updateUrl($oldurl, $newurl, $version = 0, $group_id = null)
+	{
+		$group_id = is_null($group_id) ? static::groupId() : $group_id;
+		$oldurl = trim($oldurl);
+		$newurl = trim($newurl);
+
+		$sql = 'UPDATE '.A11YC_TABLE_DATA.' SET `url` =';
+		$sql.= ' REPLACE (`url`, ?, ?)';
+		$sql.= ' WHERE `group_id` = ? AND `url` LIKE ? AND `version` = ?;';
+		return Db::execute($sql, array($oldurl, $newurl, $group_id, $oldurl.'%', $version));
+	}
+
+	/**
+	 * delete
+	 *
+	 * @param String $key
+	 * @param String $url
+	 * @param Integer $version
+	 * @param Integer $group_id
+	 * @return Bool
+	 */
+	public static function delete($key, $url, $version = 0, $group_id = null)
+	{
+		$group_id = is_null($group_id) ? static::groupId() : $group_id;
+		$url = Util::urldec($url);
+
+		$sql = 'DELETE FROM '.A11YC_TABLE_DATA.' WHERE ';
+		$sql.= '`group_id` = ? AND `key` = ? AND `url` = ? AND `version` = ?;';
+
+		return Db::execute($sql, array($group_id, $key, $url, $version));
+	}
+
+	/**
+	 * delete by id
+	 *
+	 * @param Integer $id
+	 * @return Bool
+	 */
+	public static function deleteById($id)
+	{
+		$sql = 'DELETE FROM '.A11YC_TABLE_DATA.' WHERE `id` = ?;';
+		return Db::execute($sql, array($id));
 	}
 }
