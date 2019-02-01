@@ -113,7 +113,7 @@ body > :last-child
 	margin: 1em 0;
 	max-height: 70vh;
 }
-.each_issue  > .heading
+.each_issue  h2.heading
 {
 	margin-top: 0;
 	font-size: 1.2rem;
@@ -129,7 +129,7 @@ body > :last-child
 	font-size: 1rem;
 	margin-bottom: 0;
 }
-.issue > .heading + p
+.issue h3.heading + p
 {
 	margin-top: 0;
 }
@@ -170,7 +170,7 @@ body > :last-child
 	.cover_page,
 	.each_issue
 	{
-		padding: 25mm 0 10mm;
+		padding: 18mm 0 10mm;
 		margin-bottom: -15mm;
 		min-height: auto;
 /*		min-height: calc( 50vh - 35mm );*/

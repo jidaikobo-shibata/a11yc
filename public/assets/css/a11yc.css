@@ -39,6 +39,7 @@
 #a11yc_checklist p {
 	line-height: 1.5;
 	margin-bottom: .6em;
+	position: relative;
 }
 
 #a11yc_docs li:last-child,
@@ -1068,16 +1069,60 @@ ul.a11yc_outlink li {
 .a11yc_table_check td:first-child {
 	border-left: 1px #bbb solid;
 }
+.a11yc_implement_checklist_each
+{
+	white-space: normal;
+}
+.a11yc_implement_checklist_each dd
+{
+	margin-left: 0;
+}
+details .a11yc_implement_checklist_each ul.a11yc_each_list
+{
+	padding-left: 0;
+}
+.a11yc_implement_checklist_each .a11yc_each_list li
+{
+	margin-bottom: 0;
+	display: block;
+	padding-left: 5px;
+}
+.a11yc_implement_checklist_each .a11yc_each_list li:before
+{
+/*
+	content: '';
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -25px;
+	right: 0;
+	width: calc( 100% + 25px ) ;
+	height: 0;
+	border-top: 1px solid #bbb;
+*/
+}
+
+
 label.a11yc_checkitem
 {
 	position: relative;
 	padding-left: 1.75em;
 }
+.a11yc_implement_checklist_each label.a11yc_checkitem
+{
+	width: calc( 100% - 4em );
+	clear: left;
+	float: left;
+}
+.a11yc_implement_checklist_each label.a11yc_checkitem
+
+
 .a11yc .non_interference h4 .a11yc_header_criterion_level {
 	color: #e00;
 }
 label.a11yc_checkitem {
 	display: block !important;
+	line-height: 1.2;
 }
 .a11yc_table_check input {
 	margin: 0;
@@ -1097,14 +1142,20 @@ td.a11yc_table_check_howto {
 	top: calc( 50% - .5em - 2px );
 }
 */
-.a11yc_table_check tr:hover th,
-.a11yc_table_check tr:focus-within th,
-.a11yc_table_check tr:hover td,
-.a11yc_table_check tr:focus-within td,
-#a11yc_pages .a11yc_table tr:hover th,
-#a11yc_pages .a11yc_table tr:focus-within th,
-#a11yc_pages .a11yc_table tr:hover td,
-#a11yc_pages .a11yc_table tr:focus-within td {
+.a11yc_table_check:not(.a11yc_nohighlight) tr:hover th,
+.a11yc_table_check:not(.a11yc_nohighlight) tr:focus-within th,
+.a11yc_table_check:not(.a11yc_nohighlight) tr:hover td,
+.a11yc_table_check:not(.a11yc_nohighlight) tr:focus-within td,
+#a11yc_pages .a11yc_table:not(.a11yc_nohighlight) tr:hover th,
+#a11yc_pages .a11yc_table:not(.a11yc_nohighlight) tr:focus-within th,
+#a11yc_pages .a11yc_table:not(.a11yc_nohighlight) tr:hover td,
+#a11yc_pages .a11yc_table:not(.a11yc_nohighlight) tr:focus-within td
+{
+	background-color: #fefedd;
+}
+.a11yc_check_disclosure.a11yc_implement_checklist li:hover,
+.a11yc_check_disclosure.a11yc_implement_checklist li:focus-within
+{
 	background-color: #fefedd;
 }
 .a11yc_result .a11yc_table_check tr:hover th,
