@@ -14,7 +14,7 @@ class Setting
 {
 	protected static $vals = null;
 	public static $fields = array(
-		'target_level'                    => '',
+		'target_level'                    => 0,
 		'selected_method'                 => '',
 		'stop_guzzle'                     => '',
 		'standard'                        => 0,
@@ -39,6 +39,17 @@ class Setting
 	);
 
 	/**
+	 * fetch
+	 *
+	 * @param Bool $force
+	 * @return Array
+	 */
+	public static function fetchRaw($force = false)
+	{
+		return Data::fetchArr('setting', 'common', array(), $force);
+	}
+
+	/**
 	 * fetch setup
 	 *
 	 * @param Bool $force
@@ -47,8 +58,7 @@ class Setting
 	public static function fetchAll($force = false)
 	{
 		if ( ! is_null(static::$vals) && ! $force) return static::$vals;
-		$vals = Data::fetchArr('setting', 'common', array(), $force);
-		static::$vals = Data::filter($vals, static::$fields);
+		static::$vals = Data::filter(static::fetchRaw($force), static::$fields);
 		return static::$vals;
 	}
 
@@ -91,7 +101,11 @@ class Setting
 	public static function updateAll($vals)
 	{
 		$vals = Data::filter($vals, self::fetchAll(true));
-		return Data::update('setting', 'common', $vals);
+		if (static::fetchRaw(true))
+		{
+			return Data::update('setting', 'common', $vals);
+		}
+		return Data::insert('setting', 'common', $vals);
 	}
 
 	/**

@@ -37,7 +37,6 @@ class Maintenance extends \Kontiki\Maintenance
 		$count_arr = array('date' => $today, 'count' => 0);
 		$checktimes = Model\Setting::fetch('checktimes', $count_arr);
 		if ($checktimes['count'] > 5) return false;
-
 		if ($checktimes['date'] == $today)
 		{
 			$checktimes['count']++;

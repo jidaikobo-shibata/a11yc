@@ -220,7 +220,7 @@ $icltree               = Model\icl::fetchTree(true);
 // implement checklist
 $html = '';
 $html.= '<div class="a11yc_implement_checklist">';
-foreach ($icltree[$criterion] as $parent_id => $ids):
+foreach (Arr::get($icltree, $criterion, array()) as $parent_id => $ids):
 	if (isset($icls[$parent_id])):
 		$html.= '<h2 class="a11yc_implement_heading">'.$icls[$parent_id]['title'].'</h2>';
 	endif;
