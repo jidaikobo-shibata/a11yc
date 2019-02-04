@@ -3,78 +3,41 @@ namespace A11yc;
 
 /* variables */
 
-$icls = Model\Icl::fetch4ImplementChecklist();
+$icls = Model\Icl::fetchAll();
+$icltree = Model\Icl::fetchTree();
+// $iclchk = Model\Iclchk::fetch($url);
 $techs = Yaml::each('techs');
+$criterions = Yaml::each('criterions');
 
 /* template */
 
 $html = '';
 
-foreach (Yaml::each('criterions') as $criterion => $criterion_vals):
-	if ( ! isset($cs[$criterion])) continue;
+foreach ($icltree as $criterion => $parents):
+	$html.= '<h3>'.Util::key2code($criterions[$criterion]['code']).' '.$criterions[$criterion]['name'].'</h3>';
 
-	// implement exists?
-	$implements = array();
-	foreach ($icls[$criterion] as $icls_id => $situation):
-		if ( ! isset($implements[$icls_id])) $implements[$icls_id] = array();
-		foreach ($situation['implements'] as $sit):
-			$implements[$icls_id] = array_merge($implements[$icls_id], $sit['techs']);
+	$html.= '<table class="a11yc_table">';
+	foreach ($parents as $pid => $ids):
+		$html.= '<thead>';
+		$html.= $pid != 'none' ? '<tr><th colspan="4">'.$icls[$pid]['title']."</th></tr>\n" : "\n";
+		$html.= '<tr>';
+		$html.= '<th>'.A11YC_LANG_ICL_IMPLEMENT.'</th>';
+		$html.= '<th style="width:10%;">'.A11YC_LANG_EXIST.'</th>';
+		$html.= '<th style="width:10%;">'.A11YC_LANG_PASS.'</th>';
+		$html.= '<th style="width:15%;">'.A11YC_LANG_ICL_TECHS.'</th>';
+		$html.= '</tr>';
+		$html.= '</thead>';
+
+		foreach ($ids as $id):
+			$html.= '<tr><th>'.$icls[$id]['title_short']."</th>\n";
+			$html.= '<td></td>';
+			$html.= '<td></td>';
+			$html.= '<td></td>';
+			$html.= '<tr>';
 		endforeach;
+
 	endforeach;
-	if (empty($implements)) continue;
-
-	// check exists?
-	$is_checked = true;
-	foreach ($implements as $each_techs):
-		if (array_diff($cs[$criterion], $each_techs)):
-			$is_checked = false;
-			break;
-		endif;
-	endforeach;
-
-	$non_implement_check = false;
-	foreach ($cs[$criterion] as $each_id):
-		foreach ($icls[$criterion] as $each_icl):
-			foreach ($each_icl['implements'] as $each_implement):
-				if ($each_implement['id'] == $each_id):
-					$is_checked = true;
-					$non_implement_check = $each_id;
-					break;
-				endif;
-			endforeach;
-		endforeach;
-	endforeach;
-
-	if ( ! $is_checked) continue;
-
-	$html.= '<h3>'.Util::key2code($criterion).' '.$criterion_vals['name'].'</h3>';
-
-	// main loop
-	foreach ($icls[$criterion] as $sit):
-		if (isset($sit['title'])):
-			$html.= '<h4>'.$sit['title'].'</h4>';
-		endif;
-
-		foreach ($sit['implements'] as $implement):
-			$ul = '';
-			foreach ($implement['techs'] as $tech):
-				if ( ! isset($techs[$tech])) continue;
-				if ( ! in_array($tech, $cs[$criterion])) continue;
-
-				$ul.= '<li>'.$techs[$tech]['title'].'</li>';
-			endforeach;
-
-			if (empty($ul) && $non_implement_check == $implement['id']):
-				$ul.= '<li>'.A11YC_LANG_CHECKLIST_IMPLEMENT_CHECK.'</li>';
-			endif;
-
-			if (empty($ul)) continue;
-
-			$html.= '<p>'.$implement['title'].'</p>';
-			$html.= '<ul>'.$ul.'</ul>';
-		endforeach;
-	endforeach;
-
+	$html.= '</table>';
 endforeach;
 
 if ( ! empty($html)):

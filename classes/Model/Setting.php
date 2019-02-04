@@ -15,12 +15,12 @@ class Setting
 	protected static $vals = null;
 	public static $fields = array(
 		'target_level'                    => 0,
-		'selected_method'                 => '',
-		'stop_guzzle'                     => '',
+		'selected_method'                 => 0,
+		'stop_guzzle'                     => false,
 		'standard'                        => 0,
 		'show_results'                    => false,
 		'show_url_results'                => false,
-		'cache_time'                      => '',
+		'cache_time'                      => 1440, // a day in min.
 		'client_name'                     => '',
 		'declare_date'                    => '',
 		'test_period'                     => '',

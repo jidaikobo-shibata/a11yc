@@ -97,6 +97,7 @@ define('A11YC_LANG_ATTRS', '属性');
 define('A11YC_LANG_IMPORTANT', '重要');
 define('A11YC_LANG_NEED_CHECK', '要確認');
 define('A11YC_LANG_BASE_URL', 'ドキュメントルートURL');
+define('A11YC_LANG_NAME', '表題');
 
 // ua
 define('A11YC_LANG_UA_USING', '現在のブラウザ');
@@ -364,6 +365,7 @@ define('A11YC_LANG_ICL_NEW', '「実装方法」の新規作成');
 define('A11YC_LANG_SITUATION', '状況');
 define('A11YC_LANG_ICL_IMPLEMENT', '実装方法');
 define('A11YC_LANG_ICL_RELATED', '関連する達成方法');
+define('A11YC_LANG_ICL_TECHS', '採用した達成方法');
 define('A11YC_LANG_ICL_ID', '状況-番号-項目');
 define('A11YC_LANG_ICL_VALIDATE', '検証方法');
 define('A11YC_LANG_ICL_REASON', '「適用あり適合」とした根拠の一覧');

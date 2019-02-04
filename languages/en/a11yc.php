@@ -97,6 +97,7 @@ define('A11YC_LANG_ATTRS', 'Attributes');
 define('A11YC_LANG_IMPORTANT', 'IMPORTANT');
 define('A11YC_LANG_NEED_CHECK', 'Need Check');
 define('A11YC_LANG_BASE_URL', 'Document Root URL');
+define('A11YC_LANG_NAME', 'Name');
 
 // ua
 define('A11YC_LANG_UA_USING', 'Current Browser');
@@ -364,6 +365,7 @@ define('A11YC_LANG_ICL_NEW', 'add new implements');
 define('A11YC_LANG_SITUATION', 'Situation');
 define('A11YC_LANG_ICL_IMPLEMENT', 'Implement');
 define('A11YC_LANG_ICL_RELATED', 'Related Techniques');
+define('A11YC_LANG_ICL_TECHS', 'Used Techniques');
 define('A11YC_LANG_ICL_ID', 'Sit-Num-Item');
 define('A11YC_LANG_ICL_VALIDATE', 'Validation');
 define('A11YC_LANG_ICL_REASON', 'List of grounds that it is "applicable conformity"');

@@ -4,7 +4,7 @@
 <table class="a11yc_table">
 
 <tr>
-	<th><?php echo A11YC_LANG_ICL_IMPLEMENT ?></th>
+	<th><?php echo A11YC_LANG_NAME ?></th>
 	<td><?php echo Arr::get($item, 'title_short', '') ?></td>
 </tr>
 

@@ -282,7 +282,7 @@ class Page
 	 */
 	public static function purge($url)
 	{
-		return Model\Data::delete('page', $url);
+		return Data::delete('page', $url);
 	}
 
 	/**

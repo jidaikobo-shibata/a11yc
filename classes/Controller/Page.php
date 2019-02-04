@@ -101,6 +101,7 @@ class Page
 					Page\Bulk::updateSeq();
 					break;
 			}
+			Util::redirect(A11YC_PAGE_URL.'index');
 		}
 
 		// count

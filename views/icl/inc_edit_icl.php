@@ -3,7 +3,7 @@
 <table class="a11yc_table">
 
 <tr>
-	<th><label for="a11yc_title_short"><?php echo A11YC_LANG_ICL_IMPLEMENT ?></label></th>
+	<th><label for="a11yc_title_short"><?php echo A11YC_LANG_NAME ?></label></th>
 	<td>
 		<textarea id="a11yc_title_short" name="title_short" style="width: 100%;" rows="7"><?php echo Arr::get($item, 'title_short', '') ?></textarea><br />
 	</td>

@@ -102,28 +102,6 @@ class Icl
 	}
 
 	/**
-	 * fetch4Checklist
-	 *
-	 * @param Bool $force
-	 * @return Array
-	 */
-	public static function fetch4Checklist($force = false)
-	{
-		$icls = static::fetchAll('icl', $force);
-		$iclsits = static::fetchAll('iclsit', $force);
-
-		foreach ($icls as $criterion => $icl)
-		{
-			foreach ($icl as $id => $v)
-			{
-				if ( ! $v['situation']) continue;
-				$iclsits[$criterion][$v['situation']]['implements'][] = $id;
-			}
-		}
-		return $iclsits;
-	}
-
-	/**
 	 * fetch4ImplementChecklist
 	 *
 	 * @param Bool $force
