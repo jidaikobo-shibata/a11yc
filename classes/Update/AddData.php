@@ -357,17 +357,9 @@ class AddData
 
 			foreach (Db::fetchAll($sql, array($version)) as $vals)
 			{
-				$bbses = array();
-				$sql = 'SELECT * FROM '.A11YC_TABLE_ISSUESBBS.' WHERE `issue_id` = ?;';
-				foreach (Db::fetchAll($sql, array($vals['id'])) as $bbs)
-				{
-					unset($bbs['id']);
-					unset($bbs['issue_id']);
-					$bbses[] = $bbs;
-				}
+				$vals['bbs'] = self::issueBbs($vals);
 				unset($vals['id']);
 
-				$vals['bbs'] = $bbses;
 				$vals['title'] = Arr::get($vals, 'title', '');
 				$vals['seq'] = 0;
 				$vals['url'] = $vals['is_common'] == 1 || empty($vals['url']) ? 'common' : $vals['url'] ;
@@ -384,6 +376,25 @@ class AddData
 				Model\Data::insert('issue', $url, $vals, $version);
 			}
 		}
+	}
+
+	/**
+	 * issueBbs
+	 *
+	 * @param Array $vals
+	 * @return Array
+	 */
+	private static function issueBbs($vals)
+	{
+		$bbses = array();
+		$sql = 'SELECT * FROM '.A11YC_TABLE_ISSUESBBS.' WHERE `issue_id` = ?;';
+		foreach (Db::fetchAll($sql, array($vals['id'])) as $bbs)
+		{
+			unset($bbs['id']);
+			unset($bbs['issue_id']);
+			$bbses[] = $bbs;
+		}
+		return $bbses;
 	}
 
 	/**
