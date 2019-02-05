@@ -23,7 +23,6 @@ trait ExportResult
 	{
 		$vals = array();
 
-
 		if (Input::get('site') == 1)
 		{
 			$vals['base_url'] = Model\Data::baseUrl();
