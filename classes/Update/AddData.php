@@ -375,26 +375,7 @@ class AddData
 				$vals['techs'] = array();
 				$vals['other_urls'] = '';
 
-				if (isset($vals['tech_url']) && ! empty($vals['tech_url']))
-				{
-					$techs = array();
-					$other_urls = array();
-					foreach (explode("\n", $vals['tech_url']) as $tech)
-					{
-						if (strpos($tech, 'WCAG-TECHS') === false)
-						{
-							$other_urls[] = $tech;
-						}
-						else
-						{
-							$tech = substr($tech, strrpos($tech, '/') + 1);
-							$techs[] = trim(str_replace('.html', '', $tech));
-						}
-					}
-					$vals['techs'] = $techs;
-					$vals['other_urls'] = join("\n", $other_urls);
-				}
-				unset($vals['tech_url']);
+				$vals = self::techVals($vals);
 
 				$url = $vals['url'];
 				if (empty($url)) continue;
@@ -403,6 +384,36 @@ class AddData
 				Model\Data::insert('issue', $url, $vals, $version);
 			}
 		}
+	}
+
+	/**
+	 * techVals
+	 *
+	 * @param Array $vals
+	 * @return Array
+	 */
+	private static function techVals($vals)
+	{
+		if (isset($vals['tech_url']) && ! empty($vals['tech_url']))
+		{
+			$techs = array();
+			$other_urls = array();
+			foreach (explode("\n", $vals['tech_url']) as $tech)
+			{
+				if (strpos($tech, 'WCAG-TECHS') === false)
+				{
+					$other_urls[] = $tech;
+					continue;
+				}
+				$tech = substr($tech, strrpos($tech, '/') + 1);
+				$techs[] = trim(str_replace('.html', '', $tech));
+			}
+			$vals['techs'] = $techs;
+			$vals['other_urls'] = join("\n", $other_urls);
+		}
+		unset($vals['tech_url']);
+
+		return $vals;
 	}
 
 	/**

@@ -24,7 +24,7 @@ class Export
 	 */
 	public static function actionResultexport()
 	{
-		Export\Result::export();
+		static::export();
 	}
 
 	/**
@@ -34,7 +34,7 @@ class Export
 	 */
 	public static function actionResultimport()
 	{
-		Export\Result::import();
+		static::import();
 	}
 
 	/**
@@ -46,6 +46,16 @@ class Export
 	{
 		$url = Util::enuniqueUri(Input::param('url', '', FILTER_VALIDATE_URL));
 		static::csv($url);
+	}
+
+	/**
+	 * action issue
+	 *
+	 * @return Void
+	 */
+	public static function actionIssue()
+	{
+		static::issue();
 	}
 
 	/**
@@ -274,16 +284,6 @@ class Export
 			$n++;
 		}
 		return $csv;
-	}
-
-	/**
-	 * action issue
-	 *
-	 * @return Void
-	 */
-	public static function actionIssue()
-	{
-		static::issue();
 	}
 
 	/**
