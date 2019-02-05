@@ -29,25 +29,37 @@ class Update
 		Model\Data::delete('db_create', 'global');
 
 		// update 1.x.x -> 2.x.x
-		if (Db::isTableExist(A11YC_TABLE_SETUP_OLD) && ! Db::isTableExist(A11YC_TABLE_CACHES))
+		if (
+			Db::isTableExist(A11YC_TABLE_SETUP_OLD) &&
+			! Db::isTableExist(A11YC_TABLE_CACHES)
+		)
 		{
 			Update\One2Two::update();
 		}
 
 		// update add seq to pages
-		if ( ! Db::isFieldsExist(A11YC_TABLE_PAGES, array('seq')))
+		if (
+			Db::isTableExist(A11YC_TABLE_PAGES) &&
+			! Db::isFieldsExist(A11YC_TABLE_PAGES, array('seq'))
+		)
 		{
 			Update\AddSeq2Page::update();
 		}
 
 		// update add trash to issues
-		if ( ! Db::isFieldsExist(A11YC_TABLE_ISSUES, array('trash')))
+		if (
+			Db::isTableExist(A11YC_TABLE_ISSUES) &&
+			! Db::isFieldsExist(A11YC_TABLE_ISSUES, array('trash'))
+		)
 		{
 			Update\AddTrash2Issue::update();
 		}
 
 		// update settings table
-		if (Db::isFieldsExist(A11YC_TABLE_SETTINGS, array('target_level')))
+		if (
+			Db::isTableExist(A11YC_TABLE_SETTINGS) &&
+			Db::isFieldsExist(A11YC_TABLE_SETTINGS, array('target_level'))
+		)
 		{
 			Update\UpdateSetting::update();
 		}

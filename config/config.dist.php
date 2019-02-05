@@ -6,7 +6,7 @@
  */
 
 // base url (include script filename)
-define('A11YC_URL', 'http://example.com/a11yc/index.php');
+define('A11YC_URL', 'http://example.com/index.php');
 
 // system language - en, ja
 define('A11YC_LANG', 'ja');
