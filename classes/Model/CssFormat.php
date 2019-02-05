@@ -1,6 +1,6 @@
 <?php
 /**
- * A11yc\Model\Css\Format
+ * A11yc\Model\CssFormat
  *
  * @package    part of A11yc
  * @author     Jidaikobo Inc.
@@ -8,11 +8,11 @@
  * @copyright  Jidaikobo Inc.
  * @link       http://www.jidaikobo.com
  */
-namespace A11yc\Model\Css;
+namespace A11yc\Model;
 
 use A11yc\Model;
 
-class Format
+trait CssFormat
 {
 
 	protected static $vendors = array(

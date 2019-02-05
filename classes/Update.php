@@ -64,6 +64,10 @@ class Update
 			Update\UpdateSetting::update();
 		}
 
-		Update\AddData::update();
+		// update to KVS
+		if (Db::isTableExist(A11YC_TABLE_SETTINGS))
+		{
+			Update\AddData::update();
+		}
 	}
 }

@@ -1,0 +1,71 @@
+<?php
+/**
+ * A11yc\Controller\PageIndex
+ *
+ * @package    part of A11yc
+ * @author     Jidaikobo Inc.
+ * @license    The MIT License (MIT)
+ * @copyright  Jidaikobo Inc.
+ * @link       http://www.jidaikobo.com
+ */
+namespace A11yc\Controller;
+
+use A11yc\Model;
+
+trait PageIndex
+{
+	/**
+	 * Manage Target Pages
+	 *
+	 * @return Void
+	 */
+	public static function index()
+	{
+		// fetch pages
+		$list  = Input::get('list', 'all');
+		$words = Util::searchWords2Arr(Input::get('s', ''));
+		$args = array(
+			'list'    => $list,
+			'words'   => $words,
+			'order'   => Input::get('order', 'created_at_desc'),
+		);
+
+		if (Input::isPostExists())
+		{
+			switch (Input::post('operation'))
+			{
+				case 'delete':
+					Page\Bulk::delete();
+					break;
+				case 'undelete':
+					Page\Bulk::undelete();
+					break;
+				case 'purge':
+					Page\Bulk::purge();
+					break;
+				case 'result':
+					Page\Bulk::result();
+					break;
+				case 'export':
+					Export::csv(array_keys(Input::postArr('bulk')));
+					break;
+				default: // update order
+					Page\Bulk::updateSeq();
+					break;
+			}
+			Util::redirect(A11YC_PAGE_URL.'index');
+		}
+
+		// count
+		View::assign('list', $list);
+		self::count();
+
+		// assign
+		View::assign('title',       A11YC_LANG_PAGE_TITLE.' '.constant('A11YC_LANG_CTRL_'.strtoupper($list)));
+		View::assign('settings',    Model\Setting::fetchAll());
+		View::assign('pages',       Model\Page::fetchAll($args));
+		View::assign('word',        join(' ', $words));
+		View::assign('search_form', View::fetchTpl('page/inc_search.php'), FALSE);
+		View::assign('body',        View::fetchTpl('page/index.php'), FALSE);
+	}
+}

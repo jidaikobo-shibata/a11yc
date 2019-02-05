@@ -1,6 +1,6 @@
 <?php
 /**
- * A11yc\Controller\Page\Add
+ * A11yc\Controller\PageAdd
  *
  * @package    part of A11yc
  * @author     Jidaikobo Inc.
@@ -8,12 +8,12 @@
  * @copyright  Jidaikobo Inc.
  * @link       http://www.jidaikobo.com
  */
-namespace A11yc\Controller\Page;
+namespace A11yc\Controller;
 
 use A11yc\Model;
 use A11yc\Controller\Page;
 
-class Add
+trait PageAdd
 {
 	/**
 	 * add target pages

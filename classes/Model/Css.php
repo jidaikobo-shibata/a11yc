@@ -14,6 +14,8 @@ use A11yc\Element;
 
 class Css
 {
+	use CssFormat;
+
 	protected static $csses = array();
 	public static $is_suspicious_paren_num = false;
 	public static $suspicious_prop_and_vals = array();
