@@ -22,7 +22,7 @@ define('A11YC_DATA_FILE', '/db.sqlite');
 // pathes
 defined('A11YC_CONFIG_PATH') or define('A11YC_CONFIG_PATH', dirname(__FILE__));
 define('A11YC_LIB_PATH',    dirname(__DIR__).'/libs');
-define('A11YC_PATH',        A11YC_LIB_PATH.'/a11yc');
+define('A11YC_PATH',        dirname(__DIR__));
 
 // users
 // array must be started with 1 (not 0)

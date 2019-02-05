@@ -113,10 +113,10 @@ ln -s a11yc/public/index.php
 ln -s a11yc/public/post.php
 ```
 
-ドキュメントルートに.htaccess.distを.htaccessとして設置してください。
+ドキュメントルートに.htaccessを設置してください。
 
 ```
-mv a11yc/public/.htaccess.dist .htaccess
+cp a11yc/public/.htaccess .htaccess
 ```
 
 最終的に、
