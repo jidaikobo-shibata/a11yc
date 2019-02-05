@@ -91,7 +91,7 @@ if (isset($page) && $page['selection_reason'] != '0'): ?>
 	<?php endif; ?>
 
 	<!-- number of checked -->
-	<?php if ( ! $is_assign && isset($done) && $is_total && Arr::get($settings, 'show_url_results')): ?>
+	<?php if ( ! $is_assign && isset($done) && $is_total && Arr::get($settings, 'hide_url_results')): ?>
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_CHECKED_PAGES_URLS ?></th>
 		<td><?php
@@ -181,8 +181,8 @@ if (isset($page) && $page['selection_reason'] != '0'): ?>
 
 <!-- site results -->
 <?php
-include('criterions_checklist.php');
-include('implements_checklist.php');
+include('inc_criterions_checklist.php');
+include('inc_implements_checklist.php');
 
 // related page
 if ( ! $is_center) include (__DIR__.'/inc_related.php');

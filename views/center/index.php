@@ -1,22 +1,20 @@
-<?php namespace A11yc; ?>
-
 <?php
+namespace A11yc;
+
 if (Auth::auth()):
 	echo A11YC_NON_DOWNLOAD_START;
 	echo '<ul>';
-	echo '<li><a href="'.A11YC_EXPORT_URL.'resultexport">'.A11YC_LANG_PAGE_LABEL_EXPORT_CHECK_RESULT.'</a><br /></li>';
-	echo '<li><a href="'.A11YC_EXPORT_URL.'resultexport&amp;site=1">'.A11YC_LANG_PAGE_LABEL_EXPORT_ALL.'</a><br /></li>';
-	echo '<li><a href="'.A11YC_EXPORT_URL.'resultimport">'.A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT.'</a></li>';
+	echo '<li><a href="'.A11YC_DATA_URL.'export">'.A11YC_LANG_PAGE_LABEL_EXPORT_CHECK_RESULT.'</a><br /></li>';
+	echo '<li><a href="'.A11YC_DATA_URL.'export&amp;site=1">'.A11YC_LANG_PAGE_LABEL_EXPORT_ALL.'</a><br /></li>';
+	echo '<li><a href="'.A11YC_DATA_URL.'import">'.A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT.'</a></li>';
 	echo '<li><a href="'.$download_link.'">'.A11YC_LANG_PAGE_LABEL_EXPORT_RESULT_HTML.'</a></li>';
 	echo '</ul>';
 	echo A11YC_NON_DOWNLOAD_END;
 endif;
 
-
 echo $result;
 ?>
 
-<?php if ( ! Input::get('url')): ?>
 <!-- Bookmarklet -->
 <h2>Bookmarklet</h2>
 
@@ -40,4 +38,3 @@ javascript:(function(){
 <img src="<?php echo A11YC_ASSETS_URL ?>/img/logo.png" id="a11yc_logo" alt="A11yc Logo">
 <p><?php echo A11YC_LANG_CENTER_ABOUT_CONTENT ?></p>
 </div><!-- /.a11yc_cmt -->
-<?php endif; ?>

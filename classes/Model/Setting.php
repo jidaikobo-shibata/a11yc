@@ -19,7 +19,7 @@ class Setting
 		'stop_guzzle'                     => false,
 		'standard'                        => 0,
 		'show_results'                    => false,
-		'show_url_results'                => false,
+		'hide_url_results'                => false,
 		'cache_time'                      => 1440, // a day in min.
 		'client_name'                     => '',
 		'declare_date'                    => '',

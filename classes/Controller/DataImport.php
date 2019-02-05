@@ -1,6 +1,6 @@
 <?php
 /**
- * A11yc\Controller\ExportResult
+ * A11yc\Controller\DataImport
  *
  * @package    part of A11yc
  * @author     Jidaikobo Inc.
@@ -12,36 +12,8 @@ namespace A11yc\Controller;
 
 use A11yc\Model;
 
-trait ExportResult
+trait DataImport
 {
-	/**
-	 * export
-	 *
-	 * @return Void
-	 */
-	public static function export()
-	{
-		$vals = array();
-
-		if (Input::get('site') == 1)
-		{
-			$vals['base_url'] = Model\Data::baseUrl();
-		}
-		$vals['setting'] = Model\Setting::fetchAll();
-		$vals['page'] = Model\Page::fetchAll();
-		$vals['issue']  = Model\Issue::fetchAll();
-		$vals['iclsit'] = Model\Icl::fetchAll('iclsit');
-		$vals['icl'] = Model\Icl::fetchAll();
-		foreach ($vals['page'] as $page)
-		{
-			$vals['result'][$page['url']] = Model\Result::fetch($page['url']);
-			$vals['check'][$page['url']]  = Model\Checklist::fetch($page['url']);
-			$vals['html'][$page['url']] = Model\Html::fetch($page['url'], '', true, true);
-		}
-
-		File::download('export.txt', json_encode($vals));
-	}
-
 	/**
 	 * import
 	 *
@@ -66,7 +38,7 @@ trait ExportResult
 		}
 
 		View::assign('title', A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT);
-		View::assign('body', View::fetchTpl('export/resultimport.php'), FALSE);
+		View::assign('body', View::fetchTpl('data/import.php'), FALSE);
 	}
 
 	/**

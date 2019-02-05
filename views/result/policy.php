@@ -22,10 +22,10 @@ if ($versions):
 endif;
 
 // policy
-echo $policy;
+echo $settings['policy'];
 
 // implements
-include('criterions_checklist.php');
+include('inc_criterions_checklist.php');
 
 if ($settings['show_results']):
 ?>

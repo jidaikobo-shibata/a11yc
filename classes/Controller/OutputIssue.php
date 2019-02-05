@@ -1,6 +1,6 @@
 <?php
 /**
- * A11yc\Controller\ExportIssue
+ * A11yc\Controller\OutputIssue
  *
  * @package    part of A11yc
  * @author     Jidaikobo Inc.
@@ -12,7 +12,7 @@ namespace A11yc\Controller;
 
 use A11yc\Model;
 
-trait ExportIssue
+trait OutputIssue
 {
 	/**
 	 * issue
@@ -50,7 +50,7 @@ trait ExportIssue
 		View::assign('issues', $vals);
 		View::assign('settings', $settings);
 		View::assign('title', $settings['client_name'].' - '.A11YC_LANG_ISSUE_REPORT_HEAD_SUFFIX);
-		View::assign('body', View::fetchTpl('export/issue.php'), FALSE);
+		View::assign('body', View::fetchTpl('output/issue.php'), FALSE);
 
 		View::display(array(
 				'body.php',

@@ -16,8 +16,18 @@ require (dirname(__DIR__).'/main.php');
 // view
 View::forge(A11YC_PATH.'/views/');
 
-// assign
-Controller\Result::index();
+// base url
+$base_url = Util::removeQueryStrings(
+	Util::uri(),
+	array(
+		'a11yc_report',
+		'a11yc_page',
+		'a11yc_each',
+	)
+);
+
+// use Controller\ResultReport;
+Controller\Result::report($base_url);
 
 ?><!DOCTYPE html>
 <html lang="<?php echo A11YC_LANG ?>">

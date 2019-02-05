@@ -1,13 +1,12 @@
 <?php namespace A11yc; ?>
-<h2><?php echo $title ?></h2>
 <?php
 if ($pages):
 foreach ($pages as $k => $each_pages):
 	if (empty($each_pages)) continue;
 	if ($k == 'pdfs'):
-		echo '<h3>PDF</h3>';
+		echo '<h2>PDF</h2>';
 	else:
-		echo '<h3>'.$selection_reasons[$k].'</h3>';
+		echo '<h2>'.$selection_reasons[$k].'</h2>';
 	endif;
 ?>
 	<table class="a11yc_table a11yc_report">
@@ -15,15 +14,14 @@ foreach ($pages as $k => $each_pages):
 	<tr>
 		<th scope="col"><?php echo A11YC_LANG_CHECKLIST_TARGETPAGE ?></th>
 		<th class="a11yc_result" scope="col"><?php echo A11YC_LANG_CURRENT_LEVEL ?></th>
-		<?php if ( ! Arr::get($settings, 'show_url_results')): ?>
-		<th class="a11yc_result" scope="col"><?php echo A11YC_LANG_CHECKLIST_TITLE ?></th>
+		<?php if ( ! Arr::get($settings, 'hide_url_results')): ?>
+		<th class="a11yc_result" scope="col"><?php echo A11YC_LANG_TEST_RESULT ?></th>
 		<th class="a11yc_result" scope="col"><?php echo A11YC_LANG_TEST_DATE ?></th>
 		<?php endif; ?>
 	</tr>
 	</thead>
 
 	<?php
-	$site_level = Evaluate::checkSiteLevel();
 	foreach ($each_pages as $v):
 		// alternative content
 		$alt_url = '';
@@ -44,18 +42,26 @@ foreach ($pages as $k => $each_pages):
 		<th scope="row" style="word-break: break-all;">
 			<?php
 			echo $page_title;
-			if ( ! Arr::get($settings, 'show_url_results')):
+			if ( ! Arr::get($settings, 'hide_url_results')):
 				echo '<br /><a href="'.$url.'">'.$url.'</a>';
 			endif;
 			?>
 		</th>
-		<td class="a11yc_result"><?php echo Evaluate::resultStr($v['level'], $settings['target_level']).$alt_url ?></td>
-		<?php if ( ! Arr::get($settings, 'show_url_results')): ?>
+
+		<td class="a11yc_result">
+		<?php
+			echo Evaluate::resultStr($v['level'], $settings['target_level']).$alt_url ;
+		?>
+		</td>
+
+		<?php if ( ! Arr::get($settings, 'hide_url_results')): ?>
 		<td class="a11yc_result"><a href="<?php echo $chk ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_CTRL_CHECK ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
 		<td class="a11yc_result" style="white-space: nowrap;"><?php echo Util::s($v['date']) ?></td>
 		<?php endif; ?>
+
 	</tr>
 	<?php endforeach; ?>
+
 	</table>
 <?php
 endforeach;

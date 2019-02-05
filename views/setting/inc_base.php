@@ -194,10 +194,10 @@ $levels = array(
 	</tr>
 
 	<tr>
-		<th><label for="a11yc_show_url_results"><?php echo A11YC_LANG_CTRL_VIEW ?></label></th>
+		<th><label for="a11yc_hide_url_results"><?php echo A11YC_LANG_CTRL_VIEW ?></label></th>
 		<td>
-			<?php $checked = Arr::get($settings, 'show_url_results') == 1 ? ' checked="checked"' : ''; ?>
-			<label><input type="checkbox" name="show_url_results" id="a11yc_show_url_results" value="1"<?php   echo $checked ?>/><?php echo A11YC_LANG_SETTING_RESULT_HIDE_URL ?></label>
+			<?php $checked = Arr::get($settings, 'hide_url_results') == 1 ? ' checked="checked"' : ''; ?>
+			<label><input type="checkbox" name="hide_url_results" id="a11yc_hide_url_results" value="1"<?php   echo $checked ?>/><?php echo A11YC_LANG_SETTING_RESULT_HIDE_URL ?></label>
 		</td>
 	</tr>
 

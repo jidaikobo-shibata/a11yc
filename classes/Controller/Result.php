@@ -14,6 +14,10 @@ use A11yc\Model;
 
 class Result
 {
+	use ResultPage;
+	use ResultReport;
+	use ResultAll;
+
 	/**
 	 * each
 	 *
@@ -23,6 +27,17 @@ class Result
 	{
 		$url = Util::enuniqueUri(Input::param('url', '', FILTER_VALIDATE_URL));
 		static::each($url);
+	}
+
+	/**
+	 * page
+	 *
+	 * @return Void
+	 */
+	public static function actionPage()
+	{
+		// use ResultPage
+		static::page();
 	}
 
 	/**
@@ -166,126 +181,6 @@ class Result
 		View::assign('body', View::fetchTpl('result/index.php'), false);
 
 		return true;
-	}
-
-	/**
-	 * Show report
-	 *
-	 * @param Bool $is_center
-	 * @return Void
-	 */
-	public static function all($is_center = false)
-	{
-		$settings = Model\Setting::fetchAll();
-		$target_level = intval(Arr::get($settings, 'target_level'));
-
-		static::assignLinks();
-		self::assignLevels($target_level);
-
-		View::assign('settings',          $settings);
-		View::assign('target_level',      $target_level);
-		View::assign('selection_reasons', Values::selectionReasons());
-		View::assign('selected_methods',  Values::selectedMethods());
-		View::assign('selected_method',   intval(Arr::get($settings, 'selected_method')));
-		View::assign('done',              Model\Page::count('done'));
-		View::assign('total',             Model\Page::count('all'));
-		View::assign('standards',         Yaml::each('standards'));
-		View::assign('is_center',         $is_center);
-		View::assign('title',             A11YC_LANG_TEST_RESULT);
-
-		// passed and unpassed pages
-		View::assign('unpassed_pages', Model\Result::unpassedPages($target_level));
-		View::assign('passed_pages',   Model\Result::passedPages($target_level));
-
-		// assign result
-		self::assignResults($target_level);
-
-		// set body
-		View::assign('body', View::fetchTpl('result/index.php'), false);
-	}
-
-	/**
-	 * Show pages
-	 *
-	 * @return Void
-	 */
-	public static function pages()
-	{
-		$args = array(
-			'list'   => 'done',
-			'order'  => Input::get('order', 'url_asc'),
-		);
-
-		$pdfs = array();
-		$pages = array();
-		foreach (array_keys(Values::selectionReasons()) as $k)
-		{
-			$args['reason'] = $k;
-			$args['type']   = 'html';
-			$pages[$k] = Model\Page::fetchAll($args);
-
-			$args['type'] = 'pdf';
-			$pdfs = array_merge($pdfs, Model\Page::fetchAll($args));
-		}
-		ksort($pages);
-
-		$pages['pdf'] = $pdfs;
-
-		// assign links
-		static::assignLinks();
-
-		View::assign('settings', Model\Setting::fetchAll());
-		View::assign('selection_reasons', Values::selectionReasons());
-		View::assign('pages', $pages);
-		View::assign('title', A11YC_LANG_CHECKED_PAGES);
-		View::assign('body', View::fetchTpl('result/pages.php'), false);
-		return;
-	}
-
-	/**
-	 * Show Results index
-	 *
-	 * @return Void
-	 */
-	public static function index()
-	{
-		// settings
-		$settings = Model\Setting::fetchAll();
-		View::assign('settings', $settings);
-		View::assign('is_center', FALSE);
-
-		// assign links
-		static::assignLinks();
-
-		// page list
-		if (Input::get('a11yc_pages') && $settings['show_results'])
-		{
-			static::pages();
-			return;
-		}
-		// each report
-		else if ($settings['show_results'] && Input::get('url'))
-		{
-			static::each(Input::get('url', ''));
-			return;
-		}
-		// report
-		else if ($settings['show_results'] && Input::get('a11yc_report'))
-		{
-			static::all();
-			return;
-		}
-
-		// assign results
-		View::assign('is_policy', true);
-//		self::assignResults($settings['target_level']);
-
-		// policy
-		View::assign('versions', Model\Version::fetchAll());
-		View::assign('policy', $settings['policy'], false);
-		View::assign('title', A11YC_LANG_POLICY);
-		View::assign('body', View::fetchTpl('result/policy.php'), false);
-		return;
 	}
 
 	/**
