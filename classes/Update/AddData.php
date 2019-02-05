@@ -21,6 +21,8 @@ class AddData
 	 */
 	public static function update()
 	{
+		if ( ! Db::isTableExist(A11YC_TABLE_SETTINGS)) return;
+
 		self::serialize2json();
 		self::updateSettings();
 		self::updateVersion();

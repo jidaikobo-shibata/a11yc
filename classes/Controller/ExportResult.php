@@ -1,6 +1,6 @@
 <?php
 /**
- * A11yc\Controller\Export\Result
+ * A11yc\Controller\ExportResult
  *
  * @package    part of A11yc
  * @author     Jidaikobo Inc.
@@ -8,11 +8,11 @@
  * @copyright  Jidaikobo Inc.
  * @link       http://www.jidaikobo.com
  */
-namespace A11yc\Controller\Export;
+namespace A11yc\Controller;
 
 use A11yc\Model;
 
-class Result
+trait ExportResult
 {
 	/**
 	 * export

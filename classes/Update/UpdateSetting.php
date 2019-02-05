@@ -1,6 +1,6 @@
 <?php
 /**
- * A11yc\Update\UpdateSettings
+ * A11yc\Update\UpdateSetting
  *
  * @package    part of A11yc
  * @author     Jidaikobo Inc.
@@ -10,7 +10,7 @@
  */
 namespace A11yc\Update;
 
-class UpdateSettings
+class UpdateSetting
 {
 	/**
 	 * update
@@ -19,6 +19,9 @@ class UpdateSettings
 	 */
 	public static function update()
 	{
+		if ( ! Db::isTableExist(A11YC_TABLE_SETTINGS)) return;
+		if ( ! Db::isFieldsExist(A11YC_TABLE_SETTINGS, array('target_level'))) return;
+
 		$sql = 'SELECT * FROM '.A11YC_TABLE_SETTINGS;
 		$data = Db::fetchAll($sql);
 

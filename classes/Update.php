@@ -29,45 +29,18 @@ class Update
 		Model\Data::delete('db_create', 'global');
 
 		// update 1.x.x -> 2.x.x
-		if (
-			Db::isTableExist(A11YC_TABLE_SETUP_OLD) &&
-			! Db::isTableExist(A11YC_TABLE_CACHES)
-		)
-		{
-			Update\One2Two::update();
-		}
+		Update\One2Two::update();
 
 		// update add seq to pages
-		if (
-			Db::isTableExist(A11YC_TABLE_PAGES) &&
-			! Db::isFieldsExist(A11YC_TABLE_PAGES, array('seq'))
-		)
-		{
-			Update\AddSeq2Page::update();
-		}
+		Update\AddSeq2Page::update();
 
 		// update add trash to issues
-		if (
-			Db::isTableExist(A11YC_TABLE_ISSUES) &&
-			! Db::isFieldsExist(A11YC_TABLE_ISSUES, array('trash'))
-		)
-		{
-			Update\AddTrash2Issue::update();
-		}
+		Update\AddTrash2Issue::update();
 
 		// update settings table
-		if (
-			Db::isTableExist(A11YC_TABLE_SETTINGS) &&
-			Db::isFieldsExist(A11YC_TABLE_SETTINGS, array('target_level'))
-		)
-		{
-			Update\UpdateSetting::update();
-		}
+		Update\UpdateSetting::update();
 
 		// update to KVS
-		if (Db::isTableExist(A11YC_TABLE_SETTINGS))
-		{
-			Update\AddData::update();
-		}
+		Update\AddData::update();
 	}
 }

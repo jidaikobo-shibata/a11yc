@@ -21,6 +21,9 @@ class One2Two
 	 */
 	public static function update()
 	{
+		if ( ! Db::isTableExist(A11YC_TABLE_SETUP_OLD)) return;
+		if (Db::isTableExist(A11YC_TABLE_CACHES)) return;
+
 		// rename tables
 		$sql = 'ALTER TABLE %s RENAME TO %s';
 

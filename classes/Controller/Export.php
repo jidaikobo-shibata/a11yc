@@ -15,6 +15,8 @@ use A11yc\Validate;
 
 class Export
 {
+	use ExportResult;
+
 	/**
 	 * action resultexport
 	 *

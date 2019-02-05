@@ -1,6 +1,6 @@
 <?php
 /**
- * A11yc\Controller\Post\Auth
+ * A11yc\Controller\PostAuth
  *
  * @package    part of A11yc
  * @author     Jidaikobo Inc.
@@ -8,11 +8,9 @@
  * @copyright  Jidaikobo Inc.
  * @link       http://www.jidaikobo.com
  */
-namespace A11yc\Controller\Post;
+namespace A11yc\Controller;
 
-use A11yc\Model;
-
-class Auth
+trait PostAuth
 {
 	/**
 	 * auth

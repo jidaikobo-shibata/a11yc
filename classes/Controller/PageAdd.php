@@ -55,7 +55,6 @@ trait PageAdd
 		View::assign('body',  View::fetchTpl('page/add.php'), FALSE);
 	}
 
-
 	/**
 	 * add target pages
 	 *
