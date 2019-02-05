@@ -156,11 +156,11 @@ class AddData
 
 			// update urls
 			$url = Arr::get($vals, 'base_url', 'https://example.com');
-			Model\Data::update('sites', 'global', array(1 => $url));
+			Model\Data::insert('sites', 'global', array(1 => $url));
 			unset($vals['base_url']);
 
 			// update settings
-			Model\Data::update('setting', 'common', $vals, $version);
+			Model\Data::insert('setting', 'common', $vals, $version);
 		}
 	}
 
@@ -209,7 +209,7 @@ class AddData
 		}
 		if (empty($vals)) return;
 
-		Model\Data::update('versions', 'common', $vals);
+		Model\Data::insert('versions', 'common', $vals);
 	}
 
 	/**
