@@ -153,6 +153,22 @@ trait DataUpdate
 	}
 
 	/**
+	 * delete by key
+	 *
+	 * @param String $key
+	 * @param Integer $version
+	 * @param Integer $group_id
+	 * @return Bool
+	 */
+	public static function deleteByKey($key, $version = 0, $group_id = null)
+	{
+		$group_id = is_null($group_id) ? static::groupId() : $group_id;
+		$sql = 'DELETE FROM '.A11YC_TABLE_DATA.' WHERE ';
+		$sql.= '`group_id` = ? AND `key` = ? AND `version` = ?;';
+		return Db::execute($sql, array($group_id, $key, $version));
+	}
+
+	/**
 	 * delete by id
 	 *
 	 * @param Integer $id

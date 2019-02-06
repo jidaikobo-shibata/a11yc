@@ -158,9 +158,9 @@ define('A11YC_LANG_EXPORT_TITLE', 'エクスポート＆インポート');
 define('A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT', '試験結果をインポートしてマージ');
 define('A11YC_LANG_PAGE_LABEL_EXPORT_CHECK_RESULT_EXP', '「チェック結果」と「問題点」をエクスポートします。以下textareaに出力されている文字列をすべてコピーして、目的の環境で「'.A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT.'」で表示されるtextareaに貼り付けてください');
 define('A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT_EXP', '「チェック結果」と「問題点」をインポートします。「'.A11YC_LANG_PAGE_LABEL_EXPORT_CHECK_RESULT.'」で取得した結果をアップロードしてください');
+define('A11YC_LANG_PAGE_LABEL_IMPORT_ICL_EXP', '「実装チェックリスト」を上書きインポートします。もとの実装チェックリストはすべて新しいものに変わるので、ご注意ください。');
 define('A11YC_LANG_PAGE_LABEL_IMPORT_CHOOSE_FILE', 'ファイル選択');
 define('A11YC_LANG_PAGE_LABEL_EXPORT_RESULT_HTML', '試験結果HTMLをダウンロード');
-define('A11YC_LANG_PAGE_LABEL_EXPORT_RESULT_HTML_EXP', 'すべての試験結果HTMLを連結した状態で出力します。csplit a11yc_results.txt /====A11YC_RESULT_CSPLIT====/ {*} で分割してください');
 
 // setting
 define('A11YC_LANG_SETTING_TITLE', '設定');
@@ -359,6 +359,8 @@ define('A11YC_LANG_ISSUE_OTHER_URLS', 'その他の参考URL');
 // icl
 define('A11YC_LANG_ICL_TITLE', '実装チェックリスト');
 define('A11YC_LANG_ICL_TITLE_VIEW', '実装チェックリストを表示');
+define('A11YC_LANG_ICL_TITLE_EXPORT', '実装チェックリストをエクスポート');
+define('A11YC_LANG_ICL_TITLE_IMPORT', '実装チェックリストをインポート');
 define('A11YC_LANG_ICL_IMPORT_WAIC', 'WAICの実装チェックリストを取り込む');
 define('A11YC_LANG_ICL_NEW_SITUATION', '「状況」の新規作成');
 define('A11YC_LANG_ICL_NEW', '「実装方法」の新規作成');

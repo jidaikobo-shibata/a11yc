@@ -103,7 +103,7 @@
 					<?php else: ?>
 						<a href="<?php echo $url ?>"<?php echo A11YC_TARGET ?>><?php echo $v['title'] ?></a>
 					<?php endif; ?>
-					<?php if ( ! $is_assign): ?>
+					<?php if ( ! $is_assign && ! $is_download): ?>
 						(<a href="<?php echo $chk_link ?>&amp;url=<?php echo Util::urlenc($url) ?>"><?php echo A11YC_LANG_TEST_RESULT ?></a>)
 					<?php
 

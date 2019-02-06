@@ -96,6 +96,7 @@ class Icl
 
 		$icls = include(A11YC_PATH.'/resources/icls_default_waic.php');
 
+		$icl_ids = array();
 		foreach ($icls as $criterion => $icl)
 		{
 			$iclssit_id = 0;
@@ -117,11 +118,12 @@ class Icl
 				$values = array_merge($row, $values);
 				$values['situation'] = $iclssit_id;
 				$values['title_short'] = Arr::get($values, 'title_short', $values['title']);
-				Model\Icl::insert($values, false);
+				$icl_ids[] = Model\Icl::insert($values, false);
 			}
 		}
 
-		//		Model\Setting::update('is_waic_imported', true);
+		Model\Setting::update('icl', $icl_ids);
+		Model\Setting::update('is_waic_imported', true);
 		Util::redirect(A11YC_ICL_URL.'index');
 	}
 

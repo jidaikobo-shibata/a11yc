@@ -158,9 +158,9 @@ define('A11YC_LANG_EXPORT_TITLE', 'Export &ampl Import');
 define('A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT', 'Import test results and merge');
 define('A11YC_LANG_PAGE_LABEL_EXPORT_CHECK_RESULT_EXP', 'Export "checklist" and "issue". Copy all the character string outputted to textarea below and paste it on the textarea displayed in "'.A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT.'" in the target environment');
 define('A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT_EXP', 'Import "checklist" and "issue". Please upload the result obtained by "'.A11YC_LANG_PAGE_LABEL_EXPORT_CHECK_RESULT);
+define('A11YC_LANG_PAGE_LABEL_IMPORT_ICL_EXP', 'Overwrite "Implemente checklist" and import it. Please note that all original implemente checklists will be changed to new ones.');
 define('A11YC_LANG_PAGE_LABEL_IMPORT_CHOOSE_FILE', 'Choose File');
 define('A11YC_LANG_PAGE_LABEL_EXPORT_RESULT_HTML', 'Download result HTML');
-define('A11YC_LANG_PAGE_LABEL_EXPORT_RESULT_HTML_EXP', 'All test results HTML will be outputted with concatenation. use csplit a11yc_results.txt /====A11YC_RESULT_CSPLIT====/ {*}');
 
 // setup
 define('A11YC_LANG_SETTING_TITLE', 'settings');
@@ -359,6 +359,8 @@ define('A11YC_LANG_ISSUE_OTHER_URLS', 'Other URL');
 // icl
 define('A11YC_LANG_ICL_TITLE', 'Implement Checklist');
 define('A11YC_LANG_ICL_TITLE_VIEW', 'Show Implement Checklist');
+define('A11YC_LANG_ICL_TITLE_EXPORT', 'Export Implement Checklist');
+define('A11YC_LANG_ICL_TITLE_IMPORT', 'Import Implement Checklist');
 define('A11YC_LANG_ICL_IMPORT_WAIC', 'Import WAIC\'s implement check list (ja only)');
 define('A11YC_LANG_ICL_NEW_SITUATION', 'add new situation');
 define('A11YC_LANG_ICL_NEW', 'add new implements');

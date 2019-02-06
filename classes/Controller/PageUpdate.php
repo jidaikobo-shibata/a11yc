@@ -29,42 +29,13 @@ trait PageUpdate
 
 		if (Input::isPostExists())
 		{
-			switch (Input::post('operation'))
-			{
-				case 'check' :
-					$redirect_to = A11YC_CHECKLIST_URL.Util::urlenc($url);
-					break;
-
-				case 'delete' :
-					$is_success = Model\Page::delete($url);
-					$message = $is_success ? A11YC_LANG_CTRL_DELETE_DONE : A11YC_LANG_CTRL_DELETE_FAILED;
-					$redirect_to = A11YC_PAGE_URL.'index';
-					break;
-
-				case 'undelete' :
-					$is_success = Model\Page::undelete($url);
-					$message = $is_success ? A11YC_LANG_CTRL_UNDELETE_DONE : A11YC_LANG_CTRL_UNDELETE_FAILED;
-					$redirect_to = A11YC_PAGE_URL.'index';
-					break;
-
-				case 'purge' :
-					$is_success = Model\Page::purge($url);
-					Model\Checklist::delete($url);
-					$message = $is_success ? A11YC_LANG_CTRL_PURGE_DONE : A11YC_LANG_CTRL_PURGE_FAILED;
-					$redirect_to = A11YC_PAGE_URL.'index';
-					break;
-
-				default :
-					Model\Page::updatePartial($url, 'title', Input::post('title'));
-					Model\Page::updatePartial($url, 'seq', intval(Input::post('seq')));
-					$ua = 'using';
-					Model\Html::insert($url, $ua, Input::post('html'));
-					$page = Model\Page::fetch($url);
-					$newfilename = File::uploadImg('pages', $url_path, Arr::get($page, 'image_path'));
-					Model\Page::updatePartial($url, 'image_path', $newfilename);
-
-					break;
-			}
+			Model\Page::updatePartial($url, 'title', Input::post('title'));
+			Model\Page::updatePartial($url, 'seq', intval(Input::post('seq')));
+			$ua = 'using';
+			Model\Html::insert($url, $ua, Input::post('html'));
+			$page = Model\Page::fetch($url);
+			$newfilename = File::uploadImg('pages', $url_path, Arr::get($page, 'image_path'));
+			Model\Page::updatePartial($url, 'image_path', $newfilename);
 		}
 
 		// redirect?

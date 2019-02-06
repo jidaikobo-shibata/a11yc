@@ -57,12 +57,13 @@ trait ResultEach
 			View::assign('alt_results', '');
 		}
 
-		View::assign('page',      $page);
-		View::assign('settings',  $settings);
-		View::assign('is_center', $is_center);
-		View::assign('is_assign', $is_assign);
-		View::assign('is_total',  false);
-		View::assign('title',     A11YC_LANG_TEST_RESULT.': '.Model\Html::fetchPageTitle($url));
+		View::assign('page',        $page);
+		View::assign('settings',    $settings);
+		View::assign('is_center',   $is_center);
+		View::assign('is_assign',   $is_assign);
+		View::assign('is_total',    false);
+		View::assign('is_download', false);
+		View::assign('title',       A11YC_LANG_TEST_RESULT.': '.Model\Html::fetchPageTitle($url));
 
 		// assign results
 		self::assignResults($settings['target_level'], $url);

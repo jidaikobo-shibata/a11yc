@@ -47,24 +47,4 @@ trait CenterIndex
 		View::assign('title', A11YC_LANG_CENTER_TITLE);
 		View::assign('body', View::fetchTpl('center/index.php'), false);
 	}
-
-	/**
-	 * Show pages
-	 *
-	 * @return Void
-	 */
-	// public static function pages()
-	// {
-	// 	Result::pages();
-	// }
-
-	/**
-	 * Show each page
-	 *
-	 * @return Void
-	 */
-	// public static function each()
-	// {
-	// 	Result::each(Input::get('url', ''));
-	// }
 }

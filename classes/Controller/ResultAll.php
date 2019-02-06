@@ -19,9 +19,10 @@ trait ResultAll
 	 *
 	 * @param String $base_url
 	 * @param Bool $is_center
+	 * @param Bool $is_download
 	 * @return Void
 	 */
-	public static function all($base_url = '', $is_center = false)
+	public static function all($base_url = '', $is_center = false, $is_download = false)
 	{
 		$settings = Model\Setting::fetchAll();
 		$target_level = $settings['target_level'];
@@ -33,6 +34,7 @@ trait ResultAll
 		View::assign('done',         Model\Page::count('done'));
 		View::assign('total',        Model\Page::count('all'));
 		View::assign('is_center',    $is_center);
+		View::assign('is_download',  $is_download);
 		View::assign('is_assign',    false);
 		View::assign('is_total',     true);
 		View::assign('title',        A11YC_LANG_TEST_RESULT);

@@ -14,27 +14,40 @@ class Download
 {
 	use DownloadCsv;
 	use DownloadIssue;
+	use DownloadReport;
+	use DownloadIcl;
 
 	/**
-	 * action
+	 * csv
 	 *
 	 * @return Void
 	 */
 	public static function actionCsv()
 	{
-		// trait: OutputCsv
+		// trait: DownloadCsv
 		$url = Util::enuniqueUri(Input::param('url', ''));
 		static::csv($url);
 	}
 
 	/**
-	 * action
+	 * issue
 	 *
 	 * @return Void
 	 */
 	public static function actionIssue()
 	{
-		// trait: OutputIssue
+		// trait: DownloadIssue
 		static::issue();
+	}
+
+	/**
+	 * report
+	 *
+	 * @return Void
+	 */
+	public static function actionReport()
+	{
+		// trait: DownloadReport
+		static::report();
 	}
 }

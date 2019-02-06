@@ -15,11 +15,12 @@ use A11yc\Model;
 trait DataImport
 {
 	/**
-	 * import
+	 * all
 	 *
+	 * @param Bool $is_icl
 	 * @return Void
 	 */
-	public static function import()
+	public static function import($is_icl = false)
 	{
 		if (Input::isPostExists())
 		{
@@ -27,17 +28,24 @@ trait DataImport
 			if ( ! file_exists(Arr::get($file, 'tmp_name'))) Util::redirect(A11YC_URL);
 			$results = json_decode(file_get_contents($file['tmp_name']), true);
 
-			$is_add = self::addNewSite($results);
-			self::importSetting($results, $is_add);
-			self::importIcl($results, $is_add);
-			self::importPage($results);
-			self::importResult($results);
-			self::importChecklist($results);
-			self::importIssue($results);
-			self::importCache($results);
+			if ( ! $is_icl)
+			{
+				$is_add = self::addNewSite($results);
+				self::importSetting($results, $is_add);
+				self::importPage($results);
+				self::importResult($results);
+				self::importChecklist($results);
+				self::importIssue($results);
+				self::importCache($results);
+			}
+			self::importIcl($results);
 		}
 
-		View::assign('title', A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT);
+		View::assign('is_icl', $is_icl);
+		$title = $is_icl ? A11YC_LANG_ICL_TITLE_IMPORT : A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT ;
+		View::assign('title', $title);
+		$describe = $is_icl ? A11YC_LANG_PAGE_LABEL_IMPORT_ICL_EXP : A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT_EXP ;
+		View::assign('describe', $describe);
 		View::assign('body', View::fetchTpl('data/import.php'), FALSE);
 	}
 
@@ -54,19 +62,15 @@ trait DataImport
 		// add new site
 		$new_site = $results['base_url'];
 		$sites = Model\Data::fetchSites();
-		// if (in_array($new_site, $sites))
-		// {
-		// 	Session::add('messages', 'errors', A11YC_LANG_CTRL_ALREADY_EXISTS);
-		// 	Util::redirect(A11YC_URL);
-		// }
-//		$sites[] = Util::urldec($new_site);
-//		Model\Data::update('sites', 'global', $sites);
-		Model\Data::update('group_id', 'global', max(array_keys($sites)), 0, 1);
 
-echo '<textarea style="width:100%;height:200px;background-color:#fff;color:#111;font-size:90%;font-family:monospace;position:relative;z-index:9999">';
-var_dump(Model\Data::groupId(true));
-echo '</textarea>';
-die();
+		if (in_array($new_site, $sites))
+		{
+			Session::add('messages', 'errors', A11YC_LANG_CTRL_ALREADY_EXISTS);
+			Util::redirect(A11YC_URL);
+		}
+		$sites[] = Util::urldec($new_site);
+		Model\Data::update('sites', 'global', $sites);
+		Model\Data::update('group_id', 'global', max(array_keys($sites)), 0, 1);
 
 		return true;
 	}
@@ -80,27 +84,8 @@ die();
 	 */
 	private static function importSetting($results, $is_add)
 	{
-		if ( ! isset($results['setting'])) return;
-
-		// add new site
-		// $new_site = $results['base_url'];
-		// $sites = Model\Data::fetchSites();
-		// if (in_array($new_site, $sites)) return false;
-		// $sites[] = Util::urldec($new_site);
-		// Model\Data::update('sites', 'global', $sites);
-
-echo '<textarea style="width:100%;height:200px;background-color:#fff;color:#111;font-size:90%;font-family:monospace;position:relative;z-index:9999">';
-var_dump($results['setting']);
-echo '</textarea>';
-die();
-
-		$this_pages = Model\Page::fetchAll();
-		$this_pages = array_column($this_pages, 'url');
-		foreach ($results['page'] as $vals)
-		{
-			if (in_array($vals['url'], $this_pages)) continue;
-			Model\Page::insert($vals['url'], $vals);
-		}
+		if ( ! isset($results['setting']) || ! $is_add) return;
+		Model\Setting::updateAll($results);
 	}
 
 	/**
@@ -112,6 +97,7 @@ die();
 	private static function importPage($results)
 	{
 		if ( ! isset($results['page'])) return;
+
 		$this_pages = Model\Page::fetchAll();
 		$this_pages = array_column($this_pages, 'url');
 		foreach ($results['page'] as $vals)
@@ -219,4 +205,25 @@ die();
 		}
 	}
 
+	/**
+	 * icl
+	 *
+	 * @param Array $results
+	 * @return Void
+	 */
+	private static function importIcl($results)
+	{
+		if ( ! isset($results['icl'])) return;
+
+		Model\Data::deleteByKey('icl');
+		Model\Data::deleteByKey('iclsit');
+		Model\Setting::update('icl', array());
+
+		$chks = array();
+		foreach ($results['icl'] as $k => $v)
+		{
+			$chks[] = Model\Icl::insert($v, $v['is_sit']);
+		}
+		Model\Setting::update('icl', $chks);
+	}
 }

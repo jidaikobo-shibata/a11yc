@@ -43,12 +43,6 @@ trait PageIndex
 				case 'purge':
 					Page\Bulk::purge();
 					break;
-				case 'result':
-					Page\Bulk::result();
-					break;
-				case 'export':
-					Export::csv(array_keys(Input::postArr('bulk')));
-					break;
 				default: // update order
 					Page\Bulk::updateSeq();
 					break;

@@ -26,19 +26,30 @@ trait DataExport
 		if (Input::get('site') == 1)
 		{
 			$vals['base_url'] = Model\Data::baseUrl();
+			$vals['setting']  = Model\Setting::fetchAll();
+			$vals['icl']      = Model\Icl::fetchAll();
 		}
-		$vals['setting'] = Model\Setting::fetchAll();
-		$vals['page'] = Model\Page::fetchAll();
-		$vals['issue']  = Model\Issue::fetchAll();
-		$vals['iclsit'] = Model\Icl::fetchAll('iclsit');
-		$vals['icl'] = Model\Icl::fetchAll();
+		$vals['page']  = Model\Page::fetchAll();
+		$vals['issue'] = Model\Issue::fetchAll();
 		foreach ($vals['page'] as $page)
 		{
 			$vals['result'][$page['url']] = Model\Result::fetch($page['url']);
 			$vals['check'][$page['url']]  = Model\Checklist::fetch($page['url']);
-			$vals['html'][$page['url']] = Model\Html::fetch($page['url'], '', true, true);
+			$vals['html'][$page['url']]   = Model\Html::fetch($page['url'], '', true, true);
 		}
 
 		File::download('a11yc.export.json', json_encode($vals));
+	}
+
+	/**
+	 * Icl
+	 *
+	 * @return Void
+	 */
+	public static function exportIcl()
+	{
+		$vals = array();
+		$vals['icl']      = Model\Icl::fetchAll();
+		File::download('a11yc.export.icl.json', json_encode($vals));
 	}
 }

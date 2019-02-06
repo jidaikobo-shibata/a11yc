@@ -181,7 +181,7 @@ trait DataFetch
 	public static function groupId($force = false)
 	{
 		if ( ! is_null(static::$group_id) && ! $force) return static::$group_id;
-		static::$group_id = static::fetchGroupId() ?: 1;
+		static::$group_id = static::fetchGroupId();
 		return static::$group_id;
 	}
 
@@ -192,21 +192,15 @@ trait DataFetch
 	 */
 	public static function fetchGroupId()
 	{
-		// what a hell is going on! >_<
-		// $sql = 'SELECT `value` FROM '.A11YC_TABLE_DATA.' WHERE ';
-		// $sql.= '`group_id` = 1 AND `version` = 0 AND ';
+		$sql = 'SELECT `value` FROM '.A11YC_TABLE_DATA.' WHERE ';
+		$sql.= '`group_id` = 1 AND `version` = 0 AND ';
+		$sql.= '`url` = "global" AND `key` LIKE "group_id%";';
+		// what a hell is going on! "equal" wouldn't work >_<
 		// $sql.= '`url` = "global" AND `key` = "group_id";';
-		// $ret = Db::fetch($sql);
+		$ret = Db::fetch($sql);
 
-		$sql = 'SELECT * FROM '.A11YC_TABLE_DATA.' WHERE `url` = "global";';
-		$group_id = false;
-		foreach (Db::fetchAll($sql) as $v)
-		{
-			if ($v['key'] != 'group_id') continue;
-			$group_id = intval($v['value']);
-			break;
-		}
-		return $group_id;
+		if ($ret === false) static::insert('group_id', 'global', 1, 0, 1);
+		return isset($ret['value']) ? intval($ret['value']) : 1;
 	}
 
 	/**

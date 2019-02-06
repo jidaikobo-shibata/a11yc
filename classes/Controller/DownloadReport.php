@@ -1,6 +1,6 @@
 <?php
 /**
- * A11yc\Report
+ * A11yc\DownloadReport
  *
  * @package    part of A11yc
  * @author     Jidaikobo Inc.
@@ -8,20 +8,18 @@
  * @copyright  Jidaikobo Inc.
  * @link       http://www.jidaikobo.com
  */
-namespace A11yc;
+namespace A11yc\Controller;
 
-use A11yc\Controller;
 use A11yc\Model;
 
-class Report
+trait DownloadReport
 {
 	/**
 	 * download
 	 *
-	 * @param Bool $is_full
 	 * @return Void
 	 */
-	public static function download($is_full)
+	public static function report()
 	{
 		if (class_exists('ZipArchive'))
 		{
@@ -38,20 +36,13 @@ class Report
 			if ($result !== true) Util::error('zip failed');
 
 			// create archive
-			if ($is_full)
-			{
-				$urls = array_column(Model\Page::fetchAll(), 'url');
-				$zip = self::results($zip);
-				$zip = self::pageList($zip);
-				$zip = self::csv($zip, $urls);
-			}
-			else
-			{
-				$urls = array_keys(Input::postArr('bulk'));
-			}
+			$urls = array_column(Model\Page::fetchAll(), 'url');
+			$zip = self::addResults($zip);
+			$zip = self::addPageList($zip);
+//			$zip = self::addCsv($zip, $urls);
 
 			// pages report
-			$zip = self::pages($zip, $urls);
+			$zip = self::addPages($zip, $urls);
 
 			// close
 			$zip->close();
@@ -81,13 +72,13 @@ class Report
 	 * @param Array $urls
 	 * @return Object
 	 */
-	private static function pages($zip, $urls)
+	private static function addPages($zip, $urls)
 	{
 		$n =1;
 		$exist = false;
 		foreach ($urls as $url)
 		{
-			if (Controller\Result::each($url, '', true) === false) continue;
+			if (Result::each($url, '', true) === false) continue;
 
 			$body = View::fetch('body');
 			if ( ! $body) continue;
@@ -112,10 +103,10 @@ class Report
 	 * @param Object $zip
 	 * @return Object
 	 */
-	private static function results($zip)
+	private static function addResults($zip)
 	{
 		$is_center = true;
-		Controller\Result::all($is_center);
+		Result::all('', $is_center, true);
 		$body = View::fetch('body');
 		$body = self::replaceStrings($body);
 		$zip->addFromString('index.html', $body);
@@ -130,9 +121,10 @@ class Report
 	 * @param Array $urls
 	 * @return Object
 	 */
-	private static function csv($zip, $urls)
+	private static function addCsv($zip, $urls)
 	{
-		$csv = Controller\Export::generateCsv($urls);
+		// use DownloadCsv
+		$csv = self::generateCsv($urls);
 		$filename = 'a11yc.csv';
 		$filepath = sys_get_temp_dir().$filename;
 		$fp = fopen($filepath, 'w');
@@ -157,9 +149,9 @@ class Report
 	 * @param Object $zip
 	 * @return Object
 	 */
-	private static function pageList($zip)
+	private static function addPageList($zip)
 	{
-		Controller\Result::pages();
+		Result::page();
 		$body = View::fetch('body');
 		$body = self::replaceStrings($body);
 		$zip->addFromString('pages.html', $body);
@@ -179,13 +171,6 @@ class Report
 		$end = preg_quote(A11YC_NON_DOWNLOAD_END, '/');
 		$search = '/'.$start.'.+?'.$end.'/ism';
 		$str = preg_replace($search, '', $str);
-
-		// replace headings
-		$search  = array('<h2', '/h2', '<h3', '/h3', '<h4', '/h4');
-		$replace = array('<h1', '/h1', '<h2', '/h2', '<h3', '/h3');
-		$str = str_replace($search, $replace, $str);
-
-		// replace url
 
 		// add header and footer
 		$str = View::fetchTpl('inc_report_header.php').$str.View::fetchTpl('inc_report_footer.php');

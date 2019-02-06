@@ -28,21 +28,6 @@ endif;
 <?php echo isset($add_nonce) ? $add_nonce : ''; ?>
 
 <div id="a11yc_submit">
-<label for="a11yc_operation"><?php echo A11YC_LANG_CTRL_ACT ?></label>
-<select name="operation" id="a11yc_operation">
-	<?php if (Arr::get($page, 'trash', '') == 1): ?>
-	<option value="undelete"><?php echo A11YC_LANG_CTRL_UNDELETE ?></option>
-	<option value="purge"><?php echo A11YC_LANG_CTRL_PURGE ?></option>
-	<?php else: ?>
-	<option value="save"><?php echo A11YC_LANG_CTRL_SAVE ?></option>
-	<option value="check"><?php echo A11YC_LANG_CTRL_CHECK ?></option>
-	<option value="result"><?php echo A11YC_LANG_CHECKLIST_CHECK_RESULT ?></option>
-	<option value="live"><?php echo A11YC_LANG_PAGE_LIVE ?></option>
-	<option value="image"><?php echo A11YC_LANG_IMAGE ?></option>
-	<option value="export"><?php echo A11YC_LANG_PAGE_EXPORT ?></option>
-	<option value="delete"><?php echo A11YC_LANG_CTRL_DELETE ?></option>
-	<?php endif; ?>
-</select>
-<input type="submit" value="<?php echo A11YC_LANG_CTRL_SEND ?>" />
+	<input type="submit" value="<?php echo A11YC_LANG_CTRL_SEND ?>" />
 </div>
 </form>

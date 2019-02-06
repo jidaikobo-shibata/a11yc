@@ -22,8 +22,6 @@ if ($pages):
 	<option value="purge"><?php echo A11YC_LANG_CTRL_PURGE ?></option>
 	<?php else: ?>
 	<option></option>
-	<option value="result"><?php echo A11YC_LANG_PAGE_LABEL_EXPORT_RESULT_HTML ?></option>
-	<option value="export"><?php echo A11YC_LANG_PAGE_EXPORT ?></option>
 	<option value="delete"><?php echo A11YC_LANG_CTRL_DELETE ?></option>
 	<?php endif; ?>
 </select>
@@ -41,7 +39,6 @@ if ($pages):
 		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_CHECKLIST_CHECK_RESULT ?></th>
 		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGE_LIVE ?></th>
 		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_IMAGE ?></th>
-		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGE_EXPORT ?></th>
 		<?php endif; ?>
 		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_CTRL_ACT ?></th>
 		<th id="a11yc_label_seq"><?php echo A11YC_LANG_CTRL_ORDER_SEQ ?></th>
@@ -87,8 +84,6 @@ if ($pages):
 		<td class="a11yc_result"><a href="<?php echo A11YC_LIVE_URL.Util::urlenc($url).'&amp;base_url='.Util::urlenc(Model\Data::baseUrl()) ?>" class="a11yc_hasicon" target="a11yc_live"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGE_LIVE ?></span><span class="a11yc_icon_live a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
 
 		<td class="a11yc_result"><a href="<?php echo A11YC_IMAGELIST_URL.Util::urlenc($url) ?>" class="a11yc_hasicon" target="a11yc_images"><span class="a11yc_skip"><?php echo A11YC_LANG_IMAGE ?></span><span class="a11yc_icon_images a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
-
-		<td class="a11yc_result"><a href="<?php echo A11YC_DOWNLOAD_URL.'csv&url='.Util::urlenc($url) ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGE_EXPORT ?></span><span class="a11yc_icon_export a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
 		<?php endif; ?>
 
 		<td class="a11yc_result"><a href="<?php echo A11YC_PAGE_URL ?>edit&amp;url=<?php echo Util::urlenc($url) ?>" class="a11yc_hasicon"><?php echo A11YC_LANG_CTRL_ACT ?><span class="a11yc_skip"><?php echo A11YC_LANG_CTRL_DELETE ?></span><!-- <span class="a11yc_icon_delete a11yc_icon_fa" role="presentation" aria-hidden="true"></span> --></a></td>

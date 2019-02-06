@@ -138,7 +138,6 @@ class Checklist
 			Validate::$do_css_check  = Input::post('do_css_check', false);
 			Validate::url($url);
 		}
-		if ( ! is_array($page)) Util::error('invalid value was given');
 
 		// get basic values
 		list($settings, $standards, $standard, $done_date, $issues) = self::getBasicValues($url, $page);
@@ -179,7 +178,7 @@ class Checklist
 	 * get basic values
 	 *
 	 * @param String $url
-	 * @param Array|Bool $page
+	 * @param Array $page
 	 * @return Array
 	 */
 	private static function getBasicValues($url, $page)
@@ -234,7 +233,7 @@ class Checklist
 			}
 		}
 
-		return $page;
+		return is_array($page) ? $page : array();
 	}
 
 	/**

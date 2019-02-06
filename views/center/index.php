@@ -7,7 +7,7 @@ if (Auth::auth()):
 	echo '<li><a href="'.A11YC_DATA_URL.'export">'.A11YC_LANG_PAGE_LABEL_EXPORT_CHECK_RESULT.'</a><br /></li>';
 	echo '<li><a href="'.A11YC_DATA_URL.'export&amp;site=1">'.A11YC_LANG_PAGE_LABEL_EXPORT_ALL.'</a><br /></li>';
 	echo '<li><a href="'.A11YC_DATA_URL.'import">'.A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT.'</a></li>';
-	echo '<li><a href="'.$download_link.'">'.A11YC_LANG_PAGE_LABEL_EXPORT_RESULT_HTML.'</a></li>';
+	echo '<li><a href="'.A11YC_DOWNLOAD_URL.'report">'.A11YC_LANG_PAGE_LABEL_EXPORT_RESULT_HTML.'</a></li>';
 	echo '</ul>';
 	echo A11YC_NON_DOWNLOAD_END;
 endif;
