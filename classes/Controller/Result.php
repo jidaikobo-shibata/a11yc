@@ -107,7 +107,7 @@ class Result
 	 * @param String $level
 	 * @return Void
 	 */
-	private static function assignLevels($target_level, $level = null)
+	public static function assignLevels($target_level, $level = null)
 	{
 		// site level
 		View::assign(
@@ -138,7 +138,7 @@ class Result
 	 * @param String $url
 	 * @return Void
 	 */
-	private static function assignResults($target_level, $url = '')
+	public static function assignResults($target_level, $url = '')
 	{
 		$results = empty($url) ? Evaluate::evaluateTotal() : Evaluate::evaluateUrl($url) ;
 
