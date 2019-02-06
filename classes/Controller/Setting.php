@@ -186,7 +186,7 @@ class Setting
 		// delete
 		foreach ($deletes as $version)
 		{
-			Model\Data::delete($version);
+			Model\Version::delete($version);
 			Session::add(
 				'messages',
 				'messages',
