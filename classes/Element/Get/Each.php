@@ -123,7 +123,7 @@ class Each
 		preg_match("/\<html ([^\>]+?)\>/is", Validate::$hl_htmls[$url], $ms);
 		if ( ! isset($ms[0])) return ''; // langless
 
-		$attrs = self::attributes($ms[0]);
+		$attrs = \A11yc\Element\Get::attributes($ms[0]);
 		if ( ! isset($attrs['lang'])) return '';
 		static::$langs[$url] = $attrs['lang'];
 		return static::$langs[$url];

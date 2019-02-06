@@ -44,7 +44,7 @@ class Issue
 		if ( ! is_null(static::$vals) && ! $force) return static::$vals;
 		$vals = array();
 		$commons = array();
-		foreach (Data::fetch('issue', '*', array(), $force) as $url => $val)
+		foreach (Data::fetchArr('issue', '*', array(), $force) as $url => $val)
 		{
 			foreach ($val as $v)
 			{

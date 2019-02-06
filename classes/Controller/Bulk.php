@@ -71,7 +71,6 @@ class Bulk extends Checklist
 
 		// iclchk
 		Model\Setting::delete('bulk_iclchks');
-		$value = array();
 		$chks = Input::postArr('iclchks');
 		Model\Setting::insert(array(
 				'bulk_iclchks' => $chks,

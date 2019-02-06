@@ -85,6 +85,7 @@ class Issue
 	 */
 	public static function actionEdit()
 	{
+		// use IssueUpdate
 		static::edit();
 	}
 
@@ -95,7 +96,8 @@ class Issue
 	 */
 	public static function actionDelete()
 	{
-		static::trashControl('delete');
+		// use IssueUpdate
+		self::trashControl('delete');
 	}
 
 	/**
@@ -105,7 +107,8 @@ class Issue
 	 */
 	public static function actionUndelete()
 	{
-		static::trashControl('undelete');
+		// use IssueUpdate
+		self::trashControl('undelete');
 	}
 
 	/**
@@ -115,7 +118,8 @@ class Issue
 	 */
 	public static function actionPurge()
 	{
-		static::trashControl('purge');
+		// use IssueUpdate
+		self::trashControl('purge');
 	}
 
 	/**
@@ -125,6 +129,7 @@ class Issue
 	 */
 	public static function actionRead()
 	{
+		// use IssueRead
 		static::issue();
 	}
 }
