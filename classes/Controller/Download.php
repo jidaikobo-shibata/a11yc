@@ -15,7 +15,6 @@ class Download
 	use DownloadCsv;
 	use DownloadIssue;
 	use DownloadReport;
-	use DownloadIcl;
 
 	/**
 	 * csv
