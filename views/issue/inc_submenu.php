@@ -18,5 +18,5 @@ endforeach;
 ?>
 	<li><a href="<?php echo A11YC_ISSUE_URL.'index' ?>"><?php echo A11YC_LANG_ISSUE_TECH_FAILURE ?></a></li>
 	<li><a href="<?php echo A11YC_ISSUE_URL.'add' ?>"><?php echo A11YC_LANG_ISSUE_ADD ?></a></li>
-	<li><a href="<?php echo A11YC_OUTPUT_URL.'issue' ?>"><?php echo A11YC_LANG_ISSUE_EXPORT ?></a></li>
+	<li><a href="<?php echo A11YC_DOWNLOAD_URL.'issue' ?>"><?php echo A11YC_LANG_ISSUE_EXPORT ?></a></li>
 </ul>

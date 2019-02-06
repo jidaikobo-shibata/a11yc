@@ -88,7 +88,7 @@ if ($pages):
 
 		<td class="a11yc_result"><a href="<?php echo A11YC_IMAGELIST_URL.Util::urlenc($url) ?>" class="a11yc_hasicon" target="a11yc_images"><span class="a11yc_skip"><?php echo A11YC_LANG_IMAGE ?></span><span class="a11yc_icon_images a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
 
-		<td class="a11yc_result"><a href="<?php echo A11YC_OUTPUT_URL.'csv&url='.Util::urlenc($url) ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGE_EXPORT ?></span><span class="a11yc_icon_export a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
+		<td class="a11yc_result"><a href="<?php echo A11YC_DOWNLOAD_URL.'csv&url='.Util::urlenc($url) ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_PAGE_EXPORT ?></span><span class="a11yc_icon_export a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
 		<?php endif; ?>
 
 		<td class="a11yc_result"><a href="<?php echo A11YC_PAGE_URL ?>edit&amp;url=<?php echo Util::urlenc($url) ?>" class="a11yc_hasicon"><?php echo A11YC_LANG_CTRL_ACT ?><span class="a11yc_skip"><?php echo A11YC_LANG_CTRL_DELETE ?></span><!-- <span class="a11yc_icon_delete a11yc_icon_fa" role="presentation" aria-hidden="true"></span> --></a></td>

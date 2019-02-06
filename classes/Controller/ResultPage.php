@@ -17,9 +17,11 @@ trait ResultPage
 	/**
 	 * show pages' list
 	 *
+	 * @param String $base_url
+	 * @param Bool $is_center
 	 * @return Void
 	 */
-	public static function page()
+	public static function page($base_url = '', $is_center = false)
 	{
 		$args = array(
 			'list'   => 'done',
@@ -42,13 +44,12 @@ trait ResultPage
 		$pages['pdf'] = $pdfs;
 
 		// assign links
-		static::assignLinks();
+		static::assignLinks($base_url);
 
-		View::assign('settings', Model\Setting::fetchAll());
-		View::assign('selection_reasons', Values::selectionReasons());
-		View::assign('pages', $pages);
-		View::assign('title', A11YC_LANG_CHECKED_PAGES);
-		View::assign('body', View::fetchTpl('result/page.php'), false);
-		return;
+		View::assign('settings',  Model\Setting::fetchAll());
+		View::assign('is_center', $is_center);
+		View::assign('pages',     $pages);
+		View::assign('title',     A11YC_LANG_CHECKED_PAGES);
+		View::assign('body',      View::fetchTpl('result/page.php'), false);
 	}
 }

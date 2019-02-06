@@ -13,6 +13,8 @@ if (Auth::auth()):
 endif;
 
 echo $result;
+
+if ( ! Input::get('a11yc_page') && ! Input::get('a11yc_each')):
 ?>
 
 <!-- Bookmarklet -->
@@ -38,3 +40,4 @@ javascript:(function(){
 <img src="<?php echo A11YC_ASSETS_URL ?>/img/logo.png" id="a11yc_logo" alt="A11yc Logo">
 <p><?php echo A11YC_LANG_CENTER_ABOUT_CONTENT ?></p>
 </div><!-- /.a11yc_cmt -->
+<?php endif; ?>

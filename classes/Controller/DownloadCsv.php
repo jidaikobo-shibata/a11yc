@@ -1,6 +1,6 @@
 <?php
 /**
- * A11yc\Controller\OutputCsv
+ * A11yc\Controller\DownloadCsv
  *
  * @package    part of A11yc
  * @author     Jidaikobo Inc.
@@ -13,7 +13,7 @@ namespace A11yc\Controller;
 use A11yc\Model;
 use A11yc\Validate;
 
-trait OutputCsv
+trait DownloadCsv
 {
 	/**
 	 * csv

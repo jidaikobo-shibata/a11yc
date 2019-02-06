@@ -23,6 +23,7 @@ $base_url = Util::removeQueryStrings(
 		'a11yc_report',
 		'a11yc_page',
 		'a11yc_each',
+		'url',
 	)
 );
 

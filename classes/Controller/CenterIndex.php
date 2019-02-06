@@ -21,21 +21,31 @@ trait CenterIndex
 	 */
 	public static function index()
 	{
-		$body = '';
-		$settings = Model\Setting::fetchAll();
-		$result = '';
+		$base_url = Util::uri();
 
-		if ( ! empty($settings))
+		// page list
+		if (Input::get('a11yc_page'))
 		{
-			$is_center = true;
-			Result::all($is_center);
-			$result = View::fetch('body');
+			// use ResultPage
+			Result::page($base_url, true);
 		}
 
-		View::assign('result', $result, false);
+		// each report
+		elseif (Input::get('a11yc_each') && Input::get('url'))
+		{
+			// use ResultEach
+			Result::each(Input::get('url', ''), $base_url, false, true);
+		}
+
+		// all
+		elseif ( ! empty(Model\Setting::fetchAll()))
+		{
+			Result::all($base_url, true);
+		}
+
+		View::assign('result', View::fetch('body'), false);
 		View::assign('title', A11YC_LANG_CENTER_TITLE);
-		$center = View::fetchTpl('center/index.php');
-		View::assign('body', $body.$center, false);
+		View::assign('body', View::fetchTpl('center/index.php'), false);
 	}
 
 	/**

@@ -1,6 +1,6 @@
 <?php
 /**
- * A11yc\Controller\Output
+ * A11yc\Controller\Download
  *
  * @package    part of A11yc
  * @author     Jidaikobo Inc.
@@ -10,10 +10,10 @@
  */
 namespace A11yc\Controller;
 
-class Output
+class Download
 {
-	use OutputCsv;
-	use OutputIssue;
+	use DownloadCsv;
+	use DownloadIssue;
 
 	/**
 	 * action

@@ -1,7 +1,4 @@
-<?php
-namespace A11yc;
-$is_assign = isset($is_assign) && $is_assign == true ? true : false ;
-?>
+<?php namespace A11yc; ?>
 
 <?php if ( ! $is_assign): ?>
 <h2><?php echo $title ?> <?php if (Arr::get($settings, 'declare_date') && Arr::get($settings, 'declare_date') != '0000-00-00'): echo '('.$settings['declare_date'].')'; endif;?></h2>
@@ -12,7 +9,10 @@ $is_assign = isset($is_assign) && $is_assign == true ? true : false ;
 	<!-- standard -->
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_STANDARD_REPORT ?></th>
-		<td><?php echo $standards[Arr::get($settings, 'standard', 0)] ?></td>
+		<td><?php
+			 $standards = Yaml::each('standards');
+			 echo $standards[Arr::get($settings, 'standard', 0)];
+		?></td>
 	</tr>
 	<!-- /standard -->
 
@@ -51,47 +51,31 @@ $is_assign = isset($is_assign) && $is_assign == true ? true : false ;
 		endif;
 
 		if ($is_total):
-		$selectedMethods = Values::selectedMethods();
+		$selected_methods = Values::selectedMethods();
 	?>
 	<!-- dependencies -->
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_CANDIDATES_TITLE ?></th>
-		<td><?php echo $selectedMethods[Arr::get($settings, 'selected_method', 0)]; ?></td>
+		<td><?php echo $selected_methods[Arr::get($settings, 'selected_method', 0)]; ?></td>
 	</tr>
 	<!-- /dependencies -->
 	<?php
-endif;
+	endif;
 
-if (isset($page) && $page['selection_reason'] != '0'): ?>
+	if (isset($page) && Arr::get($page, 'selection_reason') != '0'): ?>
 	<!-- selected method -->
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_CANDIDATES_TITLE ?></th>
 		<td><?php
-			$selectionReasons = Values::selectionReasons();
-			if (isset($selectionReasons[$page['selection_reason']])):
-				echo $selectionReasons[$page['selection_reason']];
-			endif;
+			$selection_reasons = Values::selectionReasons();
+			echo Arr::get($selection_reasons, $page['selection_reason']);
 		?></td>
 	</tr>
 	<!-- /selected method -->
 	<?php endif; ?>
 
-	<?php if ( ! $is_assign && isset($page) || ( $is_total && isset($page) && Arr::get($page, 'url'))): ?>
-	<!-- target page -->
-	<tr>
-		<th scope="row"><?php echo A11YC_LANG_PAGE_URLS ?></th>
-		<td><?php
-			echo '<a href="'.$page['url'].'">'.$page['url'].'</a>';
-			if (\Kontiki\Auth::auth() && ! $is_assign):
-				echo ' <a href="'.A11YC_CHECKLIST_URL.Util::urlenc($page['url']).'"'.A11YC_TARGET.' class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_CTRL_CHECK ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a>';
-			endif;
-		?></td>
-	</tr>
-	<!-- /target page -->
-	<?php endif; ?>
-
 	<!-- number of checked -->
-	<?php if ( ! $is_assign && isset($done) && $is_total && Arr::get($settings, 'hide_url_results')): ?>
+	<?php if ( ! $is_assign && isset($done) && $is_total && ! Arr::get($settings, 'hide_url_results')): ?>
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_CHECKED_PAGES_URLS ?></th>
 		<td><?php
@@ -114,18 +98,13 @@ if (isset($page) && $page['selection_reason'] != '0'): ?>
 				$url = Util::s($v['url']);
 			?>
 				<li>
-					<a href="<?php echo $url ?>"<?php echo A11YC_TARGET ?>><?php echo $v['title'] ?></a>
-					<?php
-					if ( ! $is_assign):
-					$chk = Util::addQueryStrings(
-						Util::uri(),
-						array(
-							array('a11yc_checklist', 1),
-							array('url', Util::urlenc($url)),
-						));
-					$chk = Util::removeQueryStrings($chk, array('a11yc_report'));
-					?>
-						(<a href="<?php echo $chk ?>"><?php echo A11YC_LANG_TEST_RESULT ?></a>)
+					<?php if (Arr::get($settings, 'hide_url_results')): ?>
+						<?php echo $v['title'] ?>
+					<?php else: ?>
+						<a href="<?php echo $url ?>"<?php echo A11YC_TARGET ?>><?php echo $v['title'] ?></a>
+					<?php endif; ?>
+					<?php if ( ! $is_assign): ?>
+						(<a href="<?php echo $chk_link ?>&amp;url=<?php echo Util::urlenc($url) ?>"><?php echo A11YC_LANG_TEST_RESULT ?></a>)
 					<?php
 
 					if (Auth::auth()):
@@ -179,7 +158,7 @@ if (isset($page) && $page['selection_reason'] != '0'): ?>
 <?php endif; ?>
 <!-- /report -->
 
-<!-- site results -->
+<!-- results -->
 <?php
 include('inc_criterions_checklist.php');
 include('inc_implements_checklist.php');

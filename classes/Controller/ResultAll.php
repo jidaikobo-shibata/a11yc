@@ -17,27 +17,25 @@ trait ResultAll
 	/**
 	 * Show report
 	 *
+	 * @param String $base_url
 	 * @param Bool $is_center
 	 * @return Void
 	 */
-	public static function all($is_center = false)
+	public static function all($base_url = '', $is_center = false)
 	{
 		$settings = Model\Setting::fetchAll();
-		$target_level = intval(Arr::get($settings, 'target_level'));
-
-		static::assignLinks();
+		$target_level = $settings['target_level'];
+		static::assignLinks($base_url);
 		self::assignLevels($target_level);
 
-		View::assign('settings',          $settings);
-		View::assign('target_level',      $target_level);
-		View::assign('selection_reasons', Values::selectionReasons());
-		View::assign('selected_methods',  Values::selectedMethods());
-		View::assign('selected_method',   intval(Arr::get($settings, 'selected_method')));
-		View::assign('done',              Model\Page::count('done'));
-		View::assign('total',             Model\Page::count('all'));
-		View::assign('standards',         Yaml::each('standards'));
-		View::assign('is_center',         $is_center);
-		View::assign('title',             A11YC_LANG_TEST_RESULT);
+		View::assign('settings',     $settings);
+		View::assign('target_level', $target_level);
+		View::assign('done',         Model\Page::count('done'));
+		View::assign('total',        Model\Page::count('all'));
+		View::assign('is_center',    $is_center);
+		View::assign('is_assign',    false);
+		View::assign('is_total',     true);
+		View::assign('title',        A11YC_LANG_TEST_RESULT);
 
 		// passed and unpassed pages
 		View::assign('unpassed_pages', Model\Result::unpassedPages($target_level));
@@ -47,6 +45,6 @@ trait ResultAll
 		self::assignResults($target_level);
 
 		// set body
-		View::assign('body', View::fetchTpl('result/index.php'), false);
+		View::assign('body', View::fetchTpl('result/info.php'), false);
 	}
 }

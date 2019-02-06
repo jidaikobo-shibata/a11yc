@@ -30,35 +30,33 @@ trait ResultReport
 
 		// common assign
 		View::assign('settings', $settings, true);
-		View::assign('is_center', FALSE);
-		View::assign('base_url', $base_url);
-
-		// assign links
-		static::assignLinks();
 
 		// report
 		if (Input::get('a11yc_report'))
 		{
 			// use ResultAll
-			static::all();
+			static::all(false, $base_url);
 			return;
 		}
 
 		// page list
 		if (Input::get('a11yc_page'))
 		{
-			static::page();
+			// use ResultPage
+			static::page($base_url);
 			return;
 		}
 
 		// each report
-		if (Input::get('url'))
+		if (Input::get('a11yc_each') && Input::get('url'))
 		{
-			static::each(Input::get('url', ''));
+			// use ResultEach
+			static::each(Input::get('url', ''), $base_url);
 			return;
 		}
 
 		// show policy
+		static::assignLinks($base_url);
 		View::assign('versions', Model\Version::fetchAll());
 		View::assign('title', A11YC_LANG_POLICY);
 		View::assign('body', View::fetchTpl('result/policy.php'), false);

@@ -64,7 +64,7 @@ if ( ! defined('A11YC_SETTING_URL'))
 	define('A11YC_PAGE_URL',        A11YC_URL.'?c=page&amp;a=');
 	define('A11YC_ISSUE_URL',       A11YC_URL.'?c=issue&amp;a=');
 	define('A11YC_DATA_URL',        A11YC_URL.'?c=data&amp;a=');
-	define('A11YC_OUTPUT_URL',      A11YC_URL.'?c=output&amp;a=');
+	define('A11YC_DOWNLOAD_URL',    A11YC_URL.'?c=download&amp;a=');
 	define('A11YC_ICL_URL',         A11YC_URL.'?c=icl&amp;a=');
 	define('A11YC_CHECKLIST_URL',   A11YC_URL.'?c=checklist&amp;a=check&amp;url=');
 	define('A11YC_RESULT_EACH_URL', A11YC_URL.'?c=result&amp;a=each&amp;url=');

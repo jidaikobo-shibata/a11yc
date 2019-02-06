@@ -17,6 +17,7 @@ class Result
 	use ResultPage;
 	use ResultReport;
 	use ResultAll;
+	use ResultEach;
 
 	/**
 	 * each
@@ -43,37 +44,46 @@ class Result
 	/**
 	 * links
 	 *
+	 * @param String $base_url
 	 * @return Void
 	 */
-	public static function assignLinks()
+	public static function assignLinks($base_url = '')
 	{
-		$removes = array('a11yc_policy', 'a11yc_report', 'a11yc_pages', 'url');
+		$removes = array('a11yc_policy', 'a11yc_report', 'a11yc_page', 'url');
 		if ( ! array_key_exists(Input::get('a11yc_version'), Model\Version::fetchAll()))
 		{
 			$removes[] = 'a11yc_version';
 		}
-		$url = Util::removeQueryStrings(Util::uri(), $removes);
+		$url = empty($base_url) ? Util::uri() : $base_url;
+		$url = Util::removeQueryStrings($url, $removes);
 
-		// base page
+		// links
 		$results_link = Util::removeQueryStrings($url, array('a11yc_version'));
 
-		// other pages
 		$policy_link = $url;
+
 		$report_link = Util::addQueryStrings(
 			$url,
 			array(
 				array('a11yc_report', 1)
 			));
+
 		$pages_link = Util::addQueryStrings(
 			$url,
 			array(
-				array('a11yc_pages', 1)
+				array('a11yc_page', 1)
+			));
+
+		$chk_link = Util::addQueryStrings(
+			$url,
+			array(
+				array('a11yc_each', 1)
 			));
 
 		// download
 		$download_link = Util::removeQueryStrings(
 			Util::uri(),
-			array('a11yc_policy', 'a11yc_report', 'a11yc_pages', 'url', 'a11yc_version', 'a')
+			array('a11yc_policy', 'a11yc_report', 'a11yc_page', 'url', 'a11yc_version', 'a')
 		);
 
 		$download_link = Util::addQueryStrings(
@@ -83,10 +93,11 @@ class Result
 			));
 
 		View::assign('download_link', $download_link);
-		View::assign('results_link', $results_link);
-		View::assign('policy_link',  $policy_link);
-		View::assign('report_link',  $report_link);
-		View::assign('pages_link',   $pages_link);
+		View::assign('results_link',  $results_link);
+		View::assign('policy_link',   $policy_link);
+		View::assign('report_link',   $report_link);
+		View::assign('pages_link',    $pages_link);
+		View::assign('chk_link',      $chk_link);
 	}
 
 	/**
@@ -118,69 +129,6 @@ class Result
 				Evaluate::resultStr($level, $target_level)
 			);
 		}
-	}
-
-	/**
-	 * Show checklist Results
-	 *
-	 * @param Srting $url
-	 * @param Bool $is_assign
-	 * @return Bool
-	 */
-	public static function each($url, $is_assign = false)
-	{
-		$page = Model\Page::fetch($url);
-
-		if ( ! $page || ! $page['done'] || $page['trash'])
-		{
-			if ($is_assign) return false;
-			header("HTTP/1.0 404 Not Found");
-			echo '404 Not Found';
-			exit();
-		}
-
-		$settings = Model\Setting::fetchAll();
-		static::assignLinks();
-		self::assignLevels($settings['target_level'], $page['level']);
-
-		// alt checklist link
-		if ( ! empty($page['alt_url']))
-		{
-			$chk = Util::remove_query_strings(Util::uri(), array('url', 'a11yc_pages'));
-			$chk = Util::add_query_strings(
-				$chk,
-				array(array('url', Util::urlenc($page['alt_url'])))
-			);
-			View::assign(
-				'alt_results',
-				' ('.sprintf(A11YC_LANG_ALT_URL_LEVEL, $chk).': '.Evaluate::result_str(Evaluate::getLevelByUrl($page['alt_url']), $settings['target_level']).')'
-			);
-		}
-		else
-		{
-			View::assign('alt_results', '');
-		}
-
-		View::assign('page', $page);
-		View::assign('settings', $settings);
-		View::assign('selection_reasons', Values::selectionReasons());
-		View::assign('selected_methods', Values::selectedMethods());
-		View::assign('selected_method', intval(Arr::get($settings, 'selected_method')));
-		View::assign('title', A11YC_LANG_TEST_RESULT.': '.Model\Html::fetchPageTitle($url));
-		View::assign('standards', Yaml::each('standards'));
-		View::assign('is_center', false);
-		View::assign('is_assign', $is_assign);
-
-		// assign results
-		self::assignResults($settings['target_level'], $url);
-
-		// assign implement checklist
-		View::assign('cs', Model\Checklist::fetch($url));
-
-		// set body
-		View::assign('body', View::fetchTpl('result/index.php'), false);
-
-		return true;
 	}
 
 	/**
@@ -226,13 +174,11 @@ class Result
 			Model\Setting::fetch('non_exist_and_passed_criterions')
 		);
 
-		View::assign('cs', Model\Checklist::fetch($url));
-		View::assign('is_total', empty($url));
-		View::assign('setup', Model\Setting::fetchAll());
-		View::assign('results', $results);
+		View::assign('cs',           Model\Checklist::fetch($url));
+		View::assign('results',      $results);
 		View::assign('target_level', $target_level);
-		View::assign('include', $include);
-		View::assign('yml', Yaml::fetch(), FALSE);
-		View::assign('result', View::fetchTpl('result/part_result.php'), FALSE);
+		View::assign('include',      $include);
+		View::assign('yml',          Yaml::fetch(), FALSE);
+		View::assign('result',       View::fetchTpl('result/inc_each_criterions_checklist.php'), FALSE);
 	}
 }
