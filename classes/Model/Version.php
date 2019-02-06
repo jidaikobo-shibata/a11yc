@@ -67,7 +67,7 @@ class Version
 		// check existence and over-write
 		if ( ! empty(static::fetch($version)))
 		{
-			self::delete($version);
+			static::delete($version);
 			Session::add('messages', 'errors', A11YC_LANG_RESULT_DELETE_SAMEDATE);
 		}
 
@@ -96,7 +96,7 @@ class Version
 	 * @param INTEGER $version
 	 * @return Void
 	 */
-	private static function delete($version)
+	public static function delete($version)
 	{
 		$sql = 'DELETE FROM '.A11YC_TABLE_DATA.' WHERE ';
 		$sql.= '`group_id` = ? AND `version` = ?;';
