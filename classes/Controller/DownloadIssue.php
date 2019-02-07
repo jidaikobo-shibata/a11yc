@@ -28,9 +28,9 @@ trait DownloadIssue
 		$vals = array();
 		foreach ($issues as $url => $criterions)
 		{
-			foreach ($criterions as $criterion => $v)
+			foreach ($criterions as $v)
 			{
-				foreach ($v as $key => $val)
+				foreach ($v as $val)
 				{
 					if ($val['output'] === false) continue;
 					$vals[$url][] = $val;

@@ -177,7 +177,7 @@ trait DataImport
 		foreach ($results['issue'] as $url => $vals)
 		{
 			if (empty($vals)) continue;
-			foreach ($vals as $criterion => $val)
+			foreach ($vals as $val)
 			{
 				foreach ($val as $v)
 				{
@@ -220,7 +220,7 @@ trait DataImport
 		Model\Setting::update('icl', array());
 
 		$chks = array();
-		foreach ($results['icl'] as $k => $v)
+		foreach ($results['icl'] as $v)
 		{
 			$chks[] = Model\Icl::insert($v, $v['is_sit']);
 		}

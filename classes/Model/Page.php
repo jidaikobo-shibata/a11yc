@@ -42,7 +42,7 @@ class Page
 
 		$pages = Data::fetch('page', '*', array(), $force);
 		$pages = is_array($pages) ? $pages : array();
-		foreach ($pages as $url => $page)
+		foreach (array_keys($pages) as $url)
 		{
 			$pages[$url]['url'] = $url;
 		}

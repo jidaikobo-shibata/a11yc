@@ -72,7 +72,7 @@ class Test
 			// implements
 			else
 			{
-				$tmp = self::implement($row, $text);
+				$tmp = self::implement($row);
 				if (empty($tmp)) continue;
 				$rets[] = $tmp;
 			}
@@ -102,7 +102,7 @@ class Test
 	 * @param String $row
 	 * @return Array
 	 */
-	private static function implement($row, $text)
+	private static function implement($row)
 	{
 		$ret = array();
 		$cols = explode("</td>", $row);

@@ -109,7 +109,7 @@ class Setting
 		if (isset($deletes[1])) unset($deletes[1]);
 
 		$value = array();
-		foreach ($names as $id => $v)
+		foreach (array_keys($names) as $id)
 		{
 			if (in_array($id, $deletes)) continue;
 			$value[$id]['id'] = $id;

@@ -127,7 +127,7 @@ class Issue
 	public static function fetch($id, $force = false)
 	{
 		$vals = static::fetchAll($force);
-		foreach ($vals as $url => $val)
+		foreach ($vals as $val)
 		{
 			foreach ($val as $v)
 			{
