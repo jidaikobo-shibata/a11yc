@@ -34,7 +34,7 @@ class Issue
 	);
 
 	/**
-	 * fetch
+	 * fetch all
 	 *
 	 * @param Bool $force
 	 * @return Array
@@ -73,7 +73,7 @@ class Issue
 	}
 
 	/**
-	 * set common order
+	 * set order
 	 *
 	 * @param Array $issues
 	 * @return Array

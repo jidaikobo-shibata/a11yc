@@ -31,4 +31,5 @@ class Data
 {
 	use DataFetch;
 	use DataUpdate;
+	use DataFilter;
 }

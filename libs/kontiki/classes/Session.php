@@ -69,13 +69,9 @@ class Session
 	{
 		if (version_compare(phpversion(), '5.4.0', '>='))
 		{
-			$is_session_started = session_status() === PHP_SESSION_ACTIVE ? TRUE : FALSE;
+			return session_status() === PHP_SESSION_ACTIVE;
 		}
-		else
-		{
-			$is_session_started = session_id() === '' ? FALSE : TRUE;
-		}
-		return $is_session_started;
+		return session_id() !== '';
 	}
 
 	/**
