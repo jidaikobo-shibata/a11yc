@@ -33,7 +33,7 @@ trait DataImport
 
 			foreach ($results['version_keys'] as $version)
 			{
-				Model\Data::setVersion($version);
+				Model\Version::setVersion($version);
 				$vals = $results[$version];
 
 				if ( ! $is_icl)
