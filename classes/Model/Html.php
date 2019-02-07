@@ -199,7 +199,8 @@ class Html
 	 */
 	public static function lastUpdate($url)
 	{
-		$cache      = Data::fetch('html', $url, array());
+		$url = Util::urldec($url);
+		$cache = Data::fetchArr('html', $url, array());
 		$updated_at = Arr::get($cache, 'updated_at', 0);
 		return $updated_at;
 	}

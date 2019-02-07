@@ -45,7 +45,7 @@ trait DataUpdate
 
 		$group_id = is_null($group_id) ? static::groupId() : $group_id;
 		$group_id = $url == 'global' ? 1 : $group_id;
-		$version = is_null($version) ? static::version() : $version;
+		$version = is_null($version) ? Version::current() : $version;
 		$url = Util::urldec($url);
 		list($is_array, $value) = self::jsonCheck($value);
 
@@ -85,12 +85,13 @@ trait DataUpdate
 		// basic value
 		$group_id = is_null($group_id) ? static::groupId() : $group_id;
 		$group_id = $url == 'global' ? 1 : $group_id;
-		$version = is_null($version) ? static::version() : $version;
+		$version = is_null($version) ? Version::current() : $version;
 		$url = Util::urldec($url);
 		list($is_array, $value) = self::jsonCheck($value);
 
 		$sql = 'UPDATE '.A11YC_TABLE_DATA.' SET `value` = ?, `is_array` = ?';
 		$sql.= ' WHERE `group_id` = ? AND `key` = ? AND `url` = ? AND `version` = ?;';
+
 		return Db::execute($sql, array($value, $is_array, $group_id, $key, $url, $version));
 	}
 
@@ -106,7 +107,7 @@ trait DataUpdate
 	public static function updateById($id, $value, $version = null, $group_id = null)
 	{
 		$group_id = is_null($group_id) ? static::groupId() : $group_id;
-		$version = is_null($version) ? static::version() : $version;
+		$version = is_null($version) ? Version::current() : $version;
 		list($is_array, $value) = self::jsonCheck($value);
 
 		$sql = 'UPDATE '.A11YC_TABLE_DATA.' SET `value` = ?, `is_array` = ?';
@@ -126,7 +127,7 @@ trait DataUpdate
 	public static function updateUrl($oldurl, $newurl, $version = null, $group_id = null)
 	{
 		$group_id = is_null($group_id) ? static::groupId() : $group_id;
-		$version = is_null($version) ? static::version() : $version;
+		$version = is_null($version) ? Version::current() : $version;
 		$oldurl = trim($oldurl);
 		$newurl = trim($newurl);
 
@@ -148,7 +149,7 @@ trait DataUpdate
 	public static function delete($key, $url, $version = null, $group_id = null)
 	{
 		$group_id = is_null($group_id) ? static::groupId() : $group_id;
-		$version = is_null($version) ? static::version() : $version;
+		$version = is_null($version) ? Version::current() : $version;
 		$url = Util::urldec($url);
 
 		$sql = 'DELETE FROM '.A11YC_TABLE_DATA.' WHERE ';
@@ -168,7 +169,7 @@ trait DataUpdate
 	public static function deleteByKey($key, $version = null, $group_id = null)
 	{
 		$group_id = is_null($group_id) ? static::groupId() : $group_id;
-		$version = is_null($version) ? static::version() : $version;
+		$version = is_null($version) ? Version::current() : $version;
 		$sql = 'DELETE FROM '.A11YC_TABLE_DATA.' WHERE ';
 		$sql.= '`group_id` = ? AND `key` = ? AND `version` = ?;';
 		return Db::execute($sql, array($group_id, $key, $version));

@@ -15,7 +15,6 @@ trait DataFetch
 	protected static $vals     = null;
 	protected static $sites    = null;
 	protected static $group_id = null;
-	protected static $version  = null;
 
 	/**
 	 * fetch all raw data
@@ -27,7 +26,7 @@ trait DataFetch
 	public static function fetchRaw($version = null, $group_id = null)
 	{
 		$group_id = is_null($group_id) ? static::groupId() : $group_id;
-		$version = is_null($version) ? self::version() : $version;
+		$version = is_null($version) ? Version::current() : $version;
 		$sql = 'SELECT * FROM '.A11YC_TABLE_DATA.' WHERE ';
 		$sql.= '`group_id` = ? AND `version` = ?;';
 		return Db::fetchAll($sql, array($group_id, $version));
@@ -155,35 +154,6 @@ trait DataFetch
 	{
 		$sql = 'SELECT * FROM '.A11YC_TABLE_DATA.' WHERE `id` = ?;';
 		return Db::fetch($sql, array($id));
-	}
-
-	/**
-	 * version
-	 * depend on QUERY_STRING and Other Setting
-	 *
-	 * @return Integer
-	 */
-	private static function version()
-	{
-		$version = Input::get('a11yc_version', 0);
-		if (array_key_exists($version, Version::fetchAll()))
-		{
-			return intval($version);
-		}
-		if ( ! is_null(static::$version)) return static::$version;
-		return 0;
-	}
-
-	/**
-	 * set version
-	 *
-	 * @param Integer $version
-	 * @return Integer
-	 */
-	public static function setVersion($version)
-	{
-		// need existence check?
-		static::$version = $version;
 	}
 
 	/**

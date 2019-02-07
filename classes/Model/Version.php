@@ -13,6 +13,7 @@ namespace A11yc\Model;
 class Version
 {
 	protected static $versions = null;
+	protected static $current_version = null;
 	protected static $targets = array(
 		'page',
 		'check',
@@ -114,12 +115,70 @@ class Version
 	 * @param Array $versions
 	 * @return Bool
 	 */
-	private static function updateVersions($versions)
+	public static function updateVersions($versions)
 	{
 		if (static::fetchAll(true))
 		{
 			return Data::update('version', 'common', $versions);
 		}
 		return Data::insert('version', 'common', $versions);
+	}
+
+	/**
+	 * change version
+	 *
+	 * @return Integer|Bool
+	 */
+	private static function currentVersionRaw()
+	{
+		return Data::fetchOne('current_version', 'common', false, 1, 0);
+	}
+
+	/**
+	 * current version
+	 * depend on QUERY_STRING and Other Setting
+	 *
+	 * @param Bool $force
+	 * @return Integer
+	 */
+	public static function current($force = false)
+	{
+		// query string
+		$version = Input::get('a11yc_version', 0);
+		if (array_key_exists($version, Version::fetchAll()))
+		{
+			return intval($version);
+		}
+		if ( ! is_null(static::$current_version) && ! $force) return static::$current_version;
+		static::$current_version = self::currentVersionRaw() ?: 0 ;
+		return static::$current_version;
+	}
+
+	/**
+	 * set version
+	 *
+	 * @param Integer $version
+	 * @return Integer
+	 */
+	public static function setVersion($version)
+	{
+		// need existence check?
+		static::$current_version = $version;
+	}
+
+	/**
+	 * change version
+	 *
+	 * @param Integer $version
+	 * @return Bool
+	 */
+	public static function changeVersion($version)
+	{
+		Session::remove('messages', 'errors');
+		if (self::currentVersionRaw())
+		{
+			return Data::update('current_version', 'common', $version, 0);
+		}
+		return Data::insert('current_version', 'common', $version, 0);
 	}
 }

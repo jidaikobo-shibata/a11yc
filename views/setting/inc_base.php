@@ -86,7 +86,7 @@
 		<th scope="row"><label for="a11yc_policy"><?php echo A11YC_LANG_POLICY ?></label></th>
 		<td>
 			<p><?php echo A11YC_LANG_POLICY_DESC ?></p>
-			<div class="a11yc_policy_sample"><?php echo nl2br(str_replace("\\n", "\n", A11YC_LANG_SAMPLE_POLICY)) ?></div>
+			<div class="a11yc_policy_sample"><?php echo nl2br(Util::s(str_replace("\\n", "\n", A11YC_LANG_SAMPLE_POLICY))) ?></div>
 			<textarea name="policy" id="a11yc_policy" style="width:100%;" rows="7"><?php echo Util::s(Arr::get($settings, 'policy', '')) ?></textarea>
 		</td>
 	</tr>
@@ -189,7 +189,7 @@ $levels = array(
 	</tr>
 
 	<tr>
-		<th><label for="a11yc_hide_url_results"><?php echo A11YC_LANG_CTRL_VIEW ?></label></th>
+		<th><?php echo A11YC_LANG_CTRL_VIEW ?></th>
 		<td>
 			<p>
 			<?php $checked = Arr::get($settings, 'hide_url_results') == 1 ? ' checked="checked"' : ''; ?>

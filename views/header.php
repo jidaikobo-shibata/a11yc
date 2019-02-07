@@ -22,7 +22,7 @@
 	<link href="<?php echo A11YC_ASSETS_URL ?>/css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 
 </head>
-<body>
+<body<?php echo Model\Version::current() != 0 ? ' class="a11yc_use_old_version"' : ''; ?>>
 
 <!-- #a11yc -->
 <div id="<?php echo 'a11yc_'.$mode ?>" class="a11yc">

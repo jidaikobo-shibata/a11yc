@@ -2,7 +2,11 @@
 <!-- list -->
 <h2 id="a11yc_checklist_index_title"><?php echo A11YC_LANG_CTRL_LABEL_EDIT ?></h2>
 
-<?php echo $submenu; ?>
+<?php
+echo $submenu;
+echo A11YC_LANG_LAST_UPDATE.Model\Html::lastUpdate($url).' ';
+echo '<a href="'.A11YC_PAGE_URL.'updatehtml&amp;url='.Util::s(Util::urlenc($url)).'">'.A11YC_LANG_REFRESH_HTML.'</a>';
+?>
 
 <!-- add pages form -->
 <form action="<?php echo A11YC_PAGE_URL ?>edit&amp;url=<?php echo $url ?>" method="POST" enctype="multipart/form-data">

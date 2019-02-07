@@ -12,12 +12,12 @@
 </tr>
 </thead>
 
+	<tbody>
 <?php
 foreach ($versions as $version => $v):
 $id = intval($version);
 $checked = $v['trash'] ? '' : ' checked="checked"';
 ?>
-	<tbody>
 
 	<tr>
 	<td>

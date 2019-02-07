@@ -78,6 +78,11 @@ if ( ! defined('A11YC_IS_GUEST_VALIDATION') && KONTIKI_DB_TYPE != 'none')
 	{
 		Session::add('messages', 'errors', A11YC_LANG_ERROR_NON_TARGET_LEVEL);
 	}
+
+	if (Model\Version::current() != 0)
+	{
+		Session::add('messages', 'errors', A11YC_LANG_SETTING_VERSION_ALERT);
+	}
 }
 
 // view
