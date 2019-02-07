@@ -1,6 +1,6 @@
 <?php
 /**
- * A11yc\Images
+ * A11yc\Image
  *
  * @package    part of A11yc
  * @author     Jidaikobo Inc.
@@ -12,19 +12,20 @@ namespace A11yc;
 
 use A11yc\Model;
 
-class Images
+class Image
 {
 	/**
 	 * get images
 	 *
 	 * @param String $url
 	 * @param String $base_uri
+	 * @param String $target_html
 	 * @return  Array
 	 */
-	public static function getImages($url, $base_uri = '')
+	public static function getImages($url, $base_uri = '', $target_html = '')
 	{
 		$retvals = array();
-		$str = Element\Get::ignoredHtml($url);
+		$str = empty($target_html) ? Element\Get::ignoredHtml($url) : $target_html;
 		$n = 0;
 
 		// at first, get images in a

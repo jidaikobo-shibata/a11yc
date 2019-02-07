@@ -202,7 +202,7 @@ trait DownloadCsv
 		if (is_null($csv)) return array();
 
 		// alt list
-		foreach (\A11yc\Images::getImages($url) as $v)
+		foreach (\A11yc\Image::getImages($url) as $v)
 		{
 			// message
 			$alt = Arr::get($v['attrs'], 'alt');

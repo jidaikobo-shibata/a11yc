@@ -28,6 +28,8 @@ use A11yc\Validate;
 
 class Post
 {
+	use PostAuth;
+
 	private static $behaviours = array(
 		'images',
 		'csv',
@@ -164,8 +166,8 @@ class Post
 		// fallback
 		View::assign('errs', array());
 
-		// auth - if limit die here
-		Post\Auth::auth();
+		// auth - if limit die here: use PostAuth
+		static::auth();
 
 		// validation
 		list($target_html, $do_validate) = self::getHtmlAndCheckDoValidate($url, $doc_root, $current_ua);
@@ -182,7 +184,7 @@ class Post
 			self::setMessage($target_html, $url);
 
 			// choose template validate or image list
-			$tpl = Input::post('behaviour') == 'image' ? 'checklist/images.php' : 'checklist/validate.php';
+			$tpl = Input::post('behaviour') == 'images' ? 'checklist/images.php' : 'checklist/validate.php';
 			View::assign('result', View::fetchTpl($tpl), false);
 		}
 
@@ -236,7 +238,7 @@ class Post
 		elseif ( ! empty($url))
 		{
 			$target_html = Model\Html::fetchHtmlFromInternet($url, $ua); // not use Database
-			$do_validate = self::failedOrDoOtherAction($url, $doc_root);
+			$do_validate = self::failedOrDoOtherAction($url, $doc_root, $target_html);
 		}
 		return array($target_html, $do_validate);
 	}
@@ -271,9 +273,10 @@ class Post
 	 *
 	 * @param String $url
 	 * @param String $doc_root
+	 * @param String $target_html
 	 * @return Bool|Void
 	 */
-	private static function failedOrDoOtherAction($url, $doc_root)
+	private static function failedOrDoOtherAction($url, $doc_root, $target_html)
 	{
 		$do_validate = true;
 
@@ -300,7 +303,7 @@ class Post
 		)
 		{
 			$do_validate = false;
-			View::assign('images', A11yc\Images::getImages($url, $doc_root));
+			View::assign('images', A11yc\Image::getImages($url, $doc_root, $target_html));
 			Session::add('messages', 'messages', A11YC_LANG_POST_DONE_IMAGE_LIST);
 			return $do_validate;
 		}
@@ -365,8 +368,8 @@ class Post
 		View::assign('yml'                 , Yaml::fetch());
 		View::assign('logs'                , Validate\Get::logs($url) ?: array());
 
-		// count up for guest users
-		Post\Auth::countUpForGuestUsers();
+		// count up for guest users : use PostAuth
+		static::countUpForGuestUsers();
 	}
 
 	/**

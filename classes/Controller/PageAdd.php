@@ -29,6 +29,7 @@ trait PageAdd
 
 		if (Input::isPostExists())
 		{
+			// get url list
 			if ($get_urls)
 			{
 				$crawled = self::getUrls($get_urls);
@@ -36,6 +37,7 @@ trait PageAdd
 			}
 			else
 			{
+				// add page to db
 				self::addPages($is_force);
 			}
 		}

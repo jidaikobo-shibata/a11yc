@@ -194,7 +194,7 @@ class Page
 		$html = Html::fetch($url);
 		$title = Html::pageTitleFromHtml($html);
 
-		if ( ! $title)
+		if (empty($title))
 		{
 			Session::add('messages', 'errors', A11YC_LANG_ERROR_COULD_NOT_GET_HTML.Util::s($url));
 		}

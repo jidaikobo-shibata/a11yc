@@ -31,7 +31,7 @@ class Image
 	 */
 	public static function view($url)
 	{
-		View::assign('images', \A11yc\Images::getImages($url));
+		View::assign('images', \A11yc\Image::getImages($url));
 		View::assign('title',  'Image List');
 		View::assign('body',   View::fetchTpl('checklist/images.php'), false);
 	}
