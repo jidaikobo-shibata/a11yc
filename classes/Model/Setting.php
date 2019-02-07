@@ -20,7 +20,7 @@ class Setting
 		'standard'                        => 0,
 		'show_results'                    => false,
 		'hide_url_results'                => false,
-		'cache_time'                      => 1440, // a day in min.
+		'hide_date_results'               => false,
 		'client_name'                     => '',
 		'declare_date'                    => '',
 		'test_period'                     => '',

@@ -77,7 +77,7 @@ trait DownloadCsv
 		// check and generate csv
 		foreach ($urls as $url)
 		{
-			$html = Model\Html::fetch($url, false, true, true);
+			$html = Model\Html::fetch($url);
 			if ($html === false) continue;
 
 			// validate

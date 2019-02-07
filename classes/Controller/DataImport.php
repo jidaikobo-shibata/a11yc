@@ -70,7 +70,9 @@ trait DataImport
 		}
 		$sites[] = Util::urldec($new_site);
 		Model\Data::update('sites', 'global', $sites);
-		Model\Data::update('group_id', 'global', max(array_keys($sites)), 0, 1);
+		$group_id = max(array_keys($sites));
+		Model\Data::update('group_id', 'global', $group_id, 0, 1);
+		Model\Data::setGroupId($group_id);
 
 		return true;
 	}
@@ -201,7 +203,7 @@ trait DataImport
 		{
 			if ( ! isset($val)) continue;
 			$val = htmlspecialchars_decode($val);
-			Model\Html::insert($url, '', $val);
+			Model\Html::insert($url, $val);
 		}
 	}
 

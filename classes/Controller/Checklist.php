@@ -56,7 +56,7 @@ class Checklist
 		}
 		else
 		{
-			$title = A11YC_LANG_CTRL_CHECK.':'.Model\Html::fetchPageTitle($url);
+			$title = A11YC_LANG_CTRL_CHECK.':'.Model\Html::pageTitle($url);
 			$page = Model\Page::fetch($url);
 		}
 
@@ -150,7 +150,7 @@ class Checklist
 
 		// assign
 		View::assign('target_title', empty($page['title']) && $url != 'bulk' ?
-			Model\Html::fetchPageTitle($url) :
+			Model\Html::pageTitle($url) :
 			Arr::get($page, 'title', '')
 		);
 
@@ -226,10 +226,7 @@ class Checklist
 			$page = Model\Page::fetch($url, $force);
 			if ($page === false)
 			{
-				Session::add(
-					'messages',
-					'errors',
-					A11YC_LANG_ERROR_COULD_NOT_GET_HTML.': '. Util::s($url));
+				Session::add('messages', 'errors', A11YC_LANG_ERROR_COULD_NOT_GET_HTML.Util::s($url));
 			}
 		}
 

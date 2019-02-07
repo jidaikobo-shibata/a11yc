@@ -1,7 +1,8 @@
 <?php namespace A11yc; ?>
 
 <?php if ( ! $is_assign): ?>
-<h2><?php echo $title ?> <?php if (Arr::get($settings, 'declare_date') && Arr::get($settings, 'declare_date') != '0000-00-00'): echo '('.$settings['declare_date'].')'; endif;?></h2>
+<!-- <h2><?php echo $title ?> <?php if (Arr::get($settings, 'declare_date') && Arr::get($settings, 'declare_date') != '0000-00-00'): echo '('.$settings['declare_date'].')'; endif;?></h2> -->
+<h2><?php echo $title ?></h2>
 <?php endif; ?>
 
 <table class="a11yc_table a11yc_table_report">
@@ -74,8 +75,8 @@
 	<!-- /selected method -->
 	<?php endif; ?>
 
-	<!-- number of checked -->
 	<?php if ( ! $is_assign && isset($done) && $is_total && ! Arr::get($settings, 'hide_url_results')): ?>
+	<!-- number of checked -->
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_CHECKED_PAGES_URLS ?></th>
 		<td><?php
@@ -83,11 +84,11 @@
 			echo ' ('.$done.' / '.$total.')';
 		?></td>
 	</tr>
-	<?php endif; ?>
 	<!-- /number of checked -->
+	<?php endif; ?>
 
-	<!-- unpassed pages -->
 	<?php if ( ! $is_assign && isset($unpassed_pages) && $is_total): ?>
+	<!-- unpassed pages -->
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_UNPASSED_PAGES ?></th>
 		<td>
@@ -125,9 +126,10 @@
 			?>
 		</td>
 	</tr>
-	<?php endif; ?>
 	<!-- /unpassed pages -->
+	<?php endif; ?>
 
+	<?php if (Arr::get($settings, 'hide_date_results', false) == false): ?>
 	<!-- period of date -->
 	<tr>
 	<?php if ( ! $is_assign && $is_total): ?>
@@ -139,24 +141,25 @@
 	<?php endif; ?>
 	</tr>
 	<!-- /period of date -->
+	<?php endif; ?>
 
-	<!-- contact -->
 	<?php if (Arr::get($settings, 'contact', false)): ?>
+	<!-- contact -->
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_CONTACT ?></th>
 		<td><?php echo $settings['contact']; ?></td>
 	</tr>
-	<?php endif; ?>
 	<!-- /contact -->
+	<?php endif; ?>
 
 </table>
 
-<!-- report -->
 <?php if ($is_total && Arr::get($settings, 'report', false)): ?>
+<!-- report -->
 <h2><?php echo A11YC_LANG_OPINION ?></h2>
 <?php echo htmlspecialchars_decode($settings['report']); ?>
-<?php endif; ?>
 <!-- /report -->
+<?php endif; ?>
 
 <!-- results -->
 <?php

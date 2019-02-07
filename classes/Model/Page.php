@@ -191,18 +191,12 @@ class Page
 			return false;
 		}
 
-		$title = '';
-		if (Guzzle::envCheck())
-		{
-			$title = Html::fetchPageTitle($url);
-		}
+		$html = Html::fetch($url);
+		$title = Html::pageTitleFromHtml($html);
 
 		if ( ! $title)
 		{
-			Session::add(
-				'messages',
-				'errors',
-				A11YC_LANG_ERROR_COULD_NOT_GET_HTML.': '. Util::s($url));
+			Session::add('messages', 'errors', A11YC_LANG_ERROR_COULD_NOT_GET_HTML.Util::s($url));
 		}
 
 		$vals = array();
@@ -305,7 +299,7 @@ class Page
 	{
 		foreach (static::fetchAll() as $page)
 		{
-			$title = Html::fetchPageTitleFromHtml(Html::fetch($page['url']));
+			$title = Html::pageTitleFromHtml(Html::fetch($page['url']));
 			static::updatePartial($page['url'], 'real_title', $title);
 		}
 		Session::add('messages', 'messages', 'Page titles\' database were updated.');

@@ -31,11 +31,6 @@ trait PageAdd
 		{
 			if ($get_urls)
 			{
-				if (intval(Model\Setting::fetch('cache_time', 60)) == -1)
-				{
-					Session::add('messages', 'errors', A11YC_LANG_PAGE_CANNOT_IMPORT_HTML);
-					Util::redirect(A11YC_PAGE_URL.'add');
-				}
 				$crawled = self::getUrls($get_urls);
 				Session::add('param', 'get_urls', $get_urls);
 			}
@@ -268,8 +263,10 @@ trait PageAdd
 			if ( ! Crawl::isTargetMime($url)) continue;
 
 			$current = $k + 1;
-			$from_internet = true;
-			$title = Util::s(Model\Html::fetchPageTitle($url, $from_internet));
+
+			$html = Model\Html::fetchHtmlFromInternet($url);
+			Model\Html::insert($url, $html);
+			$title = Util::s(Model\Html::pageTitleFromHtml($html));
 			echo '<p>'.Util::s($url).' ('.$current.'/'.count($pages).')<br />';
 			echo $title.'<br />';
 			echo "<strong style=\"border-radius: 5px; padding: 5px; color: #fff;background-color:#408000;\">Add</strong>\n";

@@ -35,7 +35,7 @@ trait DataExport
 		{
 			$vals['result'][$page['url']] = Model\Result::fetch($page['url']);
 			$vals['check'][$page['url']]  = Model\Checklist::fetch($page['url']);
-			$vals['html'][$page['url']]   = Model\Html::fetch($page['url'], '', true, true);
+			$vals['html'][$page['url']]   = Model\Html::fetch($page['url']);
 		}
 
 		File::download('a11yc.export.json', json_encode($vals));

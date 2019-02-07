@@ -32,7 +32,7 @@ trait PageUpdate
 			Model\Page::updatePartial($url, 'title', Input::post('title'));
 			Model\Page::updatePartial($url, 'seq', intval(Input::post('seq')));
 			$ua = 'using';
-			Model\Html::insert($url, $ua, Input::post('html'));
+			Model\Html::insert($url, Input::post('html'), $ua);
 			$page = Model\Page::fetch($url);
 			$newfilename = File::uploadImg('pages', $url_path, Arr::get($page, 'image_path'));
 			Model\Page::updatePartial($url, 'image_path', $newfilename);
@@ -67,4 +67,18 @@ trait PageUpdate
 		View::assign('body',  View::fetchTpl('page/edit.php'), FALSE);
 	}
 
+	/**
+	 * updateHtml
+	 *
+	 * @param String $url
+	 * @return Void
+	 */
+	public static function updateHtml($url)
+	{
+		$referer = Input::server('HTTP_REFERER');
+		if (substr($referer, 0, strlen(A11YC_URL)) != A11YC_URL) Util::error('wrong request');
+		$html = Model\Html::fetchHtmlFromInternet($url);
+		Util::setMassage(Model\Html::insert($url, $html));
+		Util::redirect($referer);
+	}
 }

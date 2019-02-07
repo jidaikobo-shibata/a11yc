@@ -35,16 +35,16 @@ trait PageIndex
 			switch (Input::post('operation'))
 			{
 				case 'delete':
-					Page\Bulk::delete();
+					static::delete();
 					break;
 				case 'undelete':
-					Page\Bulk::undelete();
+					static::undelete();
 					break;
 				case 'purge':
-					Page\Bulk::purge();
+					static::purge();
 					break;
 				default: // update order
-					Page\Bulk::updateSeq();
+					static::updateSeq();
 					break;
 			}
 			Util::redirect(A11YC_PAGE_URL.'index');

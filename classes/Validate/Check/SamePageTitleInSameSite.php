@@ -29,7 +29,7 @@ class SamePageTitleInSameSite extends Validate
 		Validate\Set::log($url, 'same_page_title_in_same_site', self::$unspec, 1);
 
 		$str = Element\Get::ignoredHtml($url);
-		$title = Model\Html::fetchPageTitleFromHtml($str);
+		$title = Model\Html::pageTitleFromHtml($str);
 		$pages = Model\Page::fetchAll();
 
 		$titles = array();

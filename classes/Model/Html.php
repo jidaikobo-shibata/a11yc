@@ -29,61 +29,26 @@ class Html
 	 * @param String $url
 	 * @param String $ua
 	 * @param Bool $force
-	 * @param Bool $is_use_cache
 	 * @return String|Bool
 	 */
-	public static function fetch($url, $ua = 'using', $force = false, $is_use_cache = true)
+	public static function fetch($url, $ua = 'using', $force = false)
 	{
 		$url = Util::urldec($url);
 		$ua = empty($ua) ? 'using' : $ua;
+		if (isset(static::$htmls[$url][$ua]) && $force === false) return static::$htmls[$url][$ua];
 
-		if (isset(static::$htmls[$url][$ua]) && $force === false)
-		{
-			return static::$htmls[$url][$ua];
-		}
-
-		// check db cache and internet
-		$html = self::cacheOrInternet($url, $ua, $is_use_cache);
+		// check db
+		$cache = Data::fetchArr('html', $url, array());
+		$html = Arr::get($cache, $ua, false);
 
 		// 65535 is sqlite filed limit
-		if (strlen($html) <= 65530 && $is_use_cache === false)
+		if (strlen($html) >= 65530)
 		{
-			static::insert($url, $ua, $html);
+			Session::add('messages', 'errors', A11YC_LANG_PAGE_CANNOT_FETCH_HTML_FROM_DB);
 		}
 
 		static::$htmls[$url][$ua] = $html;
 		return static::$htmls[$url][$ua];
-	}
-
-	/**
-	 * use cache or fetch from Internet
-	 *
-	 * @param String $url
-	 * @param String $ua
-	 * @param Bool $is_use_cache
-	 * @return String
-	 */
-	private static function cacheOrInternet($url, $ua, $is_use_cache)
-	{
-		$cache      = Data::fetch('html', $url, array());
-		$updated_at = Arr::get($cache, 'updated_at', 0);
-		$html       = Arr::get($cache, $ua, false);
-		$cache_time = intval(Setting::fetch('cache_time', 60));
-		$cache_time = $is_use_cache ? -1 : $cache_time;
-
-		// do not use internet
-		if ($cache_time == -1) return $html;
-
-		// fetch from internet
-		if (
-			strtotime($updated_at) < time() - $cache_time ||
-			strlen($html) >= 65530 // maybe broken, too long for sqlite
-		)
-		{
-			$html = self::fetchHtmlFromInternet($url, $ua);
-		}
-
-		return $html;
 	}
 
 	/**
@@ -171,11 +136,11 @@ class Html
 	 * insert
 	 *
 	 * @param String $url
-	 * @param String $ua
 	 * @param String|Bool $data
-	 * @return Void
+	 * @param String $ua
+	 * @return Bool
 	 */
-	public static function insert($url, $ua = 'using', $data = '')
+	public static function insert($url, $data = '', $ua = 'using')
 	{
 		if (empty($url)) return false;
 		$url = Util::urldec($url);
@@ -192,37 +157,50 @@ class Html
 	}
 
 	/**
-	 * fetch page title
+	 * page title
 	 *
 	 * @param String $url
-	 * @param Bool $is_from_web
 	 * @return String
 	 */
-	public static function fetchPageTitle($url, $is_from_web = false)
+	public static function pageTitle($url)
 	{
 		if (isset(static::$titles[$url])) return static::$titles[$url];
-		$html = self::fetch($url, 'using', $is_from_web);
+
+		$html = static::fetch($url);
 		$page = Page::fetch($url);
 		$title_from_db = Arr::get($page, 'title', '');
 
-		$title = empty($title_from_db) ? self::fetchPageTitleFromHtml($html) : $title_from_db;
+		$title = empty($title_from_db) ? static::pageTitleFromHtml($html) : $title_from_db;
 		static::$titles[$url] = $title;
 
 		return static::$titles[$url];
 	}
 
 	/**
-	 * fetch page title from html
+	 * page title from html
 	 *
 	 * @param String|Bool $html
 	 * @return String
 	 */
-	public static function fetchPageTitleFromHtml($html)
+	public static function pageTitleFromHtml($html)
 	{
 		if ( ! is_string($html)) return '';
 		preg_match("/<title.*?>(.+?)<\/title>/si", $html, $m);
 		$tmp = isset($m[1]) ? $m[1] : '';
 		$title = str_replace(array("\n", "\r"), '', $tmp);
 		return $title;
+	}
+
+	/**
+	 * last update
+	 *
+	 * @param String $url
+	 * @return String
+	 */
+	public static function lastUpdate($url)
+	{
+		$cache      = Data::fetch('html', $url, array());
+		$updated_at = Arr::get($cache, 'updated_at', 0);
+		return $updated_at;
 	}
 }

@@ -24,7 +24,13 @@ $icltree               = Model\icl::fetchTree(true);
 			</tr>
 			<tr>
 				<th class=""><?php echo A11YC_LANG_PAGE_URLS ?></th>
-				<td title="<?php echo Util::s(Util::urldec($url)) ?>"><?php echo '<a href="'.Util::s(Util::urldec($url)).'">'.Util::s(Util::urldec($url)).'</a>' ?></td>
+				<td>
+				<?php
+//				<td title="< ?php echo Util::s(Util::urldec($url)) ? >">
+					echo '<a href="'.Util::s(Util::urldec($url)).'">'.Util::s(Util::urldec($url)).'</a> ';
+					echo A11YC_LANG_LAST_UPDATE.Model\Html::lastUpdate($url).' ';
+					echo '<a href="'.A11YC_PAGE_URL.'updatehtml&amp;url='.Util::s(Util::urlenc($url)).'">'.A11YC_LANG_REFRESH_HTML.'</a>';
+				?></td>
 			</tr>
 			</table>
 		</div><!-- /#a11yc_targetpage_data -->

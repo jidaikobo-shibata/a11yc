@@ -98,6 +98,8 @@ define('A11YC_LANG_IMPORTANT', 'IMPORTANT');
 define('A11YC_LANG_NEED_CHECK', 'Need Check');
 define('A11YC_LANG_BASE_URL', 'Document Root URL');
 define('A11YC_LANG_NAME', 'Name');
+define('A11YC_LANG_REFRESH_HTML', 'Refresh HTML');
+define('A11YC_LANG_LAST_UPDATE', 'HTML Last Update: ');
 
 // ua
 define('A11YC_LANG_UA_USING', 'Current Browser');
@@ -188,10 +190,9 @@ define('A11YC_LANG_SETTING_IS_USE_GUZZLE_EXP', 'If Guzzle conflicts for some rea
 define('A11YC_LANG_SETTING_EXIST_NON_AND_PASS', 'Criterion that "not Present And Conformance"');
 define('A11YC_LANG_SETTING_NON_USE_TECHS', 'non use technique in implements checklist');
 define('A11YC_LANG_SETTING_NON_USE_TECHS_CANDIDATES', 'Use usual setting');
-define('A11YC_LANG_SETTING_CACHE_TIME', 'Cache Period');
-define('A11YC_LANG_SETTING_CACHE_TIME_EXP', 'Please enter in minutes. A value of -1 will not update the cache');
-define('A11YC_LANG_PAGE_CANNOT_IMPORT_HTML', 'Cannot fetch HTML from internet because '.A11YC_LANG_SETTING_CACHE_TIME.' is -1 at '.A11YC_LANG_SETTING_TITLE);
+define('A11YC_LANG_PAGE_CANNOT_FETCH_HTML_FROM_DB', 'Because the size of HTML is over 65530, it was not possible to get it correctly');
 define('A11YC_LANG_SETTING_RESULT_HIDE_URL', 'Do not display the URL of each page in the test result');
+define('A11YC_LANG_SETTING_RESULT_HIDE_DATE', 'Do not display the Date of test in the test result');
 
 define('A11YC_LANG_DECLARE_DATE', 'Declare Date');
 define('A11YC_LANG_CLIENT_NAME', 'Client Name');

@@ -14,9 +14,9 @@ use A11yc\Model;
 
 class Page
 {
+	use PageIndex;
 	use PageAdd;
 	use PageBulk;
-	use PageIndex;
 	use PageUpdate;
 
 	/**
@@ -26,6 +26,7 @@ class Page
 	 */
 	public static function actionIndex()
 	{
+		// use PageIndex
 		static::index();
 	}
 
@@ -36,6 +37,7 @@ class Page
 	 */
 	public static function actionAdd()
 	{
+		// use PageAdd
 		static::targetPages();
 	}
 
@@ -46,7 +48,20 @@ class Page
 	 */
 	public static function actionEdit()
 	{
+		// use PageUpdate
 		static::edit();
+	}
+
+	/**
+	 * update html
+	 *
+	 * @return Void
+	 */
+	public static function actionUpdatehtml()
+	{
+		// use PageUpdate
+		$url = Util::enuniqueUri(Input::param('url', ''));
+		static::updateHtml($url);
 	}
 
 	/**

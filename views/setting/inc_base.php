@@ -189,15 +189,17 @@ $levels = array(
 	</tr>
 
 	<tr>
-		<th><label for="a11yc_cache_time"><?php echo A11YC_LANG_SETTING_CACHE_TIME ?></label></th>
-		<td><p><?php echo A11YC_LANG_SETTING_CACHE_TIME_EXP ?></p><input type="text" name="cache_time" id="a11yc_cache_time" size="5" value="<?php echo intval(Arr::get($settings, 'cache_time', '60')) ?>" /></td>
-	</tr>
-
-	<tr>
 		<th><label for="a11yc_hide_url_results"><?php echo A11YC_LANG_CTRL_VIEW ?></label></th>
 		<td>
+			<p>
 			<?php $checked = Arr::get($settings, 'hide_url_results') == 1 ? ' checked="checked"' : ''; ?>
-			<label><input type="checkbox" name="hide_url_results" id="a11yc_hide_url_results" value="1"<?php   echo $checked ?>/><?php echo A11YC_LANG_SETTING_RESULT_HIDE_URL ?></label>
+			<label><input type="checkbox" name="hide_url_results" id="a11yc_hide_url_results" value="1"<?php echo $checked ?>/> <?php echo A11YC_LANG_SETTING_RESULT_HIDE_URL ?></label>
+			</p>
+
+			<p>
+			<?php $checked = Arr::get($settings, 'hide_date_results') == 1 ? ' checked="checked"' : ''; ?>
+			<label><input type="checkbox" name="hide_date_results" id="a11yc_hide_date_results" value="1"<?php echo $checked ?>/> <?php echo A11YC_LANG_SETTING_RESULT_HIDE_DATE ?></label>
+			</p>
 		</td>
 	</tr>
 

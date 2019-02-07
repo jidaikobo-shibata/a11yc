@@ -98,6 +98,8 @@ define('A11YC_LANG_IMPORTANT', '重要');
 define('A11YC_LANG_NEED_CHECK', '要確認');
 define('A11YC_LANG_BASE_URL', 'ドキュメントルートURL');
 define('A11YC_LANG_NAME', '表題');
+define('A11YC_LANG_REFRESH_HTML', 'HTMLを更新');
+define('A11YC_LANG_LAST_UPDATE', 'HTML最終更新日: ');
 
 // ua
 define('A11YC_LANG_UA_USING', '現在のブラウザ');
@@ -188,10 +190,9 @@ define('A11YC_LANG_SETTING_IS_USE_GUZZLE_EXP', 'なんらかの理由でGuzzle�
 define('A11YC_LANG_SETTING_EXIST_NON_AND_PASS', '「適用なし適合」になる達成基準');
 define('A11YC_LANG_SETTING_NON_USE_TECHS', '実装チェックリストで用いない達成方法');
 define('A11YC_LANG_SETTING_NON_USE_TECHS_CANDIDATES', '定番的に用いない達成方法をチェック');
-define('A11YC_LANG_SETTING_CACHE_TIME', 'キャッシュ期間');
-define('A11YC_LANG_SETTING_CACHE_TIME_EXP', '分単位で入力してください。-1にすると、キャッシュを更新しません');
-define('A11YC_LANG_PAGE_CANNOT_IMPORT_HTML', A11YC_LANG_SETTING_TITLE.'で、'.A11YC_LANG_SETTING_CACHE_TIME.'が「-1」に設定されているため、HTMLをインターネットから取得できません');
+define('A11YC_LANG_PAGE_CANNOT_FETCH_HTML_FROM_DB', 'HTMLのサイズが65530以上あるため、正常な取得ができませんでした');
 define('A11YC_LANG_SETTING_RESULT_HIDE_URL', '試験結果に各ページのURLを表示しない');
+define('A11YC_LANG_SETTING_RESULT_HIDE_DATE', '試験結果に試験日を表示しない');
 
 define('A11YC_LANG_DECLARE_DATE', '表明日');
 define('A11YC_LANG_CLIENT_NAME', 'クライアント名');

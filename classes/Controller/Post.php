@@ -262,7 +262,7 @@ class Post
 
 		if ($target_html)
 		{
-			View::assign('page_title', Model\Html::fetchPageTitleFromHtml($target_html));
+			View::assign('page_title', Model\Html::pageTitleFromHtml($target_html));
 		}
 	}
 

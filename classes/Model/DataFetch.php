@@ -204,6 +204,18 @@ trait DataFetch
 	}
 
 	/**
+	 * set group_id
+	 *
+	 * @param Integer $group_id
+	 * @return Void
+	 */
+	public static function setGroupId($group_id)
+	{
+		// need existence check?
+		static::$group_id = $group_id;
+	}
+
+	/**
 	 * fetchSites
 	 *
 	 * @param Bool $force
