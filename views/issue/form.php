@@ -13,7 +13,7 @@
 	<th><?php echo A11YC_LANG_EXPORT ?></th>
 	<td>
 		<p><?php echo A11YC_LANG_ISSUE_EXPORT_EXP ?></p>
-		<?php $checked = Arr::get($item, 'output', false) ? ' checked="checked"' : ''; ?>
+		<?php $checked = Arr::get($item, 'output', true) ? ' checked="checked"' : ''; ?>
 		<label><input<?php echo $checked ?> type="checkbox" id="a11yc_output" name="output" value="1" /><?php echo A11YC_LANG_EXPORT ?></label>
 	</td>
 </tr>

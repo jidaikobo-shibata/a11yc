@@ -28,17 +28,23 @@ trait DataImport
 			if ( ! file_exists(Arr::get($file, 'tmp_name'))) Util::redirect(A11YC_URL);
 			$results = json_decode(file_get_contents($file['tmp_name']), true);
 
-			if ( ! $is_icl)
+			$is_add = self::addNewSite($results);
+			foreach ($results['version_keys'] as $version)
 			{
-				$is_add = self::addNewSite($results);
-				self::importSetting($results, $is_add);
-				self::importPage($results);
-				self::importResult($results);
-				self::importChecklist($results);
-				self::importIssue($results);
-				self::importCache($results);
+				Model\Data::setVersion($version);
+				$vals = $results[$version];
+
+				if ( ! $is_icl)
+				{
+					self::importSetting($vals, $is_add);
+					self::importPage($vals);
+					self::importResult($vals);
+					self::importChecklist($vals);
+					self::importIssue($vals);
+					self::importCache($vals);
+				}
+				self::importIcl($vals);
 			}
-			self::importIcl($results);
 		}
 
 		View::assign('is_icl', $is_icl);

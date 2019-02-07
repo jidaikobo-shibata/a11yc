@@ -22,6 +22,7 @@ class Version
 		'icl',
 		'iclsit',
 		'iclchk',
+		'html',
 	);
 	public static $fields = array(
 		'version' => 0,
