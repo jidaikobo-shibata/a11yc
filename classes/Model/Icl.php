@@ -59,7 +59,7 @@ class Icl
 			$vals[] = $value;
 		}
 		$vals = Util::multisort($vals); // don't use ksort. seq is better.
-		static::$vals = Util::arrayColumn($vals);
+		static::$vals = array_column($vals, 'id');
 		return static::$vals;
 	}
 

@@ -226,31 +226,6 @@ class Util
 	}
 
 	/**
-	 * unquoteUnserialize
-	 *
-	 * @param String $str
-	 * @return Array
-	 */
-	public static function unquoteUnserialize($str)
-	{
-		if ( ! is_string($str)) return array();
-		$str = str_replace('&quot;', '"', $str);
-		$vals = @unserialize($str);
-		return is_array($vals) ? $vals : array();
-	}
-
-	/**
-	 * Check if a string is serialized
-	 *
-	 * @param String $str
-	 * @return Array
-	 */
-	public static function is_serialized($str)
-	{
-		return (@unserialize($str) !== false);
-	}
-
-	/**
 	 * multisort
 	 *
 	 * @param Array $array
@@ -271,27 +246,5 @@ class Util
 		array_multisort($keys, $order, $array);
 
 		return $array;
-	}
-
-	/**
-	 * arrayColumn
-	 * array_column() lower compatible
-	 *
-	 * @param Array $arr
-	 * @param String $column
-	 * @return Array
-	 */
-	public static function arrayColumn($arr, $column = 'id')
-	{
-		reset($arr);
-		if ( ! isset($arr[key($arr)][$column])) return array();
-		$vals = array();
-		foreach ($arr as $v)
-		{
-			$id = $v[$column];
-			unset($v[$column]);
-			$vals[$id] = $v;
-		}
-		return $vals;
 	}
 }
