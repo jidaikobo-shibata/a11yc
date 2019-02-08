@@ -13,14 +13,18 @@
 	<td><?php echo Arr::get($item, 'title', '') ?></td>
 </tr>
 
+<?php
+		$situations = Model\Icl::fetchAll();
+		$situation = Arr::get($item, 'situation', '');
+		if (isset($situations[$situation]['title'])):
+?>
 <tr>
 	<th><?php echo A11YC_LANG_SITUATION ?></th>
 	<td><?php
-		$situations = Model\Icl::fetchAll();
-		$situation = Arr::get($item, 'situation', '');
 		echo $situations[$situation]['title'];
 	?></td>
 </tr>
+<?php endif; ?>
 
 <tr>
 	<th><?php echo A11YC_LANG_ICL_ID ?></th>
