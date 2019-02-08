@@ -108,7 +108,7 @@ class Post
 	public static function actionDocs()
 	{
 		View::assign('a11yc_doc_url', A11YC_POST_SCRIPT_URL.'?a=doc&amp;criterion=');
-		Docs::index(); // $body set
+		Doc::index(); // $body set
 		define('A11YC_LANG_POST_TITLE', A11YC_LANG_DOC_TITLE);
 	}
 
@@ -123,7 +123,7 @@ class Post
 		if ($criterion)
 		{
 			View::assign('a11yc_doc_url', A11YC_POST_SCRIPT_URL.'?a=doc&amp;criterion=');
-			Docs::each($criterion); // $body set
+			Doc::each($criterion); // $body set
 			$doc = View::fetch('doc');
 			define('A11YC_LANG_POST_TITLE', $doc['name']);
 			return;
