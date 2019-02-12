@@ -43,6 +43,11 @@ class Icl
 	 * @param Bool $force
 	 * @return Array
 	 */
+	/*
+		Data::deleteByKey('icl');
+		Data::deleteByKey('iclsit');
+		Setting::update('is_waic_imported', false);
+	*/
 	public static function fetchAll($force = false)
 	{
 		if ( ! is_null(static::$vals) && ! $force) return static::$vals;
@@ -52,14 +57,14 @@ class Icl
 		{
 			if ( ! in_array($v['key'], array('icl', 'iclsit'))) continue;
 			$value = json_decode($v['value'], true);
-			$type = $value['is_sit'] ? 'iclsit' : 'icl';
+			$type = Arr::get($value, 'is_sit', false) == true ? 'iclsit' : 'icl';
 			$value = Data::filter($value, static::$fields[$type]);
 			$value['id'] = $v['url'];
 			$value['dbid'] = $v['id'];
 			$vals[] = $value;
 		}
 		$vals = Util::multisort($vals); // don't use ksort. seq is better.
-		static::$vals = array_column($vals, 'id');
+		static::$vals = Util::keyByColumn($vals);
 		return static::$vals;
 	}
 

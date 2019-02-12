@@ -205,6 +205,7 @@ class Session
 			}
 			if (isset(static::$values[$realm]))
 			{
+				static::$values[$realm][$key] = empty(static::$values[$realm][$key]) ? array() : static::$values[$realm][$key];
 				$vals = array_merge($vals, static::$values[$realm][$key]);
 			}
 			if ($is_once) static::remove($realm, $key);

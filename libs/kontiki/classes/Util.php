@@ -247,4 +247,26 @@ class Util
 
 		return $array;
 	}
+
+	/**
+	 * keyByColumn
+	 * array_column() lower compatible
+	 *
+	 * @param Array $arr
+	 * @param String $column
+	 * @return Array
+	 */
+	public static function keyByColumn($arr, $column = 'id')
+	{
+		reset($arr);
+		if ( ! isset($arr[key($arr)][$column])) return array();
+		$vals = array();
+		foreach ($arr as $v)
+		{
+			$id = $v[$column];
+			unset($v[$column]);
+			$vals[$id] = $v;
+		}
+		return $vals;
+	}
 }

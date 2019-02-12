@@ -29,9 +29,11 @@ trait DataImport
 			$results = json_decode(file_get_contents($file['tmp_name']), true);
 
 			$is_add = self::addNewSite($results);
+			if ($is_add) Model\Version::updateVersions($results['version']);
+
 			foreach ($results['version_keys'] as $version)
 			{
-				Model\Data::setVersion($version);
+				Model\Version::setVersion($version);
 				$vals = $results[$version];
 
 				if ( ! $is_icl)
@@ -93,7 +95,7 @@ trait DataImport
 	private static function importSetting($results, $is_add)
 	{
 		if ( ! isset($results['setting']) || ! $is_add) return;
-		Model\Setting::updateAll($results);
+		Model\Setting::updateAll($results['setting']);
 	}
 
 	/**

@@ -48,6 +48,16 @@ class Setting
 	}
 
 	/**
+	 * action change version
+	 *
+	 * @return Void
+	 */
+	public static function actionChange()
+	{
+		self::changeVersion();
+	}
+
+	/**
 	 * action site
 	 *
 	 * @return Void
@@ -157,8 +167,21 @@ class Setting
 		$force = true;
 		View::assign('title',        A11YC_LANG_SETTING_TITLE_VERSION);
 		View::assign('versions',     Model\Version::fetchAll($force));
-		View::assign('protect_form', View::fetchTpl('setting/inc_protect.php'), FALSE);
+		View::assign('protect_form', View::fetchTpl('setting/inc_version_protect.php'), FALSE);
+		View::assign('use_form',     View::fetchTpl('setting/inc_version_use.php'), FALSE);
 		View::assign('form',         View::fetchTpl('setting/inc_version.php'), FALSE);
+	}
+
+
+	/**
+	 * chage version
+	 *
+	 * @return Void
+	 */
+	public static function changeVersion()
+	{
+		Util::setMassage(Model\Version::changeVersion(Input::post('target_version', 0)));
+		Util::redirect(A11YC_SETTING_URL.'version');
 	}
 
 	/**
@@ -238,7 +261,7 @@ class Setting
 
 			$sites[] = Util::urldec($new_site);
 			Model\Data::update('sites', 'global', $sites);
-			Session::add('messages', 'message', A11YC_LANG_CTRL_ADDED_NORMALLY);
+			Session::add('messages', 'messages', A11YC_LANG_CTRL_ADDED_NORMALLY);
 		}
 	}
 
@@ -253,6 +276,7 @@ class Setting
 		{
 			if ($site != Model\Data::groupId())
 			{
+				Session::remove('messages', 'errors');
 				if (Model\Data::fetchGroupId())
 				{
 					Model\Data::update('group_id', 'global', $site, 0, 1);
@@ -261,7 +285,7 @@ class Setting
 				{
 					Model\Data::insert('group_id', 'global', $site, 0, 1);
 				}
-				Session::add('messages', 'message', A11YC_LANG_CTRL_ADDED_NORMALLY);
+				Session::add('messages', 'messages', A11YC_LANG_CTRL_ADDED_NORMALLY);
 			}
 		}
 	}

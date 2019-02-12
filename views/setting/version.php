@@ -9,6 +9,12 @@
 </form>
 
 <?php if ($versions):  ?>
+<!-- change version -->
+<form action="<?php echo A11YC_SETTING_URL.'change' ?>" method="POST">
+<?php echo $use_form; ?>
+<input type="submit" value="<?php echo A11YC_LANG_CTRL_SEND ?>" />
+</form>
+
 <!-- versions -->
 <form action="<?php echo A11YC_SETTING_URL.'version' ?>" method="POST">
 <?php echo $form; ?>

@@ -194,6 +194,10 @@ define('A11YC_LANG_PAGE_CANNOT_FETCH_HTML_FROM_DB', 'HTMLのサイズが65530以
 define('A11YC_LANG_SETTING_RESULT_HIDE_URL', '試験結果に各ページのURLを表示しない');
 define('A11YC_LANG_SETTING_RESULT_HIDE_DATE', '試験結果に試験日を表示しない');
 
+define('A11YC_LANG_SETTING_VERSION', '管理するバージョン');
+define('A11YC_LANG_SETTING_VERSION_CURRENT', '現在のバージョン');
+define('A11YC_LANG_SETTING_VERSION_ALERT', '要注意！ 過去のバージョンを表示しています');
+
 define('A11YC_LANG_DECLARE_DATE', '表明日');
 define('A11YC_LANG_CLIENT_NAME', 'クライアント名');
 define('A11YC_LANG_STANDARD', '規格の種類');
