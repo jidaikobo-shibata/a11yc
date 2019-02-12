@@ -12,7 +12,7 @@ if ($pages):
 	echo $search_form;
 ?>
 
-<form action="<?php echo Util::uri() ?>" method="POST">
+<form action="<?php echo Util::uri() ?>" method="POST" class="a11yc_form_confirm">
 <?php echo isset($add_nonce) ? $add_nonce : ''; ?>
 <label for="a11yc_operation"><?php echo A11YC_LANG_BULK_TITLE ?></label>
 <select name="operation" id="a11yc_operation">

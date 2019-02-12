@@ -220,6 +220,23 @@ jQuery(function($){
 	});
 });
 
+/*  === confirm for changes === */
+jQuery(function($){
+	var a11yc_change_flg = false;
+	$('.a11yc_form_confirm').on('change',function(e){
+		a11yc_change_flg = true;
+	}).on('submit',function(){
+		a11yc_change_flg = false;
+	});
+	$(window).bind("beforeunload", function(e) {
+		if( a11yc_change_flg )
+		{
+			e.preventDefault();
+			return false;
+		}
+	});
+});
+
 /* === check all === */
 jQuery(function($){
 // check all
