@@ -1,6 +1,6 @@
 <?php namespace A11yc; ?>
 <!-- list -->
-<h2 id="a11yc_checklist_index_title"><?php echo A11YC_LANG_PAGE_INDEX ?></h2>
+<h2 id="a11yc_index_title"><?php echo A11YC_LANG_PAGE_INDEX ?></h2>
 
 <!-- /.a11yc_checklist_pages -->
 <?php

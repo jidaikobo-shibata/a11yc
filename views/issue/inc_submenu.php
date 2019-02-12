@@ -1,5 +1,5 @@
 <?php namespace A11yc; ?>
-<ul>
+<ul class="a11yc_submenu">
 <?php
 
 foreach ($issues as $status => $issue):

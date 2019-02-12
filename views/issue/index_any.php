@@ -1,8 +1,8 @@
 <?php namespace A11yc; ?>
 
+<h2 id="a11yc_index_title"><?php echo $title ?></h2>
 <?php include('inc_submenu.php'); ?>
 
-<h2><?php echo $title ?></h2>
 <?php
 if (empty($items)):
 ?>
@@ -22,7 +22,7 @@ else:
 
 	<?php
 	foreach ($items as $url => $vals):
-		$rowspan = 1;
+		$rowspan = 0;
 		foreach ($vals as $criterion => $each_issues):
 			 $rowspan = $rowspan + count($each_issues);
 		endforeach;
@@ -43,15 +43,14 @@ else:
 		 <a href="<?php echo A11YC_CHECKLIST_URL.Util::urlenc($url) ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_CTRL_CHECK ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a>
 	<?php endif; ?>
 	</td>
-</tr>
-
 <?php
+	$r = 0;
 	foreach ($vals as $criterion => $each_issues):
 ?>
 
 <?php foreach ($each_issues as $each_issue): ?>
-<tr>
-	<td class="a11yc_issue_data"><ul>
+<?php if( $r !== 0 ) echo '<tr>'; ?>
+	<td class="a11yc_issue_data">
 		<?php
 			$type = $each_issue['n_or_e'] == 0 ?
 							'<span class="a11yc_validation_code_notice">NOTICE</span>':
@@ -78,6 +77,7 @@ else:
 		<?php endif; ?>
 	</td>
 </tr>
+<?php $r++; ?>
 <?php endforeach; ?>
 <?php endforeach; ?>
 <?php endforeach; ?>

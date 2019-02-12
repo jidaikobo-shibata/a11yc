@@ -1447,15 +1447,15 @@ span.a11yc_icon_expand:before {
 }
 
 /* pages */
-#a11yc_checklist_index_title,
-.a11yc_checklist_pages {
-	display: inline-block;
+#a11yc_index_title,
+.a11yc_submenu {
+	display: inline;
 }
 #a11yc_pagenate_info {
 	float: left;
 	margin: 0 5px;
 }
-.a11yc_checklist_pages,
+.a11yc_submenu,
 .a11yc_pagenation {
 	padding-left: 0;
 	list-style-type: none;
@@ -1464,20 +1464,21 @@ span.a11yc_icon_expand:before {
 .a11yc_pagenation {
 	text-align: right;
 }
-ul.a11yc_checklist_pages li,
+ul.a11yc_submenu li,
 ul.a11yc_pagenation li {
 	display: inline-block;
 	padding: 0 ;
 	margin-top: 0;
+	margin-bottom: 1em;
 	line-height: 1;
 }
-.a11yc_checklist_pages li+li,
+.a11yc_submenu li+li,
 .a11yc_pagenation li+li {
 	border-left: 1px solid #aaa;
 	margin-left: 5px;
 	padding-left: 5px;
 }
-.a11yc_checklist_pages a {
+.a11yc_submenu a {
 	padding: 2px 5px;
 	border-radius: 2px;
 }

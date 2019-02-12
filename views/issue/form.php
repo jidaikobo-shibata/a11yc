@@ -121,7 +121,7 @@
 <tr>
 	<th><label for="a11yc_seq"><?php echo A11YC_LANG_CTRL_ORDER_SEQ ?></label></th>
 	<td>
-		<input type="text" id="a11yc_seq" name="seq" style="width: 3em;" value="<?php echo intval(Arr::get($item, 'seq', 0)) ?>" />
+		<input type="text" id="a11yc_seq" name="seq" style="width: 5em;" value="<?php echo intval(Arr::get($item, 'seq', 0)) ?>" />
 	</td>
 </tr>
 

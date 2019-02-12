@@ -1,6 +1,6 @@
 <?php namespace A11yc; ?>
 
-<ul class="a11yc_checklist_pages">
+<ul class="a11yc_submenu ">
 <?php
 	$lis = array();
 	$index_lists = array('all', 'yet', 'done', 'trash');
