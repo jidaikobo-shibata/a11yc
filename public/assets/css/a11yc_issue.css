@@ -19,6 +19,10 @@ body > *
 {
 	max-width: 100%;
 }
+ul
+{
+	padding-left: 22px;
+}
 img
 {
 	max-width: 100%;
@@ -67,7 +71,6 @@ body > :last-child
 }
 .cover_page
 {
-	text-align: center;
 	min-height: 20em;
 }
 .cover_page:not(.common):before
@@ -84,11 +87,10 @@ body > :last-child
 
 .cover_page > .heading
 {
-	font-size: 2rem;
+	font-size: 1.5rem;
 	line-height: 1.5;
 	display: block;
-	margin: auto;
-	padding: 1em;
+	padding: 1em 0;
 }
 .cover_page.has_image .heading
 {
@@ -101,6 +103,12 @@ body > :last-child
 	max-height: 480px;
 	margin: auto;
 }
+
+.cover_page .issue_title
+{
+	
+}
+
 .cover_page .issue_url
 {
 	font-size: 1.25rem;
@@ -150,10 +158,10 @@ body > :last-child
 	.cover_page
 	{
 		page-break-before: always;
-
 		display: table;
 		width: 100%;
 		height: 290mm;
+		text-align: center;
 	}
 	.cover_page > .heading
 	{
@@ -161,6 +169,9 @@ body > :last-child
 		position: relative;
 		top: -5vh;
 		display: table-cell;
+		margin: auto;
+		padding: 1em;
+		font-size: 2rem;
 		vertical-align: middle;
 	}
 	.cover_page:not(.common):before

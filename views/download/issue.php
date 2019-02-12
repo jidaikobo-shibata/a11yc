@@ -103,7 +103,7 @@ endif;
 <?php
 $other_url = Arr::get($issue, 'other_urls', false);
 if ($other_url):
-$other_urls = explode("\n", $other_url.trim());
+$other_urls = explode("\n", trim($other_url));
 ?>
 <div class="print_block">
 	<h3 class="heading"><?php echo A11YC_LANG_ISSUE_OTHER_URLS ?></h3>
