@@ -47,6 +47,6 @@ trait ResultAll
 		self::assignResults($target_level);
 
 		// set body
-		View::assign('body', View::fetchTpl('result/info.php'), false);
+		View::assign('body', View::fetchTpl('result/each.php'), false);
 	}
 }

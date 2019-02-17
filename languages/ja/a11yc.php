@@ -65,7 +65,7 @@ define('A11YC_LANG_CTRL_SAVE', '保存');
 define('A11YC_LANG_CTRL_PERSONS', '担当者');
 define('A11YC_LANG_COUNT_ITEMS', '%s個');
 define('A11YC_LANG_EXPORT_ERRORS_CSV', 'レポートをCSVで出力する');
-define('A11YC_LANG_EXPORT', '出力する');
+define('A11YC_LANG_EXPORT', 'エクスポート');
 define('A11YC_LANG_CTRL_DELETE', '削除');
 define('A11YC_LANG_CTRL_UNDELETE', '復活');
 define('A11YC_LANG_CTRL_PURGE', '完全に削除');
@@ -100,6 +100,7 @@ define('A11YC_LANG_BASE_URL', 'ドキュメントルートURL');
 define('A11YC_LANG_NAME', '表題');
 define('A11YC_LANG_REFRESH_HTML', 'HTMLを更新');
 define('A11YC_LANG_LAST_UPDATE', 'HTML最終更新日: ');
+define('A11YC_LANG_CHOOSE_FILE', 'ファイル選択');
 
 // ua
 define('A11YC_LANG_UA_USING', '現在のブラウザ');
@@ -124,45 +125,6 @@ define('A11YC_LANG_CENTER_ABOUT', 'A11ycについて');
 define('A11YC_LANG_CENTER_LOGO', 'ロゴマーク');
 define('A11YC_LANG_CENTER_ABOUT_CONTENT', 'A11ycは、有限会社時代工房が作成したWCAG 2.0対応のウェブアクセシビリティチェッカーです');
 
-// pages
-define('A11YC_LANG_PAGE_TITLE', 'チェック');
-define('A11YC_LANG_PAGE_INDEX', '対象ページ一覧');
-define('A11YC_LANG_PAGE_PAGETITLE', '対象ページのtitle');
-define('A11YC_LANG_PAGE_URLS', '対象ページのURL');
-define('A11YC_LANG_PAGE_URLS_ADD', 'URLを追加する');
-define('A11YC_LANG_PAGE_URLS_ADD_FORCE', '実在の有無にかかわらず強制的に追加する');
-define('A11YC_LANG_PAGE_NOT_FOUND', '対象となるページが存在しないか、一般非表示です');
-define('A11YC_LANG_PAGE_LIVE', 'ライブ');
-define('A11YC_LANG_PAGE_EXPORT', 'CSV');
-define('A11YC_LANG_PAGE_ORDER_CREATED_AT_ASC', '登録日昇順');
-define('A11YC_LANG_PAGE_ORDER_CREATED_AT_DESC', '登録日降順');
-define('A11YC_LANG_PAGE_ORDER_TEST_DATE_ASC', '試験日昇順');
-define('A11YC_LANG_PAGE_ORDER_TEST_DATE_DESC', '試験日降順');
-define('A11YC_LANG_PAGE_ORDER_URL_ASC', 'URL昇順');
-define('A11YC_LANG_PAGE_ORDER_URL_DESC', 'URL降順');
-define('A11YC_LANG_PAGE_ORDER_TITLE_ASC', 'ページ名昇順');
-define('A11YC_LANG_PAGE_ORDER_TITLE_DESC', 'ページ名降順');
-define('A11YC_LANG_PAGE_URL_FOR_EACH_LINE', '各行に一つのURLを入力して、「'.A11YC_LANG_PAGE_URLS_ADD.'」を押してください。一度の登録は20個程度にしてください。あまり多いと登録処理でプログラムが停止することがあります');
-define('A11YC_LANG_PAGE_GET_URLS', 'URLを取得する');
-define('A11YC_LANG_PAGE_GET_URLS_EXP', '対象のページのa要素からURLの一覧を生成します。サイト構造の再帰的な走査は未対応です');
-define('A11YC_LANG_PAGE_GET_URLS_BTN', A11YC_LANG_PAGE_GET_URLS);
-define('A11YC_LANG_PAGE_RETURN_TO_PAGES', 'リンクされているページの一覧を取得しました。ここをクリックして「'.A11YC_LANG_PAGE_INDEX.'」に戻って、登録をしてください');
-define('A11YC_LANG_PAGE_PRESS_ADD_BUTTON', 'リンクされているページの一覧を取得しました。一覧の内容を確認の上、「'.A11YC_LANG_PAGE_URLS_ADD.'」を押して、登録してください');
-define('A11YC_LANG_PAGE_NOT_FOUND_ALL', '有効なリンク先を見つけられませんでした。とりあえず、ここをクリックして「'.A11YC_LANG_PAGE_INDEX.'」に戻ってください');
-define('A11YC_LANG_PAGE_NOT_FOUND_SSL', '.htaccessで、httpへのアクセスをhttpsにリダイレクトしていると、リンクを見つけられないことがあります。.htaccessの<code>RewriteEngine On</code>のあと、SSL関連のリダイレクトの条件に、<code>RewriteCond %{QUERY_STRING} !a11yc=ssl</code>の一行を加えて試してみてください');
-define('A11YC_LANG_PAGE_ADD_TO_DATABASE', 'URLをデータベースに登録します');
-define('A11YC_LANG_PAGE_ADD_TO_CANDIDATE', 'HTMLから候補になるURLを取得します');
-define('A11YC_LANG_PAGE_IT_TAKES_TIME', 'この処理には、時間がかかります');
-define('A11YC_LANG_PAGE_LABEL_HTML_EXP', 'HTMLの自動取得に失敗するときなど、このHTMLが判定に用いられます。今後、自動取得に成功した時点で自動的に書き換わります');
-define('A11YC_LANG_PAGE_LABEL_EXPORT_CHECK_RESULT', '試験結果一式をエクスポート');
-define('A11YC_LANG_PAGE_LABEL_EXPORT_ALL', 'サイト一式をエクスポート');
-define('A11YC_LANG_EXPORT_TITLE', 'エクスポート＆インポート');
-define('A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT', '試験結果をインポートしてマージ');
-define('A11YC_LANG_PAGE_LABEL_EXPORT_CHECK_RESULT_EXP', '「チェック結果」と「問題点」をエクスポートします。以下textareaに出力されている文字列をすべてコピーして、目的の環境で「'.A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT.'」で表示されるtextareaに貼り付けてください');
-define('A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT_EXP', '「チェック結果」と「問題点」をインポートします。「'.A11YC_LANG_PAGE_LABEL_EXPORT_CHECK_RESULT.'」で取得した結果をアップロードしてください');
-define('A11YC_LANG_PAGE_LABEL_IMPORT_ICL_EXP', '「実装チェックリスト」を上書きインポートします。もとの実装チェックリストはすべて新しいものに変わるので、ご注意ください。');
-define('A11YC_LANG_PAGE_LABEL_IMPORT_CHOOSE_FILE', 'ファイル選択');
-define('A11YC_LANG_PAGE_LABEL_EXPORT_RESULT_HTML', '試験結果HTMLをダウンロード');
 
 // setting
 define('A11YC_LANG_SETTING_TITLE', '設定');
@@ -229,6 +191,37 @@ define('A11YC_LANG_CANDIDATES_ALL', 'すべてのページが対象のため');
 define('A11YC_LANG_CANDIDATES_PAGEVIEW', 'アクセス数の多いページ');
 define('A11YC_LANG_CANDIDATES_NEW', '新しいページ');
 define('A11YC_LANG_CANDIDATES_ETC', 'その他の基準で選出');
+
+// pages
+define('A11YC_LANG_PAGE_TITLE', 'チェック');
+define('A11YC_LANG_PAGE_INDEX', '対象ページ一覧');
+define('A11YC_LANG_PAGE_PAGETITLE', '対象ページのtitle');
+define('A11YC_LANG_PAGE_URLS', '対象ページのURL');
+define('A11YC_LANG_PAGE_URLS_ADD', 'URLを追加する');
+define('A11YC_LANG_PAGE_URLS_ADD_FORCE', '実在の有無にかかわらず強制的に追加する');
+define('A11YC_LANG_PAGE_NOT_FOUND', '対象となるページが存在しないか、一般非表示です');
+define('A11YC_LANG_PAGE_LIVE', 'ライブ');
+define('A11YC_LANG_PAGE_EXPORT', 'CSV');
+define('A11YC_LANG_PAGE_ORDER_CREATED_AT_ASC', '登録日昇順');
+define('A11YC_LANG_PAGE_ORDER_CREATED_AT_DESC', '登録日降順');
+define('A11YC_LANG_PAGE_ORDER_TEST_DATE_ASC', '試験日昇順');
+define('A11YC_LANG_PAGE_ORDER_TEST_DATE_DESC', '試験日降順');
+define('A11YC_LANG_PAGE_ORDER_URL_ASC', 'URL昇順');
+define('A11YC_LANG_PAGE_ORDER_URL_DESC', 'URL降順');
+define('A11YC_LANG_PAGE_ORDER_TITLE_ASC', 'ページ名昇順');
+define('A11YC_LANG_PAGE_ORDER_TITLE_DESC', 'ページ名降順');
+define('A11YC_LANG_PAGE_URL_FOR_EACH_LINE', '各行に一つのURLを入力して、「'.A11YC_LANG_PAGE_URLS_ADD.'」を押してください。一度の登録は20個程度にしてください。あまり多いと登録処理でプログラムが停止することがあります');
+define('A11YC_LANG_PAGE_GET_URLS', 'URLを取得する');
+define('A11YC_LANG_PAGE_GET_URLS_EXP', '対象のページのa要素からURLの一覧を生成します。サイト構造の再帰的な走査は未対応です');
+define('A11YC_LANG_PAGE_GET_URLS_BTN', A11YC_LANG_PAGE_GET_URLS);
+define('A11YC_LANG_PAGE_RETURN_TO_PAGES', 'リンクされているページの一覧を取得しました。ここをクリックして「'.A11YC_LANG_PAGE_INDEX.'」に戻って、登録をしてください');
+define('A11YC_LANG_PAGE_PRESS_ADD_BUTTON', 'リンクされているページの一覧を取得しました。一覧の内容を確認の上、「'.A11YC_LANG_PAGE_URLS_ADD.'」を押して、登録してください');
+define('A11YC_LANG_PAGE_NOT_FOUND_ALL', '有効なリンク先を見つけられませんでした。とりあえず、ここをクリックして「'.A11YC_LANG_PAGE_INDEX.'」に戻ってください');
+define('A11YC_LANG_PAGE_NOT_FOUND_SSL', '.htaccessで、httpへのアクセスをhttpsにリダイレクトしていると、リンクを見つけられないことがあります。.htaccessの<code>RewriteEngine On</code>のあと、SSL関連のリダイレクトの条件に、<code>RewriteCond %{QUERY_STRING} !a11yc=ssl</code>の一行を加えて試してみてください');
+define('A11YC_LANG_PAGE_ADD_TO_DATABASE', 'URLをデータベースに登録します');
+define('A11YC_LANG_PAGE_ADD_TO_CANDIDATE', 'HTMLから候補になるURLを取得します');
+define('A11YC_LANG_PAGE_IT_TAKES_TIME', 'この処理には、時間がかかります');
+define('A11YC_LANG_PAGE_LABEL_HTML_EXP', 'HTMLの自動取得に失敗するときなど、このHTMLが判定に用いられます。今後、自動取得に成功した時点で自動的に書き換わります');
 
 // checklist
 define('A11YC_LANG_CHECKLIST_TARGETPAGE', '対象ページ');
@@ -364,8 +357,6 @@ define('A11YC_LANG_ISSUE_OTHER_URLS', 'その他の参考URL');
 // icl
 define('A11YC_LANG_ICL_TITLE', '実装チェックリスト');
 define('A11YC_LANG_ICL_TITLE_VIEW', '実装チェックリストを表示');
-define('A11YC_LANG_ICL_TITLE_EXPORT', '実装チェックリストをエクスポート');
-define('A11YC_LANG_ICL_TITLE_IMPORT', '実装チェックリストをインポート');
 define('A11YC_LANG_ICL_IMPORT_WAIC', 'WAICの実装チェックリストを取り込む');
 define('A11YC_LANG_ICL_NEW_SITUATION', '「状況」の新規作成');
 define('A11YC_LANG_ICL_NEW', '「実装方法」の新規作成');
@@ -383,6 +374,20 @@ define('A11YC_LANG_IMAGES_TITLE', '画像一覧');
 
 // errors
 define('A11YC_LANG_ERROR_NON_TARGET_LEVEL', '設定で「目標とする適合レベル」を選んでください');
+
+// export
+define('A11YC_LANG_IMPORT', 'インポート');
+define('A11YC_LANG_EXPORT_RESULT_HTML', '試験結果HTMLをダウンロード');
+define('A11YC_LANG_IMPLEMENTSLIST_EACH_RESULT', '各ページの実装チェックリスト');
+define('A11YC_LANG_IMPORT_EXP', '「'.A11YC_LANG_EXPORT.'」で取得した結果をアップロードしてください。');
+define('A11YC_LANG_EXPORT_CHECK_EXP', '達成基準ごとにマージします。インポート先ですでに実装チェックが済んでいる達成基準はスキップし、実装チェックしていない達成基準のみを取り込みます');
+define('A11YC_LANG_EXPORT_RESUL_EXP', '達成基準ごとにマージします。インポート先ですでに試験が済んでいる達成基準はスキップし、試験していない達成基準のみを取り込みます');
+define('A11YC_LANG_EXPORT_PAGE_EXP', 'インポート先でページが存在している場合はスキップします');
+define('A11YC_LANG_EXPORT_ISSUE_EXP', 'すべての'.A11YC_LANG_ISSUE_TITLE.'を新規に取り込みます');
+define('A11YC_LANG_EXPORT_BULK_EXP', 'すべての'.A11YC_LANG_BULK_TITLE.'を上書きします');
+define('A11YC_LANG_EXPORT_ICL_EXP', 'すべての'.A11YC_LANG_CHECKLIST_IMPLEMENTSLIST_TITLE.'を上書きします');
+define('A11YC_LANG_EXPORT_SETTING_EXP', 'インポート先で値を入力済みの項目はスキップします');
+define('A11YC_LANG_EXPORT_SITE_EXP', 'これをチェックするとインポート先にサイトを新規に追加します');
 
 // sample
 define('A11YC_LANG_SAMPLE_POLICY', '例文：\n<p>【あなたの名前／団体名】は、障害の有無や年齢などに関係なく、だれもが同じように利用できるアクセシブルなウェブサイトづくりに努めます。</p>\n<p>【このウェブサイトがアクセシビリティを確保することの意味を記載してください。】</p>\n<p>以下のとおりアクセシビリティ方針を定め、恒常的にアクセシビリティを確保してゆきます。</p>\n\n<h2>対応方針</h2>\n<p>当サイトは、日本工業規格JIS X 8341-3:2016「高齢者・障害者等配慮設計指針-情報通信における機器、ソフトウェア及びサービス-第3部:ウェブコンテンツ」の等級「AA」に準拠することを目標とします。</p>\n<p>本方針における「準拠」という対応度の表記は、情報通信アクセス協議会ウェブアクセシビリティ基盤委員会「<a href="http://waic.jp/docs/jis2016/compliance-guidelines/201603/">ウェブコンテンツのJIS X 8341-3:2016 対応度表記ガイドライン - 2016年3月版</a>」で定められた表記によります。</p>\n\n<h2>'.A11YC_LANG_EXP_TARGET_PAGES.'</h2>\n<p>【「http://example.com 以下のページを対象とする」というように記載してください。】</p>\n\n<h2>達成目標日</h2>\n<p>【達成目標日を記載してください。】</p>\n\n<h2>例外事項</h2>\n<p>【もしあれば記載してください。】</p>');

@@ -21,6 +21,7 @@ class Center
 	 */
 	public static function actionIndex()
 	{
+		// use CenterIndex
 		static::index();
 	}
 }

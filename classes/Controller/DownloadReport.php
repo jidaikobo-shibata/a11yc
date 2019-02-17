@@ -79,12 +79,7 @@ trait DownloadReport
 		foreach ($urls as $url)
 		{
 			if (Result::each($url, '', true) === false) continue;
-
-			$body = View::fetch('body');
-			if ( ! $body) continue;
-			$exist = true;
-			$body = self::replaceStrings($body);
-			$zip->addFromString('result'.$n.'.html', $body);
+			list($zip, $exist) = self::addEachPages($zip, $n, $exist);
 			$n++;
 		}
 
@@ -92,9 +87,36 @@ trait DownloadReport
 		// http://php.net/manual/ja/class.ziparchive.php
 		if ( ! $exist)
 		{
-			$zip->addFromString('result'.$n.'.html', 'empty');
+			$zip->addFromString('results/result'.$n.'.html', 'empty');
 		}
 		return $zip;
+	}
+
+	/**
+	 * each pages
+	 *
+	 * @param Object $zip
+	 * @param Integer $n
+	 * @param Bool $exist
+	 * @return Array
+	 */
+	private static function addEachPages($zip, $n, $exist)
+	{
+		$targets = array(
+			'each'      => 'body',
+			'icl'       => 'download_icl',
+			'criterion' => 'download_criterion',
+		);
+
+		foreach ($targets as $file => $target)
+		{
+			$body = View::fetch($target);
+			if ( ! $body) continue;
+			$exist = true;
+			$zip->addFromString($file.'s/'.$file.$n.'.html', self::replaceStrings($body));
+		}
+
+		return array($zip, $exist);
 	}
 
 	/**

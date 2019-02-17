@@ -27,7 +27,7 @@ trait PageIndex
 		$args = array(
 			'list'    => $list,
 			'words'   => $words,
-			'order'   => Input::get('order', 'created_at_desc'),
+			'order'   => Input::get('order', 'seq_asc'),
 		);
 
 		if (Input::isPostExists())

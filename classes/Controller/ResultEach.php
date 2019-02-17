@@ -68,11 +68,16 @@ trait ResultEach
 		// assign results
 		self::assignResults($settings['target_level'], $url);
 
-		// assign implement checklist
+		// assign checklist
 		View::assign('cs', Model\Checklist::fetch($url));
+		View::assign('iclchks', Model\Iclchk::fetch($url));
 
 		// set body
-		View::assign('body', View::fetchTpl('result/info.php'), false);
+		View::assign('body', View::fetchTpl('result/each.php'), false);
+
+		// set body for download
+		View::assign('download_icl', View::fetchTpl('result/each_implements.php'), false);
+		View::assign('download_criterion', View::fetchTpl('result/each_criterions.php'), false);
 
 		return true;
 	}

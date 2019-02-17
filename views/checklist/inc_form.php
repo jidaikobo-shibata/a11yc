@@ -241,6 +241,7 @@ foreach (Arr::get($icltree, $criterion, array()) as $parent_id => $ids):
 
 		foreach (Values::iclOptions() as $ik => $iv):
 			$selected = Arr::get($iclchks, $id, 1) == $ik ? ' checked="checked"' : '';
+
 			$html.= '<input type="radio" id="icl_'.$id.'_'.$ik.'" class="a11yc_skip a11yc_check_conformance" name="iclchks['.$id.']"'.$selected.' value="'.$ik.'"><label for="icl_'.$id.'_'.$ik.'" class="a11yc_checkitem"><span class="a11yc_icon_fa a11yc_icon_checkbox" role="presentation" aria-hidden="true"></span>'.$iv.'</label>';
 		endforeach;
 
@@ -252,10 +253,12 @@ foreach (Arr::get($icltree, $criterion, array()) as $parent_id => $ids):
 			foreach ($val['techs'] as $implement):
 							if ( ! isset($yml['techs'][$implement]['title'])) continue;
 				$idfor = $criterion.'_'.$id.'_'.$implement;
-				$checked = in_array($implement, Arr::get($cs, $criterion, array())) ? ' checked="checked"' : '';
+
+				$checked = in_array($implement, Arr::get($cs, $criterion, array())) ? ' checked="checked"' : ''; // Transitional
+				$checked = in_array($implement, Arr::get($cs, $id, array())) ? ' checked="checked"' : $checked;
 
 				$techs.= '<tr>';
-				$techs.= '<th><label for="'.$idfor.'" class="a11yc_checkitem"><input type="checkbox"'.$checked.' id="'.$idfor.'" class="a11yc_skip" name="chk['.$criterion.'][]" value="'.$implement.'" /><span class="a11yc_icon_fa a11yc_icon_checkbox" role="presentation" aria-hidden="true"></span>'.$yml['techs'][$implement]['title'].'</label></th>';
+				$techs.= '<th><label for="'.$idfor.'" class="a11yc_checkitem"><input type="checkbox"'.$checked.' id="'.$idfor.'" class="a11yc_skip" name="chk['.$id.'][]" value="'.$implement.'" /><span class="a11yc_icon_fa a11yc_icon_checkbox" role="presentation" aria-hidden="true"></span>'.$yml['techs'][$implement]['title'].'</label></th>';
 				$techs.= '<td class="a11yc_table_check_howto"><a'.A11YC_TARGET.' href="'.$refs['t'].$implement.'.html" title="'.A11YC_LANG_DOC_TITLE.'" class="a11yc_link_howto"><span role="presentation" aria-hidden="true" class="a11yc_icon_fa a11yc_icon_howto"></span><span class="a11yc_skip"><?php echo A11YC_LANG_DOC_TITLE ?></span></a></td>';
 				$techs.= '</tr>';
 			endforeach;

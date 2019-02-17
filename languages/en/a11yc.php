@@ -100,6 +100,7 @@ define('A11YC_LANG_BASE_URL', 'Document Root URL');
 define('A11YC_LANG_NAME', 'Name');
 define('A11YC_LANG_REFRESH_HTML', 'Refresh HTML');
 define('A11YC_LANG_LAST_UPDATE', 'HTML Last Update: ');
+define('A11YC_LANG_CHOOSE_FILE', 'Choose File');
 
 // ua
 define('A11YC_LANG_UA_USING', 'Current Browser');
@@ -123,46 +124,6 @@ define('A11YC_LANG_CENTER_BOOKMARKLET_EXP', 'Please register the following link 
 define('A11YC_LANG_CENTER_ABOUT', 'About A11yc');
 define('A11YC_LANG_CENTER_LOGO', 'Logo');
 define('A11YC_LANG_CENTER_ABOUT_CONTENT', 'A11yc is a web accessibility checker compatible with WCAG 2.0 created by Jidaikobo Inc');
-
-// pages
-define('A11YC_LANG_PAGE_TITLE', 'Target Pages');
-define('A11YC_LANG_PAGE_INDEX', 'Target Pages');
-define('A11YC_LANG_PAGE_PAGETITLE', 'Target Page\'s title');
-define('A11YC_LANG_PAGE_URLS', 'Target Page\'s URL');
-define('A11YC_LANG_PAGE_URLS_ADD', 'Add URL');
-define('A11YC_LANG_PAGE_URLS_ADD_FORCE', 'Add forcibly whether or not it exists');
-define('A11YC_LANG_PAGE_NOT_FOUND', 'No pages to check found');
-define('A11YC_LANG_PAGE_LIVE', 'LIVE');
-define('A11YC_LANG_PAGE_EXPORT', 'CSV');
-define('A11YC_LANG_PAGE_ORDER_CREATED_AT_ASC', 'Add Date Asc');
-define('A11YC_LANG_PAGE_ORDER_CREATED_AT_DESC', 'Add Date Desc');
-define('A11YC_LANG_PAGE_ORDER_TEST_DATE_ASC', 'Test Date Asc');
-define('A11YC_LANG_PAGE_ORDER_TEST_DATE_DESC', 'Test Date Desc');
-define('A11YC_LANG_PAGE_ORDER_URL_ASC', 'URL Asc');
-define('A11YC_LANG_PAGE_ORDER_URL_DESC', 'URL Desc');
-define('A11YC_LANG_PAGE_ORDER_TITLE_ASC', 'Page name Asc');
-define('A11YC_LANG_PAGE_ORDER_TITLE_DESC', 'Page name Desc');
-define('A11YC_LANG_PAGE_URL_FOR_EACH_LINE', 'Enter one URL to each line, please press the "'.A11YC_LANG_PAGE_URLS_ADD.'".  Please once the registration is in the order of twenty. The program may be stopped at the registration process and too many');
-define('A11YC_LANG_PAGE_GET_URLS', 'Get Urls');
-define('A11YC_LANG_PAGE_GET_URLS_EXP', 'To generate a list of URL from a element of the target page. Recursive scan of the site structure is not supported');
-define('A11YC_LANG_PAGE_GET_URLS_BTN', A11YC_LANG_PAGE_GET_URLS);
-define('A11YC_LANG_PAGE_RETURN_TO_PAGES', 'A list of linked pages is found. please click this link and go back to "'.A11YC_LANG_PAGE_INDEX.'" to register');
-define('A11YC_LANG_PAGE_PRESS_ADD_BUTTON', 'A list of linked pages is found. After checking the contents of the list, please press "'.A11YC_LANG_PAGE_URLS_ADD.'" to register');
-define('A11YC_LANG_PAGE_NOT_FOUND_ALL', 'We could not find a valid link destination. Anyway, please click here to return to '.A11YC_LANG_PAGE_INDEX);
-define('A11YC_LANG_PAGE_NOT_FOUND_SSL', 'In .htaccess, redirecting access to http to https may not find the link. Please try adding <code>RewriteCond %{QUERY_STRING} !a11yc=ssl</code> line to the condition of SSL related redirect after <code>RewriteEngine On</code> of .htaccess');
-define('A11YC_LANG_PAGE_ADD_TO_DATABASE', 'Register the URLs in the database');
-define('A11YC_LANG_PAGE_ADD_TO_CANDIDATE', 'Acquire candidate URLs from HTML');
-define('A11YC_LANG_PAGE_IT_TAKES_TIME', 'This process takes time');
-define('A11YC_LANG_PAGE_LABEL_HTML_EXP', 'This HTML is used for judgment, such as when automatic acquisition of HTML fails. It will be rewritten automatically when the automatic acquisition succeeds in the future');
-define('A11YC_LANG_PAGE_LABEL_EXPORT_CHECK_RESULT', 'Export test results');
-define('A11YC_LANG_PAGE_LABEL_EXPORT_ALL', 'Export Site');
-define('A11YC_LANG_EXPORT_TITLE', 'Export &ampl Import');
-define('A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT', 'Import test results and merge');
-define('A11YC_LANG_PAGE_LABEL_EXPORT_CHECK_RESULT_EXP', 'Export "checklist" and "issue". Copy all the character string outputted to textarea below and paste it on the textarea displayed in "'.A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT.'" in the target environment');
-define('A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT_EXP', 'Import "checklist" and "issue". Please upload the result obtained by "'.A11YC_LANG_PAGE_LABEL_EXPORT_CHECK_RESULT);
-define('A11YC_LANG_PAGE_LABEL_IMPORT_ICL_EXP', 'Overwrite "Implemente checklist" and import it. Please note that all original implemente checklists will be changed to new ones.');
-define('A11YC_LANG_PAGE_LABEL_IMPORT_CHOOSE_FILE', 'Choose File');
-define('A11YC_LANG_PAGE_LABEL_EXPORT_RESULT_HTML', 'Download result HTML');
 
 // setup
 define('A11YC_LANG_SETTING_TITLE', 'settings');
@@ -229,6 +190,37 @@ define('A11YC_LANG_CANDIDATES_ALL', 'All pages are subject');
 define('A11YC_LANG_CANDIDATES_PAGEVIEW', 'Pages with many accesses');
 define('A11YC_LANG_CANDIDATES_NEW', 'New pages');
 define('A11YC_LANG_CANDIDATES_ETC', 'Pages selected based on other criteria');
+
+// pages
+define('A11YC_LANG_PAGE_TITLE', 'Target Pages');
+define('A11YC_LANG_PAGE_INDEX', 'Target Pages');
+define('A11YC_LANG_PAGE_PAGETITLE', 'Target Page\'s title');
+define('A11YC_LANG_PAGE_URLS', 'Target Page\'s URL');
+define('A11YC_LANG_PAGE_URLS_ADD', 'Add URL');
+define('A11YC_LANG_PAGE_URLS_ADD_FORCE', 'Add forcibly whether or not it exists');
+define('A11YC_LANG_PAGE_NOT_FOUND', 'No pages to check found');
+define('A11YC_LANG_PAGE_LIVE', 'LIVE');
+define('A11YC_LANG_PAGE_EXPORT', 'CSV');
+define('A11YC_LANG_PAGE_ORDER_CREATED_AT_ASC', 'Add Date Asc');
+define('A11YC_LANG_PAGE_ORDER_CREATED_AT_DESC', 'Add Date Desc');
+define('A11YC_LANG_PAGE_ORDER_TEST_DATE_ASC', 'Test Date Asc');
+define('A11YC_LANG_PAGE_ORDER_TEST_DATE_DESC', 'Test Date Desc');
+define('A11YC_LANG_PAGE_ORDER_URL_ASC', 'URL Asc');
+define('A11YC_LANG_PAGE_ORDER_URL_DESC', 'URL Desc');
+define('A11YC_LANG_PAGE_ORDER_TITLE_ASC', 'Page name Asc');
+define('A11YC_LANG_PAGE_ORDER_TITLE_DESC', 'Page name Desc');
+define('A11YC_LANG_PAGE_URL_FOR_EACH_LINE', 'Enter one URL to each line, please press the "'.A11YC_LANG_PAGE_URLS_ADD.'".  Please once the registration is in the order of twenty. The program may be stopped at the registration process and too many');
+define('A11YC_LANG_PAGE_GET_URLS', 'Get Urls');
+define('A11YC_LANG_PAGE_GET_URLS_EXP', 'To generate a list of URL from a element of the target page. Recursive scan of the site structure is not supported');
+define('A11YC_LANG_PAGE_GET_URLS_BTN', A11YC_LANG_PAGE_GET_URLS);
+define('A11YC_LANG_PAGE_RETURN_TO_PAGES', 'A list of linked pages is found. please click this link and go back to "'.A11YC_LANG_PAGE_INDEX.'" to register');
+define('A11YC_LANG_PAGE_PRESS_ADD_BUTTON', 'A list of linked pages is found. After checking the contents of the list, please press "'.A11YC_LANG_PAGE_URLS_ADD.'" to register');
+define('A11YC_LANG_PAGE_NOT_FOUND_ALL', 'We could not find a valid link destination. Anyway, please click here to return to '.A11YC_LANG_PAGE_INDEX);
+define('A11YC_LANG_PAGE_NOT_FOUND_SSL', 'In .htaccess, redirecting access to http to https may not find the link. Please try adding <code>RewriteCond %{QUERY_STRING} !a11yc=ssl</code> line to the condition of SSL related redirect after <code>RewriteEngine On</code> of .htaccess');
+define('A11YC_LANG_PAGE_ADD_TO_DATABASE', 'Register the URLs in the database');
+define('A11YC_LANG_PAGE_ADD_TO_CANDIDATE', 'Acquire candidate URLs from HTML');
+define('A11YC_LANG_PAGE_IT_TAKES_TIME', 'This process takes time');
+define('A11YC_LANG_PAGE_LABEL_HTML_EXP', 'This HTML is used for judgment, such as when automatic acquisition of HTML fails. It will be rewritten automatically when the automatic acquisition succeeds in the future');
 
 // checklist
 define('A11YC_LANG_CHECKLIST_TARGETPAGE', 'Target Page');
@@ -364,8 +356,6 @@ define('A11YC_LANG_ISSUE_OTHER_URLS', 'Other URL');
 // icl
 define('A11YC_LANG_ICL_TITLE', 'Implement Checklist');
 define('A11YC_LANG_ICL_TITLE_VIEW', 'Show Implement Checklist');
-define('A11YC_LANG_ICL_TITLE_EXPORT', 'Export Implement Checklist');
-define('A11YC_LANG_ICL_TITLE_IMPORT', 'Import Implement Checklist');
 define('A11YC_LANG_ICL_IMPORT_WAIC', 'Import WAIC\'s implement check list (ja only)');
 define('A11YC_LANG_ICL_NEW_SITUATION', 'add new situation');
 define('A11YC_LANG_ICL_NEW', 'add new implements');
@@ -383,6 +373,20 @@ define('A11YC_LANG_IMAGES_TITLE', 'Image List');
 
 // errors
 define('A11YC_LANG_ERROR_NON_TARGET_LEVEL', 'Please perform the check from select "Target Level" in setting');
+
+// export
+define('A11YC_LANG_IMPORT_CHECK_RESULT', 'Import');
+define('A11YC_LANG_EXPORT_RESULT_HTML', 'Download result HTML');
+define('A11YC_LANG_IMPLEMENTSLIST_EACH_RESULT', 'Implementation checklist for each page');
+define('A11YC_LANG_IMPORT_EXP', 'Please upload the result obtained by '.A11YC_LANG_EXPORT);
+define('A11YC_LANG_EXPORT_CHECK_EXP', 'Merge according to success criteria. We skip the success criteria that have already been implemented on import at the import destination, and we only capture the achievement criteria that have not been checked for implementation');
+define('A11YC_LANG_EXPORT_RESUL_EXP', 'Merge according to success criteria. Skip the Success Criterion that has already been tested at the import destination and capture only the success criteria that have not been tested');
+define('A11YC_LANG_EXPORT_PAGE_EXP', 'Skip if the page exists at the import destination');
+define('A11YC_LANG_EXPORT_ISSUE_EXP', 'Retrieve all new '.A11YC_LANG_ISSUE_TITLE);
+define('A11YC_LANG_EXPORT_BULK_EXP', 'Overwrite all '.A11YC_LANG_BULK_TITLE);
+define('A11YC_LANG_EXPORT_ICL_EXP', 'Overwrite all '.A11YC_LANG_CHECKLIST_IMPLEMENTSLIST_TITLE);
+define('A11YC_LANG_EXPORT_SETTING_EXP', 'Skip items that have already entered values ​​at the import destination');
+define('A11YC_LANG_EXPORT_SITE_EXP', 'If you check this, you will add a new site to the import destination');
 
 // sample
 define('A11YC_LANG_SAMPLE_POLICY', 'sample:\n<p>[Your Name / Organization Name] will endeavor to create an accessible website that anyone can use in the same way regardless of the presence or absence of disability or age.</p>\n<p>[Please describe the meaning of this website to secure accessibility.]</p>\n<p>We set up accessibility policy as follows and will constantly secure accessibility.</p>\n\n<h2>Policy</h2>\n<p>[Please describe the accessibility policy.]</p>\n\n<h2>'.A11YC_LANG_EXP_TARGET_PAGES.'</h2>\n<p>[Please describe as "target pages below http://example.com".]</p>\n\n<h2>Achievement target date</h2>\n<p>[Please describe the target date of accomplishment.]</p>\n\n<h2>Exceptions</h2>\n<p>[Please list if any.]</p>');

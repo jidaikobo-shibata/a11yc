@@ -9,8 +9,4 @@
 <?php if (empty(Model\Setting::fetch('is_waic_imported'))): ?>
 	<li><a href="?c=icl&amp;a=import"><?php echo A11YC_LANG_ICL_IMPORT_WAIC ?></a></li>
 <?php endif; ?>
-
-	<li><a href="?c=data&amp;a=export&amp;target=icl"><?php echo A11YC_LANG_ICL_TITLE_EXPORT ?></a></li>
-	<li><a href="?c=data&amp;a=import&amp;target=icl"><?php echo A11YC_LANG_ICL_TITLE_IMPORT ?></a></li>
-
 </ul>

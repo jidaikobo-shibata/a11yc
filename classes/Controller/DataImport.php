@@ -17,10 +17,9 @@ trait DataImport
 	/**
 	 * all
 	 *
-	 * @param Bool $is_icl
 	 * @return Void
 	 */
-	public static function import($is_icl = false)
+	public static function import()
 	{
 		if (Input::isPostExists())
 		{
@@ -36,24 +35,17 @@ trait DataImport
 				Model\Version::setVersion($version);
 				$vals = $results[$version];
 
-				if ( ! $is_icl)
-				{
-					self::importSetting($vals, $is_add);
-					self::importPage($vals);
-					self::importResult($vals);
-					self::importChecklist($vals);
-					self::importIssue($vals);
-					self::importCache($vals);
-				}
+				self::importSetting($vals, $is_add);
+				self::importPage($vals);
+				self::importResult($vals);
+				self::importChecklist($vals);
+				self::importIssue($vals);
 				self::importIcl($vals);
 			}
+			Session::add('messages', 'messages', A11YC_LANG_UPDATE_SUCCEED);
 		}
 
-		View::assign('is_icl', $is_icl);
-		$title = $is_icl ? A11YC_LANG_ICL_TITLE_IMPORT : A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT ;
-		View::assign('title', $title);
-		$describe = $is_icl ? A11YC_LANG_PAGE_LABEL_IMPORT_ICL_EXP : A11YC_LANG_PAGE_LABEL_IMPORT_CHECK_RESULT_EXP ;
-		View::assign('describe', $describe);
+		View::assign('title', A11YC_LANG_IMPORT);
 		View::assign('body', View::fetchTpl('data/import.php'), FALSE);
 	}
 
@@ -89,13 +81,13 @@ trait DataImport
 	 * setting
 	 *
 	 * @param Array $results
-	 * @param Bool $is_add
 	 * @return Void
 	 */
-	private static function importSetting($results, $is_add)
+	private static function importSetting($results)
 	{
-		if ( ! isset($results['setting']) || ! $is_add) return;
-		Model\Setting::updateAll($results['setting']);
+		if ( ! isset($results['setting'])) return;
+		$current = Model\Setting::fetchAll();
+		Model\Setting::updateAll(array_merge($current, $results['setting']));
 	}
 
 	/**
@@ -114,6 +106,13 @@ trait DataImport
 		{
 			if (in_array($vals['url'], $this_pages)) continue;
 			Model\Page::insert($vals['url'], $vals);
+		}
+
+		foreach (Arr::get($results, 'html', array()) as $url => $val)
+		{
+			if ( ! isset($val)) continue;
+			$val = htmlspecialchars_decode($val);
+			Model\Html::insert($url, $val);
 		}
 	}
 
@@ -194,24 +193,6 @@ trait DataImport
 					Model\Issue::insert($url, $v);
 				}
 			}
-		}
-	}
-
-	/**
-	 * cache
-	 *
-	 * @param Array $results
-	 * @return Void
-	 */
-	private static function importCache($results)
-	{
-		if ( ! isset($results['html'])) return;
-
-		foreach ($results['html'] as $url => $val)
-		{
-			if ( ! isset($val)) continue;
-			$val = htmlspecialchars_decode($val);
-			Model\Html::insert($url, $val);
 		}
 	}
 
