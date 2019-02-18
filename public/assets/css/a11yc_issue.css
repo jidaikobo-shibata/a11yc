@@ -192,6 +192,10 @@ body > :last-child
 		top: 7mm;
 		right: 10mm;
 	}
+	.issue_header
+	{
+		display: none !important;
+	}
 	.screenshot img
 	{
 		max-height: 33vh;
