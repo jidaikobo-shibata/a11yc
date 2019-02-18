@@ -142,7 +142,9 @@ $other_urls = explode("\n", trim($other_url));
 <?php endforeach; ?>
 <?php endforeach; ?>
 
-<?php
+
+<?php 
+echo '<div class="noprint">';
 echo '<h2>INDEX</h2>';
 $is_common = true;
 foreach ($index_titles as $v):
@@ -157,6 +159,7 @@ foreach ($index_titles as $v):
 		echo '</ul>';
 	endif;
 endforeach;
+echo '</div><!-- /.noprint -->';
 ?>
 </article>
 </body>
