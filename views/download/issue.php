@@ -14,6 +14,8 @@
 <body>
 <article>
 <?php
+$index_titles = array();
+
 $header = '<header class="issue_header">'.$title;
 $header.= ! empty($settings['test_period']) ? '<br>'.A11YC_LANG_TEST_PERIOD.' '.$settings['test_period'] : '' ;
 $header.= '</header>';
@@ -22,6 +24,12 @@ $show_common_cover_page = false;
 $show_each_cover_page = array();
 
 $page_num = 0;
+$index_titles[$page_num] = array();
+
+	$index_titles[$page_num] = array(
+		'title' => A11YC_LANG_ISSUE_IS_COMMON,
+		'items' => array()
+	);
 
 foreach ($issues as $url => $issue_parents):
 $issue_num = 0;
@@ -42,7 +50,8 @@ if ($url != 'commons' && ! in_array($url, $show_each_cover_page)):
 	$show_each_cover_page[] = $url;
 	echo '<section class="cover_page'.( ! empty($images[$url]) ? ' has_image' : '' ).'">';
 	echo '<div class="heading">';
-	echo '<h1 class="heading"><span class="issue_title">'.sprintf('%02d', ++$page_num).': '.$titles[$url].'</span>';
+	$this_title = sprintf('%02d', ++$page_num).': '.$titles[$url];
+	echo '<h1 class="heading"><span class="issue_title">'.$this_title.'</span>';
 	if (strpos($url, 'example.com') === false):
 		echo '<br><span class="issue_url">'.$url.'</span>';
 	endif;
@@ -51,12 +60,20 @@ if ($url != 'commons' && ! in_array($url, $show_each_cover_page)):
 		echo '<p class="sceenshot"><img src="'.A11YC_UPLOAD_URL.'/'.Model\Data::groupId().'/pages/'.base64_encode($url).'/'.$images[$url].'" alt="'.A11YC_LANG_ISSUE_SCREENSHOT.'" /></p>';
 	endif;
 	echo '</div><!-- /.heading --></section>';
+	$index_titles[$page_num] = array(
+		'title' => $this_title,
+		'items' => array()
+	);
 endif;
 
 ?>
 <section class="each_issue">
 <div class="pring_block">
-<h2 class="heading"><?php echo ( $page_num === 0 ? '0' : sprintf('%02d', $page_num)) .'-'.++$issue_num.': '.$issue['title']  //issue title?  ?></h2>
+<?php
+$issue_title =  ( $page_num === 0 ? '0' : sprintf('%02d', $page_num)) .'-'.++$issue_num.': '.$issue['title'];
+$index_titles[$page_num]['items'][] = $issue_title;
+?>
+<h2 class="heading"><?php echo $issue_title ?></h2>
 <?php if ( ! empty($issue['image_path'])): ?>
 	<section class="screenshot"><h3 class="heading"><?php echo A11YC_LANG_ISSUE_SCREENSHOT ?></h3>
 	<?php
@@ -124,6 +141,23 @@ $other_urls = explode("\n", trim($other_url));
 </section><!-- /.each_issue -->
 <?php endforeach; ?>
 <?php endforeach; ?>
+
+<?php
+echo '<h2>INDEX</h2>';
+$is_common = true;
+foreach ($index_titles as $v):
+	echo '<h3>'.$v['title'].'</h3>';
+
+	if ($is_common):
+		$is_common = false;
+		echo '<ul>';
+		foreach ($v['items'] as $vv):
+			echo '<li>'.$vv.'</li>';
+		endforeach;
+		echo '</ul>';
+	endif;
+endforeach;
+?>
 </article>
 </body>
 </html>

@@ -22,7 +22,7 @@ class Data
 	 */
 	public static function actionExport()
 	{
-		// trait: DataExport
+		// use DataExport
 		if (Input::get('target') == 'icl')
 		{
 			static::exportIcl();
@@ -38,7 +38,7 @@ class Data
 	 */
 	public static function actionImport()
 	{
-		// trait: DataImport
+		// use DataImport
 		static::import((Input::get('target') == 'icl'));
 	}
 }

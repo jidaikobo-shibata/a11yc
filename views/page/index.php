@@ -34,16 +34,16 @@ if ($pages):
 		<th scope="col">URL</th>
 		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_LEVEL ?></th>
 		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_CHECKLIST_DONE ?></th>
+		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_IMAGE ?></th>
 		<?php if ($list != 'trash'): ?>
 		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_CTRL_CHECK ?></th>
 		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_CHECKLIST_CHECK_RESULT ?></th>
 		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGE_LIVE ?></th>
-		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_IMAGE ?></th>
+		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_IMAGES_TITLE ?></th>
 		<?php endif; ?>
 		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_CTRL_ACT ?></th>
 		<th id="a11yc_label_seq"><?php echo A11YC_LANG_CTRL_ORDER_SEQ ?></th>
-		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_CTRL_CREATED_AT ?></th>
-		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_TEST_DATE ?></th>
+		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_LAST_UPDATE ?></th>
 	</tr>
 	</thead>
 
@@ -68,9 +68,13 @@ if ($pages):
 
 		<td class="a11yc_result"><?php echo Util::num2str($page['level']) ?></td>
 		<?php
-			$done = @$page['done'] == 1 ? A11YC_LANG_CTRL_DONE : '' ;
+			$done = Arr::get($page, 'done', 0) == 1 ? A11YC_LANG_CTRL_DONE : '' ;
 		?>
 		<td class="a11yc_result"><?php echo $done ?></td>
+
+		<td class="a11yc_result"><?php
+			echo Arr::get($page, 'image_path') ? 'ok' : '-' ;
+		?></td>
 
 		<?php if ($list != 'trash'): ?>
 		<td class="a11yc_result"><a href="<?php echo A11YC_CHECKLIST_URL.Util::urlenc($url) ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_CTRL_CHECK ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
@@ -90,8 +94,13 @@ if ($pages):
 
 		<td class="a11yc_result"><input type="text" name="seq[<?php echo $url ?>]" aria-labelledby="a11yc_label_seq" size="3" value="<?php echo intval($page['seq']); ?>" /></td>
 
-		<td class="a11yc_result"><?php echo $page['created_at'] ? date('Y-m-d', strtotime($page['created_at'])) : '-' ?></td>
-		<td class="a11yc_result"><?php echo $page['date'] ?></td>
+		<td class="a11yc_result"><?php
+		$htmldata = Model\Html::fetchRaw($url);
+		$eachhtml = Arr::get($htmldata, 'using', '');
+		if ( ! empty($eachhtml) && $htmldata['updated_at']):
+			echo date('Y-m-d H:i', strtotime($htmldata['updated_at']));
+		endif;
+		?></td>
 	</tr>
 	<?php endforeach; ?>
 	</tbody>

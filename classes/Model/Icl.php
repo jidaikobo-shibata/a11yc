@@ -120,9 +120,9 @@ class Icl
 
 		// use `url` as a id
 		$sql = 'SELECT `url` FROM '.A11YC_TABLE_DATA;
-		$sql.= ' WHERE `key` in ("iclsit", "icl")';
+		$sql.= ' WHERE `key` in ("iclsit", "icl") AND `group_id` = ? AND `version` = ?';
 		$sql.= ' ORDER BY `id` desc LIMIT 1;';
-		$data = Db::fetch($sql);
+		$data = Db::fetch($sql, array(Data::groupId(), Version::current()));
 		$id = $data === false ? 0 : intval($data['url']) ;
 		$id++;
 		$vals['seq'] = $vals['seq'] != 0 ? $vals['seq'] : $id * 10;

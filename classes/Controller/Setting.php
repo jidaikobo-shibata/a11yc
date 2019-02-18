@@ -259,8 +259,16 @@ class Setting
 				return;
 			}
 
+			$is_add = empty($sites);
 			$sites[] = Util::urldec($new_site);
-			Model\Data::update('sites', 'global', $sites);
+			if ($is_add)
+			{
+				Model\Data::insert('sites', 'global', $sites);
+			}
+			else
+			{
+				Model\Data::update('sites', 'global', $sites);
+			}
 			Session::add('messages', 'messages', A11YC_LANG_CTRL_ADDED_NORMALLY);
 		}
 	}

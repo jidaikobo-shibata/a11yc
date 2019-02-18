@@ -106,7 +106,7 @@ body > :last-child
 
 .cover_page .issue_title
 {
-	
+
 }
 
 .cover_page .issue_url
@@ -188,6 +188,7 @@ body > :last-child
 	}
 	.issue_header
 	{
+		display: none;
 		position: fixed;
 		top: 7mm;
 		right: 10mm;

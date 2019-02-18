@@ -40,6 +40,7 @@ trait PageAdd
 				// add page to db
 				self::addPages($is_force);
 			}
+			Util::redirect(A11YC_PAGE_URL.'add');
 		}
 
 		// count

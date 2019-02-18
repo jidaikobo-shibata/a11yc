@@ -30,23 +30,13 @@ trait PageUpdate
 		if (Input::isPostExists())
 		{
 			Model\Page::updatePartial($url, 'title', Input::post('title'));
-			Model\Page::updatePartial($url, 'seq', intval(Input::post('seq')));
+			Util::setMassage(Model\Page::updatePartial($url, 'seq', intval(Input::post('seq'))));
 			$ua = 'using';
 			Model\Html::insert($url, Input::post('html'), $ua);
 			$page = Model\Page::fetch($url);
 			$newfilename = File::uploadImg('pages', $url_path, Arr::get($page, 'image_path'));
 			Model\Page::updatePartial($url, 'image_path', $newfilename);
-		}
-
-		// redirect?
-		if ($redirect_to)
-		{
-			if ($message)
-			{
-				$mess_type = $is_success ? 'messages' : 'errors' ;
-				Session::add('messages', $mess_type, sprintf($message, Util::s($url)));
-			}
-			Util::redirect($redirect_to);
+			Util::redirect(A11YC_PAGE_URL.'edit&amp;url='.Util::urlenc($url));
 		}
 
 		// show edit page

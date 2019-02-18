@@ -56,6 +56,14 @@ foreach ($yml['criterions'] as $criterion => $v):
 		$html.= '	</td>';
 	endif; // is_policy
 
+	$lis = '';
+	foreach (Arr::get($cs, $criterion, array()) as $tech):
+		if (is_numeric($tech)) continue;
+		$lis.= '<li>'.$tech.'</li>';
+	endforeach;
+	$ul = empty($lis) ? '' : '<ul>'.$lis.'</ul>';
+	$html.= '	<td class="a11yc_result a11yc_result_exist">'.$ul.'</td>';
+
 	$html.= '</tr>';
 	endif;
 endforeach;
@@ -81,6 +89,7 @@ if ($html):
 			?>
 			</th>
 			<?php endif; ?>
+			<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_CHECKLIST_NG_REASON ?></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -89,4 +98,3 @@ if ($html):
 </table><!--/.a11yc_table-->
 <?php
 endif;
-?>

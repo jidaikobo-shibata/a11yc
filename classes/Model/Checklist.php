@@ -51,6 +51,7 @@ class Checklist
 		$failures = array();
 		foreach ($vals as $criterion => $val)
 		{
+			if ( ! is_array($val)) continue;
 			foreach ($val as $v)
 			{
 				if (substr($v, 0, 1) != 'F') continue;

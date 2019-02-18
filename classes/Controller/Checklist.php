@@ -243,7 +243,9 @@ class Checklist
 	 */
 	private static function assginValidation($url, $is_new, $is_bulk)
 	{
-		if ($is_bulk || $is_new)
+		$cs = Model\Checklist::fetch($url);
+		$result = Model\Result::fetch($url);
+		if ($is_bulk || (empty($cs) && empty($result)))
 		{
 			View::assign('results', Model\Bulk::fetchResults());
 			View::assign('cs', Model\Bulk::fetchChecks());
@@ -251,8 +253,8 @@ class Checklist
 		}
 		else
 		{
-			View::assign('results', Model\Result::fetch($url));
-			View::assign('cs', Model\Checklist::fetch($url));
+			View::assign('results', $result);
+			View::assign('cs', $cs);
 			View::assign('iclchks', Model\Iclchk::fetch($url));
 		}
 

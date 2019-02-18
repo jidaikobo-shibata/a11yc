@@ -24,6 +24,23 @@ class Html
 	);
 
 	/**
+	 * fetch raw
+	 *
+	 * @param String $url
+	 * @param String $ua
+	 * @param Bool $force
+	 * @return String|Bool
+	 */
+	public static function fetchRaw($url, $ua = 'using', $force = false)
+	{
+		$url = Util::urldec($url);
+		$ua = empty($ua) ? 'using' : $ua;
+		if (isset(static::$htmls[$url][$ua]) && $force === false) return static::$htmls[$url][$ua];
+		static::$htmls[$url][$ua] = Data::fetchArr('html', $url, array());
+		return static::$htmls[$url][$ua];
+	}
+
+	/**
 	 * fetch
 	 *
 	 * @param String $url
@@ -33,13 +50,8 @@ class Html
 	 */
 	public static function fetch($url, $ua = 'using', $force = false)
 	{
-		$url = Util::urldec($url);
-		$ua = empty($ua) ? 'using' : $ua;
-		if (isset(static::$htmls[$url][$ua]) && $force === false) return static::$htmls[$url][$ua];
-
-		// check db
-		$cache = Data::fetchArr('html', $url, array());
-		$html = Arr::get($cache, $ua, false);
+		$vals = static::fetchRaw($url, $ua, $force);
+		$html = Arr::get($vals, $ua, false);
 
 		// 65535 is sqlite filed limit
 		if (strlen($html) >= 65530)
@@ -47,8 +59,7 @@ class Html
 			Session::add('messages', 'errors', A11YC_LANG_PAGE_CANNOT_FETCH_HTML_FROM_DB);
 		}
 
-		static::$htmls[$url][$ua] = $html;
-		return static::$htmls[$url][$ua];
+		return $html;
 	}
 
 	/**

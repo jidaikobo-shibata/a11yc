@@ -110,6 +110,9 @@ class Bulk extends Checklist
 			// checks
 			self::updateChecks($url);
 
+			// icls
+			self::updateIcls($url);
+
 			// update each page
 			$update_done = intval(Input::post('update_done'));
 			$date = date('Y-m-d');
@@ -173,14 +176,25 @@ class Bulk extends Checklist
 	{
 		$bulk = Input::postArr('chk');
 		$vals = array();
+		$loops = array(
+			Model\Icl::fetchAll(),
+			Yaml::each('criterions'),
+		);
 
 		if (Input::post('update_all') == 2)
 		{
 			$current = Model\Checklist::fetch($url);
-
-			foreach ($bulk as $criterion =>$v)
+			foreach ($loops as $v)
 			{
-				$vals[$criterion] = array_merge(Arr::get($current, $criterion, array()), $v);
+				foreach (array_keys($v) as $id)
+				{
+					$vals[$id] = array_merge(
+						Arr::get($current, $id, array()),
+						Arr::get($bulk, $id, array())
+					);
+					$vals[$id] = array_unique($vals[$id]);
+					if (empty($vals[$id])) unset($vals[$id]);
+				}
 			}
 		}
 		else
@@ -188,5 +202,42 @@ class Bulk extends Checklist
 			$vals = $bulk;
 		}
 		Model\Checklist::update($url, $vals);
+	}
+
+	/**
+	 * update icl
+	 *
+	 * @param String $url
+	 * @return Void
+	 */
+	private static function updateIcls($url)
+	{
+		$bulk = Input::postArr('iclchks');
+
+		$vals = array();
+
+		$current = Model\Iclchk::fetch($url);
+		$is_done = count(array_unique($current)) != 1;
+
+		if (Input::post('update_all') == 2 && $is_done)
+		{
+			foreach ($bulk as $iclid => $v)
+			{
+				if (isset($current[$iclid])) continue;
+				$vals[$iclid] = $v;
+			}
+		}
+		else
+		{
+			$vals = $bulk;
+		}
+
+		if ($current)
+		{
+			Model\Iclchk::update($url, $vals);
+			return;
+		}
+
+		Model\Iclchk::insert($url, $vals);
 	}
 }
