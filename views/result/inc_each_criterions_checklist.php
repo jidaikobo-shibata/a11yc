@@ -43,8 +43,8 @@ foreach ($yml['criterions'] as $criterion => $v):
 
 	// html
 	$html.= '<tr'.$alert_class.'>';
-	$html.= '	<th scope="row" class="a11yc_result  a11yc_result_code">'.$criterion_code.'</th>';
-	$html.= '	<td class="a11yc_result a11yc_result_string">'.$v['name'].$non_interference.'</td>';
+	$html.= '	<th scope="row" class="a11yc_result  a11yc_result_code  a11yc_result_string">'.$criterion_code;
+	$html.= '&nbsp;'.$v['name'].$non_interference.'</td>';
 	$html.= '	<td class="a11yc_result">'.$v['level']['name'].'</td>';
 	$html.= '	<td class="a11yc_result a11yc_result_exist">'.$exist_str.'</td>';
 	if ( ! $is_policy):
@@ -78,7 +78,7 @@ if ($html):
 <table class="a11yc_table">
 	<thead>
 		<tr>
-			<th scope="col" colspan="2"><?php echo A11YC_LANG_CRITERION ?></th>
+			<th scope="col"><?php echo A11YC_LANG_CRITERION ?></th>
 			<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_LEVEL ?></th>
 			<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_EXIST ?></th>
 			<?php if ( ! $is_policy):  ?>

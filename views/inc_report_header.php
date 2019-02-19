@@ -51,13 +51,22 @@ article:not(:first-of-type) .a11yc_header
 {
 	display: none;
 }
-h2
+h2,
+h3
 {
 	font-size: 1rem;
 	margin-top: 1.5em;
 	margin-bottom: .25em;
 }
-
+h3
+{
+	font-size: .825rem;
+}
+p
+{
+	font-size: .825rem;
+	margin: 0;
+}
 /* table */
 .a11yc_table {
 	border-collapse: collapse;
@@ -79,29 +88,40 @@ h1 + .a11yc_table th
 	border-top: 1px solid #aaa;
 	border-bottom: 1px solid #aaa;
 }
-.a11yc_table th {
+.a11yc_table thead th {
 	min-width: 3em;
 	text-align: left;
 	white-space: nowrap;
 	word-break: break-all;
 }
+.a11yc_table tbody th 
+{
+	text-align: left;
+	
+}
+.a11yc_table th:first-child:last-child
+{
+	background-color: #eee;
+	padding: 5px 1px;
+}
 .a11yc_table .a11yc_result_string
 {
-	width: 45%;
+	width: 70vw;
 }
-h2 + .a11yc_table tr > :last-child
+.a11yc_table .implement_title
+{
+	width: 70vw;
+}
+:not(h1) + .a11yc_table tr > :last-child
 {
 	width: 1px;
 }
-h2 + .a11yc_table  th,
-h2 + .a11yc_table  td
+:not(h1) + .a11yc_table  th,
+:not(h1) + .a11yc_table  td
 {
 	padding: 1px 3px;
 }
-.a11yc_table thead tr > :nth-child(2),
-.a11yc_table tr > :nth-child(3),
-.a11yc_table tr > :nth-child(4),
-.a11yc_table tr > :nth-child(5)
+.a11yc_table tr > :not(:first-child):not(:last-child)
 {
 	text-align: center;
 	white-space: nowrap;
@@ -143,6 +163,10 @@ h2 + .a11yc_table  td
 		padding: 0 ;
 		min-height: auto;
 	}
+	.no_page_break
+	{
+		page-break-inside: avoid;
+	}
 	article:not(:first-of-type)
 	{
 		margin-top: 0;
@@ -155,7 +179,7 @@ h2 + .a11yc_table  td
 }
 @page {
 	size: A4;
-	margin: 15mm 0 10mm;
+	margin: 15mm 10mm;
 	}
 </style>
 
