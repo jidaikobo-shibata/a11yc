@@ -30,7 +30,8 @@ body > *
 {
 	max-width: 100%;
 }
-body > article
+
+article
 {
 	position: relative;
 }
@@ -74,7 +75,7 @@ p
 	width: 100%;
 	font-size: .825em;
 }
-h1 + .a11yc_table 
+h1 + .a11yc_table
 {
 	width: auto;
 }
@@ -94,10 +95,10 @@ h1 + .a11yc_table th
 	white-space: nowrap;
 	word-break: break-all;
 }
-.a11yc_table tbody th 
+.a11yc_table tbody th
 {
 	text-align: left;
-	
+
 }
 .a11yc_table th:first-child:last-child
 {
@@ -154,7 +155,7 @@ h1 + .a11yc_table th
 	{
 		display: none !important;
 	}
-	body > article
+	article
 	{
 		page-break-before: always;
 		display: table;
@@ -185,9 +186,8 @@ h1 + .a11yc_table th
 
 </head>
 <body>
-<article>
 <?php
-echo '<div class="a11yc_header">'.Model\Setting::fetch('client_name').'</div>';
+// echo '<div class="a11yc_header">'.Model\Setting::fetch('client_name').'</div>';
 
-echo '<h1>'.$title.'</h1>';
+// echo '<h1>'.$title.'</h1>';
 ?>

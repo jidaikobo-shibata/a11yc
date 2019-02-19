@@ -64,7 +64,7 @@ define('A11YC_LANG_CTRL_ADDNEW', 'Add New');
 define('A11YC_LANG_CTRL_SAVE', 'Save');
 define('A11YC_LANG_CTRL_PERSONS', 'Person');
 define('A11YC_LANG_COUNT_ITEMS', '%s items');
-define('A11YC_LANG_EXPORT_ERRORS_CSV', 'Export CSV');
+define('A11YC_LANG_EXPORT_CSV', 'Export CSV');
 define('A11YC_LANG_EXPORT', 'Export');
 define('A11YC_LANG_CTRL_DELETE', 'Delete');
 define('A11YC_LANG_CTRL_UNDELETE', 'Undelete');
@@ -101,6 +101,7 @@ define('A11YC_LANG_NAME', 'Name');
 define('A11YC_LANG_REFRESH_HTML', 'Refresh HTML');
 define('A11YC_LANG_LAST_UPDATE', 'HTML Last Update: ');
 define('A11YC_LANG_CHOOSE_FILE', 'Choose File');
+define('A11YC_LANG_ALL', 'All');
 
 // ua
 define('A11YC_LANG_UA_USING', 'Current Browser');

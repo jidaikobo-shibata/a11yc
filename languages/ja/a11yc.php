@@ -64,7 +64,7 @@ define('A11YC_LANG_CTRL_ADDNEW', '新規追加');
 define('A11YC_LANG_CTRL_SAVE', '保存');
 define('A11YC_LANG_CTRL_PERSONS', '担当者');
 define('A11YC_LANG_COUNT_ITEMS', '%s個');
-define('A11YC_LANG_EXPORT_ERRORS_CSV', 'レポートをCSVで出力する');
+define('A11YC_LANG_EXPORT_CSV', 'CSVで出力');
 define('A11YC_LANG_EXPORT', 'エクスポート');
 define('A11YC_LANG_CTRL_DELETE', '削除');
 define('A11YC_LANG_CTRL_UNDELETE', '復活');
@@ -101,6 +101,7 @@ define('A11YC_LANG_NAME', '表題');
 define('A11YC_LANG_REFRESH_HTML', 'HTMLを更新');
 define('A11YC_LANG_LAST_UPDATE', 'HTML最終更新日: ');
 define('A11YC_LANG_CHOOSE_FILE', 'ファイル選択');
+define('A11YC_LANG_ALL', '全体');
 
 // ua
 define('A11YC_LANG_UA_USING', '現在のブラウザ');

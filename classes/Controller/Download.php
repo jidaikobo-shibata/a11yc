@@ -24,8 +24,7 @@ class Download
 	public static function actionCsv()
 	{
 		// trait: DownloadCsv
-		$url = Util::enuniqueUri(Input::param('url', ''));
-		static::csv($url);
+		static::csv();
 	}
 
 	/**

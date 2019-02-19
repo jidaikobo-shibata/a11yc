@@ -48,5 +48,6 @@ trait ResultAll
 
 		// set body
 		View::assign('body', View::fetchTpl('result/each.php'), false);
+		View::assign('body_result', View::fetchTpl('result/each_criterions.php'), false);
 	}
 }

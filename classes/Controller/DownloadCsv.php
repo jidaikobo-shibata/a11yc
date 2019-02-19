@@ -18,12 +18,11 @@ trait DownloadCsv
 	/**
 	 * csv
 	 *
-	 * @param String|Array $url
 	 * @return Void
 	 */
-	public static function csv($url)
+	public static function csv()
 	{
-		$csv = static::generateCsv($url);
+		$csv = static::generateCsv();
 
 		// output
 		ob_start();
@@ -46,200 +45,64 @@ trait DownloadCsv
 	/**
 	 * generateCsv
 	 *
-	 * @param String|Array $url
 	 * @return Array
 	 */
-	public static function generateCsv($url)
+	public static function generateCsv()
 	{
-		// get Pages
-		if (is_array($url))
+		$titles = array('');
+		$pages = Model\Page::fetchAll();
+		foreach ($pages as $k => $v)
 		{
-			$urls = $url;
-		}
-		else
-		{
-			$urls = array();
-			$urls[] = $url;
-		}
-
-		$csv = array();
-		$csv[] = array(
-			'URL',
-			'No.',
-			A11YC_LANG_LEVEL,
-			A11YC_LANG_IMPORTANCE,
-			A11YC_LANG_CRITERION,
-			A11YC_LANG_CTRL_CHECK,
-			A11YC_LANG_CHECKLIST_SOURCE,
-			A11YC_LANG_CHECKLIST_MEMO,
-		);
-
-		// check and generate csv
-		foreach ($urls as $url)
-		{
-			$html = Model\Html::fetch($url);
-			if ($html === false) continue;
-
-			// validate
-			Validate::url($url);
-
-			// csv
-			$n = 1;
-			$csv = self::addErr2Csv($url, $csv, $n);
-			$csv = self::addImgs2Csv($url, $csv, $n);
-			$csv = self::addIssues2Csv($url, $csv, $n);
-			$csv[] = array();
+			$pages[$k]['results'] = Model\Result::fetch($v['url']);
+			$pages[$k]['cs']      = Model\Checklist::fetch($v['url']);
+			$pages[$k]['iclchks'] = Model\Iclchk::fetch($v['url']);
+			$titles[] = (sprintf("%02d", $v['seq'])).': '.$v['title'];
 		}
 
-		return $csv;
-	}
+		$csv[] = $titles;
 
-	/**
-	 * add errors to csv
-	 *
-	 * @param String  $url
-	 * @param Array   $csv
-	 * @param Integer $n
-	 * @return Array
-	 */
-	private static function addErr2Csv($url, $csv, $n)
-	{
-		$yml = Yaml::fetch();
-
-		foreach (Validate\Get::errorIds($url) as $err_code => $errs)
+		$resultspts = Values::resultsOptions();
+		$criterions = Yaml::each('criterions');
+		// criterion
+		foreach ($criterions as $criterion => $v)
 		{
-			foreach ($errs as $err)
+			$line = array(
+				Util::key2code($criterion).' '.$v['name']
+			);
+			foreach ($pages as $vv)
 			{
-				if ( ! isset($yml['errors'][$err_code])) continue;
-				$current_err = $yml['errors'][$err_code];
-				$err_type = isset($current_err['notice']) ? 'notice' : 'error';
-
-				// alt mention is not need. alt will be revealed
-				if ($err_code == 'notice_img_exists') continue;
-
-				// level
-				$criterion = $current_err['criterions'][0];
-
-				$csv[] = array(
-					$url,
-					$n,
-					$yml['criterions'][$criterion]['level']['name'],
-					$err_type,
-					Util::key2code($criterion),
-					$current_err['message'],
-					$err['id'],
-					$err['str'] == $err['id'] ? '' : $err['str'],
-				);
-				$n++;
+				$result = isset($vv['results'][$criterion]['result']) ? $vv['results'][$criterion]['result'] : 0;
+				$line[] = $resultspts[$result];
 			}
+			$csv[] = $line;
 		}
-		return $csv;
-	}
 
-	/**
-	 * stack issue
-	 *
-	 * @param String $url
-	 * @param Array $issues
-	 * @return Array
-	 */
-	private static function stackIssue($url, $issues = array())
-	{
-		foreach (Model\Issue::fetchByUrl($url) as $val)
-		{
-			foreach ($val as $v)
-			{
-				$issues[] = $v;
-			}
-		}
-		return $issues;
-	}
-
-	/**
-	 * issue
-	 *
-	 * @param String  $url
-	 * @param Array|Null   $csv
-	 * @param Integer $n
-	 * @return Array
-	 */
-	private static function addIssues2Csv($url, $csv, $n)
-	{
-		if (is_null($csv)) return array();
 		$csv[] = array();
 
-		$issues = self::stackIssue($url, self::stackIssue('commons'));
-
-		foreach ($issues as $issue)
+		// icl
+		$icls = Model\Icl::fetchAll();
+		$icltree = Model\Icl::fetchTree();
+		foreach ($icltree as $criterion => $parents)
 		{
-			$err_type = $issue['n_or_e'] == 0 ? 'notice' : 'error';
-
-			$csv[] = array(
-				$url,
-				$n,
-				'-',
-				$err_type,
-				'-',
-				$issue['error_message'],
-				$issue['html'],
-				'',
-			);
-			$n++;
+			$csv[] = array(Util::key2code($criterions[$criterion]['code']).' '.$criterions[$criterion]['name']);
+			foreach ($parents as $pid => $ids)
+			{
+				if ($pid != 'none')
+				{
+					$csv[] =  array(Arr::get($icls[$pid], 'title_short', Arr::get($icls[$pid], 'title', '')));
+				}
+				foreach ($ids as $id){
+					$line = array($icls[$id]['title_short']);
+					foreach ($pages as $vv)
+					{
+						$result = isset($vv['iclchks'][$id]) ? $vv['iclchks'][$id] : 0;
+						$line[] = $resultspts[$result];
+					}
+					$csv[] = $line;
+				}
+			}
 		}
-		return $csv;
-	}
 
-	/**
-	 * add images to csv
-	 *
-	 * @param String  $url
-	 * @param Array|Null   $csv
-	 * @param Integer $n
-	 * @return Array
-	 */
-	private static function addImgs2Csv($url, $csv, $n)
-	{
-		if (is_null($csv)) return array();
-
-		// alt list
-		foreach (\A11yc\Image::getImages($url) as $v)
-		{
-			// message
-			$alt = Arr::get($v['attrs'], 'alt');
-			$alt_alert = '';
-
-			// important
-			if ($v['is_important'])
-			{
-				$alt_alert = A11YC_LANG_IMPORTANT;
-			}
-
-			// error
-			if ($alt === NULL)
-			{
-				$alt_alert.= A11YC_LANG_NEED_CHECK.': '.A11YC_LANG_CHECKLIST_ALT_NULL;
-			}
-			elseif (empty($alt))
-			{
-				$alt_alert.= A11YC_LANG_NEED_CHECK.': '.A11YC_LANG_CHECKLIST_ALT_EMPTY;
-			}
-			elseif ($alt == '===a11yc_alt_of_blank_chars===')
-			{
-				$alt_alert.= A11YC_LANG_NEED_CHECK.': '.A11YC_LANG_CHECKLIST_ALT_BLANK;
-			}
-
-			$csv[] = array(
-				$url,
-				$n,
-				'A',
-				'notice',
-				'1.1.1',
-				$alt_alert,
-				Arr::get($v['attrs'], 'src', ''),
-				$alt,
-			);
-			$n++;
-		}
 		return $csv;
 	}
 }

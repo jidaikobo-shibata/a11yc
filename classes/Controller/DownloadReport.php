@@ -85,12 +85,17 @@ trait DownloadReport
 		foreach ($urls as $url)
 		{
 			if (Result::each($url, '', true) === false) continue;
-			list($zip, $exist) = self::addEachPages($zip, $n, $exist);
+			list($zip, $exist) = self::addEachPages($zip, $n, $exist, $url);
 			$n++;
 		}
 
 		foreach (self::$total as $k => $v)
 		{
+			if ($k == 'criterion')
+			{
+				$all = str_replace('<!-- site results -->', '</article><article>', self::resultsVal(true));
+				$v = '<article><h1>'.A11YC_LANG_ALL.'</h1>'.$all.'</article>'.$v;
+			}
 			$zip->addFromString($k.'s.html', self::replaceStrings($v));
 		}
 
@@ -109,9 +114,10 @@ trait DownloadReport
 	 * @param Object $zip
 	 * @param Integer $n
 	 * @param Bool $exist
+	 * @param String $url
 	 * @return Array
 	 */
-	private static function addEachPages($zip, $n, $exist)
+	private static function addEachPages($zip, $n, $exist, $url)
 	{
 		$targets = array(
 			'each'      => 'body',
@@ -123,7 +129,8 @@ trait DownloadReport
 		{
 			$body = View::fetch($target);
 			if ( ! $body) continue;
-			self::$total[$file].= $body;
+			$page = Model\Page::fetch($url);
+			self::$total[$file].= '<article><h1>'.sprintf("%02d: ", $page['seq']).Model\Html::pageTitle($url).'</h1>'.$body.'</article>';
 			$exist = true;
 			$zip->addFromString($file.'s/'.$file.$n.'.html', self::replaceStrings($body));
 		}
@@ -139,13 +146,21 @@ trait DownloadReport
 	 */
 	private static function addResults($zip)
 	{
+		$zip->addFromString('index.html', self::replaceStrings(self::resultsVal()));
+		return $zip;
+	}
+
+	/**
+	 * resultsVal
+	 *
+	 * @param Bool $is_result
+	 * @return String
+	 */
+	private static function resultsVal($is_result = false)
+	{
 		$is_center = true;
 		Result::all('', $is_center, true);
-		$body = View::fetch('body');
-		$body = self::replaceStrings($body);
-		$zip->addFromString('index.html', $body);
-
-		return $zip;
+		return $is_result ? View::fetch('body_result') : View::fetch('body');
 	}
 
 	/**
@@ -205,6 +220,7 @@ trait DownloadReport
 		$end = preg_quote(A11YC_NON_DOWNLOAD_END, '/');
 		$search = '/'.$start.'.+?'.$end.'/ism';
 		$str = preg_replace($search, '', $str);
+		$str = str_replace('<h2>'.A11YC_LANG_TEST_RESULT.'</h2>', '', $str);
 
 		// add header and footer
 		$str = View::fetchTpl('inc_report_header.php').$str.View::fetchTpl('inc_report_footer.php');

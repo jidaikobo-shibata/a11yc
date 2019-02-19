@@ -19,4 +19,5 @@
 	$lis[] = "\t".'<li><a href="'.A11YC_PAGE_URL.'add">'.A11YC_LANG_CTRL_ADDNEW.'</a></li>';
 	echo join("\n", $lis);
 ?>
+	<li><a href="<?php echo A11YC_DOWNLOAD_URL ?>csv"><?php echo A11YC_LANG_EXPORT_CSV ?></a></li>
 </ul>

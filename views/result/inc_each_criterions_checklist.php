@@ -52,7 +52,7 @@ foreach ($yml['criterions'] as $criterion => $v):
 
 		// memo or percentage
 		if ($is_total || ! Model\Setting::fetch('hide_memo_results')):
-			$html.= $is_total ? '	<td class="a11yc_result">' : '	<td>';
+			$html.= $is_total ? '	<td class="a11yc_result" style="white-space: nowrap;">' : '	<td>';
 			$html.= nl2br($memo);
 			$html.= '	</td>';
 		endif;
