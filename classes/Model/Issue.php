@@ -193,7 +193,9 @@ class Issue
 	 */
 	public static function fetch4Checklist($url, $criterion)
 	{
-		$vals = static::fetchAll();
+//		$vals = static::fetchAll();
+		$vals = static::fetchByStatus(0);
+
 		return isset($vals[$url][$criterion]) ? $vals[$url][$criterion] : array();
 	}
 
