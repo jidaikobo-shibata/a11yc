@@ -187,7 +187,8 @@ class Evaluate
 		foreach ($total as $criterion => $num)
 		{
 			$percentage = round($passes[$criterion] / $num, 3) * 100;
-			$results[$criterion]['memo'] = $percentage.'%';
+//			$results[$criterion]['memo'] = $passes[$criterion].'/'.$num.' ('.$percentage.'%)';
+			$results[$criterion]['memo'] = $passes[$criterion].'/'.$num;
 			$results[$criterion]['passed'] = ($percentage == 100);
 			$results[$criterion]['non_exist'] = $non_exists[$criterion];
 		}
