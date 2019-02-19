@@ -91,7 +91,7 @@ trait DownloadReport
 
 		foreach (self::$total as $k => $v)
 		{
-			$zip->addFromString($k.'s.html', $v);
+			$zip->addFromString($k.'s.html', self::replaceStrings($v));
 		}
 
 		// empty zip cannot destroy: warning
@@ -124,7 +124,7 @@ trait DownloadReport
 		{
 			$body = View::fetch($target);
 			if ( ! $body) continue;
-			self::$total[$file].= self::replaceStrings($body);
+			self::$total[$file].= $body;
 			$exist = true;
 			$zip->addFromString($file.'s/'.$file.$n.'.html', self::replaceStrings($body));
 		}
