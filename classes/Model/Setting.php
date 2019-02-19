@@ -21,6 +21,7 @@ class Setting
 		'show_results'                    => false,
 		'hide_url_results'                => false,
 		'hide_date_results'               => false,
+		'hide_memo_results'               => false,
 		'client_name'                     => '',
 		'declare_date'                    => '',
 		'test_period'                     => '',

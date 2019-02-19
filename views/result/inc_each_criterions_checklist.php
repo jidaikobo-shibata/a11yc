@@ -51,20 +51,24 @@ foreach ($yml['criterions'] as $criterion => $v):
 		$html.= '	<td class="a11yc_result">'.$pass_str.'</td>';
 
 		// memo or percentage
-		$html.= $is_total ? '	<td class="a11yc_result">' : '	<td>';
-		$html.= nl2br($memo);
-		$html.= '	</td>';
+		if ($is_total || ! Model\Setting::fetch('hide_memo_results')):
+			$html.= $is_total ? '	<td class="a11yc_result">' : '	<td>';
+			$html.= nl2br($memo);
+			$html.= '	</td>';
+		endif;
 	endif; // is_policy
 
-	$lis = '';
-	foreach (Arr::get($cs, $criterion, array()) as $tech):
-		if (is_numeric($tech)) continue;
-		$lis.= '<li>'.$tech.'</li>';
-	endforeach;
-	$ul = empty($lis) ? '' : '<ul>'.$lis.'</ul>';
-	$html.= '	<td class="a11yc_result a11yc_result_exist">'.$ul.'</td>';
+	if ( ! $is_total):
+		$lis = '';
+		foreach (Arr::get($cs, $criterion, array()) as $tech):
+			if (is_numeric($tech)) continue;
+			$lis.= '<li>'.$tech.'</li>';
+		endforeach;
+		$ul = empty($lis) ? '' : '<ul>'.$lis.'</ul>';
+		$html.= '	<td class="a11yc_result a11yc_result_exist">'.$ul.'</td>';
 
-	$html.= '</tr>';
+		$html.= '</tr>';
+		endif;
 	endif;
 endforeach;
 
@@ -79,6 +83,7 @@ if ($html):
 			<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_EXIST ?></th>
 			<?php if ( ! $is_policy):  ?>
 			<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PASS ?></th>
+			<?php if ($is_total || ! Model\Setting::fetch('hide_memo_results')):  ?>
 			<th scope="col" class="a11yc_result">
 			<?php
 				if (Input::get('url')):
@@ -89,7 +94,10 @@ if ($html):
 			?>
 			</th>
 			<?php endif; ?>
+			<?php endif; ?>
+			<?php if ( ! $is_total):  ?>
 			<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_CHECKLIST_NG_REASON ?></th>
+			<?php endif; ?>
 		</tr>
 	</thead>
 	<tbody>
