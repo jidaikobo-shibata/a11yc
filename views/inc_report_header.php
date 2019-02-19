@@ -12,17 +12,6 @@
 
 	<!--css-->
 <style type="text/css">
-<!-- /* temp */ -->
-tbody td:nth-child(6)
-{
-	font-size: 0;
-}
-tbody td:nth-child(6):before{
-	content: '0/40';
-	font-size: 1rem;
-}
-<!-- /* temp */ -->
-
 body
 {
 	font-family: sans-serif;
