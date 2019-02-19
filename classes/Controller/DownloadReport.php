@@ -119,7 +119,6 @@ trait DownloadReport
 			'criterion' => 'download_criterion',
 		);
 
-		$total = '';
 		foreach ($targets as $file => $target)
 		{
 			$body = View::fetch($target);

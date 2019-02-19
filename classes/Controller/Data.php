@@ -22,12 +22,6 @@ class Data
 	 */
 	public static function actionExport()
 	{
-		// use DataExport
-		if (Input::get('target') == 'icl')
-		{
-			static::exportIcl();
-			return;
-		}
 		static::export();
 	}
 

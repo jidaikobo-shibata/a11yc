@@ -151,8 +151,12 @@ class Icl
 	 */
 	public static function update($id, $vals)
 	{
-		$vals = Data::filter($vals, static::fetch($id, true));
-		return Data::updateById(self::dbid($id), $vals);
+		if ($dbid = self::dbid($id))
+		{
+			$vals = Data::filter($vals, static::fetch($id, true));
+			return Data::updateById($dbid, $vals);
+		}
+		return false;
 	}
 
 	/**
@@ -165,10 +169,13 @@ class Icl
 	 */
 	public static function updatePartial($id, $key, $value)
 	{
-		$id = self::dbid($id);
-		$vals = static::fetch($id, true);
-		$vals[$key] = $value;
-		return Data::updateById($id, $vals);
+		if ($dbid = self::dbid($id))
+		{
+			$vals = static::fetch($dbid, true);
+			$vals[$key] = $value;
+			return Data::updateById($dbid, $vals);
+		}
+		return false;
 	}
 
 	/**
@@ -179,6 +186,10 @@ class Icl
 	 */
 	public static function purge($id)
 	{
-		return Data::deleteById(self::dbid($id));
+		if ($dbid = self::dbid($id))
+		{
+			return Data::deleteById($dbid);
+		}
+		return false;
 	}
 }

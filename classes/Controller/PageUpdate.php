@@ -23,9 +23,6 @@ trait PageUpdate
 	{
 		$url_path = base64_encode(Input::get('url'));
 		$url = Util::urldec(Input::get('url'));
-		$is_success = false;
-		$redirect_to = '';
-		$message = '';
 
 		if (Input::isPostExists())
 		{

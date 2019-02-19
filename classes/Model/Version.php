@@ -139,7 +139,7 @@ class Version
 	 * depend on QUERY_STRING and Other Setting
 	 *
 	 * @param Bool $force
-	 * @return Integer
+	 * @return Integer|Bool
 	 */
 	public static function current($force = false)
 	{

@@ -80,7 +80,6 @@ trait DataExport
 	{
 		if (in_array('icl', $targets))
 		{
-			$tmp = array();
 			$vals['icl'] = Model\Icl::fetchAll();
 		}
 		return $vals;
