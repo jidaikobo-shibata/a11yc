@@ -260,7 +260,8 @@ class Setting
 			}
 
 			$is_add = empty($sites);
-			$sites[] = Util::urldec($new_site);
+			$site_id = count($sites) + 1;
+			$sites[$site_id] = Util::urldec($new_site);
 			if ($is_add)
 			{
 				Model\Data::insert('sites', 'global', $sites);

@@ -155,6 +155,7 @@ define('A11YC_LANG_SETTING_NON_USE_TECHS_CANDIDATES', '定番的に用いない�
 define('A11YC_LANG_PAGE_CANNOT_FETCH_HTML_FROM_DB', 'HTMLのサイズが65530以上あるため、正常な取得ができませんでした');
 define('A11YC_LANG_SETTING_RESULT_HIDE_URL', '試験結果に各ページのURLを表示しない');
 define('A11YC_LANG_SETTING_RESULT_HIDE_DATE', '試験結果に試験日を表示しない');
+define('A11YC_LANG_SETTING_RESULT_HIDE_MEMO', '試験結果に備考を表示しない');
 
 define('A11YC_LANG_SETTING_VERSION', '管理するバージョン');
 define('A11YC_LANG_SETTING_VERSION_CURRENT', '現在のバージョン');
