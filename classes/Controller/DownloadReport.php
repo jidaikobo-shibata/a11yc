@@ -14,6 +14,12 @@ use A11yc\Model;
 
 trait DownloadReport
 {
+	private static $total = array(
+		'each'      => '',
+		'icl'       => '',
+		'criterion' => '',
+	);
+
 	/**
 	 * download
 	 *
@@ -42,7 +48,7 @@ trait DownloadReport
 //			$zip = self::addCsv($zip, $urls);
 
 			// pages report
-			$zip = self::addPages($zip, $urls);
+			$zip = self::addEachIclAndCriterion($zip, $urls);
 
 			// close
 			$zip->close();
@@ -72,7 +78,7 @@ trait DownloadReport
 	 * @param Array $urls
 	 * @return Object
 	 */
-	private static function addPages($zip, $urls)
+	private static function addEachIclAndCriterion($zip, $urls)
 	{
 		$n =1;
 		$exist = false;
@@ -81,6 +87,11 @@ trait DownloadReport
 			if (Result::each($url, '', true) === false) continue;
 			list($zip, $exist) = self::addEachPages($zip, $n, $exist);
 			$n++;
+		}
+
+		foreach (self::$total as $k => $v)
+		{
+			$zip->addFromString($k.'s.html', $v);
 		}
 
 		// empty zip cannot destroy: warning
@@ -108,10 +119,12 @@ trait DownloadReport
 			'criterion' => 'download_criterion',
 		);
 
+		$total = '';
 		foreach ($targets as $file => $target)
 		{
 			$body = View::fetch($target);
 			if ( ! $body) continue;
+			self::$total[$file].= self::replaceStrings($body);
 			$exist = true;
 			$zip->addFromString($file.'s/'.$file.$n.'.html', self::replaceStrings($body));
 		}

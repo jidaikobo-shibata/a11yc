@@ -49,8 +49,8 @@ class Result
 
 		foreach ($results as $criterion => $result)
 		{
-			if (intval($result['result']) === 0) continue;
-			if (intval($result['result']) === -1) continue;
+			if (intval(Arr::get($result, 'result', 0)) === 0) continue;
+			if (intval(Arr::get($result, 'result', 0)) === -1) continue;
 			$retval[] = $criterion;
 		}
 		return $retval;
