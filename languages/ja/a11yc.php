@@ -126,7 +126,6 @@ define('A11YC_LANG_CENTER_ABOUT', 'A11ycについて');
 define('A11YC_LANG_CENTER_LOGO', 'ロゴマーク');
 define('A11YC_LANG_CENTER_ABOUT_CONTENT', 'A11ycは、有限会社時代工房が作成したWCAG 2.0対応のウェブアクセシビリティチェッカーです');
 
-
 // setting
 define('A11YC_LANG_SETTING_TITLE', '設定');
 define('A11YC_LANG_SETTING_TITLE_BASE', '基本設定');
@@ -355,6 +354,14 @@ define('A11YC_LANG_ISSUE_EXPORT', 'レポート出力');
 define('A11YC_LANG_ISSUE_REPORT_HEAD_SUFFIX', 'JIS X 8341-3:2016 試験報告');
 define('A11YC_LANG_ISSUE_MEMO', '内部用のメモ');
 define('A11YC_LANG_ISSUE_OTHER_URLS', 'その他の参考URL');
+
+// site check
+define('A11YC_LANG_SITECHECK_TITLE', '一括チェック');
+define('A11YC_LANG_SITECHECK_CONTAINS', '%sのあるページの抽出'); // tabindex
+define('A11YC_LANG_SITECHECK_CONTAINS_NOT', '%sのないページの抽出'); // h*
+define('A11YC_LANG_SITECHECK_WITHOUT_ALT', 'alt属性値の欠如した要素');
+define('A11YC_LANG_SITECHECK_WITHOUT_TH', 'th要素の欠如したtable要素');
+define('A11YC_LANG_SITECHECK_RELATED_RESULTS', '関連する達成基準と実装チェック状況');
 
 // icl
 define('A11YC_LANG_ICL_TITLE', '実装チェックリスト');

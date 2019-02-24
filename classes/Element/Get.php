@@ -128,7 +128,7 @@ class Get extends Element
 	{
 		foreach ($ret[1] as $k => $v)
 		{
-			if ($v != 'img')
+			if (strtolower($v) != 'img')
 			{
 				unset($ret[0][$k]);
 				unset($ret[1][$k]);

@@ -28,6 +28,7 @@
 <div id="<?php echo 'a11yc_'.$mode ?>" class="a11yc">
 <?php if (Auth::auth() && isset($login_user[2])): ?>
 	<div id="a11yc_menu_wrapper">
+
 		<nav id="a11yc_menu">
 		<h1 id="a11yc_title"><img src="<?php echo A11YC_ASSETS_URL ?>/img/logo_w.png" alt="A11yC" /></h1>
 		<a href="#a11yc_content" class="a11yc_skip a11yc_show_if_focus"><?php echo A11YC_LANG_JUMP_TO_CONTENT ?></a>
@@ -36,12 +37,14 @@
 			<li class="a11yc_menu_item a11yc_setting"><a href="?c=setting&amp;a=base" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_SETTING_TITLE ?></a></li>
 			<li class="a11yc_menu_item a11yc_icl"><a href="?c=icl&amp;a=index" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_ICL_TITLE ?></a></li>
 			<li class="a11yc_menu_item a11yc_page"><a href="?c=page&amp;a=index" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_PAGE_TITLE ?></a></li>
+			<li class="a11yc_menu_item a11yc_sitecheck"><a href="?c=sitecheck&amp;a=index" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_SITECHECK_TITLE ?></a></li>
 			<li class="a11yc_menu_item a11yc_issue"><a href="?c=issue&amp;a=yet" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_ISSUE_TITLE ?></a></li>
 			<li class="a11yc_menu_item a11yc_bulk"><a href="?c=bulk&amp;a=index" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_BULK_TITLE ?></a></li>
 			<li class="a11yc_menu_item a11yc_doc"><a href="?c=doc&amp;a=index" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_DOC_TITLE ?></a></li>
 			<li class="a11yc_menu_item a11yc_logout a11yc_fr" title="<?php echo Performance::calcTime().' '.Performance::calcMemory() ?>"><?php echo $login_user[2].'&nbsp;' ?> <a href="?c=auth&amp;a=logout" class="a11yc_hasicon"><span class="a11yc_fa_icon" role="presentation" aria-hidden="true"></span><?php echo A11YC_LANG_LOGOUT ?></a></li>
 		</ul>
 		</nav><!--#a11yc_menu-->
+
 	</div><!--#a11yc_menu_wrapper-->
 	<a id="a11yc_content" tabindex="0" class="a11yc_skip a11yc_show_if_focus"><?php echo A11YC_LANG_BEGINNING_OF_THE_CONTENT ?></a>
 <?php endif; ?>

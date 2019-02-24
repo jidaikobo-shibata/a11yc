@@ -355,6 +355,14 @@ define('A11YC_LANG_ISSUE_REPORT_HEAD_SUFFIX', 'JIS X 8341-3:2016 Report');
 define('A11YC_LANG_ISSUE_MEMO', 'Internal Memo');
 define('A11YC_LANG_ISSUE_OTHER_URLS', 'Other URL');
 
+// site check
+define('A11YC_LANG_SITECHECK_TITLE', 'Site Check');
+define('A11YC_LANG_SITECHECK_CONTAINS', 'Extracting a page with %s'); // tabindex
+define('A11YC_LANG_SITECHECK_CONTAINS_NOT', 'Extracting a page without %s'); // h*
+define('A11YC_LANG_SITECHECK_WITHOUT_ALT', 'Missing element of alt attribute value');
+define('A11YC_LANG_SITECHECK_WITHOUT_TH', 'The lacking table element of th element');
+define('A11YC_LANG_SITECHECK_RELATED_RESULTS', 'Related success criteria and implementation check status');
+
 // icl
 define('A11YC_LANG_ICL_TITLE', 'Implement Checklist');
 define('A11YC_LANG_ICL_TITLE_VIEW', 'Show Implement Checklist');
