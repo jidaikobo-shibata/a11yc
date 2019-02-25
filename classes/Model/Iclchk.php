@@ -41,6 +41,7 @@ class Iclchk
 	public static function insert($url, $vals)
 	{
 		$vals = array_map('intval', $vals);
+		self::delete($url);
 		return Data::insert('iclchk', $url, $vals);
 	}
 

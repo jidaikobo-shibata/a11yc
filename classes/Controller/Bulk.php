@@ -217,7 +217,7 @@ class Bulk extends Checklist
 		$vals = array();
 
 		$current = Model\Iclchk::fetch($url);
-		$is_done = count(array_unique($current)) != 1;
+		$is_done = count(array_unique($current)) > 1;
 
 		if (Input::post('update_all') == 2 && $is_done)
 		{
@@ -232,7 +232,7 @@ class Bulk extends Checklist
 			$vals = $bulk;
 		}
 
-		if ($current)
+		if ($is_done)
 		{
 			Model\Iclchk::update($url, $vals);
 			return;
