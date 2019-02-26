@@ -90,7 +90,7 @@ class Result
 		foreach (Page::fetchAll(array('list' => 'done')) as $page)
 		{
 			$level = intval(Arr::get($page, 'level', 0));
-			if ($level > $target_level) continue;
+			if ($level >= $target_level) continue;
 			$pages[] = $page;
 		}
 		return $pages;

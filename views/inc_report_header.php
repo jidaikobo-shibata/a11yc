@@ -189,5 +189,5 @@ h1 + .a11yc_table th
 <?php
 // echo '<div class="a11yc_header">'.Model\Setting::fetch('client_name').'</div>';
 
-// echo '<h1>'.$title.'</h1>';
+echo '<h1>'.$title.'</h1>';
 ?>
