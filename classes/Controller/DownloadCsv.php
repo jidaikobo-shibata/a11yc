@@ -49,8 +49,24 @@ trait DownloadCsv
 	 */
 	public static function generateCsv()
 	{
-		$titles = array('');
 		$pages = Model\Page::fetchAll();
+		$csv   = array();
+		$csv[] = self::addTitleLine($pages);
+		$csv   = self::addCriterionLines($csv, $pages);
+		$csv[] = array();
+		$csv   = self::addIclLines($csv, $pages);
+		return $csv;
+	}
+
+	/**
+	 * addTitleLine
+	 *
+	 * @param Array $pages
+	 * @return Array
+	 */
+	private static function addTitleLine($pages)
+	{
+		$titles = array('');
 		foreach ($pages as $k => $v)
 		{
 			$pages[$k]['results'] = Model\Result::fetch($v['url']);
@@ -58,12 +74,20 @@ trait DownloadCsv
 			$pages[$k]['iclchks'] = Model\Iclchk::fetch($v['url']);
 			$titles[] = (sprintf("%02d", $v['seq'])).': '.$v['title'];
 		}
+		return $titles;
+	}
 
-		$csv[] = $titles;
-
+	/**
+	 * addCriterionLines
+	 *
+	 * @param Array $csv
+	 * @param Array $pages
+	 * @return Array
+	 */
+	private static function addCriterionLines($csv, $pages)
+	{
 		$resultspts = Values::resultsOptions();
 		$criterions = Yaml::each('criterions');
-		// criterion
 		foreach ($criterions as $criterion => $v)
 		{
 			$line = array(
@@ -76,10 +100,20 @@ trait DownloadCsv
 			}
 			$csv[] = $line;
 		}
+		return $csv;
+	}
 
-		$csv[] = array();
-
-		// icl
+	/**
+	 * addIclLines
+	 *
+	 * @param Array $csv
+	 * @param Array $pages
+	 * @return Array
+	 */
+	private static function addIclLines($csv, $pages)
+	{
+		$resultspts = Values::resultsOptions();
+		$criterions = Yaml::each('criterions');
 		$icls = Model\Icl::fetchAll();
 		$icltree = Model\Icl::fetchTree();
 		foreach ($icltree as $criterion => $parents)
@@ -102,7 +136,6 @@ trait DownloadCsv
 				}
 			}
 		}
-
 		return $csv;
 	}
 }

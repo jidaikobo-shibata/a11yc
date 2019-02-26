@@ -25,4 +25,3 @@ if ($pages):
 elseif (Input::isPostExists()):
 	echo '<p>'.A11YC_LANG_PAGE_NOT_FOUND.'</p>';
 endif;
-?>

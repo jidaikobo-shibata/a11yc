@@ -43,9 +43,9 @@ class Sitecheck
 		if (Input::isPostExists())
 		{
 			$op = Input::post('op');
-			if (array_key_exists($op, static::$ops))
+			if (array_key_exists($op, self::$ops))
 			{
-				$class = '\\A11yc\\Sitecheck\\'.static::$ops[$op];
+				$class = '\\A11yc\\Sitecheck\\'.self::$ops[$op];
 				$pages = $class::check();
 			}
 		}
