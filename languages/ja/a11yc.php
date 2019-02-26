@@ -427,7 +427,7 @@ define('A11YC_LANG_POST_VENDOR_JIDAIKOBO', '有限会社時代工房');
 define('A11YC_LANG_POST_VENDOR_JIDAIKOBO_TWITTER', '時代工房のTwitter');
 
 define('A11YC_LANG_POST_TECH_TITLE', '技術情報');
-define('A11YC_LANG_POST_TECH_A11YC', 'A11ycというライブラリを基礎にして開発しています。<a href="https://github.com/jidaikobo-shibata/a11yc">A11ycは、githubで入手可能</a>です。このライブラリも時代工房で作っています');
+define('A11YC_LANG_POST_TECH_A11YC', 'A11ycというライブラリを基礎にして開発しています。<a href="https://github.com/jidaikobo-shibata/a11yc">A11ycは、GitHubで入手可能</a>です。このライブラリも時代工房で作っています');
 define('A11YC_LANG_POST_TECH_A11YC_ADD', 'A11ycでは、このアクセシビリティチェックサービスで提供している機能のほかに、JIS X 8341-3:2016で求められている報告書や試験結果（チェックリスト）の作成機能があります');
 define('A11YC_LANG_POST_TECH_JWP_A11YC', 'WordPress用のプラグイン<a href="https://ja.wordpress.org/plugins/jwp-a11y/">jwp-a11y</a>もA11ycと同様の機能がありますので、おためしください');
 define('A11YC_LANG_POST_TECH_JWP_A11YC_ADD', 'Wordpressプラグイン版では、この'.A11YC_LANG_POST_SERVICE_NAME_ABBR.'のバリデーション機能を投稿のたびに実行できるので、恒常的にアクセシビリティを意識してサイトを運営できるようになると思います');

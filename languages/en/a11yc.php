@@ -427,7 +427,7 @@ define('A11YC_LANG_POST_VENDOR_JIDAIKOBO', 'Jidaikobo Inc.');
 define('A11YC_LANG_POST_VENDOR_JIDAIKOBO_TWITTER', 'Twitter of Jidaikobo Inc.');
 
 define('A11YC_LANG_POST_TECH_TITLE', 'Technical information');
-define('A11YC_LANG_POST_TECH_A11YC', 'Based on the library called A11yc. <a href="https://github.com/jidaikobo-shibata/a11yc">A11yc is available on github </a>. Is is also made by Jidaikobo');
+define('A11YC_LANG_POST_TECH_A11YC', 'Based on the library called A11yc. <a href="https://github.com/jidaikobo-shibata/a11yc">A11yc is available on GitHub </a>. Is is also made by Jidaikobo');
 define('A11YC_LANG_POST_TECH_A11YC_ADD', 'In A11yc, there are functions to prepare reports and test results (check list)');
 define('A11YC_LANG_POST_TECH_JWP_A11YC', 'Plugin for WordPress <a href="https://en.wordpress.org/plugins/jwp-a11y/">jwp-a11y</a> also has the same function as A11yc, so please do it');
 define('A11YC_LANG_POST_TECH_JWP_A11YC_ADD', 'In Wordpress Plugin, execute validation function of '.A11YC_LANG_POST_SERVICE_NAME_ABBR.' every time posting, constantly manage the site with accessibility awareness');
