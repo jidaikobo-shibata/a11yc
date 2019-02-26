@@ -8,6 +8,9 @@ $selected_str = ' selected="selected"';
 	<?php $selected = Input::post('op') == 'contain_tabindex' ? $selected_str : '' ; ?>
 	<option value="contain_tabindex"<?php echo $selected ?>><?php printf(A11YC_LANG_SITECHECK_CONTAINS, "tabindex") ?></option>
 
+	<?php $selected = Input::post('op') == 'contain_positivetabindex' ? $selected_str : '' ; ?>
+	<option value="contain_positivetabindex"<?php echo $selected ?>><?php printf(A11YC_LANG_SITECHECK_CONTAINS, A11YC_LANG_SITECHECK_POSITIVETABINED) ?></option>
+
 	<?php $selected = Input::post('op') == 'contain_withoutalt' ? $selected_str : '' ; ?>
 	<option value="contain_withoutalt"<?php echo $selected ?>><?php printf(A11YC_LANG_SITECHECK_CONTAINS, A11YC_LANG_SITECHECK_WITHOUT_ALT) ?></option>
 

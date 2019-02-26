@@ -16,10 +16,11 @@ use A11yc\Validate;
 class Sitecheck
 {
 	private static $ops = array(
-		'contain_tabindex'     => 'ContainTabindex',
-		'contain_withoutalt'   => 'ContainWithoutAlt',
-		'contain_withoutth'    => 'ContainWithoutTh',
-		'contain_not_headings' => 'ContainNotHeadings',
+		'contain_tabindex'         => 'ContainTabindex',
+		'contain_positivetabindex' => 'ContainPositiveTabindex',
+		'contain_withoutalt'       => 'ContainWithoutAlt',
+		'contain_withoutth'        => 'ContainWithoutTh',
+		'contain_not_headings'     => 'ContainNotHeadings',
 	);
 
 	/**

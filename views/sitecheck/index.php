@@ -2,8 +2,7 @@
 namespace A11yc;
 include('inc_submenu.php');
 
-//define('A11YC_LANG_SITECHECK_RELATED_RESULTS', '関連する達成基準と実装チェック状況');
-
+//A11YC_LANG_SITECHECK_RELATED_RESULTS
 
 if ($pages):
 	$html = '';

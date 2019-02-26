@@ -1,6 +1,6 @@
 <?php
 /**
- * A11yc\Sitecheck\ContainWithoutAlt
+ * A11yc\Sitecheck\ContainPositiveTabindex
  *
  * @package    part of A11yc
  * @author     Jidaikobo Inc.
@@ -13,7 +13,7 @@ namespace A11yc\Sitecheck;
 use A11yc\Model;
 use A11yc\Element;
 
-class ContainWithoutAlt
+class ContainPositiveTabindex
 {
 	/**
 	 * check
@@ -26,13 +26,12 @@ class ContainWithoutAlt
 		foreach (Model\Page::fetchAll() as $page)
 		{
 			$str = Element\Get::ignoredHtml($page['url']);
-			$ms = Element\Get::elementsByRe($str, 'ignores', 'imgs', true);
+			$ms = Element\Get::elementsByRe($str, 'ignores', 'tags', true);
 			if ( ! $ms[1]) continue;
-
 			foreach ($ms[0] as $m)
 			{
 				$attrs = Element\Get::attributes($m);
-				if ( ! array_key_exists('alt', $attrs))
+				if (isset($attrs['tabindex']) && intval($attrs['tabindex']) > 0)
 				{
 					$pages[] = $page;
 					continue 2;

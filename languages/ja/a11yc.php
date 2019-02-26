@@ -362,6 +362,7 @@ define('A11YC_LANG_SITECHECK_CONTAINS_NOT', '%sのないページの抽出'); //
 define('A11YC_LANG_SITECHECK_WITHOUT_ALT', 'alt属性値の欠如した要素');
 define('A11YC_LANG_SITECHECK_WITHOUT_TH', 'th要素の欠如したtable要素');
 define('A11YC_LANG_SITECHECK_RELATED_RESULTS', '関連する達成基準と実装チェック状況');
+define('A11YC_LANG_SITECHECK_POSITIVETABINED', '正の数の値を持つtabinex');
 
 // icl
 define('A11YC_LANG_ICL_TITLE', '実装チェックリスト');
