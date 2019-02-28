@@ -363,6 +363,10 @@ define('A11YC_LANG_SITECHECK_WITHOUT_ALT', 'Missing element of alt attribute val
 define('A11YC_LANG_SITECHECK_WITHOUT_TH', 'The lacking table element of th element');
 define('A11YC_LANG_SITECHECK_RELATED_RESULTS', 'Related success criteria and implementation check status');
 define('A11YC_LANG_SITECHECK_POSITIVETABINED', 'tabinex with a positive number value');
+define('A11YC_LANG_USE_RE', 'Use regular expression');
+define('A11YC_LANG_SITECHECK_ERR_SHORT_KEYWORD', 'use more than 2 letters for keyword');
+define('A11YC_LANG_SITECHECK_ERR_WRONG_DELIMITER', 'Regular expression delimiter is invalid');
+define('A11YC_LANG_SITECHECK_ERR_WRONG_RE', 'Regular expression seems to be wrong');
 
 // icl
 define('A11YC_LANG_ICL_TITLE', 'Implement Checklist');

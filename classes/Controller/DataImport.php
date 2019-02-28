@@ -24,6 +24,7 @@ trait DataImport
 		if (Input::isPostExists())
 		{
 			$file = Input::file('import');
+
 			if ( ! file_exists(Arr::get($file, 'tmp_name'))) Util::redirect(A11YC_URL);
 			$results = json_decode(file_get_contents($file['tmp_name']), true);
 

@@ -16,7 +16,7 @@ use A11yc\Validate;
 class Sitecheck
 {
 	private static $ops = array(
-		'contain_tabindex'         => 'ContainTabindex',
+		'contain_keyword'          => 'ContainKeyword',
 		'contain_positivetabindex' => 'ContainPositiveTabindex',
 		'contain_withoutalt'       => 'ContainWithoutAlt',
 		'contain_withoutth'        => 'ContainWithoutTh',
@@ -51,9 +51,11 @@ class Sitecheck
 			}
 		}
 
-		View::assign('total', count(Model\Page::fetchAll()));
-		View::assign('pages', $pages);
-		View::assign('title', A11YC_LANG_SITECHECK_TITLE);
-		View::assign('body',  View::fetchTpl('sitecheck/index.php'), FALSE);
+		View::assign('keyword',  Input::post('keyword', ''));
+		View::assign('use_re',   Input::post('use_re', false));
+		View::assign('total',    count(Model\Page::fetchAll()));
+		View::assign('pages',    $pages);
+		View::assign('title',    A11YC_LANG_SITECHECK_TITLE);
+		View::assign('body',     View::fetchTpl('sitecheck/index.php'), FALSE);
 	}
 }

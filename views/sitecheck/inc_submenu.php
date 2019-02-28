@@ -4,9 +4,15 @@ $selected_str = ' selected="selected"';
 ?>
 
 <form action="<?php echo A11YC_SITECHECK_URL ?>index" method="POST">
+
+<label><?php echo A11YC_LANG_CTRL_KEYWORD_TITLE ?> <input type="text" name="keyword" size="20" value="<?php echo $keyword ?>"></label>
+
+<?php $checked = $use_re ? ' checked="checked"' : ''; ?>
+<label><input type="checkbox"<?php echo $checked ?> name="use_re" value="1"> <?php echo A11YC_LANG_USE_RE  ?></label>
+
 <label><?php echo A11YC_LANG_CTRL_CHECK ?><select name="op">
 	<?php $selected = Input::post('op') == 'contain_tabindex' ? $selected_str : '' ; ?>
-	<option value="contain_tabindex"<?php echo $selected ?>><?php printf(A11YC_LANG_SITECHECK_CONTAINS, "tabindex") ?></option>
+	<option value="contain_keyword"<?php echo $selected ?>><?php printf(A11YC_LANG_SITECHECK_CONTAINS, A11YC_LANG_CTRL_KEYWORD_TITLE) ?></option>
 
 	<?php $selected = Input::post('op') == 'contain_positivetabindex' ? $selected_str : '' ; ?>
 	<option value="contain_positivetabindex"<?php echo $selected ?>><?php printf(A11YC_LANG_SITECHECK_CONTAINS, A11YC_LANG_SITECHECK_POSITIVETABINED) ?></option>

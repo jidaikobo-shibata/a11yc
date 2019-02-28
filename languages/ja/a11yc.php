@@ -49,7 +49,7 @@ define('A11YC_LANG_BEGINNING_OF_THE_CONTENT', 'ここから本文です');
 define('A11YC_LANG_UPDATE_SUCCEED', '更新しました');
 define('A11YC_LANG_UPDATE_FAILED', '更新に失敗しました');
 define('A11YC_LANG_CTRL_CONFIRM', '元には戻せません。本当に%sしてもよろしいですか？');
-define('A11YC_LANG_CTRL_KEYWORD_TITLE', 'キーワード');
+define('A11YC_LANG_CTRL_KEYWORD_TITLE', 'キィワード');
 define('A11YC_LANG_CTRL_ORDER_TITLE', '並び替え');
 define('A11YC_LANG_CTRL_SEARCH', '検索する');
 define('A11YC_LANG_CTRL_SEND', '送信');
@@ -363,6 +363,10 @@ define('A11YC_LANG_SITECHECK_WITHOUT_ALT', 'alt属性値の欠如した要素');
 define('A11YC_LANG_SITECHECK_WITHOUT_TH', 'th要素の欠如したtable要素');
 define('A11YC_LANG_SITECHECK_RELATED_RESULTS', '関連する達成基準と実装チェック状況');
 define('A11YC_LANG_SITECHECK_POSITIVETABINED', '正の数の値を持つtabinex');
+define('A11YC_LANG_USE_RE', '正規表現を使う');
+define('A11YC_LANG_SITECHECK_ERR_SHORT_KEYWORD', 'キィワードは2文字以上入れてください');
+define('A11YC_LANG_SITECHECK_ERR_WRONG_DELIMITER', '正規表現のデリミタが不正です');
+define('A11YC_LANG_SITECHECK_ERR_WRONG_RE', '正規表現がおかしいようです');
 
 // icl
 define('A11YC_LANG_ICL_TITLE', '実装チェックリスト');
