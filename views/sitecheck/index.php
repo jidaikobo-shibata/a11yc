@@ -8,6 +8,14 @@ if ($pages):
 	$html = '';
 	$html.= '<p>'.count($pages).'/'.$total.'</p>';
 	$html.= '<table class="a11yc_table">';
+
+	$html.= '<thead>';
+	$html.= '<tr>';
+	$html.= '<th>'.A11YC_LANG_CHECKLIST_TARGETPAGE.'</th>';
+	$html.= '<th>'.A11YC_LANG_CTRL_CHECK.'</th>';
+	$html.= '</tr>';
+	$html.= '</thead>';
+
 	foreach ($pages as $page):
 		$html.= '<tr>';
 		$html.= '<th>';
