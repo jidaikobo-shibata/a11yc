@@ -58,6 +58,12 @@ class Util extends \Kontiki\Util
 			$strs = explode('../', $uri);
 			$uri = $base_url.'/'.end($strs);
 		}
+		// started with "//"
+		elseif (strlen($uri) >= 3 && substr($uri, 0, 2) == '//')
+		{
+			$strs = explode('//', $uri);
+			$uri = substr($base_url, 0, strpos($base_url, ':')).'://'.end($strs);
+		}
 		elseif (strpos($uri, 'http') !== 0)
 		{
 			$uri = $base_url.'/'.$uri;
