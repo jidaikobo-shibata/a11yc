@@ -25,6 +25,7 @@ define('A11YC_LANG_TEST_METHOD_AC', 'Automated Check');
 define('A11YC_LANG_TEST_METHOD_AF', 'Automated Find');
 define('A11YC_LANG_TEST_METHOD_HC', 'Human Check');
 define('A11YC_LANG_TEST_METHOD_AC_AF', 'AC/AF');
+define('A11YC_LANG_EXAM', 'Exam.');
 
 define('A11YC_LANG_CRITERION', 'Criterion');
 define('A11YC_LANG_HERE', 'here, click here, click');

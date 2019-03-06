@@ -11,10 +11,13 @@ echo '<a href="'.A11YC_PAGE_URL.'updatehtml&amp;url='.Util::s(Util::urlenc($url)
 <!-- add pages form -->
 <form action="<?php echo A11YC_PAGE_URL ?>edit&amp;url=<?php echo $url ?>" method="POST" enctype="multipart/form-data">
 <h2><label for="a11yc_title"><?php echo A11YC_LANG_PAGE_PAGETITLE ?></label></h2>
-<input type="text" name="title" id="a11yc_title" size="120" value="<?php echo Util::s($page_title) ?>" />
+<input type="text" name="title" id="a11yc_title" style="width: 100%;" value="<?php echo Util::s($page_title) ?>" />
+
+<h2><label for="a11yc_id">ID</label></h2>
+<input type="text" name="id" id="a11yc_id" size="3" value="<?php echo intval(Arr::get($page, 'id', 0)) ?>" />
 
 <h2><label for="a11yc_seq"><?php echo A11YC_LANG_CTRL_ORDER_SEQ ?></label></h2>
-<input type="text" name="seq" id="a11yc_seq" size="120" value="<?php echo intval(Arr::get($page, 'seq', 0)) ?>" />
+<input type="text" name="seq" id="a11yc_seq" size="3" value="<?php echo intval(Arr::get($page, 'seq', 0)) ?>" />
 
 <h2><label for="a11yc_add_pages">HTML</label></h2>
 <p><?php echo A11YC_LANG_PAGE_LABEL_HTML_EXP ?></p>

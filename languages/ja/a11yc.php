@@ -25,6 +25,7 @@ define('A11YC_LANG_TEST_METHOD_AC', 'AC');
 define('A11YC_LANG_TEST_METHOD_AF', 'AF');
 define('A11YC_LANG_TEST_METHOD_HC', 'HC');
 define('A11YC_LANG_TEST_METHOD_AC_AF', '機械判定の内容');
+define('A11YC_LANG_EXAM', '試験');
 
 define('A11YC_LANG_CRITERION', '達成基準');
 define('A11YC_LANG_HERE', 'こちら,ここ,ここをクリック,コチラ');
@@ -99,7 +100,7 @@ define('A11YC_LANG_NEED_CHECK', '要確認');
 define('A11YC_LANG_BASE_URL', 'ドキュメントルートURL');
 define('A11YC_LANG_NAME', '表題');
 define('A11YC_LANG_REFRESH_HTML', 'HTMLを更新');
-define('A11YC_LANG_LAST_UPDATE', 'HTML最終更新日: ');
+define('A11YC_LANG_LAST_UPDATE', 'HTML最終更新: ');
 define('A11YC_LANG_CHOOSE_FILE', 'ファイル選択');
 define('A11YC_LANG_ALL', '全体');
 

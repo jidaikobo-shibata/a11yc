@@ -26,7 +26,8 @@ class Page
 		'date'             => '',
 		'created_at'       => '', // date('Y-m-d H:i:s')
 		'updated_at'       => '',
-		'seq'              => 0
+		'seq'              => 0,
+		'id'               => 0
 	);
 
 	/**
