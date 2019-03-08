@@ -35,7 +35,7 @@ foreach ($icltree as $criterion => $parents):
 			if (isset($iclchks[$id])):
 				$exist = $iclchks[$id] == 1 ? $iclopts[1] : A11YC_LANG_EXIST ;
 				if ($iclchks[$id] != 1):
-					$confirm = $iclchks[$id] == 2 ? $iclopts[1] : $iclopts[-1] ;
+					$confirm = $iclchks[$id] == 2 ? $iclopts[2] : $iclopts[-1] ;
 				endif;
 			endif;
 

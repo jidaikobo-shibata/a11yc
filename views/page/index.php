@@ -31,13 +31,14 @@ if ($pages):
 	<thead>
 	<tr>
 		<td><label><input type="checkbox" /><span class="a11yc_skip"><?php echo A11YC_LANG_CTRL_LABEL_BULK_CHECK_ALL ?></span></label></td>
+		<th scope="col">ID</th>
 		<th scope="col">URL</th>
 		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_LEVEL ?></th>
-		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_CHECKLIST_DONE ?></th>
+		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_EXAM ?></th>
 		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_IMAGE ?></th>
 		<?php if ($list != 'trash'): ?>
 		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_CTRL_CHECK ?></th>
-		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_CHECKLIST_CHECK_RESULT ?></th>
+		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_TEST_RESULT ?></th>
 		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PAGE_LIVE ?></th>
 		<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_IMAGES_TITLE ?></th>
 		<?php endif; ?>
@@ -60,6 +61,8 @@ if ($pages):
 	?>
 	<tr<?php echo $class_str ?>>
 		<td><label><input type="checkbox" name="bulk[<?php echo $url ?>]" value="1" /><span class="a11yc_skip"><?php echo $title ?></span></label></td>
+
+		<td class="a11yc_result"><input type="text" name="ids[<?php echo $url ?>]" aria-labelledby="a11yc_label_ids" size="2" value="<?php echo intval(Arr::get($page, 'id')); ?>" /></td>
 
 		<th scope="row">
 			<?php echo $no_url == $url ? '<div><strong>'.A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR.'</strong></div>' : '' ?>

@@ -43,8 +43,9 @@ trait PageIndex
 				case 'purge':
 					static::purge();
 					break;
-				default: // update order
+				default: // update order and id
 					static::updateSeq();
+					static::updateId();
 					break;
 			}
 			Util::redirect(A11YC_PAGE_URL.'index');

@@ -15,6 +15,19 @@ use A11yc\Model;
 trait PageBulk
 {
 	/**
+	 * update id
+	 *
+	 * @return Void
+	 */
+	public static function updateId()
+	{
+		foreach (Input::postArr('ids') as $url => $seq)
+		{
+			Model\Page::updatePartial($url, 'id', intval($seq));
+		}
+	}
+
+	/**
 	 * update order
 	 *
 	 * @return Void
