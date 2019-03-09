@@ -36,7 +36,7 @@ class Iclchk
 	 *
 	 * @param String $url
 	 * @param Array $vals
-	 * @return Bool
+	 * @return Integer|Bool
 	 */
 	public static function insert($url, $vals)
 	{
@@ -50,12 +50,12 @@ class Iclchk
 	 *
 	 * @param String $url
 	 * @param Array $vals
-	 * @return Void
+	 * @return Integer|Bool
 	 */
 	public static function update($url, $vals)
 	{
 		self::delete($url);
-		static::insert($url, $vals);
+		return static::insert($url, $vals);
 	}
 
 	/**

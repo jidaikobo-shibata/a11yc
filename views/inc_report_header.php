@@ -138,6 +138,12 @@ h1 + .a11yc_table th
 .a11yc_table li {
 	line-height: 1.2;
 }
+
+.hide_failure
+{
+	display: none;
+}
+
 @media print {
 	.noprint
 	{

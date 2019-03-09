@@ -27,7 +27,7 @@ class Page
 		'created_at'       => '', // date('Y-m-d H:i:s')
 		'updated_at'       => '',
 		'seq'              => 0,
-		'id'               => 0
+		'serial_num'       => 0
 	);
 
 	/**
@@ -43,6 +43,7 @@ class Page
 
 		$pages = Data::fetch('page', '*', array(), $force);
 		$pages = is_array($pages) ? $pages : array();
+
 		foreach (array_keys($pages) as $url)
 		{
 			$pages[$url]['url'] = $url;

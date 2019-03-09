@@ -14,6 +14,8 @@ use A11yc\Model;
 
 class Bulk extends Checklist
 {
+	use BulkCriterion;
+
 	/**
 	 * action index
 	 *
@@ -22,6 +24,17 @@ class Bulk extends Checklist
 	public static function actionIndex()
 	{
 		static::check('bulk');
+	}
+
+	/**
+	 * action criterion
+	 *
+	 * @return Void
+	 */
+	public static function actionCriterion()
+	{
+		// use BulkCriterion
+		static::criterion();
 	}
 
 	/**
@@ -57,8 +70,9 @@ class Bulk extends Checklist
 		// results
 		Model\Setting::delete('bulk_results');
 
+		$results = Input::postArr('results');
 		$value = array();
-		foreach (Input::postArr('results') as $criterion => $v)
+		foreach ($results[0] as $criterion => $v)
 		{
 			$value[$criterion]['memo']   = stripslashes($v['memo']);
 			$value[$criterion]['uid']    = intval(Arr::get($v, 'uid', 0));
@@ -73,17 +87,17 @@ class Bulk extends Checklist
 		Model\Setting::delete('bulk_iclchks');
 		$chks = Input::postArr('iclchks');
 		Model\Setting::insert(array(
-				'bulk_iclchks' => $chks,
+				'bulk_iclchks' => Arr::get($chks, 0, array()),
 			));
 
 		// checks
 		Model\Setting::delete('bulk_checks');
 		$chks = Input::postArr('chk');
 		$r = Model\Setting::insert(array(
-				'bulk_checks' => $chks,
+				'bulk_checks' => Arr::get($chks, 0, array()),
 			));
 
-		if ($r === true || empty($chks))
+		if ($r === true || empty(Arr::get($chks, 0, array())))
 		{
 			Session::add('messages', 'messages', A11YC_LANG_UPDATE_SUCCEED);
 			return;
@@ -149,7 +163,7 @@ class Bulk extends Checklist
 		if (Input::post('update_all') == 2)
 		{
 			$current = Model\Result::fetch($url);
-			foreach ($bulk as $criterion =>$v)
+			foreach (Arr::get($bulk, 0, array()) as $criterion =>$v)
 			{
 				foreach (Model\Result::$fields as $key => $default)
 				{
@@ -161,7 +175,7 @@ class Bulk extends Checklist
 		}
 		else
 		{
-			$vals = $bulk;
+			$vals = Arr::get($bulk, 0, array());
 		}
 		Model\Result::update($url, $vals);
 	}
@@ -190,7 +204,7 @@ class Bulk extends Checklist
 				{
 					$vals[$id] = array_merge(
 						Arr::get($current, $id, array()),
-						Arr::get($bulk, $id, array())
+						Arr::get(Arr::get($bulk, 0, array()), $id, array())
 					);
 					$vals[$id] = array_unique($vals[$id]);
 					if (empty($vals[$id])) unset($vals[$id]);
@@ -199,7 +213,7 @@ class Bulk extends Checklist
 		}
 		else
 		{
-			$vals = $bulk;
+			$vals = Arr::get($bulk, 0, array());
 		}
 		Model\Checklist::update($url, $vals);
 	}
@@ -221,7 +235,7 @@ class Bulk extends Checklist
 
 		if (Input::post('update_all') == 2 && $is_done)
 		{
-			foreach ($bulk as $iclid => $v)
+			foreach (Arr::get($bulk, 0, array()) as $iclid => $v)
 			{
 				if (isset($current[$iclid])) continue;
 				$vals[$iclid] = $v;
@@ -229,7 +243,7 @@ class Bulk extends Checklist
 		}
 		else
 		{
-			$vals = $bulk;
+			$vals = Arr::get($bulk, 0, array());
 		}
 
 		if ($is_done)

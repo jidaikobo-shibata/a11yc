@@ -19,11 +19,11 @@ trait PageBulk
 	 *
 	 * @return Void
 	 */
-	public static function updateId()
+	public static function updateSerialNum()
 	{
-		foreach (Input::postArr('ids') as $url => $seq)
+		foreach (Input::postArr('serial_nums') as $url => $serial_num)
 		{
-			Model\Page::updatePartial($url, 'id', intval($seq));
+			Model\Page::updatePartial($url, 'serial_num', intval($serial_num));
 		}
 	}
 

@@ -49,6 +49,8 @@ define('A11YC_LANG_JUMP_TO_CONTENT', '本文へ移動');
 define('A11YC_LANG_BEGINNING_OF_THE_CONTENT', 'ここから本文です');
 define('A11YC_LANG_UPDATE_SUCCEED', '更新しました');
 define('A11YC_LANG_UPDATE_FAILED', '更新に失敗しました');
+define('A11YC_LANG_UPDATE_BULK_SUCCEED', '%s 件の更新をしました');
+define('A11YC_LANG_UPDATE_BULK_FAILED', '%s 件の更新に失敗しました');
 define('A11YC_LANG_CTRL_CONFIRM', '元には戻せません。本当に%sしてもよろしいですか？');
 define('A11YC_LANG_CTRL_KEYWORD_TITLE', 'キィワード');
 define('A11YC_LANG_CTRL_ORDER_TITLE', '並び替え');
@@ -103,6 +105,7 @@ define('A11YC_LANG_REFRESH_HTML', 'HTMLを更新');
 define('A11YC_LANG_LAST_UPDATE', 'HTML最終更新: ');
 define('A11YC_LANG_CHOOSE_FILE', 'ファイル選択');
 define('A11YC_LANG_ALL', '全体');
+define('A11YC_LANG_INTEGRATE', '統一');
 
 // ua
 define('A11YC_LANG_UA_USING', '現在のブラウザ');
@@ -287,6 +290,11 @@ define('A11YC_LANG_BULK_DONE', 'チェック終了');
 define('A11YC_LANG_BULK_DONE1', '既存のページのチェックフラグを変更しない');
 define('A11YC_LANG_BULK_DONE2', '既存のページをすべてチェック終了にする');
 define('A11YC_LANG_BULK_DONE3', '既存のページをすべてチェック中にする');
+define('A11YC_LANG_BULK_CRITERION_TITLE', '一括処理（達成基準）');
+define('A11YC_LANG_BULK_ICL_TITLE', '一括処理（実装）');
+define('A11YC_LANG_BULK_ICL_TECH_TITLE', '一括処理（適合）');
+define('A11YC_LANG_BULK_ICL_FAILURE_TITLE', '一括処理（不適合）');
+define('A11YC_LANG_BULK_CRITERION_LABEL', '達成基準ごとの一括処理');
 
 // documents
 define('A11YC_LANG_DOC_TITLE', '参考資料');
@@ -357,7 +365,7 @@ define('A11YC_LANG_ISSUE_MEMO', '内部用のメモ');
 define('A11YC_LANG_ISSUE_OTHER_URLS', 'その他の参考URL');
 
 // site check
-define('A11YC_LANG_SITECHECK_TITLE', '一括チェック');
+define('A11YC_LANG_SITECHECK_TITLE', 'HTML検索');
 define('A11YC_LANG_SITECHECK_CONTAINS', '%sのあるページの抽出'); // tabindex
 define('A11YC_LANG_SITECHECK_CONTAINS_NOT', '%sのないページの抽出'); // h*
 define('A11YC_LANG_SITECHECK_WITHOUT_ALT', 'alt属性値の欠如した要素');
