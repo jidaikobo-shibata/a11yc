@@ -220,4 +220,25 @@ class Util extends \Kontiki\Util
 		}
 		Session::add('messages', 'errors', $error_message);
 	}
+
+	/**
+	 * set counter
+	 *
+	 * @param Bool $exp
+	 * @param Integer $success
+	 * @param Integer $failure
+	 * @return Array
+	 */
+	public static function setCounter($exp, $success = 0, $failure = 0)
+	{
+		if ($exp)
+		{
+			$success++;
+		}
+		else
+		{
+			$failure++;
+		}
+		return array($success, $failure);
+	}
 }

@@ -54,7 +54,6 @@ trait BulkCriterion
 
 		$refs = Values::getRefUrls();
 		$settings = Model\Setting::fetchAll();
-		$standards = Yaml::each('standards');
 		$standard = Arr::get($settings, 'standard', 0);
 		View::assign('focus',        Input::get('focus', ''));
 		View::assign('is_new',       false);
@@ -91,24 +90,18 @@ trait BulkCriterion
 		{
 			if (Input::get('integrate', false))
 			{
-				if (self::updateIntegrate($criterion, $results, $iclchks, $chk, $v))
-				{
-					$success++;
-				}
-				else
-				{
-					$fail++;
-				}
+				list($success, $fail) = Util::setCounter(
+					self::updateIntegrate($criterion, $results, $iclchks, $chk, $v),
+					$success,
+					$fail
+				);
 				continue;
 			}
-			if (self::updateEach($criterion, $results, $iclchks, $chk, $v))
-			{
-				$success++;
-			}
-			else
-			{
-				$fail++;
-			}
+			list($success, $fail) = Util::setCounter(
+				self::updateEach($criterion, $results, $iclchks, $chk, $v),
+				$success,
+				$fail
+			);
 		}
 
 		if ($success)
@@ -135,20 +128,17 @@ trait BulkCriterion
 	{
 		if (isset($results[$v['dbid']]))
 		{
-			$vals = array_merge(Model\Result::fetch($v['url']), $results[$v['dbid']]);
-			return Model\Result::update($v['url'], $vals);
+			return self::updateResult($v['url'], $results[$v['dbid']]);
 		}
 
 		if (isset($iclchks[$v['dbid']]))
 		{
-			$vals = array_replace(Model\Iclchk::fetch($v['url']), $iclchks[$v['dbid']]);
-			return Model\Iclchk::update($v['url'], $vals);
+			return self::updateIclchk($v['url'], $iclchks[$v['dbid']]);
 		}
 
 		if (isset($chk[$v['dbid']]))
 		{
-			$vals = array_replace(Model\Checklist::fetch($v['url']), $chk[$v['dbid']]);
-			return Model\Checklist::update($v['url'], $chk[$v['dbid']]);
+			return self::updateChk($v['url'], $chk[$v['dbid']], $criterion);
 		}
 	}
 
@@ -166,35 +156,70 @@ trait BulkCriterion
 	{
 		if (isset($results))
 		{
-			$vals = array_merge(Model\Result::fetch($v['url']), $results[0]);
-			return Model\Result::update($v['url'], $vals);
+			return self::updateResult($v['url'], $results[0]);
 		}
-
-		$icltree = Model\icl::fetchTree(true);
 
 		if (isset($iclchks))
 		{
-			// TODO mikansei
-			$vals = array_replace(Model\Iclchk::fetch($v['url']), $iclchks[0]);
-			return Model\Iclchk::update($v['url'], $vals);
+			return self::updateIclchk($v['url'], $iclchks[0]);
 		}
 
 		if (isset($chk))
 		{
-			$current = Model\Checklist::fetch($v['url']);
-			$keys = array();
-			foreach ($icltree[$criterion] as $vv)
-			{
-				$keys = array_merge($keys, $vv);
-			}
-
-			foreach ($keys as $key)
-			{
-				if (isset($current[$key])) unset($current[$key]);
-			}
-
-			$vals = array_replace($current, $chk[0]);
-			return Model\Checklist::update($v['url'], $vals);
+			return self::updateChk($v['url'], $chk[0], $criterion);
 		}
+	}
+
+	/**
+	 * updateResult
+	 *
+	 * @param String $url
+	 * @param Array $results
+	 * @return Integer|Bool
+	 */
+	private static function updateResult($url, $results)
+	{
+		$vals = array_merge(Model\Result::fetch($url), $results);
+		return Model\Result::update($url, $vals);
+	}
+
+	/**
+	 * updateIclchk
+	 *
+	 * @param String $url
+	 * @param Array $iclchks
+	 * @return Integer|Bool
+	 */
+	private static function updateIclchk($url, $iclchks)
+	{
+		$vals = array_replace(Model\Iclchk::fetch($url), $iclchks);
+		return Model\Iclchk::update($url, $vals);
+	}
+
+	/**
+	 * updateChk
+	 *
+	 * @param String $url
+	 * @param Array $chks
+	 * @param String $criterion
+	 * @return Integer|Bool
+	 */
+	private static function updateChk($url, $chks, $criterion)
+	{
+		// remove current value of specified criterion to overwrite
+		$icltree = Model\icl::fetchTree(true);
+		$current = Model\Checklist::fetch($url);
+		$keys = array();
+		foreach ($icltree[$criterion] as $vv)
+		{
+			$keys = array_merge($keys, $vv);
+		}
+		foreach ($keys as $key)
+		{
+			if (isset($current[$key])) unset($current[$key]);
+		}
+
+		$vals = array_replace($current, $chks);
+		return Model\Checklist::update($url, $vals);
 	}
 }

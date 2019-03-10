@@ -101,7 +101,7 @@ class Result
 	 *
 	 * @param String $url
 	 * @param Array $vals
-	 * @return Bool
+	 * @return Integer|Bool
 	 */
 	public static function insert($url, $vals)
 	{
@@ -121,12 +121,12 @@ class Result
 	 *
 	 * @param String $url
 	 * @param array  $vals
-	 * @return Void
+	 * @return Integer|Bool
 	 */
 	public static function update($url, $vals)
 	{
 		$url = Util::urldec($url);
 		Data::delete('result', $url);
-		static::insert($url, $vals);
+		return static::insert($url, $vals);
 	}
 }
