@@ -24,6 +24,8 @@ class Issue
 		'status'        => 0,
 		'techs'         => array(),
 		'other_urls'    => '',
+		'page_ids'      => array(),
+		'criterions'    => array(),
 		'memo'          => '',
 		'error_message' => '',
 		'uid'           => 1,

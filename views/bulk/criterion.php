@@ -13,7 +13,7 @@ foreach ($pages as $page):
   $url     = Arr::get($page, 'url', '');
   $page_id = Arr::get($page, 'dbid', '');
 
-  echo '<h2>'.$page['title'].'</h2>';
+  echo '<h2>'.$page['title'].' ('.$page['url'].')</h2>';
   include(dirname(__DIR__).'/checklist/inc_criterion_form.php');
 endforeach;
 
