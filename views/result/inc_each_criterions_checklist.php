@@ -65,7 +65,7 @@ foreach ($yml['criterions'] as $criterion => $v):
 			$lis.= '<li>'.$tech.'</li>';
 		endforeach;
 		$ul = empty($lis) ? '' : '<ul>'.$lis.'</ul>';
-		$html.= '	<td class="a11yc_result a11yc_result_exist">'.$ul.'</td>';
+		$html.= '	<td class="a11yc_result a11yc_result_exist hide_failure">'.$ul.'</td>';
 
 		$html.= '</tr>';
 		endif;
@@ -84,6 +84,7 @@ if ($html):
 			<?php if ( ! $is_policy):  ?>
 			<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PASS ?></th>
 			<?php if ($is_total || ! Model\Setting::fetch('hide_memo_results')):  ?>
+
 			<th scope="col" class="a11yc_result">
 			<?php
 				if (Input::get('url')):
@@ -93,10 +94,11 @@ if ($html):
 				endif;
 			?>
 			</th>
+
 			<?php endif; ?>
 			<?php endif; ?>
 			<?php if ( ! $is_total):  ?>
-			<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_CHECKLIST_NG_REASON ?></th>
+			<th scope="col" class="a11yc_result hide_failure"><?php echo A11YC_LANG_CHECKLIST_NG_REASON ?></th>
 			<?php endif; ?>
 		</tr>
 	</thead>

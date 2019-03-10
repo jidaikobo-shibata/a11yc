@@ -61,11 +61,17 @@ trait DataFetch
 				$data['id'] = intval($v['id']);
 			}
 
+			if ($key == 'page')
+			{
+				$data['dbid'] = intval($v['id']);
+			}
+
 			if ($is_id)
 			{
 				$vals[$url][$key][] = $data;
 				continue;
 			}
+
 			$vals[$url][$key] = $data;
 		}
 

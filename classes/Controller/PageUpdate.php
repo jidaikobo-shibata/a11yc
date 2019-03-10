@@ -27,7 +27,7 @@ trait PageUpdate
 		if (Input::isPostExists())
 		{
 			Model\Page::updatePartial($url, 'title', Input::post('title'));
-			Model\Page::updatePartial($url, 'id', intval(Input::post('id')));
+			Model\Page::updatePartial($url, 'serial_num', intval(Input::post('serial_num')));
 			Util::setMassage(Model\Page::updatePartial($url, 'seq', intval(Input::post('seq'))));
 			$ua = 'using';
 			Model\Html::insert($url, Input::post('html'), $ua);

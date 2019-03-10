@@ -1,6 +1,8 @@
 <?php namespace A11yc; ?>
 
 <?php if ($url == 'bulk'): ?>
+	<?php include('inc_submenu.php'); ?>
+
 	<form action="<?php echo A11YC_BULK_URL ?>index" method="POST" id="a11yc_form_checklist" class="a11yc_form_confirm">
 <?php else: ?>
 	<form action="<?php echo A11YC_CHECKLIST_URL ?>&amp;url=<?php echo Util::urlenc($url) ?>" method="POST" id="a11yc_form_checklist" class="a11yc_form_confirm">
@@ -28,6 +30,6 @@ echo $form
 	<!-- is done -->
 	<label for="a11yc_done"><input type="checkbox" name="done" id="a11yc_done" value="1"<?php echo $checked ?> /><?php echo A11YC_LANG_CHECKLIST_DONE ?></label>
 <?php endif; ?>
-		<input type="submit" value="<?php echo A11YC_LANG_CTRL_SEND ?>" />
-	</div>
+	<input type="submit" value="<?php echo A11YC_LANG_CTRL_SEND ?>" />
+</div>
 </form>

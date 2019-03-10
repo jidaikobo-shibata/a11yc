@@ -24,12 +24,14 @@
 	</tr>
 	<!-- /target level -->
 
+	<?php if ($is_total): ?>
 	<!-- current total level -->
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_CURRENT_LEVEL_WEBPAGES ?></th>
 		<td><?php echo $site_level.$site_alt_exception; ?></td>
 	</tr>
 	<!-- /current total level -->
+	<?php endif; ?>
 
 	<?php if ( ! $is_total): ?>
 	<!-- current level -->
@@ -63,7 +65,7 @@
 	<?php
 	endif;
 
-	if (isset($page) && Arr::get($page, 'selection_reason') != '0'): ?>
+	if (isset($page) && Arr::get($page, 'selection_reason') != '0' && ! Arr::get($settings, 'hide_url_results')): ?>
 	<!-- selected method -->
 	<tr>
 		<th scope="row"><?php echo A11YC_LANG_CANDIDATES_TITLE ?></th>
@@ -100,7 +102,7 @@
 			?>
 				<li>
 					<?php if (Arr::get($settings, 'hide_url_results')): ?>
-						<?php echo $v['title'] ?>
+						<?php echo sprintf("%02d", $v['id']).': '.$v['title'] ?>
 					<?php else: ?>
 						<a href="<?php echo $url ?>"<?php echo A11YC_TARGET ?>><?php echo $v['title'] ?></a>
 					<?php endif; ?>

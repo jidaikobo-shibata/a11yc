@@ -49,6 +49,8 @@ define('A11YC_LANG_JUMP_TO_CONTENT', 'Jump to content');
 define('A11YC_LANG_BEGINNING_OF_THE_CONTENT', 'Start of main content');
 define('A11YC_LANG_UPDATE_SUCCEED', 'Update Succeed');
 define('A11YC_LANG_UPDATE_FAILED', 'Update Failed');
+define('A11YC_LANG_UPDATE_BULK_SUCCEED', 'Update Succeed: %s');
+define('A11YC_LANG_UPDATE_BULK_FAILED', 'Update Failed: %s');
 define('A11YC_LANG_CTRL_CONFIRM', 'It can not be returned. Are you sure you want to do %s?');
 define('A11YC_LANG_CTRL_KEYWORD_TITLE', 'Keyword');
 define('A11YC_LANG_CTRL_ORDER_TITLE', 'Order');
@@ -103,6 +105,7 @@ define('A11YC_LANG_REFRESH_HTML', 'Refresh HTML');
 define('A11YC_LANG_LAST_UPDATE', 'HTML Last Update: ');
 define('A11YC_LANG_CHOOSE_FILE', 'Choose File');
 define('A11YC_LANG_ALL', 'All');
+define('A11YC_LANG_INTEGRATE', 'Integrate');
 
 // ua
 define('A11YC_LANG_UA_USING', 'Current Browser');
@@ -287,6 +290,11 @@ define('A11YC_LANG_BULK_DONE', 'Check the end');
 define('A11YC_LANG_BULK_DONE1', 'Do not change the check flag of an existing page');
 define('A11YC_LANG_BULK_DONE2', 'To check the end all existing page');
 define('A11YC_LANG_BULK_DONE3', 'To un-check all of the existing page');
+define('A11YC_LANG_BULK_CRITERION_TITLE', 'Batch (Criterion)');
+define('A11YC_LANG_BULK_ICL_TITLE', 'Batch (ICL)');
+define('A11YC_LANG_BULK_ICL_TECH_TITLE', 'Batch (Tech)');
+define('A11YC_LANG_BULK_ICL_FAILURE_TITLE', 'Batch (Failure)');
+define('A11YC_LANG_BULK_CRITERION_LABEL', 'Batch by Criterion');
 
 // documents
 define('A11YC_LANG_DOC_TITLE', 'Documents');
@@ -357,7 +365,7 @@ define('A11YC_LANG_ISSUE_MEMO', 'Internal Memo');
 define('A11YC_LANG_ISSUE_OTHER_URLS', 'Other URL');
 
 // site check
-define('A11YC_LANG_SITECHECK_TITLE', 'Site Check');
+define('A11YC_LANG_SITECHECK_TITLE', 'HTML finder');
 define('A11YC_LANG_SITECHECK_CONTAINS', 'Extracting a page with %s'); // tabindex
 define('A11YC_LANG_SITECHECK_CONTAINS_NOT', 'Extracting a page without %s'); // h*
 define('A11YC_LANG_SITECHECK_WITHOUT_ALT', 'Missing element of alt attribute value');

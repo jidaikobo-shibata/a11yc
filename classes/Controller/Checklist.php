@@ -65,6 +65,7 @@ class Checklist
 		View::assign('users',        $users);
 		View::assign('url',          $url);
 		View::assign('alt_url',      Arr::get($page, 'alt_url'));
+		View::assign('page_id',      Arr::get($page, 'dbid', 0)); // zero is bulk
 		View::assign('title',        $title);
 
 		// core form
@@ -81,9 +82,14 @@ class Checklist
 	 */
 	public static function dbio($url)
 	{
-		Model\Checklist::update($url, Input::postArr('chk'));
-		Model\Iclchk::update($url, Input::postArr('iclchks'));
-		Model\Result::update($url, Input::postArr('results'));
+		$page    = self::getPage($url);
+		$chk     = Input::postArr('chk');
+		$iclchks = Input::postArr('iclchks');
+		$results = Input::postArr('results');
+
+		Model\Checklist::update($url, $chk[$page['dbid']]);
+		Model\Iclchk::update($url, $iclchks[$page['dbid']]);
+		Model\Result::update($url, $results[$page['dbid']]);
 
 		$page = array();
 		$page['alt_url']          = Util::urldec(Input::post('alt_url'));
@@ -154,6 +160,7 @@ class Checklist
 			Arr::get($page, 'title', '')
 		);
 
+		View::assign('focus', 'all');
 		View::assign('url', $url);
 		View::assign('issues', $issues);
 		View::assign('refs', $refs[$standard]);
