@@ -125,6 +125,8 @@
 	</td>
 </tr>
 
-<?php echo View::fetchTpl('inc_implements.php') ?>
+<?php echo View::fetchTpl('inc_implements_checkbox.php') ?>
+
+<?php include('inc_pages.php'); ?>
 
 </table>

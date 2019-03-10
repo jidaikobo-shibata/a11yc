@@ -46,10 +46,10 @@ trait BulkCriterion
 		$pages = Model\Page::fetchAll();
 		foreach ($pages as $k => $v)
 		{
-			$pages[$k]['results'] = Model\Result::fetch($v['url']);
-			$pages[$k]['iclchks'] = Model\Iclchk::fetch($v['url']);
-			$pages[$k]['issues']  = Model\Issue::fetch($v['url']);
-			$pages[$k]['cs']      = Model\Checklist::fetch($v['url']);
+			$pages[$k]['results'] = Model\Result::fetch($v['url'], true);
+			$pages[$k]['iclchks'] = Model\Iclchk::fetch($v['url'], true);
+			$pages[$k]['issues']  = Model\Issue::fetch($v['url'], true);
+			$pages[$k]['cs']      = Model\Checklist::fetch($v['url'], true);
 		}
 
 		$refs = Values::getRefUrls();
