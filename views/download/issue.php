@@ -66,11 +66,29 @@ if ($url != 'commons' && ! in_array($url, $show_each_cover_page)):
 	);
 endif;
 
+// common issues of each page
+if ( ! isset($issue['title'])):
+	echo '<section class="pring_block">';
+	echo  '<h3 class="heading">'.sprintf('%02d', $page_num).'-0: '.A11YC_LANG_PAGES_EXIST_ISSUES.'</h3>';
+	echo '<p>'.A11YC_LANG_PAGES_EXIST_ISSUES_EXP.'</p>';
+
+	echo '<ul>';
+	foreach (Arr::get($issues, 'commons') as $k => $v):
+		if ( ! in_array($v['id'], Arr::get($issue, 'issue_ids', array()))) continue;
+		$common_page_num = $k + 1;
+		echo '<li>0-'.$common_page_num.': '.$v['title'].'</li>';
+	endforeach;
+	echo '</ul>';
+
+	echo '</section>';
+	continue;
+endif;
+
 ?>
 <section class="each_issue">
 <div class="pring_block">
 <?php
-$issue_title =  ( $page_num === 0 ? '0' : sprintf('%02d', $page_num)) .'-'.++$issue_num.': '.$issue['title'];
+$issue_title = ($page_num === 0 ? '0' : sprintf('%02d', $page_num)).'-'.++$issue_num.': '.$issue['title'];
 $index_titles[$page_num]['items'][] = $issue_title;
 ?>
 <h2 class="heading"><?php echo $issue_title ?></h2>
@@ -84,15 +102,16 @@ $index_titles[$page_num]['items'][] = $issue_title;
 <?php endif; ?>
 </div><!-- ./print_block -->
 <section class="issue">
-<?php if($issue['html'] ): ?>
+<?php if ($issue['html'] ): ?>
 <div class="print_block">
 	<h3 class="heading"><?php echo A11YC_LANG_ISSUE_HTML ?></h3>
 	<div>
 		<pre><code><?php echo $issue['html'] ?></code></pre>
 	</div>
 </div><!-- ./print_block -->
-<?php endif ; ?>
-<?php if( trim($issue['error_message']) !== '' ): ?>
+<?php endif; ?>
+
+<?php if (trim($issue['error_message']) !== '' ): ?>
 <div class="print_block">
 	<h3 class="heading"><?php echo A11YC_LANG_UNDERSTANDING ?></h3>
 	<p>
@@ -100,6 +119,35 @@ $index_titles[$page_num]['items'][] = $issue_title;
 	</p>
 </div><!-- ./print_block -->
 <?php endif; ?>
+
+<?php if ( ! empty($issue['criterions'])): ?>
+<div class="print_block">
+	<h3 class="heading"><?php echo A11YC_LANG_ISSUE_RELATED_CRITERIONS ?></h3>
+	<ul>
+	<?php
+	foreach (Yaml::each('criterions') as $k => $v):
+		if ( ! in_array($k, $issue['criterions'])) continue;
+		echo '<li>'.Util::key2code($k).': '.$v['name'].'</li>';
+	endforeach;
+	?>
+	<ul>
+</div><!-- ./print_block -->
+<?php endif; ?>
+
+<?php if ( ! empty($issue['page_ids'])): ?>
+<div class="print_block">
+	<h3 class="heading"><?php echo A11YC_LANG_ISSUE_EXIST_PAGES ?></h3>
+	<ul>
+	<?php
+	foreach (Model\Page::fetchAll() as $k => $v):
+		if ( ! in_array($v['dbid'], $issue['page_ids'])) continue;
+		echo '<li>'.$v['title'].'</li>';
+	endforeach;
+	?>
+	<ul>
+</div><!-- ./print_block -->
+<?php endif; ?>
+
 <?php if (isset($issue['techs']) && ! empty($issue['techs'])): ?>
 <div class="print_block">
 	<h3 class="heading"><?php echo A11YC_LANG_ISSUE_TECH ?></h3>
@@ -128,7 +176,7 @@ $other_urls = explode("\n", trim($other_url));
 	<ul>
 	<?php
 	foreach ($other_urls as $each_url):
-		if( ! $each_url ) continue;
+		if ( ! $each_url ) continue;
 		echo '<li><a href="'.$each_url.'">'.$each_url.'</a></li>';
 	endforeach;
 	?>
@@ -139,11 +187,11 @@ $other_urls = explode("\n", trim($other_url));
 
 </section><!-- /.issue -->
 </section><!-- /.each_issue -->
+
 <?php endforeach; ?>
 <?php endforeach; ?>
 
-
-<?php 
+<?php
 echo '<div class="noprint">';
 echo '<h2>INDEX</h2>';
 $is_common = true;

@@ -113,21 +113,7 @@ trait IssueUpdate
 	 */
 	private static function args()
 	{
-		$args = array();
-		// foreach (Model\Issue::$fields as $key => $default)
-		// {
-		// 	$args[$key] = Input::post($key, $default);
-		// }
-$args = Model\Data::postfilter(Model\Issue::$fields);
-
-echo '<textarea style="width:100%;height:200px;background-color:#fff;color:#111;font-size:90%;font-family:monospace;position:relative;z-index:9999">';
-var_dump($args);
-echo '</textarea>';
-die();
-
-		$args['output'] = Input::post('output', false); // checkbox
-		$args['techs'] = Input::postArr('techs', array()); // checkbox
-		return $args;
+		return Model\Data::postfilter(Model\Issue::$fields);
 	}
 
 	/**
