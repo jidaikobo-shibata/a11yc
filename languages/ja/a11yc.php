@@ -363,6 +363,10 @@ define('A11YC_LANG_ISSUE_EXPORT', 'レポート出力');
 define('A11YC_LANG_ISSUE_REPORT_HEAD_SUFFIX', 'JIS X 8341-3:2016 試験報告');
 define('A11YC_LANG_ISSUE_MEMO', '内部用のメモ');
 define('A11YC_LANG_ISSUE_OTHER_URLS', 'その他の参考URL');
+define('A11YC_LANG_ISSUE_RELATED_CRITERIONS', 'この問題点に関係する達成基準');
+define('A11YC_LANG_ISSUE_EXIST_PAGES', 'この問題点が存在するページ');
+define('A11YC_LANG_PAGES_EXIST_ISSUES', 'このページに存する共通の問題点');
+define('A11YC_LANG_PAGES_EXIST_ISSUES_EXP', 'このページには、以下の通り共通の問題点が存在します。「'.A11YC_LANG_ISSUE_IS_COMMON.'」を参照してください。');
 
 // site check
 define('A11YC_LANG_SITECHECK_TITLE', 'HTML検索');

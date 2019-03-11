@@ -63,6 +63,8 @@ class Issue
 			}
 		}
 
+		$vals = self::setCommonIssue($vals, $commons);
+
 		$commons = self::issueOrder($commons);
 		static::$vals = array();
 		if ( ! empty($commons))
@@ -72,6 +74,38 @@ class Issue
 		static::$vals = array_merge(static::$vals, self::setIssueOrder($vals));
 
 		return static::$vals;
+	}
+
+	/**
+	 * set common issue
+	 *
+	 * @param Array $issues
+	 * @param Array $commons
+	 * @return Array
+	 */
+	private static function setCommonIssue($issues, $commons)
+	{
+		foreach ($commons as $v)
+		{
+			foreach ($v as $vv)
+			{
+				foreach ($vv['page_ids'] as $page_id)
+				{
+					if ($page = Page::fetchByDbid($page_id))
+					{
+						if ( ! isset($issues[$page['url']])) continue;
+						$issues[$page['url']]['common'][0]['seq'] = -10000;
+						$issues[$page['url']]['common'][0]['output'] = true;
+						$issues[$page['url']]['common'][0]['trash'] = 0;
+						$issues[$page['url']]['common'][0]['status'] = 0;
+						$issues[$page['url']]['common'][0]['id'] = 0;
+						$issues[$page['url']]['common'][0]['issue_ids'][] = $vv['id'];
+					}
+				}
+			}
+		}
+
+		return $issues;
 	}
 
 	/**

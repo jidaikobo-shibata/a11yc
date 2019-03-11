@@ -175,6 +175,22 @@ class Page
 	}
 
 	/**
+	 * fetch by dbid
+	 *
+	 * @param Integer $dbid
+	 * @return Bool|Array
+	 */
+	public static function fetchByDbid($dbid)
+	{
+		foreach (static::fetchAll() as $v)
+		{
+			if ($v['dbid'] != $dbid) continue;
+			return $v;
+		}
+		return false;
+	}
+
+	/**
 	 * add each page
 	 *
 	 * @param String $url
