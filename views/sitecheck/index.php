@@ -19,7 +19,7 @@ if ($pages):
 	foreach ($pages as $page):
 		$html.= '<tr>';
 		$html.= '<th>';
-		$html.= $page['title'];
+		$html.= $page['title'].'<br><a href="'.$page['url'].'">'.$page['url'].'</a>';
 		$html.= '</th>';
 
 		$html.= '<td class="a11yc_result">';

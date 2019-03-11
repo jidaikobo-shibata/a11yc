@@ -472,6 +472,32 @@ function a11yc_stop_scroll(){
 	clearInterval(a11yc_load_url);
 }
 
+/* === issue === */
+jQuery(function($){
+	var $triggers = $('#a11yc_issue [name^=criterions]');
+	var $targets  = $('#a11yc_issue [name^=techs]').parent();
+	var $checked = $('#a11yc_issue').find(' [name^=criterions]:checked');
+	var $show = $();
+
+	$triggers.on('change', narrow_issue_implement_item);
+	setTimeout(narrow_issue_implement_item,0);
+	
+	function narrow_issue_implement_item(e){
+	$checked = $('#a11yc_issue').find(' [name^=criterions]:checked');
+	$show = $();
+	$checked.each(function(){
+		var val = $(this).val();
+			$targets.each(function(){
+				if( $(this).data('criterions').indexOf(val) != -1 )
+				{
+					$show = $show.add(this);
+				}
+		});
+	});
+	$targets.not($show).hide();
+	$show.show();
+	};
+});
 /* === get validation error_message === */
 /*
 jQuery(function($){
