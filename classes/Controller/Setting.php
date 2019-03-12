@@ -230,7 +230,7 @@ class Setting
 		$sites = Model\Data::fetchSites();
 		if (Input::isPostExists())
 		{
-			self::addNewSite($sites);
+			self::addNewSite($sites); // redirect
 			self::changeSite(); // redirect
 			self::changeSiteUrl($sites);
 		}
@@ -270,7 +270,12 @@ class Setting
 			{
 				Model\Data::update('sites', 'global', $sites);
 			}
+			setcookie('a11yc_group_id', $site_id, time() + 60 * 60 * 24 * 60);
+			Model\Data::setGroupId($site_id);
+			Model\Setting::update('target_level', 2);
+			Session::remove('messages', 'errors');
 			Session::add('messages', 'messages', A11YC_LANG_CTRL_ADDED_NORMALLY);
+			Util::redirect(A11YC_SETTING_URL.'site');
 		}
 	}
 
