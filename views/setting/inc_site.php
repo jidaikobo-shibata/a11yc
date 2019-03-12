@@ -19,6 +19,7 @@ $selected = $id == $group_id ? ' selected="selected"' : '';
 	<th><label for="change_url_target"><?php echo A11YC_LANG_SETTING_SITE_CHANGE_URL_TARGET ?></label></th>
 	<td>
 	<select name="change_url_target" id="change_url_target">
+		<option value="">-</option>
 	<?php foreach ($sites as $id => $site): ?>
 		<option value="<?php echo $id ?>"><?php echo $site ?></option>
 	<?php endforeach; ?>
