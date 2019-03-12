@@ -142,7 +142,9 @@ body > :last-child
 	margin-top: 0;
 }
 
+/*
 @media print {
+*/
 	.noprint
 	{
 		display: none !important;
@@ -160,7 +162,8 @@ body > :last-child
 		page-break-before: always;
 		display: table;
 		width: 100%;
-		height: 290mm;
+		height: 275mm;
+		margin: 0;
 		text-align: center;
 	}
 	.cover_page > .heading
@@ -176,15 +179,23 @@ body > :last-child
 	}
 	.cover_page:not(.common):before
 	{
-		content: none;
+		content: '';
+		display: block;
+		page-break-before: always;
+		display: table;
+		width: 100%;
+		height: 245mm;
+		margin: 0;
+		text-align: center;
+		position: static;
+		background-color: transparent;
 	}
 	.cover_page,
 	.each_issue
 	{
-		padding: 18mm 0 10mm;
-		margin-bottom: -15mm;
 		min-height: auto;
 /*		min-height: calc( 50vh - 35mm );*/
+		padding: 0 0 15mm;
 	}
 	.issue_header
 	{
@@ -209,10 +220,14 @@ body > :last-child
 	a:visited
 	{
 		color: #134A9C  !important;
+		text-decoration: none;
 	}
+/*
 }
-
+*/
+/*
 @page {
 	size: A4;
 	margin: 0;
 }
+*/

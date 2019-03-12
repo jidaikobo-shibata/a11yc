@@ -19,13 +19,13 @@ if ($pages):
 	foreach ($pages as $page):
 		$html.= '<tr>';
 		$html.= '<th>';
-		$html.= $page['title'];
+		$html.= $page['title'].'<br><a href="'.$page['url'].'">'.$page['url'].'</a>';
 		$html.= '</th>';
 
-		$html.= '<td>';
+		$html.= '<td class="a11yc_result">';
 		$html.= '<a href="'.A11YC_CHECKLIST_URL.Util::urlenc($page['url']).'" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_CTRL_CHECK ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a>';
 		$html.= '</td>';
-		$html.='<td class="a11yc_result"><a href="'.A11YC_PAGE_URL.'edit&amp;url='.Util::urlenc($page['url']).'" class="a11yc_hasicon">'.A11YC_LANG_CTRL_ACT.'<span class="a11yc_skip">'.A11YC_LANG_CTRL_DELETE.'</span></a></td>';
+		$html.='<td class="a11yc_result"><a href="'.A11YC_PAGE_URL.'edit&amp;url='.Util::urlenc($page['url']).'" class="a11yc_hasicon">'.A11YC_LANG_CTRL_ACT.'</a></td>';
 		$html.= '</tr>';
 	endforeach;
 	$html.= '</table>';
