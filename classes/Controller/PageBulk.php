@@ -23,7 +23,7 @@ trait PageBulk
 	{
 		foreach (Input::postArr('serial_nums') as $url => $serial_num)
 		{
-			Model\Page::updatePartial($url, 'serial_num', intval($serial_num));
+			Model\Page::updatePartial($url, 'serial_num', $serial_num);
 		}
 	}
 

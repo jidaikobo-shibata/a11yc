@@ -231,7 +231,7 @@ class Setting
 		if (Input::isPostExists())
 		{
 			self::addNewSite($sites);
-			self::changeSite();
+			self::changeSite(); // redirect
 			self::changeSiteUrl($sites);
 		}
 		$sites = Model\Data::fetchSites(true);
@@ -286,15 +286,10 @@ class Setting
 			if ($site != Model\Data::groupId())
 			{
 				Session::remove('messages', 'errors');
-				if (Model\Data::fetchGroupId())
-				{
-					Model\Data::update('group_id', 'global', $site, 0, 1);
-				}
-				else
-				{
-					Model\Data::insert('group_id', 'global', $site, 0, 1);
-				}
+				setcookie('a11yc_group_id', '', time()-60*60*24);
+				setcookie('a11yc_group_id', $site, time()+60*60*24*60);
 				Session::add('messages', 'messages', A11YC_LANG_CTRL_ADDED_NORMALLY);
+				Util::redirect(A11YC_SETTING_URL.'site');
 			}
 		}
 	}

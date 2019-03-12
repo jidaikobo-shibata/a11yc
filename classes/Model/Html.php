@@ -53,11 +53,11 @@ class Html
 		$vals = static::fetchRaw($url, $ua, $force);
 		$html = Arr::get($vals, $ua, false);
 
-		// 65535 is sqlite filed limit
-		if (strlen($html) >= 65530)
-		{
-			Session::add('messages', 'errors', A11YC_LANG_PAGE_CANNOT_FETCH_HTML_FROM_DB);
-		}
+		// 65535 is sqlite filed limit?
+		// if (mb_strlen($html) >= 105530)
+		// {
+		// 	Session::add('messages', 'errors', A11YC_LANG_PAGE_CANNOT_FETCH_HTML_FROM_DB);
+		// }
 
 		return $html;
 	}
@@ -199,6 +199,7 @@ class Html
 		preg_match("/<title.*?>(.+?)<\/title>/si", $html, $m);
 		$tmp = isset($m[1]) ? $m[1] : '';
 		$title = str_replace(array("\n", "\r"), '', $tmp);
+
 		return $title;
 	}
 

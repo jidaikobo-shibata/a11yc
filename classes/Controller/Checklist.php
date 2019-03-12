@@ -175,7 +175,7 @@ class Checklist
 		View::assign('is_new', $is_new);
 		View::assign('is_bulk', $is_bulk);
 
-		self::assginValidation($url, $is_new, $is_bulk);
+		self::assginValidation($url, $is_bulk);
 
 		// form
 		View::assign('form', View::fetchTpl('checklist/inc_form.php'), FALSE);
@@ -244,11 +244,10 @@ class Checklist
 	 * assgin vaidated value
 	 *
 	 * @param String $url
-	 * @param Bool $is_new
 	 * @param Bool $is_bulk
 	 * @return Void
 	 */
-	private static function assginValidation($url, $is_new, $is_bulk)
+	private static function assginValidation($url, $is_bulk)
 	{
 		$cs = Model\Checklist::fetch($url);
 		$result = Model\Result::fetch($url);

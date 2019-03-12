@@ -62,7 +62,7 @@ if ($pages):
 	<tr<?php echo $class_str ?>>
 		<td><label><input type="checkbox" name="bulk[<?php echo $url ?>]" value="1" /><span class="a11yc_skip"><?php echo $title ?></span></label></td>
 
-		<td class="a11yc_result"><input type="text" name="serial_nums[<?php echo $url ?>]" aria-labelledby="a11yc_label_serial_nums" size="2" value="<?php echo intval(Arr::get($page, 'serial_num')); ?>" /></td>
+		<td class="a11yc_result"><input type="text" name="serial_nums[<?php echo $url ?>]" aria-labelledby="a11yc_label_serial_nums" size="4" value="<?php echo Arr::get($page, 'serial_num'); ?>" /></td>
 
 		<th scope="row">
 			<?php echo $no_url == $url ? '<div><strong>'.A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR.'</strong></div>' : '' ?>

@@ -159,10 +159,10 @@ class Bulk extends Checklist
 	{
 		$bulk = Input::postArr('results');
 		$vals = array();
+		$current = Model\Result::fetch($url);
 
-		if (Input::post('update_all') == 2)
+		if (Input::post('update_all') == 2 && $current)
 		{
-			$current = Model\Result::fetch($url);
 			foreach (Arr::get($bulk, 0, array()) as $criterion =>$v)
 			{
 				foreach (Model\Result::$fields as $key => $default)
@@ -195,9 +195,9 @@ class Bulk extends Checklist
 			Yaml::each('criterions'),
 		);
 
-		if (Input::post('update_all') == 2)
+		$current = Model\Checklist::fetch($url);
+		if (Input::post('update_all') == 2 && $current)
 		{
-			$current = Model\Checklist::fetch($url);
 			foreach ($loops as $v)
 			{
 				foreach (array_keys($v) as $id)

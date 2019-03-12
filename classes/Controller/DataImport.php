@@ -36,7 +36,7 @@ trait DataImport
 				Model\Version::setVersion($version);
 				$vals = $results[$version];
 
-				self::importSetting($vals, $is_add);
+				self::importSetting($vals);
 				self::importPage($vals);
 				self::importResult($vals);
 				self::importChecklist($vals);

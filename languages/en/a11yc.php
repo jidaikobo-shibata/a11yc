@@ -160,6 +160,7 @@ define('A11YC_LANG_PAGE_CANNOT_FETCH_HTML_FROM_DB', 'Because the size of HTML is
 define('A11YC_LANG_SETTING_RESULT_HIDE_URL', 'Do not display the URL of each page in the test result');
 define('A11YC_LANG_SETTING_RESULT_HIDE_DATE', 'Do not display the Date of test in the test result');
 define('A11YC_LANG_SETTING_RESULT_HIDE_MEMO', 'Do not display the Memo of test in the test result');
+define('A11YC_LANG_SETTING_RESULT_HIDE_FAILURE', 'Do not display F of test in the test result');
 
 define('A11YC_LANG_SETTING_VERSION', 'Select version');
 define('A11YC_LANG_SETTING_VERSION_CURRENT', 'current version');

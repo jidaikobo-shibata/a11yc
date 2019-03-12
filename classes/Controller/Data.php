@@ -33,6 +33,6 @@ class Data
 	public static function actionImport()
 	{
 		// use DataImport
-		static::import((Input::get('target') == 'icl'));
+		static::import();
 	}
 }

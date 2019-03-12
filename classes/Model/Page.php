@@ -27,7 +27,7 @@ class Page
 		'created_at'       => '', // date('Y-m-d H:i:s')
 		'updated_at'       => '',
 		'seq'              => 0,
-		'serial_num'       => 0
+		'serial_num'       => '' // must be string
 	);
 
 	/**
@@ -209,7 +209,7 @@ class Page
 			return false;
 		}
 
-		$html = Html::fetch($url);
+		$html = Html::fetchHtmlFromInternet($url);
 		$title = Html::pageTitleFromHtml($html);
 
 		if (empty($title))

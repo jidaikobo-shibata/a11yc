@@ -5,4 +5,3 @@ include('inc_implements_checklist.php');
 
 // related page
 if ( ! $is_center) include (__DIR__.'/inc_related.php');
-?>

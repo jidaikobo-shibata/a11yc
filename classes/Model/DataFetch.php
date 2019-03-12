@@ -142,7 +142,7 @@ trait DataFetch
 	 * @param Bool $force
 	 * @param Integer $version
 	 * @param Integer $group_id
-	 * @return Array
+	 * @return String|Integer
 	 */
 	public static function fetchOne($key, $url = '*', $default = '', $force = false, $version = null, $group_id = null)
 	{
@@ -182,15 +182,7 @@ trait DataFetch
 	 */
 	public static function fetchGroupId()
 	{
-		$sql = 'SELECT `value` FROM '.A11YC_TABLE_DATA.' WHERE ';
-		$sql.= '`group_id` = 1 AND `version` = 0 AND ';
-		$sql.= '`url` = "global" AND `key` LIKE "group_id%";';
-		// what a hell is going on! "equal" wouldn't work >_<
-		// $sql.= '`url` = "global" AND `key` = "group_id";';
-		$ret = Db::fetch($sql);
-
-		if ($ret === false) static::insert('group_id', 'global', 1, 0, 1);
-		return isset($ret['value']) ? intval($ret['value']) : 1;
+		return Input::cookie('a11yc_group_id', 1);
 	}
 
 	/**

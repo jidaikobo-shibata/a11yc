@@ -10,7 +10,6 @@
 	<!-- viewport -->
 	<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-	<!--css-->
 <style type="text/css">
 body
 {
@@ -109,23 +108,10 @@ h1 + .a11yc_table th
 {
 	width: 70vw;
 }
-.a11yc_table .implement_title
-{
-	width: 70vw;
-}
-:not(h1) + .a11yc_table tr > :last-child
-{
-	width: 1px;
-}
 :not(h1) + .a11yc_table  th,
 :not(h1) + .a11yc_table  td
 {
 	padding: 1px 3px;
-}
-.a11yc_table tr > :not(:first-child):not(:last-child)
-{
-	text-align: center;
-	white-space: nowrap;
 }
 .a11yc_table p {
 	margin-top: 0;
@@ -138,10 +124,20 @@ h1 + .a11yc_table th
 .a11yc_table li {
 	line-height: 1.2;
 }
-
-.hide_failure
-{
-	display: none;
+.a11yc_table td.a11yc_memo {
+	max-width: 50%;
+}
+.a11yc_table td.a11yc_level {
+	text-align: center;
+}
+.a11yc_table th.a11yc_result_exist,
+.a11yc_table td.a11yc_result_exist {
+	text-align: center;
+	white-space: nowrap;
+}
+.a11yc_table td.a11yc_pass_str {
+	text-align: center;
+	white-space: nowrap;
 }
 
 @media print {

@@ -22,6 +22,7 @@ class Setting
 		'hide_url_results'                => false,
 		'hide_date_results'               => false,
 		'hide_memo_results'               => false,
+		'hide_failure_results'            => false,
 		'client_name'                     => '',
 		'declare_date'                    => '',
 		'test_period'                     => '',
@@ -75,6 +76,20 @@ class Setting
 	{
 		$settings = self::fetchAll($force);
 		return Arr::get($settings, $field, $default);
+	}
+
+	/**
+	 * fetch setup by Array
+	 *
+	 * @param String $field
+	 * @param String|Array $default
+	 * @param Bool $force
+	 * @return String|Array
+	 */
+	public static function fetchArr($field, $default = '', $force = false)
+	{
+		$settings = self::fetch($field, $default, $force);
+		return is_array($settings) ? $settings : array() ;
 	}
 
 	/**

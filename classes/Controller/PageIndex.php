@@ -45,7 +45,7 @@ trait PageIndex
 					break;
 				default: // update order and id
 					static::updateSeq();
-					static::updateId();
+					static::updateSerialNum();
 					break;
 			}
 			Util::redirect(A11YC_PAGE_URL.'index');

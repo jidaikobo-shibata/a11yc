@@ -28,7 +28,7 @@ class Ua
 	public static function fetch($force = false)
 	{
 		if ( ! is_null(static::$uas) && ! $force) return static::$uas;
-		$vals = Setting::fetch('user_agents', array(), $force);
+		$vals = Setting::fetchArr('user_agents', array(), $force);
 		static::$uas = Data::deepFilter($vals, static::$fields);
 		return static::$uas;
 	}

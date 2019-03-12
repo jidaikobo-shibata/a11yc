@@ -205,6 +205,11 @@ $levels = array(
 			<?php $checked = Arr::get($settings, 'hide_memo_results') == 1 ? ' checked="checked"' : ''; ?>
 			<label><input type="checkbox" name="hide_memo_results" id="a11yc_hide_memo_results" value="1"<?php echo $checked ?>/> <?php echo A11YC_LANG_SETTING_RESULT_HIDE_MEMO ?></label>
 			</p>
+
+			<p>
+			<?php $checked = Arr::get($settings, 'hide_failure_results') == 1 ? ' checked="checked"' : ''; ?>
+			<label><input type="checkbox" name="hide_failure_results" id="a11yc_hide_failure_results" value="1"<?php echo $checked ?>/> <?php echo A11YC_LANG_SETTING_RESULT_HIDE_FAILURE ?></label>
+			</p>
 		</td>
 	</tr>
 

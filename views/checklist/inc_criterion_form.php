@@ -38,7 +38,7 @@ $class_str.= ' a11yc_p_'.$vvv['guideline']['principle']['code'].'_criterion';
 				<td class="a11yc_table_check_test_result">
 					<?php
 					$results_options = Values::resultsOptions();
-					if (in_array($focus, array('all', 'result'))):
+					if (in_array($focus, array('all', 'result')) || Input::get('integrate') == 1):
 					?>
 					<fieldset>
 					<?php
@@ -61,7 +61,7 @@ $class_str.= ' a11yc_p_'.$vvv['guideline']['principle']['code'].'_criterion';
 				<td class="a11yc_table_check_test_method">
 					<?php
 					$test_methods_options = Values::testMethodsOptions();
-					if (in_array($focus, array('all', 'result'))):
+					if (in_array($focus, array('all', 'result')) || Input::get('integrate') == 1):
 					?>
 					<fieldset>
 					<?php
@@ -84,7 +84,7 @@ $class_str.= ' a11yc_p_'.$vvv['guideline']['principle']['code'].'_criterion';
 					<?php
 					$memo = Util::s(Arr::get($results, "{$criterion}.memo"));
 					$test_methods_options = Values::testMethodsOptions();
-					if (in_array($focus, array('all', 'result'))):
+					if (in_array($focus, array('all', 'result')) || Input::get('integrate') == 1):
 					?>
 					<textarea name="results[<?php echo $page_id ?>][<?php echo $criterion; ?>][memo]"'.$disabled.' id="results_<?php echo $page_id; ?>_<?php echo $criterion; ?>_memo" rows="3"><?php echo $memo; ?></textarea>
 					<?php
@@ -97,7 +97,7 @@ $class_str.= ' a11yc_p_'.$vvv['guideline']['principle']['code'].'_criterion';
 					<?php
 					$current_uid = Arr::get($results, "{$criterion}.uid", 0);
 					$test_methods_options = Values::testMethodsOptions();
-					if (in_array($focus, array('all', 'result'))):
+					if (in_array($focus, array('all', 'result')) || Input::get('integrate') == 1):
 					?>
 					<select name="results[<?php echo $page_id ?>][<?php echo $criterion ?>][uid]" id="results_<?php echo $page_id; ?>_<?php echo $criterion ?>_uid">
 					<?php
@@ -156,7 +156,7 @@ $class_str.= ' a11yc_p_'.$vvv['guideline']['principle']['code'].'_criterion';
 			$val = $icls[$id];
 			$iclchk = Arr::get($iclchks, $id, 1);
 
-			if (in_array($focus, array('all', 'icl'))):
+			if (in_array($focus, array('all', 'icl')) || Input::get('integrate') == 1):
 				$html.= '<fieldset><legend>';
 				$html.= strip_tags($val['title_short']);
 				$html.= '</legend>';
@@ -186,7 +186,7 @@ $class_str.= ' a11yc_p_'.$vvv['guideline']['principle']['code'].'_criterion';
 
 					$techs.= '<tr>';
 
-					if (in_array($focus, array('all', 'check'))):
+					if (in_array($focus, array('all', 'check')) || Input::get('integrate') == 1):
 						$techs.= '<th><label for="'.$idfor.'" class="a11yc_checkitem"><input type="checkbox"'.$checked.' id="'.$idfor.'" class="a11yc_skip" name="chk['.$page_id.']['.$id.'][]" value="'.$implement.'" /><span class="a11yc_icon_fa a11yc_icon_checkbox" role="presentation" aria-hidden="true"></span>'.$yml['techs'][$implement]['title'].'</label></th>';
 						$techs.= '<td class="a11yc_table_check_howto"><a'.A11YC_TARGET.' href="'.$refs['t'].$implement.'.html" title="'.A11YC_LANG_DOC_TITLE.'" class="a11yc_link_howto"><span role="presentation" aria-hidden="true" class="a11yc_icon_fa a11yc_icon_howto"></span><span class="a11yc_skip"><?php echo A11YC_LANG_DOC_TITLE ?></span></a></td>';
 						$techs.= '</tr>';
@@ -203,7 +203,7 @@ $class_str.= ' a11yc_p_'.$vvv['guideline']['principle']['code'].'_criterion';
 				$idfor = $page_id.'_'.$criterion.'_'.$id;
 				$checked = in_array($id, Arr::get($cs, $criterion, array())) ? ' checked="checked"' : '';
 
-				if (in_array($focus, array('all', 'check'))):
+				if (in_array($focus, array('all', 'check')) || Input::get('integrate') == 1):
 					$techs.= '<tr>';
 					$techs.= '<td colspan="2"><label for="'.$idfor.'" class="a11yc_checkitem"><input type="checkbox"'.$checked.' id="'.$idfor.'" class="a11yc_skip" name="chk['.$page_id.']['.$criterion.'][]" value="'.$id.'" /><span class="a11yc_icon_fa a11yc_icon_checkbox" role="presentation" aria-hidden="true"></span>'.A11YC_LANG_CHECKLIST_IMPLEMENT_CHECK.'</label></td>';
 					$techs.= '</tr>';
@@ -236,7 +236,7 @@ $class_str.= ' a11yc_p_'.$vvv['guideline']['principle']['code'].'_criterion';
 			$checked = in_array($v, Arr::get($cs, $criterion, array())) ? ' checked="checked"' : '';
 			$idfor = $page_id.'_'.$criterion.'_'.$v;
 
-			if (in_array($focus, array('all', 'failure'))):
+			if (in_array($focus, array('all', 'failure')) || Input::get('integrate') == 1):
 				$techs.= '<tr><td>';
 				$techs.= '<label for="'.$idfor.'" class="a11yc_checkitem"><input type="checkbox"'.$checked.' id="'.$idfor.'" class="a11yc_skip" name="chk['.$page_id.']['.$criterion.'][]" value="'.$v.'" /><span class="a11yc_icon_fa a11yc_icon_checkbox" role="presentation" aria-hidden="true"></span>'.$yml['techs'][$v]['title'].'</label></td></tr>';
 			else:

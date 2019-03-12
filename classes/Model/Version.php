@@ -127,11 +127,11 @@ class Version
 	/**
 	 * change version
 	 *
-	 * @return Integer|Bool
+	 * @return String|Integer
 	 */
 	private static function currentVersionRaw()
 	{
-		return Data::fetchOne('current_version', 'common', false, 1, 0);
+		return Data::fetchOne('current_version', 'common', false, true, 0);
 	}
 
 	/**
@@ -139,7 +139,7 @@ class Version
 	 * depend on QUERY_STRING and Other Setting
 	 *
 	 * @param Bool $force
-	 * @return Integer|Bool
+	 * @return Integer
 	 */
 	public static function current($force = false)
 	{

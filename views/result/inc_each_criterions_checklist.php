@@ -45,27 +45,27 @@ foreach ($yml['criterions'] as $criterion => $v):
 	$html.= '<tr'.$alert_class.'>';
 	$html.= '	<th scope="row" class="a11yc_result  a11yc_result_code  a11yc_result_string">'.$criterion_code;
 	$html.= '&nbsp;'.$v['name'].$non_interference.'</td>';
-	$html.= '	<td class="a11yc_result">'.$v['level']['name'].'</td>';
+	$html.= '	<td class="a11yc_result a11yc_level">'.$v['level']['name'].'</td>';
 	$html.= '	<td class="a11yc_result a11yc_result_exist">'.$exist_str.'</td>';
 	if ( ! $is_policy):
-		$html.= '	<td class="a11yc_result">'.$pass_str.'</td>';
+		$html.= '	<td class="a11yc_result a11yc_pass_str">'.$pass_str.'</td>';
 
 		// memo or percentage
 		if ($is_total || ! Model\Setting::fetch('hide_memo_results')):
-			$html.= $is_total ? '	<td class="a11yc_result" style="white-space: nowrap;">' : '	<td>';
+			$html.= $is_total ? '	<td class="a11yc_result">' : '	<td class="a11yc_memo">';
 			$html.= nl2br($memo);
 			$html.= '	</td>';
 		endif;
 	endif; // is_policy
 
-	if ( ! $is_total):
+	if ( ! $is_total && ! Model\Setting::fetch('hide_failure_results')):
 		$lis = '';
 		foreach (Arr::get($cs, $criterion, array()) as $tech):
 			if (is_numeric($tech)) continue;
 			$lis.= '<li>'.$tech.'</li>';
 		endforeach;
 		$ul = empty($lis) ? '' : '<ul>'.$lis.'</ul>';
-		$html.= '	<td class="a11yc_result a11yc_result_exist hide_failure">'.$ul.'</td>';
+		$html.= '	<td class="a11yc_result a11yc_result_exist">'.$ul.'</td>';
 
 		$html.= '</tr>';
 		endif;
@@ -80,25 +80,25 @@ if ($html):
 		<tr>
 			<th scope="col"><?php echo A11YC_LANG_CRITERION ?></th>
 			<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_LEVEL ?></th>
-			<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_EXIST ?></th>
+			<th scope="col" class="a11yc_result a11yc_result_exist"><?php echo A11YC_LANG_EXIST ?></th>
 			<?php if ( ! $is_policy):  ?>
-			<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_PASS ?></th>
+			<th scope="col" class="a11yc_result a11yc_result_exist"><?php echo A11YC_LANG_PASS ?></th>
 			<?php if ($is_total || ! Model\Setting::fetch('hide_memo_results')):  ?>
 
 			<th scope="col" class="a11yc_result">
 			<?php
-				if (Input::get('url')):
-					echo A11YC_LANG_CHECKLIST_MEMO;
-				else:
+				if ($is_total):
 					echo A11YC_LANG_CHECKLIST_PERCENTAGE;
+				else:
+					echo A11YC_LANG_CHECKLIST_MEMO;
 				endif;
 			?>
 			</th>
 
 			<?php endif; ?>
 			<?php endif; ?>
-			<?php if ( ! $is_total):  ?>
-			<th scope="col" class="a11yc_result hide_failure"><?php echo A11YC_LANG_CHECKLIST_NG_REASON ?></th>
+			<?php if ( ! $is_total && ! Model\Setting::fetch('hide_failure_results')):  ?>
+			<th scope="col" class="a11yc_result"><?php echo A11YC_LANG_CHECKLIST_NG_REASON ?></th>
 			<?php endif; ?>
 		</tr>
 	</thead>
