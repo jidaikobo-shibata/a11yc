@@ -307,19 +307,4 @@ class Page
 	{
 		return count(static::fetchAll(array('list' => $type)));
 	}
-
-	/**
-	 * update all page titles
-	 *
-	 * @return Void
-	 */
-	public static function updateAllPageTitles()
-	{
-		foreach (static::fetchAll() as $page)
-		{
-			$title = Html::pageTitleFromHtml(Html::fetch($page['url']));
-			static::updatePartial($page['url'], 'real_title', $title);
-		}
-		Session::add('messages', 'messages', 'Page titles\' database were updated.');
-	}
 }

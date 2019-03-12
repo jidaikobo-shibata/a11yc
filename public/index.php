@@ -33,9 +33,6 @@ if (Auth::auth())
 		// backup
 		Maintenance::sqlite(A11YC_DATA_PATH, A11YC_DATA_FILE);
 
-		// update All Page Titles
-		Model::updateAllPageTitles();
-
 		// security check
 		Security::denyHttpDirectories();
 	}
