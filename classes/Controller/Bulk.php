@@ -161,7 +161,7 @@ class Bulk extends Checklist
 		$vals = array();
 		$current = Model\Result::fetch($url);
 
-		if (Input::post('update_all') == 2 && $current)
+		if (Input::post('update_all') == 2 &&  ! empty($current))
 		{
 			foreach (Arr::get($bulk, 0, array()) as $criterion =>$v)
 			{
@@ -196,7 +196,7 @@ class Bulk extends Checklist
 		);
 
 		$current = Model\Checklist::fetch($url);
-		if (Input::post('update_all') == 2 && $current)
+		if (Input::post('update_all') == 2 && ! empty($current))
 		{
 			foreach ($loops as $v)
 			{

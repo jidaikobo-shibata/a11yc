@@ -286,8 +286,8 @@ class Setting
 			if ($site != Model\Data::groupId())
 			{
 				Session::remove('messages', 'errors');
-				setcookie('a11yc_group_id', '', time()-60*60*24);
-				setcookie('a11yc_group_id', $site, time()+60*60*24*60);
+				setcookie('a11yc_group_id', '', time() - 60 * 60 * 24);
+				setcookie('a11yc_group_id', $site, time() + 60 * 60 * 24 * 60);
 				Session::add('messages', 'messages', A11YC_LANG_CTRL_ADDED_NORMALLY);
 				Util::redirect(A11YC_SETTING_URL.'site');
 			}

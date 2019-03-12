@@ -84,9 +84,9 @@ class Setting
 	 * @param String $field
 	 * @param String|Array $default
 	 * @param Bool $force
-	 * @return String|Array
+	 * @return Array
 	 */
-	public static function fetchArr($field, $default = '', $force = false)
+	public static function fetchArr($field, $default = array(), $force = false)
 	{
 		$settings = self::fetch($field, $default, $force);
 		return is_array($settings) ? $settings : array() ;

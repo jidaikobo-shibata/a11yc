@@ -238,7 +238,7 @@ class Post
 		elseif ( ! empty($url))
 		{
 			$target_html = Model\Html::fetchHtmlFromInternet($url, $ua); // not use Database
-			$target_html = $target_html ?: '';
+			$target_html = is_string($target_html) ? $target_html : '';
 			$do_validate = self::failedOrDoOtherAction($url, $doc_root, $target_html);
 		}
 		return array($target_html, $do_validate);
