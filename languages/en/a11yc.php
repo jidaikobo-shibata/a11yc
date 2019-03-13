@@ -26,6 +26,7 @@ define('A11YC_LANG_TEST_METHOD_AF', 'Automated Find');
 define('A11YC_LANG_TEST_METHOD_HC', 'Human Check');
 define('A11YC_LANG_TEST_METHOD_AC_AF', 'AC/AF');
 define('A11YC_LANG_EXAM', 'Exam.');
+define('A11YC_LANG_REPORT_SHORT', 'Report');
 
 define('A11YC_LANG_CRITERION', 'Criterion');
 define('A11YC_LANG_HERE', 'here, click here, click');
@@ -106,6 +107,7 @@ define('A11YC_LANG_LAST_UPDATE', 'HTML Last Update: ');
 define('A11YC_LANG_CHOOSE_FILE', 'Choose File');
 define('A11YC_LANG_ALL', 'All');
 define('A11YC_LANG_INTEGRATE', 'Integrate');
+define('A11YC_LANG_PAGE_ALL', 'All Pages');
 
 // ua
 define('A11YC_LANG_UA_USING', 'Current Browser');
@@ -364,6 +366,11 @@ define('A11YC_LANG_ISSUE_EXPORT', 'Export');
 define('A11YC_LANG_ISSUE_REPORT_HEAD_SUFFIX', 'JIS X 8341-3:2016 Report');
 define('A11YC_LANG_ISSUE_MEMO', 'Internal Memo');
 define('A11YC_LANG_ISSUE_OTHER_URLS', 'Other URL');
+define('A11YC_LANG_ISSUE_RELATED_CRITERIONS', 'Criterion related to this problem');
+define('A11YC_LANG_ISSUE_EXIST_PAGES', 'Page where this issue exists');
+define('A11YC_LANG_PAGES_EXIST_ISSUES', 'Common issues that exist on this page');
+define('A11YC_LANG_PAGES_EXIST_ISSUES_EXP', 'This page has the following common problems. Please refer to'.A11YC_LANG_ISSUE_IS_COMMON);
+define('A11YC_LANG_ISSUE_NOT_EXIST', 'There was no problem with this page.');
 
 // site check
 define('A11YC_LANG_SITECHECK_TITLE', 'HTML finder');

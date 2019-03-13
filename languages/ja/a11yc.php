@@ -26,6 +26,7 @@ define('A11YC_LANG_TEST_METHOD_AF', 'AF');
 define('A11YC_LANG_TEST_METHOD_HC', 'HC');
 define('A11YC_LANG_TEST_METHOD_AC_AF', '機械判定の内容');
 define('A11YC_LANG_EXAM', '試験');
+define('A11YC_LANG_REPORT_SHORT', '報告');
 
 define('A11YC_LANG_CRITERION', '達成基準');
 define('A11YC_LANG_HERE', 'こちら,ここ,ここをクリック,コチラ');
@@ -106,6 +107,7 @@ define('A11YC_LANG_LAST_UPDATE', 'HTML最終更新: ');
 define('A11YC_LANG_CHOOSE_FILE', 'ファイル選択');
 define('A11YC_LANG_ALL', '全体');
 define('A11YC_LANG_INTEGRATE', '統一');
+define('A11YC_LANG_PAGE_ALL', 'すべてのページ');
 
 // ua
 define('A11YC_LANG_UA_USING', '現在のブラウザ');
@@ -368,6 +370,7 @@ define('A11YC_LANG_ISSUE_RELATED_CRITERIONS', 'この問題点に関係する達
 define('A11YC_LANG_ISSUE_EXIST_PAGES', 'この問題点が存在するページ');
 define('A11YC_LANG_PAGES_EXIST_ISSUES', 'このページに存する共通の問題点');
 define('A11YC_LANG_PAGES_EXIST_ISSUES_EXP', 'このページには、以下の通り共通の問題点が存在します。「'.A11YC_LANG_ISSUE_IS_COMMON.'」を参照してください。');
+define('A11YC_LANG_ISSUE_NOT_EXIST', '調査時点ではこのページには問題はありませんでした。');
 
 // site check
 define('A11YC_LANG_SITECHECK_TITLE', 'HTML検索');

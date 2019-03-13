@@ -93,7 +93,7 @@ class Issue
 				{
 					if ($page = Page::fetchByDbid($page_id))
 					{
-						if ( ! isset($issues[$page['url']])) continue;
+//						if ( ! isset($issues[$page['url']])) continue;
 						$issues[$page['url']]['common'][0]['seq'] = -10000;
 						$issues[$page['url']]['common'][0]['output'] = true;
 						$issues[$page['url']]['common'][0]['trash'] = 0;

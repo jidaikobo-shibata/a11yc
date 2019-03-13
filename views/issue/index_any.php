@@ -22,6 +22,10 @@ else:
 
 	<?php
 	foreach ($items as $url => $vals):
+
+		// common issue only
+		if (isset($vals['common']) && count($vals) == 1) continue;
+
 		$rowspan = 0;
 		foreach ($vals as $criterion => $each_issues):
 			 $rowspan = $rowspan + count($each_issues);

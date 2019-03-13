@@ -43,8 +43,6 @@ if ($url == 'commons' && $show_common_cover_page === false):
 	echo '</div>';
 endif;
 
-foreach ($issue_parents as $criterion => $issue):
-
 // each cover page
 if ($url != 'commons' && ! in_array($url, $show_each_cover_page)):
 	$show_each_cover_page[] = $url;
@@ -65,6 +63,17 @@ if ($url != 'commons' && ! in_array($url, $show_each_cover_page)):
 		'items' => array()
 	);
 endif;
+
+// OMEDETO! There is no issue
+if (empty($issue_parents)):
+	echo '<section class="pring_block">';
+	echo  '<h3 class="heading">'.A11YC_LANG_REPORT_SHORT.'</h3>';
+	echo '<p>'.A11YC_LANG_ISSUE_NOT_EXIST.'</p>';
+	echo '</section>';
+	continue;
+endif;
+
+foreach ($issue_parents as $criterion => $issue):
 
 // common issues of each page
 if ( ! isset($issue['title'])):
@@ -137,14 +146,18 @@ $index_titles[$page_num]['items'][] = $issue_title;
 <?php if ( ! empty($issue['page_ids'])): ?>
 <div class="print_block">
 	<h3 class="heading"><?php echo A11YC_LANG_ISSUE_EXIST_PAGES ?></h3>
-	<ul>
 	<?php
+	$pages = array();
 	foreach (Model\Page::fetchAll() as $k => $v):
 		if ( ! in_array($v['dbid'], $issue['page_ids'])) continue;
-		echo '<li>'.$v['title'].'</li>';
+		$pages[] = '<li>'.$v['title'].'</li>';
 	endforeach;
+	if (count($pages) == count(Model\Page::fetchAll())):
+		echo '<p style="margin-top: 15px;font-size: 110%;"><strong>'.A11YC_LANG_PAGE_ALL.'</strong></p>';
+	else:
+		echo '<ul>'.join($pages).'<ul>';
+	endif;
 	?>
-	<ul>
 </div><!-- ./print_block -->
 <?php endif; ?>
 

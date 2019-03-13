@@ -26,6 +26,12 @@ trait DownloadIssue
 		$pages = Model\Page::fetchAll();
 
 		$vals = array();
+		$vals['commons'] = array();
+		foreach ($pages as $v)
+		{
+			$vals[$v['url']] = array();
+		}
+
 		foreach ($issues as $url => $criterions)
 		{
 			foreach ($criterions as $v)
