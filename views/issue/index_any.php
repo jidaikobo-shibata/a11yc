@@ -21,12 +21,16 @@ else:
 </thead>
 
 	<?php
+
 	foreach ($items as $url => $vals):
+		$rowspan = 0;
 
 		// common issue only
 		if (isset($vals['common']) && count($vals) == 1) continue;
 
-		$rowspan = 0;
+		// empty common issue
+		if ($url != 'commons' && isset($vals['common'])) unset($vals['common']);
+
 		foreach ($vals as $criterion => $each_issues):
 			 $rowspan = $rowspan + count($each_issues);
 		endforeach;
@@ -53,7 +57,9 @@ else:
 ?>
 
 <?php foreach ($each_issues as $each_issue): ?>
-<?php if( $r !== 0 ) echo '<tr>'; ?>
+<?php
+if( $r !== 0 ) echo '<tr>';
+?>
 	<td class="a11yc_issue_data">
 		<?php
 			$type = $each_issue['n_or_e'] == 0 ?

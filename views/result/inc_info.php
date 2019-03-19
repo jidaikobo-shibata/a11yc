@@ -102,7 +102,7 @@
 			?>
 				<li>
 					<?php if (Arr::get($settings, 'hide_url_results')): ?>
-						<?php echo sprintf("%02d", $v['id']).': '.$v['title'] ?>
+						<?php echo Arr::get($v, 'id', $v['seq']).': '.$v['title'] ?>
 					<?php else: ?>
 						<a href="<?php echo $url ?>"<?php echo A11YC_TARGET ?>><?php echo $v['title'] ?></a>
 					<?php endif; ?>

@@ -26,6 +26,9 @@ $selected_str = ' selected="selected"';
 
 	<?php $selected = Input::post('op') == 'contain_not_headings' ? $selected_str : '' ; ?>
 	<option value="contain_not_headings"<?php echo $selected ?>><?php printf(A11YC_LANG_SITECHECK_CONTAINS_NOT, "h*") ?></option>
+
+	<?php $selected = Input::post('op') == 'contain_not_href' ? $selected_str : '' ; ?>
+	<option value="contain_not_href"<?php echo $selected ?>><?php printf(A11YC_LANG_SITECHECK_CONTAINS_NOT, A11YC_LANG_SITECHECK_WITHOUT_HREF) ?></option>
 </select></label>
 </p>
 <input type="submit" name="str" value="<?php echo A11YC_LANG_CTRL_SEND ?>">

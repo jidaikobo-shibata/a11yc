@@ -21,6 +21,7 @@ class Sitecheck
 		'contain_withoutalt'       => 'ContainWithoutAlt',
 		'contain_withoutth'        => 'ContainWithoutTh',
 		'contain_not_headings'     => 'ContainNotHeadings',
+		'contain_not_href'         => 'ContainNotHref',
 	);
 
 	/**
