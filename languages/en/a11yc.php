@@ -378,6 +378,7 @@ define('A11YC_LANG_SITECHECK_CONTAINS', 'Extracting a page with %s'); // tabinde
 define('A11YC_LANG_SITECHECK_CONTAINS_NOT', 'Extracting a page without %s'); // h*
 define('A11YC_LANG_SITECHECK_WITHOUT_ALT', 'Missing element of alt attribute value');
 define('A11YC_LANG_SITECHECK_WITHOUT_TH', 'The lacking table element of th element');
+define('A11YC_LANG_SITECHECK_WITHOUT_HREF', 'Missing a element of href attribute value');
 define('A11YC_LANG_SITECHECK_RELATED_RESULTS', 'Related success criteria and implementation check status');
 define('A11YC_LANG_SITECHECK_POSITIVETABINED', 'tabinex with a positive number value');
 define('A11YC_LANG_USE_RE', 'Use regular expression');

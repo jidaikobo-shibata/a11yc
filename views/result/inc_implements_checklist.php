@@ -40,8 +40,8 @@ foreach ($icltree as $criterion => $parents):
 			endif;
 
 			$html.= '<tr><th  class="implement_title">'.$icls[$id]['title_short']."</th>\n";
-			$html.= '<td>'.$exist.'</td>';
-			$html.= '<td>'.$confirm.'</td>';
+			$html.= '<td class="a11yc_result_exist">'.$exist.'</td>';
+			$html.= '<td class="a11yc_result_exist">'.$confirm.'</td>';
 			$html.= '<td>';
 			$lis = '';
 			foreach (Arr::get($cs, $id, array()) as $tech):

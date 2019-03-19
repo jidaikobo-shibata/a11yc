@@ -50,7 +50,7 @@ if ($url != 'commons' && ! in_array($url, $show_each_cover_page)):
 	echo '<div class="heading">';
 	$this_title = sprintf('%02d', ++$page_num).': '.$titles[$url];
 	echo '<h1 class="heading"><span class="issue_title">'.$this_title.'</span>';
-	if (strpos($url, 'example.com') === false):
+	if ( ! Arr::get($settings, 'hide_url_results')):
 		echo '<br><span class="issue_url">'.$url.'</span>';
 	endif;
 	echo '</h1>';
