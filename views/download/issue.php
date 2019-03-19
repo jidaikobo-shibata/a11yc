@@ -66,7 +66,7 @@ endif;
 
 // OMEDETO! There is no issue
 if (empty($issue_parents)):
-	echo '<section class="pring_block">';
+	echo '<section class="print_block">';
 	echo  '<h3 class="heading">'.A11YC_LANG_REPORT_SHORT.'</h3>';
 	echo '<p>'.A11YC_LANG_ISSUE_NOT_EXIST.'</p>';
 	echo '</section>';
@@ -77,7 +77,7 @@ foreach ($issue_parents as $criterion => $issue):
 
 // common issues of each page
 if ( ! isset($issue['title'])):
-	echo '<section class="pring_block">';
+	echo '<section class="print_block">';
 	echo  '<h3 class="heading">'.sprintf('%02d', $page_num).'-0: '.A11YC_LANG_PAGES_EXIST_ISSUES.'</h3>';
 	echo '<p>'.A11YC_LANG_PAGES_EXIST_ISSUES_EXP.'</p>';
 
@@ -95,12 +95,12 @@ endif;
 
 ?>
 <section class="each_issue">
-<div class="pring_block">
+<div class="print_block">
 <?php
 $issue_title = ($page_num === 0 ? '0' : sprintf('%02d', $page_num)).'-'.++$issue_num.': '.$issue['title'];
 $index_titles[$page_num]['items'][] = $issue_title;
 ?>
-<h2 class="heading"><?php echo $issue_title ?></h2>
+<h2 class="heading" data-editurl="<?php echo A11YC_ISSUE_URL.'edit&amp;id='.intval($issue['id']) ?>"><?php echo $issue_title ?></h2>
 <?php if ( ! empty($issue['image_path'])): ?>
 	<section class="screenshot"><h3 class="heading"><?php echo A11YC_LANG_ISSUE_SCREENSHOT ?></h3>
 	<?php
@@ -153,7 +153,7 @@ $index_titles[$page_num]['items'][] = $issue_title;
 		$pages[] = '<li>'.$v['title'].'</li>';
 	endforeach;
 	if (count($pages) == count(Model\Page::fetchAll())):
-		echo '<p style="margin-top: 15px;font-size: 110%;"><strong>'.A11YC_LANG_PAGE_ALL.'</strong></p>';
+		echo '<ul><li>'.A11YC_LANG_PAGE_ALL.'</li></ul>';
 	else:
 		echo '<ul>'.join($pages).'<ul>';
 	endif;
@@ -223,5 +223,25 @@ endforeach;
 echo '</div><!-- /.noprint -->';
 ?>
 </article>
+<script>
+<!--
+	var flg = flg ? flg : false;
+	var url = '';
+	var link, target;
+	if( location.href.indexOf('index.php') != -1 && ! flg )
+	{
+		var issue_title = document.querySelectorAll('[data-editurl]');
+		for( var i =0; i < issue_title.length; i++ ){
+			target = issue_title[i];
+			url = target.dataset.editurl;
+			link = document.createElement("a");
+			link.href = url;
+			link.appendChild(document.createTextNode(' edit'));
+			target.appendChild(link);
+		}
+		flg = true;
+	}
+// -->
+</script>
 </body>
 </html>

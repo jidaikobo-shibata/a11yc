@@ -14,7 +14,7 @@
 			$criterions = json_encode($unpassed_criterions);
 			$checked = in_array($page['dbid'], Arr::get($item, 'page_ids', array())) ? ' checked="checked"' : '';
 
-			echo '<li data-unpassed_criterions=\''.$criterions.'\'><label><input'.$checked.' type="checkbox" name="page_ids[]" value="'.$page['dbid'].'">'.$page['title'].'</label></li>'."\n";
+			echo '<li data-unpassed_criterions=\''.$criterions.'\'><label><input'.$checked.' type="checkbox" name="page_ids[]" value="'.$page['dbid'].'">'.$page['title'].'<br>(<a href="'.$page['url'].'">'.$page['url'].'</a>)</label></li>'."\n";
 		endforeach;
 		?>
 		</ul>

@@ -145,10 +145,12 @@ body > :last-child
 /*
 @media print {
 */
+@media print {
 	.noprint
 	{
 		display: none !important;
 	}
+}
 	html
 	{
 		font-size: .9em;
