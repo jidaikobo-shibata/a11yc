@@ -15,6 +15,7 @@ class Download
 	use DownloadCsv;
 	use DownloadIssue;
 	use DownloadReport;
+	use DownloadHtml;
 
 	/**
 	 * csv
@@ -47,5 +48,16 @@ class Download
 	{
 		// trait: DownloadReport
 		static::report();
+	}
+
+	/**
+	 * Html
+	 *
+	 * @return Void
+	 */
+	public static function actionHtml()
+	{
+		// trait: DownloadHtml
+		static::html();
 	}
 }

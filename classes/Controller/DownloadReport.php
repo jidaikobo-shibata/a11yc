@@ -1,6 +1,6 @@
 <?php
 /**
- * A11yc\DownloadReport
+ * A11yc\Controller\DownloadReport
  *
  * @package    part of A11yc
  * @author     Jidaikobo Inc.

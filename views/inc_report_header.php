@@ -126,6 +126,7 @@ h1 + .a11yc_table th
 }
 .a11yc_table td.a11yc_memo {
 	max-width: 50%;
+	width: 45%;
 }
 .a11yc_table td.a11yc_level {
 	text-align: center;
