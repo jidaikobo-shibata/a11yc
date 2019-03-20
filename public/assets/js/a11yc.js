@@ -387,6 +387,13 @@ jQuery(function($){
 			$('#a11yc_update_done').parent().addClass('a11yc_hide').attr('aria-hidden', true);
 		}
 	});
+
+	// bulk integrate
+	if( $('.a11yc_section_criterion').length == 1 )
+	{
+		 $('.a11yc_section_criterion').find('details').prop('open', true);
+	}
+
 });
 
 /* === choose related techniques === */

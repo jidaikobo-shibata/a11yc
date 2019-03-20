@@ -78,10 +78,13 @@ h1 + .a11yc_table
 {
 	width: auto;
 }
-h1 + .a11yc_table th
+h1 + .a11yc_table th,
+h1 + .a11yc_table td
 {
-	padding-right: 5mm;
+	padding :1px  2mm 1px 1px;
 }
+
+
 .a11yc_table th,
 .a11yc_table td {
 	vertical-align: top;
@@ -103,6 +106,10 @@ h1 + .a11yc_table th
 {
 	background-color: #eee;
 	padding: 5px 1px;
+}
+.a11yc_table thead tr:last-child th:not(:first-child)
+{
+	text-align: center;
 }
 .a11yc_table .a11yc_result_string
 {
@@ -140,7 +147,6 @@ h1 + .a11yc_table th
 	white-space: nowrap;
 }
 
-@media print {
 	.noprint
 	{
 		display: none !important;
@@ -179,7 +185,6 @@ h1 + .a11yc_table th
 	{
 		color: #134A9C  !important;
 	}
-}
 @page {
 	size: A4;
 	margin: 15mm 10mm;

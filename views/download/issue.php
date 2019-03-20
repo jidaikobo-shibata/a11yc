@@ -15,21 +15,20 @@
 <article>
 <?php
 $index_titles = array();
-
+/*
 $header = '<header class="issue_header">'.$title;
 $header.= ! empty($settings['test_period']) ? '<br>'.A11YC_LANG_TEST_PERIOD.' '.$settings['test_period'] : '' ;
 $header.= '</header>';
-
+*/
 $show_common_cover_page = false;
 $show_each_cover_page = array();
 
+$index_titles[] = array();
 $page_num = 0;
-$index_titles[$page_num] = array();
-
-	$index_titles[$page_num] = array(
-		'title' => A11YC_LANG_ISSUE_IS_COMMON,
-		'items' => array()
-	);
+$index_titles[$page_num] = array(
+	'title' => A11YC_LANG_ISSUE_IS_COMMON,
+	'items' => array()
+);
 
 foreach ($issues as $url => $issue_parents):
 $issue_num = 0;
@@ -38,17 +37,18 @@ $issue_num = 0;
 if ($url == 'commons' && $show_common_cover_page === false):
 	$show_common_cover_page = true;
 	echo '<div class="cover_page common">';
-	echo $header;
+//	echo $header;
 	echo '<h1 class="heading">'.A11YC_LANG_ISSUE_IS_COMMON.'</h1>';
 	echo '</div>';
 endif;
 
 // each cover page
 if ($url != 'commons' && ! in_array($url, $show_each_cover_page)):
+	$page_num = $serial_nums[$url];
 	$show_each_cover_page[] = $url;
 	echo '<section class="cover_page'.( ! empty($images[$url]) ? ' has_image' : '' ).'">';
 	echo '<div class="heading">';
-	$this_title = sprintf('%02d', ++$page_num).': '.$titles[$url];
+	$this_title = $page_num.': '.$titles[$url];
 	echo '<h1 class="heading"><span class="issue_title">'.$this_title.'</span>';
 	if ( ! Arr::get($settings, 'hide_url_results')):
 		echo '<br><span class="issue_url">'.$url.'</span>';
@@ -78,7 +78,7 @@ foreach ($issue_parents as $criterion => $issue):
 // common issues of each page
 if ( ! isset($issue['title'])):
 	echo '<section class="print_block">';
-	echo  '<h3 class="heading">'.sprintf('%02d', $page_num).'-0: '.A11YC_LANG_PAGES_EXIST_ISSUES.'</h3>';
+	echo  '<h3 class="heading">'.$page_num.'-0: '.A11YC_LANG_PAGES_EXIST_ISSUES.'</h3>';
 	echo '<p>'.A11YC_LANG_PAGES_EXIST_ISSUES_EXP.'</p>';
 
 	echo '<ul>';
@@ -97,7 +97,7 @@ endif;
 <section class="each_issue">
 <div class="print_block">
 <?php
-$issue_title = ($page_num === 0 ? '0' : sprintf('%02d', $page_num)).'-'.++$issue_num.': '.$issue['title'];
+$issue_title = $page_num.'-'.++$issue_num.': '.$issue['title'];
 $index_titles[$page_num]['items'][] = $issue_title;
 ?>
 <h2 class="heading" data-editurl="<?php echo A11YC_ISSUE_URL.'edit&amp;id='.intval($issue['id']) ?>"><?php echo $issue_title ?></h2>
@@ -225,6 +225,7 @@ echo '</div><!-- /.noprint -->';
 </article>
 <script>
 <!--
+/*
 	var flg = flg ? flg : false;
 	var url = '';
 	var link, target;
@@ -241,6 +242,7 @@ echo '</div><!-- /.noprint -->';
 		}
 		flg = true;
 	}
+	*/
 // -->
 </script>
 </body>

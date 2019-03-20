@@ -51,6 +51,9 @@ trait DownloadIssue
 			$titles['commons'] = A11YC_LANG_ISSUE_IS_COMMON;
 		}
 
+		$serial_nums = array_column($pages, 'serial_num', 'url');
+
+		View::assign('serial_nums', $serial_nums);
 		View::assign('titles', $titles);
 		View::assign('images', array_column($pages, 'image_path', 'url'));
 		View::assign('issues', $vals);
