@@ -51,6 +51,7 @@ class Icl
 	public static function fetchAll($force = false)
 	{
 		if ( ! is_null(static::$vals) && ! $force) return static::$vals;
+		$uses = Setting::fetch('icl');
 
 		$vals = array();
 		foreach (Data::fetchRaw(0, Data::groupId()) as $v)
@@ -59,7 +60,9 @@ class Icl
 			$value = json_decode($v['value'], true);
 			$type = Arr::get($value, 'is_sit', false) == true ? 'iclsit' : 'icl';
 			$value = Data::filter($value, static::$fields[$type]);
-			$value['id'] = $v['url'];
+			$id = $v['url'];
+			if ( ! in_array($id, $uses)) continue;
+			$value['id'] = $id;
 			$value['dbid'] = $v['id'];
 			$vals[] = $value;
 		}
