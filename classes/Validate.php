@@ -117,6 +117,7 @@ class Validate
 //		if ( ! is_string($html)) Util::error('invalid HTML was given');
 		$html = ! is_string($html) ? '' : $html;
 
+
 		$codes = $codes ?: self::$codes;
 		$name = static::codes2name($codes);
 		if (isset(static::$results[$url][$name][$ua]) && ! $force) return static::$results[$url][$name][$ua];
@@ -132,8 +133,7 @@ class Validate
 		// validate
 		foreach ($codes as $class_name)
 		{
-			// echo $class_name;
-			// echo number_format(microtime(true) - $s, 2).' sec.';
+			// error_log( $class_name.': '.number_format(microtime(true) - $s, 2).' sec.');
 
 			if (array_key_exists($class_name, static::$codes_alias))
 			{
