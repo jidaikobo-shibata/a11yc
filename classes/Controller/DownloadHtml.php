@@ -69,7 +69,7 @@ trait DownloadHtml
 	{
 		foreach (Model\Page::fetchAll() as $v)
 		{
-			$zip->addFromString($v['id'].'.html', Model\Html::fetch($v['url']));
+			$zip->addFromString($v['serial_num'].'.html', Model\Html::fetch($v['url']));
 		}
 
 		return $zip;
