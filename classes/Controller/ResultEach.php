@@ -63,7 +63,7 @@ trait ResultEach
 		View::assign('is_assign',   $is_assign);
 		View::assign('is_total',    false);
 		View::assign('is_download', false);
-		View::assign('title',       A11YC_LANG_TEST_RESULT.': '.Model\Html::pageTitle($url));
+		View::assign('title',       A11YC_LANG_TEST_RESULT.': '.Arr::get($page, 'serial_num').': '.Model\Html::pageTitle($url));
 
 		// assign results
 		self::assignResults($settings['target_level'], $url);
