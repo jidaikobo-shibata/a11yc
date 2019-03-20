@@ -130,7 +130,7 @@ trait DownloadReport
 			$body = View::fetch($target);
 			if ( ! $body) continue;
 			$page = Model\Page::fetch($url);
-			self::$total[$file].= '<article><h1>'.sprintf("%02d: ", $page['seq']).Model\Html::pageTitle($url).'</h1>'.$body.'</article>';
+			self::$total[$file].= '<article><h1>'.$page['serial_num'].': '.Model\Html::pageTitle($url).'</h1>'.$body.'</article>';
 			$exist = true;
 			$zip->addFromString($file.'s/'.$file.$n.'.html', self::replaceStrings($body));
 		}

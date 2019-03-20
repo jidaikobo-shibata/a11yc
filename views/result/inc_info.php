@@ -102,9 +102,9 @@
 			?>
 				<li>
 					<?php if (Arr::get($settings, 'hide_url_results')): ?>
-						<?php echo Arr::get($v, 'id', $v['seq']).': '.$v['title'] ?>
+						<?php echo Arr::get($v, 'serial_num', $v['seq']).': '.$v['title'] ?>
 					<?php else: ?>
-						<a href="<?php echo $url ?>"<?php echo A11YC_TARGET ?>><?php echo $v['title'] ?></a>
+						<a href="<?php echo $url ?>"<?php echo A11YC_TARGET ?>><?php echo Arr::get($v, 'serial_num', $v['seq']).': '.$v['title'] ?></a>
 					<?php endif; ?>
 					<?php if ( ! $is_assign && ! $is_download): ?>
 						(<a href="<?php echo $chk_link ?>&amp;url=<?php echo Util::urlenc($url) ?>"><?php echo A11YC_LANG_TEST_RESULT ?></a>)

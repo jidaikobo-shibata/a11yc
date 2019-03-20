@@ -20,6 +20,7 @@ foreach (Model\Icl::fetchTree() as $criterion => $parents):
 
 		// draw situation
 		if (isset($icls[$parent])):
+			$html.= '<input type="hidden" name="icls[]" id="icls_'.$parent.'" value="'.$parent.'">';
 			$html.= '<h3>'.$icls[$parent]['title'];
 			if ( ! $is_view):
 				if (Arr::get($icls[$parent], 'trash', 0) != 0):
