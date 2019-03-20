@@ -40,6 +40,7 @@ class Icl
 	 * fetch all
 	 * depend on array order system
 	 *
+	 * @param Bool $is_all
 	 * @param Bool $force
 	 * @return Array
 	 */
@@ -48,7 +49,7 @@ class Icl
 		Data::deleteByKey('iclsit');
 		Setting::update('is_waic_imported', false);
 	*/
-	public static function fetchAll($force = false)
+	public static function fetchAll($is_all = false, $force = false)
 	{
 		if ( ! is_null(static::$vals) && ! $force) return static::$vals;
 		$uses = Setting::fetch('icl');
@@ -61,7 +62,7 @@ class Icl
 			$type = Arr::get($value, 'is_sit', false) == true ? 'iclsit' : 'icl';
 			$value = Data::filter($value, static::$fields[$type]);
 			$id = $v['url'];
-			if ( ! in_array($id, $uses)) continue;
+			if ($is_all === false && ! in_array($id, $uses)) continue;
 			$value['id'] = $id;
 			$value['dbid'] = $v['id'];
 			$vals[] = $value;
@@ -75,20 +76,18 @@ class Icl
 	 * fetch tree
 	 * depend on Array order system
 	 *
-	 * @param Bool $using_only
+	 * @param Bool $is_all
 	 * @param Bool $force
 	 * @return Array
 	 */
-	public static function fetchTree($using_only = false, $force = false)
+	public static function fetchTree($is_all = false, $force = false)
 	{
 		if ( ! is_null(static::$tree) && ! $force) return static::$tree;
 		$vals = array();
-		$usings = Setting::fetch('icl', array(), true);
 
-		foreach (static::fetchAll(true) as $id => $v)
+		foreach (static::fetchAll($is_all, true) as $id => $v)
 		{
 			if ($v['is_sit']) continue;
-			if ($using_only && ! in_array($id, $usings)) continue;
 			$key = empty($v['situation']) ? 'none' : intval($v['situation']) ;
 			$vals[$v['criterion']][$key][] = $id;
 		}
@@ -106,7 +105,7 @@ class Icl
 	 */
 	public static function fetch($id, $force = false)
 	{
-		return Arr::get(static::fetchAll($force), $id, array());
+		return Arr::get(static::fetchAll(false, $force), $id, array());
 	}
 
 	/**

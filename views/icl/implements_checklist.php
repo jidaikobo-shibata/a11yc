@@ -3,7 +3,7 @@ namespace A11yc;
 
 $techs = Yaml::each('techs');
 $criterions = Yaml::each('criterions');
-$icls = Model\Icl::fetchAll();
+$icls = Model\Icl::fetchAll(true);
 $html = '';
 
 if ( ! $is_view):
@@ -11,7 +11,7 @@ if ( ! $is_view):
 	$html.= '<form action="'.A11YC_ICL_URL.'index" method="POST">';
 endif;
 
-foreach (Model\Icl::fetchTree() as $criterion => $parents):
+foreach (Model\Icl::fetchTree(true) as $criterion => $parents):
 
 	$html.= '<h2>'.Util::key2code($criterion).' '.$criterions[$criterion]['name'].' ['.$criterions[$criterion]['level']['name'].']</h2>';
 
