@@ -43,6 +43,7 @@ class Checklist
 		{
 			Session::add('messages', 'errors', A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR);
 		}
+		
 
 		// users
 		$users = Users::fetchUsersOpt();
@@ -59,6 +60,7 @@ class Checklist
 			$title = A11YC_LANG_CTRL_CHECK.':'.Model\Html::pageTitle($url);
 			$page = Model\Page::fetch($url);
 		}
+		
 
 		// assign
 		View::assign('current_user', $current_user);
