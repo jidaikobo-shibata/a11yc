@@ -73,7 +73,7 @@ class Icl
 
 	/**
 	 * fetch tree
-	 * depend on array order system
+	 * depend on Array order system
 	 *
 	 * @param Bool $using_only
 	 * @param Bool $force
