@@ -33,10 +33,10 @@ trait ResultPage
 		foreach (array_keys(Values::selectionReasons()) as $k)
 		{
 			$args['reason'] = $k;
-			$args['type']   = 'html';
+			$args['type']   = 1; // html
 			$pages[$k] = Model\Page::fetchAll($args);
 
-			$args['type'] = 'pdf';
+			$args['type'] = 2; // pdf
 			$pdfs = array_merge($pdfs, Model\Page::fetchAll($args));
 		}
 		ksort($pages);
