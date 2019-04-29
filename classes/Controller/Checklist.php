@@ -43,7 +43,7 @@ class Checklist
 		{
 			Session::add('messages', 'errors', A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR);
 		}
-		
+
 
 		// users
 		$users = Users::fetchUsersOpt();
@@ -60,7 +60,7 @@ class Checklist
 			$title = A11YC_LANG_CTRL_CHECK.':'.Model\Html::pageTitle($url);
 			$page = Model\Page::fetch($url);
 		}
-		
+
 
 		// assign
 		View::assign('current_user', $current_user);
@@ -89,9 +89,9 @@ class Checklist
 		$iclchks = Input::postArr('iclchks');
 		$results = Input::postArr('results');
 
-		Model\Checklist::update($url, $chk[$page['dbid']]);
-		Model\Iclchk::update($url, $iclchks[$page['dbid']]);
-		Model\Result::update($url, $results[$page['dbid']]);
+		Model\Checklist::update($url, Arr::get($chk, $page['dbid'], array()));
+		Model\Iclchk::update($url, Arr::get($iclchks, $page['dbid'], array()));
+		Model\Result::update($url, Arr::get($results, $page['dbid'], array()));
 
 		$page = array();
 		$page['alt_url']          = Util::urldec(Input::post('alt_url'));
