@@ -91,7 +91,6 @@ class Icl
 			$key = empty($v['situation']) ? 'none' : intval($v['situation']) ;
 			$vals[$v['criterion']][$key][] = $id;
 		}
-
 		static::$tree = $vals;
 		return static::$tree;
 	}
@@ -105,7 +104,7 @@ class Icl
 	 */
 	public static function fetch($id, $force = false)
 	{
-		return Arr::get(static::fetchAll(false, $force), $id, array());
+		return Arr::get(static::fetchAll(true, $force), $id, array());
 	}
 
 	/**

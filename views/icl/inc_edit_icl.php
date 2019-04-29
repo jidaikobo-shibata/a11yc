@@ -22,12 +22,14 @@
 		<select id="a11yc_situation" name="situation" style="width:100%">
 			<option data-criterion="" value="0"></option>
 		<?php
-			foreach (Model\Icl::fetchAll() as $id => $v):
+			foreach (Model\Icl::fetchAll(true, true) as $id => $v):
 				if ($v['is_sit'] === false) continue;
-					$selected = $id == Arr::get($item, 'situation', '') ? ' selected="selected"' : '' ;
+				$selected = $id == Arr::get($item, 'situation', '') ? ' selected="selected"' : '' ;
 			?>
 				<option<?php echo $selected ?> data-criterion="<?php echo $v['criterion'] ?>" value="<?php echo $id ?>"><?php echo $v['title'].' - '.Util::key2code($v['criterion']) ?></option>
-		<?php endforeach; ?>
+		<?php
+			endforeach;
+		?>
 		</select>
 	</td>
 </tr>

@@ -44,7 +44,6 @@ class Checklist
 			Session::add('messages', 'errors', A11YC_LANG_CHECKLIST_PAGE_NOT_FOUND_ERR);
 		}
 
-
 		// users
 		$users = Users::fetchUsersOpt();
 		$current_user = Users::fetchCurrentUser();
@@ -60,7 +59,6 @@ class Checklist
 			$title = A11YC_LANG_CTRL_CHECK.':'.Model\Html::pageTitle($url);
 			$page = Model\Page::fetch($url);
 		}
-
 
 		// assign
 		View::assign('current_user', $current_user);
@@ -177,7 +175,7 @@ class Checklist
 		View::assign('is_new', $is_new);
 		View::assign('is_bulk', $is_bulk);
 
-		self::assginValidation($url, $is_bulk);
+		self::assginValidation($url, $is_bulk, $is_new);
 
 		// form
 		View::assign('form', View::fetchTpl('checklist/inc_form.php'), FALSE);
@@ -247,13 +245,12 @@ class Checklist
 	 *
 	 * @param String $url
 	 * @param Bool $is_bulk
+	 * @param Bool $is_new
 	 * @return Void
 	 */
-	private static function assginValidation($url, $is_bulk)
+	private static function assginValidation($url, $is_bulk, $is_new)
 	{
-		$cs = Model\Checklist::fetch($url);
-		$result = Model\Result::fetch($url);
-		if ($is_bulk || (empty($cs) && empty($result)))
+		if ($is_bulk || $is_new)
 		{
 			View::assign('results', Model\Bulk::fetchResults());
 			View::assign('cs', Model\Bulk::fetchChecks());
@@ -261,8 +258,8 @@ class Checklist
 		}
 		else
 		{
-			View::assign('results', $result);
-			View::assign('cs', $cs);
+			View::assign('results', Model\Result::fetch($url));
+			View::assign('cs', Model\Checklist::fetch($url));
 			View::assign('iclchks', Model\Iclchk::fetch($url));
 		}
 
