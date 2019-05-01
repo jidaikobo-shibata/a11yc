@@ -2,8 +2,8 @@
 namespace A11yc;
 
 $statuses = Values::issueStatus();
-$icls     = Model\icl::fetchAll(true);
-$icltree  = Model\icl::fetchTree(true);
+$icls     = Model\Icl::fetchAll(true);
+$icltree  = Model\Icl::fetchTree(true);
 
 $non_interference = isset($vvv['non-interference']) ? '&nbsp;'.A11YC_LANG_CHECKLIST_NON_INTERFERENCE :'';
 $skip_non_interference = isset($vvv['non-interference']) ? '<span class="a11yc_skip">&nbsp;('.A11YC_LANG_CHECKLIST_NON_INTERFERENCE.')</span>' : '';
