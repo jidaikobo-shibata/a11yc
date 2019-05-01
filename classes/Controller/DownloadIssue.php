@@ -60,10 +60,12 @@ trait DownloadIssue
 		View::assign('settings', $settings);
 		View::assign('title', $settings['client_name'].' - '.A11YC_LANG_ISSUE_REPORT_HEAD_SUFFIX);
 		View::assign('body', View::fetchTpl('download/issue.php'), FALSE);
+		$body = View::fetch('body');
+		File::download('issue_report.html', $body);
 
-		View::display(array(
-				'body.php',
-			));
+		// View::display(array(
+		// 		'body.php',
+		// 	));
 		exit();
 	}
 }

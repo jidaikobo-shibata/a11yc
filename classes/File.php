@@ -91,7 +91,19 @@ class File
 		header('Content-Length: '.filesize($filepath));
 		header('Content-Transfer-Encoding: binary');
 		header('Content-Disposition: attachment; filename='.$filename);
+
+		ob_start();
 		readfile($filepath);
+
+		$levels = ob_get_level();
+
+		$final = '';
+		for ($i = 0; $i < $levels; $i++)
+		{
+			$final .= ob_get_clean();
+		}
+		echo $final;
+
 		exit();
 	}
 }

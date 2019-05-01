@@ -153,6 +153,8 @@ $class_str.= ' a11yc_p_'.$vvv['guideline']['principle']['code'].'_criterion';
 
 		foreach ($ids as $id):
 			if ( ! isset($icls[$id])) continue;
+			if ( ! in_array($id, $settings['icl'])) continue;
+
 			$val = $icls[$id];
 			$iclchk = Arr::get($iclchks, $id, 1);
 

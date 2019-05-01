@@ -44,7 +44,7 @@ endif;
 
 // each cover page
 if ($url != 'commons' && ! in_array($url, $show_each_cover_page)):
-	$page_num = $serial_nums[$url];
+	$page_num = Arr::get($serial_nums, $url);
 	$show_each_cover_page[] = $url;
 	echo '<section class="cover_page'.( ! empty($images[$url]) ? ' has_image' : '' ).'">';
 	echo '<div class="heading">';
