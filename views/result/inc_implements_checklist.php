@@ -3,7 +3,7 @@ namespace A11yc;
 
 /* variables */
 
-$icls = Model\Icl::fetchAll();
+$icls = Model\Icl::fetchAll(true, true);
 $icltree = Model\Icl::fetchTree();
 // $iclchk = Model\Iclchk::fetch($url);
 $techs = Yaml::each('techs');
