@@ -66,6 +66,7 @@ trait PageUpdate
 		$referer = Input::server('HTTP_REFERER');
 		if (substr($referer, 0, strlen(A11YC_URL)) != A11YC_URL) Util::error('wrong request');
 		$html = Model\Html::fetchHtmlFromInternet($url);
+
 		Util::setMassage(Model\Html::insert($url, $html));
 		Util::redirect($referer);
 	}

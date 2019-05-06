@@ -35,6 +35,6 @@ endif;
 <?php echo isset($add_nonce) ? $add_nonce : ''; ?>
 
 <div id="a11yc_submit">
-	<input type="submit" value="<?php echo A11YC_LANG_CTRL_SEND ?>" />
+	<input type="submit" class="button button-primary button-large" value="<?php echo A11YC_LANG_CTRL_SEND ?>" />
 </div>
 </form>

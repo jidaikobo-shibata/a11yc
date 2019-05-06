@@ -19,9 +19,10 @@ trait ResultReport
 	 * show variable report by query strings
 	 *
 	 * @param String $base_url
+	 * @param Bool $is_index
 	 * @return Void
 	 */
-	public static function report($base_url)
+	public static function report($base_url, $is_index = false)
 	{
 		if (empty($base_url)) Util::error('invalid url was given');
 		// settings
@@ -32,7 +33,7 @@ trait ResultReport
 		View::assign('settings', $settings, true);
 
 		// report
-		if (Input::get('a11yc_report'))
+		if (Input::get('a11yc_report') || $is_index)
 		{
 			// use ResultAll
 			static::all(false, $base_url);

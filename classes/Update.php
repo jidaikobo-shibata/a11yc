@@ -23,6 +23,9 @@ class Update
 	{
 		if (A11YC_DB_TYPE == 'none') return;
 
+		// update MySQL value field
+		Update\updateMysqlValueField::update();
+
 		$created = Model\Data::fetch('db_create', 'global');
 
 		if ( ! $created) return;

@@ -35,6 +35,7 @@ class Html
 	{
 		$url = Util::urldec($url);
 		$ua = empty($ua) ? 'using' : $ua;
+
 		if (isset(static::$htmls[$url][$ua]) && $force === false) return static::$htmls[$url][$ua];
 		static::$htmls[$url][$ua] = Data::fetchArr('html', $url, array());
 		return static::$htmls[$url][$ua];

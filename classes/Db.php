@@ -47,7 +47,8 @@ class Db extends \Kontiki\Db
 		$sql.= '`group_id` INTEGER NOT NULL DEFAULT 0,';
 		$sql.= '`key`      VARCHAR(256) NOT NULL DEFAULT "",';
 		$sql.= '`url`      VARCHAR(2048) NOT NULL DEFAULT "",';
-		$sql.= '`value`    TEXT CHARACTER'.$set_utf8.',';
+		$texttype = A11YC_DB_TYPE == 'mysql' ? 'LONGTEXT' : 'TEXT' ;
+		$sql.= '`value`    '.$texttype.' CHARACTER'.$set_utf8.',';
 		$sql.= '`is_array` BOOL NOT NULL DEFAULT 0,';
 		$sql.= '`version`  INTEGER NOT NULL DEFAULT 0';
 		$sql.= ');';
