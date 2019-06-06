@@ -24,7 +24,7 @@ foreach ($processes as $pcode => $process)
 	$status = Arr::get(Arr::get($each_crr, $pcode, array()), 'status', '');
 	$linktext = $status == 'common' ? '○' : '-';
 	$statustext = $status == 'common' ? '共通部分済み' : '未チェック';
-	$html.= '<td style="text-align: center;"><a href="?c=process&amp;a=form&amp;p='.$pcode.'&amp;m=common" title="'.$statustext.'">'.$linktext.'</a></td>';
+	$html.= '<td style="text-align: center;"><a href="?c=process&amp;a=form&amp;p='.$pcode.'&amp;m=common" title="'.$statustext.'"><span class="a11yc_skip">'.$statustext.'</span>'.$linktext.'</a></td>';
 
 	foreach ($pages as $page)
 	{
@@ -34,7 +34,7 @@ foreach ($processes as $pcode => $process)
 		$statustext = $status == 'common' ? '共通部分済み' : '未チェック';
 		$linktext = $status == 'done' ? '○' : $linktext;
 		$statustext = $status == 'done' ? '試験済み' : $statustext;
-		$html.= '<td style="text-align: center;"><a href="?c=process&amp;a=form&amp;p='.$pcode.'&amp;m='.urlencode($page['url']).'" title="'.$statustext.'">'.$linktext.'</a></td>';
+		$html.= '<td style="text-align: center;"><a href="?c=process&amp;a=form&amp;p='.$pcode.'&amp;m='.urlencode($page['url']).'" title="'.$statustext.'"><span class="a11yc_skip">'.$statustext.'</span>'.$linktext.'</a></td>';
 	}
 	$html.= '</tr>';
 }
