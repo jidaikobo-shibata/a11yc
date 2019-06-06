@@ -3,7 +3,7 @@ namespace A11yc;
 echo $processes[$p]['exp'];
 ?>
 
-<form action="index.php?c=process&amp;a=form&amp;p=<?php echo $p ?>&amp;m=<?php echo $m ?>" method="POST">
+<form action="?c=process&amp;a=form&amp;p=<?php echo $p ?>&amp;m=<?php echo $m ?>" method="POST">
 
 <?php
 // loop start

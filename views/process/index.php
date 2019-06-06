@@ -39,6 +39,8 @@ foreach ($processes as $pcode => $process)
 	$html.= '</tr>';
 }
 
+$html.= '<p><a href="?c=process&a=discard">試験結果を破棄する</a></p>';
+
 echo $html;
 
 ?>

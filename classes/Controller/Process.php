@@ -31,6 +31,17 @@ class Process
 	}
 
 	/**
+	 * discard
+	 *
+	 * @return Void
+	 */
+	public static function actionDiscard()
+	{
+		Model\Data::deleteByKey('process');
+		Util::redirect(A11YC_URL.'?c=process&a=index');
+	}
+
+	/**
 	 * Form
 	 *
 	 * @return Void
