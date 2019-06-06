@@ -67,7 +67,7 @@ echo Arr::get(Arr::get($current, $pp, array()), 'memo', '');
 endforeach;
 ?>
 <div id="a11yc_submit">
-<a href="index.php?c=process&a=index">一覧に戻る</a>
+<a href="?c=process&a=index">一覧に戻る</a>
 <input type="submit" value="保存">
 </div>
 </form>
