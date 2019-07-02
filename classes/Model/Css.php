@@ -37,7 +37,7 @@ class Css
 		$html = Html::fetchHtmlFromInternet($url, $url);
 		if ($html === false) return array();
 		$css = self::getConvinedCssFromHtml($html, $ua);
-		static::$csses[$url][$ua] = Css\Format::makeArray($css);
+		static::$csses[$url][$ua] = CssFormat::makeArray($css);
 
 		return static::$csses[$url][$ua];
 	}
