@@ -41,6 +41,7 @@ class Yaml
 		$techs       = file_get_contents(A11YC_RESOURCE_PATH.'/techs.yml');
 		$techs_codes = file_get_contents(A11YC_RESOURCE_PATH.'/techs_codes.yml');
 		$tests       = file_get_contents(A11YC_RESOURCE_PATH.'/tests.yml');
+		$processes   = file_get_contents(A11YC_RESOURCE_PATH.'/processes.yml');
 		static::$data = \Spyc::YAMLLoadString(
 			$standards.
 			$levels.
@@ -50,7 +51,8 @@ class Yaml
 			$errors.
 			$techs.
 			$techs_codes.
-			$tests
+			$tests.
+			$processes
 		);
 		return static::$data;
 	}

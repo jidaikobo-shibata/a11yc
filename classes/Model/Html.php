@@ -53,13 +53,6 @@ class Html
 	{
 		$vals = static::fetchRaw($url, $ua, $force);
 		$html = Arr::get($vals, $ua, false);
-
-		// 65535 is sqlite filed limit?
-		// if (mb_strlen($html) >= 105530)
-		// {
-		// 	Session::add('messages', 'errors', A11YC_LANG_PAGE_CANNOT_FETCH_HTML_FROM_DB);
-		// }
-
 		return $html;
 	}
 
