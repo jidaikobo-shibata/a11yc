@@ -46,6 +46,9 @@
 
 <dl>
 
+<dt>4.0.1 (<time>2019-7-4</time>)</dt>
+	<dd>Add mention of F16 to <code>marquee</code>. thx <a href="https://twitter.com/yocco405">@yocco405</a></dd>
+
 <dt>2.1.1 (<time>2018-10-16</time>)</dt>
 	<dd>Change service name.</dd>
 	<dd>Many Refactoring.</dd>
