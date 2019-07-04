@@ -156,6 +156,7 @@ errors:
     criterions:
       - 2-2-2
     techs:
+      - F16
       - F47
 
   titleless:
