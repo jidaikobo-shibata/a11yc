@@ -3,6 +3,7 @@ errors:
   alt_attr_of_img:
     title: img要素のalt属性の存在を確認
     message: img要素のalt属性（代替テキスト）がありません。装飾目的の画像であってもalt属性そのものを省略しないでください
+    internal_link: A11YC_IMAGELIST_URL
     criterions:
       - 1-1-1
     techs:
@@ -13,6 +14,7 @@ errors:
   empty_alt_attr_of_img_inside_a:
     title: a要素内のimg要素のalt属性値が空でないか確認
     message: a要素の中にimg要素しかない場合、img要素のalt属性値（代替テキスト）は空文字でなくリンクの目的を表す文字を入れてください
+    internal_link: A11YC_IMAGELIST_URL
     criterions:
       - 1-1-1
       - 2-4-4
@@ -24,6 +26,7 @@ errors:
   area_has_alt:
     title: area要素のalt属性値の存在を確認
     message: area要素のalt属性（代替テキスト）が存在しないか、alt属性値は空文字です。area要素の目的を表す文字を入れてください
+    internal_link: A11YC_IMAGELIST_URL
     criterions:
       - 1-1-1
       - 2-4-4
@@ -35,6 +38,7 @@ errors:
   img_input_has_alt:
     title: type属性値がimageのinput要素のalt属性値の存在を確認
     message: input要素のalt属性（代替テキスト）が存在しないか、alt属性値が空文字です。input要素のtypeがimageの時には目的を表す文字を入れてください
+    internal_link: A11YC_IMAGELIST_URL
     criterions:
       - 1-1-1
     techs:
@@ -428,6 +432,7 @@ errors:
   notice_img_exists:
     title: alt属性値の存在を確認し、検証を促す
     message: img要素がありますが、alt属性値（代替テキスト）は妥当ですか？
+    internal_link: A11YC_IMAGELIST_URL
     criterions:
       - 1-1-1
     notice: true
@@ -457,6 +462,7 @@ errors:
   same_alt_and_filename_of_img:
     title: ファイル名と同一のalt属性値の存在を確認し、検証を促す
     message: img要素のalt属性値（代替テキスト）がファイル名と同一です。問題でない場合もあります
+    internal_link: A11YC_IMAGELIST_URL
     criterions:
       - 1-1-1
     notice: true
@@ -476,6 +482,7 @@ errors:
   alt_attr_of_empty:
     title: 空のalt属性値の存在を確認し、検証を促す
     message: 空のalt属性値（代替テキスト）ですが、情報を持たない画像ですか？
+    internal_link: A11YC_IMAGELIST_URL
     criterions:
       - 1-1-1
     notice: true
@@ -503,6 +510,7 @@ errors:
   alt_attr_of_blank_only:
     title: 空白文字によるalt属性値が存在しないか確認
     message: 装飾目的の画像の場合、alt属性値（代替テキスト）は空白文字でなく、空にしてください
+    internal_link: A11YC_IMAGELIST_URL
     criterions:
       - 1-1-1
     notice: true

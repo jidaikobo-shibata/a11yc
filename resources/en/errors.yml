@@ -3,6 +3,7 @@ errors:
   alt_attr_of_img:
     title: existence of alt attribute
     message: The alt attribute of the img element is missing. Please do not omit the alt attribute value itself even for images for decorative purposes
+    internal_link: A11YC_IMAGELIST_URL
     criterions:
       - 1-1-1
     techs:
@@ -13,6 +14,7 @@ errors:
   empty_alt_attr_of_img_inside_a:
     title: empty alt attribute of img inside a element
     message: If there is only an img element in the a element, the alt attribute value of the img element is not an empty character but a character indicating the purpose of the link should be included
+    internal_link: A11YC_IMAGELIST_URL
     criterions:
       - 1-1-1
       - 2-4-4
@@ -24,6 +26,7 @@ errors:
   area_has_alt:
     title: alt attribute of area element
     message: The alt attribute of the area element does not exist or the alt attribute value is an empty string. Please enter the character representing the purpose of the area element
+    internal_link: A11YC_IMAGELIST_URL
     criterions:
       - 1-1-1
       - 2-4-4
@@ -35,6 +38,7 @@ errors:
   img_input_has_alt:
     title: alt attribute of input element which type attribute is image
     message: The alt attribute of input element does not exist or the alt attribute value is null. When the type of the input element is image, please enter the character representing purpose
+    internal_link: A11YC_IMAGELIST_URL
     criterions:
       - 1-1-1
     techs:
@@ -415,6 +419,7 @@ errors:
   notice_img_exists:
     title: notice img exists
     message: img elements exists. valid alt?
+    internal_link: A11YC_IMAGELIST_URL
     criterions:
       - 1-1-1
     notice: true
@@ -444,6 +449,7 @@ errors:
   same_alt_and_filename_of_img:
     title: same alt and filename of img
     message: The alt attribute value of the img element is the same as the file name. Sometimes it is not a problem
+    internal_link: A11YC_IMAGELIST_URL
     criterions:
       - 1-1-1
     notice: true
@@ -463,6 +469,7 @@ errors:
   alt_attr_of_empty:
     title: alt attr of empty
     message: Is it an empty alt, but does not have any meaning?
+    internal_link: A11YC_IMAGELIST_URL
     criterions:
       - 1-1-1
     notice: true
@@ -490,6 +497,7 @@ errors:
   alt_attr_of_blank_only:
     title: alt attribute of blank only
     message: For images for decorative purposes, alt should be empty, not white space
+    internal_link: A11YC_IMAGELIST_URL
     criterions:
       - 1-1-1
     notice: true

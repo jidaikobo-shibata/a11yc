@@ -37,6 +37,17 @@ class Post
 	);
 
 	/**
+	 * set url consts
+	 *
+	 * @return Void
+	 */
+	public static function setUrlConsts()
+	{
+		defined('A11YC_POST_SCRIPT_NAME') or define('A11YC_POST_SCRIPT_NAME', '/post.php');
+		defined('A11YC_IMAGELIST_URL') or define('A11YC_IMAGELIST_URL', A11YC_POST_SCRIPT_NAME.'/post.php?behaviour=images&amp;url=');
+	}
+
+	/**
 	 * set consts
 	 *
 	 * @return Void
@@ -49,9 +60,6 @@ class Post
 
 		// Google Analytics
 		defined('A11YC_POST_GOOGLE_ANALYTICS_CODE') or define('A11YC_POST_GOOGLE_ANALYTICS_CODE', '');
-
-		// script name
-		defined('A11YC_POST_SCRIPT_NAME') or define('A11YC_POST_SCRIPT_NAME', '/post.php');
 
 		// SCRIPT URL
 		$url = Util::removeQueryStrings(Util::uri());
@@ -68,6 +76,9 @@ class Post
 	{
 		// is guest validation
 		defined('A11YC_IS_GUEST_VALIDATION') or define('A11YC_IS_GUEST_VALIDATION', true);
+
+		// set const
+		self::setUrlConsts();
 
 		// a11yc
 		require (dirname(dirname(__DIR__)).'/main.php');
@@ -184,7 +195,7 @@ class Post
 			self::setMessage($target_html, $url);
 
 			// choose template validate or image list
-			$tpl = Input::post('behaviour') == 'images' ? 'checklist/images.php' : 'checklist/validate.php';
+			$tpl = Input::param('behaviour') == 'images' ? 'checklist/images.php' : 'checklist/validate.php';
 			View::assign('result', View::fetchTpl($tpl), false);
 		}
 
@@ -299,7 +310,7 @@ class Post
 
 		// images
 		if (
-			Input::post('behaviour') == 'images' ||
+			Input::param('behaviour') == 'images' ||
 			Input::get('mode') == 'images'
 		)
 		{

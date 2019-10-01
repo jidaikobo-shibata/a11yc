@@ -87,8 +87,14 @@ class Message
 
 		$anchor = $code_str.'_'.$key;
 
+		$internal_link = '';
+		if (isset($current_err['internal_link']))
+		{
+			$internal_link = ' [<a target="_blank" href="'.constant($current_err['internal_link']).Util::urlenc($url).'">'.A11YC_LANG_POST_SHOW_LIST_IMAGES.'</a>]';
+		}
+
 		// dt
-		$ret = '<dt id="index_'.$anchor.'" tabindex="-1" class="a11yc_level_'.$lv.'">'.$current_err['message'].' ('.$num_of_err.')';
+		$ret = '<dt id="index_'.$anchor.'" tabindex="-1" class="a11yc_level_'.$lv.'">'.$current_err['message'].' ('.$num_of_err.')'.$internal_link;
 
 		// dt - information
 		foreach ($current_err['criterions'] as $each_criterion)

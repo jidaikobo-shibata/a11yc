@@ -69,9 +69,12 @@ if ( ! defined('A11YC_SETTING_URL'))
 	define('A11YC_CHECKLIST_URL',   A11YC_URL.'?c=checklist&amp;a=check&amp;url=');
 	define('A11YC_SITECHECK_URL',   A11YC_URL.'?c=sitecheck&amp;a=');
 	define('A11YC_RESULT_EACH_URL', A11YC_URL.'?c=result&amp;a=each&amp;url=');
-	define('A11YC_IMAGELIST_URL',   A11YC_URL.'?c=image&amp;a=view&amp;url=');
 	define('A11YC_DOC_URL',         A11YC_URL.'?c=doc&amp;a=each&amp;criterion=');
 	define('A11YC_LIVE_URL',        A11YC_URL.'?c=live&amp;a=view&amp;url=');
+}
+if ( ! defined('A11YC_IMAGELIST_URL'))
+{
+	define('A11YC_IMAGELIST_URL',   A11YC_URL.'?c=image&amp;a=view&amp;url=');
 }
 
 // for css and js
