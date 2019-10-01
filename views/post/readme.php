@@ -33,9 +33,6 @@
 
 <h2>TODO</h2>
 <ul>
-	<li><code>figure</code>などHTML5における<code>img</code>要素の<code>alt</code>省略条件の加味</li>
-	<li><code>aria-*</code>にどこまで対応するか悩む</li>
-	<li>SVGをどうするか考える</li>
 	<li>画像一覧で外部サーバの非SSLの画像を表示すると、SSLでなくなるのをどうするか考える（Camo？）</li>
 </ul>
 
@@ -45,6 +42,9 @@
 <h2>Change Log</h2>
 
 <dl>
+
+<dt>4.0.2 (<time>2019-10-1</time>)</dt>
+	<dd>Fix Check Bug of <code>alt</code> of <code>area</code>. thx <a href="https://twitter.com/yocco405">@yocco405</a></dd>
 
 <dt>4.0.1 (<time>2019-7-4</time>)</dt>
 	<dd>Add mention of F16 to <code>marquee</code>. thx <a href="https://twitter.com/yocco405">@yocco405</a></dd>
