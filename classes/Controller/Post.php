@@ -44,7 +44,7 @@ class Post
 	public static function setUrlConsts()
 	{
 		defined('A11YC_POST_SCRIPT_NAME') or define('A11YC_POST_SCRIPT_NAME', '/post.php');
-		defined('A11YC_IMAGELIST_URL') or define('A11YC_IMAGELIST_URL', A11YC_POST_SCRIPT_NAME.'/post.php?behaviour=images&amp;url=');
+		defined('A11YC_IMAGELIST_URL') or define('A11YC_IMAGELIST_URL', '?behaviour=images&amp;url=');
 	}
 
 	/**

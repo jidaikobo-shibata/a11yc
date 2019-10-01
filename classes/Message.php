@@ -90,7 +90,7 @@ class Message
 		$internal_link = '';
 		if (isset($current_err['internal_link']))
 		{
-			$internal_link = ' [<a target="_blank" href="'.constant($current_err['internal_link']).Util::urlenc($url).'">'.A11YC_LANG_POST_SHOW_LIST_IMAGES.'</a>]';
+			$internal_link = ' [<a target="_blank" href="'.A11YC_URL.constant($current_err['internal_link']).Util::urlenc($url).'">'.A11YC_LANG_POST_SHOW_LIST_IMAGES.'</a>]';
 		}
 
 		// dt
