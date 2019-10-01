@@ -204,7 +204,7 @@ class Element
 		// inspect like <input title="name"type="text"> thx momdo_
 		// https://momdo.github.io/html/syntax.html#attributes-2
 		// https://triple-underscore.github.io/infra-ja.html#ascii-whitespace
-		if (preg_match("/\[---a11yc_close_double---\][^\n\r\t\f \>]/is", $str))
+		if (preg_match("/\[---a11yc_close_double---\][^\n\r\t\f \>\?]/is", $str))
 		{
 			$str = str_replace("[---a11yc_close_double---\]", "[---a11yc_close_double---\] ", $str);
 			$no_space_between_attributes = true;

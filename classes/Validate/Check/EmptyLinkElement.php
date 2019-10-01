@@ -32,6 +32,7 @@ class EmptyLinkElement extends Validate
 		foreach ($ms[0] as $k => $m)
 		{
 			if (strpos($m, 'href') === false) continue;
+			if (substr($m, 0, 5) === '<area') continue;
 
 			// img's alt
 			$text = Element\Get\Each::textFromElement($ms[2][$k]);
