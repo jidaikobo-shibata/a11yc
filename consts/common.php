@@ -74,7 +74,8 @@ if ( ! defined('A11YC_SETTING_URL'))
 }
 if ( ! defined('A11YC_IMAGELIST_URL'))
 {
-	define('A11YC_IMAGELIST_URL',   A11YC_URL.'?c=image&amp;a=view&amp;url=');
+	// do not add A11YC_URL
+	define('A11YC_IMAGELIST_URL',   '?c=image&amp;a=view&amp;url=');
 }
 
 // for css and js
