@@ -96,6 +96,10 @@ class Table extends Validate
 	 */
 	private static function scopeless($n, $m, $url, $tstr)
 	{
+		// return because simple table
+		if (substr_count($m, '<th') == substr_count($m, '<td')) return;
+
+		// check
 		if (strpos($m, ' scope') === false)
 		{
 			Validate\Set::error($url, 'table_use_scope', $n, $tstr, $tstr);
