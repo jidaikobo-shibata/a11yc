@@ -24,6 +24,7 @@ class Checklist
 	public static function fetch($url, $force = false)
 	{
 		if (empty($url)) return array();
+		$url = Util::urldec($url);
 		if (isset(static::$checks[$url]) && ! $force) return static::$checks[$url];
 		static::$checks[$url] = Data::fetchArr('check', $url, array(), $force);
 		return static::$checks[$url];

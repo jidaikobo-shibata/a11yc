@@ -24,6 +24,7 @@ class Iclchk
 	public static function fetch($url, $force = false)
 	{
 		if (empty($url)) return array();
+		$url = Util::urldec($url);
 		if (isset(static::$checks[$url]) && ! $force) return static::$checks[$url];
 		$vals = Data::fetchArr('iclchk', $url, array(), $force);
 		static::$checks[$url] = array_map('intval', Arr::get($vals, 0, array()));

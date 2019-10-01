@@ -29,6 +29,7 @@ class Result
 	 */
 	public static function fetch($url, $force = false)
 	{
+		$url = Util::urldec($url);
 		if (isset(static::$results[$url]) && ! $force) return static::$results[$url];
 		$vals = Data::fetch('result', $url, array(), $force);
 		static::$results[$url] = is_array($vals) ? $vals : array();

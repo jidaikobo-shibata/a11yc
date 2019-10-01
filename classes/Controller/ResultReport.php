@@ -30,10 +30,10 @@ trait ResultReport
 		if ($settings['show_results'] === false) Util::redirect($base_url);
 
 		// common assign
-		View::assign('settings', $settings, true);
+		View::assign('settings', $settings, false);
 
 		// report
-		if (Input::get('a11yc_report') || $is_index)
+		if (Input::get('a11yc_report'))
 		{
 			// use ResultAll
 			static::all(false, $base_url);
