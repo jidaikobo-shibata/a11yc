@@ -52,7 +52,6 @@ class Image
 			// alt exists
 			$retvals = self::tidyAlt($k, $v, $retvals);
 
-
 			// aria-*
 			$retvals[$k]['aria'] = array();
 			foreach ($retvals[$k]['attrs'] as $kk => $vv)
@@ -85,6 +84,7 @@ class Image
 			$href        = Arr::get($attrs, 'href');
 			$aria_hidden = Arr::get($attrs, 'aria-hidden');
 			$tabindex    = Arr::get($attrs, 'tabindex');
+			$text_in_a   = Util::s(strip_tags($v));
 
 			// plural images can be exist.
 			preg_match_all('/\<img[^\>]+\>/is', $v, $ass);
@@ -97,12 +97,14 @@ class Image
 				$retvals[$n]['aria_hidden'] = $aria_hidden;
 				$retvals[$n]['tabindex'] = $tabindex;
 				$retvals[$n]['attrs'] = Element\Get::attributes($vv);
+				$retvals[$n]['near_text'] = $text_in_a;
 				$n++;
 			}
 
 			// remove a within images
 			$str = str_replace($v, '', $str);
 		}
+
 		return array($retvals, $str, $n);
 	}
 

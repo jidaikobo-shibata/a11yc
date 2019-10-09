@@ -273,6 +273,7 @@ define('A11YC_LANG_CHECKLIST_MUST_BE_NUMERIC', 'value of %s must be numeric');
 define('A11YC_LANG_CHECKLIST_BACK_TO_MESSAGE', 'back to message');
 define('A11YC_LANG_CHECKLIST_SEE_DETAIL', 'See How to resolve');
 define('A11YC_LANG_CHECKLIST_IMPLEMENT_CHECK', 'Confirm implementation and make it conform');
+define('A11YC_LANG_CHECKLIST_TEXT_IN_A', 'Text in same a element: %s');
 
 define('A11YC_LANG_CHECKLIST_MACHINE_CHECK_LOG', 'Check Log');
 define('A11YC_LANG_CHECKLIST_MACHINE_CHECK_FAILED', 'Failed at Machine Check');

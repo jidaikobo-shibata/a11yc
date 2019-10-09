@@ -43,6 +43,9 @@
 
 <dl>
 
+<dt>4.0.3 (<time>2019-10-9</time>)</dt>
+	<dd>Better Image List. Show text that exist with <code>&lt;img&gt;</code> in same <code>&lt;a&gt;</code> element.</dd>
+
 <dt>4.0.2 (<time>2019-10-1</time>)</dt>
 	<dd>Fix Check Bug of <code>alt</code> of <code>area</code>. thx <a href="https://twitter.com/yocco405">@yocco405</a></dd>
 

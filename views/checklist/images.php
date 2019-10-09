@@ -41,9 +41,15 @@ if ($alt === NULL):
 	$classes[] = 'a11yc_error';
 	$need_check = A11YC_LANG_NEED_CHECK;
 elseif (empty($alt)):
-	$alt = '<em>'.A11YC_LANG_CHECKLIST_ALT_EMPTY.'</em>';
-	$classes[] = $important ? 'a11yc_error' : '';
-	$need_check = $important ? A11YC_LANG_NEED_CHECK : '';
+	if (strlen(Arr::get($v, 'near_text')) >= 1):
+		$alt = '<span>'.A11YC_LANG_CHECKLIST_ALT_EMPTY.'</span>'.'<em>'.sprintf(A11YC_LANG_CHECKLIST_TEXT_IN_A, $v['near_text']).'</em>';
+		$classes[] = '';
+		$need_check = '';
+	else:
+		$alt = '<em>'.A11YC_LANG_CHECKLIST_ALT_EMPTY.'</em>';
+		$classes[] = $important ? 'a11yc_error' : '';
+		$need_check = $important ? A11YC_LANG_NEED_CHECK : '';
+	endif;
 elseif ($alt == '===a11yc_alt_of_blank_chars==='):
 	$alt = '<em>'.A11YC_LANG_CHECKLIST_ALT_BLANK.'</em>';
 	$classes[] = $important ? 'a11yc_error' : '';
@@ -95,7 +101,7 @@ endforeach;
 
 	// self attrs
 	foreach ($v['attrs'] as $kk => $vv):
-		if (in_array($kk, array('suspicious_end_quote', 'newline', 'alt', 'src'))) continue;
+		if (in_array($kk, array('suspicious_end_quote', 'newline', 'alt', 'src', 'no_space_between_attributes'))) continue;
 		$attrs[] = '<li><span class="a11yc_list_marker" role="presentation" aria-hidden="true"></span><span class="a11yc_attr" title=\''.$kk.'="'.$vv.'"\'>'.$kk .'="'.$vv.'"</span></li>';
 	endforeach;
 

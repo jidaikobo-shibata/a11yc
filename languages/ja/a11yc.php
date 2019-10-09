@@ -273,6 +273,7 @@ define('A11YC_LANG_CHECKLIST_MUST_BE_NUMERIC', '%sの値は数値のみにして
 define('A11YC_LANG_CHECKLIST_BACK_TO_MESSAGE', 'メッセージに戻る');
 define('A11YC_LANG_CHECKLIST_SEE_DETAIL', '対処法を見る');
 define('A11YC_LANG_CHECKLIST_IMPLEMENT_CHECK', '実装を確認し適合とする');
+define('A11YC_LANG_CHECKLIST_TEXT_IN_A', 'a要素内に存在するテキスト: %s');
 
 define('A11YC_LANG_CHECKLIST_MACHINE_CHECK_LOG', '判定ログ');
 define('A11YC_LANG_CHECKLIST_MACHINE_CHECK_FAILED', '機械判定で不適合'); //-1
