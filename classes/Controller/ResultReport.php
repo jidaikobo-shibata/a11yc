@@ -24,10 +24,14 @@ trait ResultReport
 	 */
 	public static function report($base_url, $is_index = false)
 	{
-		if (empty($base_url)) Util::error('invalid url was given');
-		// settings
 		$settings = Model\Setting::fetchAll();
-		if ($settings['show_results'] === false) Util::redirect($base_url);
+		View::assign('title', A11YC_LANG_POLICY);
+
+		if (empty($base_url) || $settings['show_results'] === false)
+		{
+			View::assign('body', $settings["policy"], false);
+			return;
+		}
 
 		// common assign
 		View::assign('settings', $settings, false);
