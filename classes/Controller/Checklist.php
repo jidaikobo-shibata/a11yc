@@ -226,7 +226,7 @@ class Checklist
 	private static function getPage($url)
 	{
 		$page = Model\Page::fetch($url, true);
-		if ($page === false && $url)
+		if (empty($page) && $url)
 		{
 			Model\Page::addPage($url);
 			$force = true;
