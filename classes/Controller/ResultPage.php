@@ -25,7 +25,7 @@ trait ResultPage
 	{
 		$args = array(
 			'list'   => 'done',
-			'order'  => Input::get('order', 'url_asc'),
+			'order'  => Input::get('order', 'seq_asc'),
 		);
 
 		$pdfs = array();

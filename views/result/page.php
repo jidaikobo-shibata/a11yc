@@ -48,7 +48,7 @@ foreach ($pages as $k => $each_pages):
 		</td>
 
 		<?php if ( ! Arr::get($settings, 'hide_url_results')): ?>
-		<td class="a11yc_result"><a href="<?php echo $chk_link ?>&amp;url=<?php echo Util::s(Util::urlenc($url)) ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_CTRL_CHECK ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
+		<td class="a11yc_result"><a href="<?php echo $chk_link ?>&amp;url=<?php echo Util::s(Util::urlenc($url)) ?>" class="a11yc_hasicon"><span class="a11yc_skip"><?php echo A11YC_LANG_TEST_RESULT ?></span><span class="a11yc_icon_check a11yc_icon_fa" role="presentation" aria-hidden="true"></span></a></td>
 		<td class="a11yc_result" style="white-space: nowrap;"><?php echo Util::s($v['date']) ?></td>
 		<?php endif; ?>
 
