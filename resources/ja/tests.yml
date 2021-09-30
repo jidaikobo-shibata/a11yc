@@ -25,24 +25,13 @@ tests:
     urls:
       -
         name: ウェブコンテンツの JIS X 8341-3:2016 対応度表記ガイドライン
-        url: http://waic.jp/docs/jis2016/compliance-guidelines/201603/
+        url: https://waic.jp/docs/jis2016/compliance-guidelines/202104/
       -
         name: ウェブアクセシビリティ方針策定ガイドライン
-        url: http://waic.jp/docs/jis2016/accessibility-plan-guidelines/201604/
-
-  doc3:
-    name: ページの選出方法「ウェブページ単位」
-    doc: |
-      「ウェブページ単位」でのチェックの場合は、チェック対象のページ内すべてを対象とする必要があります。たとえば「動画を除く」といった対応をしてはいけません。コメント欄など、ページ作成者が手を出せない項目によってレベルを達成できない場合は、「部分適合」を宣言してください。
-      「ウェブページ単位」でのチェックの場合、その対象のページが一連のプロセスの一部である場合は、一連のプロセス全体を対象とするようにしてください。たとえばショッピングカートの決済のプロセスがこれにあたります。
-      このシステムでは、「ウェブページ単位」を対象としている場合は、サイト全体のアクセシビリティ報告書は生成されません。
-    urls:
-      -
-        name: JIS X 8341-3:2016 試験実施ガイドライン
-        url: http://waic.jp/docs/jis2016/test-guidelines/201604/
+        url: https://waic.jp/docs/jis2016/accessibility-plan-guidelines/201604/
 
   doc4:
-    name: ページの選出方法「ウェブページ一式単位」
+    name: 「ウェブページ一式単位」の選出方法
     doc: |
       「ウェブページ一式単位」でのチェックの場合は、「全て」「ランダム」「代表的なページ」「ランダム＋代表的なページ」の何れを対象としているか明示しましょう。
       「全て」は文字通り全てのページを対象とします。
@@ -51,7 +40,7 @@ tests:
     urls:
       -
         name: JIS X 8341-3:2016 試験実施ガイドライン
-        url: http://waic.jp/docs/jis2016/test-guidelines/201604/
+        url: https://waic.jp/docs/jis2016/test-guidelines/202012/
 
   doc5:
     name: アクセシビリティ方針
@@ -60,7 +49,7 @@ tests:
     urls:
       -
         name: ウェブアクセシビリティ方針策定ガイドライン
-        url: http://waic.jp/docs/jis2016/accessibility-plan-guidelines/201604/
+        url: https://waic.jp/docs/jis2016/accessibility-plan-guidelines/201604/
 
   doc6:
     name: アクセシビリティ・サポーテッド
@@ -70,7 +59,7 @@ tests:
     urls:
       -
         name: アクセシビリティ・サポーテッド（AS）情報
-        url: http://waic.jp/docs/as/
+        url: https://waic.jp/docs/as/
 
   doc7:
     name: 同期したメディア
@@ -79,7 +68,7 @@ tests:
     urls:
       -
         name: 時間の経過に伴って変化するメディア
-        url: http://waic.jp/docs/UNDERSTANDING-WCAG20/media-equiv.html
+        url: https://waic.jp/docs/UNDERSTANDING-WCAG20/media-equiv.html
 
   doc8:
     name: 「非テキストコンテンツ（動画や音声）」でアクセシビリティを確保するためのメモ（レベルA）
@@ -94,7 +83,7 @@ tests:
     urls:
       -
         name: 時間の経過に伴って変化するメディア
-        url: http://waic.jp/docs/UNDERSTANDING-WCAG20/media-equiv.html
+        url: https://waic.jp/docs/UNDERSTANDING-WCAG20/media-equiv.html
 
   doc9:
     name: 「非テキストコンテンツ（動画や音声）」でアクセシビリティを確保するためのメモ（レベルAA）
@@ -108,7 +97,7 @@ tests:
     urls:
       -
         name: 時間の経過に伴って変化するメディア
-        url: http://waic.jp/docs/UNDERSTANDING-WCAG20/media-equiv.html
+        url: https://waic.jp/docs/UNDERSTANDING-WCAG20/media-equiv.html
 
   doc10:
     name: 「非テキストコンテンツ（動画や音声）」でアクセシビリティを確保するためのメモ（レベルAAA）
@@ -122,7 +111,7 @@ tests:
     urls:
       -
         name: 時間の経過に伴って変化するメディア
-        url: http://waic.jp/docs/UNDERSTANDING-WCAG20/media-equiv.html
+        url: https://waic.jp/docs/UNDERSTANDING-WCAG20/media-equiv.html
 
   doc11:
     name: 「非テキストコンテンツ（カルーセル・スライドショー）」でアクセシビリティを確保するためのメモ
@@ -133,4 +122,4 @@ tests:
     urls:
       -
         name: 時間の経過に伴って変化するメディア
-        url: http://waic.jp/docs/UNDERSTANDING-WCAG20/media-equiv.html
+        url: https://waic.jp/docs/UNDERSTANDING-WCAG20/media-equiv.html
