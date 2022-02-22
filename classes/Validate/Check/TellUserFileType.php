@@ -76,7 +76,7 @@ class TellUserFileType extends Validate
 
 					// broken link
 					if (is_null($is_exists)) continue;
-					if ($is_exists === false)
+					if ($is_exists === false && static::$do_link_check)
 					{
 						Validate\Set::error($url, 'link_check', $k, $tstr, $href);
 					}

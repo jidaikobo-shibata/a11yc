@@ -34,7 +34,7 @@ class MeanlessElement extends Validate
 			'font',
 			'blink',
 			'marquee',
-			'b',
+//			'b',
 			'i',
 			'u',
 			's',
