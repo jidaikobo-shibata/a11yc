@@ -12,66 +12,85 @@ final class Analyzer
     {
         $options = $this->normalizeOptions($options);
 
-        $fetcher = new Fetcher();
-        $fetched = $fetcher->fetchHtml($url, $options);
-        $html = Arr::get($fetched, 'html', '');
-        $resolved_url = (string) Arr::get($fetched, 'real_url', $url);
+        return RuntimeConfig::withOverrides(
+            $this->runtimeConfigOverrides($options),
+            function () use ($url, $options) {
+                $fetcher = new Fetcher();
+                $fetched = $fetcher->fetchHtml($url, $options);
+                $html = Arr::get($fetched, 'html', '');
+                $resolved_url = (string) Arr::get($fetched, 'real_url', $url);
 
-        $analysis = $this->analyzeHtml($html, array_merge($options, array(
-            'url' => $resolved_url,
-        )));
-        $analysis['meta']['requested_url'] = $url;
-        $analysis['meta']['url'] = $resolved_url;
-        $analysis['meta']['exists'] = (bool) Arr::get($fetched, 'exists', false);
+                $analysis = $this->analyzeHtml($html, array_merge($options, array(
+                    'url' => $resolved_url,
+                )));
+                $analysis['meta']['requested_url'] = $url;
+                $analysis['meta']['url'] = $resolved_url;
+                $analysis['meta']['exists'] = (bool) Arr::get($fetched, 'exists', false);
 
-        return $analysis;
+                return $analysis;
+            }
+        );
     }
 
     public function analyzeHtml(string $html, array $options = array()): array
     {
         $options = $this->normalizeOptions($options);
-        $url = $options['url'];
-        $checks = $options['checks'];
-        $user_agent = $options['user_agent'];
 
-        $result_set = Validate::html($url, $html, $checks, $user_agent, true, array(
-            'is_partial' => (bool) Arr::get($options, 'is_partial', false),
-            'do_link_check' => (bool) Arr::get($options, 'do_link_check', false),
-            'do_css_check' => (bool) Arr::get($options, 'do_css_check', false),
-        ));
-        $result_set = is_array($result_set) ? $result_set : array();
+        return RuntimeConfig::withOverrides(
+            $this->runtimeConfigOverrides($options),
+            function () use ($html, $options) {
+                $url = $options['url'];
+                $checks = $options['checks'];
+                $user_agent = $options['user_agent'];
 
-        $options['source_html'] = $html;
+                $result_set = Validate::html($url, $html, $checks, $user_agent, true, array(
+                    'is_partial' => (bool) Arr::get($options, 'is_partial', false),
+                    'do_link_check' => (bool) Arr::get($options, 'do_link_check', false),
+                    'do_css_check' => (bool) Arr::get($options, 'do_css_check', false),
+                    'lang' => (string) Arr::get($options, 'lang', ''),
+                    'resource_path' => (string) Arr::get($options, 'resource_path', ''),
+                    'doc_resource_path' => (string) Arr::get($options, 'doc_resource_path', ''),
+                ));
+                $result_set = is_array($result_set) ? $result_set : array();
 
-        return $this->analyzeResultSet($url, $result_set, $options);
+                $options['source_html'] = $html;
+
+                return $this->analyzeResultSet($url, $result_set, $options);
+            }
+        );
     }
 
     public function analyzeResultSet(string $url, array $result_set, array $options = array()): array
     {
         $options = $this->normalizeOptions($options);
 
-        $errors = $this->normalizeIssues(
-            $url,
-            Arr::get($result_set, 'errors.errors', array()),
-            'error'
-        );
-        $notices = $this->normalizeIssues(
-            $url,
-            Arr::get($result_set, 'errors.notices', array()),
-            'notice'
-        );
+        return RuntimeConfig::withOverrides(
+            $this->runtimeConfigOverrides($options),
+            function () use ($url, $result_set, $options) {
+                $errors = $this->normalizeIssues(
+                    $url,
+                    Arr::get($result_set, 'errors.errors', array()),
+                    'error'
+                );
+                $notices = $this->normalizeIssues(
+                    $url,
+                    Arr::get($result_set, 'errors.notices', array()),
+                    'notice'
+                );
 
-        return array(
-            'meta' => array(
-                'url' => $url,
-                'user_agent' => $options['user_agent'],
-                'version' => defined('A11YC_VERSION') ? A11YC_VERSION : null,
-                'check_count' => count($options['checks'] ?: CheckRegistry::availableChecks()),
-                'analyzed_at' => date(DATE_ATOM),
-            ),
-            'summary' => $this->buildSummary($result_set),
-            'issues' => array_merge($errors, $notices),
-            'images' => $options['include_images'] ? $this->extractImages($options['source_html'], $options) : array(),
+                return array(
+                    'meta' => array(
+                        'url' => $url,
+                        'user_agent' => $options['user_agent'],
+                        'version' => defined('A11YC_VERSION') ? A11YC_VERSION : null,
+                        'check_count' => count($options['checks'] ?: CheckRegistry::availableChecks()),
+                        'analyzed_at' => date(DATE_ATOM),
+                    ),
+                    'summary' => $this->buildSummary($result_set),
+                    'issues' => array_merge($errors, $notices),
+                    'images' => $options['include_images'] ? $this->extractImages($options['source_html'], $options) : array(),
+                );
+            }
         );
     }
 
@@ -118,6 +137,9 @@ final class Analyzer
             'url' => (string) Arr::get($options, 'url', 'about:blank'),
             'user_agent' => (string) Arr::get($options, 'user_agent', 'using'),
             'checks' => $checks,
+            'lang' => (string) Arr::get($options, 'lang', ''),
+            'resource_path' => (string) Arr::get($options, 'resource_path', ''),
+            'doc_resource_path' => (string) Arr::get($options, 'doc_resource_path', ''),
             'is_partial' => (bool) Arr::get($options, 'is_partial', false),
             'do_link_check' => (bool) Arr::get($options, 'do_link_check', false),
             'do_css_check' => (bool) Arr::get($options, 'do_css_check', false),
@@ -198,5 +220,14 @@ final class Analyzer
             return $snippet;
         }
         return null;
+    }
+
+    private function runtimeConfigOverrides(array $options): array
+    {
+        return array(
+            'lang' => (string) Arr::get($options, 'lang', ''),
+            'resource_path' => (string) Arr::get($options, 'resource_path', ''),
+            'doc_resource_path' => (string) Arr::get($options, 'doc_resource_path', ''),
+        );
     }
 }

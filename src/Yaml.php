@@ -8,11 +8,11 @@ class Yaml
 {
     private const ALIAS_PLACEHOLDER_PREFIX = '__a11yc_alias__:';
 
-    /** @var array<mixed>|null */
-    private static $data = null;
+    /** @var array<string, array<mixed>> */
+    private static $data = array();
 
-    /** @var array<int, string>|null */
-    private static $nonInterferences = null;
+    /** @var array<string, array<int, string>> */
+    private static $nonInterferences = array();
 
     private static function readResource($base_path, $filename)
     {
@@ -41,11 +41,13 @@ class Yaml
 
     public static function fetch()
     {
-        if (is_array(static::$data)) {
-            return static::$data;
+        $cache_key = self::cacheKey();
+
+        if (array_key_exists($cache_key, static::$data)) {
+            return static::$data[$cache_key];
         }
 
-        $doc_resource_path = defined('A11YC_DOC_RESOURCE_PATH') ? A11YC_DOC_RESOURCE_PATH : '';
+        $doc_resource_path = RuntimeConfig::docResourcePath();
         $resource_path = RuntimeConfig::resourcePath();
 
         $resources = array(
@@ -74,9 +76,9 @@ class Yaml
             $anchors = array_replace($anchors, self::extractAnchors($resource, $fragment));
         }
 
-        static::$data = $parsed;
+        static::$data[$cache_key] = $parsed;
 
-        return static::$data;
+        return static::$data[$cache_key];
     }
 
     public static function each($name)
@@ -87,8 +89,10 @@ class Yaml
 
     public static function nonInterferences()
     {
-        if (is_array(static::$nonInterferences)) {
-            return static::$nonInterferences;
+        $cache_key = self::cacheKey();
+
+        if (array_key_exists($cache_key, static::$nonInterferences)) {
+            return static::$nonInterferences[$cache_key];
         }
 
         $non_interferences = array();
@@ -99,9 +103,14 @@ class Yaml
             }
             $non_interferences[] = $criterion;
         }
-        static::$nonInterferences = $non_interferences;
+        static::$nonInterferences[$cache_key] = $non_interferences;
 
-        return static::$nonInterferences;
+        return static::$nonInterferences[$cache_key];
+    }
+
+    private static function cacheKey(): string
+    {
+        return RuntimeConfig::resourcePath() . '|' . RuntimeConfig::docResourcePath();
     }
 
     private static function parseYaml(string $yaml)

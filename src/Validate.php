@@ -30,35 +30,40 @@ class Validate
         $force = false,
         array $options = array()
     ) {
-        $html = ! is_string($html) ? '' : $html;
-        $context = new ElementAnalysisContext();
-        $runtime = new ValidationContext();
-        $runtime->userAgent = is_string($ua) ? $ua : 'using';
-        $runtime->isPartial = (bool) Arr::get($options, 'is_partial', false);
-        $runtime->doLinkCheck = (bool) Arr::get($options, 'do_link_check', false);
-        $runtime->doCssCheck = (bool) Arr::get($options, 'do_css_check', false);
+        return RuntimeConfig::withOverrides(
+            self::runtimeConfigOverrides($options),
+            static function () use ($url, $html, $codes, $ua, $options) {
+                $html = ! is_string($html) ? '' : $html;
+                $context = new ElementAnalysisContext();
+                $runtime = new ValidationContext();
+                $runtime->userAgent = is_string($ua) ? $ua : 'using';
+                $runtime->isPartial = (bool) Arr::get($options, 'is_partial', false);
+                $runtime->doLinkCheck = (bool) Arr::get($options, 'do_link_check', false);
+                $runtime->doCssCheck = (bool) Arr::get($options, 'do_css_check', false);
 
-        $codes = $codes ?: CheckRegistry::availableChecks();
-        Element\Get::setSourceHtml($url, $html, $context);
-        $runtime->errorIds[$url] = array();
-        $runtime->machineChecks[$url] = array();
+                $codes = $codes ?: CheckRegistry::availableChecks();
+                Element\Get::setSourceHtml($url, $html, $context);
+                $runtime->errorIds[$url] = array();
+                $runtime->machineChecks[$url] = array();
 
-        foreach ($codes as $class_name) {
-            list($class, $method) = CheckRegistry::resolve($class_name);
-            $class::$method($url, $context, $runtime);
-        }
+                foreach ($codes as $class_name) {
+                    list($class, $method) = CheckRegistry::resolve($class_name);
+                    $class::$method($url, $context, $runtime);
+                }
 
-        $all_errs = self::setMessage($url, $runtime);
+                $all_errs = self::setMessage($url, $runtime);
 
-        $result = array();
-        $result['errors'] = $all_errs;
-        $result['html'] = $html;
-        $result['errs_cnts'] = static::errorCounts($runtime);
-        $result['machine_checks'] =
-            isset($runtime->machineChecks[$url]) ?
-            $runtime->machineChecks[$url] :
-            array();
-        return $result;
+                $result = array();
+                $result['errors'] = $all_errs;
+                $result['html'] = $html;
+                $result['errs_cnts'] = static::errorCounts($runtime);
+                $result['machine_checks'] =
+                    isset($runtime->machineChecks[$url]) ?
+                    $runtime->machineChecks[$url] :
+                    array();
+                return $result;
+            }
+        );
     }
 
     public static function &errorCounts(ValidationContext $runtime): array
@@ -171,5 +176,14 @@ class Validate
             $current_err = $yml['errors'][$error_id];
         }
         return $current_err;
+    }
+
+    private static function runtimeConfigOverrides(array $options): array
+    {
+        return array(
+            'lang' => Arr::get($options, 'lang', ''),
+            'resource_path' => Arr::get($options, 'resource_path', ''),
+            'doc_resource_path' => Arr::get($options, 'doc_resource_path', ''),
+        );
     }
 }
