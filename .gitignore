@@ -5,6 +5,7 @@ config/config.php
 composer.json
 composer.lock
 composer.phar
+vendor/
 config/config.php
 db/
 /libs/spyc/.gitignore
