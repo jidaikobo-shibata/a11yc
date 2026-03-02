@@ -1,226 +1,169 @@
 # a11yc
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Code Climate](https://codeclimate.com/github/jidaikobo-shibata/a11yc/badges/gpa.svg)](https://codeclimate.com/github/jidaikobo-shibata/a11yc)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jidaikobo-shibata/a11yc/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/jidaikobo-shibata/a11yc/?branch=master)
-[![Build Status](https://travis-ci.org/jidaikobo-shibata/a11yc.svg?branch=master)](https://travis-ci.org/jidaikobo-shibata/a11yc)
 
-## screenshot
+`a11yc` is the core accessibility checking library extracted from A11YC.
 
-<img src="https://raw.githubusercontent.com/jidaikobo-shibata/a11yc/master/public/assets/example/checklist_en.png" width="300" alt="checklist - English"> <img src="https://raw.githubusercontent.com/jidaikobo-shibata/a11yc/master/public/assets/example/checklist_ja.png" width="300" alt="checklist - Japanese">
+This package is a PHP library, not the old standalone web application. It provides HTML and URL analysis APIs that can be embedded in other applications such as the standalone UI layer or the `jwp-a11y` WordPress plugin.
 
-## [en]
+## Requirements
 
-### Introduction
+- PHP 7.4 or later
+- Composer
 
-Check accessibility of target page and generate accessibility evaluate page and policy.
+## Installation
 
-See how it works.  [A11yc Accessibility Check Service](https://a11yc.com/check/en/index.php)
-[WordPress Plugin jwp-a11y](https://wordpress.org/plugins/jwp-a11y/)
-
-### deploy
-
-Download zip and put it all in the folder `a11yc` or,
-
-```
-git clone git@github.com:jidaikobo-shibata/a11yc.git a11yc
+```bash
+composer require jidaikobo/a11yc
 ```
 
-```
-a11yc/config/config.dist.php
-```
+If you are working on this repository directly:
 
-to
-
-```
-a11yc/config/config.php
+```bash
+composer install
 ```
 
-set A11YC_URL, A11YC_USERS, A11YC_LANG.
+## What This Package Does
 
-if you want to use SQLITE, create directory
+- Fetch and analyze a page by URL
+- Analyze already-available HTML
+- Return normalized issue lists and summary counts
+- Extract image metadata used by the analyzer
+- Load WCAG-related resources from bundled YAML files
 
-```
-a11yc/db
-```
+## Basic Usage
 
-and create symlinks
-
-```
-ln -s a11yc/public/assets
-ln -s a11yc/public/index.php
-ln -s a11yc/public/post.php
-```
-
-mv a11yc/public/.htaccess.dist to document root and rename it.
-
-```
-mv a11yc/public/.htaccess.dist .htaccess
-```
-
-## [ja]
-
-### 紹介
-
-JIS X 8341-3:2016 (WCAG 2.0) に基づいたアクセシビリティ報告書と方針を生成するためのウェブプリケーションです。
-
-[A11yc Accessibility Check Service](https://a11yc.com/check/index.php)で動いているものを確認できます。
-[WordPressプラグイン版 jwp-a11y](https://ja.wordpress.org/plugins/jwp-a11y/)もあります。
-
-### 動作環境
-
-PHP 5.6以上
-
-### 設置方法
-
-zipをダウンロードして、`a11yc`というフォルダにすべて入れるか、
-
-```
-git clone git@github.com:jidaikobo-shibata/a11yc.git a11yc
-```
-
-してください。
-
-```
-config/config.dist.php
-```
-
-を複製して、
-
-```
-config/config.php
-```
-
-を作り、環境設定してください。ほとんどの場合、A11YC_URL (ファイルを設置したアドレス) とA11YC_USERS (管理者情報) を設定したら大丈夫だと思います。
-
-SQLITEを使う場合は、
-
-```
-a11yc/db
-```
-
-を設置してください。
-
-フロントコントローラへのシンボリックリンクをはります。
-
-```
-ln -s a11yc/public/assets
-ln -s a11yc/public/index.php
-```
-
-アクセシビリティのチェッカだけを使うのであれば、以下のシンボリックリンクを用意してください。
-
-```
-ln -s a11yc/public/post.php
-```
-
-ドキュメントルートに.htaccessを設置してください。
-
-```
-cp a11yc/public/.htaccess .htaccess
-```
-
-最終的に、
-
-```
-.htaccess
-index.php
-assets/
-a11yc/
-```
-
-という状態になっていれば動作します。
-
-権限等の問題でシンボリックリンクを張れない場合は、それぞれのphpをinclude()する方法でもいけます。しかし、この場合でも、assetsだけは、ドキュメントルートに複製する必要があります。
-
-報告書作成画面にアクセスできるIPを制限したい場合はA11YC_APPROVED_IPSを書いてください。特にない場合は、define()しないようにしてください。
-
-パスワードはconfig.dist.phpにもありますが、コマンドラインで
-
-```
-php -r "echo password_hash('password', CRYPT_BLOWFISH);\n"
-```
-
-というようにハッシュして保存してください。
-
-### 使い方
-
-最初に「設定」で、「目標とする適合レベル」を定めてください。
-
-そのあと、「チェック」で対象のページを追加していって、チェックをしてゆきます。
-
-### 報告書と方針
-
-```
-a11yc/public/report.php
-```
-
-を適当なファイル名に変更します。PHPがわかる方なら、適当にパスをいじって好きなところにおいてください。わからない場合でも、HTMLはいじっても大丈夫です。
-
-ブラウザでこのファイルにアクセスすれば、状況に応じた報告書が生成されています。
-
-### CMSへの取り込み
-
-WordPressのプラグインでは、投稿のたびに投稿内容のアクセシビリティチェックを行うようになっています。その手順を下記します。
-
-A11ycでチェックするために記事のURLを取得します。WordPressの場合は、get_permalink($post->ID)のようなものです。一時的なチェックの場合は、サイトトップのURLを入れても動きます。
-
-```
-require_once ('/path/to/a11yc/vendor/autoload.php');
-$url = get_permalink($post->ID);
-```
-
-HTMLのすべてをチェックするときには、headの中などのチェックも行いますが、投稿内容のみをチェックする場合は、不要なのでそのように設定します。
+### Analyze a URL
 
 ```php
-\Jidaikobo\A11yc\Validate::$is_partial = true;
+<?php
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+use Jidaikobo\A11yc\Analyzer;
+
+$analyzer = new Analyzer();
+
+$result = $analyzer->analyzeUrl('https://example.com/', array(
+    'do_link_check' => false,
+    'do_css_check' => false,
+    'include_images' => true,
+));
 ```
 
-Validateの中のリンクチェッカは処理に時間がかかるので、何らかの方法で、オンオフできるようにします。
+### Analyze HTML
 
 ```php
-\Jidaikobo\A11yc\Validate::$do_link_check = \Jidaikobo\A11yc\Input::post('jwp_a11y_link_check', false);
+<?php
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+use Jidaikobo\A11yc\Analyzer;
+
+$html = '<!doctype html><html lang="ja"><head><title>Example</title></head><body><img src="/logo.png" alt=""></body></html>';
+
+$analyzer = new Analyzer();
+
+$result = $analyzer->analyzeHtml($html, array(
+    'url' => 'https://example.com/',
+    'is_partial' => false,
+    'do_link_check' => false,
+    'do_css_check' => false,
+    'include_images' => true,
+));
 ```
 
-CSSのチェックも普段は不要かもしれません。
+## Result Format
+
+`Analyzer::analyzeUrl()` and `Analyzer::analyzeHtml()` return an array with these top-level keys:
+
+- `meta`
+- `summary`
+- `issues`
+- `images`
+
+### `meta`
+
+- `url`: analyzed URL
+- `requested_url`: original requested URL (only for `analyzeUrl()`)
+- `exists`: whether fetching succeeded (only for `analyzeUrl()`)
+- `user_agent`: effective user agent string
+- `version`: `A11YC_VERSION` if defined
+- `check_count`: number of executed checks
+- `analyzed_at`: ISO 8601 timestamp
+
+### `summary`
+
+- `error_count`
+- `notice_count`
+- `counts_by_level`
+
+`counts_by_level` contains:
+
+- `a`
+- `aa`
+- `aaa`
+
+### `issues`
+
+Each issue is normalized into a flat array:
+
+- `id`
+- `type` (`error` or `notice`)
+- `message`
+- `level`
+- `criterion_keys`
+- `place_id`
+- `snippet`
+
+### `images`
+
+When `include_images` is enabled, image data includes:
+
+- `element`
+- `src`
+- `alt`
+- `href`
+- `is_important`
+- `aria`
+
+## Available Options
+
+Both `Analyzer::analyzeUrl()` and `Analyzer::analyzeHtml()` accept an options array.
+
+- `url`: base URL for analysis (`analyzeHtml()` only; default `about:blank`)
+- `user_agent`: user agent used for fetching HTML/CSS
+- `checks`: array of check class names to run; omitted means all available checks
+- `is_partial`: skip full-document assumptions for partial HTML analysis
+- `do_link_check`: enable slower link validation checks
+- `do_css_check`: enable CSS fetching and CSS-related checks
+- `include_images`: include extracted image data in the result
+
+## Lower-Level API
+
+If you need the raw validation result set before normalization:
 
 ```php
-\Jidaikobo\A11yc\Validate::$do_css_check  = \Jidaikobo\A11yc\Input::post('jwp_a11y_css_check', false);
+<?php
+
+use Jidaikobo\A11yc\Validate;
+
+$resultSet = Validate::html(
+    'https://example.com/',
+    $html,
+    array(),
+    'using',
+    true,
+    array(
+        'is_partial' => false,
+        'do_link_check' => false,
+        'do_css_check' => false,
+    )
+);
 ```
 
-Validateクラスに検査対象のHTMLをセットします。以下はWordPressの例です。
+The normalized API via `Analyzer` is recommended for new integrations.
 
-```php
-\Jidaikobo\A11yc\Validate::html($url, apply_filters('the_content', $obj->post_content));
-```
+## License
 
-チェックの後、
-
-- `\Jidaikobo\A11yc\Analyzer::analyzeHtml()` の返り値 `issues` に検出結果
-- 同じ返り値 `summary` に件数
-- 同じ返り値 `images` に画像と `alt` の一覧
-
-が積まれているので、これを取得できます。
-
-### 参考にしたものの一部
-
-* [JIS X 8341-3:2016 対応発注ガイドライン](http://waic.jp/docs/jis2016/order-guidelines/201604/)
-* [アクセシビリティ・サポーテッド（AS）情報](http://waic.jp/docs/as/)
-* [JIS X 8341-3:2016 試験実施ガイドライン](http://waic.jp/docs/jis2016/test-guidelines/201604/)
-* [ウェブアクセシビリティ評価ツールの最低要求仕様 2012年11月版](http://waic.jp/docs/jis2010/minimum-requirement/201211/index.html)
-* [WCAG-EM Report Tool Website Accessibility Evaluation Report Generator](https://www.w3.org/WAI/eval/report-tool/#/)
-* [HTML5 4.7.1.1.22 Guidance for conformance checkers](https://www.w3.org/TR/html5/embedded-content-0.html#guidance-for-conformance-checkers)
-* [HTML5.1 4.7.5.1.23. Guidance for conformance checkers](https://www.w3.org/TR/html51/semantics-embedded-content.html#guidance-for-conformance-checkers)
-
-### 依存しているライブラリ
-
-* [symfony/yaml](https://symfony.com/doc/current/components/yaml.html)
-* [guzzle](https://github.com/guzzle/guzzle)
-* [Upload](https://github.com/brandonsavage/Upload)
-
-### チェック
-
-[skipfish](https://code.google.com/archive/p/skipfish/)と[OWASP ZAP](https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project)をもちいて脆弱性チェックをかけています。
-
-### 謝辞
-
-参考にさせていただいた資料および使わせてもらっているライブラリの開発者の皆さんに感謝します。
+MIT
