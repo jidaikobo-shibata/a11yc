@@ -2,7 +2,6 @@
 !/config/.htaccess
 !/libs/.htaccess
 config/config.php
-composer.json
 composer.lock
 composer.phar
 vendor/

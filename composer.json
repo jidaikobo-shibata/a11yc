@@ -1,0 +1,33 @@
+{
+  "name": "jidaikobo/a11yc",
+  "description": "Static accessibility checker core for A11YC",
+  "type": "library",
+  "license": "MIT",
+  "require": {
+    "php": ">=7.4",
+    "guzzlehttp/guzzle": "^6.5",
+    "symfony/yaml": "^5.4"
+  },
+  "require-dev": {
+    "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+    "phpstan/phpstan": "^1.12",
+    "phpunit/phpunit": "^9.6",
+    "slevomat/coding-standard": "^8.18",
+    "squizlabs/php_codesniffer": "^3.10"
+  },
+  "autoload": {
+    "psr-4": {
+      "Jidaikobo\\A11yc\\": "src/"
+    }
+  },
+  "scripts": {
+    "phpstan": "phpstan analyse -c phpstan.neon.dist",
+    "phpcs": "phpcs --standard=phpcs.xml.dist",
+    "phpunit": "phpunit -c phpunit.xml.dist"
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  }
+}
