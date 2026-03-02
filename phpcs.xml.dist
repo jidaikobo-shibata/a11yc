@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<ruleset name="A11YC">
+	<description>Basic PHPCS rules for the A11YC core package.</description>
+
+	<file>src</file>
+
+	<arg name="basepath" value="."/>
+	<arg name="extensions" value="php"/>
+	<arg value="sp"/>
+
+	<rule ref="PSR12"/>
+	<rule ref="SlevomatCodingStandard.Namespaces.NamespaceDeclaration"/>
+	<rule ref="SlevomatCodingStandard.Namespaces.UnusedUses"/>
+</ruleset>
