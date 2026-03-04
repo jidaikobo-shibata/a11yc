@@ -47,6 +47,60 @@ class Yaml
             return static::$data[$cache_key];
         }
 
+        $compiled = self::loadCompiledData();
+        if (is_array($compiled)) {
+            static::$data[$cache_key] = $compiled;
+
+            return static::$data[$cache_key];
+        }
+
+        static::$data[$cache_key] = self::loadYamlData();
+
+        return static::$data[$cache_key];
+    }
+
+    public static function buildCompiledData(string $lang): array
+    {
+        return RuntimeConfig::withOverrides(
+            array('lang' => $lang),
+            static function (): array {
+                return self::loadYamlData();
+            }
+        );
+    }
+
+    public static function compiledPath(?string $lang = null): string
+    {
+        if ($lang !== null && $lang !== '') {
+            return RuntimeConfig::rootPath() . '/resources/compiled/' . $lang . '.php';
+        }
+
+        $resource_path = RuntimeConfig::resourcePath();
+
+        return rtrim(dirname($resource_path), '/') . '/compiled/' . basename($resource_path) . '.php';
+    }
+
+    private static function loadCompiledData(): ?array
+    {
+        if (RuntimeConfig::docResourcePath() !== '') {
+            return null;
+        }
+
+        $compiled_path = self::compiledPath();
+        if (! file_exists($compiled_path)) {
+            return null;
+        }
+
+        $compiled = require $compiled_path;
+        if (! is_array($compiled)) {
+            return null;
+        }
+
+        return $compiled;
+    }
+
+    private static function loadYamlData(): array
+    {
         $doc_resource_path = RuntimeConfig::docResourcePath();
         $resource_path = RuntimeConfig::resourcePath();
 
@@ -76,9 +130,7 @@ class Yaml
             $anchors = array_replace($anchors, self::extractAnchors($resource, $fragment));
         }
 
-        static::$data[$cache_key] = $parsed;
-
-        return static::$data[$cache_key];
+        return $parsed;
     }
 
     public static function each($name)

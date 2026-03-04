@@ -21,6 +21,7 @@
     }
   },
   "scripts": {
+    "compile-resources": "@php bin/compile-resources.php",
     "phpstan": "phpstan analyse -c phpstan.neon.dist",
     "phpcs": "phpcs --standard=phpcs.xml.dist",
     "phpunit": "phpunit -c phpunit.xml.dist"

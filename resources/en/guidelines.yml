@@ -1,0 +1,96 @@
+guidelines:
+  1-1: &g1-1
+    code: 1-1
+    name: Text Alternatives
+    principle: *p1
+    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/text-equiv.html
+    summary: |
+      Provide text alternatives for any non-text content so that it can be changed into other forms people need, such as large print, braille, speech, symbols or simpler language.
+
+  1-2: &g1-2
+    code: 1-2
+    name: Time-based Media
+    principle: *p1
+    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/media-equiv.html
+    summary: |
+      Provide alternatives for time-based media.
+
+  1-3: &g1-3
+    code: 1-3
+    name: Adaptable
+    principle: *p1
+    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/content-structure-separation.html
+    summary: |
+      Create content that can be presented in different ways (for example simpler layout) without losing information or structure.
+
+  1-4: &g1-4
+    code: 1-4
+    name: Distinguishable
+    principle: *p1
+    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast.html
+    summary: |
+      Make it easier for users to see and hear content including separating foreground from background.
+
+  2-1: &g2-1
+    code: 2-1
+    name: Keyboard Accessible
+    principle: *p2
+    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/keyboard-operation.html
+    summary: |
+      Make all functionality available from a keyboard.
+
+  2-2: &g2-2
+    code: 2-2
+    name: Enough Time
+    principle: *p2
+    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/time-limits.html
+    summary: |
+      Provide users enough time to read and use content.
+
+  2-3: &g2-3
+    code: 2-3
+    name: Seizures
+    principle: *p2
+    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/seizure.html
+    summary: |
+      Do not design content in a way that is known to cause seizures.
+
+  2-4: &g2-4
+    code: 2-4
+    name: Navigable
+    principle: *p2
+    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms.html
+    summary: |
+      Provide ways to help users navigate, find content, and determine where they are.
+
+  3-1: &g3-1
+    code: 3-1
+    name: Readable
+    principle: *p3
+    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/meaning.html
+    summary: |
+      Make text content readable and understandable.
+
+  3-2: &g3-2
+    code: 3-2
+    name: Predictable
+    principle: *p3
+    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/consistent-behavior.html
+    summary: |
+      Make Web pages appear and operate in predictable ways.
+
+  3-3: &g3-3
+    code: 3-3
+    name: Input Assistance
+    principle: *p3
+    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/minimize-error.html
+    summary: |
+       Help users avoid and correct mistakes.
+
+  4-1: &g4-1
+    code: 4-1
+    name: Compatible
+    principle: *p4
+    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/ensure-compat.html
+    summary: |
+      Maximize compatibility with current and future user agents, including assistive technologies.
