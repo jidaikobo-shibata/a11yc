@@ -45,6 +45,11 @@ final class RuntimeConfig
         return defined('A11YC_DOC_RESOURCE_PATH') ? A11YC_DOC_RESOURCE_PATH : '';
     }
 
+    public static function allowYamlFallback(): bool
+    {
+        return defined('A11YC_ALLOW_YAML_FALLBACK') && (bool) A11YC_ALLOW_YAML_FALLBACK;
+    }
+
     public static function docUrl()
     {
         return defined('A11YC_DOC_URL') ? A11YC_DOC_URL : '';

@@ -54,6 +54,18 @@ class Yaml
             return static::$data[$cache_key];
         }
 
+        if (! RuntimeConfig::allowYamlFallback()) {
+            Util::error(
+                'Compiled resources were not found. '
+                . 'Run "composer compile-resources" before distribution '
+                . 'or enable A11YC_ALLOW_YAML_FALLBACK for development.'
+            );
+
+            static::$data[$cache_key] = array();
+
+            return static::$data[$cache_key];
+        }
+
         static::$data[$cache_key] = self::loadYamlData();
 
         return static::$data[$cache_key];
