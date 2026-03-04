@@ -1,4 +1,5 @@
 .htaccess
+config.development.php
 !/config/.htaccess
 !/libs/.htaccess
 config/config.php

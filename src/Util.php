@@ -271,7 +271,7 @@ class Util
                 $label = Arr::get($yml['criterions'][$criterion], 'name');
             } elseif (in_array($tech, Values::techsTypes())) {
                 $url = RuntimeConfig::refWcag20TechUrl() . self::s($code);
-                $label = Arr::get($yml['techs'][$code], 'title');
+                $label = Arr::get($yml, 'techs.' . $code . '.title', $code);
             }
 
             if (empty($url)) {

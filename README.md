@@ -23,6 +23,39 @@ If you are working on this repository directly:
 composer install
 ```
 
+## Compiled Resources
+
+Runtime resource loading now expects precompiled PHP arrays in `resources/compiled/`.
+
+The distributed package should include:
+
+- `resources/compiled/ja.php`
+- `resources/compiled/en.php`
+
+When you change resource source files under `resources/`, rebuild the compiled files before committing or packaging:
+
+```bash
+composer compile-resources
+```
+
+This command regenerates the compiled PHP arrays from the YAML source files.
+
+At runtime, `a11yc` uses the compiled files first. If they are missing, the library raises an error unless YAML fallback is explicitly enabled for development.
+
+## Development-Only YAML Fallback
+
+For local development only, you can allow direct YAML loading with a Git-ignored `config.development.php` file in the package root:
+
+```php
+<?php
+
+return array(
+    'allow_yaml_fallback' => true,
+);
+```
+
+This file is not intended for distribution. In normal packaged environments, keep compiled resources available and do not rely on YAML fallback.
+
 ## What This Package Does
 
 - Fetch and analyze a page by URL

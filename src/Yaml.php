@@ -123,7 +123,6 @@ class Yaml
             self::readOptionalResource($resource_path, $doc_resource_path, 'guidelines.yml'),
             self::readResource($resource_path, 'criterions.yml'),
             self::readResource($resource_path, 'errors.yml'),
-            self::readResource($resource_path, 'techs.yml'),
             self::readOptionalResource($resource_path, $doc_resource_path, 'techs_codes.yml'),
             self::readOptionalResource($resource_path, $doc_resource_path, 'tests.yml'),
             self::readOptionalResource($resource_path, $doc_resource_path, 'processes.yml'),
