@@ -4,7 +4,7 @@ criterions:
     name: Non-text Content
     guideline: *g1-1
     level: *lv1
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/text-equiv-all.html
+    url: https://www.w3.org/TR/WCAG22/#non-text-content
     summary: |
       For all non-textual content presented to users, textual substitutions are provided that serve equivalent purposes.
     doc: |
@@ -31,7 +31,7 @@ criterions:
     name: Audio-only and Video-only (Prerecorded)
     guideline: *g1-2
     level: *lv1
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/media-equiv-av-only-alt.html
+    url: https://www.w3.org/TR/WCAG22/#audio-only-and-video-only-prerecorded
     summary: |
       Consideration about media containing only recorded sounds and media containing only recorded images.
     doc: |
@@ -45,7 +45,7 @@ criterions:
     name: Captions (Prerecorded)
     guideline: *g1-2
     level: *lv1
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/media-equiv-captions.html
+    url: https://www.w3.org/TR/WCAG22/#captions-prerecorded
     summary: |
       Captions are provided for all recorded audio content included in synchronized media (e.g. video with audio).
     doc: |
@@ -57,7 +57,7 @@ criterions:
     name: Audio Description or Media Alternative (Prerecorded)
     guideline: *g1-2
     level: *lv1
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/media-equiv-audio-desc.html
+    url: https://www.w3.org/TR/WCAG22/#audio-description-or-media-alternative-prerecorded
     summary: |
       Alternative content or audio commentary on time-dependent media is provided for recorded video content included in synchronized media.
     doc: |
@@ -70,7 +70,7 @@ criterions:
     name: Captions (Live)
     guideline: *g1-2
     level: *lv2
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/media-equiv-real-time-captions.html
+    url: https://www.w3.org/TR/WCAG22/#captions-live
     summary: |
       Captions are provided for all the live audio contents included in the synchronized media.
     doc: |
@@ -81,7 +81,7 @@ criterions:
     name: Audio Description (Prerecorded)
     guideline: *g1-2
     level: *lv2
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/media-equiv-audio-desc-only.html
+    url: https://www.w3.org/TR/WCAG22/#audio-description-prerecorded
     summary: |
       Audio commentary is provided for all recorded video contents included in synchronized media.
     doc: |
@@ -92,7 +92,7 @@ criterions:
     name: Sign Language (Prerecorded)
     guideline: *g1-2
     level: *lv3
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/media-equiv-sign.html
+    url: https://www.w3.org/TR/WCAG22/#sign-language-prerecorded
     summary: |
       Sign language interpreters are provided for all recorded sound contents included in synchronized media.
     doc: |
@@ -103,7 +103,7 @@ criterions:
     name: Extended Audio Description (Prerecorded)
     guideline: *g1-2
     level: *lv3
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/media-equiv-extended-ad.html
+    url: https://www.w3.org/TR/WCAG22/#extended-audio-description-prerecorded
     summary: |
       When the interval between foreground sounds is insufficient to convey the meaning of video in audio commentary, extended audio commentary is provided for all recorded video contents included in synchronized media.
     doc: |
@@ -114,7 +114,7 @@ criterions:
     name: Media Alternative (Prerecorded)
     guideline: *g1-2
     level: *lv3
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/media-equiv-text-doc.html
+    url: https://www.w3.org/TR/WCAG22/#media-alternative-prerecorded
     summary: |
       Alternative content for time-based media is provided for all prerecorded synchronized media and prerecorded video-only media.
     doc: |
@@ -126,7 +126,7 @@ criterions:
     name: Audio-only (Live)
     guideline: *g1-2
     level: *lv3
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/media-equiv-live-audio-only.html
+    url: https://www.w3.org/TR/WCAG22/#audio-only-live
     summary: |
       Alternative content of time-based media that presents equivalent information to content that only includes live audio is provided.
     doc: |
@@ -137,7 +137,7 @@ criterions:
     name: Info and Relationships
     guideline: *g1-3
     level: *lv1
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/content-structure-separation-programmatic.html
+    url: https://www.w3.org/TR/WCAG22/#info-and-relationships
     summary: |
       The information, structures, and relationships presented in some way are programmatically interpretable or provided in text.
     doc: |
@@ -159,7 +159,7 @@ criterions:
     name: Meaningful Sequence
     guideline: *g1-3
     level: *lv1
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/content-structure-separation-sequence.html
+    url: https://www.w3.org/TR/WCAG22/#meaningful-sequence
     summary: |
       If the order in which the content is presented affects the meaning, the correct reading order can be interpreted by the program.
     doc: |
@@ -172,7 +172,7 @@ criterions:
     name: Sensory Characteristics
     guideline: *g1-3
     level: *lv1
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/content-structure-separation-understanding.html
+    url: https://www.w3.org/TR/WCAG22/#sensory-characteristics
     summary: |
       The explanation for understanding and manipulating content does not rely solely on the sensory features of the constituent, such as shape, size, visual location, orientation, or sound.
     doc: |
@@ -184,7 +184,7 @@ criterions:
     name: Use of Color
     guideline: *g1-4
     level: *lv1
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-without-color.html
+    url: https://www.w3.org/TR/WCAG22/#use-of-color
     summary: |
       Color is not the only visual means for conveying information, indicating motion, stimulating reactions or discriminating visual elements.
     doc: |
@@ -197,7 +197,7 @@ criterions:
     guideline: *g1-4
     level: *lv1
     non-interference: true
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-dis-audio.html
+    url: https://www.w3.org/TR/WCAG22/#audio-control
     summary: |
       Uses a mechanism that pauses or stops the sound when the sound on the web page is automatically reproduced and lasts longer than 3 seconds or a mechanism that can adjust the volume level without affecting the volume level of the entire system it can.
     doc: |
@@ -209,7 +209,7 @@ criterions:
     name: Contrast (Minimum)
     guideline: *g1-4
     level: *lv2
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-contrast.html
+    url: https://www.w3.org/TR/WCAG22/#contrast-minimum
     summary: |
       There is a contrast ratio of at least 4.5: 1 for visual presentation of text and character images.
     doc: |
@@ -222,7 +222,7 @@ criterions:
     name: Resize text
     guideline: *g1-4
     level: *lv2
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-scale.html
+    url: https://www.w3.org/TR/WCAG22/#resize-text
     summary: |
       With the exception of captions and character images, the text can be resized up to 200% without assistive technology without compromising the content or function.
     doc: |
@@ -235,7 +235,7 @@ criterions:
     name: Images of Text
     guideline: *g1-4
     level: *lv2
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-text-presentation.html
+    url: https://www.w3.org/TR/WCAG22/#images-of-text
     summary: |
       When the intended visual presentation is possible with the technology being used, text, not a text image, is used for information transmission.
     doc: |
@@ -252,7 +252,7 @@ criterions:
     name: Contrast (Enhanced)
     guideline: *g1-4
     level: *lv3
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast7.html
+    url: https://www.w3.org/TR/WCAG22/#contrast-enhanced
     summary: |
       For visual presentation of text and character images, there is a contrast ratio of at least 7: 1.
     doc: |
@@ -263,7 +263,7 @@ criterions:
     name: Low or No Background Audio
     guideline: *g1-4
     level: *lv3
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast7.html
+    url: https://www.w3.org/TR/WCAG22/#low-or-no-background-audio
     summary: |
       Content that contains only recorded sounds, (1) mainly includes utterances in the foreground, (2) not speech CAPTCHA or voice logo, and (3) mainly music expressions such as songs and laps There is consideration for things that are not intended utterances.
     doc: |
@@ -275,7 +275,7 @@ criterions:
     name: Visual Presentation
     guideline: *g1-4
     level: *lv3
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-visual-presentation.html
+    url: https://www.w3.org/TR/WCAG22/#visual-presentation
     summary: |
       There is consideration in visual presentation of text blocks.
     doc: |
@@ -289,7 +289,7 @@ criterions:
     name: Images of Text (No Exception)
     guideline: *g1-4
     level: *lv3
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-text-images.html
+    url: https://www.w3.org/TR/WCAG22/#images-of-text-no-exception
     summary: |
       Text images are used for pure decoration or when the specific representation of the text is essential for the information to be conveyed (logotype etc.).
     doc: |
@@ -301,7 +301,7 @@ criterions:
     name: Keyboard
     guideline: *g2-1
     level: *lv1
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/keyboard-operation-keyboard-operable.html
+    url: https://www.w3.org/TR/WCAG22/#keyboard
     summary: |
       All functions of the content can be operated through the keyboard interface without requiring specific timing for individual keystrokes. However, except when the fundamental function is realized depending on a series of trajectories continuing from the start point to the end point by the action of the user.
     doc: |
@@ -315,7 +315,7 @@ criterions:
     guideline: *g2-1
     level: *lv1
     non-interference: true
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/keyboard-operation-trapping.html
+    url: https://www.w3.org/TR/WCAG22/#no-keyboard-trap
     summary: |
       If the keyboard interface can be used to move the keyboard focus to a component of the webpage, it is possible to remove focus from that component using only the keyboard interface. Furthermore, if you can not remove focus by using arrow keys without a modifier key, Tab key, or other standard method of removing focus, the user is notified of the method of removing focus.
     doc: |
@@ -326,7 +326,7 @@ criterions:
     name: Keyboard (No Exception)
     guideline: *g2-1
     level: *lv3
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/keyboard-operation-all-funcs.html
+    url: https://www.w3.org/TR/WCAG22/#keyboard-no-exception
     summary: |
       All functions of the content can be operated through the keyboard interface without requiring specific timing for individual keystrokes.
     doc: |
@@ -337,7 +337,7 @@ criterions:
     name: Timing Adjustable
     guideline: *g2-2
     level: *lv1
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/time-limits-required-behaviors.html
+    url: https://www.w3.org/TR/WCAG22/#timing-adjustable
     summary: |
       There is consideration when setting time limit for content.
     doc: |
@@ -353,7 +353,7 @@ criterions:
     guideline: *g2-2
     level: *lv1
     non-interference: true
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/time-limits-pause.html
+    url: https://www.w3.org/TR/WCAG22/#pause-stop-hide
     summary: |
       There is consideration for moving, blinking, scrolling, or automatically updating information.
     doc: |
@@ -368,7 +368,7 @@ criterions:
     name: No Timing
     guideline: *g2-2
     level: *lv3
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/time-limits-no-exceptions.html
+    url: https://www.w3.org/TR/WCAG22/#no-timing
     summary: |
       Timing is not an integral part of the event or action presented by the content. However, excluding non-interactive synchronized media and real-time events.
     doc: |
@@ -380,7 +380,7 @@ criterions:
     name: Interruptions
     guideline: *g2-2
     level: *lv3
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/time-limits-postponed.html
+    url: https://www.w3.org/TR/WCAG22/#interruptions
     summary: |
       Interruption can be postponed or suppressed by the user. However, interrupts requiring urgency are excluded.
     doc: |
@@ -392,7 +392,7 @@ criterions:
     name: Re-authenticating
     guideline: *g2-2
     level: *lv3
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/time-limits-server-timeout.html
+    url: https://www.w3.org/TR/WCAG22/#re-authenticating
     summary: |
       If the authenticated session expires, the user can continue the operation without losing data even after re-authentication.
     doc: |
@@ -404,7 +404,7 @@ criterions:
     guideline: *g2-3
     level: *lv1
     non-interference: true
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/seizure-does-not-violate.html
+    url: https://www.w3.org/TR/WCAG22/#three-flashes-or-below-threshold
     summary: |
       The webpage has no flashing more than three times in any one second, or the flash is below the general flash threshold and the red flash threshold.
     doc: |
@@ -415,7 +415,7 @@ criterions:
     name: Three Flashes
     guideline: *g2-3
     level: *lv3
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/seizure-three-times.html
+    url: https://www.w3.org/TR/WCAG22/#three-flashes
     summary: |
       Web pages do not contain anything that flashes more than three times in any one second period.
     doc: |
@@ -426,7 +426,7 @@ criterions:
     name: Bypass Blocks
     guideline: *g2-4
     level: *lv1
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-skip.html
+    url: https://www.w3.org/TR/WCAG22/#bypass-blocks
     summary: |
       A mechanism to bypass blocks of content that is repeated on multiple web pages can be used.
     doc: |
@@ -440,7 +440,7 @@ criterions:
     name: Page Titled
     guideline: *g2-4
     level: *lv1
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-title.html
+    url: https://www.w3.org/TR/WCAG22/#page-titled
     summary: |
       The web page has a title explaining the subject or purpose.
     doc: |
@@ -451,7 +451,7 @@ criterions:
     name: Focus Order
     guideline: *g2-4
     level: *lv1
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-focus-order.html
+    url: https://www.w3.org/TR/WCAG22/#focus-order
     summary: |
       If the web page can navigate in sequence and its navigation order affects meaning or operation, the focusable component receives focus in an order that does not impair meaning and operability.
     doc: |
@@ -463,7 +463,7 @@ criterions:
     name: Link Purpose (In Context)
     guideline: *g2-4
     level: *lv1
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-refs.html
+    url: https://www.w3.org/TR/WCAG22/#link-purpose-in-context
     summary: |
       The purpose of each link can be determined from the text of the link alone, or from the text of the link and the context of the program which can be interpreted programmatically. However, excluding cases where the purpose of the link is ambiguous to most users.
     doc: |
@@ -478,7 +478,7 @@ criterions:
     name: Multiple Ways
     guideline: *g2-4
     level: *lv2
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-mult-loc.html
+    url: https://www.w3.org/TR/WCAG22/#multiple-ways
     summary: |
       More than one way is available to locate a Web page within a set of Web pages except where the Web Page is the result of, or a step in, a process.
     doc: |
@@ -491,7 +491,7 @@ criterions:
     name: Headings and Labels
     guideline: *g2-4
     level: *lv2
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-descriptive.html
+    url: https://www.w3.org/TR/WCAG22/#headings-and-labels
     summary: |
       The headings and labels explain the theme or purpose.
     doc: |
@@ -502,7 +502,7 @@ criterions:
     name: Focus Visible
     guideline: *g2-4
     level: *lv2
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-focus-visible.html
+    url: https://www.w3.org/TR/WCAG22/#focus-visible
     summary: |
       Every user interface capable of operating the keyboard has an operation mode in which the focus indicator can be seen.
     doc: |
@@ -513,7 +513,7 @@ criterions:
     name: Location
     guideline: *g2-4
     level: *lv3
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-location.html
+    url: https://www.w3.org/TR/WCAG22/#location
     summary: |
       Information on the position of the user in the set of web pages can be used.
     doc: |
@@ -524,7 +524,7 @@ criterions:
     name: Link Purpose (Link Only)
     guideline: *g2-4
     level: *lv3
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-link.html
+    url: https://www.w3.org/TR/WCAG22/#link-purpose-link-only
     summary: |
       A mechanism that can specify the purpose of each link with the text of the link alone can be used. However, excluding cases where the purpose of the link is ambiguous to most users.
     doc: |
@@ -536,7 +536,7 @@ criterions:
     name: Section Headings
     guideline: *g2-4
     level: *lv3
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-headings.html
+    url: https://www.w3.org/TR/WCAG22/#section-headings
     summary: |
       Content is organized using section headings.
     doc: |
@@ -547,7 +547,7 @@ criterions:
     name: Language of Page
     guideline: *g3-1
     level: *lv1
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/meaning-doc-lang-id.html
+    url: https://www.w3.org/TR/WCAG22/#language-of-page
     summary: |
       Interpretation by program can be made as to which language the default natural language of each web page is.
     doc: |
@@ -560,7 +560,7 @@ criterions:
     name: Language of Parts
     guideline: *g3-1
     level: *lv2
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/meaning-other-lang-id.html
+    url: https://www.w3.org/TR/WCAG22/#language-of-parts
     summary: |
       Interpretation by program can be made as to which language the natural language of each phrase or phrase is. However, exclude proper nouns, technical terms, phrases whose languages are unknown, and words or phrases that are part of the language of the immediately preceding and succeeding texts.
     doc: |
@@ -573,7 +573,7 @@ criterions:
     name: Unusual Words
     guideline: *g3-1
     level: *lv3
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/meaning-idioms.html
+    url: https://www.w3.org/TR/WCAG22/#unusual-words
     summary: |
       Mechanisms can be used to identify clear definitions of words or phrases used in uncommon or limited usage, including idioms and terminology.
     doc: |
@@ -587,7 +587,7 @@ criterions:
     name: Abbreviations
     guideline: *g3-1
     level: *lv3
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/meaning-located.html
+    url: https://www.w3.org/TR/WCAG22/#abbreviations
     summary: |
       Mechanisms can be used to identify the original word or meaning of the abbreviation.
     doc: |
@@ -599,7 +599,7 @@ criterions:
     name: Reading Level
     guideline: *g3-1
     level: *lv3
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/meaning-supplements.html
+    url: https://www.w3.org/TR/WCAG22/#reading-level
     summary: |
       If the text requires reading comprehension level beyond the former secondary education level with the proper noun or title removed, a version that does not require comprehension content or reading comprehension level beyond the level of the former secondary education can be used.
     doc: |
@@ -611,7 +611,7 @@ criterions:
     name: Pronunciation
     guideline: *g3-1
     level: *lv3
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/meaning-pronunciation.html
+    url: https://www.w3.org/TR/WCAG22/#pronunciation
     summary: |
       In the context, if the meaning of a word becomes ambiguous if pronunciation is unknown, a mechanism to specify clear pronunciation of the word can be used.
     doc: |
@@ -623,7 +623,7 @@ criterions:
     name: On Focus
     guideline: *g3-2
     level: *lv1
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/consistent-behavior-unpredictable-change.html
+    url: https://www.w3.org/TR/WCAG22/#on-focus
     summary: |
       Neither component causes a change in context when it receives focus.
     doc: |
@@ -634,7 +634,7 @@ criterions:
     name: On Input
     guideline: *g3-2
     level: *lv1
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/consistent-behavior-unpredictable-change.html
+    url: https://www.w3.org/TR/WCAG22/#on-input
     summary: |
       Changing the setting of the user interface component does not automatically cause a context change. However, unless the user informs the behavior before using it.
     doc: |
@@ -648,7 +648,7 @@ criterions:
     name: Consistent Navigation
     guideline: *g3-2
     level: *lv2
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/consistent-behavior-consistent-locations.html
+    url: https://www.w3.org/TR/WCAG22/#consistent-navigation
     summary: |
       The repeated navigation mechanism on multiple webpages in a set of webpages appears in the same order as they are repeated. However, except when the user changes.
     doc: |
@@ -661,7 +661,7 @@ criterions:
     name: Consistent Identification
     guideline: *g3-2
     level: *lv2
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/consistent-behavior-consistent-functionality.html
+    url: https://www.w3.org/TR/WCAG22/#consistent-identification
     summary: |
       Components having the same function in a set of web pages can be consistently identified.
     doc: |
@@ -677,7 +677,7 @@ criterions:
     name: Change on Request
     guideline: *g3-2
     level: *lv3
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/consistent-behavior-no-extreme-changes-context.html
+    url: https://www.w3.org/TR/WCAG22/#change-on-request
     summary: |
       A change in context only occurs at the request of the user, or a mechanism for stopping such change is available.
     doc: |
@@ -690,7 +690,7 @@ criterions:
     name: Error Identification
     guideline: *g3-3
     level: *lv1
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/minimize-error-identified.html
+    url: https://www.w3.org/TR/WCAG22/#error-identification
     summary: |
       If an input error is detected automatically, the error location is identified and the error is explained in text to the user.
     doc: |
@@ -702,7 +702,7 @@ criterions:
     name: Labels or Instructions
     guideline: *g3-3
     level: *lv1
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/minimize-error-cues.html
+    url: https://www.w3.org/TR/WCAG22/#labels-or-instructions
     summary: |
       When content requests input from the user, a label or explanatory text is provided.
     doc: |
@@ -716,7 +716,7 @@ criterions:
     name: Error Suggestion
     guideline: *g3-3
     level: *lv2
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/minimize-error-suggestions.html
+    url: https://www.w3.org/TR/WCAG22/#error-suggestion
     summary: |
       If an input error is detected automatically and you can suggest a correction method, that suggestion is presented to the user. However, excluding cases where the purpose of security or content is impaired.
     doc: |
@@ -729,7 +729,7 @@ criterions:
     name: Error Prevention (Legal, Financial, Data)
     guideline: *g3-3
     level: *lv2
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/minimize-error-reversible.html
+    url: https://www.w3.org/TR/WCAG22/#error-prevention-legal-financial-data
     summary: |
       On a web page where a legal act or a financial transaction occurs for a user, the data on the user-controllable data storage system is changed or deleted, or the user sends an exam answer, either cancellation, check or confirmation It is made to be able to do.
     doc: |
@@ -740,7 +740,7 @@ criterions:
     name: Help
     guideline: *g3-3
     level: *lv3
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/minimize-error-context-help.html
+    url: https://www.w3.org/TR/WCAG22/#help
     summary: |
       You can use context-sensitive help.
     doc: |
@@ -751,7 +751,7 @@ criterions:
     name: Error Prevention (All)
     guideline: *g3-3
     level: *lv3
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/minimize-error-reversible-all.html
+    url: https://www.w3.org/TR/WCAG22/#error-prevention-all
     summary: |
       On a web page requesting the user to transmit information, it is made possible to cancel, check, or confirm.
     doc: |
@@ -759,10 +759,10 @@ criterions:
 
   4-1-1: &c4-1-1
     code: 4-1-1
-    name: Parsing
+    name: Parsing (Obsolete and removed)
     guideline: *g4-1
     level: *lv1
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/ensure-compat-parses.html
+    url: https://www.w3.org/TR/WCAG22/#parsing
     summary: |
       In the content implemented using the markup language, the element has a complete start tag and end tag, the elements are nested according to the specification, the element does not have duplicate attributes, any ID Is also unique. However, excluding those approved by the specification.
     doc: |
@@ -774,8 +774,272 @@ criterions:
     name: Name, Role, Value
     guideline: *g4-1
     level: *lv1
-    url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/ensure-compat-rsv.html
+    url: https://www.w3.org/TR/WCAG22/#name-role-value
     summary: |
       For all user interface components (elements that make up the form, links, script-generated components, etc.), names and roles can be interpreted programmatically. In addition, the status, properties, and values that can be set by the user can be set by the program. Then, user agents including assistive technology can use change notifications for these items.
     doc: |
       Elements to be operated by the user need to be interpreted by the program if they have names, roles and values. When describing elements as usual in HTML, this is rarely a problem. However, even if you are describing HTML as usual, it is important to note that if span etc. receives focus and implements such as JavaScript that causes some change in content.
+
+  1-3-4: &c1-3-4
+    code: 1-3-4
+    name: Orientation
+    guideline: *g1-3
+    level: *lv2
+    url: https://www.w3.org/TR/WCAG22/#orientation
+    summary: |
+      In preparation.
+    doc: |
+      In preparation.
+
+  1-3-5: &c1-3-5
+    code: 1-3-5
+    name: Identify Input Purpose
+    guideline: *g1-3
+    level: *lv2
+    url: https://www.w3.org/TR/WCAG22/#identify-input-purpose
+    summary: |
+      In preparation.
+    doc: |
+      In preparation.
+
+  1-3-6: &c1-3-6
+    code: 1-3-6
+    name: Identify Purpose
+    guideline: *g1-3
+    level: *lv3
+    url: https://www.w3.org/TR/WCAG22/#identify-purpose
+    summary: |
+      In preparation.
+    doc: |
+      In preparation.
+
+  1-4-10: &c1-4-10
+    code: 1-4-10
+    name: Reflow
+    guideline: *g1-4
+    level: *lv2
+    url: https://www.w3.org/TR/WCAG22/#reflow
+    summary: |
+      In preparation.
+    doc: |
+      In preparation.
+
+  1-4-11: &c1-4-11
+    code: 1-4-11
+    name: Non-text Contrast
+    guideline: *g1-4
+    level: *lv2
+    url: https://www.w3.org/TR/WCAG22/#non-text-contrast
+    summary: |
+      In preparation.
+    doc: |
+      In preparation.
+
+  1-4-12: &c1-4-12
+    code: 1-4-12
+    name: Text Spacing
+    guideline: *g1-4
+    level: *lv2
+    url: https://www.w3.org/TR/WCAG22/#text-spacing
+    summary: |
+      In preparation.
+    doc: |
+      In preparation.
+
+  1-4-13: &c1-4-13
+    code: 1-4-13
+    name: Content on Hover or Focus
+    guideline: *g1-4
+    level: *lv2
+    url: https://www.w3.org/TR/WCAG22/#content-on-hover-or-focus
+    summary: |
+      In preparation.
+    doc: |
+      In preparation.
+
+  2-1-4: &c2-1-4
+    code: 2-1-4
+    name: Character Key Shortcuts
+    guideline: *g2-1
+    level: *lv1
+    url: https://www.w3.org/TR/WCAG22/#character-key-shortcuts
+    summary: |
+      In preparation.
+    doc: |
+      In preparation.
+
+  2-4-11: &c2-4-11
+    code: 2-4-11
+    name: Focus Not Obscured (Minimum)
+    guideline: *g2-4
+    level: *lv2
+    url: https://www.w3.org/TR/WCAG22/#focus-not-obscured-minimum
+    summary: |
+      In preparation.
+    doc: |
+      In preparation.
+
+  2-4-12: &c2-4-12
+    code: 2-4-12
+    name: Focus Not Obscured (Enhanced)
+    guideline: *g2-4
+    level: *lv3
+    url: https://www.w3.org/TR/WCAG22/#focus-not-obscured-enhanced
+    summary: |
+      In preparation.
+    doc: |
+      In preparation.
+
+  2-4-13: &c2-4-13
+    code: 2-4-13
+    name: Focus Appearance
+    guideline: *g2-4
+    level: *lv2
+    url: https://www.w3.org/TR/WCAG22/#focus-appearance
+    summary: |
+      In preparation.
+    doc: |
+      In preparation.
+
+  2-5-1: &c2-5-1
+    code: 2-5-1
+    name: Pointer Gestures
+    guideline: *g2-5
+    level: *lv1
+    url: https://www.w3.org/TR/WCAG22/#pointer-gestures
+    summary: |
+      In preparation.
+    doc: |
+      In preparation.
+
+  2-5-2: &c2-5-2
+    code: 2-5-2
+    name: Pointer Cancellation
+    guideline: *g2-5
+    level: *lv1
+    url: https://www.w3.org/TR/WCAG22/#pointer-cancellation
+    summary: |
+      In preparation.
+    doc: |
+      In preparation.
+
+  2-5-3: &c2-5-3
+    code: 2-5-3
+    name: Label in Name
+    guideline: *g2-5
+    level: *lv1
+    url: https://www.w3.org/TR/WCAG22/#label-in-name
+    summary: |
+      In preparation.
+    doc: |
+      In preparation.
+
+  2-5-4: &c2-5-4
+    code: 2-5-4
+    name: Motion Actuation
+    guideline: *g2-5
+    level: *lv1
+    url: https://www.w3.org/TR/WCAG22/#motion-actuation
+    summary: |
+      In preparation.
+    doc: |
+      In preparation.
+
+  2-5-5: &c2-5-5
+    code: 2-5-5
+    name: Target Size (Enhanced)
+    guideline: *g2-5
+    level: *lv3
+    url: https://www.w3.org/TR/WCAG22/#target-size-enhanced
+    summary: |
+      In preparation.
+    doc: |
+      In preparation.
+
+  2-5-6: &c2-5-6
+    code: 2-5-6
+    name: Concurrent Input Mechanisms
+    guideline: *g2-5
+    level: *lv3
+    url: https://www.w3.org/TR/WCAG22/#concurrent-input-mechanisms
+    summary: |
+      In preparation.
+    doc: |
+      In preparation.
+
+  2-5-7: &c2-5-7
+    code: 2-5-7
+    name: Dragging Movements
+    guideline: *g2-5
+    level: *lv2
+    url: https://www.w3.org/TR/WCAG22/#dragging-movements
+    summary: |
+      In preparation.
+    doc: |
+      In preparation.
+
+  2-5-8: &c2-5-8
+    code: 2-5-8
+    name: Target Size (Minimum)
+    guideline: *g2-5
+    level: *lv2
+    url: https://www.w3.org/TR/WCAG22/#target-size-minimum
+    summary: |
+      In preparation.
+    doc: |
+      In preparation.
+
+  3-2-6: &c3-2-6
+    code: 3-2-6
+    name: Consistent Help
+    guideline: *g3-2
+    level: *lv1
+    url: https://www.w3.org/TR/WCAG22/#consistent-help
+    summary: |
+      In preparation.
+    doc: |
+      In preparation.
+
+  3-3-7: &c3-3-7
+    code: 3-3-7
+    name: Redundant Entry
+    guideline: *g3-3
+    level: *lv1
+    url: https://www.w3.org/TR/WCAG22/#redundant-entry
+    summary: |
+      In preparation.
+    doc: |
+      In preparation.
+
+  3-3-8: &c3-3-8
+    code: 3-3-8
+    name: Accessible Authentication (Minimum)
+    guideline: *g3-3
+    level: *lv2
+    url: https://www.w3.org/TR/WCAG22/#accessible-authentication-minimum
+    summary: |
+      In preparation.
+    doc: |
+      In preparation.
+
+  3-3-9: &c3-3-9
+    code: 3-3-9
+    name: Accessible Authentication (Enhanced)
+    guideline: *g3-3
+    level: *lv3
+    url: https://www.w3.org/TR/WCAG22/#accessible-authentication-enhanced
+    summary: |
+      In preparation.
+    doc: |
+      In preparation.
+
+  4-1-3: &c4-1-3
+    code: 4-1-3
+    name: Status Messages
+    guideline: *g4-1
+    level: *lv2
+    url: https://www.w3.org/TR/WCAG22/#status-messages
+    summary: |
+      In preparation.
+    doc: |
+      In preparation.

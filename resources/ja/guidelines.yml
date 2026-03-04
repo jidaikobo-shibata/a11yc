@@ -94,3 +94,11 @@ guidelines:
     url: https://waic.jp/docs/UNDERSTANDING-WCAG20/ensure-compat.html
     summary: |
       現在及び将来の、支援技術を含むユーザエージェントとの互換性を最大化すること。
+
+  2-5: &g2-5
+    code: 2-5
+    name: 入力モダリティ
+    principle: *p2
+    url: https://waic.jp/translations/WCAG22/#input-modalities
+    summary: |
+      準備中

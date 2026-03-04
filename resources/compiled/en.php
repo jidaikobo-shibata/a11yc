@@ -234,6 +234,21 @@ return array (
       'summary' => 'Maximize compatibility with current and future user agents, including assistive technologies.
 ',
     ),
+    '2-5' => 
+    array (
+      'code' => '2-5',
+      'name' => 'Input Modalities',
+      'principle' => 
+      array (
+        'code' => 2,
+        'name' => 'Operable',
+        'summary' => 'User interface components and navigation must be operable.
+',
+      ),
+      'url' => 'https://www.w3.org/TR/WCAG22/#input-modalities',
+      'summary' => 'In preparation.
+',
+    ),
   ),
   'criterions' => 
   array (
@@ -260,7 +275,7 @@ return array (
       array (
         'name' => 'A',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/text-equiv-all.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#non-text-content',
       'summary' => 'For all non-textual content presented to users, textual substitutions are provided that serve equivalent purposes.
 ',
       'doc' => 'There is an exception to omit alt in HTML5, but in order to apply this exception, please apply it after understanding the specification of HTML5 well. Even if this exception is applicable, this check tool issues a warning.
@@ -305,7 +320,7 @@ It is almost impossible to transcribe "specific senses" and reproduce them in te
       array (
         'name' => 'A',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/media-equiv-av-only-alt.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#audio-only-and-video-only-prerecorded',
       'summary' => 'Consideration about media containing only recorded sounds and media containing only recorded images.
 ',
       'doc' => 'Specify that the audio / video is substituting the existing text.
@@ -337,7 +352,7 @@ If possible, it is still better if there is explanation by voice comment on what
       array (
         'name' => 'A',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/media-equiv-captions.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#captions-prerecorded',
       'summary' => 'Captions are provided for all recorded audio content included in synchronized media (e.g. video with audio).
 ',
       'doc' => '"Caption" does not discriminate only speaker\'s utterance contents like movie subtitles. (Synchronously) the information necessary for understanding the video, such as who is talking, what kind of sound effect sounded, and so forth. In other words, there is something like movie subtitles, 1.2.2 can not be achieved.
@@ -367,7 +382,7 @@ Incidentally, "closed caption" is a caption that can be switched between display
       array (
         'name' => 'A',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/media-equiv-audio-desc.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#audio-description-or-media-alternative-prerecorded',
       'summary' => 'Alternative content or audio commentary on time-dependent media is provided for recorded video content included in synchronized media.
 ',
       'doc' => 'To prepare transcripts of lectures, prepare transcribed texts. When raising texts, it is necessary to describe in detail the information necessary for the visually impaired to understand the image, such as "audiences rumbling" "(laugh)". Simply preparing transcripts of utterances of simple speakers will not be conformant.
@@ -398,7 +413,7 @@ In order to conform to 1.2.3, it is necessary to satisfy either of the above.
       array (
         'name' => 'AA',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/media-equiv-real-time-captions.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#captions-live',
       'summary' => 'Captions are provided for all the live audio contents included in the synchronized media.
 ',
       'doc' => '"Caption" required in 1.2.2 is applied to live video.
@@ -427,7 +442,7 @@ In order to conform to 1.2.3, it is necessary to satisfy either of the above.
       array (
         'name' => 'AA',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/media-equiv-audio-desc-only.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#audio-description-prerecorded',
       'summary' => 'Audio commentary is provided for all recorded video contents included in synchronized media.
 ',
       'doc' => 'Applying "voice commentary" required in 1.2.3 to all the synchronized media present on the page. At this level we do not ask for audio description on live video.
@@ -456,7 +471,7 @@ In order to conform to 1.2.3, it is necessary to satisfy either of the above.
       array (
         'name' => 'AAA',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/media-equiv-sign.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#sign-language-prerecorded',
       'summary' => 'Sign language interpreters are provided for all recorded sound contents included in synchronized media.
 ',
       'doc' => 'Sign language interpreter is applied to all recorded synchronized media existing on the page. Sign language interpreter for live video is not required here, but it is still better if there is.
@@ -485,7 +500,7 @@ In order to conform to 1.2.3, it is necessary to satisfy either of the above.
       array (
         'name' => 'AAA',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/media-equiv-extended-ad.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#extended-audio-description-prerecorded',
       'summary' => 'When the interval between foreground sounds is insufficient to convey the meaning of video in audio commentary, extended audio commentary is provided for all recorded video contents included in synchronized media.
 ',
       'doc' => 'Applying "audio description" required in 1.2.3 to all the synchronized media present on the page. In 1.2.3, it was good to supplement explanations, such as between a conversation and a conversation, but in AAA\'s "Extended Audio Description", it is necessary to temporarily stop the animation, etc. and provide sufficient audio commentary to understand the situation It is necessary to provide it.
@@ -514,7 +529,7 @@ In order to conform to 1.2.3, it is necessary to satisfy either of the above.
       array (
         'name' => 'AAA',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/media-equiv-text-doc.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#media-alternative-prerecorded',
       'summary' => 'Alternative content for time-based media is provided for all prerecorded synchronized media and prerecorded video-only media.
 ',
       'doc' => 'Prepare "alternative content of time-dependent media" that accurately expresses all of the voice, video (no sound), video (with audio, so-called "synchronized media") in the page. To "accurate", like a script, it is necessary to be a sentence including detailed situation explanation.
@@ -544,7 +559,7 @@ If the media has interactive elements, it needs to have interactivity. For examp
       array (
         'name' => 'AAA',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/media-equiv-live-audio-only.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#audio-only-live',
       'summary' => 'Alternative content of time-based media that presents equivalent information to content that only includes live audio is provided.
 ',
       'doc' => '"Alternative content of time-dependent media" as required in 1.2.8 is applied to live audio. Although it is required to prepare accurate alternative contents for live audio such as radio broadcasting, this is a very difficult achievement standard.
@@ -573,7 +588,7 @@ If the media has interactive elements, it needs to have interactivity. For examp
       array (
         'name' => 'A',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/content-structure-separation-programmatic.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#info-and-relationships',
       'summary' => 'The information, structures, and relationships presented in some way are programmatically interpretable or provided in text.
 ',
       'doc' => 'The meaning of information is not provided only by the color, size, and position of the element. Structures should be structured using h* or strong etc, so that information can be transmitted properly without CSS.
@@ -613,7 +628,7 @@ If there is a required item in the form, please do not provide information depen
       array (
         'name' => 'A',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/content-structure-separation-sequence.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#meaningful-sequence',
       'summary' => 'If the order in which the content is presented affects the meaning, the correct reading order can be interpreted by the program.
 ',
       'doc' => 'Construct so that the meaning does not break when linearized (when read with screen reader). Be careful when arranging elements at an arbitrary position with CSS position absolute etc. It is good to check off by turning off CSS.
@@ -644,7 +659,7 @@ In order to keep the readability of HTML, markup-engineers shaping by linefeed i
       array (
         'name' => 'A',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/content-structure-separation-understanding.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#sensory-characteristics',
       'summary' => 'The explanation for understanding and manipulating content does not rely solely on the sensory features of the constituent, such as shape, size, visual location, orientation, or sound.
 ',
       'doc' => 'The meaning of information is not provided only by the color, size, and position of the element.
@@ -674,7 +689,7 @@ Examples of NG include "round button" and "right button", but if you are careful
       array (
         'name' => 'A',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-without-color.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#use-of-color',
       'summary' => 'Color is not the only visual means for conveying information, indicating motion, stimulating reactions or discriminating visual elements.
 ',
       'doc' => 'The meaning of information is not provided only by the color of the element.
@@ -705,7 +720,7 @@ Examples of NG include "round button" and "right button", but if you are careful
         'name' => 'A',
       ),
       'non-interference' => true,
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-dis-audio.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#audio-control',
       'summary' => 'Uses a mechanism that pauses or stops the sound when the sound on the web page is automatically reproduced and lasts longer than 3 seconds or a mechanism that can adjust the volume level without affecting the volume level of the entire system it can.
 ',
       'doc' => 'Uses a mechanism that pauses or stops the sound when the sound on the web page is automatically reproduced and lasts longer than 3 seconds or a mechanism that can adjust the volume level without affecting the volume level of the entire system it can.
@@ -735,7 +750,7 @@ By the way, YouTube is automatic playback. For the visually impaired, there is a
       array (
         'name' => 'AA',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-contrast.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#contrast-minimum',
       'summary' => 'There is a contrast ratio of at least 4.5: 1 for visual presentation of text and character images.
 ',
       'doc' => 'The contrast ratio between the foreground color and the background color needs to be kept as low as 4.5:1. If the foreground color and background color are not distinctly different, you should pay attention. For delicate parts, measure the contrast ratio. In particular, pay attention to main content and menus.
@@ -766,7 +781,7 @@ For  color vision deficiencies, consideration is given to specific color combina
       array (
         'name' => 'AA',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-scale.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#resize-text',
       'summary' => 'With the exception of captions and character images, the text can be resized up to 200% without assistive technology without compromising the content or function.
 ',
       'doc' => 'In older browsers, when specifying the font size with px, cm, etc. in CSS, it was sometimes impossible to enlarge or reduce characters with the browser function, so it would be better to specify the relative font sizes such as percent and em It is.
@@ -797,7 +812,7 @@ When enlarging the letter, make sure that the character is hidden by some elemen
       array (
         'name' => 'AA',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-text-presentation.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#images-of-text',
       'summary' => 'When the intended visual presentation is possible with the technology being used, text, not a text image, is used for information transmission.
 ',
       'doc' => 'There is a mechanism that extracts alt from images and replaces them with images using JavaScript etc.
@@ -832,7 +847,7 @@ If you are able to replace Images of text with text information in JavaScript et
       array (
         'name' => 'AAA',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast7.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#contrast-enhanced',
       'summary' => 'For visual presentation of text and character images, there is a contrast ratio of at least 7: 1.
 ',
       'doc' => 'Strict criteria for 1.4.3. In 1.4.3 I was requesting a 3:1 contrast ratio, but even bigger letters require a contrast ratio of 4.5:1.
@@ -861,7 +876,7 @@ If you are able to replace Images of text with text information in JavaScript et
       array (
         'name' => 'AAA',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast7.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#low-or-no-background-audio',
       'summary' => 'Content that contains only recorded sounds, (1) mainly includes utterances in the foreground, (2) not speech CAPTCHA or voice logo, and (3) mainly music expressions such as songs and laps There is consideration for things that are not intended utterances.
 ',
       'doc' => 'It is supposed to be sufficiently small that the difference between the volume of the foreground sound (main utterance) and the volume of the background sound only has to be 20 decibels, but since it is a difficult area for web content personnel to take care, accessibility If you know that it includes video content at the time you make the policy, you should share it with the video staff in advance.
@@ -891,7 +906,7 @@ If possible, it is good to set a policy of not using the background sound in the
       array (
         'name' => 'AAA',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-visual-presentation.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#visual-presentation',
       'summary' => 'There is consideration in visual presentation of text blocks.
 ',
       'doc' => 'Line spacing (leading) is at least space-and-a-half within paragraphs, and paragraph spacing is at least 1.5 times larger than the line spacing.
@@ -923,7 +938,7 @@ It does not mean only relative specification of character size, but also needs t
       array (
         'name' => 'AAA',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-text-images.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#images-of-text-no-exception',
       'summary' => 'Text images are used for pure decoration or when the specific representation of the text is essential for the information to be conveyed (logotype etc.).
 ',
       'doc' => 'In 1-4-5a, if it is impossible to obtain the visual effect that CSS wishes to obtain, it is said that it is acceptable to use the imaged characters, but in 1.4.9, it is said that font samples, logotypes, etc. " Understand that using imaged characters is forbidden except in cases where the "essential effect is essential". In other words, if you decorate texts within the range that CSS can do, it fulfills 1.4.9.
@@ -953,7 +968,7 @@ However, in the case where the imaged character is replaced with text informatio
       array (
         'name' => 'A',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/keyboard-operation-keyboard-operable.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#keyboard',
       'summary' => 'All functions of the content can be operated through the keyboard interface without requiring specific timing for individual keystrokes. However, except when the fundamental function is realized depending on a series of trajectories continuing from the start point to the end point by the action of the user.
 ',
       'doc' => 'Actually, if you meet 2-1-1a, you pass this success criterion, but in many cases it will inadvertently write and there are times when it may be a fatal implementation in keyboard operation, so check it individually. be careful.
@@ -985,7 +1000,7 @@ In 1.1.1, if the element that receives the control is not accessible, it will be
         'name' => 'A',
       ),
       'non-interference' => true,
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/keyboard-operation-trapping.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#no-keyboard-trap',
       'summary' => 'If the keyboard interface can be used to move the keyboard focus to a component of the webpage, it is possible to remove focus from that component using only the keyboard interface. Furthermore, if you can not remove focus by using arrow keys without a modifier key, Tab key, or other standard method of removing focus, the user is notified of the method of removing focus.
 ',
       'doc' => '"Keyboard trap" is an implementation that makes it impossible to escape from keyboard operation when focus shifts to an element. When creating a modal window etc., you have to be able to do it not only with the mouse but also with the keyboard to close it.
@@ -1014,7 +1029,7 @@ In 1.1.1, if the element that receives the control is not accessible, it will be
       array (
         'name' => 'AAA',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/keyboard-operation-all-funcs.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#keyboard-no-exception',
       'summary' => 'All functions of the content can be operated through the keyboard interface without requiring specific timing for individual keystrokes.
 ',
       'doc' => 'There are no components that require specific timing for keyboard operation
@@ -1043,7 +1058,7 @@ In 1.1.1, if the element that receives the control is not accessible, it will be
       array (
         'name' => 'A',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/time-limits-required-behaviors.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#timing-adjustable',
       'summary' => 'There is consideration when setting time limit for content.
 ',
       'doc' => 'If you need to set a time limit for content, the following consideration of Success Criterion 2.2.1 is required. Whether the time limit is sufficiently long (20 hours), the time limit can be canceled, the time limit can be adjusted to 10 times or more, the time can be extended, and the time limit must be inevitable for the contents (auction Etc).
@@ -1077,7 +1092,7 @@ Please do not specify redirect etc. by refresh of meta element because it restri
         'name' => 'A',
       ),
       'non-interference' => true,
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/time-limits-pause.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#pause-stop-hide',
       'summary' => 'There is consideration for moving, blinking, scrolling, or automatically updating information.
 ',
       'doc' => 'Information that is moving, flickering, scrolling, or automatically updating should be paused, stopped, or hidden so that it will not be distracted by that information.
@@ -1110,7 +1125,7 @@ If content with motion or blinking is less than 5 seconds it will meet this succ
       array (
         'name' => 'AAA',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/time-limits-no-exceptions.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#no-timing',
       'summary' => 'Timing is not an integral part of the event or action presented by the content. However, excluding non-interactive synchronized media and real-time events.
 ',
       'doc' => 'For example, a certain page notice list is provided with a mechanism that can be automatically updated to the latest state every 3 minutes (content with time limit), but also to access all the notice articles without being automatically updated If so, content with time limit is no longer "indispensable for content usage".
@@ -1140,7 +1155,7 @@ Although movie and audio are inherently "contents with limited time", if we are 
       array (
         'name' => 'AAA',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/time-limits-postponed.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#interruptions',
       'summary' => 'Interruption can be postponed or suppressed by the user. However, interrupts requiring urgency are excluded.
 ',
       'doc' => 'Implementation that interrupts the operation of the user should be avoided, but this is not the case for interruptions requiring emergency. For example, an interruption that encourages extension when operation time limit is approaching is considered indispensable. It will also include emergency alerts for citizens.
@@ -1170,7 +1185,7 @@ Allow the user to adjust the behavior related to interrupt processing with the u
       array (
         'name' => 'AAA',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/time-limits-server-timeout.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#re-authenticating',
       'summary' => 'If the authenticated session expires, the user can continue the operation without losing data even after re-authentication.
 ',
       'doc' => 'For security reasons, there may be a mechanism for forcibly logging out if there is a time that is not used more than a certain amount. Also, on a system that does not allow login with the same account, if two people log in with the same account at the same time, you may forcibly log out the one that was logged in first. Even when forcibly logging out, user should be able to resume input without losing the information user is inputting by reauthentication.
@@ -1200,7 +1215,7 @@ Allow the user to adjust the behavior related to interrupt processing with the u
         'name' => 'A',
       ),
       'non-interference' => true,
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/seizure-does-not-violate.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#three-flashes-or-below-threshold',
       'summary' => 'The webpage has no flashing more than three times in any one second, or the flash is below the general flash threshold and the red flash threshold.
 ',
       'doc' => 'Users of Photodermatosis are banned by flash and may be unable to use any other content at all, so this is forbidden. Since you need to pay attention even in the screen as well as in the movie, please play the movie and check it. For a more detailed definition of flashes, see Understanding Success Criterion 2.3.1.
@@ -1229,7 +1244,7 @@ Allow the user to adjust the behavior related to interrupt processing with the u
       array (
         'name' => 'AAA',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/seizure-three-times.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#three-flashes',
       'summary' => 'Web pages do not contain anything that flashes more than three times in any one second period.
 ',
       'doc' => 'It is the same as 2.3.1, except that exceptions are not allowed. If 2.3.1a is met, it may be considered conforming, but this judgment is strict, please be careful as even 1 pixel size is not allowed.
@@ -1258,7 +1273,7 @@ Allow the user to adjust the behavior related to interrupt processing with the u
       array (
         'name' => 'A',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-skip.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#bypass-blocks',
       'summary' => 'A mechanism to bypass blocks of content that is repeated on multiple web pages can be used.
 ',
       'doc' => 'To share common parts of all pages, implement an implementation that can skip this. Examples of common parts are global menus and advertisement areas. It is difficult for screen reader users and users who are growing in font size extremely to read such common parts in many ways and to pass by scrolling.
@@ -1290,7 +1305,7 @@ Links for bypass blocks are useful not only for global menus and advertising are
       array (
         'name' => 'A',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-title.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#page-titled',
       'summary' => 'The web page has a title explaining the subject or purpose.
 ',
       'doc' => 'Please make the web page have unique title within the website as much as possible. If you make it a common title in the website, users will not be able to grasp the current position in the website. The title is useful for grasping the current position in the website, and also has a very high effect on search engine countermeasures.
@@ -1319,7 +1334,7 @@ Links for bypass blocks are useful not only for global menus and advertising are
       array (
         'name' => 'A',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-focus-order.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#focus-order',
       'summary' => 'If the web page can navigate in sequence and its navigation order affects meaning or operation, the focusable component receives focus in an order that does not impair meaning and operability.
 ',
       'doc' => 'A user using screen reader or the screen enlargement often moves the focus by the tab key. Movement of focus by tab key is in HTML description order if it is straightforward HTML, but can be changed by giving tabindex.When tabindex is given, care should be taken not to set the order so as to prevent understanding of the meaning.
@@ -1349,7 +1364,7 @@ Also, care should be taken when creating a modal dialog. For users who do not us
       array (
         'name' => 'A',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-refs.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#link-purpose-in-context',
       'summary' => 'The purpose of each link can be determined from the text of the link alone, or from the text of the link and the context of the program which can be interpreted programmatically. However, excluding cases where the purpose of the link is ambiguous to most users.
 ',
       'doc' => 'The link letters should indicate what the link destination is. In many cases, users of screen readers read sentences by following only links with tab key press alone. In such cases, however, each link letters are not unique and "read more" or "detailed information here" If it is, it will become difficult to grasp what the link destination is.
@@ -1382,7 +1397,7 @@ In the first place, if the link is broken due to the loss of the link destinatio
       array (
         'name' => 'AA',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-mult-loc.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#multiple-ways',
       'summary' => 'More than one way is available to locate a Web page within a set of Web pages except where the Web Page is the result of, or a step in, a process.
 ',
       'doc' => 'It is desirable to provide multiple ways to reach each page in the set of web pages, except for a series of processes, such as a page in the middle of a shopping cart. Many websites have a global menu, but in addition, if you have a site search, a link to a related page, a site map, or a index (page), you can meet this success criterion Regarding the "Index Page" way of thinking, you may need attention if that table of contents page is the only way to reach individual pages.)
@@ -1413,7 +1428,7 @@ However, if the pages below the Table of Contents page are not reachable unless 
       array (
         'name' => 'AA',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-descriptive.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#headings-and-labels',
       'summary' => 'The headings and labels explain the theme or purpose.
 ',
       'doc' => 'Although it is easy to check about the heading of main content, there are occasions where a non-display headline is placed in the navigation portion other than the main text. It may be overlooked inadvertently as it is a hidden place, but please make sure to include the appropriate content. It is good to check off by turning off CSS.
@@ -1442,7 +1457,7 @@ However, if the pages below the Table of Contents page are not reachable unless 
       array (
         'name' => 'AA',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-focus-visible.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#focus-visible',
       'summary' => 'Every user interface capable of operating the keyboard has an operation mode in which the focus indicator can be seen.
 ',
       'doc' => 'Depending on elements and browsers, focus may not be visualized by default even if focus is received. It is a good idea to grant outline explicitly by CSS.
@@ -1471,7 +1486,7 @@ However, if the pages below the Table of Contents page are not reachable unless 
       array (
         'name' => 'AAA',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-location.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#location',
       'summary' => 'Information on the position of the user in the set of web pages can be used.
 ',
       'doc' => 'It is desirable that "bread crumb (or topic pass)" exists. Also, if you have a parent site such as a satellite site, the link to the parent site also helps you understand the "current location" in a broad sense. For example, an undergraduate site with a separate university site has a link to that university.
@@ -1500,7 +1515,7 @@ However, if the pages below the Table of Contents page are not reachable unless 
       array (
         'name' => 'AAA',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-link.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#link-purpose-link-only',
       'summary' => 'A mechanism that can specify the purpose of each link with the text of the link alone can be used. However, excluding cases where the purpose of the link is ambiguous to most users.
 ',
       'doc' => 'The link letters alone must be able to understand the purpose of the link. The difference from 2.4.4 is that it does not allow context dependence. Representing the example of "book" in 2.4.4, HTML version, PDF version, MP3 version must have book name in link letters respectively. However, if "the purpose of the link is ambiguous for most users", it does not seem to be limited to this, but the example of "guava" seems to be difficult for users without disabilities. The door example of "Understanding Success Criterion 2.4.4" may be easier to understand.
@@ -1530,7 +1545,7 @@ there are often implementations that There is a title and it is linked, a little
       array (
         'name' => 'AAA',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms-headings.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#section-headings',
       'summary' => 'Content is organized using section headings.
 ',
       'doc' => 'It is desirable that the web page is structured using headings. It may seem a bit strange that this success criterion is AAA, but in cases where the content producer can not arbitrarily structure it using headlines, such as when the manuscript is not structured (For example, see "Section Headings" for details).
@@ -1559,7 +1574,7 @@ there are often implementations that There is a title and it is linked, a little
       array (
         'name' => 'A',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/meaning-doc-lang-id.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#language-of-page',
       'summary' => 'Interpretation by program can be made as to which language the default natural language of each web page is.
 ',
       'doc' => 'By specifying the default language of the web page like <code>&lt;html lang="en"&gt;</code> by specifying HTML lang, the user agent and assistive technology can interpret the contents correctly.
@@ -1590,7 +1605,7 @@ Also, when multiple languages are mixed within a single page, it is strongly rec
       array (
         'name' => 'AA',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/meaning-other-lang-id.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#language-of-parts',
       'summary' => 'Interpretation by program can be made as to which language the natural language of each phrase or phrase is. However, exclude proper nouns, technical terms, phrases whose languages are unknown, and words or phrases that are part of the language of the immediately preceding and succeeding texts.
 ',
       'doc' => 'The natural language of each part of the contents is clearly indicated to the program. Any words or phrases that are part of the proper noun, technical terms, phrases whose languages are unknown, and immediately before and after the text are excluded.
@@ -1621,7 +1636,7 @@ Also, it is a good idea to add a lang attribute to the a element in the language
       array (
         'name' => 'AAA',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/meaning-idioms.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#unusual-words',
       'summary' => 'Mechanisms can be used to identify clear definitions of words or phrases used in uncommon or limited usage, including idioms and terminology.
 ',
       'doc' => 'It is desirable that difficult terms that are not common are able to refer to their definitions. "Difficult term" also includes idioms and phrases, for example. In the example of Understanding, we cite a case where "Hij ging met de kippen op stok" does not mean "He went to bed early", but rather than annotating every word in these words, It may be simpler to think that correspondence is requested to avoid.
@@ -1653,7 +1668,7 @@ As an aside, it is impressive that there was an explanation of the accessibility
       array (
         'name' => 'AAA',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/meaning-located.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#abbreviations',
       'summary' => 'Mechanisms can be used to identify the original word or meaning of the abbreviation.
 ',
       'doc' => 'If there is an abbreviation in the content, you can know the original word or meaning of the abbreviation. It can be said that it is also related to 3.1.3. Incidentally, in HTML 4.01, there are tags abbr (abbreviation .eg XML, HTML), acronym (acronym .eg LAN, NATO), which are markups of abbreviations and meaning that meaning abbreviations expanded with the title attribute Yes, but somewhat accessible and supported situation is awkward, so be careful.
@@ -1683,7 +1698,7 @@ In HTML5, acronym is obsolete. Let\'s mark up with abbr in HTML5.
       array (
         'name' => 'AAA',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/meaning-supplements.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#reading-level',
       'summary' => 'If the text requires reading comprehension level beyond the former secondary education level with the proper noun or title removed, a version that does not require comprehension content or reading comprehension level beyond the level of the former secondary education can be used.
 ',
       'doc' => 'It is desirable that contents can be read with the reading comprehension level of the lower secondary education level (UNESCO standard, 9 years educated). When seeking a reading comprehension level beyond that, prepare supplemental content or version that can be understood by the reading level of the lower secondary education level.
@@ -1713,7 +1728,7 @@ How to judge the level of secondary education at the former stage, according to 
       array (
         'name' => 'AAA',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/meaning-pronunciation.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#pronunciation',
       'summary' => 'In the context, if the meaning of a word becomes ambiguous if pronunciation is unknown, a mechanism to specify clear pronunciation of the word can be used.
 ',
       'doc' => 'As for the handling of how to read foreign languages etc., it is also possible to prepare an audio file of pronunciation.
@@ -1743,7 +1758,7 @@ Also, this may not be included in the context of "pronunciation", but if the dat
       array (
         'name' => 'A',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/consistent-behavior-unpredictable-change.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#on-focus',
       'summary' => 'Neither component causes a change in context when it receives focus.
 ',
       'doc' => 'Just by receiving focus, do not cause any situation change. An example of a malfunction that a modal window that opens automatically when receiving focus and a page movement occurs when receiving focus. Such behavior is difficult for users to predict and is hard to handle.
@@ -1772,7 +1787,7 @@ Also, this may not be included in the context of "pronunciation", but if the dat
       array (
         'name' => 'A',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/consistent-behavior-unpredictable-change.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#on-input',
       'summary' => 'Changing the setting of the user interface component does not automatically cause a context change. However, unless the user informs the behavior before using it.
 ',
       'doc' => 'Do not send automatically after you enter all the input fields in the page, or move the page if you check the check boxes and radio buttons.
@@ -1804,7 +1819,7 @@ Also, when entering 4 digits of credit card number etc., behaviors that automati
       array (
         'name' => 'AA',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/consistent-behavior-consistent-locations.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#consistent-navigation',
       'summary' => 'The repeated navigation mechanism on multiple webpages in a set of webpages appears in the same order as they are repeated. However, except when the user changes.
 ',
       'doc' => 'In a broad sense, it is to describe the global navigation in a certain position, but the nonconformity case that the order of the items in the global navigation should be consistent in the site is "Understanding SC 3.2.3" Note that it is illustrated in.
@@ -1835,7 +1850,7 @@ It does not prohibit global navigation from having a drop-down menu.
       array (
         'name' => 'AA',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/consistent-behavior-consistent-functionality.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#consistent-identification',
       'summary' => 'Components having the same function in a set of web pages can be consistently identified.
 ',
       'doc' => 'Links and buttons that provide the same function must be consistent in the set of web pages. This success criterion is easy to overlook. Even labels that seem almost self-evident, if they are not strictly consistent, can not meet this success criterion. In the case of nonconforming cases, the "find" button and the "search" button provide the same function, but this is not good because of different labels.
@@ -1869,7 +1884,7 @@ For example, it is dangerous from the point of view of 2.4.9 to think that the "
       array (
         'name' => 'AAA',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/consistent-behavior-no-extreme-changes-context.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#change-on-request',
       'summary' => 'A change in context only occurs at the request of the user, or a mechanism for stopping such change is available.
 ',
       'doc' => 'It is desirable that all operations that can cause some change in the situation are controllable by the user. As long as 3.2.1 and 3.2.2 are cleared up, we will aim for this success criterion naturally, but as far as possible, leaving the chance of change to the user is an important point of this success criterion.
@@ -1900,7 +1915,7 @@ The interesting thing is the reference to Understanding about target = _blank. O
       array (
         'name' => 'A',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/minimize-error-identified.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#error-identification',
       'summary' => 'If an input error is detected automatically, the error location is identified and the error is explained in text to the user.
 ',
       'doc' => 'If there are items that require mandatory items or values in a predetermined format to be entered, and if you do not want to accept the transmission unless it is entered correctly, display errors in an easy-to-understand way for the user. When displaying an error, for example, <strong> only </strong> changing the background color of mandatory items that are not entered is insufficient because the visually impaired person does not know the error (This does not mean that you should not change the color.Usability of sighted people improves by expressing colors.). It is necessary to explain the error with sentences.
@@ -1930,7 +1945,7 @@ It is good to check the error before sending using JavaScript.
       array (
         'name' => 'A',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/minimize-error-cues.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#labels-or-instructions',
       'summary' => 'When content requests input from the user, a label or explanatory text is provided.
 ',
       'doc' => 'Provide information to users in an easy-to-understand manner as to where and when to ask the user for input to the form. It is even better to provide it in a way interpretable by the program. Specifically, by linking each form element with a label element, it is possible to create a form that is easy to use even for visually impaired people.
@@ -1962,7 +1977,7 @@ When writing descriptions and examples at the time of input, there is less mista
       array (
         'name' => 'AA',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/minimize-error-suggestions.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#error-suggestion',
       'summary' => 'If an input error is detected automatically and you can suggest a correction method, that suggestion is presented to the user. However, excluding cases where the purpose of security or content is impaired.
 ',
       'doc' => 'When there is an error in the input contents, it is desirable to explain how to correct it. However, in the case of Understanding WCAG 2.0, we cite the case of "Please enter January" to the user who entered "12" for "Please enter month", but this is not a very good case I think. Rather, say "Please enter with alphabet (aZ) and number (0-9)" to issue an error if you are entering in half-width alphanumeric input for double-byte characters, It is better to refer to the perimeter (it is better to convert it to half-width alphanumeric characters by accepting input without issuing an error, but it will reduce user\'s effort, but such correspondence depends on case).
@@ -1993,7 +2008,7 @@ Also, it is said that it is desirable to give a link to an error part even in 3.
       array (
         'name' => 'AA',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/minimize-error-reversible.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#error-prevention-legal-financial-data',
       'summary' => 'On a web page where a legal act or a financial transaction occurs for a user, the data on the user-controllable data storage system is changed or deleted, or the user sends an exam answer, either cancellation, check or confirmation It is made to be able to do.
 ',
       'doc' => 'Forms that can cause serious losses due to user input such as "legal things", "financial transactions", "tests", etc. must cancel the submission or provide a confirmation screen before submit. It feels like level A, but it is level AA.
@@ -2022,7 +2037,7 @@ Also, it is said that it is desirable to give a link to an error part even in 3.
       array (
         'name' => 'AAA',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/minimize-error-context-help.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#help',
       'summary' => 'You can use context-sensitive help.
 ',
       'doc' => 'If the label is insufficient to explain all functions, it is desirable to provide help separately. Even if you write a description near the form, it is considered as help in 3.3.5.
@@ -2051,7 +2066,7 @@ Also, it is said that it is desirable to give a link to an error part even in 3.
       array (
         'name' => 'AAA',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/minimize-error-reversible-all.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#error-prevention-all',
       'summary' => 'On a web page requesting the user to transmit information, it is made possible to cancel, check, or confirm.
 ',
       'doc' => 'The form can be canceled or confirmed at the time of submission.
@@ -2060,7 +2075,7 @@ Also, it is said that it is desirable to give a link to an error part even in 3.
     '4-1-1' => 
     array (
       'code' => '4-1-1',
-      'name' => 'Parsing',
+      'name' => 'Parsing (Obsolete and removed)',
       'guideline' => 
       array (
         'code' => '4-1',
@@ -2080,7 +2095,7 @@ Also, it is said that it is desirable to give a link to an error part even in 3.
       array (
         'name' => 'A',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/ensure-compat-parses.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#parsing',
       'summary' => 'In the content implemented using the markup language, the element has a complete start tag and end tag, the elements are nested according to the specification, the element does not have duplicate attributes, any ID Is also unique. However, excluding those approved by the specification.
 ',
       'doc' => 'There should be no error in markup describing web content.
@@ -2110,10 +2125,706 @@ In addition to analyzing this accessibility checker, you can also use <a href="h
       array (
         'name' => 'A',
       ),
-      'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/ensure-compat-rsv.html',
+      'url' => 'https://www.w3.org/TR/WCAG22/#name-role-value',
       'summary' => 'For all user interface components (elements that make up the form, links, script-generated components, etc.), names and roles can be interpreted programmatically. In addition, the status, properties, and values that can be set by the user can be set by the program. Then, user agents including assistive technology can use change notifications for these items.
 ',
       'doc' => 'Elements to be operated by the user need to be interpreted by the program if they have names, roles and values. When describing elements as usual in HTML, this is rarely a problem. However, even if you are describing HTML as usual, it is important to note that if span etc. receives focus and implements such as JavaScript that causes some change in content.
+',
+    ),
+    '1-3-4' => 
+    array (
+      'code' => '1-3-4',
+      'name' => 'Orientation',
+      'guideline' => 
+      array (
+        'code' => '1-3',
+        'name' => 'Adaptable',
+        'principle' => 
+        array (
+          'code' => 1,
+          'name' => 'Perceivable',
+          'summary' => 'Information and user interface components must be presentable to users in ways they can perceive.
+',
+        ),
+        'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/content-structure-separation.html',
+        'summary' => 'Create content that can be presented in different ways (for example simpler layout) without losing information or structure.
+',
+      ),
+      'level' => 
+      array (
+        'name' => 'AA',
+      ),
+      'url' => 'https://www.w3.org/TR/WCAG22/#orientation',
+      'summary' => 'In preparation.
+',
+      'doc' => 'In preparation.
+',
+    ),
+    '1-3-5' => 
+    array (
+      'code' => '1-3-5',
+      'name' => 'Identify Input Purpose',
+      'guideline' => 
+      array (
+        'code' => '1-3',
+        'name' => 'Adaptable',
+        'principle' => 
+        array (
+          'code' => 1,
+          'name' => 'Perceivable',
+          'summary' => 'Information and user interface components must be presentable to users in ways they can perceive.
+',
+        ),
+        'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/content-structure-separation.html',
+        'summary' => 'Create content that can be presented in different ways (for example simpler layout) without losing information or structure.
+',
+      ),
+      'level' => 
+      array (
+        'name' => 'AA',
+      ),
+      'url' => 'https://www.w3.org/TR/WCAG22/#identify-input-purpose',
+      'summary' => 'In preparation.
+',
+      'doc' => 'In preparation.
+',
+    ),
+    '1-3-6' => 
+    array (
+      'code' => '1-3-6',
+      'name' => 'Identify Purpose',
+      'guideline' => 
+      array (
+        'code' => '1-3',
+        'name' => 'Adaptable',
+        'principle' => 
+        array (
+          'code' => 1,
+          'name' => 'Perceivable',
+          'summary' => 'Information and user interface components must be presentable to users in ways they can perceive.
+',
+        ),
+        'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/content-structure-separation.html',
+        'summary' => 'Create content that can be presented in different ways (for example simpler layout) without losing information or structure.
+',
+      ),
+      'level' => 
+      array (
+        'name' => 'AAA',
+      ),
+      'url' => 'https://www.w3.org/TR/WCAG22/#identify-purpose',
+      'summary' => 'In preparation.
+',
+      'doc' => 'In preparation.
+',
+    ),
+    '1-4-10' => 
+    array (
+      'code' => '1-4-10',
+      'name' => 'Reflow',
+      'guideline' => 
+      array (
+        'code' => '1-4',
+        'name' => 'Distinguishable',
+        'principle' => 
+        array (
+          'code' => 1,
+          'name' => 'Perceivable',
+          'summary' => 'Information and user interface components must be presentable to users in ways they can perceive.
+',
+        ),
+        'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast.html',
+        'summary' => 'Make it easier for users to see and hear content including separating foreground from background.
+',
+      ),
+      'level' => 
+      array (
+        'name' => 'AA',
+      ),
+      'url' => 'https://www.w3.org/TR/WCAG22/#reflow',
+      'summary' => 'In preparation.
+',
+      'doc' => 'In preparation.
+',
+    ),
+    '1-4-11' => 
+    array (
+      'code' => '1-4-11',
+      'name' => 'Non-text Contrast',
+      'guideline' => 
+      array (
+        'code' => '1-4',
+        'name' => 'Distinguishable',
+        'principle' => 
+        array (
+          'code' => 1,
+          'name' => 'Perceivable',
+          'summary' => 'Information and user interface components must be presentable to users in ways they can perceive.
+',
+        ),
+        'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast.html',
+        'summary' => 'Make it easier for users to see and hear content including separating foreground from background.
+',
+      ),
+      'level' => 
+      array (
+        'name' => 'AA',
+      ),
+      'url' => 'https://www.w3.org/TR/WCAG22/#non-text-contrast',
+      'summary' => 'In preparation.
+',
+      'doc' => 'In preparation.
+',
+    ),
+    '1-4-12' => 
+    array (
+      'code' => '1-4-12',
+      'name' => 'Text Spacing',
+      'guideline' => 
+      array (
+        'code' => '1-4',
+        'name' => 'Distinguishable',
+        'principle' => 
+        array (
+          'code' => 1,
+          'name' => 'Perceivable',
+          'summary' => 'Information and user interface components must be presentable to users in ways they can perceive.
+',
+        ),
+        'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast.html',
+        'summary' => 'Make it easier for users to see and hear content including separating foreground from background.
+',
+      ),
+      'level' => 
+      array (
+        'name' => 'AA',
+      ),
+      'url' => 'https://www.w3.org/TR/WCAG22/#text-spacing',
+      'summary' => 'In preparation.
+',
+      'doc' => 'In preparation.
+',
+    ),
+    '1-4-13' => 
+    array (
+      'code' => '1-4-13',
+      'name' => 'Content on Hover or Focus',
+      'guideline' => 
+      array (
+        'code' => '1-4',
+        'name' => 'Distinguishable',
+        'principle' => 
+        array (
+          'code' => 1,
+          'name' => 'Perceivable',
+          'summary' => 'Information and user interface components must be presentable to users in ways they can perceive.
+',
+        ),
+        'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast.html',
+        'summary' => 'Make it easier for users to see and hear content including separating foreground from background.
+',
+      ),
+      'level' => 
+      array (
+        'name' => 'AA',
+      ),
+      'url' => 'https://www.w3.org/TR/WCAG22/#content-on-hover-or-focus',
+      'summary' => 'In preparation.
+',
+      'doc' => 'In preparation.
+',
+    ),
+    '2-1-4' => 
+    array (
+      'code' => '2-1-4',
+      'name' => 'Character Key Shortcuts',
+      'guideline' => 
+      array (
+        'code' => '2-1',
+        'name' => 'Keyboard Accessible',
+        'principle' => 
+        array (
+          'code' => 2,
+          'name' => 'Operable',
+          'summary' => 'User interface components and navigation must be operable.
+',
+        ),
+        'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/keyboard-operation.html',
+        'summary' => 'Make all functionality available from a keyboard.
+',
+      ),
+      'level' => 
+      array (
+        'name' => 'A',
+      ),
+      'url' => 'https://www.w3.org/TR/WCAG22/#character-key-shortcuts',
+      'summary' => 'In preparation.
+',
+      'doc' => 'In preparation.
+',
+    ),
+    '2-4-11' => 
+    array (
+      'code' => '2-4-11',
+      'name' => 'Focus Not Obscured (Minimum)',
+      'guideline' => 
+      array (
+        'code' => '2-4',
+        'name' => 'Navigable',
+        'principle' => 
+        array (
+          'code' => 2,
+          'name' => 'Operable',
+          'summary' => 'User interface components and navigation must be operable.
+',
+        ),
+        'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms.html',
+        'summary' => 'Provide ways to help users navigate, find content, and determine where they are.
+',
+      ),
+      'level' => 
+      array (
+        'name' => 'AA',
+      ),
+      'url' => 'https://www.w3.org/TR/WCAG22/#focus-not-obscured-minimum',
+      'summary' => 'In preparation.
+',
+      'doc' => 'In preparation.
+',
+    ),
+    '2-4-12' => 
+    array (
+      'code' => '2-4-12',
+      'name' => 'Focus Not Obscured (Enhanced)',
+      'guideline' => 
+      array (
+        'code' => '2-4',
+        'name' => 'Navigable',
+        'principle' => 
+        array (
+          'code' => 2,
+          'name' => 'Operable',
+          'summary' => 'User interface components and navigation must be operable.
+',
+        ),
+        'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms.html',
+        'summary' => 'Provide ways to help users navigate, find content, and determine where they are.
+',
+      ),
+      'level' => 
+      array (
+        'name' => 'AAA',
+      ),
+      'url' => 'https://www.w3.org/TR/WCAG22/#focus-not-obscured-enhanced',
+      'summary' => 'In preparation.
+',
+      'doc' => 'In preparation.
+',
+    ),
+    '2-4-13' => 
+    array (
+      'code' => '2-4-13',
+      'name' => 'Focus Appearance',
+      'guideline' => 
+      array (
+        'code' => '2-4',
+        'name' => 'Navigable',
+        'principle' => 
+        array (
+          'code' => 2,
+          'name' => 'Operable',
+          'summary' => 'User interface components and navigation must be operable.
+',
+        ),
+        'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/navigation-mechanisms.html',
+        'summary' => 'Provide ways to help users navigate, find content, and determine where they are.
+',
+      ),
+      'level' => 
+      array (
+        'name' => 'AA',
+      ),
+      'url' => 'https://www.w3.org/TR/WCAG22/#focus-appearance',
+      'summary' => 'In preparation.
+',
+      'doc' => 'In preparation.
+',
+    ),
+    '2-5-1' => 
+    array (
+      'code' => '2-5-1',
+      'name' => 'Pointer Gestures',
+      'guideline' => 
+      array (
+        'code' => '2-5',
+        'name' => 'Input Modalities',
+        'principle' => 
+        array (
+          'code' => 2,
+          'name' => 'Operable',
+          'summary' => 'User interface components and navigation must be operable.
+',
+        ),
+        'url' => 'https://www.w3.org/TR/WCAG22/#input-modalities',
+        'summary' => 'In preparation.
+',
+      ),
+      'level' => 
+      array (
+        'name' => 'A',
+      ),
+      'url' => 'https://www.w3.org/TR/WCAG22/#pointer-gestures',
+      'summary' => 'In preparation.
+',
+      'doc' => 'In preparation.
+',
+    ),
+    '2-5-2' => 
+    array (
+      'code' => '2-5-2',
+      'name' => 'Pointer Cancellation',
+      'guideline' => 
+      array (
+        'code' => '2-5',
+        'name' => 'Input Modalities',
+        'principle' => 
+        array (
+          'code' => 2,
+          'name' => 'Operable',
+          'summary' => 'User interface components and navigation must be operable.
+',
+        ),
+        'url' => 'https://www.w3.org/TR/WCAG22/#input-modalities',
+        'summary' => 'In preparation.
+',
+      ),
+      'level' => 
+      array (
+        'name' => 'A',
+      ),
+      'url' => 'https://www.w3.org/TR/WCAG22/#pointer-cancellation',
+      'summary' => 'In preparation.
+',
+      'doc' => 'In preparation.
+',
+    ),
+    '2-5-3' => 
+    array (
+      'code' => '2-5-3',
+      'name' => 'Label in Name',
+      'guideline' => 
+      array (
+        'code' => '2-5',
+        'name' => 'Input Modalities',
+        'principle' => 
+        array (
+          'code' => 2,
+          'name' => 'Operable',
+          'summary' => 'User interface components and navigation must be operable.
+',
+        ),
+        'url' => 'https://www.w3.org/TR/WCAG22/#input-modalities',
+        'summary' => 'In preparation.
+',
+      ),
+      'level' => 
+      array (
+        'name' => 'A',
+      ),
+      'url' => 'https://www.w3.org/TR/WCAG22/#label-in-name',
+      'summary' => 'In preparation.
+',
+      'doc' => 'In preparation.
+',
+    ),
+    '2-5-4' => 
+    array (
+      'code' => '2-5-4',
+      'name' => 'Motion Actuation',
+      'guideline' => 
+      array (
+        'code' => '2-5',
+        'name' => 'Input Modalities',
+        'principle' => 
+        array (
+          'code' => 2,
+          'name' => 'Operable',
+          'summary' => 'User interface components and navigation must be operable.
+',
+        ),
+        'url' => 'https://www.w3.org/TR/WCAG22/#input-modalities',
+        'summary' => 'In preparation.
+',
+      ),
+      'level' => 
+      array (
+        'name' => 'A',
+      ),
+      'url' => 'https://www.w3.org/TR/WCAG22/#motion-actuation',
+      'summary' => 'In preparation.
+',
+      'doc' => 'In preparation.
+',
+    ),
+    '2-5-5' => 
+    array (
+      'code' => '2-5-5',
+      'name' => 'Target Size (Enhanced)',
+      'guideline' => 
+      array (
+        'code' => '2-5',
+        'name' => 'Input Modalities',
+        'principle' => 
+        array (
+          'code' => 2,
+          'name' => 'Operable',
+          'summary' => 'User interface components and navigation must be operable.
+',
+        ),
+        'url' => 'https://www.w3.org/TR/WCAG22/#input-modalities',
+        'summary' => 'In preparation.
+',
+      ),
+      'level' => 
+      array (
+        'name' => 'AAA',
+      ),
+      'url' => 'https://www.w3.org/TR/WCAG22/#target-size-enhanced',
+      'summary' => 'In preparation.
+',
+      'doc' => 'In preparation.
+',
+    ),
+    '2-5-6' => 
+    array (
+      'code' => '2-5-6',
+      'name' => 'Concurrent Input Mechanisms',
+      'guideline' => 
+      array (
+        'code' => '2-5',
+        'name' => 'Input Modalities',
+        'principle' => 
+        array (
+          'code' => 2,
+          'name' => 'Operable',
+          'summary' => 'User interface components and navigation must be operable.
+',
+        ),
+        'url' => 'https://www.w3.org/TR/WCAG22/#input-modalities',
+        'summary' => 'In preparation.
+',
+      ),
+      'level' => 
+      array (
+        'name' => 'AAA',
+      ),
+      'url' => 'https://www.w3.org/TR/WCAG22/#concurrent-input-mechanisms',
+      'summary' => 'In preparation.
+',
+      'doc' => 'In preparation.
+',
+    ),
+    '2-5-7' => 
+    array (
+      'code' => '2-5-7',
+      'name' => 'Dragging Movements',
+      'guideline' => 
+      array (
+        'code' => '2-5',
+        'name' => 'Input Modalities',
+        'principle' => 
+        array (
+          'code' => 2,
+          'name' => 'Operable',
+          'summary' => 'User interface components and navigation must be operable.
+',
+        ),
+        'url' => 'https://www.w3.org/TR/WCAG22/#input-modalities',
+        'summary' => 'In preparation.
+',
+      ),
+      'level' => 
+      array (
+        'name' => 'AA',
+      ),
+      'url' => 'https://www.w3.org/TR/WCAG22/#dragging-movements',
+      'summary' => 'In preparation.
+',
+      'doc' => 'In preparation.
+',
+    ),
+    '2-5-8' => 
+    array (
+      'code' => '2-5-8',
+      'name' => 'Target Size (Minimum)',
+      'guideline' => 
+      array (
+        'code' => '2-5',
+        'name' => 'Input Modalities',
+        'principle' => 
+        array (
+          'code' => 2,
+          'name' => 'Operable',
+          'summary' => 'User interface components and navigation must be operable.
+',
+        ),
+        'url' => 'https://www.w3.org/TR/WCAG22/#input-modalities',
+        'summary' => 'In preparation.
+',
+      ),
+      'level' => 
+      array (
+        'name' => 'AA',
+      ),
+      'url' => 'https://www.w3.org/TR/WCAG22/#target-size-minimum',
+      'summary' => 'In preparation.
+',
+      'doc' => 'In preparation.
+',
+    ),
+    '3-2-6' => 
+    array (
+      'code' => '3-2-6',
+      'name' => 'Consistent Help',
+      'guideline' => 
+      array (
+        'code' => '3-2',
+        'name' => 'Predictable',
+        'principle' => 
+        array (
+          'code' => 3,
+          'name' => 'Understandable',
+          'summary' => 'Information and the operation of user interface must be understandable.
+',
+        ),
+        'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/consistent-behavior.html',
+        'summary' => 'Make Web pages appear and operate in predictable ways.
+',
+      ),
+      'level' => 
+      array (
+        'name' => 'A',
+      ),
+      'url' => 'https://www.w3.org/TR/WCAG22/#consistent-help',
+      'summary' => 'In preparation.
+',
+      'doc' => 'In preparation.
+',
+    ),
+    '3-3-7' => 
+    array (
+      'code' => '3-3-7',
+      'name' => 'Redundant Entry',
+      'guideline' => 
+      array (
+        'code' => '3-3',
+        'name' => 'Input Assistance',
+        'principle' => 
+        array (
+          'code' => 3,
+          'name' => 'Understandable',
+          'summary' => 'Information and the operation of user interface must be understandable.
+',
+        ),
+        'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/minimize-error.html',
+        'summary' => 'Help users avoid and correct mistakes.
+',
+      ),
+      'level' => 
+      array (
+        'name' => 'A',
+      ),
+      'url' => 'https://www.w3.org/TR/WCAG22/#redundant-entry',
+      'summary' => 'In preparation.
+',
+      'doc' => 'In preparation.
+',
+    ),
+    '3-3-8' => 
+    array (
+      'code' => '3-3-8',
+      'name' => 'Accessible Authentication (Minimum)',
+      'guideline' => 
+      array (
+        'code' => '3-3',
+        'name' => 'Input Assistance',
+        'principle' => 
+        array (
+          'code' => 3,
+          'name' => 'Understandable',
+          'summary' => 'Information and the operation of user interface must be understandable.
+',
+        ),
+        'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/minimize-error.html',
+        'summary' => 'Help users avoid and correct mistakes.
+',
+      ),
+      'level' => 
+      array (
+        'name' => 'AA',
+      ),
+      'url' => 'https://www.w3.org/TR/WCAG22/#accessible-authentication-minimum',
+      'summary' => 'In preparation.
+',
+      'doc' => 'In preparation.
+',
+    ),
+    '3-3-9' => 
+    array (
+      'code' => '3-3-9',
+      'name' => 'Accessible Authentication (Enhanced)',
+      'guideline' => 
+      array (
+        'code' => '3-3',
+        'name' => 'Input Assistance',
+        'principle' => 
+        array (
+          'code' => 3,
+          'name' => 'Understandable',
+          'summary' => 'Information and the operation of user interface must be understandable.
+',
+        ),
+        'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/minimize-error.html',
+        'summary' => 'Help users avoid and correct mistakes.
+',
+      ),
+      'level' => 
+      array (
+        'name' => 'AAA',
+      ),
+      'url' => 'https://www.w3.org/TR/WCAG22/#accessible-authentication-enhanced',
+      'summary' => 'In preparation.
+',
+      'doc' => 'In preparation.
+',
+    ),
+    '4-1-3' => 
+    array (
+      'code' => '4-1-3',
+      'name' => 'Status Messages',
+      'guideline' => 
+      array (
+        'code' => '4-1',
+        'name' => 'Compatible',
+        'principle' => 
+        array (
+          'code' => 4,
+          'name' => 'Robust',
+          'summary' => 'Content must be robust enough that it can be interpreted reliably by a wide variety of user agents, including assistive technologies.
+',
+        ),
+        'url' => 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/ensure-compat.html',
+        'summary' => 'Maximize compatibility with current and future user agents, including assistive technologies.
+',
+      ),
+      'level' => 
+      array (
+        'name' => 'AA',
+      ),
+      'url' => 'https://www.w3.org/TR/WCAG22/#status-messages',
+      'summary' => 'In preparation.
+',
+      'doc' => 'In preparation.
 ',
     ),
   ),

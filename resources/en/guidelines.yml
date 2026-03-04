@@ -94,3 +94,11 @@ guidelines:
     url: https://www.w3.org/TR/UNDERSTANDING-WCAG20/ensure-compat.html
     summary: |
       Maximize compatibility with current and future user agents, including assistive technologies.
+
+  2-5: &g2-5
+    code: 2-5
+    name: Input Modalities
+    principle: *p2
+    url: https://www.w3.org/TR/WCAG22/#input-modalities
+    summary: |
+      In preparation.
