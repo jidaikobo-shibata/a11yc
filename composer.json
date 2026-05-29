@@ -5,7 +5,8 @@
   "license": "MIT",
   "require": {
     "php": ">=8.3",
-    "guzzlehttp/guzzle": "^6.5"
+    "guzzlehttp/guzzle": "^6.5",
+    "symfony/polyfill-intl-idn": "^1.38.1"
   },
   "require-dev": {
     "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
