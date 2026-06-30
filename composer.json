@@ -5,16 +5,16 @@
   "license": "MIT",
   "require": {
     "php": ">=8.3",
-    "guzzlehttp/guzzle": "^6.5",
+    "guzzlehttp/guzzle": "^7.12.1",
     "symfony/polyfill-intl-idn": "^1.38.1"
   },
   "require-dev": {
     "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
-    "phpstan/phpstan": "^1.12",
+    "phpstan/phpstan": "^2.2",
     "phpunit/phpunit": "^12.5.22",
-    "slevomat/coding-standard": "^8.18",
-    "symfony/yaml": "^5.4",
-    "squizlabs/php_codesniffer": "^3.10"
+    "slevomat/coding-standard": "^8.30",
+    "symfony/yaml": "^7.4",
+    "squizlabs/php_codesniffer": "^4.0.1"
   },
   "autoload": {
     "psr-4": {

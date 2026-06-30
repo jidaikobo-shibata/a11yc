@@ -6,6 +6,7 @@ config/config.php
 composer.lock
 composer.phar
 vendor/
+var/phpstan/
 config/config.php
 db/
 /libs/spyc/.gitignore

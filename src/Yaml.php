@@ -29,8 +29,11 @@ class Yaml
         return is_string($data) ? $data : '';
     }
 
-    private static function readOptionalResource(string $resource_path, string $doc_resource_path, string $filename): string
-    {
+    private static function readOptionalResource(
+        string $resource_path,
+        string $doc_resource_path,
+        string $filename
+    ): string {
         $data = self::readResource($doc_resource_path, $filename);
         if ($data !== '') {
             return $data;

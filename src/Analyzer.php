@@ -88,7 +88,9 @@ final class Analyzer
                     ),
                     'summary' => $this->buildSummary($result_set),
                     'issues' => array_merge($errors, $notices),
-                    'images' => $options['include_images'] ? $this->extractImages($options['source_html'], $options) : array(),
+                    'images' => $options['include_images']
+                        ? $this->extractImages($options['source_html'], $options)
+                        : array(),
                 );
             }
         );
