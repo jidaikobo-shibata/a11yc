@@ -8,7 +8,7 @@ This package is a PHP library, not the old standalone web application. It provid
 
 ## Requirements
 
-- PHP 7.4 or later
+- PHP 8.3 or later
 - Composer
 
 ## Installation
