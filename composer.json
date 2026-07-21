@@ -5,7 +5,7 @@
   "license": "MIT",
   "require": {
     "php": ">=8.3",
-    "guzzlehttp/guzzle": "^7.12.1",
+    "guzzlehttp/guzzle": "^7.15.1",
     "symfony/polyfill-intl-idn": "^1.38.1"
   },
   "require-dev": {
