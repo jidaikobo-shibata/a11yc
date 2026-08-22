@@ -37,7 +37,98 @@ class Guzzle
             'timeout' => 10,
             'connect_timeout' => 5,
             'read_timeout' => 10,
+            \GuzzleHttp\RequestOptions::ALLOW_REDIRECTS => self::safeRedirectOptions(),
         );
+    }
+
+    private static function safeRedirectOptions(): array
+    {
+        return array(
+            'on_redirect' => static function (
+                \Psr\Http\Message\RequestInterface $request,
+                \Psr\Http\Message\ResponseInterface $response,
+                \Psr\Http\Message\UriInterface $uri
+            ): void {
+                if (self::isSafeRemoteUrl((string) $uri)) {
+                    return;
+                }
+
+                throw new \GuzzleHttp\Exception\RequestException(
+                    'Redirect to a private or invalid URL was blocked.',
+                    $request,
+                    $response
+                );
+            },
+        );
+    }
+
+    private static function secureRequestOptions(array $options): array
+    {
+        if (($options[\GuzzleHttp\RequestOptions::ALLOW_REDIRECTS] ?? true) === false) {
+            return $options;
+        }
+
+        $options[\GuzzleHttp\RequestOptions::ALLOW_REDIRECTS] = self::safeRedirectOptions();
+        return $options;
+    }
+
+    public static function isSafeRemoteUrl(string $url): bool
+    {
+        $parts = parse_url($url);
+        if (! is_array($parts)) {
+            return false;
+        }
+
+        $scheme = strtolower((string) ($parts['scheme'] ?? ''));
+        $host = strtolower(trim((string) ($parts['host'] ?? ''), '[]'));
+        if (! in_array($scheme, array('http', 'https'), true) || $host === '') {
+            return false;
+        }
+        if (isset($parts['user']) || isset($parts['pass'])) {
+            return false;
+        }
+        if ($host === 'localhost' || str_ends_with($host, '.localhost')) {
+            return false;
+        }
+
+        $addresses = filter_var($host, FILTER_VALIDATE_IP) ? array($host) : self::resolveHost($host);
+        if ($addresses === array()) {
+            return false;
+        }
+
+        foreach ($addresses as $address) {
+            if (
+                ! filter_var(
+                    $address,
+                    FILTER_VALIDATE_IP,
+                    FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE
+                )
+            ) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static function resolveHost(string $host): array
+    {
+        if (! str_contains($host, '.')) {
+            return array();
+        }
+
+        $addresses = array();
+        $records = dns_get_record($host, DNS_A | DNS_AAAA);
+        if (is_array($records)) {
+            foreach ($records as $record) {
+                $address = $record['ip'] ?? $record['ipv6'] ?? null;
+                if (is_string($address) && $address !== '') {
+                    $addresses[] = $address;
+                }
+            }
+        }
+
+        return array_values(array_unique($addresses));
     }
 
     public static function envCheck()
@@ -65,7 +156,11 @@ class Guzzle
             return true;
         }
         $url = $this->url;
-        $cons = $this->getConfig();
+        if (! is_string($url) || ! self::isSafeRemoteUrl($url)) {
+            $this->errors[] = 'UnsafeUrl';
+            return null;
+        }
+        $cons = self::secureRequestOptions($this->getConfig());
         $client = new \GuzzleHttp\Client(static::defaultOptions());
 
         try {
@@ -97,7 +192,11 @@ class Guzzle
             return true;
         }
         $url = $this->url;
-        $cons = $this->getConfig();
+        if (! is_string($url) || ! self::isSafeRemoteUrl($url)) {
+            $this->errors[] = 'UnsafeUrl';
+            return false;
+        }
+        $cons = self::secureRequestOptions($this->getConfig());
 
         $stack = \GuzzleHttp\HandlerStack::create();
         $lastRequest = null;
@@ -110,10 +209,7 @@ class Guzzle
 
         $client = new \GuzzleHttp\Client(array_merge(
             static::defaultOptions(),
-            array(
-                'handler' => $stack,
-                \GuzzleHttp\RequestOptions::ALLOW_REDIRECTS => true,
-            )
+            array('handler' => $stack)
         ));
 
         $request = new \GuzzleHttp\Psr7\Request('GET', $url, $cons);
