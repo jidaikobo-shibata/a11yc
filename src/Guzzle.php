@@ -160,7 +160,9 @@ class Guzzle
             $this->errors[] = 'UnsafeUrl';
             return null;
         }
-        $cons = self::secureRequestOptions($this->getConfig());
+        $cons = self::secureRequestOptions(array(
+            'headers' => $this->getConfig(),
+        ));
         $client = new \GuzzleHttp\Client(static::defaultOptions());
 
         try {
@@ -196,7 +198,8 @@ class Guzzle
             $this->errors[] = 'UnsafeUrl';
             return false;
         }
-        $cons = self::secureRequestOptions($this->getConfig());
+        $headers = $this->getConfig();
+        $options = self::secureRequestOptions(array());
 
         $stack = \GuzzleHttp\HandlerStack::create();
         $lastRequest = null;
@@ -212,11 +215,11 @@ class Guzzle
             array('handler' => $stack)
         ));
 
-        $request = new \GuzzleHttp\Psr7\Request('GET', $url, $cons);
+        $request = new \GuzzleHttp\Psr7\Request('GET', $url, $headers);
 
         try {
             try {
-                $response = $client->send($request, $cons);
+                $response = $client->send($request, $options);
             } catch (\GuzzleHttp\Exception\ConnectException $e) {
                 $this->errors[] = 'ConnectException';
                 return false;
